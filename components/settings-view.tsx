@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { generateMockInvoices } from '../lib/mock-data';
 import CustomSelect from './custom-select';
+import ConnectedAccountsView from './connected-accounts/connected-accounts-view';
 
 interface SettingsViewProps {
   user: {
@@ -18,7 +19,7 @@ interface SettingsViewProps {
 }
 
 export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewProps) {
-  const [activeTab, setActiveTab] = useState<'account' | 'subscription' | 'payment' | 'billing' | 'preferences'>('account');
+  const [activeTab, setActiveTab] = useState<'account' | 'subscription' | 'payment' | 'billing' | 'preferences' | 'connections'>('account');
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showAddCardModal, setShowAddCardModal] = useState(false);
   const [timezone, setTimezone] = useState('SAST');
@@ -104,6 +105,15 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
               }`}
           >
             <i className="fa-solid fa-sliders"></i> Preferences
+          </button>
+          <button
+            onClick={() => setActiveTab('connections')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'connections'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+          >
+            <i className="fa-solid fa-link"></i> Connected Accounts
           </button>
         </nav>
       </aside>
@@ -435,6 +445,11 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                 </div>
               </div>
             </div>
+          )}
+
+          {/* Connected Accounts Tab */}
+          {activeTab === 'connections' && (
+            <ConnectedAccountsView userId={user.id} />
           )}
 
         </div>
