@@ -104,11 +104,11 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6">
+    <div className="aerogel-card rounded-2xl p-8">
       {/* Calendar Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <h2 className="text-2xl font-bold text-pretoria-blue">
+          <h2 className="text-2xl font-bold text-white">
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h2>
           <button
@@ -122,13 +122,13 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
         <div className="flex items-center gap-2">
           <button
             onClick={previousMonth}
-            className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-gray-200 text-pretoria-blue transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-lg bg-white/5 border border-glass-border hover:bg-white/10 text-white transition-colors"
           >
             <i className="fa-solid fa-chevron-left"></i>
           </button>
           <button
             onClick={nextMonth}
-            className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-gray-200 text-pretoria-blue transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-lg bg-white/5 border border-glass-border hover:bg-white/10 text-white transition-colors"
           >
             <i className="fa-solid fa-chevron-right"></i>
           </button>
@@ -140,7 +140,7 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
         {dayNames.map(day => (
           <div
             key={day}
-            className="text-center text-sm font-semibold text-gray-600 py-2"
+            className="text-center text-sm font-semibold text-gray-400 py-2"
           >
             {day}
           </div>
@@ -162,13 +162,13 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
               key={day}
               className={`
                 aspect-square border rounded-lg p-2 transition-all hover:shadow-md
-                ${isTodayCell ? 'bg-joburg-teal/10 border-joburg-teal border-2' : 'bg-gray-50 border-gray-200'}
+                ${isTodayCell ? 'bg-joburg-teal/10 border-joburg-teal border-2' : 'bg-white/5 border-glass-border'}
               `}
             >
               {/* Day Number */}
               <div className={`
                 text-sm font-semibold mb-1
-                ${isTodayCell ? 'text-joburg-teal' : 'text-gray-700'}
+                ${isTodayCell ? 'text-joburg-teal' : 'text-gray-300'}
               `}>
                 {day}
               </div>
@@ -206,14 +206,14 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
 
                       {/* Hover Tooltip */}
                       {hoveredPost === post.id && (
-                        <div className="absolute z-50 left-0 top-full mt-1 w-64 bg-white border border-gray-200 rounded-lg shadow-xl p-3">
+                        <div className="absolute z-50 left-0 top-full mt-1 w-64 bg-white border border-glass-border rounded-lg shadow-xl p-3">
                           <div className="flex items-center gap-2 mb-2">
                             <i className={`${platformIcons[post.platform]} text-lg`}></i>
-                            <span className="font-semibold text-sm text-pretoria-blue">
+                            <span className="font-semibold text-sm text-white">
                               {post.platform.charAt(0).toUpperCase() + post.platform.slice(1)}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-600 mb-2 line-clamp-3">
+                          <p className="text-xs text-gray-400 mb-2 line-clamp-3">
                             {post.content}
                           </p>
                           <div className="flex items-center justify-between text-xs">
@@ -255,21 +255,22 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
       <div className="mt-6 flex items-center justify-center gap-6 text-sm">
         <div className="flex items-center gap-2">
           <div className={`${platformColors.instagram} w-4 h-4 rounded`}></div>
-          <span className="text-gray-600">Instagram</span>
+          <span className="text-gray-400">Instagram</span>
         </div>
         <div className="flex items-center gap-2">
           <div className={`${platformColors.twitter} w-4 h-4 rounded`}></div>
-          <span className="text-gray-600">Twitter</span>
+          <span className="text-gray-400">Twitter</span>
         </div>
         <div className="flex items-center gap-2">
           <div className={`${platformColors.linkedin} w-4 h-4 rounded`}></div>
-          <span className="text-gray-600">LinkedIn</span>
+          <span className="text-gray-400">LinkedIn</span>
         </div>
         <div className="flex items-center gap-2">
           <div className={`${platformColors.facebook} w-4 h-4 rounded`}></div>
-          <span className="text-gray-600">Facebook</span>
+          <span className="text-gray-400">Facebook</span>
         </div>
       </div>
     </div>
   );
 }
+

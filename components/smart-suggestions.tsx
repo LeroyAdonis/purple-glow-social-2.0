@@ -74,7 +74,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border-2 border-purple-200 overflow-hidden">
+    <div className="aerogel-card rounded-xl shadow-lg border-2 border-neon-grape/30 overflow-hidden">
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4">
         <div className="flex items-center gap-2 mb-1">
@@ -85,13 +85,13 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex border-b border-gray-200 bg-gray-50 overflow-x-auto">
+      <div className="flex border-b border-glass-border bg-white/5 overflow-x-auto">
         <button
           onClick={() => setActiveTab('times')}
           className={`flex-1 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
             activeTab === 'times'
-              ? 'text-purple-600 border-b-2 border-purple-600 bg-white'
-              : 'text-gray-600 hover:text-purple-600'
+              ? 'text-neon-grape border-b-2 border-purple-600 bg-white'
+              : 'text-gray-400 hover:text-neon-grape'
           }`}
         >
           <i className="fa-regular fa-clock mr-2"></i>
@@ -101,8 +101,8 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
           onClick={() => setActiveTab('practices')}
           className={`flex-1 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
             activeTab === 'practices'
-              ? 'text-purple-600 border-b-2 border-purple-600 bg-white'
-              : 'text-gray-600 hover:text-purple-600'
+              ? 'text-neon-grape border-b-2 border-purple-600 bg-white'
+              : 'text-gray-400 hover:text-neon-grape'
           }`}
         >
           <i className="fa-solid fa-lightbulb mr-2"></i>
@@ -112,8 +112,8 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
           onClick={() => setActiveTab('hashtags')}
           className={`flex-1 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
             activeTab === 'hashtags'
-              ? 'text-purple-600 border-b-2 border-purple-600 bg-white'
-              : 'text-gray-600 hover:text-purple-600'
+              ? 'text-neon-grape border-b-2 border-purple-600 bg-white'
+              : 'text-gray-400 hover:text-neon-grape'
           }`}
         >
           <i className="fa-solid fa-hashtag mr-2"></i>
@@ -123,8 +123,8 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
           onClick={() => setActiveTab('content')}
           className={`flex-1 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
             activeTab === 'content'
-              ? 'text-purple-600 border-b-2 border-purple-600 bg-white'
-              : 'text-gray-600 hover:text-purple-600'
+              ? 'text-neon-grape border-b-2 border-purple-600 bg-white'
+              : 'text-gray-400 hover:text-neon-grape'
           }`}
         >
           <i className="fa-solid fa-photo-film mr-2"></i>
@@ -134,8 +134,8 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
           onClick={() => setActiveTab('tone')}
           className={`flex-1 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
             activeTab === 'tone'
-              ? 'text-purple-600 border-b-2 border-purple-600 bg-white'
-              : 'text-gray-600 hover:text-purple-600'
+              ? 'text-neon-grape border-b-2 border-purple-600 bg-white'
+              : 'text-gray-400 hover:text-neon-grape'
           }`}
         >
           <i className="fa-solid fa-face-smile mr-2"></i>
@@ -148,24 +148,24 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
         {/* Optimal Times */}
         {activeTab === 'times' && (
           <div className="space-y-3">
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-400 mb-4">
               Based on your audience's activity, here are the best times to post:
             </p>
             {optimalTimes.map((slot, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200"
+                className="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-neon-grape/30"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{slot.icon}</span>
                   <div>
-                    <div className="font-semibold text-pretoria-blue">{slot.time}</div>
-                    <div className="text-xs text-gray-600">{slot.day}</div>
+                    <div className="font-semibold text-white">{slot.time}</div>
+                    <div className="text-xs text-gray-400">{slot.day}</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-lg font-bold text-purple-600">{slot.engagement}%</div>
-                  <div className="text-xs text-gray-600">Engagement</div>
+                  <div className="text-lg font-bold text-neon-grape">{slot.engagement}%</div>
+                  <div className="text-xs text-gray-400">Engagement</div>
                 </div>
               </div>
             ))}
@@ -175,7 +175,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
         {/* Best Practices */}
         {activeTab === 'practices' && (
           <div className="space-y-3">
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-400 mb-4">
               Platform-specific tips to maximize your reach and engagement:
             </p>
             {getPlatformPractices().map((practice, index) => (
@@ -184,7 +184,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
                 className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg border border-blue-200"
               >
                 <i className="fa-solid fa-check-circle text-blue-600 mt-0.5"></i>
-                <p className="text-sm text-gray-700 flex-1">{practice}</p>
+                <p className="text-sm text-gray-300 flex-1">{practice}</p>
               </div>
             ))}
           </div>
@@ -193,7 +193,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
         {/* Trending Hashtags */}
         {activeTab === 'hashtags' && (
           <div className="space-y-3">
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-400 mb-4">
               Trending hashtags related to "{topic}":
             </p>
             {trendingHashtags.map((hashtag, index) => (
@@ -203,7 +203,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
               >
                 <div className="flex items-center gap-3">
                   <span className="font-bold text-joburg-teal">{hashtag.tag}</span>
-                  <span className="text-xs text-gray-600">{hashtag.posts} posts</span>
+                  <span className="text-xs text-gray-400">{hashtag.posts} posts</span>
                 </div>
                 <div className="flex items-center gap-2">
                   {hashtag.trend === 'up' && <i className="fa-solid fa-arrow-trend-up text-green-600"></i>}
@@ -218,7 +218,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
         {/* Content Type Recommendations */}
         {activeTab === 'content' && (
           <div className="space-y-3">
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-400 mb-4">
               Recommended content formats for maximum engagement:
             </p>
             {contentTypes.map((content, index) => (
@@ -229,15 +229,15 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-2xl">{content.icon}</span>
-                    <span className="font-semibold text-pretoria-blue">{content.type}</span>
+                    <span className="font-semibold text-white">{content.type}</span>
                   </div>
                   <div className="text-right">
                     <div className="text-lg font-bold text-orange-600">{content.score}</div>
-                    <div className="text-xs text-gray-600">Score</div>
+                    <div className="text-xs text-gray-400">Score</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
+                  <div className="flex-1 bg-white/20 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full ${
                         content.score >= 90 ? 'bg-green-500' :
@@ -248,7 +248,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
                     ></div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">{content.reason}</p>
+                <p className="text-xs text-gray-400 mt-2">{content.reason}</p>
               </div>
             ))}
           </div>
@@ -257,7 +257,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
         {/* Tone Recommendations */}
         {activeTab === 'tone' && (
           <div className="space-y-3">
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-400 mb-4">
               Adjust your tone based on when you're posting:
             </p>
             {toneRecommendations.map((rec, index) => (
@@ -267,8 +267,8 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
               >
                 <span className="text-3xl">{rec.emoji}</span>
                 <div className="flex-1">
-                  <div className="font-semibold text-pretoria-blue">{rec.time}</div>
-                  <div className="text-sm text-gray-600">{rec.tone}</div>
+                  <div className="font-semibold text-white">{rec.time}</div>
+                  <div className="text-sm text-gray-400">{rec.tone}</div>
                 </div>
               </div>
             ))}
@@ -277,8 +277,8 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
       </div>
 
       {/* Footer */}
-      <div className="bg-purple-50 px-4 py-3 border-t border-purple-200">
-        <p className="text-xs text-gray-600 text-center">
+      <div className="bg-purple-50 px-4 py-3 border-t border-neon-grape/30">
+        <p className="text-xs text-gray-400 text-center">
           <i className="fa-solid fa-info-circle mr-1"></i>
           Suggestions update based on your audience engagement data
         </p>
@@ -286,3 +286,4 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
     </div>
   );
 }
+

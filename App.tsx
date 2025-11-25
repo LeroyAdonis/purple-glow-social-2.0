@@ -252,8 +252,8 @@ export default function App() {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 lg:ml-64 p-6 lg:p-12 overflow-y-auto">
-            <div className="max-w-6xl mx-auto space-y-8">
+          <main className="flex-1 lg:ml-64 p-6 lg:p-12 overflow-y-auto relative">
+            <div className="max-w-6xl mx-auto space-y-8 relative">
               <header className="flex justify-between items-end">
                 <div>
                   <h2 className="font-display font-bold text-4xl mb-2">Welcome back, {mockUser.name.split(' ')[0]}</h2>
