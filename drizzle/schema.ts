@@ -72,3 +72,44 @@ export const automationRules = pgTable("automation_rules", {
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+// Connected Accounts for Social Media OAuth (Instagram, Facebook, Twitter, LinkedIn)
+export const connectedAccounts = pgTable("connected_account", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  platform: platformEnum("platform").notNull(),
+  platformUserId: text("platform_user_id").notNull(),
+  platformUsername: text("platform_username").notNull(),
+  platformDisplayName: text("platform_display_name").notNull(),
+  profileImageUrl: text("profile_image_url"),
+  accessToken: text("access_token").notNull(), // Encrypted
+  refreshToken: text("refresh_token"), // Encrypted
+  tokenExpiresAt: timestamp("token_expires_at"),
+  scope: text("scope").notNull(),
+  isActive: boolean("is_active").notNull().default(true),
+  lastSyncedAt: timestamp("last_synced_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Add credits field to users table
+export const usersWithCredits = pgTable("user", {
+  id: text("id").primaryKey(),
+  name: text("name"),
+  email: text("email").notNull().unique(),
+  emailVerified: boolean("email_verified").default(false),
+  image: text("image"),
+  tier: tierEnum("tier").default("free"),
+  credits: integer("credits").notNull().default(10), // NEW: Track user credits
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// TypeScript types for better type safety
+export type User = typeof users.$inferSelect;
+export type Session = typeof sessions.$inferSelect;
+export type Account = typeof accounts.$inferSelect;
+export type Post = typeof posts.$inferSelect;
+export type AutomationRule = typeof automationRules.$inferSelect;
+export type ConnectedAccount = typeof connectedAccounts.$inferSelect;
+export type NewConnectedAccount = typeof connectedAccounts.$inferInsert;

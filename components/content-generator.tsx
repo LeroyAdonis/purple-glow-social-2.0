@@ -4,6 +4,7 @@ import React, { useActionState, useState, useEffect } from 'react';
 import { generatePostAction } from '../app/actions/generate';
 import SchedulePostModal from './modals/schedule-post-modal';
 import CustomSelect from './custom-select';
+import { Language } from '../lib/i18n';
 
 const initialState = {
     success: false,
@@ -11,7 +12,11 @@ const initialState = {
     data: { content: '', imageUrl: '', postId: '' }
 };
 
-export default function ContentGenerator() {
+interface ContentGeneratorProps {
+    currentLanguage?: Language;
+}
+
+export default function ContentGenerator({ currentLanguage = 'en' }: ContentGeneratorProps) {
     const [state, formAction, isPending] = useActionState(generatePostAction, initialState);
 
     // Controlled inputs to drive preview logic
@@ -265,6 +270,9 @@ export default function ContentGenerator() {
                 </div>
 
                 <form action={formAction} className="space-y-6">
+                    {/* Hidden field to pass language */}
+                    <input type="hidden" name="language" value={currentLanguage} />
+                    
                     <div>
                         <label className="block font-mono text-xs text-gray-400 mb-2">TOPIC / PRODUCT</label>
                         <textarea
@@ -292,6 +300,7 @@ export default function ContentGenerator() {
                                 ]}
                                 placeholder="Select vibe"
                             />
+                            <input type="hidden" name="vibe" value={vibe} />
                         </div>
                         <div>
                             <label className="block font-mono text-xs text-gray-400 mb-2">PLATFORM</label>
@@ -306,6 +315,7 @@ export default function ContentGenerator() {
                                 ]}
                                 placeholder="Select platform"
                             />
+                            <input type="hidden" name="platform" value={platform} />
                         </div>
                     </div>
 

@@ -80,10 +80,10 @@ export default function SchedulePostModal({
   const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="aerogel-card rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-glass-border">
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-joburg-teal to-pretoria-blue text-white p-6 rounded-t-2xl">
+        <div className="sticky top-0 bg-gradient-to-r from-neon-grape to-joburg-teal text-white p-6 rounded-t-2xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <i className="fa-regular fa-calendar-check text-2xl"></i>
@@ -103,12 +103,12 @@ export default function SchedulePostModal({
 
         <div className="p-6 space-y-6">
           {/* AI Best Times Section */}
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-200">
+          <div className="bg-gradient-to-br from-neon-grape/10 to-joburg-teal/10 rounded-xl p-4 border border-neon-grape/30">
             <div className="flex items-center gap-2 mb-3">
-              <i className="fa-solid fa-sparkles text-purple-600"></i>
-              <h3 className="font-semibold text-pretoria-blue">AI Pilot Best Times</h3>
+              <i className="fa-solid fa-sparkles text-neon-grape"></i>
+              <h3 className="font-semibold text-white">AI Pilot Best Times</h3>
             </div>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-400 mb-4">
               Our AI analyzed your audience engagement patterns. These times get the most traction:
             </p>
             <div className="grid grid-cols-2 gap-3">
@@ -116,17 +116,17 @@ export default function SchedulePostModal({
                 <button
                   key={slot.time}
                   onClick={() => handleBestTimeSelect(slot.time)}
-                  className="bg-white rounded-lg p-3 border-2 border-transparent hover:border-joburg-teal transition-all hover:shadow-md text-left"
+                  className="bg-white/5 rounded-lg p-3 border-2 border-transparent hover:border-joburg-teal transition-all hover:shadow-md hover:bg-white/10 text-left"
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-2xl">{slot.emoji}</span>
                     <div>
-                      <div className="font-semibold text-pretoria-blue">{slot.time}</div>
-                      <div className="text-xs text-gray-500">{slot.label}</div>
+                      <div className="font-semibold text-white">{slot.time}</div>
+                      <div className="text-xs text-gray-400">{slot.label}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-1 mt-2">
-                    <div className="flex-1 bg-gray-200 rounded-full h-1.5">
+                    <div className="flex-1 bg-gray-700 rounded-full h-1.5">
                       <div
                         className={`h-1.5 rounded-full ${slot.engagement === 'Very High' ? 'bg-green-500 w-full' :
                           slot.engagement === 'High' ? 'bg-green-400 w-4/5' :
@@ -134,7 +134,7 @@ export default function SchedulePostModal({
                           }`}
                       ></div>
                     </div>
-                    <span className="text-xs text-gray-600">{slot.engagement}</span>
+                    <span className="text-xs text-gray-400">{slot.engagement}</span>
                   </div>
                 </button>
               ))}
@@ -143,7 +143,7 @@ export default function SchedulePostModal({
 
           {/* Manual Date & Time Selection */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-pretoria-blue flex items-center gap-2">
+            <h3 className="font-semibold text-white flex items-center gap-2">
               <i className="fa-regular fa-clock"></i>
               Or Choose Your Own Time
             </h3>
@@ -151,7 +151,7 @@ export default function SchedulePostModal({
             <div className="grid grid-cols-2 gap-4">
               {/* Date Picker */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Date
                 </label>
                 <input
@@ -159,13 +159,13 @@ export default function SchedulePostModal({
                   min={today}
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-joburg-teal focus:border-transparent"
+                  className="w-full px-4 py-2 bg-white/5 border border-glass-border rounded-lg text-white focus:ring-2 focus:ring-joburg-teal focus:border-transparent"
                 />
               </div>
 
               {/* Time Picker */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Time
                 </label>
                 <div className="relative">
@@ -183,15 +183,15 @@ export default function SchedulePostModal({
             </div>
 
             {/* Timezone Display */}
-            <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
+            <div className="flex items-center gap-2 text-sm text-gray-300 bg-white/5 p-3 rounded-lg border border-glass-border">
               <i className="fa-solid fa-globe"></i>
-              <span>Timezone: <strong>{timezone}</strong></span>
+              <span>Timezone: <strong className="text-white">{timezone}</strong></span>
             </div>
           </div>
 
           {/* Recurrence Options */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-pretoria-blue flex items-center gap-2">
+            <h3 className="font-semibold text-white flex items-center gap-2">
               <i className="fa-solid fa-rotate"></i>
               Recurrence (Optional)
             </h3>
@@ -204,8 +204,8 @@ export default function SchedulePostModal({
                   className={`
                     px-4 py-3 rounded-lg border-2 transition-all font-medium
                     ${recurrence === type
-                      ? 'border-joburg-teal bg-joburg-teal/10 text-joburg-teal'
-                      : 'border-gray-200 bg-white text-gray-700 hover:border-joburg-teal/50'
+                      ? 'border-joburg-teal bg-joburg-teal/20 text-joburg-teal'
+                      : 'border-glass-border bg-white/5 text-gray-300 hover:border-joburg-teal/50 hover:bg-white/10'
                     }
                   `}
                 >
@@ -216,8 +216,8 @@ export default function SchedulePostModal({
 
             {/* Custom Recurrence Builder */}
             {recurrence === 'weekly' && (
-              <div className="bg-gray-50 rounded-lg p-4">
-                <p className="text-sm font-medium text-gray-700 mb-3">Repeat on:</p>
+              <div className="bg-white/5 rounded-lg p-4 border border-glass-border">
+                <p className="text-sm font-medium text-gray-300 mb-3">Repeat on:</p>
                 <div className="flex gap-2">
                   {weekDays.map((day) => (
                     <button
@@ -227,7 +227,7 @@ export default function SchedulePostModal({
                         w-12 h-12 rounded-full font-semibold transition-all
                         ${customDays.includes(day)
                           ? 'bg-joburg-teal text-white'
-                          : 'bg-white border-2 border-gray-300 text-gray-600 hover:border-joburg-teal'
+                          : 'bg-white/5 border-2 border-glass-border text-gray-300 hover:border-joburg-teal'
                         }
                       `}
                     >
@@ -241,35 +241,35 @@ export default function SchedulePostModal({
 
           {/* Queue Position Indicator */}
           {selectedDate && selectedTime && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-3">
-              <i className="fa-solid fa-info-circle text-blue-600 text-xl"></i>
+            <div className="bg-joburg-teal/10 border border-joburg-teal/30 rounded-lg p-4 flex items-center gap-3">
+              <i className="fa-solid fa-info-circle text-joburg-teal text-xl"></i>
               <div>
-                <p className="text-sm font-medium text-blue-900">Queue Position: #3</p>
-                <p className="text-xs text-blue-700">2 posts scheduled before this time</p>
+                <p className="text-sm font-medium text-white">Queue Position: #3</p>
+                <p className="text-xs text-gray-400">2 posts scheduled before this time</p>
               </div>
             </div>
           )}
 
           {/* Post Preview (if content provided) */}
           {postContent && (
-            <div className="border border-gray-200 rounded-lg p-4">
-              <p className="text-sm font-medium text-gray-700 mb-2">Post Preview:</p>
-              <p className="text-sm text-gray-600 line-clamp-3">{postContent}</p>
+            <div className="border border-glass-border rounded-lg p-4 bg-white/5">
+              <p className="text-sm font-medium text-gray-300 mb-2">Post Preview:</p>
+              <p className="text-sm text-gray-400 line-clamp-3">{postContent}</p>
             </div>
           )}
         </div>
 
         {/* Footer Actions */}
-        <div className="sticky bottom-0 bg-gray-50 px-6 py-4 rounded-b-2xl border-t border-gray-200 flex items-center justify-between">
+        <div className="sticky bottom-0 bg-void/95 backdrop-blur-sm px-6 py-4 rounded-b-2xl border-t border-glass-border flex items-center justify-between">
           <button
             onClick={onClose}
-            className="px-6 py-2 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-100 transition-colors"
+            className="px-6 py-2 rounded-lg border border-glass-border text-gray-300 font-medium hover:bg-white/10 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSchedule}
-            className="px-6 py-2 rounded-lg bg-gradient-to-r from-joburg-teal to-pretoria-blue text-white font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 rounded-lg bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!selectedDate || !selectedTime}
           >
             <i className="fa-regular fa-calendar-check mr-2"></i>

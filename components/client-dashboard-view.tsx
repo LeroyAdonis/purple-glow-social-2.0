@@ -7,6 +7,9 @@ import AutomationWizard from './modals/automation-wizard';
 import CreditTopupModal from './modals/credit-topup-modal';
 import SubscriptionModal from './modals/subscription-modal';
 import PaymentSuccessModal from './modals/payment-success-modal';
+import LanguageSelector from './language-selector';
+import ContentGenerator from './content-generator';
+import { Language } from '../lib/i18n';
 
 interface ClientDashboardViewProps {
     userEmail: string;
@@ -18,6 +21,8 @@ interface ClientDashboardViewProps {
     successData: any;
     showSuccessModal: boolean;
     setShowSuccessModal: (show: boolean) => void;
+    currentLanguage: Language;
+    onLanguageChange: (lang: Language) => void;
 }
 
 export default function ClientDashboardView({
@@ -29,7 +34,9 @@ export default function ClientDashboardView({
     onSubscribe,
     successData,
     showSuccessModal,
-    setShowSuccessModal
+    setShowSuccessModal,
+    currentLanguage,
+    onLanguageChange
 }: ClientDashboardViewProps) {
     const [showSettings, setShowSettings] = useState(false);
     const [showPricingModal, setShowPricingModal] = useState(false);
@@ -128,46 +135,29 @@ export default function ClientDashboardView({
             {/* Main Content */}
             <main className="flex-1 lg:ml-64 p-6 lg:p-12 overflow-y-auto relative">
                 <div className="max-w-6xl mx-auto space-y-8 relative">
-                    <header className="flex justify-between items-end">
+                    <header className="flex justify-between items-center">
                         <div>
                             <h2 className="font-display font-bold text-4xl mb-2">Welcome back, {mockUser.name.split(' ')[0]}</h2>
                             <p className="text-gray-400">Your AI fleet is ready. System status: <span className="text-joburg-teal">OPTIMAL</span></p>
                         </div>
-                        <button
-                            onClick={onNavigateBack}
-                            className="px-6 py-3 border border-glass-border rounded-xl text-sm hover:bg-white/5 transition-colors"
-                        >
-                            <i className="fa-solid fa-arrow-left mr-2"></i> Back to Landing
-                        </button>
+                        <div className="flex items-center gap-4">
+                            <LanguageSelector
+                                currentLanguage={currentLanguage}
+                                onLanguageChange={onLanguageChange}
+                                variant="compact"
+                            />
+                            <button
+                                onClick={onNavigateBack}
+                                className="px-6 py-3 border border-glass-border rounded-xl text-sm hover:bg-white/5 transition-colors"
+                            >
+                                <i className="fa-solid fa-arrow-left mr-2"></i> Back to Landing
+                            </button>
+                        </div>
                     </header>
 
                     {/* Render different views based on active tab */}
                     {activeTab === 'dashboard' && (
-                        <div className="aerogel-card p-12 rounded-2xl text-center">
-                            <i className="fa-solid fa-wand-magic-sparkles text-6xl text-neon-grape mb-4"></i>
-                            <h3 className="font-display font-bold text-2xl mb-2">Content Generator</h3>
-                            <p className="text-gray-400 mb-6">Full dashboard with content generator coming in Phase 6</p>
-                            <div className="flex gap-4 justify-center flex-wrap">
-                                <button
-                                    onClick={() => setShowSettings(true)}
-                                    className="px-6 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
-                                >
-                                    <i className="fa-solid fa-cog mr-2"></i> Open Settings
-                                </button>
-                                <button
-                                    onClick={() => setShowPricingModal(true)}
-                                    className="px-6 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors font-bold"
-                                >
-                                    <i className="fa-solid fa-crown mr-2"></i> View Plans
-                                </button>
-                                <button
-                                    onClick={() => setShowCreditModal(true)}
-                                    className="px-6 py-3 bg-gradient-to-r from-mzansi-gold to-joburg-teal text-black rounded-xl hover:opacity-90 transition-opacity font-bold"
-                                >
-                                    <i className="fa-solid fa-bolt mr-2"></i> Buy Credits
-                                </button>
-                            </div>
-                        </div>
+                        <ContentGenerator currentLanguage={currentLanguage} />
                     )}
 
                     {activeTab === 'schedule' && (

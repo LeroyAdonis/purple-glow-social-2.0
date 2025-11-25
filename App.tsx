@@ -165,6 +165,8 @@ export default function App() {
         successData={successData}
         showSuccessModal={showSuccessModal}
         setShowSuccessModal={setShowSuccessModal}
+        currentLanguage={currentLanguage}
+        onLanguageChange={handleLanguageChange}
       />
     );
   }
@@ -251,6 +253,15 @@ export default function App() {
             <a href="#legal" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'legal')}>Legal</a>
 
             <div className="h-px bg-white/10 w-full my-2"></div>
+
+            {/* Language Selector in Mobile Menu */}
+            <div className="w-full">
+              <LanguageSelector
+                currentLanguage={currentLanguage}
+                onLanguageChange={handleLanguageChange}
+                variant="default"
+              />
+            </div>
 
             <div className="flex flex-col gap-4">
               <button

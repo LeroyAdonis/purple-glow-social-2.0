@@ -5,11 +5,18 @@ import { put } from "@vercel/blob";
 import { auth } from "../../lib/auth"; // Adjust import based on actual file structure
 import { headers } from "next/headers";
 import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
 import { posts } from "../../drizzle/schema";
 import * as schema from "../../drizzle/schema";
-import { Buffer } from "node:buffer";
+// Buffer import removed - using global Buffer which is available in Node.js runtime
 
-const db = drizzle(process.env.DATABASE_URL!, { schema });
+// Only initialize database if DATABASE_URL is a real connection string
+const isDatabaseConfigured = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('mock');
+let db: any;
+if (isDatabaseConfigured) {
+  const sql = neon(process.env.DATABASE_URL!);
+  db = drizzle(sql, { schema });
+}
 
 // Initialize Gemini
 // NOTE: Using process.env.API_KEY as mandated by strict instructions
