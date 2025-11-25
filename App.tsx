@@ -153,6 +153,7 @@ export default function App() {
     const DashboardPlaceholder = () => {
       const [showSettings, setShowSettings] = useState(false);
       const [showPricingModal, setShowPricingModal] = useState(false);
+      const [activeTab, setActiveTab] = useState<'dashboard' | 'schedule' | 'automation'>('dashboard');
       
       const mockUser = {
         id: 'user-1',
@@ -184,15 +185,36 @@ export default function App() {
             </div>
             
             <nav className="flex flex-col gap-2">
-              <a href="#" className="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-xl border border-glass-border text-white text-sm font-medium">
+              <button 
+                onClick={() => setActiveTab('dashboard')}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${
+                  activeTab === 'dashboard' 
+                    ? 'bg-white/5 border border-glass-border text-white' 
+                    : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
+                }`}
+              >
                 <i className="fa-solid fa-layer-group text-neon-grape"></i> Dashboard
-              </a>
-              <a href="#" className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl text-gray-400 hover:text-white transition-colors text-sm font-medium">
+              </button>
+              <button 
+                onClick={() => setActiveTab('schedule')}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${
+                  activeTab === 'schedule' 
+                    ? 'bg-white/5 border border-glass-border text-white' 
+                    : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
+                }`}
+              >
                 <i className="fa-regular fa-calendar"></i> Schedule
-              </a>
-              <a href="#" className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl text-gray-400 hover:text-white transition-colors text-sm font-medium">
+              </button>
+              <button 
+                onClick={() => setActiveTab('automation')}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${
+                  activeTab === 'automation' 
+                    ? 'bg-white/5 border border-glass-border text-white' 
+                    : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
+                }`}
+              >
                 <i className="fa-solid fa-bolt"></i> Automation
-              </a>
+              </button>
               <button 
                 onClick={() => setShowSettings(true)}
                 className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl text-gray-400 hover:text-white transition-colors text-sm font-medium text-left"
@@ -239,31 +261,66 @@ export default function App() {
                 </button>
               </header>
 
-              <div className="aerogel-card p-12 rounded-2xl text-center">
-                <i className="fa-solid fa-wand-magic-sparkles text-6xl text-neon-grape mb-4"></i>
-                <h3 className="font-display font-bold text-2xl mb-2">Content Generator</h3>
-                <p className="text-gray-400 mb-6">Full dashboard with content generator coming in Phase 6</p>
-                <div className="flex gap-4 justify-center flex-wrap">
-                  <button 
-                    onClick={() => setShowSettings(true)}
-                    className="px-6 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
-                  >
-                    <i className="fa-solid fa-cog mr-2"></i> Open Settings
-                  </button>
-                  <button 
-                    onClick={() => setShowPricingModal(true)}
-                    className="px-6 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors font-bold"
-                  >
-                    <i className="fa-solid fa-crown mr-2"></i> View Plans
-                  </button>
-                  <button 
-                    onClick={() => setShowCreditModal(true)}
-                    className="px-6 py-3 bg-gradient-to-r from-mzansi-gold to-joburg-teal text-black rounded-xl hover:opacity-90 transition-opacity font-bold"
-                  >
-                    <i className="fa-solid fa-bolt mr-2"></i> Buy Credits
-                  </button>
+              {/* Render different views based on active tab */}
+              {activeTab === 'dashboard' && (
+                <div className="aerogel-card p-12 rounded-2xl text-center">
+                  <i className="fa-solid fa-wand-magic-sparkles text-6xl text-neon-grape mb-4"></i>
+                  <h3 className="font-display font-bold text-2xl mb-2">Content Generator</h3>
+                  <p className="text-gray-400 mb-6">Full dashboard with content generator coming in Phase 6</p>
+                  <div className="flex gap-4 justify-center flex-wrap">
+                    <button 
+                      onClick={() => setShowSettings(true)}
+                      className="px-6 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
+                    >
+                      <i className="fa-solid fa-cog mr-2"></i> Open Settings
+                    </button>
+                    <button 
+                      onClick={() => setShowPricingModal(true)}
+                      className="px-6 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors font-bold"
+                    >
+                      <i className="fa-solid fa-crown mr-2"></i> View Plans
+                    </button>
+                    <button 
+                      onClick={() => setShowCreditModal(true)}
+                      className="px-6 py-3 bg-gradient-to-r from-mzansi-gold to-joburg-teal text-black rounded-xl hover:opacity-90 transition-opacity font-bold"
+                    >
+                      <i className="fa-solid fa-bolt mr-2"></i> Buy Credits
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
+              
+              {activeTab === 'schedule' && (() => {
+                const ScheduleView = require('./components/schedule-view').default;
+                const [showScheduleModal, setShowScheduleModal] = useState(false);
+                const SchedulePostModal = require('./components/modals/schedule-post-modal').default;
+                
+                return (
+                  <>
+                    <ScheduleView onSchedulePost={() => setShowScheduleModal(true)} />
+                    <SchedulePostModal
+                      isOpen={showScheduleModal}
+                      onClose={() => setShowScheduleModal(false)}
+                    />
+                  </>
+                );
+              })()}
+              
+              {activeTab === 'automation' && (() => {
+                const AutomationView = require('./components/automation-view').default;
+                const AutomationWizard = require('./components/modals/automation-wizard').default;
+                const [showWizard, setShowWizard] = useState(false);
+                
+                return (
+                  <>
+                    <AutomationView onCreateRule={() => setShowWizard(true)} />
+                    <AutomationWizard
+                      isOpen={showWizard}
+                      onClose={() => setShowWizard(false)}
+                    />
+                  </>
+                );
+              })()}
             </div>
           </main>
 

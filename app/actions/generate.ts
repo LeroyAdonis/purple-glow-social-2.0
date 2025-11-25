@@ -41,6 +41,7 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
                 email: "mock@example.com",
                 emailVerified: true,
                 image: "",
+                tier: "pro",
                 createdAt: new Date(),
                 updatedAt: new Date()
             },

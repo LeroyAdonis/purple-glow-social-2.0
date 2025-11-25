@@ -24,6 +24,7 @@ export default async function DashboardPage() {
         name: "Thabo Nkosi",
         email: "thabo@purpleglow.co.za",
         image: "https://ui-avatars.com/api/?name=Thabo+Nkosi&background=9D4EDD&color=fff",
+        tier: "pro",
         emailVerified: true,
         createdAt: new Date(),
         updatedAt: new Date(),

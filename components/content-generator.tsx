@@ -2,6 +2,7 @@
 
 import React, { useActionState, useState, useEffect } from 'react';
 import { generatePostAction } from '../app/actions/generate';
+import SchedulePostModal from './modals/schedule-post-modal';
 
 const initialState = {
   success: false,
@@ -20,6 +21,9 @@ export default function ContentGenerator() {
   // Local state for editing generated result
   const [localContent, setLocalContent] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  
+  // Schedule modal state
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
 
   // Sync server state to local state when generation finishes
   useEffect(() => {
@@ -36,8 +40,7 @@ export default function ContentGenerator() {
   };
 
   const handleSchedule = () => {
-    alert("Post scheduled successfully! (Simulated)");
-    // In a real app, this would call another Server Action to update the post status in DB
+    setIsScheduleModalOpen(true);
   };
 
   // --- PREVIEW RENDERERS ---
@@ -411,6 +414,14 @@ export default function ContentGenerator() {
             </div>
         )}
       </div>
+      
+      {/* Schedule Modal */}
+      <SchedulePostModal
+        isOpen={isScheduleModalOpen}
+        onClose={() => setIsScheduleModalOpen(false)}
+        postContent={localContent}
+        platform={platform.charAt(0).toUpperCase() + platform.slice(1)}
+      />
     </div>
   );
 }

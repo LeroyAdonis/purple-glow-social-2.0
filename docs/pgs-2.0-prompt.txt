@@ -1,0 +1,1207 @@
+User
+Role: Act as a world-class Full-Stack Architect and UI/UX Designer specializing in Next.js SaaS applications.
+Objective: Rebuild the "Purple Glow Social" application from scratch. We are moving away from a client-side React SPA to a robust Next.js Server-Side Rendered (SSR) application.
+Project Context:
+"Purple Glow Social" is an AI-powered social media manager for South African SMBs. It automates content creation (text, image, video) in 11 official languages, specifically tailored to local culture ("gees") and slang.
+1.	The Tech Stack (Mandatory)
+You must use the following stack for the rebuild:
+Framework: Next.js 15 (App Router). Use Server Components by default; Client Components only where necessary.
+Styling: Tailwind CSS (with tailwind-merge and clsx for utility handling).
+Authentication: BetterAuth. Setup email/password and Social Login (Google/Twitter).
+Database & ORM: PostgreSQL (via Neon or Vercel Postgres) accessed via Drizzle ORM.
+File Storage: Vercel Blob (for storing generated images and videos).
+AI: Google Gemini SDK (@google/genai) running strictly on the server (Server Actions).
+Deployment: Vercel.
+2.	The Design System: "Purple Glow v1.2"
+Vibe: "Liquid Intelligence" / Cyber-African / Glassmorphism 3.0.
+Visuals: Deep void backgrounds, "Aerogel" glass cards, Neon accents.
+Primary Color: Neon Grape (#9D4EDD)
+Secondary: Joburg Teal (#00E0FF)
+Background: Deep Void (#05040A)
+Fonts: Syne (Headings), Outfit (Body), Space Grotesk (Data).
+Components: Use highly blurred, translucent cards with 1px gradient borders.
+3.	Database Schema (Drizzle ORM)
+Translate the previous types.ts into a Drizzle Schema (schema.ts):
+users: id, name, email, tier (Free/Pro/Business), image (Profile Pic).
+posts: id, userId, content, imageUrl (Vercel Blob URL), status (Scheduled/Posted), scheduledDate, platform (FB/Insta/X).
+drafts: id, userId, content, imageUrl, topic, businessType.
+automation_rules: id, userId, frequency, coreTopic, isActive.
+4.	Functional Implementation Plan
+A. Authentication (BetterAuth):
+Replace the MOCK_USER logic with real BetterAuth hooks.
+Create a middleware.ts to protect the Dashboard, Calendar, and Admin routes.
+B. AI Services (Server Actions):
+Move all logic from services/geminiService.ts to Server Actions (actions/generate.ts).
+Text: Call Gemini Pro 2.5.
+Images: Call Imagen 3 via AI SDK. CRITICAL: Upload the resulting base64 image to Vercel Blob and return the public URL to the frontend. Do not send base64 strings to the client.
+Video: Call Veo via AI SDK. Poll status on the server side. Upload result to Vercel Blob.
+C. Dashboard & UI:
+Sidebar: Create a server-rendered Sidebar layout.
+Content Generator: A client form that calls the generatePost Server Action.
+Post Preview: Render generated posts. The "Schedule" button calls a schedulePost Server Action that writes to the Drizzle DB.
+D. Admin Dashboard:
+Create /admin/page.tsx.
+Use Drizzle to fetch all users and usage stats.
+Allow changing User Tiers directly in the DB.
+E. Localization:
+Use next-intl or i18next adapted for Next.js App Router to handle the 11 South African languages.
+5.	Source Material (Reference Only)
+Refer to the following logic from the previous codebase for Business Logic, Prompts, and Translations only. Do NOT copy the React implementation directly; adapt it to Next.js Server Actions.
+Prompts: Keep the specific prompts for "South African context" found in geminiService.ts.
+Constants: Keep the TONES and LANGUAGES arrays.
+Logic: Keep the getPostingTimeSuggestions logic (but move it to the server).
+6.	Deliverables
+Please generate the code for:
+drizzle/schema.ts (The Database definitions).
+lib/auth.ts (BetterAuth configuration).
+app/actions/generate.ts (The AI Server Actions with Vercel Blob upload).
+app/dashboard/page.tsx (The main dashboard View).
+components/content-generator.tsx (The Client Component form).
+app/layout.tsx (Root layout with Providers and Design System).
+Start by defining the Drizzle Schema and BetterAuth setup.
+Component Library:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Purple Glow - Component Library & AI Suite</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<!-- Markdown Parser for AI responses -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+codeCode
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'void': '#05040A',
+                    'glass-surface': 'rgba(255, 255, 255, 0.03)',
+                    'glass-border': 'rgba(255, 255, 255, 0.08)',
+                    'glass-highlight': 'rgba(255, 255, 255, 0.15)',
+                    'neon-grape': '#9D4EDD',
+                    'electric-indigo': '#5A189A',
+                    'mzansi-gold': '#FFCC00',
+                    'joburg-teal': '#00E0FF',
+                    'hyper-crimson': '#FF2A6D',
+                    'cyber-mint': '#00FF9D',
+                },
+                fontFamily: {
+                    'display': ['Syne', 'sans-serif'],
+                    'body': ['Outfit', 'sans-serif'],
+                    'mono': ['Space Grotesk', 'monospace'],
+                },
+                backgroundImage: {
+                    'aurora-subtle': 'radial-gradient(circle at 50% 0%, rgba(157, 78, 221, 0.15) 0%, transparent 50%)',
+                    'shimmer': 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+                },
+                animation: {
+                    'float': 'float 6s ease-in-out infinite',
+                    'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    'enter': 'enter 0.6s ease-out forwards',
+                    'shimmer': 'shimmer 2s infinite',
+                },
+                keyframes: {
+                    float: {
+                        '0%, 100%': { transform: 'translateY(0)' },
+                        '50%': { transform: 'translateY(-10px)' },
+                    },
+                    enter: {
+                        '0%': { opacity: '0', transform: 'translateY(20px)' },
+                        '100%': { opacity: '1', transform: 'translateY(0)' },
+                    },
+                    shimmer: {
+                        '0%': { transform: 'translateX(-100%)' },
+                        '100%': { transform: 'translateX(100%)' }
+                    }
+                }
+            }
+        }
+    }
+</script>
+<style>
+    body {
+        background-color: #05040A;
+        color: #FFFFFF;
+        font-family: 'Outfit', sans-serif;
+        overflow: hidden;
+    }
+
+    /* --- CORE UTILITIES --- */
+    .aerogel-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        border-left: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .aerogel-card:hover {
+        border-color: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 15px 45px 0 rgba(157, 78, 221, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .text-liquid {
+        background: linear-gradient(90deg, #FFFFFF 0%, #B0B0B0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Smooth scroll behavior */
+    html { scroll-behavior: smooth; }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #05040A; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+    /* Navigation Active State */
+    .nav-link.active {
+        color: #00E0FF;
+        border-right: 2px solid #00E0FF;
+        background: linear-gradient(90deg, transparent, rgba(0, 224, 255, 0.05));
+    }
+
+    /* Animation Delays for Staggered Entrance */
+    .delay-100 { animation-delay: 100ms; }
+    .delay-200 { animation-delay: 200ms; }
+    .delay-300 { animation-delay: 300ms; }
+
+    /* Markdown Styles for AI Output */
+    .prose-ai h1, .prose-ai h2, .prose-ai h3 { color: #fff; font-family: 'Syne', sans-serif; margin-bottom: 0.5rem; margin-top: 1rem; }
+    .prose-ai p { margin-bottom: 0.8rem; line-height: 1.6; color: #d1d5db; }
+    .prose-ai ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #9D4EDD; }
+    .prose-ai li { color: #d1d5db; }
+    .prose-ai strong { color: #00E0FF; font-weight: 600; }
+</style>
+</head>
+<body class="flex h-screen">
+codeCode
+<!-- --- LEFT SIDEBAR NAVIGATION --- -->
+<aside class="w-64 bg-void border-r border-glass-border flex flex-col z-50 h-full relative shrink-0">
+    <div class="p-6 border-b border-glass-border">
+        <h1 class="font-display font-bold text-xl text-white tracking-tight cursor-pointer hover:text-neon-grape transition-colors">Purple Glow<span class="text-neon-grape">.lib</span></h1>
+        <p class="font-mono text-xs text-gray-500 mt-1">COMPONENT LIBRARY v1.2</p>
+    </div>
+    
+    <nav class="flex-1 overflow-y-auto py-4">
+        <div class="px-6 mb-2 text-xs font-mono text-gray-500 uppercase tracking-widest">Core Elements</div>
+        <a href="#branding" class="nav-link block px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 border-r-2 border-transparent transition-all">Branding & Logos</a>
+        <a href="#typography" class="nav-link block px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 border-r-2 border-transparent transition-all">Typography Scale</a>
+        <a href="#colors" class="nav-link block px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 border-r-2 border-transparent transition-all">Color & Gradients</a>
+
+        <div class="px-6 mt-6 mb-2 text-xs font-mono text-gray-500 uppercase tracking-widest">Interface</div>
+        <a href="#buttons" class="nav-link block px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 border-r-2 border-transparent transition-all">Buttons & Actions</a>
+        <a href="#inputs" class="nav-link block px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 border-r-2 border-transparent transition-all">Inputs & Forms</a>
+        <a href="#navigation" class="nav-link block px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 border-r-2 border-transparent transition-all">Navigation Patterns</a>
+
+        <div class="px-6 mt-6 mb-2 text-xs font-mono text-gray-500 uppercase tracking-widest">Web App</div>
+        <a href="#ai-tools" class="nav-link block px-6 py-2 text-sm text-white font-bold bg-white/5 border-r-2 border-neon-grape transition-all"><i class="fa-solid fa-sparkles mr-2 text-neon-grape"></i>AI Tools ✨</a>
+        <a href="#tables" class="nav-link block px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 border-r-2 border-transparent transition-all">Data Tables</a>
+        <a href="#modals" class="nav-link block px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 border-r-2 border-transparent transition-all">Modals & Dialogs</a>
+
+        <div class="px-6 mt-6 mb-2 text-xs font-mono text-gray-500 uppercase tracking-widest">Mobile App</div>
+        <a href="#mobile" class="nav-link block px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 border-r-2 border-transparent transition-all">Mobile Components</a>
+        
+        <div class="px-6 mt-6 mb-2 text-xs font-mono text-gray-500 uppercase tracking-widest">Marketing</div>
+        <a href="#social" class="nav-link block px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 border-r-2 border-transparent transition-all">Social Templates</a>
+    </nav>
+
+    <div class="p-4 border-t border-glass-border">
+        <button class="w-full py-2 bg-white/5 border border-glass-border rounded-lg text-xs font-mono text-gray-400 hover:text-white hover:bg-white/10 transition-colors flex items-center justify-center gap-2 group">
+            <i class="fa-solid fa-download group-hover:animate-bounce"></i>Download Assets
+        </button>
+    </div>
+</aside>
+
+<!-- --- MAIN CONTENT AREA --- -->
+<main class="flex-1 overflow-y-auto bg-void relative scroll-smooth">
+    <!-- Background Ambient -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-neon-grape opacity-15 blur-[150px] rounded-full animate-pulse-slow"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-joburg-teal opacity-15 blur-[150px] rounded-full animate-pulse-slow" style="animation-delay: 2s"></div>
+    </div>
+
+    <div class="relative z-10 p-12 max-w-6xl mx-auto space-y-32">
+        
+        <!-- HERO SECTION -->
+        <section class="min-h-[60vh] flex flex-col justify-center animate-enter">
+            <div class="flex items-center justify-between">
+                <div class="max-w-2xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-glass-border bg-white/5 backdrop-blur-md mb-6">
+                        <span class="w-2 h-2 rounded-full bg-cyber-mint animate-pulse"></span>
+                        <span class="font-mono text-xs tracking-widest text-gray-300">SYSTEM OPERATIONAL</span>
+                    </div>
+                    <h1 class="font-display font-extrabold text-7xl md:text-8xl tracking-tight leading-[0.9] text-white mb-6">
+                        LIQUID<br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-grape via-white to-joburg-teal">INTELLIGENCE</span>
+                    </h1>
+                    <p class="font-body text-xl text-gray-400 max-w-lg mb-8 leading-relaxed">
+                        A design system that treats the user as a pilot. Aerogel textures, Mzansi neons, and fluid interactions. Now with <span class="text-joburg-teal">Gemini AI</span> integration.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#ai-tools" class="px-8 py-4 bg-white text-black font-body font-bold rounded-xl hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                            Try AI Tools ✨
+                        </a>
+                        <button class="px-8 py-4 border border-glass-border text-white font-body rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-play text-xs"></i> Watch Demo
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Hero Visual Element -->
+                <div class="hidden lg:block relative animate-float">
+                    <div class="aerogel-card w-80 p-6 rounded-[2rem] border-t border-l border-white/20 relative z-10">
+                        <div class="flex justify-between items-center mb-8">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-neon-grape to-electric-indigo"></div>
+                            <i class="fa-solid fa-ellipsis text-gray-500"></i>
+                        </div>
+                        <div class="space-y-3 mb-6">
+                            <div class="h-2 w-1/2 bg-white/10 rounded-full"></div>
+                            <div class="h-2 w-3/4 bg-white/10 rounded-full"></div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-black/20 border border-white/5 flex items-center justify-between">
+                            <span class="font-mono text-xs text-joburg-teal">AI PROCESSING</span>
+                            <span class="text-xs text-white">98%</span>
+                        </div>
+                    </div>
+                    <!-- Background Glows -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-neon-grape blur-[80px] opacity-20 -z-10"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: BRANDING -->
+        <section id="branding" class="space-y-8 animate-enter delay-100">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-3xl text-white">Branding Assets</h2>
+                    <p class="font-body text-gray-400 mt-1">Primary logo lockups and icon marks.</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">01</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Full Logo Dark -->
+                <div class="group p-12 border border-glass-border bg-black/40 rounded-2xl flex items-center justify-center hover:border-neon-grape/50 transition-colors">
+                    <h1 class="font-display font-extrabold text-2xl tracking-tight text-white group-hover:scale-105 transition-transform">
+                        PURPLE GLOW<span class="text-neon-grape">.</span>
+                    </h1>
+                </div>
+                <!-- Icon Only -->
+                <div class="group p-12 border border-glass-border bg-black/40 rounded-2xl flex items-center justify-center hover:border-neon-grape/50 transition-colors">
+                    <div class="w-16 h-16 bg-gradient-to-br from-neon-grape to-electric-indigo rounded-2xl flex items-center justify-center text-white text-2xl shadow-[0_0_30px_rgba(157,78,221,0.3)] group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                </div>
+                <!-- Powered By Tag -->
+                <div class="p-12 border border-glass-border bg-black/40 rounded-2xl flex items-center justify-center hover:border-neon-grape/50 transition-colors">
+                    <span class="font-mono text-[10px] tracking-[0.2em] text-gray-500 uppercase border border-glass-border px-4 py-2 rounded-full hover:bg-white/5 transition-colors cursor-default">
+                        Powered by <span class="text-joburg-teal">AI Intelligence</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: TYPOGRAPHY -->
+        <section id="typography" class="space-y-8 animate-enter delay-200">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-3xl text-white">Typography Scale</h2>
+                    <p class="font-body text-gray-400 mt-1">Headings (Syne), Body (Outfit), and Data (Space Grotesk).</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">02</span>
+            </div>
+            
+            <div class="aerogel-card p-10 rounded-3xl space-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-baseline border-b border-glass-border pb-8">
+                    <div class="col-span-2 font-mono text-xs text-gray-500 uppercase tracking-widest">Display XL</div>
+                    <div class="col-span-10 font-display font-extrabold text-5xl md:text-7xl text-white">Liquid Intelligence</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-baseline border-b border-glass-border pb-8">
+                    <div class="col-span-2 font-mono text-xs text-gray-500 uppercase tracking-widest">Heading 1</div>
+                    <div class="col-span-10 font-display font-bold text-4xl text-white">Manage Social Growth</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-baseline border-b border-glass-border pb-8">
+                    <div class="col-span-2 font-mono text-xs text-gray-500 uppercase tracking-widest">Heading 2</div>
+                    <div class="col-span-10 font-display font-bold text-2xl text-white">Analytics Overview</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-baseline border-b border-glass-border pb-8">
+                    <div class="col-span-2 font-mono text-xs text-gray-500 uppercase tracking-widest">Body Lg</div>
+                    <div class="col-span-10 font-body text-lg text-gray-300 leading-relaxed max-w-3xl">The interface treats the user not as an admin, but as a pilot of a high-tech machine. Legibility meets character.</div>
+                </div>
+                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-baseline">
+                    <div class="col-span-2 font-mono text-xs text-gray-500 uppercase tracking-widest">Mono / Data</div>
+                    <div class="col-span-10 font-mono text-sm text-joburg-teal bg-joburg-teal/10 inline-block px-2 py-1 rounded">ERR_CONNECTION_REFUSED // RE-ROUTING PACKETS...</div>
+                </div>
+            </div>
+        </section>
+
+         <!-- SECTION: COLORS -->
+         <section id="colors" class="space-y-8 animate-enter delay-200">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-3xl text-white">Color & Gradients</h2>
+                    <p class="font-body text-gray-400 mt-1">Frosted Aerogel Palette. Click to copy.</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">03</span>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <!-- Color Swatches (Same as before) -->
+                <div class="group cursor-pointer" onclick="navigator.clipboard.writeText('#9D4EDD')">
+                    <div class="h-24 rounded-2xl bg-neon-grape shadow-[0_0_20px_rgba(157,78,221,0.3)] mb-3 group-hover:scale-105 transition-transform flex items-center justify-center">
+                        <i class="fa-regular fa-copy opacity-0 group-hover:opacity-100 text-white"></i>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm">Neon Grape</span>
+                    </div>
+                    <span class="font-mono text-xs text-gray-500">#9D4EDD</span>
+                </div>
+
+                <div class="group cursor-pointer" onclick="navigator.clipboard.writeText('#00E0FF')">
+                    <div class="h-24 rounded-2xl bg-joburg-teal shadow-[0_0_20px_rgba(0,224,255,0.3)] mb-3 group-hover:scale-105 transition-transform flex items-center justify-center">
+                        <i class="fa-regular fa-copy opacity-0 group-hover:opacity-100 text-black"></i>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm">Joburg Teal</span>
+                    </div>
+                    <span class="font-mono text-xs text-gray-500">#00E0FF</span>
+                </div>
+
+                <div class="group cursor-pointer" onclick="navigator.clipboard.writeText('#FFCC00')">
+                    <div class="h-24 rounded-2xl bg-mzansi-gold shadow-[0_0_20px_rgba(255,204,0,0.3)] mb-3 group-hover:scale-105 transition-transform flex items-center justify-center">
+                        <i class="fa-regular fa-copy opacity-0 group-hover:opacity-100 text-black"></i>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm">Mzansi Gold</span>
+                    </div>
+                    <span class="font-mono text-xs text-gray-500">#FFCC00</span>
+                </div>
+
+                <div class="group cursor-pointer" onclick="navigator.clipboard.writeText('#FF2A6D')">
+                    <div class="h-24 rounded-2xl bg-hyper-crimson shadow-[0_0_20px_rgba(255,42,109,0.3)] mb-3 group-hover:scale-105 transition-transform flex items-center justify-center">
+                        <i class="fa-regular fa-copy opacity-0 group-hover:opacity-100 text-white"></i>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm">Hyper Crimson</span>
+                    </div>
+                    <span class="font-mono text-xs text-gray-500">#FF2A6D</span>
+                </div>
+
+                <div class="group cursor-pointer" onclick="navigator.clipboard.writeText('#05040A')">
+                    <div class="h-24 rounded-2xl bg-void border border-glass-border mb-3 group-hover:scale-105 transition-transform flex items-center justify-center">
+                         <i class="fa-regular fa-copy opacity-0 group-hover:opacity-100 text-white"></i>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm">Void</span>
+                    </div>
+                    <span class="font-mono text-xs text-gray-500">#05040A</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: BUTTONS -->
+        <section id="buttons" class="space-y-8 animate-enter delay-300">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-3xl text-white">Buttons & Actions</h2>
+                    <p class="font-body text-gray-400 mt-1">Interactive states and variations.</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">04</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Primary & Secondary -->
+                <div class="aerogel-card p-8 rounded-2xl space-y-6">
+                    <h3 class="font-mono text-xs text-gray-500 uppercase">Main Actions</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <!-- Primary White -->
+                        <button class="px-6 py-3 bg-white text-black font-body font-bold rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                            Primary Action
+                        </button>
+                        <!-- Primary Gold -->
+                        <button class="px-6 py-3 bg-mzansi-gold text-black font-body font-bold rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(255,204,0,0.3)]">
+                            Upgrade Plan
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <!-- Secondary -->
+                        <button class="px-6 py-3 border border-glass-border text-white font-body rounded-xl hover:bg-white/10 transition-colors">
+                            Secondary
+                        </button>
+                        <!-- Ghost -->
+                        <button class="px-6 py-3 text-gray-400 font-body hover:text-white transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Icon & Floating -->
+                <div class="aerogel-card p-8 rounded-2xl space-y-6">
+                    <h3 class="font-mono text-xs text-gray-500 uppercase">Icon & Floating</h3>
+                    <div class="flex gap-4">
+                        <button class="w-12 h-12 rounded-xl bg-glass-surface border border-glass-border flex items-center justify-center text-white hover:border-neon-grape hover:text-neon-grape transition-all hover:shadow-[0_0_15px_rgba(157,78,221,0.3)]">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+                        <button class="w-12 h-12 rounded-full bg-gradient-to-r from-neon-grape to-electric-indigo flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="flex gap-4 items-center">
+                        <span class="px-3 py-1 rounded-full border border-cyber-mint/30 bg-cyber-mint/10 text-cyber-mint text-xs font-mono">
+                            <i class="fa-solid fa-circle text-[8px] mr-2 animate-pulse"></i>ONLINE
+                        </span>
+                        <span class="px-3 py-1 rounded-full border border-hyper-crimson/30 bg-hyper-crimson/10 text-hyper-crimson text-xs font-mono">
+                            <i class="fa-solid fa-triangle-exclamation mr-2"></i>ERROR
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: INPUTS -->
+        <section id="inputs" class="space-y-8 animate-enter">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-3xl text-white">Inputs & Forms</h2>
+                    <p class="font-body text-gray-400 mt-1">Data entry components with aerogel styling.</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">05</span>
+            </div>
+            
+            <div class="aerogel-card p-8 rounded-2xl grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Text Field -->
+                <div class="space-y-2">
+                    <label class="block font-mono text-xs text-gray-400">EMAIL ADDRESS</label>
+                    <input type="text" placeholder="pilot@purpleglow.co.za" class="w-full bg-glass-surface border border-glass-border rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-neon-grape focus:bg-white/5 focus:outline-none transition-all font-body">
+                </div>
+
+                <!-- Select -->
+                <div class="space-y-2">
+                    <label class="block font-mono text-xs text-gray-400">CAMPAIGN TYPE</label>
+                    <div class="relative">
+                        <select class="w-full bg-glass-surface border border-glass-border rounded-xl px-4 py-3 text-white appearance-none focus:border-joburg-teal focus:outline-none font-body">
+                            <option>Instagram Reels</option>
+                            <option>TikTok Trend</option>
+                            <option>Twitter Thread</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-4 top-4 text-gray-500 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <!-- Toggle Switch -->
+                <div class="flex items-center justify-between p-4 border border-glass-border rounded-xl bg-white/5">
+                    <span class="font-body text-sm">Enable AI Auto-Post</span>
+                    <div class="w-12 h-6 bg-neon-grape rounded-full relative cursor-pointer shadow-[0_0_10px_rgba(157,78,221,0.4)]">
+                        <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                    </div>
+                </div>
+
+                <!-- Checkbox -->
+                <div class="flex items-center gap-3 p-4">
+                    <div class="w-5 h-5 rounded border border-joburg-teal bg-joburg-teal/20 flex items-center justify-center text-joburg-teal text-xs">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <span class="font-body text-sm text-gray-300">I agree to the <span class="text-white underline">Terms of Service</span></span>
+                </div>
+            </div>
+        </section>
+
+         <!-- SECTION: NAVIGATION PATTERNS -->
+         <section id="navigation" class="space-y-8 animate-enter">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-3xl text-white">Navigation Patterns</h2>
+                    <p class="font-body text-gray-400 mt-1">Web app headers and breadcrumbs.</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">06</span>
+            </div>
+
+            <div class="aerogel-card p-4 rounded-xl space-y-6">
+                <!-- Top Bar Mockup -->
+                <div class="w-full h-16 border-b border-glass-border flex items-center justify-between px-4">
+                    <div class="flex items-center gap-8">
+                        <div class="font-display font-bold text-white">PURPLE GLOW</div>
+                        <div class="flex gap-4 text-sm text-gray-400">
+                            <a href="#" class="text-white font-medium hover:text-joburg-teal transition-colors">Dashboard</a>
+                            <a href="#" class="hover:text-white transition-colors">Campaigns</a>
+                            <a href="#" class="hover:text-white transition-colors">Analytics</a>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                         <div class="relative">
+                            <i class="fa-solid fa-bell text-gray-400"></i>
+                            <span class="absolute -top-1 -right-1 w-2 h-2 bg-hyper-crimson rounded-full"></span>
+                         </div>
+                         <div class="w-8 h-8 rounded-full bg-gradient-to-r from-neon-grape to-electric-indigo"></div>
+                    </div>
+                </div>
+                
+                <!-- Breadcrumb -->
+                <div class="flex items-center gap-2 font-mono text-xs text-gray-500 px-4">
+                    <span class="hover:text-white cursor-pointer">HOME</span>
+                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                    <span class="hover:text-white cursor-pointer">CAMPAIGNS</span>
+                    <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                    <span class="text-joburg-teal">SUMMER LAUNCH V2</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: AI TOOLS (NEW & FUNCTIONAL) -->
+        <section id="ai-tools" class="space-y-8 animate-enter">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <h2 class="font-display font-bold text-3xl text-white">AI Intelligence Suite</h2>
+                        <span class="px-2 py-1 rounded bg-gradient-to-r from-neon-grape to-electric-indigo text-[10px] font-bold text-white tracking-widest">GEMINI POWERED</span>
+                    </div>
+                    <p class="font-body text-gray-400 mt-1">Holographic content generation powered by LLMs.</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">07</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- INPUT CARD -->
+                <div class="aerogel-card p-8 rounded-3xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-neon-grape opacity-10 blur-3xl rounded-full pointer-events-none"></div>
+                    
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-joburg-teal border border-glass-border">
+                            <i class="fa-solid fa-pen-nib"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-xl">Content Architect</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block font-mono text-xs text-gray-400 mb-2">TOPIC / PRODUCT</label>
+                            <textarea id="promptInput" rows="3" placeholder="e.g. A summer sale on futuristic sneakers for urban explorers in Joburg..." class="w-full bg-glass-surface border border-glass-border rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-neon-grape focus:bg-white/5 focus:outline-none transition-all font-body resize-none"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-mono text-xs text-gray-400 mb-2">VIBE CHECK</label>
+                                <select id="vibeSelect" class="w-full bg-glass-surface border border-glass-border rounded-xl px-4 py-3 text-white appearance-none focus:border-joburg-teal focus:outline-none font-body">
+                                    <option value="high-energy & cyberpunk">High-Energy & Cyberpunk</option>
+                                    <option value="professional & clean">Professional & Clean</option>
+                                    <option value="warm & community-focused">Warm & Mzansi Style</option>
+                                    <option value="mysterious & luxurious">Mysterious & Luxury</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block font-mono text-xs text-gray-400 mb-2">PLATFORM</label>
+                                <select id="platformSelect" class="w-full bg-glass-surface border border-glass-border rounded-xl px-4 py-3 text-white appearance-none focus:border-joburg-teal focus:outline-none font-body">
+                                    <option value="Instagram">Instagram (Visual)</option>
+                                    <option value="LinkedIn">LinkedIn (Pro)</option>
+                                    <option value="Twitter">Twitter/X (Short)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button onclick="generateContent()" id="generateBtn" class="w-full py-4 bg-gradient-to-r from-neon-grape to-electric-indigo text-white font-body font-bold rounded-xl hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(157,78,221,0.4)] flex items-center justify-center gap-2 group">
+                            <span class="group-hover:animate-pulse">Initialize Generation</span> <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- OUTPUT CARD -->
+                <div class="aerogel-card p-8 rounded-3xl relative overflow-hidden flex flex-col min-h-[400px]">
+                    <!-- Loading State -->
+                    <div id="loadingState" class="hidden absolute inset-0 z-20 bg-void/90 backdrop-blur-sm flex flex-col items-center justify-center">
+                        <div class="w-16 h-16 rounded-full border-4 border-white/10 border-t-neon-grape animate-spin mb-4"></div>
+                        <p class="font-mono text-joburg-teal text-sm animate-pulse">CONNECTING TO NEURAL NET...</p>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="flex-1 flex flex-col items-center justify-center text-center opacity-50">
+                        <i class="fa-brands fa-space-awesome text-6xl mb-4 text-gray-600"></i>
+                        <p class="font-body text-gray-400">Awaiting input coordinates...</p>
+                    </div>
+
+                    <!-- Result State -->
+                    <div id="resultState" class="hidden flex-1 overflow-y-auto pr-2 custom-scrollbar">
+                        <div class="flex justify-between items-start mb-4 border-b border-glass-border pb-4">
+                            <span class="font-mono text-xs text-cyber-mint border border-cyber-mint/30 px-2 py-1 rounded bg-cyber-mint/10">GENERATION COMPLETE</span>
+                            <button onclick="copyToClipboard()" class="text-gray-400 hover:text-white transition-colors"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div id="aiOutput" class="prose-ai font-body text-sm text-gray-300"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: WEB APP (TABLES) -->
+        <section id="tables" class="space-y-8 animate-enter">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-3xl text-white">Data Tables</h2>
+                    <p class="font-body text-gray-400 mt-1">High-density data display for web dashboard.</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">08</span>
+            </div>
+            
+            <div class="aerogel-card overflow-hidden rounded-2xl">
+                <table class="w-full text-left">
+                    <thead class="bg-white/5 border-b border-glass-border">
+                        <tr>
+                            <th class="p-4 font-mono text-xs text-gray-400 font-normal">STATUS</th>
+                            <th class="p-4 font-mono text-xs text-gray-400 font-normal">CAMPAIGN</th>
+                            <th class="p-4 font-mono text-xs text-gray-400 font-normal">PLATFORM</th>
+                            <th class="p-4 font-mono text-xs text-gray-400 font-normal text-right">REACH</th>
+                            <th class="p-4 font-mono text-xs text-gray-400 font-normal"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-glass-border">
+                        <tr class="hover:bg-white/5 transition-colors cursor-pointer group">
+                            <td class="p-4"><span class="w-2 h-2 rounded-full bg-cyber-mint inline-block shadow-[0_0_5px_#00FF9D] group-hover:scale-125 transition-transform"></span></td>
+                            <td class="p-4 font-bold text-white">Summer Sale Launch</td>
+                            <td class="p-4 text-gray-400"><i class="fa-brands fa-instagram mr-2"></i>Instagram</td>
+                            <td class="p-4 text-right font-mono text-joburg-teal">12.4k</td>
+                            <td class="p-4 text-right"><i class="fa-solid fa-ellipsis text-gray-500 cursor-pointer hover:text-white"></i></td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition-colors cursor-pointer group">
+                            <td class="p-4"><span class="w-2 h-2 rounded-full bg-mzansi-gold inline-block group-hover:scale-125 transition-transform"></span></td>
+                            <td class="p-4 font-bold text-white">Brand Awareness</td>
+                            <td class="p-4 text-gray-400"><i class="fa-brands fa-tiktok mr-2"></i>TikTok</td>
+                            <td class="p-4 text-right font-mono text-joburg-teal">8.9k</td>
+                            <td class="p-4 text-right"><i class="fa-solid fa-ellipsis text-gray-500 cursor-pointer hover:text-white"></i></td>
+                        </tr>
+                         <tr class="hover:bg-white/5 transition-colors cursor-pointer group">
+                            <td class="p-4"><span class="w-2 h-2 rounded-full bg-hyper-crimson inline-block group-hover:scale-125 transition-transform"></span></td>
+                            <td class="p-4 font-bold text-white">Retargeting V2</td>
+                            <td class="p-4 text-gray-400"><i class="fa-brands fa-facebook mr-2"></i>Facebook</td>
+                            <td class="p-4 text-right font-mono text-joburg-teal">1.2k</td>
+                            <td class="p-4 text-right"><i class="fa-solid fa-ellipsis text-gray-500 cursor-pointer hover:text-white"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+         <!-- SECTION: MODALS -->
+         <section id="modals" class="space-y-8 animate-enter">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-3xl text-white">Modals & Dialogs</h2>
+                    <p class="font-body text-gray-400 mt-1">Overlay states with deep blur.</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">09</span>
+            </div>
+
+            <!-- Static representation of an open modal -->
+            <div class="relative h-[400px] border border-glass-border rounded-3xl overflow-hidden flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop')] bg-cover">
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-md"></div>
+                
+                <!-- Modal Card -->
+                <div class="aerogel-card p-8 rounded-3xl max-w-sm w-full relative z-10 animate-float">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-neon-grape to-electric-indigo flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-wand-magic-sparkles text-white"></i>
+                        </div>
+                        <button class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <h3 class="font-display font-bold text-2xl mb-2">Generate Campaign?</h3>
+                    <p class="font-body text-gray-400 text-sm mb-6">This will consume 50 AI credits. The aurora engine will process your request immediately.</p>
+                    <div class="flex gap-3">
+                        <button class="flex-1 py-3 bg-white text-black font-bold rounded-xl hover:scale-105 transition-transform">Confirm</button>
+                        <button class="flex-1 py-3 border border-glass-border text-white rounded-xl hover:bg-white/10 transition-colors">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <!-- SECTION: MOBILE -->
+        <section id="mobile" class="space-y-8 animate-enter">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-3xl text-white">Mobile Patterns</h2>
+                    <p class="font-body text-gray-400 mt-1">Touch-optimized components for the React Native/iOS app.</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">10</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Mobile Viewport Mockup -->
+                <div class="col-span-1 border border-glass-border rounded-[3rem] p-4 bg-black h-[600px] relative overflow-hidden shadow-2xl">
+                    <!-- Status Bar -->
+                    <div class="flex justify-between px-4 py-2 text-xs font-mono text-white mb-4">
+                        <span>09:41</span>
+                        <span><i class="fa-solid fa-wifi"></i> <i class="fa-solid fa-battery-full"></i></span>
+                    </div>
+
+                    <!-- Mobile Header -->
+                    <div class="px-2 mb-6 flex justify-between items-center">
+                        <h3 class="font-display font-bold text-xl">Feed</h3>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-neon-grape to-electric-indigo"></div>
+                    </div>
+
+                    <!-- Mobile Card List -->
+                    <div class="space-y-4 px-2 overflow-y-auto h-[400px]">
+                        <!-- Item 1 -->
+                        <div class="aerogel-card p-4 rounded-2xl flex gap-3 active:scale-95 transition-transform">
+                            <div class="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center text-2xl">📸</div>
+                            <div>
+                                <h4 class="font-bold text-sm">Photo Uploaded</h4>
+                                <p class="text-xs text-gray-400">Just now</p>
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="aerogel-card p-4 rounded-2xl flex gap-3 active:scale-95 transition-transform">
+                            <div class="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center text-2xl">🤖</div>
+                            <div>
+                                <h4 class="font-bold text-sm">AI Generated</h4>
+                                <p class="text-xs text-gray-400">2 mins ago</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Tab Bar -->
+                    <div class="absolute bottom-4 left-4 right-4 h-16 rounded-2xl bg-[#111] border border-glass-border flex justify-around items-center text-gray-500 backdrop-blur-md">
+                        <i class="fa-solid fa-house text-neon-grape text-xl shadow-[0_0_15px_#9D4EDD]"></i>
+                        <i class="fa-solid fa-chart-simple hover:text-white transition-colors"></i>
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-black -mt-6 shadow-lg transform active:scale-90 transition-transform"><i class="fa-solid fa-plus"></i></div>
+                        <i class="fa-solid fa-comment hover:text-white transition-colors"></i>
+                        <i class="fa-solid fa-user hover:text-white transition-colors"></i>
+                    </div>
+                </div>
+
+                <!-- Component explanation -->
+                <div class="col-span-2 space-y-8 self-center">
+                    <div class="aerogel-card p-6 rounded-2xl">
+                        <h4 class="font-mono text-xs text-joburg-teal mb-2">BOTTOM NAVIGATION</h4>
+                        <p class="text-gray-400 text-sm">Uses a floating "dock" style rather than a full-width bar. Center button breaks out for primary action (Create).</p>
+                    </div>
+                    <div class="aerogel-card p-6 rounded-2xl">
+                        <h4 class="font-mono text-xs text-joburg-teal mb-2">TOUCH TARGETS</h4>
+                        <p class="text-gray-400 text-sm">All interactive elements have a minimum height of 44px. Cards use 16px padding.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <!-- SECTION: MARKETING -->
+         <section id="social" class="space-y-8 pb-32 animate-enter">
+            <div class="border-b border-glass-border pb-4 flex items-end justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-3xl text-white">Marketing Templates</h2>
+                    <p class="font-body text-gray-400 mt-1">Static assets for social media and print.</p>
+                </div>
+                <span class="font-mono text-xs text-gray-600">11</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Instagram Post Template -->
+                <div class="aspect-square bg-void border border-glass-border relative overflow-hidden flex flex-col items-center justify-center text-center p-8 group transition-all hover:border-neon-grape/50">
+                    <!-- Background graphic -->
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2070&auto=format&fit=crop')] bg-cover opacity-40 mix-blend-overlay transition-transform duration-700 group-hover:scale-110"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent"></div>
+                    
+                    <!-- Content -->
+                    <div class="relative z-10 border border-white/20 p-8 bg-black/30 backdrop-blur-sm transform transition-transform group-hover:-translate-y-2">
+                        <h3 class="font-display font-extrabold text-4xl text-white mb-2">UNLOCK<br/><span class="text-neon-grape">GROWTH</span></h3>
+                        <p class="font-body text-sm text-gray-200">The AI tool for Mzansi Creators.</p>
+                    </div>
+
+                    <!-- Brand Footer -->
+                    <div class="absolute bottom-6 font-mono text-xs tracking-widest text-white">WWW.PURPLEGLOW.CO.ZA</div>
+                </div>
+
+                <!-- Business Card Mockup -->
+                <div class="flex flex-col gap-4">
+                    <!-- Front -->
+                    <div class="h-48 w-80 bg-void border border-glass-border rounded-xl relative overflow-hidden p-6 flex flex-col justify-between shadow-2xl hover:-translate-y-2 transition-transform duration-500 group">
+                        <div class="absolute right-0 top-0 w-32 h-32 bg-neon-grape blur-[60px] opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                        <i class="fa-solid fa-bolt text-2xl text-white"></i>
+                        <div>
+                            <h4 class="font-display font-bold text-xl text-white">Thabo Nkosi</h4>
+                            <p class="font-mono text-xs text-joburg-teal">HEAD OF PRODUCT</p>
+                        </div>
+                    </div>
+                    <!-- Back -->
+                    <div class="h-48 w-80 bg-white border border-glass-border rounded-xl relative overflow-hidden p-6 flex items-center justify-center shadow-2xl hover:-translate-y-2 transition-transform duration-500 delay-100">
+                         <h3 class="font-display font-extrabold text-2xl text-black">PURPLE GLOW<span class="text-neon-grape">.</span></h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<script>
+    // --- SCROLL SPY NAVIGATION ---
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContainer = document.querySelector('main');
+
+    mainContainer.addEventListener('scroll', () => {
+         let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContainer.scrollTop >= (sectionTop - 300)) {
+                current = section.getAttribute('id');
+            }
+        })
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        })
+    });
+
+    // --- GEMINI API INTEGRATION ---
+    async function generateContent() {
+        const promptInput = document.getElementById('promptInput').value;
+        const vibe = document.getElementById('vibeSelect').value;
+        const platform = document.getElementById('platformSelect').value;
+        const outputDiv = document.getElementById('aiOutput');
+        const loadingState = document.getElementById('loadingState');
+        const emptyState = document.getElementById('emptyState');
+        const resultState = document.getElementById('resultState');
+
+        if (!promptInput) {
+            alert("Please enter a topic for the AI.");
+            return;
+        }
+
+        // UI State: Loading
+        emptyState.classList.add('hidden');
+        resultState.classList.add('hidden');
+        loadingState.classList.remove('hidden');
+
+        const apiKey = ""; // API Key injected by environment
+        const prompt = `Act as an expert Social Media Manager for the "Purple Glow" app (a South African social media tool). 
+        Generate a ${platform} post about: "${promptInput}".
+        The vibe should be: ${vibe}.
+        
+        Structure the response exactly like this:
+        ## Headline (Catchy)
+        [Body Content with Emojis]
+        
+        **Hashtags:**
+        [List of 5-10 hashtags]`;
+
+        try {
+            const response = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }]
+                })
+            });
+
+            const data = await response.json();
+            const text = data.candidates[0].content.parts[0].text;
+            
+            // Render Markdown
+            outputDiv.innerHTML = marked.parse(text);
+            
+            // UI State: Success
+            loadingState.classList.add('hidden');
+            resultState.classList.remove('hidden');
+
+        } catch (error) {
+            console.error('Error:', error);
+            loadingState.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            alert("Neural Link Severed: Failed to generate content. Please try again.");
+        }
+    }
+
+    async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
+        for (let i = 0; i < retries; i++) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response;
+            } catch (error) {
+                if (i === retries - 1) throw error;
+                await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
+            }
+        }
+    }
+
+    function copyToClipboard() {
+        const content = document.getElementById('aiOutput').innerText;
+        navigator.clipboard.writeText(content);
+        alert("Copied to clipboard!");
+    }
+</script>
+</body>
+</html>
+Gemini 3 Pro PreviewRan for 224s
+lightbulbThought for 53 seconds
+metadata.json
+check_circle
+index.html
+check_circle
+index.tsx
+check_circle
+App.tsx
+check_circle
+drizzle/schema.ts
+check_circle
+lib/auth.ts
+check_circle
+app/actions/generate.ts
+check_circle
+app/layout.tsx
+check_circle
+app/dashboard/page.tsx
+check_circle
+components/content-generator.tsx
+check_circle
+Analyzed errors for 59 seconds
+lightbulbThought for 41 seconds
+<!-- Fixes:
+1. app/actions/generate.ts: Added `import { Buffer } from "node:buffer";` to fix "Cannot find name 'Buffer'" error in TypeScript environment.
+2. app/layout.tsx: Added `import React from 'react';` to fix "Cannot find namespace 'React'" error when using `React.ReactNode`.
+-->
+app/actions/generate.ts
+check_circle
+app/layout.tsx
+check_circle
+Checkpoint
+User
+Add all the sections on the landing page for marketing, including a 3 tier pricing section and a buy credits payment sytem using Polar via BetterAuth, also include client facing docs like the terms and conditions, privacy policy etc for South Africa using best practices
+Gemini 3 Pro PreviewRan for 104s
+lightbulbThought for 39 seconds
+To update the application with the requested marketing sections, I will significantly expand App.tsx.
+Here is the specification for the changes:
+1.	Features Section ("The Tech"): Added a grid highlighting the 11-language support, South African "gees" (spirit/vibe) tuning, and multi-model AI (Gemini + Imagen + Veo).
+2.	Pricing Section ("Choose Your Tier"): Implemented 3 tiers (Hustle/Free, Creator/Pro, Mogul/Business) priced in ZAR (Rand) with a highlighted "Creator" card using the design system's neon glow.
+3.	Credit System ("Fuel Your Growth"): Added a "Buy Credits" UI component styled to look like a payment integration powered by Polar/BetterAuth, allowing users to select credit packs.
+4.	Legal & Compliance Footer: Added a footer specifically tailored for South African compliance, referencing POPIA (Protection of Personal Information Act) and PAIA (Promotion of Access to Information Act).
+The design maintains the "Liquid Intelligence" / "Aerogel" aesthetic with deep void backgrounds and glassmorphism.
+App.tsx
+check_circle
+Checkpoint
+User
+Please fix the landing page navigation
+Gemini 3 Pro PreviewRan for 124s
+lightbulbThought for 52 seconds
+To fix the landing page navigation, I will update App.tsx to include:
+1.	Mobile Navigation: A responsive hamburger menu for mobile devices that was previously missing.
+2.	Scroll Awareness: The navigation bar will now transition from transparent to a blurred glass background upon scrolling, improving visibility over the hero section.
+3.	Smooth Scroll Behavior: Injected CSS to ensure clicking navigation links scrolls smoothly and offsets correctly so the fixed header doesn't cover section titles.
+4.	Active State Handling: Mobile menu closes automatically when a link is clicked.
+App.tsx
+check_circle
+Checkpoint
+User
+The links "Capabilities, Pricing and Legal" don't work. Also please add the rest of the sections (Don't change the content or remove any sections or components. Just add the sections and links that are not there.
+ 
+image.png
+Gemini 3 Pro PreviewRan for 165s
+lightbulbThought for 69 seconds
+To fix the navigation links and add the missing sections ("How It Works", "Testimonials", "Contact") as shown in the design, I will update App.tsx.
+Changes Implemented
+1.	Fixed Navigation Links: ensured all Navbar items point to the correct id attributes on the page.
+2.	Added "How It Works" Section: A 3-step guide ("Get Sorted in 3 Easy Steps") using the design system's vertical timeline style.
+3.	Added "Testimonials" Section: "Trusted by Local Businesses" section with South African personas (Thabo, Anelisa, Sipho).
+4.	Added "Contact" Section: A "Get in Touch" form before the footer.
+5.	Preserved Existing Content: Kept the Hero, Features, Pricing, and Credit sections exactly as they were.
+App.tsx
+check_circle
+Checkpoint
+User
+Update the main navigation links on the landing page to ensure they correctly scroll to their respective sections. Specifically fix the 'Capabilities', 'Pricing', and 'Legal' links, and ensure all sections are linked correctly from the navigation menu.
+Gemini 3 Pro PreviewRan for 195s
+lightbulbThought for 102 seconds
+To satisfy the request, I will update App.tsx to fix the main navigation links. Specifically, I will:
+1.	Update Navigation Menu: Add a "Legal" link to both the desktop and mobile navigation menus, ensuring it scrolls to the footer section.
+2.	Verify Section IDs: Ensure the Capabilities link correctly points to the #features section and the Pricing link points to the #pricing section.
+3.	Update Footer: Change the footer's ID to legal (matching the new navigation link) and ensure all internal legal links (Privacy Policy, Terms, etc.) point to this anchor.
+4.	Consolidate: Ensure all main sections (Features, How it Works, Testimonials, Pricing, Contact, Legal) are accessible via the main navigation.
+App.tsx
+check_circle
+Checkpoint
+User
+On the dashboard, implement a visual preview component for generated posts before they are scheduled. This preview should accurately reflect how the post will look on the selected platform (e.g., Instagram vs. Twitter) and include options to edit or discard.
+Gemini 3 Pro PreviewRan for 164s
+lightbulbThought for 101 seconds
+To implement the visual preview component with platform-specific styling and edit capabilities, I will update components/content-generator.tsx.
+Changes Implemented
+1.	State Management: Added platform, vibe, and prompt state to control the form inputs and drive the preview logic. Added localContent to allow editing the generated text on the client side without re-generating.
+2.	Platform Previews: Created a robust renderPreview() function that switches between Instagram, Twitter/X, LinkedIn, and Facebook layouts.
+o	Instagram: Mimics the mobile app UI with square aspect ratio, iconic action bar, and caption styling.
+o	Twitter: Mimics the feed layout with circular avatar, handle, threaded text, and rounded media.
+o	LinkedIn: Professional layout with connection info, structured header, and business-focused action bar.
+o	Facebook: Classic feed card styling.
+3.	Edit Mode: Added an "Edit Text" toggle that swaps the preview text for a styled textarea, allowing the user to refine the AI output manually.
+4.	Action Buttons:
+o	Discard: Resets the state to the empty view.
+o	Schedule: A mock action (for now) that logs the scheduled post.
+5.	Visual Polish: Applied the "Aerogel" / Glassmorphism design system to the preview container while keeping the inner preview authentic to the specific social platform's aesthetic.
+Updated files:
+components/content-generator.tsx
+Client Component updated with Platform Preview Logic, Edit Mode, and Interactive State Management.
+components/content-generator.tsx
+check_circle
+Checkpoint
+User
+This is what I get when I click on a navigation link
+ 
+{FE444481-A17D-454E-85BE-8102000859F0}.png
+Gemini 3 Pro PreviewRan for 287s
+lightbulbThought for 130 seconds
+To address the issues, I will update App.tsx to fix the navigation links by using a manual scroll handler. This prevents the default anchor behavior which can cause "Refused to connect" errors in iframe/preview environments due to hash navigation restrictions. I will also re-ensure the ContentGenerator component is fully implemented with the requested visual preview features.
+Changes Implemented
+1.	Fixed Navigation (App.tsx): Replaced standard href navigation with a scrollToSection handler. This intercepts the click, prevents the default browser navigation event, and smoothly scrolls to the target section while accounting for the fixed header height.
+2.	Visual Preview (components/content-generator.tsx): Confirmed and finalized the robust preview logic, allowing users to switch between Instagram, Twitter, LinkedIn, and Facebook layouts to see exactly how their AI-generated content will appear.
+App.tsx
+check_circle
+components/content-generator.tsx
+check_circle
+Checkpoint
+User
+Simulate mock login with Google, Facebook, Twitter and Login with email & password so we can view the dashboard
+Gemini 3 Pro PreviewRan for 93s
+lightbulbThought for 93 seconds
+To simulate a mock login experience that allows you to access the dashboard, I will update App.tsx with a functional Login Modal featuring Google, Facebook, Twitter, and Email options. I will also update the Server Components (app/dashboard/page.tsx and app/actions/generate.ts) to use a Mock Session fallback. This ensures the dashboard renders and functions even without a real database or authentication provider connected in this environment.
+Changes Implemented
+1.	Login UI (App.tsx): Added a "Glassmorphism" Login Modal triggered by the "Log In" and "Get Started" buttons. It includes mocked social login buttons (Google, Facebook, Twitter) and an email form.
+2.	Mock Authentication (Dashboard): Updated app/dashboard/page.tsx to bypass strict database auth checks and return a "Mock User" (Thabo Nkosi) so the dashboard renders immediately upon navigation.
+3.	Mock Authentication (Server Actions): Updated app/actions/generate.ts to allow content generation using the mock user session, ensuring the AI tools work in the demo.
+4.	Navigation: Clicking "Log In" now simulates a loading state and redirects to /dashboard.
+Updated files:
+App.tsx
+Added interactive Login Modal with Social/Email options and redirection logic.
+app/dashboard/page.tsx
+Implemented Mock Session fallback to bypass DB auth and render the dashboard for demo purposes.
+app/actions/generate.ts
+Implemented Mock Session fallback to allow AI generation without real authentication.
+User
+Login and get started button don't work
+Gemini 3 Pro PreviewRan for 220s
+lightbulbThought for 60 seconds
+To fix the "Log In" and "Get Started" buttons and simulate the login experience, I will:
+1.	Update App.tsx: Add a functioning Login Modal with social login buttons. When a user "logs in", it will simulate a redirect to the /dashboard.
+2.	Update app/dashboard/page.tsx: implement a fallback "Mock Session" so that when you navigate to the dashboard without a real database connection, it still renders with demo data instead of redirecting you back to home.
+3.	Update app/actions/generate.ts: Ensure the AI generation server actions also accept this mock session so you can generate content in the demo.
+App.tsx
+check_circle
+app/dashboard/page.tsx
+check_circle
+app/actions/generate.ts
+check_circle
+Checkpoint
+User
+Bug fix: While trying to login I got this screen (See attached)
+ 
+{A5FDD077-F8BF-428F-9AC2-FD4AD9172760}.png
+Gemini 3 Pro PreviewRan for 65s
+lightbulbThought for 64 seconds
+To resolve the "Refused to connect" error when logging in, I need to prevent the app from attempting a real URL navigation (window.location.href) within the iframe/preview environment.
+Instead of a full page reload or navigation which is blocked by cross-origin policies in the preview, I will:
+1.	Introduce a view state in App.tsx: This state will toggle between 'landing' and 'dashboard'.
+2.	Render the Dashboard Component directly: When the user logs in, I will switch the state to render the DashboardPage component (which I will refactor to be importable) instead of navigating to a new URL.
+3.	Refactor app/dashboard/page.tsx: Convert this from a Server Component to a Client Component (or a component compatible with client-side state switching for this preview context) so it can be rendered conditionally within App.tsx.
+This approach keeps the user within the same "page" context, bypassing the browser security restrictions on navigation inside the preview iframe.
+Plan:
+1.	Refactor app/dashboard/page.tsx: Modify it to accept props or handle its own mock data fetching client-side if needed, and export it so App.tsx can use it. Since it was an async server component, I'll adapt it for this client-side preview flow. Correction: I will keep DashboardPage as is but create a client-side wrapper or simply modify App.tsx to conditionally render a Dashboard component that mimics the page, or import the logic if possible. Given the constraints of the file system simulation, I'll likely inline the dashboard logic or create a dedicated DashboardView component in components/ if app/dashboard/page.tsx is strictly server-side.
+o	Better approach: I will create components/DashboardView.tsx which contains the dashboard UI. app/dashboard/page.tsx will just import and render this. App.tsx will also import and render this upon login.
+2.	Update App.tsx:
+o	Add currentView state ('home' | 'dashboard').
+o	Update handleLogin to set currentView('dashboard') instead of window.location.href.
+o	Conditionally render <DashboardView /> when currentView === 'dashboard'.
+3.	Create components/DashboardView.tsx: Move the UI logic from app/dashboard/page.tsx here so it can be reused.
+Let's refine: I cannot easily change app/dashboard/page.tsx to be used in App.tsx if it relies on Node.js specific headers/auth.
+I will copy the relevant UI code from app/dashboard/page.tsx into a new components/dashboard-view.tsx that uses mock data purely on the client side for the preview. This ensures zero friction.
+Updated files:
+components/dashboard-view.tsx
+New component containing the Dashboard UI, adapted for client-side rendering in the preview.
+App.tsx
+Updated to manage currentView state and render DashboardView upon login instead of navigating.
+app/dashboard/page.tsx
+Updated to use the new DashboardView component, maintaining the Next.js structure while sharing UI logic.
+User
+Integrate a payment system for credit top-ups using Polar (via BetterAuth simulation) on the landing page. Include options for different credit packages and a checkout summary. Include to Admin dashboard for management. Also integrate the subscription payment system and add a settings page in client dashboard to view, update and cancel subscription.
+Gemini 3 Pro PreviewRan for 74s
+lightbulbThought for 73 seconds
+To satisfy your request, I will integrate a comprehensive payment and subscription management system simulation into the application. This involves updates across the landing page, dashboard, and the creation of new settings and admin interfaces.
+Plan:
+1.	Landing Page (App.tsx):
+o	Enhance the "Credit Top-up" section to be interactive. Clicking a package will open a "Polar Checkout" modal simulation.
+o	Update the "Pricing" section buttons to trigger a subscription checkout modal simulation.
+2.	Dashboard (components/dashboard-view.tsx):
+o	New 'Settings' Tab: Create a dedicated settings view within the dashboard.
+	Subscription Management: View current plan, billing cycle, next payment date, and options to "Upgrade Plan" or "Cancel Subscription".
+	Payment Methods: Mock UI to add/remove cards.
+	Billing History: A list of simulated past invoices.
+o	Sidebar Update: Add a "Settings" link to navigation.
+3.	Admin Dashboard (components/admin-dashboard-view.tsx):
+o	New Component: Create a new Admin Dashboard view.
+o	User Management: Table of users, their tiers, and credit balances.
+o	Revenue Overview: Simple stats on MRR (Monthly Recurring Revenue) and credit sales.
+o	Transaction Log: List of recent "Polar" transactions.
+4.	Routing/State (App.tsx):
+o	Add routing logic to switch between Landing, Dashboard, and Admin views based on login simulation (e.g., logging in as admin@purpleglow.co.za goes to Admin).
+Implementation Details:
+•	Polar Simulation: Since I cannot integrate the real Polar API in this environment, I will create high-fidelity UI modals that mimic the checkout flow (Plan selection -> Payment Details -> Success).
+•	BetterAuth Simulation: The "user" object in my mock session will be expanded to include subscriptionStatus, plan, credits, and billingHistory.
+Let's start by creating the Admin Dashboard and then updating the main App and Client Dashboard.
+Updated files:
+components/admin-dashboard-view.tsx
+New component for Admin functionality: User management, Revenue stats, and Transaction logs.
+components/dashboard-view.tsx
+Updated with Settings tab for Subscription Management (View/Cancel/Upgrade) and Billing History.
+App.tsx
+Updated to handle routing (Landing/Dashboard/Admin), integrated Payment Modals for subscriptions and credits, and updated "Buy" buttons to trigger these modals.
+User
+There was an unexpected error. Please continue with what you were doing.
+Gemini 3 Pro PreviewRan for 58s
+lightbulbThought for 58 seconds
+I encountered an error while trying to generate the initial set of files for the requested payment and subscription features. This was likely due to the size or complexity of the update. I will now break down the changes into smaller, manageable steps to ensure they are applied successfully.
+I will focus first on creating the Client Dashboard Views, specifically adding the Settings tab for subscription management.
+Plan (Revised Step 1):
+1.	Create components/dashboard-view.tsx: This will be a new component that encapsulates the entire Client Dashboard UI.
+o	It will accept the user session as a prop.
+o	It will include a new sidebar navigation item for "Settings".
+o	It will implement a tab system to switch between "Dashboard", "Schedule", "Automation", and the new "Settings" view.
+o	The "Settings" view will display mock subscription details (Current Plan, Next Billing Date) and billing history.
+o	I will integrate the previously requested "Content Generator" component into the "Dashboard" tab of this view.
+2.	Update app/dashboard/page.tsx:
+o	Update this page to import and render the new DashboardView component instead of defining the UI directly. This keeps the server page clean and focused on data fetching (even if it's currently mock data).
+Let's start by creating the comprehensive components/dashboard-view.tsx.
+Updated files:
+components/dashboard-view.tsx
+New component handling the entire Client Dashboard UI, including the new Settings tab for subscription management.
+app/dashboard/page.tsx
+Updated to use the new DashboardView component, passing down the session.
+User
+I don't see the new components and pages in the file explorer
+Gemini 3 Pro PreviewRan for 58s
+lightbulbThought for 58 seconds
+I apologize for the confusion. It seems the file creation didn't persist correctly in the previous step. I will now recreate the missing components (dashboard-view.tsx and admin-dashboard-view.tsx) and update the main application entry point to integrate the payment systems, subscription management, and admin routing.
+Here is the complete implementation plan:
+1.	Create components/admin-dashboard-view.tsx: A dedicated view for admins to manage users, view revenue stats, and see transaction logs.
+2.	Create components/dashboard-view.tsx: The main client dashboard which now includes a Settings tab for managing subscriptions (Upgrade/Cancel) and viewing billing history.
+3.	Update App.tsx:
+o	Implement Client-Side Routing: Switch between Landing, Dashboard, and Admin views based on login state to ensure it works in the preview.
+o	Payment Simulation: Add interactive Modals for "Credit Top-up" (Polar style) and "Subscription Checkout".
+o	Admin Login: Detect admin in the email to route to the Admin Dashboard.
+4.	Update app/dashboard/page.tsx: Refactor to use the new DashboardView component.
+Updated files:
+components/admin-dashboard-view.tsx
+New component: Admin Dashboard with User Management, Revenue Stats, and Transaction Logs.
+components/dashboard-view.tsx
+New component: Client Dashboard with Content Generator integration and new Settings/Subscription management tabs.
+App.tsx
+Updated: Integrates Admin/Dashboard views, Payment/Checkout Modals for Polar, and routing logic.
+app/dashboard/page.tsx
+Updated: Uses the new DashboardView component.
+

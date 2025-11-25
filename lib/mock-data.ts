@@ -443,31 +443,146 @@ export const MOCK_SCHEDULED_POSTS: MockScheduledPost[] = [
   {
     id: 'post-1',
     userId: 'user-1',
-    content: 'Exciting summer sale launching this weekend! 🌞 Don\'t miss out on our amazing deals. #SummerVibes #Sale',
+    content: 'Start your Monday with energy! 🌅 New week, new opportunities. What are your goals this week? #MondayMotivation #SouthAfrica',
     imageUrl: 'https://picsum.photos/400/400?random=1',
     platform: 'instagram',
-    scheduledDate: new Date('2024-03-25T10:00:00'),
+    scheduledDate: new Date('2024-01-22T08:00:00'),
     status: 'scheduled',
-    topic: 'Summer Sale'
+    topic: 'Morning Motivation'
   },
   {
     id: 'post-2',
     userId: 'user-1',
-    content: 'New product alert! 🚀 Check out our latest innovation designed for South African entrepreneurs.',
+    content: 'Something exciting is coming... 👀 Stay tuned for our biggest announcement yet! #ComingSoon',
     imageUrl: 'https://picsum.photos/400/400?random=2',
     platform: 'twitter',
-    scheduledDate: new Date('2024-03-26T14:30:00'),
+    scheduledDate: new Date('2024-01-22T12:30:00'),
     status: 'scheduled',
-    topic: 'Product Launch'
+    topic: 'Product Launch Teaser'
   },
   {
     id: 'post-3',
     userId: 'user-1',
-    content: 'Join us at our Sandton branch opening! Free coffee for all visitors. ☕',
+    content: 'The future of digital marketing in South Africa: 3 trends you can\'t ignore. Read our latest insights. #DigitalMarketing #BusinessGrowth',
+    imageUrl: null,
+    platform: 'linkedin',
+    scheduledDate: new Date('2024-01-22T14:00:00'),
+    status: 'scheduled',
+    topic: 'Industry Insights'
+  },
+  {
+    id: 'post-4',
+    userId: 'user-1',
+    content: 'We want to hear from you! What\'s your favorite local brand and why? Drop a comment below! 💬 #LocalIsLekker',
     imageUrl: null,
     platform: 'facebook',
-    scheduledDate: new Date('2024-03-27T09:00:00'),
+    scheduledDate: new Date('2024-01-22T18:00:00'),
     status: 'scheduled',
-    topic: 'Branch Opening'
+    topic: 'Evening Engagement'
+  },
+  {
+    id: 'post-5',
+    userId: 'user-1',
+    content: 'Behind the scenes at our Joburg office! Meet the team that makes the magic happen. ✨ #TeamTuesday',
+    imageUrl: 'https://picsum.photos/400/400?random=3',
+    platform: 'instagram',
+    scheduledDate: new Date('2024-01-23T10:00:00'),
+    status: 'scheduled',
+    topic: 'Behind the Scenes'
+  },
+  {
+    id: 'post-6',
+    userId: 'user-1',
+    content: '💡 Pro tip: Engage with your audience within the first hour of posting for maximum reach. #SocialMediaTips',
+    imageUrl: null,
+    platform: 'twitter',
+    scheduledDate: new Date('2024-01-23T12:00:00'),
+    status: 'scheduled',
+    topic: 'Tip of the Day'
+  },
+  {
+    id: 'post-7',
+    userId: 'user-1',
+    content: 'Success story: How @CustomerName grew their business by 300% using our platform. Read the full case study. #SuccessStory',
+    imageUrl: 'https://picsum.photos/400/400?random=4',
+    platform: 'linkedin',
+    scheduledDate: new Date('2024-01-24T09:00:00'),
+    status: 'scheduled',
+    topic: 'Customer Spotlight'
+  },
+  {
+    id: 'post-8',
+    userId: 'user-1',
+    content: 'Friday feels! 🎉 What are your weekend plans? Share below! #FridayVibes #WeekendReady',
+    imageUrl: 'https://picsum.photos/400/400?random=5',
+    platform: 'instagram',
+    scheduledDate: new Date('2024-01-26T19:00:00'),
+    status: 'scheduled',
+    topic: 'Weekend Vibes'
   },
 ];
+
+// Mock automation rules
+export const MOCK_AUTOMATION_RULES: MockAutomationRule[] = [
+  {
+    id: 'rule-1',
+    userId: 'user-1',
+    name: 'Weekly Product Showcase',
+    frequency: 'weekly',
+    coreTopic: 'Product Highlights',
+    platforms: ['instagram', 'facebook'],
+    isActive: true,
+    lastRun: new Date('2024-01-15T09:00:00'),
+    nextRun: new Date('2024-01-22T09:00:00'),
+    postsGenerated: 24,
+    createdAt: new Date('2023-10-01T10:00:00')
+  },
+  {
+    id: 'rule-2',
+    userId: 'user-1',
+    name: 'Daily Tips & Tricks',
+    frequency: 'daily',
+    coreTopic: 'Social Media Tips',
+    platforms: ['twitter', 'linkedin'],
+    isActive: true,
+    lastRun: new Date('2024-01-20T12:30:00'),
+    nextRun: new Date('2024-01-21T12:30:00'),
+    postsGenerated: 87,
+    createdAt: new Date('2023-11-15T14:00:00')
+  },
+  {
+    id: 'rule-3',
+    userId: 'user-1',
+    name: 'Monthly Recap',
+    frequency: 'monthly',
+    coreTopic: 'Monthly Highlights',
+    platforms: ['instagram', 'linkedin', 'facebook'],
+    isActive: false,
+    lastRun: new Date('2023-12-31T18:00:00'),
+    nextRun: new Date('2024-01-31T18:00:00'),
+    postsGenerated: 3,
+    createdAt: new Date('2023-09-01T10:00:00')
+  },
+];
+
+// Helper functions for data retrieval
+export const getUserById = (userId: string): MockUser | undefined => {
+  return MOCK_USERS.find(user => user.id === userId);
+};
+
+export const getTransactionsByUserId = (userId: string): MockTransaction[] => {
+  return MOCK_TRANSACTIONS.filter(txn => txn.userId === userId);
+};
+
+export const getScheduledPostsByUserId = (userId: string): MockScheduledPost[] => {
+  return MOCK_SCHEDULED_POSTS.filter(post => post.userId === userId);
+};
+
+export const getAutomationRulesByUserId = (userId: string): MockAutomationRule[] => {
+  return MOCK_AUTOMATION_RULES.filter(rule => rule.userId === userId);
+};
+
+// Get current user (for demo purposes, always return user-1)
+export const getCurrentUser = (): MockUser => {
+  return MOCK_USERS[0]; // Thabo Nkosi
+};
