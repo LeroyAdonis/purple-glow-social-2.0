@@ -4,6 +4,11 @@ import CreditTopupModal from './components/modals/credit-topup-modal';
 import SubscriptionModal from './components/modals/subscription-modal';
 import PaymentSuccessModal from './components/modals/payment-success-modal';
 import LanguageSelector from './components/language-selector';
+import ScheduleView from './components/schedule-view';
+import SchedulePostModal from './components/modals/schedule-post-modal';
+import AutomationView from './components/automation-view';
+import AutomationWizard from './components/modals/automation-wizard';
+import SettingsView from './components/settings-view';
 import { Language, getCurrentLanguage, t } from './lib/i18n';
 import { initializeTranslations } from './lib/load-translations';
 
@@ -167,7 +172,6 @@ export default function App() {
       };
 
       if (showSettings) {
-        const SettingsView = require('./components/settings-view').default;
         return <SettingsView 
           user={mockUser} 
           onBack={() => setShowSettings(false)}
@@ -292,39 +296,29 @@ export default function App() {
                 </div>
               )}
               
-              {activeTab === 'schedule' && (() => {
-                const ScheduleView = require('./components/schedule-view').default;
-                const SchedulePostModal = require('./components/modals/schedule-post-modal').default;
-                
-                return (
-                  <>
-                    <ScheduleView onSchedulePost={() => setShowScheduleModal(true)} />
-                    {showScheduleModal && (
-                      <SchedulePostModal
-                        isOpen={showScheduleModal}
-                        onClose={() => setShowScheduleModal(false)}
-                      />
-                    )}
-                  </>
-                );
-              })()}
+              {activeTab === 'schedule' && (
+                <>
+                  <ScheduleView onSchedulePost={() => setShowScheduleModal(true)} />
+                  {showScheduleModal && (
+                    <SchedulePostModal
+                      isOpen={showScheduleModal}
+                      onClose={() => setShowScheduleModal(false)}
+                    />
+                  )}
+                </>
+              )}
               
-              {activeTab === 'automation' && (() => {
-                const AutomationView = require('./components/automation-view').default;
-                const AutomationWizard = require('./components/modals/automation-wizard').default;
-                
-                return (
-                  <>
-                    <AutomationView onCreateRule={() => setShowWizard(true)} />
-                    {showWizard && (
-                      <AutomationWizard
-                        isOpen={showWizard}
-                        onClose={() => setShowWizard(false)}
-                      />
-                    )}
-                  </>
-                );
-              })()}
+              {activeTab === 'automation' && (
+                <>
+                  <AutomationView onCreateRule={() => setShowWizard(true)} />
+                  {showWizard && (
+                    <AutomationWizard
+                      isOpen={showWizard}
+                      onClose={() => setShowWizard(false)}
+                    />
+                  )}
+                </>
+              )}
             </div>
           </main>
 
