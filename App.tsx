@@ -153,6 +153,8 @@ export default function App() {
     const DashboardPlaceholder = () => {
       const [showSettings, setShowSettings] = useState(false);
       const [showPricingModal, setShowPricingModal] = useState(false);
+      const [showScheduleModal, setShowScheduleModal] = useState(false);
+      const [showWizard, setShowWizard] = useState(false);
       const [activeTab, setActiveTab] = useState<'dashboard' | 'schedule' | 'automation'>('dashboard');
       
       const mockUser = {
@@ -292,16 +294,17 @@ export default function App() {
               
               {activeTab === 'schedule' && (() => {
                 const ScheduleView = require('./components/schedule-view').default;
-                const [showScheduleModal, setShowScheduleModal] = useState(false);
                 const SchedulePostModal = require('./components/modals/schedule-post-modal').default;
                 
                 return (
                   <>
                     <ScheduleView onSchedulePost={() => setShowScheduleModal(true)} />
-                    <SchedulePostModal
-                      isOpen={showScheduleModal}
-                      onClose={() => setShowScheduleModal(false)}
-                    />
+                    {showScheduleModal && (
+                      <SchedulePostModal
+                        isOpen={showScheduleModal}
+                        onClose={() => setShowScheduleModal(false)}
+                      />
+                    )}
                   </>
                 );
               })()}
@@ -309,15 +312,16 @@ export default function App() {
               {activeTab === 'automation' && (() => {
                 const AutomationView = require('./components/automation-view').default;
                 const AutomationWizard = require('./components/modals/automation-wizard').default;
-                const [showWizard, setShowWizard] = useState(false);
                 
                 return (
                   <>
                     <AutomationView onCreateRule={() => setShowWizard(true)} />
-                    <AutomationWizard
-                      isOpen={showWizard}
-                      onClose={() => setShowWizard(false)}
-                    />
+                    {showWizard && (
+                      <AutomationWizard
+                        isOpen={showWizard}
+                        onClose={() => setShowWizard(false)}
+                      />
+                    )}
                   </>
                 );
               })()}
