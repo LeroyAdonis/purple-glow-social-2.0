@@ -12,10 +12,15 @@ dist
 dist-ssr
 *.local
 
-# Environment files
+# Environment files (NEVER COMMIT THESE!)
 .env
+.env.*
 .env.local
-.env.example
+.env.production
+.env.development
+.env.test
+!.env.production.example
+!.env.example
 
 # MCP
 mcp.json
