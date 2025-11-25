@@ -1,38 +1,43 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import AdminDashboardView from './components/admin-dashboard-view';
-import CreditTopupModal from './components/modals/credit-topup-modal';
-import SubscriptionModal from './components/modals/subscription-modal';
-import PaymentSuccessModal from './components/modals/payment-success-modal';
-import LanguageSelector from './components/language-selector';
-import ScheduleView from './components/schedule-view';
-import SchedulePostModal from './components/modals/schedule-post-modal';
-import AutomationView from './components/automation-view';
-import AutomationWizard from './components/modals/automation-wizard';
-import SettingsView from './components/settings-view';
-import ClientDashboardView from './components/client-dashboard-view';
-import { Language, getCurrentLanguage, t } from './lib/i18n';
-import { initializeTranslations } from './lib/load-translations';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import AdminDashboardView from '../components/admin-dashboard-view';
+import CreditTopupModal from '../components/modals/credit-topup-modal';
+import SubscriptionModal from '../components/modals/subscription-modal';
+import PaymentSuccessModal from '../components/modals/payment-success-modal';
+import LanguageSelector from '../components/language-selector';
+import ScheduleView from '../components/schedule-view';
+import SchedulePostModal from '../components/modals/schedule-post-modal';
+import AutomationView from '../components/automation-view';
+import AutomationWizard from '../components/modals/automation-wizard';
+import SettingsView from '../components/settings-view';
+import ClientDashboardView from '../components/client-dashboard-view';
+import { Language, getCurrentLanguage, t } from '../lib/i18n';
+import { initializeTranslations } from '../lib/load-translations';
+import { useSession } from '../lib/auth-client';
 
 // Import all translations
-import en from './lib/translations/en.json';
-import af from './lib/translations/af.json';
-import zu from './lib/translations/zu.json';
-import xh from './lib/translations/xh.json';
-import nso from './lib/translations/nso.json';
-import tn from './lib/translations/tn.json';
-import st from './lib/translations/st.json';
-import ts from './lib/translations/ts.json';
-import ss from './lib/translations/ss.json';
-import ve from './lib/translations/ve.json';
-import nr from './lib/translations/nr.json';
+import en from '../lib/translations/en.json';
+import af from '../lib/translations/af.json';
+import zu from '../lib/translations/zu.json';
+import xh from '../lib/translations/xh.json';
+import nso from '../lib/translations/nso.json';
+import tn from '../lib/translations/tn.json';
+import st from '../lib/translations/st.json';
+import ts from '../lib/translations/ts.json';
+import ss from '../lib/translations/ss.json';
+import ve from '../lib/translations/ve.json';
+import nr from '../lib/translations/nr.json';
 
 const translations: Record<Language, any> = {
   en, af, zu, xh, nso, tn, st, ts, ss, ve, nr
 };
 
-// This component serves as the Landing Page / Design System Preview
-// In a real Next.js deployment, the logic shifts to app/page.tsx
-export default function App() {
+export default function HomePage() {
+  const router = useRouter();
+  const { data: session, isPending } = useSession();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -46,6 +51,13 @@ export default function App() {
   const [userCredits, setUserCredits] = useState(450);
   const [userTier, setUserTier] = useState<'free' | 'pro' | 'business'>('pro');
   const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
+
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (!isPending && session) {
+      router.push('/dashboard');
+    }
+  }, [session, isPending, router]);
 
   // Initialize translations and language on mount
   useEffect(() => {
@@ -207,18 +219,18 @@ export default function App() {
               onLanguageChange={setCurrentLanguage}
               variant="compact"
             />
-            <a
+            <Link
               href="/login"
               className="text-sm font-bold hover:text-joburg-teal transition-colors"
             >
               Log In
-            </a>
-            <a
+            </Link>
+            <Link
               href="/signup"
               className="px-5 py-2 bg-white text-black font-bold rounded-lg hover:scale-105 transition-transform border border-transparent hover:border-neon-grape shadow-[0_0_20px_rgba(255,255,255,0.2)]"
             >
               Get Started
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Hamburger Toggle */}
@@ -252,18 +264,18 @@ export default function App() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <a
+              <Link
                 href="/login"
                 className="w-full py-4 text-center font-bold text-white hover:text-joburg-teal border border-white/10 rounded-xl hover:bg-white/5 transition-colors"
               >
                 Log In
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/signup"
                 className="w-full py-4 bg-white text-black font-bold rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.2)] text-center"
               >
                 Get Started
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -317,12 +329,12 @@ export default function App() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <a
+              <Link
                 href="/signup"
                 className="px-8 py-4 bg-neon-grape text-white font-bold rounded-xl hover:bg-opacity-90 transition-all shadow-[0_0_30px_-10px_#9D4EDD] hover:scale-105 text-center"
               >
                 Launch Dashboard
-              </a>
+              </Link>
               <button className="px-8 py-4 border border-white/20 text-white rounded-xl hover:bg-white/5 transition-colors flex items-center justify-center gap-2 group">
                 <i className="fa-solid fa-play text-xs group-hover:text-joburg-teal transition-colors"></i> Watch Demo
               </button>

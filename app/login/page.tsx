@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { signIn } from '@/lib/auth-client';
+import { signIn } from '../../lib/auth-client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -82,6 +82,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="thabo@example.com"
+                autoComplete="email"
                 required
                 disabled={isLoading}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-glass-border
@@ -101,6 +102,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
+                autoComplete="current-password"
                 required
                 disabled={isLoading}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-glass-border

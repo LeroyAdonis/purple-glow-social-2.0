@@ -6,7 +6,7 @@ import { auth } from "../../lib/auth";
 import { headers } from "next/headers";
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
-import { posts, users } from "../../drizzle/schema";
+import { posts, user } from "../../drizzle/schema";
 import * as schema from "../../drizzle/schema";
 import { GeminiService } from "../../lib/ai/gemini-service";
 import { eq } from "drizzle-orm";
@@ -53,15 +53,15 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
 
     // Check user credits
     if (isDatabaseConfigured) {
-      const user = await db.query.users.findFirst({
-        where: eq(users.id, session.user.id),
+      const userRecord = await db.query.user.findFirst({
+        where: eq(user.id, session.user.id),
       });
 
-      if (!user) {
+      if (!userRecord) {
         return { error: "User not found." };
       }
 
-      if (user.credits <= 0) {
+      if (userRecord.credits <= 0) {
         return { error: "Insufficient credits. Please top up to continue." };
       }
     }
@@ -147,12 +147,12 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
 
         // Deduct 1 credit
         await db
-          .update(users)
+          .update(user)
           .set({
             credits: db.raw('credits - 1'),
             updatedAt: new Date(),
           })
-          .where(eq(users.id, session.user.id));
+          .where(eq(user.id, session.user.id));
 
       } catch (dbError) {
         console.error("Database operation failed:", dbError);

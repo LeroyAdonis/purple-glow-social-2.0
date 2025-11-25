@@ -46,13 +46,14 @@ export default function ClientDashboardView({
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
     const [activeTab, setActiveTab] = useState<'dashboard' | 'schedule' | 'automation'>('dashboard');
 
+    // Use real user data from props, not mock data
     const mockUser = {
-        id: 'user-1',
-        name: 'Thabo Nkosi',
-        email: userEmail || 'thabo@purpleglow.co.za',
+        id: 'user-authenticated', // This should come from session
+        name: userEmail.split('@')[0] || 'User',
+        email: userEmail,
         tier: userTier,
         credits: userCredits,
-        image: 'https://ui-avatars.com/api/?name=Thabo+Nkosi&background=9D4EDD&color=fff'
+        image: `https://ui-avatars.com/api/?name=${encodeURIComponent(userEmail)}&background=9D4EDD&color=fff`
     };
 
     if (showSettings) {

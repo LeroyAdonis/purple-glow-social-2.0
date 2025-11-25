@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { signUp } from '@/lib/auth-client';
+import { signUp, signIn } from '../../lib/auth-client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -49,6 +49,22 @@ export default function SignUpPage() {
     }
   };
 
+  const handleGoogleSignUp = async () => {
+    setIsLoading(true);
+    try {
+      // Better Auth uses signIn.social for both sign-in and sign-up
+      // It will automatically create an account if the user doesn't exist
+      await signIn.social({
+        provider: 'google',
+        callbackURL: '/dashboard',
+      });
+    } catch (err: any) {
+      console.error('Google sign-up error:', err);
+      setError('Failed to sign up with Google');
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-void flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
@@ -84,6 +100,7 @@ export default function SignUpPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Thabo Nkosi"
+                autoComplete="name"
                 required
                 disabled={isLoading}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-glass-border
@@ -103,6 +120,7 @@ export default function SignUpPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="thabo@example.com"
+                autoComplete="email"
                 required
                 disabled={isLoading}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-glass-border
@@ -122,6 +140,7 @@ export default function SignUpPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
+                autoComplete="new-password"
                 required
                 minLength={8}
                 disabled={isLoading}
@@ -143,6 +162,7 @@ export default function SignUpPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
+                autoComplete="new-password"
                 required
                 disabled={isLoading}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-glass-border
@@ -170,6 +190,30 @@ export default function SignUpPage() {
               )}
             </button>
           </form>
+
+          {/* Divider */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-glass-border"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-4 bg-pretoria-blue text-gray-400">Or continue with</span>
+            </div>
+          </div>
+
+          {/* Google Sign-Up */}
+          <button
+            type="button"
+            onClick={handleGoogleSignUp}
+            disabled={isLoading}
+            className="w-full py-4 rounded-xl font-bold border border-glass-border
+                     hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span className="flex items-center justify-center gap-3">
+              <i className="fa-brands fa-google text-xl"></i>
+              Sign up with Google
+            </span>
+          </button>
 
           {/* Sign In Link */}
           <div className="mt-6 text-center">

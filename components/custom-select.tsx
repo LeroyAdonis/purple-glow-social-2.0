@@ -45,7 +45,7 @@ export default function CustomSelect({
 
   // Calculate dropdown position
   const updatePosition = () => {
-    if (dropdownRef.current) {
+    if (dropdownRef.current && typeof window !== 'undefined') {
       const rect = dropdownRef.current.getBoundingClientRect();
       setDropdownPosition({
         top: rect.bottom + window.scrollY,
@@ -120,8 +120,8 @@ export default function CustomSelect({
       className="fixed aerogel-card rounded-xl shadow-2xl z-[9999] max-h-64 overflow-y-auto animate-enter"
       role="listbox"
       style={{
-        top: `${dropdownPosition.top - window.scrollY}px`,
-        left: `${dropdownPosition.left - window.scrollX}px`,
+        top: `${dropdownPosition.top - (typeof window !== 'undefined' ? window.scrollY : 0)}px`,
+        left: `${dropdownPosition.left - (typeof window !== 'undefined' ? window.scrollX : 0)}px`,
         width: `${dropdownPosition.width}px`
       }}
     >

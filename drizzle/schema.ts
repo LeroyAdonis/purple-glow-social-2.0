@@ -4,18 +4,20 @@ export const tierEnum = pgEnum("tier", ["free", "pro", "business"]);
 export const platformEnum = pgEnum("platform", ["facebook", "instagram", "twitter", "linkedin"]);
 export const statusEnum = pgEnum("status", ["draft", "scheduled", "posted", "failed"]);
 
-export const users = pgTable("user", {
+// Better Auth expects these specific export names (singular)
+export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name"),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false),
   image: text("image"),
   tier: tierEnum("tier").default("free"),
+  credits: integer("credits").notNull().default(10),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const sessions = pgTable("session", {
+export const session = pgTable("session", {
   id: text("id").primaryKey(),
   expiresAt: timestamp("expires_at").notNull(),
   token: text("token").notNull().unique(),
@@ -23,14 +25,14 @@ export const sessions = pgTable("session", {
   updatedAt: timestamp("updated_at").notNull(),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
-  userId: text("user_id").notNull().references(() => users.id),
+  userId: text("user_id").notNull().references(() => user.id),
 });
 
-export const accounts = pgTable("account", {
+export const account = pgTable("account", {
   id: text("id").primaryKey(),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
-  userId: text("user_id").notNull().references(() => users.id),
+  userId: text("user_id").notNull().references(() => user.id),
   accessToken: text("access_token"),
   refreshToken: text("refresh_token"),
   idToken: text("id_token"),
@@ -42,7 +44,7 @@ export const accounts = pgTable("account", {
   updatedAt: timestamp("updated_at").notNull(),
 });
 
-export const verifications = pgTable("verification", {
+export const verification = pgTable("verification", {
   id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
@@ -53,7 +55,7 @@ export const verifications = pgTable("verification", {
 
 export const posts = pgTable("posts", {
   id: uuid("id").defaultRandom().primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id),
+  userId: text("user_id").notNull().references(() => user.id),
   content: text("content").notNull(),
   imageUrl: text("image_url"),
   videoUrl: text("video_url"),
@@ -71,7 +73,7 @@ export const posts = pgTable("posts", {
 
 export const automationRules = pgTable("automation_rules", {
   id: uuid("id").defaultRandom().primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id),
+  userId: text("user_id").notNull().references(() => user.id),
   frequency: text("frequency").default("weekly"), // e.g., 'weekly', 'daily'
   coreTopic: text("core_topic"),
   isActive: boolean("is_active").default(true),
@@ -81,7 +83,7 @@ export const automationRules = pgTable("automation_rules", {
 // Connected Accounts for Social Media OAuth (Instagram, Facebook, Twitter, LinkedIn)
 export const connectedAccounts = pgTable("connected_account", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
   platform: platformEnum("platform").notNull(),
   platformUserId: text("platform_user_id").notNull(),
   platformUsername: text("platform_username").notNull(),
@@ -97,23 +99,12 @@ export const connectedAccounts = pgTable("connected_account", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-// Add credits field to users table
-export const usersWithCredits = pgTable("user", {
-  id: text("id").primaryKey(),
-  name: text("name"),
-  email: text("email").notNull().unique(),
-  emailVerified: boolean("email_verified").default(false),
-  image: text("image"),
-  tier: tierEnum("tier").default("free"),
-  credits: integer("credits").notNull().default(10), // NEW: Track user credits
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
+// Note: users table above already includes credits field
 
 // TypeScript types for better type safety
-export type User = typeof users.$inferSelect;
-export type Session = typeof sessions.$inferSelect;
-export type Account = typeof accounts.$inferSelect;
+export type User = typeof user.$inferSelect;
+export type Session = typeof session.$inferSelect;
+export type Account = typeof account.$inferSelect;
 export type Post = typeof posts.$inferSelect;
 export type AutomationRule = typeof automationRules.$inferSelect;
 export type ConnectedAccount = typeof connectedAccounts.$inferSelect;

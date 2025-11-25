@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { GeminiService } from '@/lib/ai/gemini-service';
 import { db } from '@/drizzle/db';
-import { users } from '@/drizzle/schema';
+import { user } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 
 /**
@@ -24,18 +24,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Check user credits
-    const user = await db.query.users.findFirst({
-      where: eq(users.id, session.user.id),
+    const userRecord = await db.query.user.findFirst({
+      where: eq(user.id, session.user.id),
     });
 
-    if (!user) {
+    if (!userRecord) {
       return NextResponse.json(
         { error: 'User not found' },
         { status: 404 }
       );
     }
 
-    if (user.credits <= 0) {
+    if (userRecord.credits <= 0) {
       return NextResponse.json(
         { error: 'Insufficient credits. Please top up to continue.' },
         { status: 403 }
@@ -99,17 +99,17 @@ export async function POST(request: NextRequest) {
 
     // Deduct credits (1 credit per generation, regardless of variations)
     await db
-      .update(users)
+      .update(user)
       .set({
-        credits: user.credits - 1,
+        credits: userRecord.credits - 1,
         updatedAt: new Date(),
       })
-      .where(eq(users.id, session.user.id));
+      .where(eq(user.id, session.user.id));
 
     return NextResponse.json({
       success: true,
       results,
-      creditsRemaining: user.credits - 1,
+      creditsRemaining: userRecord.credits - 1,
     });
   } catch (error: any) {
     console.error('AI generation error:', error);
