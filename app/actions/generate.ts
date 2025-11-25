@@ -2,13 +2,14 @@
 
 import { GoogleGenAI } from "@google/genai";
 import { put } from "@vercel/blob";
-import { auth } from "../../lib/auth"; // Adjust import based on actual file structure
+import { auth } from "../../lib/auth";
 import { headers } from "next/headers";
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
-import { posts } from "../../drizzle/schema";
+import { posts, users } from "../../drizzle/schema";
 import * as schema from "../../drizzle/schema";
-// Buffer import removed - using global Buffer which is available in Node.js runtime
+import { GeminiService } from "../../lib/ai/gemini-service";
+import { eq } from "drizzle-orm";
 
 // Only initialize database if DATABASE_URL is a real connection string
 const isDatabaseConfigured = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('mock');
@@ -18,9 +19,8 @@ if (isDatabaseConfigured) {
   db = drizzle(sql, { schema });
 }
 
-// Initialize Gemini
-// NOTE: Using process.env.API_KEY as mandated by strict instructions
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Initialize Gemini (for image generation)
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.API_KEY || '' });
 
 type GenerateState = {
   success?: boolean;
@@ -35,34 +35,12 @@ type GenerateState = {
 export async function generatePostAction(prevState: any, formData: FormData): Promise<GenerateState> {
   try {
     // 1. Authentication Check
-    let session = await auth.api.getSession({
+    const session = await auth.api.getSession({
         headers: await headers()
     });
     
-    // MOCK SESSION FALLBACK FOR PREVIEW
     if (!session) {
-         session = {
-            user: {
-                id: "mock-user-id",
-                name: "Thabo Nkosi (Mock)",
-                email: "mock@example.com",
-                emailVerified: true,
-                image: "",
-                tier: "pro",
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            session: {
-                id: "mock-session",
-                userId: "mock-user-id",
-                expiresAt: new Date(),
-                token: "mock-token",
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                ipAddress: "",
-                userAgent: ""
-            }
-        };
+      return { error: "Unauthorized. Please login to generate content." };
     }
 
     const topic = formData.get("topic") as string;
@@ -73,31 +51,40 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
       return { error: "Missing required fields." };
     }
 
-    // 2. Generate Text with Gemini 2.5 Flash
-    // We use a South African specific prompt engineering strategy
-    const textPrompt = `
-      Act as a world-class South African Social Media Manager.
-      Write a ${platform} post about: "${topic}".
-      The vibe/tone should be: ${vibe}.
-      
-      Requirements:
-      - Use standard South African English.
-      - Incorporate local slang naturally if the vibe allows (e.g., 'lekker', 'shame', 'now now', 'eish', 'gees').
-      - If it's for LinkedIn, keep it professional but warm.
-      - If it's for Twitter/Insta, make it punchy.
-      - Include 3-5 relevant hashtags.
-      - Do NOT include "Here is a post" or meta-text. Just the content.
-    `;
+    // Check user credits
+    if (isDatabaseConfigured) {
+      const user = await db.query.users.findFirst({
+        where: eq(users.id, session.user.id),
+      });
 
-    const textResponse = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: textPrompt,
-      config: {
-        thinkingConfig: { thinkingBudget: 0 } // Speed over deep reasoning for social copy
+      if (!user) {
+        return { error: "User not found." };
       }
+
+      if (user.credits <= 0) {
+        return { error: "Insufficient credits. Please top up to continue." };
+      }
+    }
+
+    // 2. Generate Text with GeminiService (improved South African content)
+    const geminiService = new GeminiService();
+    
+    // Map vibe to tone
+    let tone: 'professional' | 'casual' | 'friendly' | 'energetic' = 'friendly';
+    if (vibe.includes('Professional')) tone = 'professional';
+    else if (vibe.includes('Cool') || vibe.includes('Slang')) tone = 'casual';
+    else if (vibe.includes('Bold')) tone = 'energetic';
+
+    const contentResult = await geminiService.generateContent({
+      topic,
+      platform,
+      language: 'en', // Default to English for now
+      tone,
+      includeHashtags: true,
+      includeEmojis: true,
     });
     
-    const generatedText = textResponse.text;
+    const generatedText = contentResult.content + '\n\n' + contentResult.hashtags.join(' ');
 
     // 3. Generate Image with Imagen 3 (via @google/genai generateImages)
     let imageUrl = null;
@@ -142,22 +129,35 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
         // We continue even if image generation fails, returning just text
     }
 
-    // 5. Save Draft to Database (Try/Catch for Mock Mode)
+    // 5. Save Draft to Database and Deduct Credits
     let postId = "mock-post-id-" + Date.now();
-    try {
-        if (session.user.id !== 'mock-user-id') {
-            const [newPost] = await db.insert(posts).values({
-                userId: session.user.id,
-                content: generatedText || "",
-                imageUrl: imageUrl,
-                platform: platform,
-                status: "draft",
-                topic: topic,
-            }).returning();
-            postId = newPost.id;
-        }
-    } catch (dbError) {
-        console.warn("DB Insert failed (expected in preview mode)");
+    
+    if (isDatabaseConfigured) {
+      try {
+        // Save post as draft
+        const [newPost] = await db.insert(posts).values({
+          userId: session.user.id,
+          content: generatedText || "",
+          imageUrl: imageUrl,
+          platform: platform,
+          status: "draft",
+          topic: topic,
+        }).returning();
+        postId = newPost.id;
+
+        // Deduct 1 credit
+        await db
+          .update(users)
+          .set({
+            credits: db.raw('credits - 1'),
+            updatedAt: new Date(),
+          })
+          .where(eq(users.id, session.user.id));
+
+      } catch (dbError) {
+        console.error("Database operation failed:", dbError);
+        return { error: "Failed to save post to database." };
+      }
     }
 
     return {
