@@ -148,6 +148,12 @@ export default function App() {
       setShowSuccessModal(true);
     }, 2000);
   };
+
+  // Handle Language Change
+  const handleLanguageChange = (language: Language) => {
+    setCurrentLanguage(language);
+  };
+
   // Render appropriate view based on state
   if (currentView === 'admin') {
     return <AdminDashboardView />;
