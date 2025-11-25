@@ -1,0 +1,181 @@
+{
+  "nav": {
+    "features": "Izici",
+    "pricing": "Amanani",
+    "contact": "Xhumana",
+    "login": "Ngena"
+  },
+  "hero": {
+    "badge": "Ubuhlakani Obuncibilikayo be-Mzansi",
+    "title": "Isikhungo Sakho Sokubusa Imithombo Yezokuxhumana",
+    "subtitle": "Khiqiza okuqukethwe okumangalisayo ngezilimi zonke eziyishumi nanye ezisemthethweni. Yakhelwe amaSouth African, ngamaSouth African.",
+    "cta": "Qala Mahhala",
+    "demo": "Bheka Isiboniso"
+  },
+  "features": {
+    "title": "Yakhelwe i-Mzansi",
+    "subtitle": "I-Purple Glow ayihunyushwe nje—iyaqonda amasiko. Kusukela eslingweni lase-township kuya ku-Afrikaans yamabhizinisi.",
+    "aiEngine": {
+      "title": "Injini Yokuqukethwe kwe-AI",
+      "description": "I-Gemini 2.5 Flash + Imagen 3 inikeza amandla ezithombe zakho. Khiqiza umbhalo, izithombe, namavidiyo azoxhumana nezilaleli zase-SA."
+    },
+    "multilingual": {
+      "title": "Izilimi Ezingu-11, Inkundla Eyodwa",
+      "description": "Thumela nge-isiZulu ekuseni, isi-Afrikaans emini, isi-English ntambama. Shintsha izilimi phakathi komusho."
+    },
+    "scheduling": {
+      "title": "Ukuhlela Okuhlakaniphile",
+      "description": "I-AI ifunda izikhathi ezihle kakhulu zokuthumela kuzilaleli zakho. Hlela okuqukethwe kwenyanga yonke emizuzwini eyi-10."
+    }
+  },
+  "howItWorks": {
+    "title": "Kusebenza Kanjani",
+    "step1": {
+      "title": "Chaza I-Vibe Yakho",
+      "description": "Tshela i-Purple Glow ukuthi uthengisani noma ukhuthazani. Khetha ithoni yakho: Mzansi Cool, Corporate, noma Cyberpunk."
+    },
+    "step2": {
+      "title": "I-AI Ikhiqiza Okuqukethwe",
+      "description": "Injini yethu enikezwe amandla yi-Gemini idala izithombe ezilungiselelwe inkundla ngezithombe ngemizuzwana."
+    },
+    "step3": {
+      "title": "Hlela & Thumela",
+      "description": "Buyekeza, hlela, noma uhlele. I-Purple Glow iphethe okusele—iphinde iphakamise izikhathi ezihle kakhulu zokuthumela."
+    }
+  },
+  "testimonials": {
+    "title": "Ithenjelwe Ngosomabhizinisi Base-South Africa",
+    "thabo": {
+      "quote": "I-Purple Glow ingisize ngikwazi ukukhula kusukela ku-500 kuya ku-5,000 abalandeli ezinyangeni ezi-3. Okuqukethwe kwesi-Zulu kubhida kwehlukile.",
+      "name": "Thabo M.",
+      "role": "Ibhulandi Lezingubo Zomgwaqo I-Joburg"
+    },
+    "zanele": {
+      "quote": "Sengikwazi ukuthumela ngezilimi zonke ezingu-11 ngaphandle kokuqasha umhumuseli. Igeyimu ishintshile kumabhizinisi ase-township.",
+      "name": "Zanele K.",
+      "role": "Umnikazi Wemoto Yokudla E-Durban"
+    },
+    "pieter": {
+      "quote": "I-AI iqonda izaga zesi-Afrikaans kangcono kunethimba lami lezokumaketha. Ons is baie impressed.",
+      "name": "Pieter v.d.M.",
+      "role": "I-Startup Yezobuchwepheshe E-Cape Town"
+    }
+  },
+  "pricing": {
+    "title": "Amanani Acace. Awekho Amaholo Afihliwe.",
+    "subtitle": "Qala mahhala. Khula njengoba ukhula. Khansela noma nini.",
+    "monthly": "Nyanga Zonke",
+    "annual": "Unyaka",
+    "free": {
+      "name": "I-Hustle",
+      "price": "Mahhala",
+      "features": [
+        "Izithombe ze-AI ezingu-5 ngenyanga",
+        "Iphrofayela Yezokuxhumana Eyodwa",
+        "Ukwesekwa Okujwayelekile",
+        "Ukuhlaziya Okuyisisekelo"
+      ],
+      "cta": "Qala"
+    },
+    "pro": {
+      "name": "Umdali",
+      "badge": "Kudumile Kakhulu",
+      "features": [
+        "Ukukhiqizwa Kombhalo Okungenamkhawulo",
+        "Amakhredithi Ezithombe Angu-50 / nyanga",
+        "Amaphrofayela Ezokuxhumana Angu-5",
+        "Ukuhlela Okuhlakaniphile",
+        "Ukuhumusha Izilimi Ezingu-11",
+        "Ukwesekwa Okubalulekile"
+      ],
+      "cta": "Thola I-Pro"
+    },
+    "business": {
+      "name": "I-Mogul",
+      "features": [
+        "Konke Ku-Creator",
+        "Amakhredithi Esithombe Nevidiyo Angu-200",
+        "Amaphrofayela Angenamkhawulo",
+        "Ukusebenzisana Kweqembu (Izihlalo Ezingu-3)",
+        "Imithetho Yokuzenzakalela Kwe-AI",
+        "UmphathiWe-akhawunti Ozinikele"
+      ],
+      "cta": "Xhumana Nezimakethe"
+    }
+  },
+  "credits": {
+    "title": "Udinga amandla engeziwe?",
+    "subtitle": "Amanani wesithombe noma ividiyo mancane? Gcwalisa ngokushesha ngaphandle kokushintsha okubhaliselwe.",
+    "packages": {
+      "100": "Amakhredithi Angu-100",
+      "500": "Amakhredithi Angu-500",
+      "video": "Iphakethe Levidiyo"
+    },
+    "checkout": "Khokha",
+    "payWith": "Khokha nge"
+  },
+  "contact": {
+    "title": "Thintana Nathi",
+    "subtitle": "Unemibuzo? Silapha ukusiza.",
+    "name": "Igama Lakho",
+    "email": "I-imeyili Yakho",
+    "message": "Umlayezo Wakho",
+    "send": "Thumela Umlayezo"
+  },
+  "footer": {
+    "tagline": "Yakhelwe eNingizimu Afrika, ye-Ningizimu Afrika.",
+    "legal": "Ezomthetho",
+    "terms": "Imigomo Yenkonzo",
+    "privacy": "Inqubomgomo Yobumfihlo",
+    "popia": "Ukuthobela I-POPIA",
+    "support": "Ukweseka",
+    "help": "Isikhungo Sosizo",
+    "docs": "Imibhalo",
+    "status": "Isimo Sohlelo"
+  },
+  "login": {
+    "title": "Siyakwamukela Emuva",
+    "subtitle": "Ngena ku-akhawunti yakho ye-Purple Glow",
+    "social": "Noma qhubeka nge-social",
+    "email": "I-imeyili",
+    "password": "Iphasiwedi",
+    "loginButton": "Ngena Nge-imeyili",
+    "noAccount": "Awunayo i-akhawunti?",
+    "signup": "Bhalisa",
+    "adminTip": "ITHIPHU: Sebenzisa i-imeyili ene-\"admin\" ukuze ufinyelele i-Admin Dashboard"
+  },
+  "dashboard": {
+    "welcome": "Siyakwamukela emuva",
+    "status": "Isimo sohlelo",
+    "optimal": "OKUHLE KAKHULU",
+    "sidebar": {
+      "dashboard": "Ibhodi Elikhulu",
+      "schedule": "Hlela",
+      "automation": "Ukuzenzakalela",
+      "settings": "Izilungiselelo"
+    },
+    "credits": "Amakhredithi Asele",
+    "contentGenerator": "Umkhiqizi Wokuqukethwe",
+    "recentDrafts": "Izidwebo Zakamuva",
+    "createManually": "Dala Ngesandla"
+  },
+  "settings": {
+    "title": "Izilungiselelo",
+    "account": "I-akhawunti",
+    "subscription": "Okubhaliselwe",
+    "payment": "Izindlela Zokukhokha",
+    "billing": "Umlando Wokubhalelwa",
+    "preferences": "Izintandokazi"
+  },
+  "common": {
+    "save": "Londoloza Izinguquko",
+    "cancel": "Khansela",
+    "delete": "Susa",
+    "edit": "Hlela",
+    "loading": "Iyalayisha...",
+    "success": "Impumelelo!",
+    "error": "Iphutha",
+    "confirm": "Qinisekisa",
+    "back": "Emuva"
+  }
+}

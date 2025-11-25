@@ -1,0 +1,181 @@
+{
+  "nav": {
+    "features": "Iimpawu",
+    "pricing": "Amaxabiso",
+    "contact": "Qhagamshelana",
+    "login": "Ngena"
+  },
+  "hero": {
+    "badge": "Ubukrelekrele Obucwilisayo beMzansi",
+    "title": "Iziko Lakho Lokulawula Imithombo Yoluntu",
+    "subtitle": "Yenza umxholo omangalisayo ngeelwimi ezisemthethweni ezili-11. Yakhiwe ngabaseMzansi, yabaseMzansi.",
+    "cta": "Qala Simahla",
+    "demo": "Jonga Umboniso"
+  },
+  "features": {
+    "title": "Yenzelwe iMzansi",
+    "subtitle": "I-Purple Glow ayiguqulelwanga nje—iyaqonda inkcubeko. Ukusuka kwislang yaselokishini ukuya kwisiAfrikaans seshishini.",
+    "aiEngine": {
+      "title": "Injini Yomxholo we-AI",
+      "description": "I-Gemini 2.5 Flash + Imagen 3 inika amandla izithuba zakho. Yenza umbhalo, imifanekiso, nevidiyo ehambelana nabaphulaphuli baseMzansi."
+    },
+    "multilingual": {
+      "title": "Iilwimi Ezili-11, Iqonga Elinye",
+      "description": "Thumela ngesiXhosa kusasa, ngesiAfrikaans emini, ngesiNgesi ngokuhlwa. Tshintsha iilwimi phakathi kwesivakalisi."
+    },
+    "scheduling": {
+      "title": "Ucwangciso Oluhlakaniphile",
+      "description": "I-AI ifunda amaxesha alungileyo okuthumela kubaphulaphuli bakho. Cwangcisa umxholo wenyanga yonke kwimizuzu eli-10."
+    }
+  },
+  "howItWorks": {
+    "title": "Isebenza Njani",
+    "step1": {
+      "title": "Chaza I-Vibe Yakho",
+      "description": "Xelela i-Purple Glow ukuba uthengisa okanye ukhuthaza ntoni. Khetha ithoni yakho: Mzansi Cool, Corporate, okanye Cyberpunk."
+    },
+    "step2": {
+      "title": "I-AI Yenza Umxholo",
+      "description": "Injini yethu enikwe amandla yi-Gemini yenza izithuba ezilungiselelwe iqonga ngemifanekiso ngemizuzwana."
+    },
+    "step3": {
+      "title": "Cwangcisa & Thumela",
+      "description": "Hlola, hlela, okanye ucwangcise. I-Purple Glow iphethe okuseleyo—iphinde icebise amaxesha athumela kakuhle."
+    }
+  },
+  "testimonials": {
+    "title": "Ithenjwe Ngabaqhubi Bamashishini BaseMzansi",
+    "thabo": {
+      "quote": "I-Purple Glow indincede ndikhule ukusuka kuma-500 ukuya kwi-5,000 abalandeli kwiinyanga ezi-3. Umxholo wesiXhosa ubetha ngendlela eyahlukileyo.",
+      "name": "Thabo M.",
+      "role": "Ibhrendi Yempahla Yesitrato eRhawutini"
+    },
+    "zanele": {
+      "quote": "Ndikwazi ukuthumela ngeelwimi zonke ezili-11 ngaphandle kokuqesha umguquleli. Yinto eguqula umdlalo kumashishini aselokishini.",
+      "name": "Zanele K.",
+      "role": "Umnini Welori Yokutya eThekwini"
+    },
+    "pieter": {
+      "quote": "I-AI iqonda izaci zesiAfrikaans ngcono kunethimba lam lokuthengisa. Ons is baie impressed.",
+      "name": "Pieter v.d.M.",
+      "role": "I-Startup Yeteknoloji eKapa"
+    }
+  },
+  "pricing": {
+    "title": "Amaxabiso Acace. Akukho Mfihlo.",
+    "subtitle": "Qala simahla. Khula njengoko ukhula. Rhoxisa nangaliphi na ixesha.",
+    "monthly": "Ngenyanga",
+    "annual": "Ngonyaka",
+    "free": {
+      "name": "I-Hustle",
+      "price": "Simahla",
+      "features": [
+        "Izithuba ze-AI ezi-5 ngenyanga",
+        "Iprofayile Yoluntu Enye",
+        "Inkxaso Esemgangathweni",
+        "Uhlalutyo Olusisiseko"
+      ],
+      "cta": "Qala"
+    },
+    "pro": {
+      "name": "Umyili",
+      "badge": "Ethandwa Kakhulu",
+      "features": [
+        "Ukwenziwa Kombhalo Okungenamkhawulo",
+        "Iikhredithi Zemifanekiso Ezingama-50 / nyanga",
+        "Iiprofayile Zoluntu Ezi-5",
+        "Ucwangciso Oluhlakaniphile",
+        "Uguqulelo Lweelwimi Ezili-11",
+        "Inkxaso Ephambili"
+      ],
+      "cta": "Fumana I-Pro"
+    },
+    "business": {
+      "name": "I-Mogul",
+      "features": [
+        "Konke Ku-Creator",
+        "Iikhredithi Zemifanekiso Nevidiyo Ezingama-200",
+        "Iiprofayile Ezingenamkhawulo",
+        "Intsebenziswano Yeqela (Izihlalo Ezi-3)",
+        "Imithetho Yokuzenzekela Kwe-AI",
+        "Umlawuli We-akhawunti Ozinikeleyo"
+      ],
+      "cta": "Qhagamshelana Neentengiso"
+    }
+  },
+  "credits": {
+    "title": "Ufuna amandla ongezelelweyo?",
+    "subtitle": "Ziincinci iikhredithi zemifanekiso okanye zevidiyo? Gcwalisa ngokukhawuleza ngaphandle kokutshintsha ubhaliso lwakho.",
+    "packages": {
+      "100": "Iikhredithi Ezili-100",
+      "500": "Iikhredithi Ezingama-500",
+      "video": "Iphakheji Yevidiyo"
+    },
+    "checkout": "Hlawula",
+    "payWith": "Hlawula nge"
+  },
+  "contact": {
+    "title": "Nxibelelana Nathi",
+    "subtitle": "Unemibuzo? Silapha ukunceda.",
+    "name": "Igama Lakho",
+    "email": "I-imeyile Yakho",
+    "message": "Umyalezo Wakho",
+    "send": "Thumela Umyalezo"
+  },
+  "footer": {
+    "tagline": "Yakhiwe eMzansi, yeMzansi.",
+    "legal": "Ezomthetho",
+    "terms": "Imiqathango Yenkonzo",
+    "privacy": "Umgaqo-nkqubo Wabucala",
+    "popia": "Ukuthobela I-POPIA",
+    "support": "Inkxaso",
+    "help": "Iziko Loncedo",
+    "docs": "Amaxwebhu",
+    "status": "Imeko Yenkqubo"
+  },
+  "login": {
+    "title": "Wamkelekile Kwakhona",
+    "subtitle": "Ngena kwi-akhawunti yakho ye-Purple Glow",
+    "social": "Okanye qhubeka nge-social",
+    "email": "I-imeyile",
+    "password": "Iphasiwedi",
+    "loginButton": "Ngena Nge-imeyile",
+    "noAccount": "Akunayo i-akhawunti?",
+    "signup": "Bhalisa",
+    "adminTip": "ICEBISO: Sebenzisa i-imeyile ene-\"admin\" ukufikelela kwi-Admin Dashboard"
+  },
+  "dashboard": {
+    "welcome": "Wamkelekile kwakhona",
+    "status": "Imeko yenkqubo",
+    "optimal": "EYONA ILUNGILEYO",
+    "sidebar": {
+      "dashboard": "Ideshibhodi",
+      "schedule": "Cwangcisa",
+      "automation": "Ukuzenzekela",
+      "settings": "Iisethingi"
+    },
+    "credits": "Iikhredithi Eziseleyo",
+    "contentGenerator": "Umvelisi Womxholo",
+    "recentDrafts": "Izidrafti Zamva Nje",
+    "createManually": "Dala Ngesandla"
+  },
+  "settings": {
+    "title": "Iisethingi",
+    "account": "I-akhawunti",
+    "subscription": "Ubhaliso",
+    "payment": "Iindlela Zokuhlawula",
+    "billing": "Imbali Yokuhlawula",
+    "preferences": "Izinto Ozikhethayo"
+  },
+  "common": {
+    "save": "Gcina Utshintsho",
+    "cancel": "Rhoxisa",
+    "delete": "Cima",
+    "edit": "Hlela",
+    "loading": "Iyalayisha...",
+    "success": "Impumelelo!",
+    "error": "Impazamo",
+    "confirm": "Qinisekisa",
+    "back": "Buyela Emva"
+  }
+}

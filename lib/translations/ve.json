@@ -1,0 +1,181 @@
+{
+  "nav": {
+    "features": "Zwithu",
+    "pricing": "Mitengo",
+    "contact": "Kwamani",
+    "login": "Khou Dzhenisa"
+  },
+  "hero": {
+    "badge": "Vhukoni ha Mzansi",
+    "title": "Tshiimiswa Tsha Vhulauli ha Zwithu zwa Shango",
+    "subtitle": "Bveledzani zwinwe zwi konaho kha nyambo dzothe dza 11 dza mulayo. Vho vhakhelwa nga Vhaafurika Tshipembe, kha Vhaafurika Tshipembe.",
+    "cta": "Thomani Nga Mahala",
+    "demo": "Vhonani Tsumbonanguludzwa"
+  },
+  "features": {
+    "title": "Zwo Vhakelwa Mzansi",
+    "subtitle": "Purple Glow a yo ngo pindululwa fhedzi—i khou pfesesa mvelele. U bva kha luambo lwa doropo hu ya kha Afurikana ha maga zwa vhubindudzi.",
+    "aiEngine": {
+      "title": "Tshienjini tsha Zwinwe zwa AI",
+      "description": "Gemini 2.5 Flash + Imagen 3 zwo ita uri zwiposo zwavho zwi vhe khwine. Bveledzani nyathiso, zwifanyiso na divhidhiyo zwi re khwine kha vhavhali vha SA."
+    },
+    "multilingual": {
+      "title": "Nyambo 11, Pulatifomu Ithihi",
+      "description": "Rumelani nga Tshivenda nga matsheloni, Afurikana tshifhingani tsha masiari, Tshingisi matshelo. Shandukisani nyambo vhukati ha mutaladzi."
+    },
+    "scheduling": {
+      "title": "U Dzhiela Pfunzo kwa Vhukoni",
+      "description": "AI i khou guda tshifhinga tsho teaho u rumela kha vhavhali vhawe. Dzhielani pfunzo zwinwe zwa nwedzi yothe kha minithi 10."
+    }
+  },
+  "howItWorks": {
+    "title": "Zwi Khou Shuma Hani",
+    "step1": {
+      "title": "Talani Vibe Yavho",
+      "description": "Vhudzisani Purple Glow uri ni khou rekisa mini na kana ni khou fulufhedzisa mini. Nangulani thoni yavho: Mzansi Cool, Corporate, kana Cyberpunk."
+    },
+    "step2": {
+      "title": "AI i Bveledza Zwinwe",
+      "description": "Tshienjini tshashu tsho fhiwa maanda nga Gemini tsho bveledza zwiposo zwo dzhielwa pfunzo ya pulatifomu na zwifanyiso nga sekhondi."
+    },
+    "step3": {
+      "title": "Dzhielani Pfunzo & Rumelani",
+      "description": "Sedani, lulamelelani kana dzhielani pfunzo. Purple Glow i khou shuma zwine zwa sala—nahone i khou themendela tshifhinga tsho teaho u rumela."
+    }
+  },
+  "testimonials": {
+    "title": "Vho Dzimelwa nga Vhavhindudzi vha Afurika Tshipembe",
+    "thabo": {
+      "quote": "Purple Glow yo nthusa uri ndi kule u bva kha 500 u swika kha 5,000 vhatevheli nga minwedzi 3. Zwinwe zwa Tshivenda zwi khou rova nga ndila yo fhambanaho.",
+      "name": "Thabo M.",
+      "role": "Maraga a Zwiambaro zwa Migwaqo Joburg"
+    },
+    "zanele": {
+      "quote": "Zwino ndi khou kona u rumela nga nyambo dzothe dza 11 ndi sa dzhia muambuleli. Zwi khou shandukisa mitambo ya maga zwa vhubindudzi vha doropa.",
+      "name": "Zanele K.",
+      "role": "Mutshinyamuvhindudzi wa Lori ya Zwiliwa Durban"
+    },
+    "pieter": {
+      "quote": "AI i pfesesa maele a Afurikana zwavhudi u fhira tshigwada tshanga tsha u rekisa. Ons is baie impressed.",
+      "name": "Pieter v.d.M.",
+      "role": "Vhubindudzi ha Thekhinolodzhi Cape Town"
+    }
+  },
+  "pricing": {
+    "title": "Mitengo yo Vhonalaho. A huna Mitengo yo Fhirelwaho.",
+    "subtitle": "Thomani nga mahala. Kulani ni tshi kula. Tshinyani tshifhinga tshothe.",
+    "monthly": "Nwedzi na Nwedzi",
+    "annual": "Nwaha",
+    "free": {
+      "name": "The Hustle",
+      "price": "Mahala",
+      "features": [
+        "Zwiposo zwa AI zwa 5 nga nwedzi",
+        "Phurofayili ya Shango ya 1",
+        "Thikhedzo yo Ralo",
+        "Tsedzuluso ya Mutheo"
+      ],
+      "cta": "Thomani"
+    },
+    "pro": {
+      "name": "Muvhumbhi",
+      "badge": "Yo Fundelwaho Khwine",
+      "features": [
+        "U Bveledza Nyathiso zwo sa Fhelaho",
+        "Makheredithe a Zwifanyiso a 50 / nwedzi",
+        "Phurofile dza Shango dza 5",
+        "U Dzhiela Pfunzo kwa Vhukoni",
+        "U Pindulula Nyambo 11",
+        "Thikhedzo yo Thoma"
+      ],
+      "cta": "Wanani Pro"
+    },
+    "business": {
+      "name": "Mogul",
+      "features": [
+        "Zwothe zwa Creator",
+        "Makheredithe a Zwifanyiso na Divhidhiyo a 200",
+        "Phurofayili dzo sa Fhelaho",
+        "U Shuma Ndivho ya Tshigwada (Zwidzulo zwa 3)",
+        "Milayo ya U Itiselana ya AI",
+        "Mulaudi wa Akhaunthu yo Dzhenelelaho"
+      ],
+      "cta": "Kwamani Vhubindudzi"
+    }
+  },
+  "credits": {
+    "title": "Ni khou toda maanda o engedzelaho?",
+    "subtitle": "Makheredithe a zwifanyiso kana divhidhiyo a tshi fhela? Dzhadzani nga u tavhanya ni sa tshi shandukisa tsumelo yavho.",
+    "packages": {
+      "100": "Makheredithe a 100",
+      "500": "Makheredithe a 500",
+      "video": "Phakethe ya Divhidhiyo"
+    },
+    "checkout": "Vhadelani",
+    "payWith": "Vhadelani nga"
+  },
+  "contact": {
+    "title": "Kwamani Ndi Naa",
+    "subtitle": "Ni na mbudziso? Ri hone u thusa.",
+    "name": "Dzina Lavho",
+    "email": "Imeili Yavho",
+    "message": "Mulaedza Wavho",
+    "send": "Rumelani Mulaedza"
+  },
+  "footer": {
+    "tagline": "Vho vhakhelwa Afurika Tshipembe, kha Afurika Tshipembe.",
+    "legal": "Mulayo",
+    "terms": "Milayo ya Tshumelo",
+    "privacy": "Mbekanyamaitele ya Vhusiri",
+    "popia": "U Tevhedza POPIA",
+    "support": "Thikhedzo",
+    "help": "Tshiimiswa tsha Thuso",
+    "docs": "Maڱwalwa",
+    "status": "Tshimo tsha Sisthemu"
+  },
+  "login": {
+    "title": "Vho Talutshelwa",
+    "subtitle": "Khou dzhenisa kha akhaunthu yavho ya Purple Glow",
+    "social": "Kana ni tshimbile phanḓa nga shango",
+    "email": "Imeili",
+    "password": "Phasiwede",
+    "loginButton": "Khou Dzhenisa nga Imeili",
+    "noAccount": "A ni na akhaunthu?",
+    "signup": "Ṅwalisa",
+    "adminTip": "THEMENDELO: Shumisani imeili ine \"admin\" u swika kha Admin Dashboard"
+  },
+  "dashboard": {
+    "welcome": "Vho talutshelwa",
+    "status": "Tshimo tsha sisthemu",
+    "optimal": "YO TEAHO KHWINE",
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "schedule": "Dzhielani Pfunzo",
+      "automation": "U Itiselana",
+      "settings": "Maitele"
+    },
+    "credits": "Makheredithe o Salaho",
+    "contentGenerator": "Muvhumbhi wa Zwinwe",
+    "recentDrafts": "Zwidzhirafuthe zwa Zwino",
+    "createManually": "Vhumbhani nga Ḓandamikano"
+  },
+  "settings": {
+    "title": "Maitele",
+    "account": "Akhaunthu",
+    "subscription": "Tsumelo",
+    "payment": "Nḓila dza U Vhadela",
+    "billing": "Mbonalo ya Mitengo",
+    "preferences": "Zwo Fundelwaho"
+  },
+  "common": {
+    "save": "Dzhenisani Tshanduko",
+    "cancel": "Tshinyani",
+    "delete": "Thuthulani",
+    "edit": "Lulamelelani",
+    "loading": "Zwo khou Laicha...",
+    "success": "Khwine!",
+    "error": "Vhushai",
+    "confirm": "Khwaṱhisedzani",
+    "back": "Murahu"
+  }
+}

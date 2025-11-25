@@ -1,0 +1,181 @@
+{
+  "nav": {
+    "features": "Kenmerke",
+    "pricing": "Pryse",
+    "contact": "Kontak",
+    "login": "Teken In"
+  },
+  "hero": {
+    "badge": "Vloeibare Intelligensie vir Mzansi",
+    "title": "Jou KI-Aangedrewe Sosiale Media Beheersentrum",
+    "subtitle": "Genereer pragtige inhoud in al 11 amptelike tale. Gebou deur Suid-Afrikaners, vir Suid-Afrikaners.",
+    "cta": "Begin Gratis",
+    "demo": "Kyk Demo"
+  },
+  "features": {
+    "title": "Ontwerp vir Mzansi",
+    "subtitle": "Purple Glow is nie net vertaal nie—dit is kultureel bewus. Van township-slang tot korporatiewe Afrikaans.",
+    "aiEngine": {
+      "title": "KI Inhoud Enjin",
+      "description": "Gemini 2.5 Flash + Imagen 3 wat jou plasings aandryf. Genereer teks, beelde en video's wat met SA gehore resoneer."
+    },
+    "multilingual": {
+      "title": "11 Tale, Een Platform",
+      "description": "Plaas in isiZulu in die oggend, Afrikaans by middagete, Engels in die aand. Wissel tale midde-in 'n sin."
+    },
+    "scheduling": {
+      "title": "Slim Skedulering",
+      "description": "KI leer die beste tye om vir jou gehoor te plaas. Skeduleer 'n maand se inhoud in 10 minute."
+    }
+  },
+  "howItWorks": {
+    "title": "Hoe Dit Werk",
+    "step1": {
+      "title": "Beskryf Jou Vibe",
+      "description": "Vertel Purple Glow wat jy verkoop of bevorder. Kies jou toon: Mzansi Cool, Korporatief, of Cyberpunk."
+    },
+    "step2": {
+      "title": "KI Genereer Inhoud",
+      "description": "Ons Gemini-aangedrewe enjin skep platform-geoptimeerde plasings met beelde in sekondes."
+    },
+    "step3": {
+      "title": "Skeduleer & Plaas",
+      "description": "Hersien, redigeer, of skeduleer. Purple Glow hanteer die res—stel selfs die beste plasingstye voor."
+    }
+  },
+  "testimonials": {
+    "title": "Vertrou deur Suid-Afrikaanse Entrepreneurs",
+    "thabo": {
+      "quote": "Purple Glow het my gehelp om van 500 na 5,000 volgelinge in 3 maande te groei. Die isiZulu-inhoud tref anders.",
+      "name": "Thabo M.",
+      "role": "Joburg Straatmode Handelsmerk"
+    },
+    "zanele": {
+      "quote": "Ek kan eindelijk in al 11 tale plaas sonder om 'n vertaler te huur. Wenspel vir township-besighede.",
+      "name": "Zanele K.",
+      "role": "Durban Kostrukkie Eienaar"
+    },
+    "pieter": {
+      "quote": "Die KI verstaan Afrikaanse idiome beter as my bemarkingspan. Ons is baie impressed.",
+      "name": "Pieter v.d.M.",
+      "role": "Kaapstad Tegnologie Beginner"
+    }
+  },
+  "pricing": {
+    "title": "Deursigtige Pryse. Geen Verborge Fooie.",
+    "subtitle": "Begin gratis. Skaal soos jy groei. Kanselleer enige tyd.",
+    "monthly": "Maandeliks",
+    "annual": "Jaarliks",
+    "free": {
+      "name": "Die Haaswerk",
+      "price": "Gratis",
+      "features": [
+        "5 KI Plasings per maand",
+        "1 Sosiale Profiel",
+        "Standaard Ondersteuning",
+        "Basiese Analise"
+      ],
+      "cta": "Begin"
+    },
+    "pro": {
+      "name": "Die Skepper",
+      "badge": "Mees Gewild",
+      "features": [
+        "Onbeperkte Teks Generasie",
+        "50 Beeld Krediete / maand",
+        "5 Sosiale Profiele",
+        "Slim Skedulering",
+        "11 Taal Vertaling",
+        "Prioriteit Ondersteuning"
+      ],
+      "cta": "Kry Pro"
+    },
+    "business": {
+      "name": "Die Mogul",
+      "features": [
+        "Als in Skepper",
+        "200 Beeld & Video Krediete",
+        "Onbeperkte Profiele",
+        "Span Samewerking (3 Sitplekke)",
+        "KI Outomatisering Reëls",
+        "Toegewyde Rekeningbestuurder"
+      ],
+      "cta": "Kontak Verkope"
+    }
+  },
+  "credits": {
+    "title": "Benodig ekstra vuurkrag?",
+    "subtitle": "Het min beeld of video krediete? Laai onmiddellik op sonder om jou intekening te verander.",
+    "packages": {
+      "100": "100 Krediete",
+      "500": "500 Krediete",
+      "video": "Video Pak"
+    },
+    "checkout": "Betaal",
+    "payWith": "Betaal met"
+  },
+  "contact": {
+    "title": "Kom in Aanraking",
+    "subtitle": "Het vrae? Ons is hier om te help.",
+    "name": "Jou Naam",
+    "email": "Jou E-pos",
+    "message": "Jou Boodskap",
+    "send": "Stuur Boodskap"
+  },
+  "footer": {
+    "tagline": "Gebou in Suid-Afrika, vir Suid-Afrika.",
+    "legal": "Wettig",
+    "terms": "Diensbepalings",
+    "privacy": "Privaatheidsbeleid",
+    "popia": "POPIA Nakoming",
+    "support": "Ondersteuning",
+    "help": "Hulpsentrum",
+    "docs": "Dokumentasie",
+    "status": "Stelselstatus"
+  },
+  "login": {
+    "title": "Welkom Terug",
+    "subtitle": "Teken in by jou Purple Glow rekening",
+    "social": "Of gaan voort met sosiale",
+    "email": "E-pos",
+    "password": "Wagwoord",
+    "loginButton": "Teken In met E-pos",
+    "noAccount": "Het nie 'n rekening nie?",
+    "signup": "Teken aan",
+    "adminTip": "WENK: Gebruik e-pos met \"admin\" om Admin Dashboard te bereik"
+  },
+  "dashboard": {
+    "welcome": "Welkom terug",
+    "status": "Stelselstatus",
+    "optimal": "OPTIMAAL",
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "schedule": "Skedule",
+      "automation": "Outomatisering",
+      "settings": "Instellings"
+    },
+    "credits": "Oorblywende Krediete",
+    "contentGenerator": "Inhoud Generator",
+    "recentDrafts": "Onlangse Konsepte",
+    "createManually": "Skep Handmatig"
+  },
+  "settings": {
+    "title": "Instellings",
+    "account": "Rekening",
+    "subscription": "Intekening",
+    "payment": "Betaalmetodes",
+    "billing": "Faktureringsgeskiedenis",
+    "preferences": "Voorkeure"
+  },
+  "common": {
+    "save": "Stoor Veranderinge",
+    "cancel": "Kanselleer",
+    "delete": "Verwyder",
+    "edit": "Redigeer",
+    "loading": "Laai...",
+    "success": "Sukses!",
+    "error": "Fout",
+    "confirm": "Bevestig",
+    "back": "Terug"
+  }
+}

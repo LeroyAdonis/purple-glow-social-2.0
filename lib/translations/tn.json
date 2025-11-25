@@ -1,0 +1,181 @@
+{
+  "nav": {
+    "features": "Diponagalo",
+    "pricing": "Ditlhwatlhwa",
+    "contact": "Ikgolaganye",
+    "login": "Tsena"
+  },
+  "hero": {
+    "badge": "Botlhale jo bo Thephilweng jwa Mzansi",
+    "title": "Lefelo la Gago la Taolo ya Ditharabololo tsa Loago",
+    "subtitle": "Tlhama diteng tse di gakgamatsang ka dipuo tsotlhe tse 11 tsa molao. E tlhametswe Baafrika Borwa, bakeng sa Baafrika Borwa.",
+    "cta": "Simolola Mahala",
+    "demo": "Bona Pontsho"
+  },
+  "features": {
+    "title": "E Diretswe Mzansi",
+    "subtitle": "Purple Glow ga se feela go ranolwa—e tlhaloganya setso. Go tswa mo puong ya metse go ya go Seafrikanse sa dikgwebo.",
+    "aiEngine": {
+      "title": "Enjini ya Diteng tsa AI",
+      "description": "Gemini 2.5 Flash + Imagen 3 e matlafalatsa diposo tsa gago. Tlhama mokwalo, ditshwantsho le dibidio tse di ikamanyetsang le babogedi ba SA."
+    },
+    "multilingual": {
+      "title": "Dipuo tse 11, Sethala se le Sengwe",
+      "description": "Posa ka Setswana mo mosong, Seafrikanse mo motsotswaneng, Sekgowa mo maitseboeng. Fetola dipuo fa gare ga seele."
+    },
+    "scheduling": {
+      "title": "Thulaganyo e e Botlhale",
+      "description": "AI e ithuta dinako tse di botlhokwa tsa go posa go babogedi ba gago. Rulaganya diteng tsa kgwedi ka metsotso e le 10."
+    }
+  },
+  "howItWorks": {
+    "title": "E Dira Jang",
+    "step1": {
+      "title": "Tlhalosa Maikutlo a Gago",
+      "description": "Bolelela Purple Glow gore o rekisa eng kgotsa o rotloetsa eng. Tlhopha mokgwa wa gago: Mzansi Cool, Corporate, kgotsa Cyberpunk."
+    },
+    "step2": {
+      "title": "AI e Tlhama Diteng",
+      "description": "Enjini ya rona e e matlhafalatswang ke Gemini e tlhama diposo tse di rulagantsweng go ya ka sethala ka ditshwantsho mo metsotsong."
+    },
+    "step3": {
+      "title": "Rulaganya & Posa",
+      "description": "Sekaseka, baakanya kgotsa rulaganya. Purple Glow e dira tse dingwe—gape e akanya dinako tse di botlhokwa tsa go posa."
+    }
+  },
+  "testimonials": {
+    "title": "E Tshepilwe ke Bakgwebi ba Afrika Borwa",
+    "thabo": {
+      "quote": "Purple Glow e nthusize gore ke gole go tswa mo go 500 go ya kwa go 5,000 balatedi mo dikgweding tse 3. Diteng tsa Setswana di otla ka tsela e e farologaneng.",
+      "name": "Thabo M.",
+      "role": "Leina la Diaparo tsa Mebileng Joburg"
+    },
+    "zanele": {
+      "quote": "Jaanong nka kgona go posa ka dipuo tsotlhe tse 11 ntle le go hira moranodi. Se se fetotse papadi ya dikgwebo tsa metse.",
+      "name": "Zanele K.",
+      "role": "Mmong wa Lori ya Dijo Durban"
+    },
+    "pieter": {
+      "quote": "AI e tlhaloganya diane tsa Seafrikanse botoka go feta lephata la me la papatso. Ons is baie impressed.",
+      "name": "Pieter v.d.M.",
+      "role": "Kgwebo ya Theknoloji Cape Town"
+    }
+  },
+  "pricing": {
+    "title": "Ditlhwatlhwa tse di Bonalang. Ga go na Ditshenyegelo tse di Fitlhegileng.",
+    "subtitle": "Simolola mahala. Gola fa o gola. Khansela nako nngwe le nngwe.",
+    "monthly": "Kgwedi le Kgwedi",
+    "annual": "Ngwaga",
+    "free": {
+      "name": "The Hustle",
+      "price": "Mahala",
+      "features": [
+        "Diposo tsa AI tse 5 ka kgwedi",
+        "Porofaele ya Loago e le 1",
+        "Tshegetso ya Tlwaelo",
+        "Tshekatsheko ya Motheo"
+      ],
+      "cta": "Simolola"
+    },
+    "pro": {
+      "name": "Motlhami",
+      "badge": "O Rategang Thata",
+      "features": [
+        "Tlhagiso ya Mokwalo e e sa Feleng",
+        "Dikhrediti tsa Ditshwantsho tse 50 / kgwedi",
+        "Diporofaele tsa Loago tse 5",
+        "Thulaganyo e e Botlhale",
+        "Thanolo ya Dipuo tse 11",
+        "Tshegetso e e Botlhokwa"
+      ],
+      "cta": "Bona Pro"
+    },
+    "business": {
+      "name": "Mogul",
+      "features": [
+        "Tsotlhe tsa mo go Creator",
+        "Dikhrediti tsa Ditshwantsho le Dibidio tse 200",
+        "Diporofaele tse di sa Feleng",
+        "Tirisanommogo ya Setlhopha (Ditilo tse 3)",
+        "Melao ya Itirisetso ya AI",
+        "Molaodi wa Akhaonto yo o Ikokobeditseng"
+      ],
+      "cta": "Ikgolaganye le Thekiso"
+    }
+  },
+  "credits": {
+    "title": "O tlhoka maatla a a oketsegileng?",
+    "subtitle": "Dikhrediti tsa ditshwantsho kgotsa dibidio di a fela? Tlatsa ka bonako ntle le go fetola ngwadiso ya gago.",
+    "packages": {
+      "100": "Dikhrediti tse 100",
+      "500": "Dikhrediti tse 500",
+      "video": "Setlhopho sa Dibidio"
+    },
+    "checkout": "Duela",
+    "payWith": "Duela ka"
+  },
+  "contact": {
+    "title": "Ikgolaganye le Rona",
+    "subtitle": "O na le dipotso? Re fano go thusa.",
+    "name": "Leina la Gago",
+    "email": "Imeile ya Gago",
+    "message": "Molaetsa wa Gago",
+    "send": "Romela Molaetsa"
+  },
+  "footer": {
+    "tagline": "E tlhamilwe mo Afrika Borwa, bakeng sa Afrika Borwa.",
+    "legal": "Semolao",
+    "terms": "Melawana ya Tirelo",
+    "privacy": "Pholisi ya Sephiri",
+    "popia": "Go Obamela POPIA",
+    "support": "Tshegetso",
+    "help": "Lefelo la Thuso",
+    "docs": "Dikwalo",
+    "status": "Boemo jwa Tsamaiso"
+  },
+  "login": {
+    "title": "O Amogelwa Gape",
+    "subtitle": "Tsena mo akhaontong ya gago ya Purple Glow",
+    "social": "Kgotsa tswelela ka loago",
+    "email": "Imeile",
+    "password": "Lephaka",
+    "loginButton": "Tsena ka Imeile",
+    "noAccount": "Ga o na akhaonto?",
+    "signup": "Ngwadisa",
+    "adminTip": "MAELE: Dirisa imeile e e nang le \"admin\" go fitlhelela Admin Dashboard"
+  },
+  "dashboard": {
+    "welcome": "O amogelwa gape",
+    "status": "Boemo jwa tsamaiso",
+    "optimal": "E E SIAMENG THATA",
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "schedule": "Rulaganya",
+      "automation": "Itirisetso",
+      "settings": "Dithulaganyo"
+    },
+    "credits": "Dikhrediti tse di Setseng",
+    "contentGenerator": "Motlhami wa Diteng",
+    "recentDrafts": "Dikgatiso tsa Bosheng",
+    "createManually": "Tlhama ka Seatla"
+  },
+  "settings": {
+    "title": "Dithulaganyo",
+    "account": "Akhaonto",
+    "subscription": "Ngwadiso",
+    "payment": "Mekgwa ya Tuelo",
+    "billing": "Hisitori ya Ditshenyegelo",
+    "preferences": "Dikgetho"
+  },
+  "common": {
+    "save": "Boloka Diphetogo",
+    "cancel": "Khansela",
+    "delete": "Phimola",
+    "edit": "Baakanya",
+    "loading": "E a Laisa...",
+    "success": "Katlego!",
+    "error": "Phoso",
+    "confirm": "Tiisatsa",
+    "back": "Morago"
+  }
+}

@@ -3,6 +3,26 @@ import AdminDashboardView from './components/admin-dashboard-view';
 import CreditTopupModal from './components/modals/credit-topup-modal';
 import SubscriptionModal from './components/modals/subscription-modal';
 import PaymentSuccessModal from './components/modals/payment-success-modal';
+import LanguageSelector from './components/language-selector';
+import { Language, getCurrentLanguage, t } from './lib/i18n';
+import { initializeTranslations } from './lib/load-translations';
+
+// Import all translations
+import en from './lib/translations/en.json';
+import af from './lib/translations/af.json';
+import zu from './lib/translations/zu.json';
+import xh from './lib/translations/xh.json';
+import nso from './lib/translations/nso.json';
+import tn from './lib/translations/tn.json';
+import st from './lib/translations/st.json';
+import ts from './lib/translations/ts.json';
+import ss from './lib/translations/ss.json';
+import ve from './lib/translations/ve.json';
+import nr from './lib/translations/nr.json';
+
+const translations: Record<Language, any> = {
+  en, af, zu, xh, nso, tn, st, ts, ss, ve, nr
+};
 
 // This component serves as the Landing Page / Design System Preview
 // In a real Next.js deployment, the logic shifts to app/page.tsx
@@ -20,6 +40,30 @@ export default function App() {
   const [successData, setSuccessData] = useState<any>(null);
   const [userCredits, setUserCredits] = useState(450);
   const [userTier, setUserTier] = useState<'free' | 'pro' | 'business'>('pro');
+  const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
+
+  // Initialize translations and language on mount
+  useEffect(() => {
+    initializeTranslations();
+    const savedLang = getCurrentLanguage();
+    setCurrentLanguage(savedLang);
+  }, []);
+
+  // Helper function to get translation
+  const translate = (key: string) => {
+    const keys = key.split('.');
+    let value: any = translations[currentLanguage];
+    
+    for (const k of keys) {
+      if (value && typeof value === 'object') {
+        value = value[k];
+      } else {
+        return key;
+      }
+    }
+    
+    return typeof value === 'string' ? value : key;
+  };
 
   // Handle Scroll Effect for Navbar
   useEffect(() => {

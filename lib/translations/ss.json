@@ -1,0 +1,181 @@
+{
+  "nav": {
+    "features": "Tibonakalo",
+    "pricing": "Tintsengo",
+    "contact": "Xhumana",
+    "login": "Ngena"
+  },
+  "hero": {
+    "badge": "Buhlakani Lobucwebile beMzansi",
+    "title": "Sikhungo Sakho Sekulawula Timphahla Tekwabelana",
+    "subtitle": "Khicita ludzaba lolumangalisako ngelulwimi lonkhe lolu-11 lwasemtsetfweni. Lakhiwe ngemaSwati, ngemaSwati.",
+    "cta": "Cala Ngemahhala",
+    "demo": "Buka Siboniso"
+  },
+  "features": {
+    "title": "Yakhiwe Mzansi",
+    "subtitle": "Purple Glow ayihundzululwanga nje kuphela—iyati ngemasiko. Kusukela elilwimini letfutfukile kuya ku-Afrikaans webubhizinisi.",
+    "aiEngine": {
+      "title": "Injini Yeludzaba lwe-AI",
+      "description": "Gemini 2.5 Flash + Imagen 3 iniketa emandla emaphosti akho. Khicita umbhalo, tifaniso netividiyo letihambisana nebalaleli baseNingizimu Afrika."
+    },
+    "multilingual": {
+      "title": "Tilulwimi te-11, Inkundla yinye",
+      "description": "Posta nge-siSwati ekuseni, nge-Afrikaans emini, nge-Singisi ntambama. Shintsha tilulwimi emkhatsini wesigaba."
+    },
+    "scheduling": {
+      "title": "Kuhleleka Lokuhlakaniph",
+      "description": "I-AI ifundza tikhathi letinhle kakhulu tekuposta kubalaleli bakho. Hlela ludzaba lwenyanga yonkhe ngemaminitsi la-10."
+    }
+  },
+  "howItWorks": {
+    "title": "Isebenta Kanjani",
+    "step1": {
+      "title": "Chaza i-Vibe Yakho",
+      "description": "Tshela i-Purple Glow kutsi utsengisani noma ukhuthazani. Khetsa ithoni yakho: Mzansi Cool, Corporate, noma Cyberpunk."
+    },
+    "step2": {
+      "title": "I-AI Ikhicita Ludzaba",
+      "description": "Injini yetfu leniketwe emandla yi-Gemini ikhicita emaphosti lahlelwe ngendlela yenkundla ngetifaniso emsekhondwini."
+    },
+    "step3": {
+      "title": "Hlela & Posta",
+      "description": "Buyeketa, lungiselela noma hlela. I-Purple Glow iphata lekunye—futsi ifana naphakamisa tikhathi letinhle kakhulu tekuposta."
+    }
+  },
+  "testimonials": {
+    "title": "Itsenjwa ngeBosomaLubhizinisi baseNingizimu Afrika",
+    "thabo": {
+      "quote": "I-Purple Glow ingisitako ngakhula kusukela ku-500 kuya ku-5,000 balandzeli etinyangeni te-3. Ludzaba lwe-siSwati lushaya ngenye indlela.",
+      "name": "Thabo M.",
+      "role": "Libhulandi Letingubo Temgwaco eJoburg"
+    },
+    "zanele": {
+      "quote": "Manje ngiyakwati kuposta ngetilulwimi tonkhe te-11 ngaphandle kwekukhipha umhumusho. Kushintse umdlalo emabhizinisini etilokishi.",
+      "name": "Zanele K.",
+      "role": "Umnikati Welori Yekudla eDurban"
+    },
+    "pieter": {
+      "quote": "I-AI iyati ngetaga te-Afrikaans kangcono kunelitsemba lami lekwentsisa. Ons is baie impressed.",
+      "name": "Pieter v.d.M.",
+      "role": "Ibhizinisi Lelibutekholoji eCape Town"
+    }
+  },
+  "pricing": {
+    "title": "Tintsengo Letinemahlombe. Akuno Timali Letigcatjiwe.",
+    "subtitle": "Cala ngemahhala. Khula nawe ukhula. Chitha nganoma ngasiphi sikhatsi.",
+    "monthly": "Nyanga nenyanga",
+    "annual": "Umnyaka",
+    "free": {
+      "name": "I-Hustle",
+      "price": "Mahhala",
+      "features": [
+        "Emaphosti e-AI la-5 ngenyanga",
+        "Iphrofayela Yekwabelana le-1",
+        "Lusito Lwejwayelekile",
+        "Kuhlalutwa Kwetisisekelo"
+      ],
+      "cta": "Cala"
+    },
+    "pro": {
+      "name": "Umdalisi",
+      "badge": "Litfandwa Kakhulu",
+      "features": [
+        "Kukhicita Umbhalo Lokungapheli",
+        "Emacrediithi Wetifaniso la-50 / nyanga",
+        "Emaphrofayela Ekwabelana la-5",
+        "Kuhleleka Lokuhlakaniph",
+        "Kuhumushuluswa Kwetilulwimi te-11",
+        "Lusito Lolubhekene Nekucala"
+      ],
+      "cta": "Tfola i-Pro"
+    },
+    "business": {
+      "name": "I-Mogul",
+      "features": [
+        "Konkhe ku-Creator",
+        "Emacrediithi Wetifaniso Netividiyo la-200",
+        "Emaphrofayela Langapheli",
+        "Kusebentisana Kwelitsemba (Tihlalo te-3)",
+        "Imitsetfo Yekuticaba ye-AI",
+        "Siphatsi se-account Lesitinikelako"
+      ],
+      "cta": "Xhumana NeTekwentsisa"
+    }
+  },
+  "credits": {
+    "title": "Udzinga emandla laletako?",
+    "subtitle": "Emacrediithi wetifaniso noma wetividiyo ayancane? Gcwalisa ngekushesha ngaphandle kwekushintja kubhalisela kwakho.",
+    "packages": {
+      "100": "Emacrediithi la-100",
+      "500": "Emacrediithi la-500",
+      "video": "Iphakheji Yetividiyo"
+    },
+    "checkout": "Khokhela",
+    "payWith": "Khokhela nge"
+  },
+  "contact": {
+    "title": "Xhumana Nasi",
+    "subtitle": "Unemibuto? Silapha kusita.",
+    "name": "Ligama Lakho",
+    "email": "I-imeyili Yakho",
+    "message": "Umlayeto Wakho",
+    "send": "Thumela Umlayeto"
+  },
+  "footer": {
+    "tagline": "Yakhiwe eNingizimu Afrika, yeNingizimu Afrika.",
+    "legal": "Temtsetfo",
+    "terms": "Timitsetfo Tensita",
+    "privacy": "Inhlelemvelo Yebuciko",
+    "popia": "Kulandzelwa kwe-POPIA",
+    "support": "Lusito",
+    "help": "Sikhungo Sekusita",
+    "docs": "Emadokhumenti",
+    "status": "Siviko Sehlelo"
+  },
+  "login": {
+    "title": "Wemukelwa Futsi",
+    "subtitle": "Ngena ku-account yakho ye-Purple Glow",
+    "social": "Noma chubeka nge-social",
+    "email": "I-imeyili",
+    "password": "Iphhasiwedi",
+    "loginButton": "Ngena Nge-imeyili",
+    "noAccount": "Awuna-account?",
+    "signup": "Bhalisa",
+    "adminTip": "LICEBO: Sebentisa i-imeyili lene-\"admin\" kufinyelela i-Admin Dashboard"
+  },
+  "dashboard": {
+    "welcome": "Wemukelwa futsi",
+    "status": "Siviko sehlelo",
+    "optimal": "LELIHLE KAKHULU",
+    "sidebar": {
+      "dashboard": "I-Dashboard",
+      "schedule": "Hlela",
+      "automation": "Kuticabela",
+      "settings": "Timo"
+    },
+    "credits": "Emacrediithi Lasele",
+    "contentGenerator": "Umdalisi Weludzaba",
+    "recentDrafts": "Tidrafti Takamuva",
+    "createManually": "Dala Ngesandla"
+  },
+  "settings": {
+    "title": "Timo",
+    "account": "I-Account",
+    "subscription": "Kubhalisela",
+    "payment": "Tindlela Tekukhokhela",
+    "billing": "Lulandvo Lwekukhokhela",
+    "preferences": "Letitsakako"
+  },
+  "common": {
+    "save": "Gcina Tingutsintfo",
+    "cancel": "Chitha",
+    "delete": "Susa",
+    "edit": "Lungiselela",
+    "loading": "Iyalayisha...",
+    "success": "Kuyaphila!",
+    "error": "Liphutsa",
+    "confirm": "Cinisekisa",
+    "back": "Emuva"
+  }
+}

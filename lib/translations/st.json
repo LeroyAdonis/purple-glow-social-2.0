@@ -1,0 +1,181 @@
+{
+  "nav": {
+    "features": "Dintho",
+    "pricing": "Ditheko",
+    "contact": "Ikopanye",
+    "login": "Kena"
+  },
+  "hero": {
+    "badge": "Bohlale bo Metsi ba Mzansi",
+    "title": "Setsi sa Hao sa Taolo ya Mecha ya Setjhaba",
+    "subtitle": "Hlahisa dikahare tse makatsang ka lipuo tsohle tse 11 tsa molao. E hahilwe ke Baafrika Borwa, bakeng sa Baafrika Borwa.",
+    "cta": "Qala Mahala",
+    "demo": "Sheba Pontso"
+  },
+  "features": {
+    "title": "E Entseditsweng Mzansi",
+    "subtitle": "Purple Glow ha se feela e fetoletsweng—e utlwisisa setso. Ho tloha puong ya metse ho ya ho Seafrikanse sa dikgwebo.",
+    "aiEngine": {
+      "title": "Enjine ya Dikahare tsa AI",
+      "description": "Gemini 2.5 Flash + Imagen 3 e matlafatsa diposo tsa hao. Hlahisa mongolo, ditshwantsho le divideo tse tshwanang le babadi ba SA."
+    },
+    "multilingual": {
+      "title": "Lipuo tse 11, Sethala se le Seng",
+      "description": "Posa ka Sesotho hosasa, Seafrikanse motsheare, Senyesemane mantsiboya. Fetola lipuo mahareng a polelo."
+    },
+    "scheduling": {
+      "title": "Tlhophiso e Bohlale",
+      "description": "AI e ithuta dinako tse ntle ka ho fetisisa tsa ho posa ho babadi ba hao. Hlophisa dikahare tsa kgwedi ka metsotswana e 10."
+    }
+  },
+  "howItWorks": {
+    "title": "E Sebetsa Jwang",
+    "step1": {
+      "title": "Hlalosa Maikutlo a Hao",
+      "description": "Bolella Purple Glow hore o rekisa eng kapa o kgothaletsa eng. Kgetha mofuta wa hao: Mzansi Cool, Corporate, kapa Cyberpunk."
+    },
+    "step2": {
+      "title": "AI e Hlahisa Dikahare",
+      "description": "Enjine ya rona e matlafaditswe ke Gemini e hlahisa diposo tse hlophisitsweng ka sethala ka ditshwantsho ka metsotswana."
+    },
+    "step3": {
+      "title": "Hlophisa & Posa",
+      "description": "Hlahloba, lokisa kapa hlophisa. Purple Glow e sebetsa tse ding—hape e kgothaletsa dinako tse ntle ka ho fetisisa tsa ho posa."
+    }
+  },
+  "testimonials": {
+    "title": "E Tshepjwa ke Bakgwebi ba Afrika Borwa",
+    "thabo": {
+      "quote": "Purple Glow e nthusitse hore ke hola ho tloha ho 500 ho ya ho 5,000 balatedi ka dikgwedi tse 3. Dikahare tsa Sesotho di otla ka tsela e fapaneng.",
+      "name": "Thabo M.",
+      "role": "Lebitso la Diaparo tsa Mebileng Joburg"
+    },
+    "zanele": {
+      "quote": "Jwale nka kgona ho posa ka lipuo tsohle tse 11 ntle le ho hira mofetoledi. Se fetotse papadi bakeng sa dikgwebo tsa metse.",
+      "name": "Zanele K.",
+      "role": "Mong wa Lori ya Dijo Durban"
+    },
+    "pieter": {
+      "quote": "AI e utlwisisa maele a Seafrikanse haholwanyane ho feta sehlopha sa ka sa papatso. Ons is baie impressed.",
+      "name": "Pieter v.d.M.",
+      "role": "Kgwebo ya Theknoloji Cape Town"
+    }
+  },
+  "pricing": {
+    "title": "Ditheko tse Hlakileng. Ha ho Ditheko tse Patiloeng.",
+    "subtitle": "Qala mahala. Hola ha o hola. Hlakola nako efe kapa efe.",
+    "monthly": "Kgwedi le Kgwedi",
+    "annual": "Selemo",
+    "free": {
+      "name": "The Hustle",
+      "price": "Mahala",
+      "features": [
+        "Diposo tsa AI tse 5 ka kgwedi",
+        "Porofaele ya Setjhaba e le 1",
+        "Tshehetso ya Tlwaelo",
+        "Tshekatsheko ya Motheo"
+      ],
+      "cta": "Qala"
+    },
+    "pro": {
+      "name": "Mohahi",
+      "badge": "O Ratwang Haholo",
+      "features": [
+        "Tlhahiso ya Mongolo e sa Feleng",
+        "Dikhrediti tsa Ditshwantsho tse 50 / kgwedi",
+        "Diporofaele tsa Setjhaba tse 5",
+        "Tlhophiso e Bohlale",
+        "Phetolelo ya Lipuo tse 11",
+        "Tshehetso ya Pele"
+      ],
+      "cta": "Fumana Pro"
+    },
+    "business": {
+      "name": "Mogul",
+      "features": [
+        "Tsohle tsa ho Creator",
+        "Dikhrediti tsa Ditshwantsho le Divideo tse 200",
+        "Diporofaele tse sa Feleng",
+        "Tshebedisano ya Sehlopha (Ditulo tse 3)",
+        "Melao ya Itshebetso ya AI",
+        "Motsamaisi wa Akhaonto ya Ikemiselitseng"
+      ],
+      "cta": "Ikopanye le Thekiso"
+    }
+  },
+  "credits": {
+    "title": "O hloka matla a eketsehileng?",
+    "subtitle": "Dikhrediti tsa ditshwantsho kapa divideo di a fela? Tlatsa kapele ntle le ho fetola ngodiso ya hao.",
+    "packages": {
+      "100": "Dikhrediti tse 100",
+      "500": "Dikhrediti tse 500",
+      "video": "Paka ya Divideo"
+    },
+    "checkout": "Lefa",
+    "payWith": "Lefa ka"
+  },
+  "contact": {
+    "title": "Ikopanye le Rona",
+    "subtitle": "O na le dipotso? Re mona ho thusa.",
+    "name": "Lebitso la Hao",
+    "email": "Imeile ya Hao",
+    "message": "Molaetsa wa Hao",
+    "send": "Romela Molaetsa"
+  },
+  "footer": {
+    "tagline": "E hahilwe Afrika Borwa, bakeng sa Afrika Borwa.",
+    "legal": "Molao",
+    "terms": "Melawana ya Tshebeletso",
+    "privacy": "Pholisi ya Lekunutu",
+    "popia": "Ho Latela POPIA",
+    "support": "Tshehetso",
+    "help": "Setsi sa Thuso",
+    "docs": "Litokomane",
+    "status": "Boemo ba Tsamaiso"
+  },
+  "login": {
+    "title": "O Amohelwa Hape",
+    "subtitle": "Kena akhaontong ya hao ya Purple Glow",
+    "social": "Kapa tswela pele ka setjhaba",
+    "email": "Imeile",
+    "password": "Phasewete",
+    "loginButton": "Kena ka Imeile",
+    "noAccount": "Ha o na le akhaonto?",
+    "signup": "Ngodisa",
+    "adminTip": "MAELE: Sebedisa imeile e nang le \"admin\" ho fihlella Admin Dashboard"
+  },
+  "dashboard": {
+    "welcome": "O amohelwa hape",
+    "status": "Boemo ba tsamaiso",
+    "optimal": "E NTLE HO FETISISA",
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "schedule": "Hlophisa",
+      "automation": "Itshebetso",
+      "settings": "Ditlhophiso"
+    },
+    "credits": "Dikhrediti tse Setseng",
+    "contentGenerator": "Mohahi wa Dikahare",
+    "recentDrafts": "Dikgatiso tsa Morao-rao",
+    "createManually": "Hlahisa ka Seatla"
+  },
+  "settings": {
+    "title": "Ditlhophiso",
+    "account": "Akhaonto",
+    "subscription": "Ngodiso",
+    "payment": "Mekgwa ya Tefo",
+    "billing": "Nalane ya Ditefo",
+    "preferences": "Dikgetho"
+  },
+  "common": {
+    "save": "Boloka Diphetoho",
+    "cancel": "Hlakola",
+    "delete": "Hlakola",
+    "edit": "Lokisa",
+    "loading": "E a Laisa...",
+    "success": "Katleho!",
+    "error": "Phoso",
+    "confirm": "Tiisa",
+    "back": "Morao"
+  }
+}

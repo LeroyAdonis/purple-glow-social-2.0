@@ -1,0 +1,181 @@
+{
+  "nav": {
+    "features": "Swihlawulekisi",
+    "pricing": "Tintswalo",
+    "contact": "Humelela",
+    "login": "Nghena"
+  },
+  "hero": {
+    "badge": "Vutlhari bya Mzansi",
+    "title": "Ndhawu ya Wena ya Vulawuri bya Switirhiswa swa Vanhu",
+    "subtitle": "Endla nhundzu yo hlamarisa hi tindzimi hinkwato ta 11 ta nawu. Yi akiwile hi Vaafrika Dzonga, eka Vaafrika Dzonga.",
+    "cta": "Sungula Hi ku Mahala",
+    "demo": "Vona Nkandziyiso"
+  },
+  "features": {
+    "title": "Yi Akiwile eka Mzansi",
+    "subtitle": "Purple Glow a yi hundzuluxiwanga ntsena—yi twisisa ndhavuko. Ku suka eka ririmi ra matilweni ku ya eka Xifrikanse xa mabindzu.",
+    "aiEngine": {
+      "title": "Muchini wa Nhundzu wa AI",
+      "description": "Gemini 2.5 Flash + Imagen 3 yi hlohlotela switsundzuxo swa wena. Endla matsalwa, swifaniso na tivhidiyo leswi fambelanaka na vayingiseri va SA."
+    },
+    "multilingual": {
+      "title": "Tindzimi ta 11, Pulatifomo Yin'we",
+      "description": "Rhumela hi Xitsonga nimixo, Xifrikanse exikarhi ka dyambu, Xinghezi nimadyambu. Cinca tindzimi exikarhi ka xivulwa."
+    },
+    "scheduling": {
+      "title": "Nhlengeletano lowu Nga ni Vutlhari",
+      "description": "AI yi dyondza minkarhi leyi faneleke swinene yo rhumela eka vayingiseri va wena. Hlela nhundzu wa n'hweti hinkwayo eka timinitsi ta 10."
+    }
+  },
+  "howItWorks": {
+    "title": "Yi tirha Njhani",
+    "step1": {
+      "title": "Hlamusela Vibe ya Wena",
+      "description": "Byela Purple Glow leswi u swi xavisiaka kumbe swi khutazaka. Hlawula muxaka wa wena: Mzansi Cool, Corporate, kumbe Cyberpunk."
+    },
+    "step2": {
+      "title": "AI yi Endla Nhundzu",
+      "description": "Muchini wa hina lowu hlohloteliwaka hi Gemini wu endla switsundzuxo leswi lunghiseteriweke pulatifomo na swifaniso eka tisekondzi."
+    },
+    "step3": {
+      "title": "Hlela & Rhumela",
+      "description": "Kambisisa, lulamisa kumbe hlela. Purple Glow yi tirha leswi sele—na le yi ringanyeta minkarhi leyi faneleke yo rhumela."
+    }
+  },
+  "testimonials": {
+    "title": "Yi Tshembiwile hi Vaxavi va Mabindzu va Afrika Dzonga",
+    "thabo": {
+      "quote": "Purple Glow yi ndzi pfunile ku kula ku suka eka 500 ku ya eka 5,000 varhangeri eka tin'hweti ta 3. Nhundzu wa Xitsonga wu tlhava hi ndlela yo hambana.",
+      "name": "Thabo M.",
+      "role": "Maraka ya Swambalo swa Mindhzuku Joburg"
+    },
+    "zanele": {
+      "quote": "Sweswi ndzi swi kota ku rhumela hi tindzimi hinkwato ta 11 handle ko hakela muhundzuluxi. Swi cince papadi eka mabindzu ya matilweni.",
+      "name": "Zanele K.",
+      "role": "Muaki wa Lori ya Swakudya Durban"
+    },
+    "pieter": {
+      "quote": "AI yi twisisa mavulavulelo ya Xifrikanse swinene ku tlula ntlawa wa mina wa papatso. Ons is baie impressed.",
+      "name": "Pieter v.d.M.",
+      "role": "Mabindzu ya Theknoloji Cape Town"
+    }
+  },
+  "pricing": {
+    "title": "Tintswalo Leti Erivalaka. Ku Hava Tindzhaku Leti Fihliweke.",
+    "subtitle": "Sungula hi mahala. Kula loko u kula. Rhangisa nkarhi wun'wana na wun'wana.",
+    "monthly": "N'hweti ni N'hweti",
+    "annual": "Lembe",
+    "free": {
+      "name": "The Hustle",
+      "price": "Mahala",
+      "features": [
+        "Switsundzuxo swa AI swa 5 hi n'hweti",
+        "Phurofayili ya Vanhu yin'we",
+        "Nseketelo wa Ntolovelo",
+        "Nxopaxopo wa Sisiseko"
+      ],
+      "cta": "Sungula"
+    },
+    "pro": {
+      "name": "Muendli",
+      "badge": "Yi Randziwile Swinene",
+      "features": [
+        "Vutumbuluxi bya Matsalwa leByi nga Heli ni Mpimo",
+        "Tikhirediti ta Swifaniso ta 50 / n'hweti",
+        "Tiphurofayili ta Vanhu ta 5",
+        "Nhlengeletano Lowu nga ni Vutlhari",
+        "Vuhundzuluxi bya Tindzimi ta 11",
+        "Nseketelo wo Sungula"
+      ],
+      "cta": "Kuma Pro"
+    },
+    "business": {
+      "name": "Mogul",
+      "features": [
+        "Hinkwaswo eka Creator",
+        "Tikhirediti ta Swifaniso na Tivhidiyo ta 200",
+        "Tiphurofayili Leti nga Heli ni Mpimo",
+        "Ntirhisano wa Ntlawa (Switsulu swa 3)",
+        "Milawu ya Ku Titirha ya AI",
+        "Mulawuri wa Akhawunti Loyi Tirheleleke"
+      ],
+      "cta": "Humelela Swixaviso"
+    }
+  },
+  "credits": {
+    "title": "U lava matimba yo engetela?",
+    "subtitle": "Tikhirediti ta swifaniso kumbe tivhidiyo swi herile? Tata hi ku hatlisa handle ko cinca vungenisi bya wena.",
+    "packages": {
+      "100": "Tikhirediti ta 100",
+      "500": "Tikhirediti ta 500",
+      "video": "Phakethe ya Tivhidiyo"
+    },
+    "checkout": "Hakela",
+    "payWith": "Hakela hi"
+  },
+  "contact": {
+    "title": "Humelela hi Swona",
+    "subtitle": "U na swivutiso? Hi laha ku pfuna.",
+    "name": "Vito ra Wena",
+    "email": "Imeyili ya Wena",
+    "message": "Rungula ra Wena",
+    "send": "Rhumela Rungula"
+  },
+  "footer": {
+    "tagline": "Yi akiwile eAfrika Dzonga, eka Afrika Dzonga.",
+    "legal": "Nawu",
+    "terms": "Swiyimo swa Vukorhokeri",
+    "privacy": "Pholisi ya Vuhlayiseki",
+    "popia": "Ku Landzela POPIA",
+    "support": "Nseketelo",
+    "help": "Ndhawu ya Mpfuno",
+    "docs": "Tidokumente",
+    "status": "Xiyimo xa Sisiteme"
+  },
+  "login": {
+    "title": "U Amukeriwe Nakambe",
+    "subtitle": "Nghena eka akhawunti ya wena ya Purple Glow",
+    "social": "Kumbe ya emahlweni hi vanhu",
+    "email": "Imeyili",
+    "password": "Phasiwedi",
+    "loginButton": "Nghena Hi Imeyili",
+    "noAccount": "A wu na akhawunti?",
+    "signup": "Tsarisa",
+    "adminTip": "LESWAKU: Tirhisa imeyili leyi nga na \"admin\" ku fikelela Admin Dashboard"
+  },
+  "dashboard": {
+    "welcome": "U amukeriwe nakambe",
+    "status": "Xiyimo xa sisiteme",
+    "optimal": "YI FANELE SWINENE",
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "schedule": "Hlela",
+      "automation": "Ku Titirha",
+      "settings": "Swiyimiso"
+    },
+    "credits": "Tikhirediti Leti Saleke",
+    "contentGenerator": "Muendli wa Nhundzu",
+    "recentDrafts": "Tindrafti ta Sweswi",
+    "createManually": "Endla Hi Voko"
+  },
+  "settings": {
+    "title": "Swiyimiso",
+    "account": "Akhawunti",
+    "subscription": "Vungenisi",
+    "payment": "Tindlela to Hakela",
+    "billing": "Matimu ya Swihakelo",
+    "preferences": "Swi Tsakisaka"
+  },
+  "common": {
+    "save": "Hlayisa Ku Cinca",
+    "cancel": "Rhangisa",
+    "delete": "Susa",
+    "edit": "Lulamisa",
+    "loading": "Yi a Layicha...",
+    "success": "Ku Humelela!",
+    "error": "Xihoxo",
+    "confirm": "Tiyisisa",
+    "back": "Ehandle"
+  }
+}

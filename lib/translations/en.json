@@ -1,0 +1,181 @@
+{
+  "nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "login": "Log In"
+  },
+  "hero": {
+    "badge": "Liquid Intelligence for Mzansi",
+    "title": "Your AI-Powered Social Media Command Center",
+    "subtitle": "Generate stunning content in all 11 official languages. Built by South Africans, for South Africans.",
+    "cta": "Get Started Free",
+    "demo": "Watch Demo"
+  },
+  "features": {
+    "title": "Engineered for Mzansi",
+    "subtitle": "Purple Glow isn't just translated—it's culturally aware. From township slang to corporate Afrikaans.",
+    "aiEngine": {
+      "title": "AI Content Engine",
+      "description": "Gemini 2.5 Flash + Imagen 3 powering your posts. Generate text, images, and videos that resonate with SA audiences."
+    },
+    "multilingual": {
+      "title": "11 Languages, One Platform",
+      "description": "Post in isiZulu in the morning, Afrikaans at lunch, English in the evening. Switch languages mid-sentence."
+    },
+    "scheduling": {
+      "title": "Smart Scheduling",
+      "description": "AI learns the best times to post for your audience. Schedule a month's content in 10 minutes."
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "step1": {
+      "title": "Describe Your Vibe",
+      "description": "Tell Purple Glow what you're selling or promoting. Choose your tone: Mzansi Cool, Corporate, or Cyberpunk."
+    },
+    "step2": {
+      "title": "AI Generates Content",
+      "description": "Our Gemini-powered engine creates platform-optimized posts with images in seconds."
+    },
+    "step3": {
+      "title": "Schedule & Post",
+      "description": "Review, edit, or schedule. Purple Glow handles the rest—even suggests the best posting times."
+    }
+  },
+  "testimonials": {
+    "title": "Trusted by South African Entrepreneurs",
+    "thabo": {
+      "quote": "Purple Glow helped me scale from 500 to 5,000 followers in 3 months. The isiZulu content hits different.",
+      "name": "Thabo M.",
+      "role": "Joburg Streetwear Brand"
+    },
+    "zanele": {
+      "quote": "I can finally post in all 11 languages without hiring a translator. Game changer for township businesses.",
+      "name": "Zanele K.",
+      "role": "Durban Food Truck Owner"
+    },
+    "pieter": {
+      "quote": "The AI understands Afrikaans idioms better than my marketing team. Ons is baie impressed.",
+      "name": "Pieter v.d.M.",
+      "role": "Cape Town Tech Startup"
+    }
+  },
+  "pricing": {
+    "title": "Transparent Pricing. No Hidden Fees.",
+    "subtitle": "Start free. Scale as you grow. Cancel anytime.",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "free": {
+      "name": "The Hustle",
+      "price": "Free",
+      "features": [
+        "5 AI Posts per month",
+        "1 Social Profile",
+        "Standard Support",
+        "Basic Analytics"
+      ],
+      "cta": "Get Started"
+    },
+    "pro": {
+      "name": "The Creator",
+      "badge": "Most Popular",
+      "features": [
+        "Unlimited Text Generation",
+        "50 Image Credits / month",
+        "5 Social Profiles",
+        "Smart Scheduling",
+        "11 Language Translation",
+        "Priority Support"
+      ],
+      "cta": "Get Pro"
+    },
+    "business": {
+      "name": "The Mogul",
+      "features": [
+        "Everything in Creator",
+        "200 Image & Video Credits",
+        "Unlimited Profiles",
+        "Team Collaboration (3 Seats)",
+        "AI Automation Rules",
+        "Dedicated Account Manager"
+      ],
+      "cta": "Contact Sales"
+    }
+  },
+  "credits": {
+    "title": "Need extra firepower?",
+    "subtitle": "Running low on image or video credits? Top up instantly without changing your subscription.",
+    "packages": {
+      "100": "100 Credits",
+      "500": "500 Credits",
+      "video": "Video Pack"
+    },
+    "checkout": "Checkout",
+    "payWith": "Pay with"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Have questions? We're here to help.",
+    "name": "Your Name",
+    "email": "Your Email",
+    "message": "Your Message",
+    "send": "Send Message"
+  },
+  "footer": {
+    "tagline": "Built in South Africa, for South Africa.",
+    "legal": "Legal",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "popia": "POPIA Compliance",
+    "support": "Support",
+    "help": "Help Center",
+    "docs": "Documentation",
+    "status": "System Status"
+  },
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Log in to your Purple Glow account",
+    "social": "Or continue with social",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Log In with Email",
+    "noAccount": "Don't have an account?",
+    "signup": "Sign up",
+    "adminTip": "TIP: Use email with \"admin\" to access Admin Dashboard"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "status": "System status",
+    "optimal": "OPTIMAL",
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "schedule": "Schedule",
+      "automation": "Automation",
+      "settings": "Settings"
+    },
+    "credits": "Credits Remaining",
+    "contentGenerator": "Content Generator",
+    "recentDrafts": "Recent Drafts",
+    "createManually": "Create Manually"
+  },
+  "settings": {
+    "title": "Settings",
+    "account": "Account",
+    "subscription": "Subscription",
+    "payment": "Payment Methods",
+    "billing": "Billing History",
+    "preferences": "Preferences"
+  },
+  "common": {
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "success": "Success!",
+    "error": "Error",
+    "confirm": "Confirm",
+    "back": "Back"
+  }
+}
