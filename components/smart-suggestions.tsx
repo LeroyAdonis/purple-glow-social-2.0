@@ -74,98 +74,87 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
   };
 
   return (
-    <div className="aerogel-card rounded-xl shadow-lg border-2 border-neon-grape/30 overflow-hidden">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4">
-        <div className="flex items-center gap-2 mb-1">
-          <i className="fa-solid fa-sparkles text-xl"></i>
-          <h3 className="text-lg font-bold">AI Pilot Smart Suggestions</h3>
-        </div>
+    <div className="bg-[#0D0F1C] rounded-2xl shadow-2xl border border-gray-800 overflow-hidden">
+      {/* Header with gradient */}
+      <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 text-white p-6">
+        <h3 className="text-2xl font-bold mb-2">AI Pilot Smart Suggestions</h3>
         <p className="text-sm text-white/90">Powered by audience analytics and engagement patterns</p>
       </div>
 
-      {/* Tab Navigation */}
-      <div className="flex border-b border-glass-border bg-white/5 overflow-x-auto">
-        <button
-          onClick={() => setActiveTab('times')}
-          className={`flex-1 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
-            activeTab === 'times'
-              ? 'text-neon-grape border-b-2 border-purple-600 bg-white'
-              : 'text-gray-400 hover:text-neon-grape'
-          }`}
-        >
-          <i className="fa-regular fa-clock mr-2"></i>
-          Best Times
-        </button>
-        <button
-          onClick={() => setActiveTab('practices')}
-          className={`flex-1 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
-            activeTab === 'practices'
-              ? 'text-neon-grape border-b-2 border-purple-600 bg-white'
-              : 'text-gray-400 hover:text-neon-grape'
-          }`}
-        >
-          <i className="fa-solid fa-lightbulb mr-2"></i>
-          Best Practices
-        </button>
-        <button
-          onClick={() => setActiveTab('hashtags')}
-          className={`flex-1 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
-            activeTab === 'hashtags'
-              ? 'text-neon-grape border-b-2 border-purple-600 bg-white'
-              : 'text-gray-400 hover:text-neon-grape'
-          }`}
-        >
-          <i className="fa-solid fa-hashtag mr-2"></i>
-          Trending
-        </button>
-        <button
-          onClick={() => setActiveTab('content')}
-          className={`flex-1 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
-            activeTab === 'content'
-              ? 'text-neon-grape border-b-2 border-purple-600 bg-white'
-              : 'text-gray-400 hover:text-neon-grape'
-          }`}
-        >
-          <i className="fa-solid fa-photo-film mr-2"></i>
-          Content Type
-        </button>
-        <button
-          onClick={() => setActiveTab('tone')}
-          className={`flex-1 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
-            activeTab === 'tone'
-              ? 'text-neon-grape border-b-2 border-purple-600 bg-white'
-              : 'text-gray-400 hover:text-neon-grape'
-          }`}
-        >
-          <i className="fa-solid fa-face-smile mr-2"></i>
-          Tone
-        </button>
+      {/* Tab Navigation - Dark Theme */}
+      <div className="bg-[#1a1a2e] border-b border-gray-800">
+        <div className="flex">
+          <button
+            onClick={() => setActiveTab('times')}
+            className={`flex-1 px-4 py-4 text-sm font-medium whitespace-nowrap transition-all relative ${
+              activeTab === 'times'
+                ? 'text-purple-400'
+                : 'text-gray-500 hover:text-gray-300'
+            }`}
+          >
+            <i className="fa-regular fa-clock mr-2"></i>
+            Best Times
+            {activeTab === 'times' && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab('practices')}
+            className={`flex-1 px-4 py-4 text-sm font-medium whitespace-nowrap transition-all relative ${
+              activeTab === 'practices'
+                ? 'text-gray-400'
+                : 'text-gray-500 hover:text-gray-300'
+            }`}
+          >
+            <i className="fa-solid fa-lightbulb mr-2"></i>
+            Best Practices
+            {activeTab === 'practices' && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab('hashtags')}
+            className={`flex-1 px-4 py-4 text-sm font-medium whitespace-nowrap transition-all relative ${
+              activeTab === 'hashtags'
+                ? 'text-gray-400'
+                : 'text-gray-500 hover:text-gray-300'
+            }`}
+          >
+            <i className="fa-solid fa-hashtag mr-2"></i>
+            Trending
+            {activeTab === 'hashtags' && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-6 bg-[#0D0F1C]">
         {/* Optimal Times */}
         {activeTab === 'times' && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <p className="text-sm text-gray-400 mb-4">
               Based on your audience's activity, here are the best times to post:
             </p>
             {optimalTimes.map((slot, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-neon-grape/30"
+                className="flex items-center justify-between p-5 bg-[#1a1a2e] rounded-xl border border-gray-800 hover:border-purple-500/50 transition-all"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{slot.icon}</span>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center text-2xl">
+                    {slot.icon}
+                  </div>
                   <div>
-                    <div className="font-semibold text-white">{slot.time}</div>
-                    <div className="text-xs text-gray-400">{slot.day}</div>
+                    <div className="font-medium text-white">{slot.day}</div>
+                    <div className="text-sm text-gray-400">Engagement</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-lg font-bold text-neon-grape">{slot.engagement}%</div>
-                  <div className="text-xs text-gray-400">Engagement</div>
+                  <div className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    {slot.engagement}%
+                  </div>
                 </div>
               </div>
             ))}
@@ -174,16 +163,16 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
 
         {/* Best Practices */}
         {activeTab === 'practices' && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <p className="text-sm text-gray-400 mb-4">
               Platform-specific tips to maximize your reach and engagement:
             </p>
             {getPlatformPractices().map((practice, index) => (
               <div
                 key={index}
-                className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg border border-blue-200"
+                className="flex items-start gap-4 p-5 bg-[#1a1a2e] rounded-xl border border-gray-800 hover:border-purple-500/50 transition-all"
               >
-                <i className="fa-solid fa-check-circle text-blue-600 mt-0.5"></i>
+                <i className="fa-solid fa-check-circle text-purple-400 text-lg mt-0.5"></i>
                 <p className="text-sm text-gray-300 flex-1">{practice}</p>
               </div>
             ))}
@@ -192,23 +181,23 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
 
         {/* Trending Hashtags */}
         {activeTab === 'hashtags' && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <p className="text-sm text-gray-400 mb-4">
               Trending hashtags related to "{topic}":
             </p>
             {trendingHashtags.map((hashtag, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-3 bg-gradient-to-r from-teal-50 to-cyan-50 rounded-lg border border-teal-200 hover:shadow-md transition-shadow cursor-pointer"
+                className="flex items-center justify-between p-5 bg-[#1a1a2e] rounded-xl border border-gray-800 hover:border-purple-500/50 transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-3">
-                  <span className="font-bold text-joburg-teal">{hashtag.tag}</span>
-                  <span className="text-xs text-gray-400">{hashtag.posts} posts</span>
+                  <span className="font-bold text-purple-400">{hashtag.tag}</span>
+                  <span className="text-sm text-gray-500">{hashtag.posts} posts</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  {hashtag.trend === 'up' && <i className="fa-solid fa-arrow-trend-up text-green-600"></i>}
-                  {hashtag.trend === 'down' && <i className="fa-solid fa-arrow-trend-down text-red-600"></i>}
-                  {hashtag.trend === 'stable' && <i className="fa-solid fa-minus text-gray-400"></i>}
+                  {hashtag.trend === 'up' && <i className="fa-solid fa-arrow-trend-up text-green-400"></i>}
+                  {hashtag.trend === 'down' && <i className="fa-solid fa-arrow-trend-down text-red-400"></i>}
+                  {hashtag.trend === 'stable' && <i className="fa-solid fa-minus text-gray-500"></i>}
                 </div>
               </div>
             ))}
@@ -217,27 +206,27 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
 
         {/* Content Type Recommendations */}
         {activeTab === 'content' && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <p className="text-sm text-gray-400 mb-4">
               Recommended content formats for maximum engagement:
             </p>
             {contentTypes.map((content, index) => (
               <div
                 key={index}
-                className="p-3 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg border border-orange-200"
+                className="p-5 bg-[#1a1a2e] rounded-xl border border-gray-800 hover:border-purple-500/50 transition-all"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
                     <span className="text-2xl">{content.icon}</span>
                     <span className="font-semibold text-white">{content.type}</span>
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-bold text-orange-600">{content.score}</div>
-                    <div className="text-xs text-gray-400">Score</div>
+                    <div className="text-2xl font-bold text-purple-400">{content.score}</div>
+                    <div className="text-xs text-gray-500">Score</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 bg-white/20 rounded-full h-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex-1 bg-gray-800 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full ${
                         content.score >= 90 ? 'bg-green-500' :
@@ -248,7 +237,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
                     ></div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-400 mt-2">{content.reason}</p>
+                <p className="text-sm text-gray-400 mt-2">{content.reason}</p>
               </div>
             ))}
           </div>
@@ -256,14 +245,14 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
 
         {/* Tone Recommendations */}
         {activeTab === 'tone' && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <p className="text-sm text-gray-400 mb-4">
               Adjust your tone based on when you're posting:
             </p>
             {toneRecommendations.map((rec, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg border border-indigo-200"
+                className="flex items-center gap-4 p-5 bg-[#1a1a2e] rounded-xl border border-gray-800 hover:border-purple-500/50 transition-all"
               >
                 <span className="text-3xl">{rec.emoji}</span>
                 <div className="flex-1">
@@ -277,9 +266,9 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
       </div>
 
       {/* Footer */}
-      <div className="bg-purple-50 px-4 py-3 border-t border-neon-grape/30">
-        <p className="text-xs text-gray-400 text-center">
-          <i className="fa-solid fa-info-circle mr-1"></i>
+      <div className="bg-[#1a1a2e] px-6 py-4 border-t border-gray-800">
+        <p className="text-xs text-gray-500 text-center flex items-center justify-center">
+          <span className="mr-2">ℹ️</span>
           Suggestions update based on your audience engagement data
         </p>
       </div>

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { generateMockInvoices } from '../lib/mock-data';
+import CustomSelect from './custom-select';
 
 interface SettingsViewProps {
   user: {
@@ -20,7 +21,9 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
   const [activeTab, setActiveTab] = useState<'account' | 'subscription' | 'payment' | 'billing' | 'preferences'>('account');
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showAddCardModal, setShowAddCardModal] = useState(false);
-  
+  const [timezone, setTimezone] = useState('SAST');
+  const [language, setLanguage] = useState('en');
+
   const mockInvoices = generateMockInvoices(user.id);
   const mockCards = [
     { id: '1', brand: 'Visa', last4: '4532', expiry: '12/25', isDefault: true },
@@ -55,55 +58,50 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
             <p className="text-xs text-gray-500 font-mono">PURPLE GLOW</p>
           </div>
         </div>
-        
+
         <nav className="flex flex-col gap-2">
           <button
             onClick={() => setActiveTab('account')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
-              activeTab === 'account'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
-            }`}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'account'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
           >
             <i className="fa-solid fa-user"></i> Account
           </button>
           <button
             onClick={() => setActiveTab('subscription')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
-              activeTab === 'subscription'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
-            }`}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'subscription'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
           >
             <i className="fa-solid fa-crown"></i> Subscription
           </button>
           <button
             onClick={() => setActiveTab('payment')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
-              activeTab === 'payment'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
-            }`}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'payment'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
           >
             <i className="fa-solid fa-credit-card"></i> Payment Methods
           </button>
           <button
             onClick={() => setActiveTab('billing')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
-              activeTab === 'billing'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
-            }`}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'billing'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
           >
             <i className="fa-solid fa-file-invoice"></i> Billing History
           </button>
           <button
             onClick={() => setActiveTab('preferences')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
-              activeTab === 'preferences'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
-            }`}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'preferences'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
           >
             <i className="fa-solid fa-sliders"></i> Preferences
           </button>
@@ -113,7 +111,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
       {/* Main Content */}
       <main className="flex-1 lg:ml-64 p-6 lg:p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto space-y-8">
-          
+
           {/* Account Tab */}
           {activeTab === 'account' && (
             <div className="space-y-6 animate-enter">
@@ -204,11 +202,10 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                       {user.tier === 'free' ? 'Free forever' : `R${tierDetails.price}/month`}
                     </p>
                   </div>
-                  <span className={`px-4 py-2 rounded-full text-xs font-bold border ${
-                    user.tier === 'free' ? 'bg-gray-500/20 text-gray-300 border-gray-500/30' :
+                  <span className={`px-4 py-2 rounded-full text-xs font-bold border ${user.tier === 'free' ? 'bg-gray-500/20 text-gray-300 border-gray-500/30' :
                     user.tier === 'pro' ? 'bg-neon-grape/20 text-neon-grape border-neon-grape/30' :
-                    'bg-joburg-teal/20 text-joburg-teal border-joburg-teal/30'
-                  }`}>
+                      'bg-joburg-teal/20 text-joburg-teal border-joburg-teal/30'
+                    }`}>
                     {user.tier.toUpperCase()}
                   </span>
                 </div>
@@ -407,19 +404,33 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="text-xs font-mono text-gray-400 mb-2 block">TIMEZONE</label>
-                      <select className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors">
-                        <option value="SAST">SAST (UTC+2)</option>
-                        <option value="UTC">UTC</option>
-                      </select>
+                      <CustomSelect
+                        value={timezone}
+                        onChange={setTimezone}
+                        options={[
+                          { value: "SAST", label: "🇿🇦 SAST (UTC+2)" },
+                          { value: "UTC", label: "🌍 UTC" }
+                        ]}
+                        placeholder="Select timezone"
+                      />
                     </div>
                     <div>
                       <label className="text-xs font-mono text-gray-400 mb-2 block">LANGUAGE</label>
-                      <select className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors">
-                        <option value="en">English</option>
-                        <option value="af">Afrikaans</option>
-                        <option value="zu">isiZulu</option>
-                      </select>
+                      <CustomSelect
+                        value={language}
+                        onChange={setLanguage}
+                        options={[
+                          { value: "en", label: "English" },
+                          { value: "af", label: "Afrikaans" },
+                          { value: "zu", label: "isiZulu" },
+                          { value: "xh", label: "isiXhosa" },
+                          { value: "nso", label: "Sesotho sa Leboa" },
+                          { value: "tn", label: "Setswana" }
+                        ]}
+                        placeholder="Select language"
+                      />
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -427,108 +438,112 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
           )}
 
         </div>
-      </main>
+      </main >
 
       {/* Cancel Subscription Modal */}
-      {showCancelModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowCancelModal(false)}></div>
-          <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter">
-            <h3 className="font-display font-bold text-2xl mb-4">Cancel Subscription?</h3>
-            <p className="text-gray-400 mb-6">
-              We're sorry to see you go! You'll lose access to:
-            </p>
-            <ul className="space-y-2 mb-6 text-sm">
-              <li className="flex items-center gap-2 text-red-400">
-                <i className="fa-solid fa-times"></i> Unlimited AI content generation
-              </li>
-              <li className="flex items-center gap-2 text-red-400">
-                <i className="fa-solid fa-times"></i> Image & video credits
-              </li>
-              <li className="flex items-center gap-2 text-red-400">
-                <i className="fa-solid fa-times"></i> Smart scheduling features
-              </li>
-            </ul>
-            <p className="text-sm text-gray-500 mb-6">
-              Your subscription will remain active until {nextBillingDate.toLocaleDateString('en-ZA')}
-            </p>
-            <div className="flex gap-4">
-              <button
-                onClick={() => setShowCancelModal(false)}
-                className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
-              >
-                Keep Subscription
-              </button>
-              <button
-                onClick={() => { setShowCancelModal(false); alert('Subscription cancelled (simulated)'); }}
-                className="flex-1 py-3 border border-red-500/30 text-red-400 rounded-xl hover:bg-red-500/10 transition-colors font-bold"
-              >
-                Cancel Plan
-              </button>
+      {
+        showCancelModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowCancelModal(false)}></div>
+            <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter">
+              <h3 className="font-display font-bold text-2xl mb-4">Cancel Subscription?</h3>
+              <p className="text-gray-400 mb-6">
+                We're sorry to see you go! You'll lose access to:
+              </p>
+              <ul className="space-y-2 mb-6 text-sm">
+                <li className="flex items-center gap-2 text-red-400">
+                  <i className="fa-solid fa-times"></i> Unlimited AI content generation
+                </li>
+                <li className="flex items-center gap-2 text-red-400">
+                  <i className="fa-solid fa-times"></i> Image & video credits
+                </li>
+                <li className="flex items-center gap-2 text-red-400">
+                  <i className="fa-solid fa-times"></i> Smart scheduling features
+                </li>
+              </ul>
+              <p className="text-sm text-gray-500 mb-6">
+                Your subscription will remain active until {nextBillingDate.toLocaleDateString('en-ZA')}
+              </p>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setShowCancelModal(false)}
+                  className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
+                >
+                  Keep Subscription
+                </button>
+                <button
+                  onClick={() => { setShowCancelModal(false); alert('Subscription cancelled (simulated)'); }}
+                  className="flex-1 py-3 border border-red-500/30 text-red-400 rounded-xl hover:bg-red-500/10 transition-colors font-bold"
+                >
+                  Cancel Plan
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
       {/* Add Card Modal */}
-      {showAddCardModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowAddCardModal(false)}></div>
-          <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter">
-            <h3 className="font-display font-bold text-2xl mb-4">Add Payment Method</h3>
-            <div className="space-y-4 mb-6">
-              <div>
-                <label className="text-xs font-mono text-gray-400 mb-2 block">CARD NUMBER</label>
-                <input
-                  type="text"
-                  placeholder="1234 5678 9012 3456"
-                  className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+      {
+        showAddCardModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowAddCardModal(false)}></div>
+            <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter">
+              <h3 className="font-display font-bold text-2xl mb-4">Add Payment Method</h3>
+              <div className="space-y-4 mb-6">
                 <div>
-                  <label className="text-xs font-mono text-gray-400 mb-2 block">EXPIRY</label>
+                  <label className="text-xs font-mono text-gray-400 mb-2 block">CARD NUMBER</label>
                   <input
                     type="text"
-                    placeholder="MM/YY"
+                    placeholder="1234 5678 9012 3456"
                     className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
                   />
                 </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs font-mono text-gray-400 mb-2 block">EXPIRY</label>
+                    <input
+                      type="text"
+                      placeholder="MM/YY"
+                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-mono text-gray-400 mb-2 block">CVC</label>
+                    <input
+                      type="text"
+                      placeholder="123"
+                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                    />
+                  </div>
+                </div>
                 <div>
-                  <label className="text-xs font-mono text-gray-400 mb-2 block">CVC</label>
+                  <label className="text-xs font-mono text-gray-400 mb-2 block">CARDHOLDER NAME</label>
                   <input
                     type="text"
-                    placeholder="123"
+                    placeholder="Name on card"
                     className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
                   />
                 </div>
               </div>
-              <div>
-                <label className="text-xs font-mono text-gray-400 mb-2 block">CARDHOLDER NAME</label>
-                <input
-                  type="text"
-                  placeholder="Name on card"
-                  className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
-                />
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setShowAddCardModal(false)}
+                  className="flex-1 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => { setShowAddCardModal(false); alert('Card added successfully (simulated)'); }}
+                  className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
+                >
+                  Add Card
+                </button>
               </div>
-            </div>
-            <div className="flex gap-4">
-              <button
-                onClick={() => setShowAddCardModal(false)}
-                className="flex-1 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => { setShowAddCardModal(false); alert('Card added successfully (simulated)'); }}
-                className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
-              >
-                Add Card
-              </button>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 }

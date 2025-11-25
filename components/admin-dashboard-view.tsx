@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { MOCK_USERS, MOCK_TRANSACTIONS, calculateRevenueMetrics, getTierDistribution } from '../lib/mock-data';
-import type { MockUser } from '../lib/mock-data';
+import type { MockUser, MockTransaction } from '../lib/mock-data';
+import CustomSelect from './custom-select';
 
 export default function AdminDashboardView() {
   const [activeTab, setActiveTab] = useState<'users' | 'revenue' | 'transactions'>('users');
@@ -13,15 +14,26 @@ export default function AdminDashboardView() {
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [creditAmount, setCreditAmount] = useState('');
 
+  // Transaction filters
+  const [transactionTypeFilter, setTransactionTypeFilter] = useState<'all' | 'subscription' | 'credits' | 'refund'>('all');
+  const [transactionStatusFilter, setTransactionStatusFilter] = useState<'all' | 'completed' | 'pending' | 'failed'>('all');
+
   const metrics = calculateRevenueMetrics();
   const tierDist = getTierDistribution();
 
   // Filter users based on search and tier
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchQuery.toLowerCase());
+      user.email.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTier = tierFilter === 'all' || user.tier === tierFilter;
     return matchesSearch && matchesTier;
+  });
+
+  // Filter transactions based on type and status
+  const filteredTransactions = MOCK_TRANSACTIONS.filter(txn => {
+    const matchesType = transactionTypeFilter === 'all' || txn.type === transactionTypeFilter;
+    const matchesStatus = transactionStatusFilter === 'all' || txn.status === transactionStatusFilter;
+    return matchesType && matchesStatus;
   });
 
   // Handle tier change
@@ -33,7 +45,7 @@ export default function AdminDashboardView() {
   const handleCreditAdjustment = () => {
     if (selectedUser && creditAmount) {
       const amount = parseInt(creditAmount);
-      setUsers(users.map(u => 
+      setUsers(users.map(u =>
         u.id === selectedUser.id ? { ...u, credits: u.credits + amount } : u
       ));
       setShowCreditModal(false);
@@ -64,35 +76,32 @@ export default function AdminDashboardView() {
             <p className="text-xs text-gray-500 font-mono">PURPLE GLOW</p>
           </div>
         </div>
-        
+
         <nav className="flex flex-col gap-2">
           <button
             onClick={() => setActiveTab('users')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-              activeTab === 'users'
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'users'
                 ? 'bg-white/5 border border-glass-border text-white'
                 : 'text-gray-400 hover:text-white hover:bg-white/5'
-            }`}
+              }`}
           >
             <i className="fa-solid fa-users"></i> User Management
           </button>
           <button
             onClick={() => setActiveTab('revenue')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-              activeTab === 'revenue'
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'revenue'
                 ? 'bg-white/5 border border-glass-border text-white'
                 : 'text-gray-400 hover:text-white hover:bg-white/5'
-            }`}
+              }`}
           >
             <i className="fa-solid fa-chart-line"></i> Revenue
           </button>
           <button
             onClick={() => setActiveTab('transactions')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-              activeTab === 'transactions'
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'transactions'
                 ? 'bg-white/5 border border-glass-border text-white'
                 : 'text-gray-400 hover:text-white hover:bg-white/5'
-            }`}
+              }`}
           >
             <i className="fa-solid fa-receipt"></i> Transactions
           </button>
@@ -110,7 +119,7 @@ export default function AdminDashboardView() {
       {/* Main Content */}
       <main className="flex-1 lg:ml-64 p-6 lg:p-12 overflow-y-auto">
         <div className="max-w-7xl mx-auto space-y-8">
-          
+
           {/* Header */}
           <header className="animate-enter">
             <h2 className="font-display font-bold text-4xl mb-2">Admin Dashboard</h2>
@@ -164,16 +173,17 @@ export default function AdminDashboardView() {
                       className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
-                  <select
+                  <CustomSelect
                     value={tierFilter}
-                    onChange={(e) => setTierFilter(e.target.value as any)}
-                    className="bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
-                  >
-                    <option value="all">All Tiers</option>
-                    <option value="free">Free</option>
-                    <option value="pro">Pro</option>
-                    <option value="business">Business</option>
-                  </select>
+                    onChange={(value) => setTierFilter(value as any)}
+                    options={[
+                      { value: 'all', label: 'All Tiers', icon: 'fa-solid fa-users' },
+                      { value: 'free', label: 'Free', icon: 'fa-solid fa-user', color: 'text-gray-400' },
+                      { value: 'pro', label: 'Pro', icon: 'fa-solid fa-crown', color: 'text-neon-grape' },
+                      { value: 'business', label: 'Business', icon: 'fa-solid fa-building', color: 'text-joburg-teal' }
+                    ]}
+                    placeholder="Filter by tier"
+                  />
                 </div>
               </div>
 
@@ -204,15 +214,24 @@ export default function AdminDashboardView() {
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            <select
-                              value={user.tier}
-                              onChange={(e) => handleTierChange(user.id, e.target.value as any)}
-                              className={`px-3 py-1 rounded-full text-xs font-bold border ${getTierBadgeColor(user.tier)} bg-transparent focus:outline-none cursor-pointer`}
-                            >
-                              <option value="free">FREE</option>
-                              <option value="pro">PRO</option>
-                              <option value="business">BUSINESS</option>
-                            </select>
+                            <div className="w-32">
+                              <CustomSelect
+                                value={user.tier}
+                                onChange={(value) => handleTierChange(user.id, value as any)}
+                                options={[
+                                  { value: "free", label: "FREE" },
+                                  { value: "pro", label: "PRO" },
+                                  { value: "business", label: "BUSINESS" }
+                                ]}
+                                variant="compact"
+                                buttonClassName={`
+                                  rounded-full font-bold border
+                                  ${getTierBadgeColor(user.tier)}
+                                  hover:brightness-110
+                                `}
+                                placeholder="Select tier"
+                              />
+                            </div>
                           </td>
                           <td className="px-6 py-4">
                             <button
@@ -224,9 +243,8 @@ export default function AdminDashboardView() {
                           </td>
                           <td className="px-6 py-4 text-gray-300">{user.postsCreated}</td>
                           <td className="px-6 py-4">
-                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                              user.status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
-                            }`}>
+                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${user.status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
+                              }`}>
                               {user.status.toUpperCase()}
                             </span>
                           </td>
@@ -320,7 +338,7 @@ export default function AdminDashboardView() {
                     return (
                       <div key={i} className="flex-1 flex flex-col items-center gap-2">
                         <div className="text-xs text-gray-400 font-mono">R{(amount / 1000).toFixed(1)}k</div>
-                        <div 
+                        <div
                           className="w-full bg-gradient-to-t from-neon-grape to-joburg-teal rounded-t-lg transition-all hover:opacity-80 cursor-pointer"
                           style={{ height: `${height}%` }}
                         ></div>
@@ -338,22 +356,69 @@ export default function AdminDashboardView() {
           {/* Transactions Tab */}
           {activeTab === 'transactions' && (
             <div className="space-y-6 animate-enter">
+              {/* Transaction Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="aerogel-card p-6 rounded-2xl">
+                  <div className="flex items-center justify-between mb-3">
+                    <i className="fa-solid fa-filter text-2xl text-gray-500"></i>
+                  </div>
+                  <p className="text-3xl font-display font-bold">{filteredTransactions.length}</p>
+                  <p className="text-sm text-gray-400 mt-1">Filtered Results</p>
+                </div>
+                <div className="aerogel-card p-6 rounded-2xl">
+                  <div className="flex items-center justify-between mb-3">
+                    <i className="fa-solid fa-coins text-2xl text-mzansi-gold"></i>
+                  </div>
+                  <p className="text-3xl font-display font-bold">
+                    R{filteredTransactions.reduce((sum, t) => sum + t.amount, 0).toLocaleString()}
+                  </p>
+                  <p className="text-sm text-gray-400 mt-1">Total Amount</p>
+                </div>
+                <div className="aerogel-card p-6 rounded-2xl">
+                  <div className="flex items-center justify-between mb-3">
+                    <i className="fa-solid fa-check-circle text-2xl text-green-500"></i>
+                  </div>
+                  <p className="text-3xl font-display font-bold">
+                    {filteredTransactions.filter(t => t.status === 'completed').length}
+                  </p>
+                  <p className="text-sm text-gray-400 mt-1">Completed</p>
+                </div>
+              </div>
+
               {/* Transaction Filters */}
               <div className="aerogel-card p-6 rounded-2xl">
                 <div className="flex flex-col md:flex-row gap-4">
-                  <select className="bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors">
-                    <option value="all">All Types</option>
-                    <option value="subscription">Subscriptions</option>
-                    <option value="credits">Credit Purchases</option>
-                    <option value="refund">Refunds</option>
-                  </select>
-                  <select className="bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors">
-                    <option value="all">All Status</option>
-                    <option value="completed">Completed</option>
-                    <option value="pending">Pending</option>
-                    <option value="failed">Failed</option>
-                  </select>
-                  <button className="px-6 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors flex items-center gap-2">
+                  <CustomSelect
+                    value={transactionTypeFilter}
+                    onChange={(value) => setTransactionTypeFilter(value as any)}
+                    options={[
+                      { value: 'all', label: 'All Types', icon: 'fa-solid fa-filter' },
+                      { value: 'subscription', label: 'Subscriptions', icon: 'fa-solid fa-repeat', color: 'text-neon-grape' },
+                      { value: 'credits', label: 'Credit Purchases', icon: 'fa-solid fa-coins', color: 'text-mzansi-gold' },
+                      { value: 'refund', label: 'Refunds', icon: 'fa-solid fa-rotate-left', color: 'text-red-400' }
+                    ]}
+                    placeholder="Filter by type"
+                    className="flex-1"
+                  />
+                  <CustomSelect
+                    value={transactionStatusFilter}
+                    onChange={(value) => setTransactionStatusFilter(value as any)}
+                    options={[
+                      { value: 'all', label: 'All Status', icon: 'fa-solid fa-circle-dot' },
+                      { value: 'completed', label: 'Completed', icon: 'fa-solid fa-check-circle', color: 'text-green-400' },
+                      { value: 'pending', label: 'Pending', icon: 'fa-solid fa-clock', color: 'text-yellow-400' },
+                      { value: 'failed', label: 'Failed', icon: 'fa-solid fa-times-circle', color: 'text-red-400' }
+                    ]}
+                    placeholder="Filter by status"
+                    className="flex-1"
+                  />
+                  <button
+                    onClick={() => {
+                      // Export functionality (UI only for now)
+                      alert(`Exporting ${filteredTransactions.length} transactions to CSV...`);
+                    }}
+                    className="px-6 py-3 border border-glass-border rounded-xl hover:bg-white/5 hover:border-joburg-teal/50 transition-colors flex items-center gap-2 text-gray-300 hover:text-white font-medium"
+                  >
                     <i className="fa-solid fa-download"></i> Export CSV
                   </button>
                 </div>
@@ -374,39 +439,57 @@ export default function AdminDashboardView() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-glass-border">
-                      {MOCK_TRANSACTIONS.sort((a, b) => b.date.getTime() - a.date.getTime()).map((txn) => (
-                        <tr key={txn.id} className="hover:bg-white/5 transition-colors">
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            {txn.date.toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: 'numeric' })}
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="font-bold text-sm">{txn.userName}</div>
-                            <div className="text-xs text-gray-500">{txn.paymentMethod}</div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                              txn.type === 'subscription' ? 'bg-neon-grape/20 text-neon-grape' :
-                              txn.type === 'credits' ? 'bg-mzansi-gold/20 text-mzansi-gold' :
-                              'bg-red-500/20 text-red-400'
-                            }`}>
-                              {txn.type.toUpperCase()}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">{txn.description}</td>
-                          <td className="px-6 py-4">
-                            <span className="font-mono font-bold text-green-400">R{txn.amount.toFixed(2)}</span>
-                          </td>
-                          <td className="px-6 py-4">
-                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                              txn.status === 'completed' ? 'bg-green-500/20 text-green-400' :
-                              txn.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
-                              'bg-red-500/20 text-red-400'
-                            }`}>
-                              {txn.status.toUpperCase()}
-                            </span>
+                      {filteredTransactions.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} className="px-6 py-12 text-center">
+                            <div className="flex flex-col items-center gap-3">
+                              <i className="fa-solid fa-inbox text-4xl text-gray-600"></i>
+                              <p className="text-gray-400">No transactions match your filters</p>
+                              <button
+                                onClick={() => {
+                                  setTransactionTypeFilter('all');
+                                  setTransactionStatusFilter('all');
+                                }}
+                                className="mt-2 px-4 py-2 text-sm text-neon-grape hover:text-white transition-colors"
+                              >
+                                Clear Filters
+                              </button>
+                            </div>
                           </td>
                         </tr>
-                      ))}
+                      ) : (
+                        filteredTransactions.sort((a, b) => b.date.getTime() - a.date.getTime()).map((txn) => (
+                          <tr key={txn.id} className="hover:bg-white/5 transition-colors">
+                            <td className="px-6 py-4 text-sm text-gray-300">
+                              {txn.date.toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: 'numeric' })}
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="font-bold text-sm">{txn.userName}</div>
+                              <div className="text-xs text-gray-500">{txn.paymentMethod}</div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2 py-1 rounded-full text-xs font-bold ${txn.type === 'subscription' ? 'bg-neon-grape/20 text-neon-grape' :
+                                  txn.type === 'credits' ? 'bg-mzansi-gold/20 text-mzansi-gold' :
+                                    'bg-red-500/20 text-red-400'
+                                }`}>
+                                {txn.type.toUpperCase()}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-300">{txn.description}</td>
+                            <td className="px-6 py-4">
+                              <span className="font-mono font-bold text-green-400">R{txn.amount.toFixed(2)}</span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2 py-1 rounded-full text-xs font-bold ${txn.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                                  txn.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
+                                    'bg-red-500/20 text-red-400'
+                                }`}>
+                                {txn.status.toUpperCase()}
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </div>

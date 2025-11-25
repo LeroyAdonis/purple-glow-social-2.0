@@ -47,7 +47,7 @@ export default function LanguageSelector({ currentLanguage, onLanguageChange, va
         </button>
 
         {isOpen && (
-          <div className="absolute top-full right-0 mt-2 w-56 aerogel-card rounded-xl shadow-2xl z-50 max-h-80 overflow-y-auto">
+          <div className="absolute top-full right-0 mt-2 w-56 aerogel-card rounded-xl shadow-2xl z-[9999] max-h-80 overflow-y-auto">
             <div className="p-2">
               {LANGUAGES.map((lang) => (
                 <button
@@ -91,7 +91,7 @@ export default function LanguageSelector({ currentLanguage, onLanguageChange, va
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 aerogel-card rounded-xl shadow-2xl z-50 max-h-80 overflow-y-auto animate-enter">
+        <div className="absolute top-full left-0 right-0 mt-2 aerogel-card rounded-xl shadow-2xl z-[9999] max-h-80 overflow-y-auto animate-enter">
           <div className="p-2">
             {LANGUAGES.map((lang) => (
               <button

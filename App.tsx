@@ -212,6 +212,11 @@ export default function App() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
+            <LanguageSelector
+              currentLanguage={currentLanguage}
+              onLanguageChange={setCurrentLanguage}
+              variant="compact"
+            />
             <button
               onClick={() => setIsLoginModalOpen(true)}
               className="text-sm font-bold hover:text-joburg-teal transition-colors"
@@ -824,6 +829,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-    </div >
+    </div>
   );
 }

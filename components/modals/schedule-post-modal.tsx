@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import CustomSelect from '../custom-select';
 
 interface SchedulePostModalProps {
   isOpen: boolean;
@@ -37,7 +38,7 @@ export default function SchedulePostModal({
       alert('Please select both date and time');
       return;
     }
-    
+
     const scheduledDateTime = `${selectedDate} ${selectedTime}`;
     alert(`Post scheduled for ${scheduledDateTime} ${timezone}\n${recurrence !== 'none' ? `Recurrence: ${recurrence}` : ''}`);
     onClose();
@@ -47,7 +48,7 @@ export default function SchedulePostModal({
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
-    
+
     setSelectedDate(tomorrow.toISOString().split('T')[0]);
     setSelectedTime(time);
   };
@@ -127,11 +128,10 @@ export default function SchedulePostModal({
                   <div className="flex items-center gap-1 mt-2">
                     <div className="flex-1 bg-gray-200 rounded-full h-1.5">
                       <div
-                        className={`h-1.5 rounded-full ${
-                          slot.engagement === 'Very High' ? 'bg-green-500 w-full' :
+                        className={`h-1.5 rounded-full ${slot.engagement === 'Very High' ? 'bg-green-500 w-full' :
                           slot.engagement === 'High' ? 'bg-green-400 w-4/5' :
-                          'bg-yellow-400 w-3/5'
-                        }`}
+                            'bg-yellow-400 w-3/5'
+                          }`}
                       ></div>
                     </div>
                     <span className="text-xs text-gray-600">{slot.engagement}</span>
@@ -147,7 +147,7 @@ export default function SchedulePostModal({
               <i className="fa-regular fa-clock"></i>
               Or Choose Your Own Time
             </h3>
-            
+
             <div className="grid grid-cols-2 gap-4">
               {/* Date Picker */}
               <div>
@@ -168,18 +168,17 @@ export default function SchedulePostModal({
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Time
                 </label>
-                <select
-                  value={selectedTime}
-                  onChange={(e) => setSelectedTime(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-joburg-teal focus:border-transparent"
-                >
-                  <option value="">Select time</option>
-                  {generateTimeOptions().map((time) => (
-                    <option key={time} value={time}>
-                      {time}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <CustomSelect
+                    value={selectedTime}
+                    onChange={setSelectedTime}
+                    options={[
+                      { value: "", label: "🕐 Select time" },
+                      ...generateTimeOptions().map(time => ({ value: time, label: time }))
+                    ]}
+                    placeholder="Select time"
+                  />
+                </div>
               </div>
             </div>
 
