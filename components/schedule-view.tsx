@@ -51,93 +51,72 @@ const platformIcons = {
 
 export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('calendar');
-  const [dateFilter, setDateFilter] = useState<DateFilter>('week');
+  const [dateFilter, setDateFilter] = useState<DateFilter>('month');
   const [platformFilters, setPlatformFilters] = useState<string[]>([]);
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
-  const [posts, setPosts] = useState<ScheduledPost[]>(mockScheduledPosts);
 
   const togglePlatformFilter = (platform: string) => {
-    if (platformFilters.includes(platform)) {
-      setPlatformFilters(platformFilters.filter(p => p !== platform));
-    } else {
-      setPlatformFilters([...platformFilters, platform]);
-    }
+    setPlatformFilters(prev =>
+      prev.includes(platform)
+        ? prev.filter(p => p !== platform)
+        : [...prev, platform]
+    );
   };
 
-  const togglePostSelection = (postId: string) => {
-    if (selectedPosts.includes(postId)) {
-      setSelectedPosts(selectedPosts.filter(id => id !== postId));
-    } else {
-      setSelectedPosts([...selectedPosts, postId]);
-    }
-  };
+  const filteredPosts = mockScheduledPosts.filter(post =>
+    platformFilters.length === 0 || platformFilters.includes(post.platform)
+  );
 
-  const filteredPosts = posts.filter(post => {
-    if (platformFilters.length === 0) return true;
-    return platformFilters.includes(post.platform);
-  });
-
-  const groupPostsByDate = () => {
-    const grouped: { [key: string]: ScheduledPost[] } = {};
-    filteredPosts.forEach(post => {
-      const date = new Date(post.scheduledTime).toLocaleDateString();
-      if (!grouped[date]) {
-        grouped[date] = [];
-      }
-      grouped[date].push(post);
-    });
-    return grouped;
+  const scheduleSelected = () => {
+    alert(`Scheduling ${selectedPosts.length} posts`);
+    setSelectedPosts([]);
   };
 
   const deleteSelected = () => {
-    if (confirm(`Delete ${selectedPosts.length} selected post(s)?`)) {
-      setPosts(posts.filter(post => !selectedPosts.includes(post.id)));
-      setSelectedPosts([]);
-    }
-  };
-
-  const scheduleSelected = () => {
-    alert(`Bulk scheduling ${selectedPosts.length} posts with staggered times...`);
+    alert(`Deleting ${selectedPosts.length} posts`);
     setSelectedPosts([]);
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-joburg-teal to-pretoria-blue rounded-xl shadow-lg p-6 text-white">
-        <div className="flex items-center justify-between">
+      <div className="aerogel-card rounded-2xl p-8">
+        <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Content Schedule</h1>
-            <p className="text-white/90">Plan, schedule, and manage your social media posts</p>
+            <h1 className="text-4xl font-display font-bold text-white mb-2">
+              <i className="fa-regular fa-calendar mr-3 text-joburg-teal"></i>
+              Content Schedule
+            </h1>
+            <p className="text-gray-400">Plan, schedule, and manage your social media posts across all platforms</p>
           </div>
           <button
             onClick={onSchedulePost}
-            className="px-6 py-3 bg-white text-joburg-teal rounded-lg font-semibold hover:shadow-xl transition-all"
+            className="px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all"
           >
-            <i className="fa-regular fa-calendar-plus mr-2"></i>
-            Schedule Post
+            <i className="fa-solid fa-calendar-plus mr-2"></i>
+            Schedule New Post
           </button>
         </div>
       </div>
 
       {/* Stats Bar */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg shadow p-4 border-l-4 border-joburg-teal">
-          <div className="text-2xl font-bold text-pretoria-blue">{filteredPosts.length}</div>
-          <div className="text-sm text-gray-600">Scheduled Posts</div>
+        <div className="aerogel-card rounded-xl p-6 border-l-4 border-joburg-teal">
+          <div className="text-3xl font-display font-bold text-white mb-1">{filteredPosts.length}</div>
+          <div className="text-sm text-gray-400">Scheduled Posts</div>
         </div>
-        <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
-          <div className="text-2xl font-bold text-pretoria-blue">
+        <div className="aerogel-card rounded-xl p-6 border-l-4 border-green-500">
+          <div className="text-3xl font-display font-bold text-white mb-1">
             {filteredPosts.filter(p => {
               const today = new Date();
               const postDate = new Date(p.scheduledTime);
               return postDate.toDateString() === today.toDateString();
             }).length}
           </div>
-          <div className="text-sm text-gray-600">Today's Posts</div>
+          <div className="text-sm text-gray-400">Today's Posts</div>
         </div>
-        <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
-          <div className="text-2xl font-bold text-pretoria-blue">
+        <div className="aerogel-card rounded-xl p-6 border-l-4 border-blue-500">
+          <div className="text-3xl font-display font-bold text-white mb-1">
             {filteredPosts.filter(p => {
               const today = new Date();
               const postDate = new Date(p.scheduledTime);
@@ -145,18 +124,18 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               return postDate > today && postDate <= weekFromNow;
             }).length}
           </div>
-          <div className="text-sm text-gray-600">This Week</div>
+          <div className="text-sm text-gray-400">This Week</div>
         </div>
-        <div className="bg-white rounded-lg shadow p-4 border-l-4 border-purple-500">
-          <div className="text-2xl font-bold text-pretoria-blue">
+        <div className="aerogel-card rounded-xl p-6 border-l-4 border-purple-500">
+          <div className="text-3xl font-display font-bold text-white mb-1">
             {new Set(filteredPosts.map(p => p.platform)).size}
           </div>
-          <div className="text-sm text-gray-600">Platforms</div>
+          <div className="text-sm text-gray-400">Active Platforms</div>
         </div>
       </div>
 
       {/* Controls Bar */}
-      <div className="bg-white rounded-xl shadow-lg p-4">
+      <div className="aerogel-card rounded-xl p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           {/* View Mode Toggle */}
           <div className="flex gap-2">
@@ -164,8 +143,8 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               onClick={() => setViewMode('calendar')}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
                 viewMode === 'calendar'
-                  ? 'bg-joburg-teal text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white'
+                  : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
               }`}
             >
               <i className="fa-regular fa-calendar mr-2"></i>
@@ -175,8 +154,8 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               onClick={() => setViewMode('list')}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
                 viewMode === 'list'
-                  ? 'bg-joburg-teal text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white'
+                  : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
               }`}
             >
               <i className="fa-solid fa-list mr-2"></i>
@@ -186,8 +165,8 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               onClick={() => setViewMode('timeline')}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
                 viewMode === 'timeline'
-                  ? 'bg-joburg-teal text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white'
+                  : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
               }`}
             >
               <i className="fa-solid fa-timeline mr-2"></i>
@@ -196,18 +175,19 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
           </div>
 
           {/* Platform Filters */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             {(['instagram', 'twitter', 'linkedin', 'facebook'] as const).map(platform => (
               <button
                 key={platform}
                 onClick={() => togglePlatformFilter(platform)}
-                className={`px-3 py-2 rounded-lg font-medium transition-all ${
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                   platformFilters.includes(platform)
-                    ? 'bg-joburg-teal text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? `bg-gradient-to-r ${platformColors[platform]} text-white shadow-lg`
+                    : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
                 }`}
               >
-                <i className={platformIcons[platform]}></i>
+                <i className={`${platformIcons[platform]} mr-1`}></i>
+                {platform.charAt(0).toUpperCase() + platform.slice(1)}
               </button>
             ))}
           </div>
@@ -217,84 +197,83 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
             <div className="flex gap-2">
               <button
                 onClick={scheduleSelected}
-                className="px-4 py-2 bg-joburg-teal text-white rounded-lg font-medium hover:shadow-lg transition-all"
+                className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-lg font-bold hover:shadow-xl transition-all"
               >
                 <i className="fa-regular fa-calendar-check mr-2"></i>
-                Schedule {selectedPosts.length}
+                Schedule ({selectedPosts.length})
               </button>
               <button
                 onClick={deleteSelected}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:shadow-lg transition-all"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition-all"
               >
                 <i className="fa-solid fa-trash mr-2"></i>
-                Delete
+                Delete ({selectedPosts.length})
               </button>
             </div>
           )}
         </div>
       </div>
 
+      {/* Content Views */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main View Area */}
         <div className="lg:col-span-2">
-          {/* Calendar View */}
           {viewMode === 'calendar' && (
             <CalendarView scheduledPosts={filteredPosts} />
           )}
 
-          {/* List View */}
           {viewMode === 'list' && (
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-pretoria-blue mb-4">Scheduled Posts</h2>
-              {Object.entries(groupPostsByDate()).map(([date, postsForDate]) => (
-                <div key={date} className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                    <i className="fa-regular fa-calendar"></i>
-                    {new Date(date).toLocaleDateString('en-US', { 
-                      weekday: 'long', 
-                      year: 'numeric', 
-                      month: 'long', 
-                      day: 'numeric' 
-                    })}
+            <div className="aerogel-card rounded-2xl p-8">
+              <h2 className="text-3xl font-display font-bold text-white mb-6">Scheduled Posts</h2>
+              {Object.entries(
+                filteredPosts.reduce((acc, post) => {
+                  const date = new Date(post.scheduledTime).toLocaleDateString();
+                  if (!acc[date]) acc[date] = [];
+                  acc[date].push(post);
+                  return acc;
+                }, {} as Record<string, ScheduledPost[]>)
+              ).map(([date, posts]) => (
+                <div key={date} className="mb-8">
+                  <h3 className="text-lg font-semibold text-gray-300 mb-4 flex items-center gap-2">
+                    <i className="fa-regular fa-calendar text-joburg-teal"></i>
+                    {date}
                   </h3>
-                  <div className="space-y-3">
-                    {postsForDate.map(post => (
-                      <div
-                        key={post.id}
-                        className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
-                      >
-                        <div className="flex items-start gap-4">
-                          <input
-                            type="checkbox"
-                            checked={selectedPosts.includes(post.id)}
-                            onChange={() => togglePostSelection(post.id)}
-                            className="mt-1 w-4 h-4 text-joburg-teal rounded focus:ring-joburg-teal"
-                          />
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className={`px-3 py-1 rounded-lg bg-gradient-to-r ${platformColors[post.platform]} text-white text-sm font-medium flex items-center gap-1`}>
-                                <i className={platformIcons[post.platform]}></i>
-                                {post.platform.charAt(0).toUpperCase() + post.platform.slice(1)}
-                              </span>
-                              <span className="text-sm font-semibold text-gray-700">
-                                {new Date(post.scheduledTime).toLocaleTimeString('en-US', {
-                                  hour: 'numeric',
-                                  minute: '2-digit',
-                                  hour12: true
-                                })}
-                              </span>
-                              <span className="px-2 py-0.5 rounded-full bg-joburg-teal/10 text-joburg-teal text-xs font-medium">
-                                {post.status}
-                              </span>
-                            </div>
-                            <p className="text-gray-700 mb-2">{post.content}</p>
-                            <div className="flex gap-2">
-                              <button className="text-sm text-joburg-teal hover:underline">
-                                <i className="fa-solid fa-pen mr-1"></i>Edit
-                              </button>
-                              <button className="text-sm text-red-600 hover:underline">
-                                <i className="fa-solid fa-trash mr-1"></i>Delete
-                              </button>
+                  <div className="space-y-4">
+                    {posts.map(post => (
+                      <div key={post.id} className="bg-white/5 border border-glass-border rounded-xl p-6 hover:bg-white/10 transition-all">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex items-start gap-3 flex-1">
+                            <input
+                              type="checkbox"
+                              checked={selectedPosts.includes(post.id)}
+                              onChange={() => {}}
+                              className="mt-1 w-4 h-4 text-joburg-teal rounded focus:ring-joburg-teal"
+                            />
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <span className={`px-3 py-1 rounded-lg bg-gradient-to-r ${platformColors[post.platform]} text-white text-sm font-medium flex items-center gap-1`}>
+                                  <i className={platformIcons[post.platform]}></i>
+                                  {post.platform.charAt(0).toUpperCase() + post.platform.slice(1)}
+                                </span>
+                                <span className="text-sm font-semibold text-white">
+                                  {new Date(post.scheduledTime).toLocaleTimeString('en-US', {
+                                    hour: 'numeric',
+                                    minute: '2-digit',
+                                    hour12: true
+                                  })}
+                                </span>
+                                <span className="px-2 py-0.5 rounded-full bg-joburg-teal/10 text-joburg-teal text-xs font-medium">
+                                  {post.status}
+                                </span>
+                              </div>
+                              <p className="text-gray-300 mb-3">{post.content}</p>
+                              <div className="flex gap-3">
+                                <button className="text-sm text-joburg-teal hover:underline font-medium">
+                                  <i className="fa-solid fa-edit mr-1"></i> Edit
+                                </button>
+                                <button className="text-sm text-red-400 hover:underline font-medium">
+                                  <i className="fa-solid fa-trash mr-1"></i> Delete
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -306,22 +285,21 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
             </div>
           )}
 
-          {/* Timeline View */}
           {viewMode === 'timeline' && (
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-pretoria-blue mb-6">Timeline View</h2>
+            <div className="aerogel-card rounded-2xl p-8">
+              <h2 className="text-3xl font-display font-bold text-white mb-8">Timeline View</h2>
               <div className="relative">
                 {/* Timeline Line */}
-                <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300"></div>
+                <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-glass-border"></div>
                 
-                <div className="space-y-6">
+                <div className="space-y-8">
                   {filteredPosts.map((post, index) => (
                     <div key={post.id} className="relative pl-20">
                       {/* Timeline Dot */}
-                      <div className={`absolute left-6 w-5 h-5 rounded-full bg-gradient-to-r ${platformColors[post.platform]} border-4 border-white`}></div>
+                      <div className={`absolute left-6 w-5 h-5 rounded-full bg-gradient-to-r ${platformColors[post.platform]} border-4 border-void`}></div>
                       
                       {/* Time Label */}
-                      <div className="absolute left-0 top-0 text-sm font-semibold text-gray-600">
+                      <div className="absolute left-0 top-0 text-sm font-semibold text-gray-400">
                         {new Date(post.scheduledTime).toLocaleTimeString('en-US', {
                           hour: 'numeric',
                           minute: '2-digit',
@@ -330,14 +308,16 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                       </div>
                       
                       {/* Post Card */}
-                      <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-2 mb-2">
-                          <i className={`${platformIcons[post.platform]} text-lg`}></i>
-                          <span className="font-semibold text-pretoria-blue">
+                      <div className="bg-white/5 border border-glass-border rounded-xl p-6 hover:bg-white/10 transition-all">
+                        <div className="flex items-center gap-2 mb-3">
+                          <i className={`${platformIcons[post.platform]} text-xl`}></i>
+                          <span className="font-semibold text-white">
                             {post.platform.charAt(0).toUpperCase() + post.platform.slice(1)}
                           </span>
+                          <span className="text-xs text-gray-400">•</span>
+                          <span className="text-xs text-gray-400">{post.status}</span>
                         </div>
-                        <p className="text-sm text-gray-700">{post.content}</p>
+                        <p className="text-gray-300">{post.content}</p>
                       </div>
                     </div>
                   ))}
