@@ -5,80 +5,32 @@ import { auth } from "../../lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import ContentGenerator from "../../components/content-generator";
+import LogoutButton from "../../components/LogoutButton";
 import * as schema from "../../drizzle/schema";
 
 const db = drizzle(process.env.DATABASE_URL!, { schema });
 
 export default async function DashboardPage() {
-  let session = await auth.api.getSession({
+  const session = await auth.api.getSession({
     headers: await headers()
   });
 
-  // MOCK SESSION FOR DEMO PREVIEW
-  // In a real production app, you would strictly use the `if (!session) redirect("/")` block.
-  // We allow a fallback here so the UI can be reviewed without setting up the DB/Env variables.
+  // Redirect to login if not authenticated
   if (!session) {
-    session = {
-      user: {
-        id: "mock-user-id",
-        name: "Thabo Nkosi",
-        email: "thabo@purpleglow.co.za",
-        image: "https://ui-avatars.com/api/?name=Thabo+Nkosi&background=9D4EDD&color=fff",
-        tier: "pro",
-        emailVerified: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      session: {
-        id: "mock-session-id",
-        userId: "mock-user-id",
-        expiresAt: new Date(Date.now() + 1000 * 60 * 60),
-        token: "mock-token",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        ipAddress: "127.0.0.1",
-        userAgent: "Mozilla/5.0"
-      }
-    };
-    // If you want to enforce strict auth, uncomment the line below and remove the mock logic above.
-    // redirect("/"); 
+    redirect("/login");
   }
 
-  // Fetch recent posts with fallback
+  // Fetch recent posts
   let recentPosts = [];
   try {
-      if (session.user.id !== "mock-user-id") {
-          recentPosts = await db.query.posts.findMany({
-            where: eq(posts.userId, session.user.id),
-            orderBy: [desc(posts.createdAt)],
-            limit: 5
-          });
-      } else {
-          // Return mock data for the mock user
-          recentPosts = [
-              {
-                  id: "1",
-                  topic: "Summer Sale",
-                  content: "Hey Mzansi! 🌞 Our summer sale is finally here. Get 50% off all sneakers. Don't sleep on this! #SummerVibes #Sale",
-                  imageUrl: "https://picsum.photos/400/300?random=1",
-                  platform: "instagram",
-                  status: "scheduled",
-                  createdAt: new Date()
-              },
-              {
-                  id: "2",
-                  topic: "New Branch Opening",
-                  content: "We are opening a new branch in Sandton! Come through for a free coffee. ☕️",
-                  imageUrl: null,
-                  platform: "twitter",
-                  status: "draft",
-                  createdAt: new Date()
-              }
-          ];
-      }
+    recentPosts = await db.query.posts.findMany({
+      where: eq(posts.userId, session.user.id),
+      orderBy: [desc(posts.createdAt)],
+      limit: 5
+    });
   } catch (error) {
-      console.error("DB Fetch Error (Expected in Preview):", error);
-      // Fallback to empty if DB fails completely
+    console.error("Failed to fetch posts:", error);
+    // Fallback to empty array on error
   }
 
   return (
@@ -116,12 +68,17 @@ export default async function DashboardPage() {
                 </div>
             </div>
             
-            <div className="flex items-center gap-3 mt-6">
-                 <img src={session.user.image || "https://picsum.photos/50"} alt="User" className="w-10 h-10 rounded-full border border-glass-border" />
-                 <div>
-                    <p className="text-sm font-bold truncate w-32">{session.user.name}</p>
-                    <p className="text-xs text-gray-400">View Profile</p>
-                 </div>
+            <div className="mt-6">
+              <div className="flex items-center gap-3">
+                <img src={session.user.image || "https://picsum.photos/50"} alt="User" className="w-10 h-10 rounded-full border border-glass-border" />
+                <div>
+                  <p className="text-sm font-bold truncate w-32">{session.user.name}</p>
+                  <p className="text-xs text-gray-400">{session.user.email}</p>
+                </div>
+              </div>
+              <div className="mt-3">
+                <LogoutButton />
+              </div>
             </div>
         </div>
       </aside>

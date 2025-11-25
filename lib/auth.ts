@@ -19,12 +19,14 @@ export const auth = betterAuth({
     schema: schema,
   }) : undefined as any, // Mock mode - auth won't actually work but won't crash
   emailAndPassword: {  
-    enabled: true
+    enabled: true,
+    requireEmailVerification: false, // Disable for easier testing
   },
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID || "mock-google-id",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "mock-google-secret",
+      redirectURI: `${process.env.BETTER_AUTH_URL}/api/auth/callback/google`,
     },
     twitter: {
       clientId: process.env.TWITTER_CLIENT_ID || "mock-twitter-id",
@@ -36,7 +38,15 @@ export const auth = betterAuth({
       tier: {
         type: "string",
         defaultValue: "free",
+      },
+      credits: {
+        type: "number",
+        defaultValue: 10,
       }
     }
-  }
+  },
+  session: {
+    expiresIn: 60 * 60 * 24 * 7, // 7 days
+    updateAge: 60 * 60 * 24, // 1 day
+  },
 });
