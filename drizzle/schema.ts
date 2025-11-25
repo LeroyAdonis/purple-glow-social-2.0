@@ -61,7 +61,12 @@ export const posts = pgTable("posts", {
   status: statusEnum("status").default("draft"),
   topic: text("topic"),
   scheduledDate: timestamp("scheduled_date"),
+  platformPostId: text("platform_post_id"), // ID from the platform (e.g., tweet ID)
+  platformPostUrl: text("platform_post_url"), // URL to the post on the platform
+  publishedAt: timestamp("published_at"), // When it was actually published
+  errorMessage: text("error_message"), // Error if posting failed
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const automationRules = pgTable("automation_rules", {
