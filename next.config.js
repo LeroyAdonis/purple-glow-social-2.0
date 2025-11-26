@@ -2,17 +2,33 @@
 const nextConfig = {
   reactStrictMode: true,
   
-  // Image optimization
+  // Image optimization - migrated to remotePatterns only (Next.js 16)
   images: {
-    domains: [
-      'ui-avatars.com',
-      'picsum.photos',
-      'graph.facebook.com',
-      'pbs.twimg.com',
-      'media.licdn.com',
-      'vercel.com',
-    ],
     remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ui-avatars.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
+      {
+        protocol: 'https',
+        hostname: 'graph.facebook.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pbs.twimg.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.licdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'vercel.com',
+      },
       {
         protocol: 'https',
         hostname: '**.vercel-storage.com',
@@ -67,7 +83,11 @@ const nextConfig = {
     ];
   },
 
-  // Webpack configuration
+  // Turbopack configuration (Next.js 16 default)
+  // Empty config to silence webpack migration warning
+  turbopack: {},
+
+  // Webpack configuration (fallback for when --webpack flag is used)
   webpack: (config, { isServer }) => {
     if (!isServer) {
       // Don't bundle server-only packages on client

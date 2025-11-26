@@ -1,6 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Custom Colors */
+  --color-void: #05040A;
+  --color-neon-grape: #9D4EDD;
+  --color-joburg-teal: #00E0FF;
+  --color-mzansi-gold: #FFCC00;
+  --color-hyper-crimson: #FF2A6D;
+  --color-pretoria-blue: #1A1F3A;
+  --color-electric-indigo: #5A189A;
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  
+  /* Custom Fonts */
+  --font-family-display: 'Syne', sans-serif;
+  --font-family-body: 'Outfit', sans-serif;
+  --font-family-mono: 'Space Grotesk', monospace;
+}
 
 @layer base {
   body {
