@@ -267,7 +267,7 @@ Generate the hashtags as a comma-separated list:`;
       const text = data.candidates[0]?.content?.parts[0]?.text || '';
       
       // Extract hashtags
-      const hashtags = text.match(/#\w+/g) || [];
+      const hashtags: string[] = text.match(/#\w+/g) || [];
       return Array.from(new Set(hashtags)).slice(0, count);
     } catch (error) {
       console.error('Hashtag generation error:', error);

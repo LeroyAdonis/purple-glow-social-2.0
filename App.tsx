@@ -131,11 +131,6 @@ export default function App() {
     }, 2000);
   };
 
-  // Handle Language Change
-  const handleLanguageChange = (language: Language) => {
-    setCurrentLanguage(language);
-  };
-
   // Render appropriate view based on state
   if (currentView === 'admin') {
     return <AdminDashboardView />;
@@ -153,8 +148,6 @@ export default function App() {
         successData={successData}
         showSuccessModal={showSuccessModal}
         setShowSuccessModal={setShowSuccessModal}
-        currentLanguage={currentLanguage}
-        onLanguageChange={handleLanguageChange}
       />
     );
   }

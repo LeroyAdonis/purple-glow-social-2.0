@@ -111,10 +111,6 @@ export default function HomePage() {
     }, 2000);
   };
 
-  // Handle Language Change
-  const handleLanguageChange = (language: Language) => {
-    setCurrentLanguage(language);
-  };
 
   // Render appropriate view based on state
   if (currentView === 'admin') {
@@ -133,8 +129,6 @@ export default function HomePage() {
         successData={successData}
         showSuccessModal={showSuccessModal}
         setShowSuccessModal={setShowSuccessModal}
-        currentLanguage={currentLanguage}
-        onLanguageChange={handleLanguageChange}
       />
     );
   }

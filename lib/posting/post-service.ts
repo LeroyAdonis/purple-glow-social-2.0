@@ -15,6 +15,7 @@ import { eq } from 'drizzle-orm';
 interface PostContent {
   content: string;
   imageUrl?: string;
+  videoUrl?: string;
   link?: string;
 }
 

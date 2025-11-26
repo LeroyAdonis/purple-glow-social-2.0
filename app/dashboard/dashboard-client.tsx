@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import ClientDashboardView from '../../components/client-dashboard-view';
-import { Language } from '../../lib/i18n';
 import { useRouter } from 'next/navigation';
 
 interface DashboardClientProps {
@@ -19,7 +18,6 @@ export default function DashboardClient({
   userId 
 }: DashboardClientProps) {
   const router = useRouter();
-  const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successData, setSuccessData] = useState<any>(null);
 
@@ -44,10 +42,6 @@ export default function DashboardClient({
     
     fetchUserData();
   }, [userId]);
-
-  const handleLanguageChange = (lang: Language) => {
-    setCurrentLanguage(lang);
-  };
 
   const handleCreditPurchase = (credits: number, amount: number) => {
     // In production, this would call an API
@@ -87,8 +81,6 @@ export default function DashboardClient({
       successData={successData}
       showSuccessModal={showSuccessModal}
       setShowSuccessModal={setShowSuccessModal}
-      currentLanguage={currentLanguage}
-      onLanguageChange={handleLanguageChange}
     />
   );
 }
