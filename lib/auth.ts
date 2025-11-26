@@ -23,7 +23,10 @@ if (isDatabaseConfigured) {
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-for-development",
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
-  trustedOrigins: ["http://localhost:3000"],
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://purple-glow-social-2-0.vercel.app"
+  ],
   database: isDatabaseConfigured && db ? drizzleAdapter(db, {
     provider: "pg",
     schema: {
