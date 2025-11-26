@@ -1,25 +1,7 @@
-import { auth } from "../../lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import DashboardClient from "./dashboard-client";
+import DashboardClientPage from './client-page';
 
-export default async function DashboardPage() {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  });
-
-  // Redirect to login if not authenticated
-  if (!session) {
-    redirect("/login");
-  }
-
-  // Pass session data to client component
-  return (
-    <DashboardClient 
-      userName={session.user.name || "User"}
-      userEmail={session.user.email}
-      userImage={session.user.image}
-      userId={session.user.id}
-    />
-  );
+// Using client-side session check instead of server-side
+// This fixes issues with session cookies not being properly read on the server
+export default function DashboardPage() {
+  return <DashboardClientPage />;
 }
