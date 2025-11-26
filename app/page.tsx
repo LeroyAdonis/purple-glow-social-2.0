@@ -14,30 +14,13 @@ import AutomationView from '../components/automation-view';
 import AutomationWizard from '../components/modals/automation-wizard';
 import SettingsView from '../components/settings-view';
 import ClientDashboardView from '../components/client-dashboard-view';
-import { Language, getCurrentLanguage, t } from '../lib/i18n';
-import { initializeTranslations } from '../lib/load-translations';
 import { useSession } from '../lib/auth-client';
-
-// Import all translations
-import en from '../lib/translations/en.json';
-import af from '../lib/translations/af.json';
-import zu from '../lib/translations/zu.json';
-import xh from '../lib/translations/xh.json';
-import nso from '../lib/translations/nso.json';
-import tn from '../lib/translations/tn.json';
-import st from '../lib/translations/st.json';
-import ts from '../lib/translations/ts.json';
-import ss from '../lib/translations/ss.json';
-import ve from '../lib/translations/ve.json';
-import nr from '../lib/translations/nr.json';
-
-const translations: Record<Language, any> = {
-  en, af, zu, xh, nso, tn, st, ts, ss, ve, nr
-};
+import { useLanguage } from '../lib/context/LanguageContext';
 
 export default function HomePage() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
+  const { t: translate } = useLanguage();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -50,34 +33,10 @@ export default function HomePage() {
   const [successData, setSuccessData] = useState<any>(null);
   const [userCredits, setUserCredits] = useState(450);
   const [userTier, setUserTier] = useState<'free' | 'pro' | 'business'>('pro');
-  const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   // Removed auto-redirect to allow authenticated users to view landing page
   // Users can navigate to dashboard via the navigation menu or "Back to Landing" button
-
-  // Initialize translations and language on mount
-  useEffect(() => {
-    initializeTranslations();
-    const savedLang = getCurrentLanguage();
-    setCurrentLanguage(savedLang);
-  }, []);
-
-  // Helper function to get translation
-  const translate = (key: string) => {
-    const keys = key.split('.');
-    let value: any = translations[currentLanguage];
-
-    for (const k of keys) {
-      if (value && typeof value === 'object') {
-        value = value[k];
-      } else {
-        return key;
-      }
-    }
-
-    return typeof value === 'string' ? value : key;
-  };
 
   // Handle Scroll Effect for Navbar
   useEffect(() => {
@@ -224,8 +183,6 @@ export default function HomePage() {
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
             <LanguageSelector
-              currentLanguage={currentLanguage}
-              onLanguageChange={setCurrentLanguage}
               variant="compact"
             />
             {session ? (
@@ -334,8 +291,6 @@ export default function HomePage() {
             {/* Language Selector in Mobile Menu */}
             <div className="w-full">
               <LanguageSelector
-                currentLanguage={currentLanguage}
-                onLanguageChange={handleLanguageChange}
                 variant="default"
               />
             </div>

@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { LANGUAGES, Language, getCurrentLanguage, setCurrentLanguage } from '../lib/i18n';
+import { LANGUAGES, Language } from '../lib/i18n';
+import { useLanguage } from '../lib/context/LanguageContext';
 
 interface LanguageSelectorProps {
-  currentLanguage: Language;
-  onLanguageChange: (lang: Language) => void;
   variant?: 'default' | 'compact';
 }
 
-export default function LanguageSelector({ currentLanguage, onLanguageChange, variant = 'default' }: LanguageSelectorProps) {
+export default function LanguageSelector({ variant = 'default' }: LanguageSelectorProps) {
+  const { language: currentLanguage, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -28,8 +28,7 @@ export default function LanguageSelector({ currentLanguage, onLanguageChange, va
   }, []);
 
   const handleLanguageSelect = (lang: Language) => {
-    onLanguageChange(lang);
-    setCurrentLanguage(lang);
+    setLanguage(lang);
     setIsOpen(false);
   };
 
