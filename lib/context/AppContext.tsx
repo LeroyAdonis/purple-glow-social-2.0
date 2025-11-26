@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { MockUser, getCurrentUser } from '../mock-data';
-import { Language } from '../i18n';
+import { Language, getCurrentLanguage, setCurrentLanguage } from '../i18n';
 
 interface AppContextType {
   // User state
@@ -50,7 +50,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [user, setUser] = useState<MockUser>(getCurrentUser());
   const [credits, setCredits] = useState(user.credits);
   const [tier, setTier] = useState<'free' | 'pro' | 'business'>(user.tier);
-  const [language, setLanguageState] = useState<Language>('en');
+  const [language, setLanguageState] = useState<Language>(getCurrentLanguage());
   const [modals, setModals] = useState({
     creditTopup: false,
     subscription: false,
@@ -58,6 +58,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     schedulePost: false,
     automationWizard: false,
   });
+
+  // Initialize language from localStorage on mount
+  useEffect(() => {
+    const savedLang = getCurrentLanguage();
+    setLanguageState(savedLang);
+  }, []);
 
   const updateUser = (updates: Partial<MockUser>) => {
     setUser(prev => ({ ...prev, ...updates }));
@@ -90,8 +96,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    // Persist to localStorage
-    localStorage.setItem('preferredLanguage', lang);
+    // Persist to localStorage using i18n helper
+    setCurrentLanguage(lang);
   };
 
   const openModal = (modal: keyof AppContextType['modals']) => {

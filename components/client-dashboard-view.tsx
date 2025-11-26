@@ -7,6 +7,10 @@ import AutomationWizard from './modals/automation-wizard';
 import CreditTopupModal from './modals/credit-topup-modal';
 import SubscriptionModal from './modals/subscription-modal';
 import PaymentSuccessModal from './modals/payment-success-modal';
+import LanguageSelector from './language-selector';
+import ContentGenerator from './content-generator';
+import LogoutButton from './LogoutButton';
+import { Language } from '../lib/i18n';
 
 interface ClientDashboardViewProps {
     userEmail: string;
@@ -18,6 +22,8 @@ interface ClientDashboardViewProps {
     successData: any;
     showSuccessModal: boolean;
     setShowSuccessModal: (show: boolean) => void;
+    currentLanguage: Language;
+    onLanguageChange: (lang: Language) => void;
 }
 
 export default function ClientDashboardView({
@@ -29,7 +35,9 @@ export default function ClientDashboardView({
     onSubscribe,
     successData,
     showSuccessModal,
-    setShowSuccessModal
+    setShowSuccessModal,
+    currentLanguage,
+    onLanguageChange
 }: ClientDashboardViewProps) {
     const [showSettings, setShowSettings] = useState(false);
     const [showPricingModal, setShowPricingModal] = useState(false);
@@ -39,13 +47,14 @@ export default function ClientDashboardView({
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
     const [activeTab, setActiveTab] = useState<'dashboard' | 'schedule' | 'automation'>('dashboard');
 
+    // Use real user data from props, not mock data
     const mockUser = {
-        id: 'user-1',
-        name: 'Thabo Nkosi',
-        email: userEmail || 'thabo@purpleglow.co.za',
+        id: 'user-authenticated', // This should come from session
+        name: userEmail.split('@')[0] || 'User',
+        email: userEmail,
         tier: userTier,
         credits: userCredits,
-        image: 'https://ui-avatars.com/api/?name=Thabo+Nkosi&background=9D4EDD&color=fff'
+        image: `https://ui-avatars.com/api/?name=${encodeURIComponent(userEmail)}&background=9D4EDD&color=fff`
     };
 
     if (showSettings) {
@@ -70,7 +79,7 @@ export default function ClientDashboardView({
                 <nav className="flex flex-col gap-2">
                     <button
                         onClick={() => setActiveTab('dashboard')}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${activeTab === 'dashboard'
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'dashboard'
                                 ? 'bg-white/5 border border-glass-border text-white'
                                 : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
                             }`}
@@ -79,7 +88,7 @@ export default function ClientDashboardView({
                     </button>
                     <button
                         onClick={() => setActiveTab('schedule')}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${activeTab === 'schedule'
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'schedule'
                                 ? 'bg-white/5 border border-glass-border text-white'
                                 : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
                             }`}
@@ -88,7 +97,7 @@ export default function ClientDashboardView({
                     </button>
                     <button
                         onClick={() => setActiveTab('automation')}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${activeTab === 'automation'
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'automation'
                                 ? 'bg-white/5 border border-glass-border text-white'
                                 : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
                             }`}
@@ -97,7 +106,7 @@ export default function ClientDashboardView({
                     </button>
                     <button
                         onClick={() => setShowSettings(true)}
-                        className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl text-gray-400 hover:text-white transition-colors text-sm font-medium text-left"
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl text-gray-400 hover:text-white transition-colors text-sm font-medium text-left cursor-pointer"
                     >
                         <i className="fa-solid fa-cog"></i> Settings
                     </button>
@@ -119,8 +128,12 @@ export default function ClientDashboardView({
                         <img src={mockUser.image} alt="User" className="w-10 h-10 rounded-full border border-glass-border" />
                         <div>
                             <p className="text-sm font-bold truncate w-32">{mockUser.name}</p>
-                            <button onClick={() => setShowSettings(true)} className="text-xs text-gray-400 hover:text-white">Settings</button>
+                            <button onClick={() => setShowSettings(true)} className="text-xs text-gray-400 hover:text-white cursor-pointer">Settings</button>
                         </div>
+                    </div>
+
+                    <div className="mt-4">
+                        <LogoutButton />
                     </div>
                 </div>
             </aside>
@@ -128,46 +141,30 @@ export default function ClientDashboardView({
             {/* Main Content */}
             <main className="flex-1 lg:ml-64 p-6 lg:p-12 overflow-y-auto relative">
                 <div className="max-w-6xl mx-auto space-y-8 relative">
-                    <header className="flex justify-between items-end">
+                    <header className="flex justify-between items-center">
                         <div>
                             <h2 className="font-display font-bold text-4xl mb-2">Welcome back, {mockUser.name.split(' ')[0]}</h2>
                             <p className="text-gray-400">Your AI fleet is ready. System status: <span className="text-joburg-teal">OPTIMAL</span></p>
                         </div>
-                        <button
-                            onClick={onNavigateBack}
-                            className="px-6 py-3 border border-glass-border rounded-xl text-sm hover:bg-white/5 transition-colors"
-                        >
-                            <i className="fa-solid fa-arrow-left mr-2"></i> Back to Landing
-                        </button>
+                        <div className="flex items-center gap-4">
+                            <LanguageSelector
+                                currentLanguage={currentLanguage}
+                                onLanguageChange={onLanguageChange}
+                                variant="compact"
+                            />
+                            <button
+                                onClick={onNavigateBack}
+                                className="px-6 py-3 border border-white/20 rounded-full text-sm hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2"
+                            >
+                                <i className="fa-solid fa-arrow-left"></i> 
+                                <span>Back to Landing</span>
+                            </button>
+                        </div>
                     </header>
 
                     {/* Render different views based on active tab */}
                     {activeTab === 'dashboard' && (
-                        <div className="aerogel-card p-12 rounded-2xl text-center">
-                            <i className="fa-solid fa-wand-magic-sparkles text-6xl text-neon-grape mb-4"></i>
-                            <h3 className="font-display font-bold text-2xl mb-2">Content Generator</h3>
-                            <p className="text-gray-400 mb-6">Full dashboard with content generator coming in Phase 6</p>
-                            <div className="flex gap-4 justify-center flex-wrap">
-                                <button
-                                    onClick={() => setShowSettings(true)}
-                                    className="px-6 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
-                                >
-                                    <i className="fa-solid fa-cog mr-2"></i> Open Settings
-                                </button>
-                                <button
-                                    onClick={() => setShowPricingModal(true)}
-                                    className="px-6 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors font-bold"
-                                >
-                                    <i className="fa-solid fa-crown mr-2"></i> View Plans
-                                </button>
-                                <button
-                                    onClick={() => setShowCreditModal(true)}
-                                    className="px-6 py-3 bg-gradient-to-r from-mzansi-gold to-joburg-teal text-black rounded-xl hover:opacity-90 transition-opacity font-bold"
-                                >
-                                    <i className="fa-solid fa-bolt mr-2"></i> Buy Credits
-                                </button>
-                            </div>
-                        </div>
+                        <ContentGenerator currentLanguage={currentLanguage} />
                     )}
 
                     {activeTab === 'schedule' && (
@@ -199,11 +196,11 @@ export default function ClientDashboardView({
             {/* Pricing Modal */}
             {showPricingModal && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowPricingModal(false)}></div>
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-md cursor-pointer" onClick={() => setShowPricingModal(false)}></div>
                     <div className="aerogel-card p-8 rounded-3xl w-full max-w-4xl relative z-10 animate-enter max-h-[90vh] overflow-y-auto">
                         <button
                             onClick={() => setShowPricingModal(false)}
-                            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer"
                         >
                             <i className="fa-solid fa-xmark text-xl"></i>
                         </button>
@@ -222,7 +219,7 @@ export default function ClientDashboardView({
                                 </ul>
                                 <button
                                     onClick={() => setShowPricingModal(false)}
-                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-white/5"
+                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-white/5 cursor-pointer"
                                 >
                                     Current Plan
                                 </button>
@@ -243,7 +240,7 @@ export default function ClientDashboardView({
                                 </ul>
                                 <button
                                     onClick={() => { setShowPricingModal(false); setShowSubscriptionModal(true); }}
-                                    className="w-full py-3 bg-white text-black rounded-xl font-bold hover:scale-105 transition-transform"
+                                    className="w-full py-3 bg-white text-black rounded-xl font-bold hover:scale-105 transition-transform cursor-pointer"
                                 >
                                     Upgrade Now
                                 </button>
@@ -261,7 +258,7 @@ export default function ClientDashboardView({
                                 </ul>
                                 <button
                                     onClick={() => { setShowPricingModal(false); setShowSubscriptionModal(true); }}
-                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-white/5"
+                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-white/5 cursor-pointer"
                                 >
                                     Contact Sales
                                 </button>

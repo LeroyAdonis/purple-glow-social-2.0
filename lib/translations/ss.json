@@ -168,14 +168,44 @@
     "preferences": "Letitsakako"
   },
   "common": {
-    "save": "Gcina Tingutsintfo",
-    "cancel": "Chitha",
-    "delete": "Susa",
-    "edit": "Lungiselela",
-    "loading": "Iyalayisha...",
-    "success": "Kuyaphila!",
-    "error": "Liphutsa",
-    "confirm": "Cinisekisa",
-    "back": "Emuva"
+    "backToLanding": "Back to Landing",
+    "back": "Back",
+    "goToDashboard": "Go to Dashboard",
+    "error": "Error",
+    "confirm": "Confirm",
+    "edit": "Edit",
+    "save": "Save Changes",
+    "logout": "Logout",
+    "success": "Success!",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "loading": "Loading..."
+  },
+  "scheduleModal": {
+    "schedulePost": "Schedule Post",
+    "time": "Time",
+    "postPreview": "Post Preview",
+    "repeatOn": "Repeat on:",
+    "aiBestTimes": "AI Pilot Best Times",
+    "date": "Date",
+    "aiDescription": "Our AI analyzed your audience engagement patterns. These times get the most traction:",
+    "orChooseTime": "Or Choose Your Own Time",
+    "postsScheduledBefore": "posts scheduled before this time",
+    "monthly": "Monthly",
+    "daily": "Daily",
+    "title": "Schedule Post",
+    "weekly": "Weekly",
+    "noRepeat": "No Repeat",
+    "recurrence": "Recurrence (Optional)",
+    "timezone": "Timezone",
+    "queuePosition": "Queue Position",
+    "platform": "Platform"
+  },
+  "contentGenerator": {
+    "title": "Content Generator",
+    "generate": "Initialize Generation"
+  },
+  "smartSuggestions": {
+    "title": "AI Pilot Smart Suggestions"
   }
 }

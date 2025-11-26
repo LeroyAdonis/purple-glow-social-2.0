@@ -32,6 +32,7 @@ Quick navigation guide to all documentation in Purple Glow Social 2.0.
 |----------|-------------|------|
 | [docs/COMPONENT_GUIDE.md](./docs/COMPONENT_GUIDE.md) | Component usage, props, examples | 13.9 KB |
 | [docs/MOCK_DATA_STRUCTURE.md](./docs/MOCK_DATA_STRUCTURE.md) | Data models and helper functions | 12.9 KB |
+| [docs/CONNECTED_ACCOUNTS_GUIDE.md](./docs/CONNECTED_ACCOUNTS_GUIDE.md) | OAuth UI feature complete guide | 28.5 KB |
 
 ### Feature Specifications
 | Document | Description | Size |
@@ -44,6 +45,14 @@ Quick navigation guide to all documentation in Purple Glow Social 2.0.
 |----------|-------------|------|
 | [docs/create-feature-agent-prompt.md](./docs/create-feature-agent-prompt.md) | Feature agent guidelines | 3.1 KB |
 | [docs/pgs-2.0-prompt.txt](./docs/pgs-2.0-prompt.txt) | Original project prompt | 77.6 KB |
+
+### Implementation Summaries
+| Document | Description | Size |
+|----------|-------------|------|
+| [OAUTH_UI_IMPLEMENTATION_COMPLETE.md](./OAUTH_UI_IMPLEMENTATION_COMPLETE.md) | Phase 7 complete summary | 15.2 KB |
+| [PHASE_7_OAUTH_UI_COMPLETION.md](./PHASE_7_OAUTH_UI_COMPLETION.md) | Phase 7 implementation details | 8.3 KB |
+| [PHASE_2_COMPLETE_SUMMARY.md](./PHASE_2_COMPLETE_SUMMARY.md) | OAuth backend complete | 12.4 KB |
+| [SUCCESSFUL_IMPLEMENTATION.md](./SUCCESSFUL_IMPLEMENTATION.md) | Language selector success | 6.9 KB |
 
 ### Historical Reference
 | Document | Description | Size |
@@ -220,8 +229,8 @@ purple-glow-social-2.0/
 
 ---
 
-**Last Updated:** Phase 6 Completion  
-**Total Files:** 15 documentation files  
+**Last Updated:** Phase 7 Completion (OAuth UI Integration)  
+**Total Files:** 18 documentation files  
 **Status:** ✅ Complete and up-to-date
 
 ---

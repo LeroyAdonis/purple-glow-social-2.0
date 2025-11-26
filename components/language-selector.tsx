@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { LANGUAGES, Language, getCurrentLanguage, setCurrentLanguage } from '../lib/i18n';
+import { LANGUAGES, Language } from '../lib/i18n';
+import { useLanguage } from '../lib/context/LanguageContext';
 
 interface LanguageSelectorProps {
-  currentLanguage: Language;
-  onLanguageChange: (lang: Language) => void;
   variant?: 'default' | 'compact';
 }
 
-export default function LanguageSelector({ currentLanguage, onLanguageChange, variant = 'default' }: LanguageSelectorProps) {
+export default function LanguageSelector({ variant = 'default' }: LanguageSelectorProps) {
+  const { language: currentLanguage, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -28,8 +28,7 @@ export default function LanguageSelector({ currentLanguage, onLanguageChange, va
   }, []);
 
   const handleLanguageSelect = (lang: Language) => {
-    onLanguageChange(lang);
-    setCurrentLanguage(lang);
+    setLanguage(lang);
     setIsOpen(false);
   };
 
@@ -38,34 +37,34 @@ export default function LanguageSelector({ currentLanguage, onLanguageChange, va
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-glass-border"
           aria-label="Select Language"
         >
           <span className="text-lg">{currentLang.flag}</span>
-          <span className="hidden sm:inline">{currentLang.code.toUpperCase()}</span>
+          <span className="hidden sm:inline font-mono font-bold">{currentLang.code.toUpperCase()}</span>
           <i className={`fa-solid fa-chevron-down text-xs transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
         </button>
 
         {isOpen && (
-          <div className="absolute top-full right-0 mt-2 w-56 aerogel-card rounded-xl shadow-2xl z-[9999] max-h-80 overflow-y-auto">
+          <div className="absolute top-full right-0 mt-2 w-64 bg-void border border-glass-border rounded-xl shadow-2xl z-[9999] max-h-80 overflow-y-auto animate-enter custom-scrollbar">
             <div className="p-2">
               {LANGUAGES.map((lang) => (
                 <button
                   key={lang.code}
                   onClick={() => handleLanguageSelect(lang.code)}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all cursor-pointer ${
                     currentLanguage === lang.code
-                      ? 'bg-neon-grape/20 text-white'
-                      : 'text-gray-300 hover:bg-white/5'
+                      ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-white border border-neon-grape/40 shadow-lg'
+                      : 'text-gray-300 hover:bg-white/10 hover:border-glass-border border border-transparent'
                   }`}
                 >
                   <span className="text-xl">{lang.flag}</span>
                   <div className="flex-1 text-left">
-                    <div className="font-bold">{lang.name}</div>
-                    <div className="text-xs text-gray-500">{lang.nativeName}</div>
+                    <div className="font-bold font-body">{lang.name}</div>
+                    <div className="text-xs text-gray-400 font-mono">{lang.nativeName}</div>
                   </div>
                   {currentLanguage === lang.code && (
-                    <i className="fa-solid fa-check text-neon-grape"></i>
+                    <i className="fa-solid fa-check text-joburg-teal text-sm"></i>
                   )}
                 </button>
               ))}
@@ -80,36 +79,36 @@ export default function LanguageSelector({ currentLanguage, onLanguageChange, va
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-4 py-3 bg-white/5 border border-glass-border rounded-xl hover:bg-white/10 transition-all"
+        className="flex items-center gap-3 px-4 py-3 bg-white/5 border border-glass-border rounded-xl hover:bg-white/10 hover:border-neon-grape/50 transition-all cursor-pointer"
       >
         <span className="text-2xl">{currentLang.flag}</span>
         <div className="flex-1 text-left">
-          <div className="text-sm font-bold">{currentLang.name}</div>
-          <div className="text-xs text-gray-500">{currentLang.nativeName}</div>
+          <div className="text-sm font-bold font-body">{currentLang.name}</div>
+          <div className="text-xs text-gray-400 font-mono">{currentLang.nativeName}</div>
         </div>
         <i className={`fa-solid fa-chevron-down text-xs transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 aerogel-card rounded-xl shadow-2xl z-[9999] max-h-80 overflow-y-auto animate-enter">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-void border border-glass-border rounded-xl shadow-2xl z-[9999] max-h-80 overflow-y-auto animate-enter custom-scrollbar">
           <div className="p-2">
             {LANGUAGES.map((lang) => (
               <button
                 key={lang.code}
                 onClick={() => handleLanguageSelect(lang.code)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all cursor-pointer ${
                   currentLanguage === lang.code
-                    ? 'bg-neon-grape/20 text-white border border-neon-grape/30'
-                    : 'text-gray-300 hover:bg-white/5'
+                    ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-white border border-neon-grape/40 shadow-lg'
+                    : 'text-gray-300 hover:bg-white/10 hover:border-glass-border border border-transparent'
                 }`}
               >
                 <span className="text-2xl">{lang.flag}</span>
                 <div className="flex-1 text-left">
-                  <div className="font-bold">{lang.name}</div>
-                  <div className="text-xs text-gray-500">{lang.nativeName}</div>
+                  <div className="font-bold font-body">{lang.name}</div>
+                  <div className="text-xs text-gray-400 font-mono">{lang.nativeName}</div>
                 </div>
                 {currentLanguage === lang.code && (
-                  <i className="fa-solid fa-check text-neon-grape"></i>
+                  <i className="fa-solid fa-check text-joburg-teal"></i>
                 )}
               </button>
             ))}

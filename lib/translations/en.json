@@ -176,6 +176,82 @@
     "success": "Success!",
     "error": "Error",
     "confirm": "Confirm",
-    "back": "Back"
+    "back": "Back",
+    "logout": "Logout",
+    "goToDashboard": "Go to Dashboard",
+    "backToLanding": "Back to Landing"
+  },
+  "scheduleModal": {
+    "title": "Schedule Post",
+    "platform": "Platform",
+    "aiBestTimes": "AI Pilot Best Times",
+    "aiDescription": "Our AI analyzed your audience engagement patterns. These times get the most traction:",
+    "orChooseTime": "Or Choose Your Own Time",
+    "date": "Date",
+    "time": "Time",
+    "timezone": "Timezone",
+    "recurrence": "Recurrence (Optional)",
+    "repeatOn": "Repeat on:",
+    "noRepeat": "No Repeat",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "queuePosition": "Queue Position",
+    "postsScheduledBefore": "posts scheduled before this time",
+    "postPreview": "Post Preview",
+    "schedulePost": "Schedule Post",
+    "engagement": {
+      "veryHigh": "Very High",
+      "high": "High",
+      "medium": "Medium"
+    },
+    "timeSlots": {
+      "morning": "Morning Rush",
+      "lunch": "Lunch Break",
+      "evening": "Evening Peak",
+      "night": "Night Owls"
+    }
+  },
+  "contentGenerator": {
+    "title": "Content Generator",
+    "topic": "Topic / Product",
+    "topicPlaceholder": "e.g., New sneaker drop, Local coffee shop, Tech startup",
+    "platform": "Platform",
+    "selectPlatform": "Select platform",
+    "language": "Content Language",
+    "tone": "Tone",
+    "customInstructions": "Custom Instructions (Optional)",
+    "customPlaceholder": "Add specific hashtags, mentions, or style preferences...",
+    "generate": "Initialize Generation",
+    "generating": "Generating...",
+    "generatedContent": "Generated Content",
+    "editText": "Edit Text",
+    "done": "Done",
+    "discard": "Discard",
+    "schedulePost": "Schedule Post",
+    "platforms": {
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook"
+    },
+    "tones": {
+      "professional": "Professional",
+      "casual": "Casual",
+      "funny": "Funny",
+      "inspirational": "Inspirational"
+    }
+  },
+  "smartSuggestions": {
+    "title": "AI Pilot Smart Suggestions",
+    "subtitle": "Powered by audience analytics and engagement patterns",
+    "bestTimes": "Best Times",
+    "bestPractices": "Best Practices",
+    "trending": "Trending",
+    "content": "Content",
+    "tone": "Tone",
+    "description": "Based on your audience's activity, here are the best times to post:",
+    "adjustTone": "Adjust your tone based on when you're posting:",
+    "updateNote": "Suggestions update based on your audience engagement data"
   }
 }

@@ -5,7 +5,11 @@ import { MOCK_USERS, MOCK_TRANSACTIONS, calculateRevenueMetrics, getTierDistribu
 import type { MockUser, MockTransaction } from '../lib/mock-data';
 import CustomSelect from './custom-select';
 
-export default function AdminDashboardView() {
+interface AdminDashboardViewProps {
+  onBackToLanding?: () => void;
+}
+
+export default function AdminDashboardView({ onBackToLanding }: AdminDashboardViewProps = {}) {
   const [activeTab, setActiveTab] = useState<'users' | 'revenue' | 'transactions'>('users');
   const [users, setUsers] = useState(MOCK_USERS);
   const [searchQuery, setSearchQuery] = useState('');
@@ -78,6 +82,14 @@ export default function AdminDashboardView() {
         </div>
 
         <nav className="flex flex-col gap-2">
+          {onBackToLanding && (
+            <button
+              onClick={onBackToLanding}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all border border-transparent hover:border-glass-border"
+            >
+              <i className="fa-solid fa-arrow-left"></i> Back to Landing
+            </button>
+          )}
           <button
             onClick={() => setActiveTab('users')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'users'

@@ -36,7 +36,6 @@ export default function App() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'admin'>('landing');
   const [userEmail, setUserEmail] = useState('');
@@ -97,23 +96,6 @@ export default function App() {
     setIsMobileMenuOpen(false);
   };
 
-  // Simulate Login
-  const handleLogin = (provider: string, email?: string) => {
-    setIsLoading(true);
-    // Simulate network delay
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsLoginModalOpen(false);
-
-      // Check if admin user
-      const loginEmail = email || (provider === 'email' ? userEmail : `user@${provider}.com`);
-      if (loginEmail.toLowerCase().includes('admin')) {
-        setCurrentView('admin');
-      } else {
-        setCurrentView('dashboard');
-      }
-    }, 1500);
-  };
 
   // Handle Credit Purchase
   const handleCreditPurchase = (credits: number, amount: number) => {
@@ -148,6 +130,12 @@ export default function App() {
       setShowSuccessModal(true);
     }, 2000);
   };
+
+  // Handle Language Change
+  const handleLanguageChange = (language: Language) => {
+    setCurrentLanguage(language);
+  };
+
   // Render appropriate view based on state
   if (currentView === 'admin') {
     return <AdminDashboardView />;
@@ -165,6 +153,8 @@ export default function App() {
         successData={successData}
         showSuccessModal={showSuccessModal}
         setShowSuccessModal={setShowSuccessModal}
+        currentLanguage={currentLanguage}
+        onLanguageChange={handleLanguageChange}
       />
     );
   }
@@ -217,18 +207,18 @@ export default function App() {
               onLanguageChange={setCurrentLanguage}
               variant="compact"
             />
-            <button
-              onClick={() => setIsLoginModalOpen(true)}
+            <a
+              href="/login"
               className="text-sm font-bold hover:text-joburg-teal transition-colors"
             >
               Log In
-            </button>
-            <button
-              onClick={() => setIsLoginModalOpen(true)}
+            </a>
+            <a
+              href="/signup"
               className="px-5 py-2 bg-white text-black font-bold rounded-lg hover:scale-105 transition-transform border border-transparent hover:border-neon-grape shadow-[0_0_20px_rgba(255,255,255,0.2)]"
             >
               Get Started
-            </button>
+            </a>
           </div>
 
           {/* Mobile Hamburger Toggle */}
@@ -252,19 +242,28 @@ export default function App() {
 
             <div className="h-px bg-white/10 w-full my-2"></div>
 
+            {/* Language Selector in Mobile Menu */}
+            <div className="w-full">
+              <LanguageSelector
+                currentLanguage={currentLanguage}
+                onLanguageChange={handleLanguageChange}
+                variant="default"
+              />
+            </div>
+
             <div className="flex flex-col gap-4">
-              <button
-                onClick={() => { setIsMobileMenuOpen(false); setIsLoginModalOpen(true); }}
+              <a
+                href="/login"
                 className="w-full py-4 text-center font-bold text-white hover:text-joburg-teal border border-white/10 rounded-xl hover:bg-white/5 transition-colors"
               >
                 Log In
-              </button>
-              <button
-                onClick={() => { setIsMobileMenuOpen(false); setIsLoginModalOpen(true); }}
-                className="w-full py-4 bg-white text-black font-bold rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+              </a>
+              <a
+                href="/signup"
+                className="w-full py-4 bg-white text-black font-bold rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.2)] text-center"
               >
                 Get Started
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -298,76 +297,6 @@ export default function App() {
         )
       }
 
-      {/* LOGIN MODAL */}
-      {
-        isLoginModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setIsLoginModalOpen(false)}></div>
-            <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter bg-[#0a0a0f]">
-              <button
-                onClick={() => setIsLoginModalOpen(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
-              >
-                <i className="fa-solid fa-xmark text-xl"></i>
-              </button>
-
-              <div className="text-center mb-8">
-                <div className="w-12 h-12 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(157,78,221,0.5)]">
-                  <i className="fa-solid fa-bolt text-white"></i>
-                </div>
-                <h2 className="font-display font-bold text-2xl text-white">Welcome Back</h2>
-                <p className="text-gray-400 text-sm mt-1">Access your AI command center</p>
-              </div>
-
-              <div className="space-y-3 mb-6">
-                <button onClick={() => handleLogin('google')} className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors flex items-center justify-center gap-3 relative overflow-hidden group">
-                  {isLoading ? <i className="fa-solid fa-circle-notch animate-spin"></i> : <><i className="fa-brands fa-google text-lg"></i> Continue with Google</>}
-                </button>
-                <button onClick={() => handleLogin('twitter')} className="w-full py-3 bg-[#1DA1F2] text-white font-bold rounded-xl hover:bg-[#1a91da] transition-colors flex items-center justify-center gap-3">
-                  {isLoading ? <i className="fa-solid fa-circle-notch animate-spin"></i> : <><i className="fa-brands fa-twitter text-lg"></i> Continue with Twitter</>}
-                </button>
-                <button onClick={() => handleLogin('facebook')} className="w-full py-3 bg-[#1877F2] text-white font-bold rounded-xl hover:bg-[#166fe5] transition-colors flex items-center justify-center gap-3">
-                  {isLoading ? <i className="fa-solid fa-circle-notch animate-spin"></i> : <><i className="fa-brands fa-facebook text-lg"></i> Continue with Facebook</>}
-                </button>
-              </div>
-
-              <div className="flex items-center gap-4 mb-6">
-                <div className="h-px bg-white/10 flex-1"></div>
-                <span className="text-xs text-gray-500 font-mono">OR EMAIL</span>
-                <div className="h-px bg-white/10 flex-1"></div>
-              </div>
-
-              <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleLogin('email', userEmail); }}>
-                <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-gray-400">EMAIL</label>
-                  <input
-                    type="email"
-                    placeholder="you@example.com (try: admin@purpleglow.co.za)"
-                    value={userEmail}
-                    onChange={(e) => setUserEmail(e.target.value)}
-                    className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors text-sm"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-gray-400">PASSWORD</label>
-                  <input type="password" placeholder="••••••••" className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors text-sm" />
-                </div>
-                <button type="submit" className="w-full py-4 bg-gradient-to-r from-neon-grape to-electric-indigo text-white font-bold rounded-xl hover:shadow-[0_0_20px_rgba(157,78,221,0.4)] transition-all flex items-center justify-center gap-2">
-                  {isLoading ? <i className="fa-solid fa-circle-notch animate-spin"></i> : <span>Log In with Email</span>}
-                </button>
-              </form>
-
-              <p className="text-center text-xs text-joburg-teal mt-4 font-mono">
-                💡 TIP: Use email with "admin" to access Admin Dashboard
-              </p>
-
-              <p className="text-center text-xs text-gray-500 mt-6">
-                By continuing, you agree to our <a href="#" className="text-joburg-teal hover:underline">Terms</a> and <a href="#" className="text-joburg-teal hover:underline">Privacy Policy</a>.
-              </p>
-            </div>
-          </div>
-        )
-      }
 
       {/* Hero Section */}
       <header className="max-w-7xl mx-auto px-6 pt-40 pb-20 relative z-10">
@@ -388,12 +317,12 @@ export default function App() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <button
-                onClick={() => setIsLoginModalOpen(true)}
-                className="px-8 py-4 bg-neon-grape text-white font-bold rounded-xl hover:bg-opacity-90 transition-all shadow-[0_0_30px_-10px_#9D4EDD] hover:scale-105"
+              <a
+                href="/signup"
+                className="px-8 py-4 bg-neon-grape text-white font-bold rounded-xl hover:bg-opacity-90 transition-all shadow-[0_0_30px_-10px_#9D4EDD] hover:scale-105 text-center"
               >
                 Launch Dashboard
-              </button>
+              </a>
               <button className="px-8 py-4 border border-white/20 text-white rounded-xl hover:bg-white/5 transition-colors flex items-center justify-center gap-2 group">
                 <i className="fa-solid fa-play text-xs group-hover:text-joburg-teal transition-colors"></i> Watch Demo
               </button>

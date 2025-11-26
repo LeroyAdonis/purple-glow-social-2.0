@@ -45,7 +45,7 @@ export default function CustomSelect({
 
   // Calculate dropdown position
   const updatePosition = () => {
-    if (dropdownRef.current) {
+    if (dropdownRef.current && typeof window !== 'undefined') {
       const rect = dropdownRef.current.getBoundingClientRect();
       setDropdownPosition({
         top: rect.bottom + window.scrollY,
@@ -117,11 +117,11 @@ export default function CustomSelect({
   const dropdownContent = (
     <div
       id={dropdownId}
-      className="fixed aerogel-card rounded-xl shadow-2xl z-[9999] max-h-64 overflow-y-auto animate-enter"
+      className="fixed bg-void border border-glass-border rounded-xl shadow-2xl z-[9999] max-h-64 overflow-y-auto animate-enter custom-scrollbar"
       role="listbox"
       style={{
-        top: `${dropdownPosition.top - window.scrollY}px`,
-        left: `${dropdownPosition.left - window.scrollX}px`,
+        top: `${dropdownPosition.top - (typeof window !== 'undefined' ? window.scrollY : 0)}px`,
+        left: `${dropdownPosition.left - (typeof window !== 'undefined' ? window.scrollX : 0)}px`,
         width: `${dropdownPosition.width}px`
       }}
     >
@@ -133,10 +133,10 @@ export default function CustomSelect({
             onClick={() => handleSelect(option.value)}
             className={`
               w-full flex items-center gap-3 px-4 py-3 rounded-lg
-              transition-colors text-left
+              transition-all text-left cursor-pointer
               ${value === option.value
-                ? 'bg-neon-grape/20 text-white border border-neon-grape/30'
-                : 'text-gray-300 hover:bg-white/5'
+                ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-white border border-neon-grape/40 shadow-lg'
+                : 'text-gray-300 hover:bg-white/10 hover:border-glass-border border border-transparent'
               }
             `}
             role="option"
@@ -145,9 +145,9 @@ export default function CustomSelect({
             {option.icon && (
               <i className={`${option.icon} ${option.color || 'text-gray-400'}`}></i>
             )}
-            <span className="flex-1">{option.label}</span>
+            <span className="flex-1 font-body">{option.label}</span>
             {value === option.value && (
-              <i className="fa-solid fa-check text-neon-grape text-sm"></i>
+              <i className="fa-solid fa-check text-joburg-teal text-sm"></i>
             )}
           </button>
         ))}
@@ -163,13 +163,13 @@ export default function CustomSelect({
         disabled={disabled}
         className={`
           w-full flex items-center justify-between gap-3
-          bg-white/5 border border-white/10 rounded-xl
+          bg-white/5 border border-glass-border rounded-xl
           text-white text-left
           transition-all duration-200
           ${variant === 'compact' ? 'px-3 py-2 text-sm' : 'px-4 py-3'}
           ${disabled
             ? 'opacity-50 cursor-not-allowed'
-            : 'hover:bg-white/10 hover:border-neon-grape/50 focus:outline-none focus:border-neon-grape focus:ring-2 focus:ring-neon-grape/20'
+            : 'hover:bg-white/10 hover:border-neon-grape/50 focus:outline-none focus:border-neon-grape focus:ring-2 focus:ring-neon-grape/20 cursor-pointer'
           }
           ${buttonClassName}
         `}

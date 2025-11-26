@@ -101,7 +101,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
       {/* Create New Rule Button */}
       <button
         onClick={onCreateRule}
-        className="w-full bg-gradient-to-r from-neon-grape to-joburg-teal text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3"
+        className="w-full bg-gradient-to-r from-neon-grape to-joburg-teal text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 cursor-pointer"
       >
         <i className="fa-solid fa-plus-circle text-2xl"></i>
         Create New Automation Rule
@@ -195,7 +195,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                   {/* Toggle Switch */}
                   <button
                     onClick={() => toggleRuleActive(rule.id)}
-                    className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors flex-shrink-0 ${
+                    className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors flex-shrink-0 cursor-pointer ${
                       rule.isActive ? 'bg-joburg-teal' : 'bg-gray-600'
                     }`}
                   >
@@ -227,21 +227,21 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                 <div className="flex gap-2 flex-wrap">
                   <button
                     onClick={() => runNow(rule.id)}
-                    className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-lg hover:shadow-lg transition-all font-medium"
+                    className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-lg hover:shadow-lg transition-all font-medium cursor-pointer"
                   >
                     <i className="fa-solid fa-play mr-2"></i>
                     Run Now
                   </button>
                   <button
                     onClick={() => setSelectedRule(selectedRule === rule.id ? null : rule.id)}
-                    className="px-4 py-2 bg-white/5 border border-glass-border text-gray-300 rounded-lg hover:bg-white/10 transition-colors font-medium"
+                    className="px-4 py-2 bg-white/5 border border-glass-border text-gray-300 rounded-lg hover:bg-white/10 transition-colors font-medium cursor-pointer"
                   >
                     <i className="fa-solid fa-history mr-2"></i>
                     {selectedRule === rule.id ? 'Hide History' : 'View History'}
                   </button>
                   <button
                     onClick={() => deleteRule(rule.id)}
-                    className="px-4 py-2 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors font-medium ml-auto"
+                    className="px-4 py-2 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors font-medium ml-auto cursor-pointer"
                   >
                     <i className="fa-solid fa-trash"></i>
                   </button>

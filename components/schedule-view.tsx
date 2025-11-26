@@ -91,7 +91,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
           </div>
           <button
             onClick={onSchedulePost}
-            className="px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all"
+            className="px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
           >
             <i className="fa-solid fa-calendar-plus mr-2"></i>
             Schedule New Post
@@ -141,7 +141,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
           <div className="flex gap-2">
             <button
               onClick={() => setViewMode('calendar')}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`px-4 py-2 rounded-lg font-medium transition-all cursor-pointer ${
                 viewMode === 'calendar'
                   ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white'
                   : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
@@ -152,7 +152,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`px-4 py-2 rounded-lg font-medium transition-all cursor-pointer ${
                 viewMode === 'list'
                   ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white'
                   : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
@@ -163,7 +163,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
             </button>
             <button
               onClick={() => setViewMode('timeline')}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`px-4 py-2 rounded-lg font-medium transition-all cursor-pointer ${
                 viewMode === 'timeline'
                   ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white'
                   : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
@@ -180,7 +180,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               <button
                 key={platform}
                 onClick={() => togglePlatformFilter(platform)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
                   platformFilters.includes(platform)
                     ? `bg-gradient-to-r ${platformColors[platform]} text-white shadow-lg`
                     : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
@@ -197,14 +197,14 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
             <div className="flex gap-2">
               <button
                 onClick={scheduleSelected}
-                className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-lg font-bold hover:shadow-xl transition-all"
+                className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-lg font-bold hover:shadow-xl transition-all cursor-pointer"
               >
                 <i className="fa-regular fa-calendar-check mr-2"></i>
                 Schedule ({selectedPosts.length})
               </button>
               <button
                 onClick={deleteSelected}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition-all"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition-all cursor-pointer"
               >
                 <i className="fa-solid fa-trash mr-2"></i>
                 Delete ({selectedPosts.length})
@@ -246,7 +246,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                               type="checkbox"
                               checked={selectedPosts.includes(post.id)}
                               onChange={() => {}}
-                              className="mt-1 w-4 h-4 text-joburg-teal rounded focus:ring-joburg-teal"
+                              className="mt-1 w-4 h-4 text-joburg-teal rounded focus:ring-joburg-teal cursor-pointer"
                             />
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-2">
@@ -267,10 +267,10 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                               </div>
                               <p className="text-gray-300 mb-3">{post.content}</p>
                               <div className="flex gap-3">
-                                <button className="text-sm text-joburg-teal hover:underline font-medium">
+                                <button className="text-sm text-joburg-teal hover:underline font-medium cursor-pointer">
                                   <i className="fa-solid fa-edit mr-1"></i> Edit
                                 </button>
-                                <button className="text-sm text-red-400 hover:underline font-medium">
+                                <button className="text-sm text-red-400 hover:underline font-medium cursor-pointer">
                                   <i className="fa-solid fa-trash mr-1"></i> Delete
                                 </button>
                               </div>
