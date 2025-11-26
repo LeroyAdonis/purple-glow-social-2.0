@@ -368,10 +368,20 @@ export default function SubscriptionModal({ isOpen, onClose, onSubscribe, curren
 
                   <button
                     type="submit"
-                    className="w-full py-4 bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(157,78,221,0.5)] transition-all"
+                    disabled={isLoading}
+                    className="w-full py-4 bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(157,78,221,0.5)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    <i className="fa-solid fa-lock mr-2"></i>
-                    Subscribe Now
+                    {isLoading ? (
+                      <>
+                        <i className="fa-solid fa-spinner fa-spin"></i>
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <i className="fa-solid fa-lock"></i>
+                        Subscribe Now
+                      </>
+                    )}
                   </button>
                 </form>
 
