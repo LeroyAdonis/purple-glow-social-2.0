@@ -11,7 +11,10 @@
     "preview": "vite preview",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "tunnel": "npx localtunnel --port 3000",
+    "webhook:setup": "pwsh -File setup-webhook.ps1",
+    "webhook:test": "pwsh -File tmp_rovodev_test_webhook.ps1"
   },
   "dependencies": {
     "@google/genai": "^1.30.0",

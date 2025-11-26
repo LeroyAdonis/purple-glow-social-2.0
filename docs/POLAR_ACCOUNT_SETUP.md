@@ -256,6 +256,10 @@ Since Polar webhooks need a public URL, you'll need to expose your local server:
 
 #### Option A: Using ngrok (Recommended)
 
+> **📖 See detailed ngrok setup guide:** `docs/WEBHOOK_LOCAL_SETUP.md`
+
+#### Option A: Using ngrok (Recommended)
+
 1. **Install ngrok**:
    ```bash
    # Download from https://ngrok.com/download
