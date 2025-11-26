@@ -18,6 +18,13 @@ interface CreditTopupModalProps {
   currentCredits: number;
 }
 
+interface CheckoutResponse {
+  success: boolean;
+  checkoutUrl?: string;
+  error?: string;
+  message?: string;
+}
+
 const PACKAGES: Package[] = [
   {
     id: 'starter',
@@ -52,25 +59,59 @@ const PACKAGES: Package[] = [
 export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentCredits }: CreditTopupModalProps) {
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
   const [showCheckout, setShowCheckout] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
   const handleSelectPackage = (pkg: Package) => {
     setSelectedPackage(pkg);
     setShowCheckout(true);
+    setError(null);
   };
 
   const handleBack = () => {
     setShowCheckout(false);
     setSelectedPackage(null);
+    setError(null);
   };
 
-  const handleCompletePurchase = () => {
-    if (selectedPackage) {
-      onPurchase(selectedPackage.credits, selectedPackage.price);
-      onClose();
-      setShowCheckout(false);
-      setSelectedPackage(null);
+  const handleCompletePurchase = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!selectedPackage) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Call API to create Polar checkout
+      const response = await fetch('/api/checkout/credits', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          packageId: selectedPackage.id,
+        }),
+      });
+
+      const data: CheckoutResponse = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || data.error || 'Failed to create checkout');
+      }
+
+      // Redirect to Polar checkout
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to initiate checkout');
+      setIsLoading(false);
     }
   };
 
@@ -238,8 +279,17 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
               </div>
             </div>
 
-            {/* Right: Polar Checkout Simulation */}
+            {/* Right: Polar Checkout */}
             <div>
+              {error && (
+                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
+                  <div className="flex items-center gap-2 text-red-400">
+                    <i className="fa-solid fa-exclamation-circle"></i>
+                    <span className="text-sm">{error}</span>
+                  </div>
+                </div>
+              )}
+
               <div className="aerogel-card p-8 rounded-2xl">
                 <div className="flex items-center justify-between mb-6 pb-6 border-b border-glass-border">
                   <h3 className="font-bold text-xl">Payment Details</h3>
@@ -249,7 +299,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                   </div>
                 </div>
 
-                <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleCompletePurchase(); }}>
+                <form className="space-y-4" onSubmit={handleCompletePurchase}>
                   <div>
                     <label className="text-xs font-mono text-gray-400 mb-2 block">CARD NUMBER</label>
                     <div className="relative">
@@ -314,10 +364,20 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
 
                   <button
                     type="submit"
-                    className="w-full py-4 bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(157,78,221,0.5)] transition-all flex items-center justify-center gap-2"
+                    disabled={isLoading}
+                    className="w-full py-4 bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(157,78,221,0.5)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <i className="fa-solid fa-lock"></i>
-                    Pay R{totals.total.toFixed(2)}
+                    {isLoading ? (
+                      <>
+                        <i className="fa-solid fa-spinner fa-spin"></i>
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <i className="fa-solid fa-lock"></i>
+                        Pay R{totals.total.toFixed(2)}
+                      </>
+                    )}
                   </button>
                 </form>
 
