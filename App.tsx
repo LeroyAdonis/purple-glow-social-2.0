@@ -203,8 +203,6 @@ export default function App() {
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
             <LanguageSelector
-              currentLanguage={currentLanguage}
-              onLanguageChange={setCurrentLanguage}
               variant="compact"
             />
             <a
@@ -245,8 +243,6 @@ export default function App() {
             {/* Language Selector in Mobile Menu */}
             <div className="w-full">
               <LanguageSelector
-                currentLanguage={currentLanguage}
-                onLanguageChange={handleLanguageChange}
                 variant="default"
               />
             </div>
