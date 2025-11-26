@@ -131,11 +131,6 @@ export default function App() {
     }, 2000);
   };
 
-  // Handle Language Change
-  const handleLanguageChange = (language: Language) => {
-    setCurrentLanguage(language);
-  };
-
   // Render appropriate view based on state
   if (currentView === 'admin') {
     return <AdminDashboardView />;
@@ -153,8 +148,6 @@ export default function App() {
         successData={successData}
         showSuccessModal={showSuccessModal}
         setShowSuccessModal={setShowSuccessModal}
-        currentLanguage={currentLanguage}
-        onLanguageChange={handleLanguageChange}
       />
     );
   }
@@ -203,8 +196,6 @@ export default function App() {
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
             <LanguageSelector
-              currentLanguage={currentLanguage}
-              onLanguageChange={setCurrentLanguage}
               variant="compact"
             />
             <a
@@ -245,8 +236,6 @@ export default function App() {
             {/* Language Selector in Mobile Menu */}
             <div className="w-full">
               <LanguageSelector
-                currentLanguage={currentLanguage}
-                onLanguageChange={handleLanguageChange}
                 variant="default"
               />
             </div>

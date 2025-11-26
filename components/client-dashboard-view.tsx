@@ -10,7 +10,6 @@ import PaymentSuccessModal from './modals/payment-success-modal';
 import LanguageSelector from './language-selector';
 import ContentGenerator from './content-generator';
 import LogoutButton from './LogoutButton';
-import { Language } from '../lib/i18n';
 
 interface ClientDashboardViewProps {
     userEmail: string;
@@ -22,8 +21,6 @@ interface ClientDashboardViewProps {
     successData: any;
     showSuccessModal: boolean;
     setShowSuccessModal: (show: boolean) => void;
-    currentLanguage: Language;
-    onLanguageChange: (lang: Language) => void;
 }
 
 export default function ClientDashboardView({
@@ -35,9 +32,7 @@ export default function ClientDashboardView({
     onSubscribe,
     successData,
     showSuccessModal,
-    setShowSuccessModal,
-    currentLanguage,
-    onLanguageChange
+    setShowSuccessModal
 }: ClientDashboardViewProps) {
     const [showSettings, setShowSettings] = useState(false);
     const [showPricingModal, setShowPricingModal] = useState(false);
@@ -148,8 +143,6 @@ export default function ClientDashboardView({
                         </div>
                         <div className="flex items-center gap-4">
                             <LanguageSelector
-                                currentLanguage={currentLanguage}
-                                onLanguageChange={onLanguageChange}
                                 variant="compact"
                             />
                             <button
@@ -164,7 +157,7 @@ export default function ClientDashboardView({
 
                     {/* Render different views based on active tab */}
                     {activeTab === 'dashboard' && (
-                        <ContentGenerator currentLanguage={currentLanguage} />
+                        <ContentGenerator />
                     )}
 
                     {activeTab === 'schedule' && (

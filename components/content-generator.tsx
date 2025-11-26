@@ -4,7 +4,7 @@ import React, { useActionState, useState, useEffect } from 'react';
 import { generatePostAction } from '../app/actions/generate';
 import SchedulePostModal from './modals/schedule-post-modal';
 import CustomSelect from './custom-select';
-import { Language } from '../lib/i18n';
+import { useLanguage } from '../lib/context/LanguageContext';
 
 const initialState = {
     success: false,
@@ -12,11 +12,8 @@ const initialState = {
     data: { content: '', imageUrl: '', postId: '' }
 };
 
-interface ContentGeneratorProps {
-    currentLanguage?: Language;
-}
-
-export default function ContentGenerator({ currentLanguage = 'en' }: ContentGeneratorProps) {
+export default function ContentGenerator() {
+    const { language: currentLanguage } = useLanguage();
     const [state, formAction, isPending] = useActionState(generatePostAction, initialState);
 
     // Controlled inputs to drive preview logic
