@@ -9,6 +9,7 @@ import SubscriptionModal from './modals/subscription-modal';
 import PaymentSuccessModal from './modals/payment-success-modal';
 import LanguageSelector from './language-selector';
 import ContentGenerator from './content-generator';
+import LogoutButton from './LogoutButton';
 import { Language } from '../lib/i18n';
 
 interface ClientDashboardViewProps {
@@ -78,7 +79,7 @@ export default function ClientDashboardView({
                 <nav className="flex flex-col gap-2">
                     <button
                         onClick={() => setActiveTab('dashboard')}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${activeTab === 'dashboard'
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'dashboard'
                                 ? 'bg-white/5 border border-glass-border text-white'
                                 : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
                             }`}
@@ -87,7 +88,7 @@ export default function ClientDashboardView({
                     </button>
                     <button
                         onClick={() => setActiveTab('schedule')}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${activeTab === 'schedule'
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'schedule'
                                 ? 'bg-white/5 border border-glass-border text-white'
                                 : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
                             }`}
@@ -96,7 +97,7 @@ export default function ClientDashboardView({
                     </button>
                     <button
                         onClick={() => setActiveTab('automation')}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${activeTab === 'automation'
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'automation'
                                 ? 'bg-white/5 border border-glass-border text-white'
                                 : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
                             }`}
@@ -105,7 +106,7 @@ export default function ClientDashboardView({
                     </button>
                     <button
                         onClick={() => setShowSettings(true)}
-                        className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl text-gray-400 hover:text-white transition-colors text-sm font-medium text-left"
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl text-gray-400 hover:text-white transition-colors text-sm font-medium text-left cursor-pointer"
                     >
                         <i className="fa-solid fa-cog"></i> Settings
                     </button>
@@ -127,8 +128,12 @@ export default function ClientDashboardView({
                         <img src={mockUser.image} alt="User" className="w-10 h-10 rounded-full border border-glass-border" />
                         <div>
                             <p className="text-sm font-bold truncate w-32">{mockUser.name}</p>
-                            <button onClick={() => setShowSettings(true)} className="text-xs text-gray-400 hover:text-white">Settings</button>
+                            <button onClick={() => setShowSettings(true)} className="text-xs text-gray-400 hover:text-white cursor-pointer">Settings</button>
                         </div>
+                    </div>
+
+                    <div className="mt-4">
+                        <LogoutButton />
                     </div>
                 </div>
             </aside>
@@ -149,9 +154,10 @@ export default function ClientDashboardView({
                             />
                             <button
                                 onClick={onNavigateBack}
-                                className="px-6 py-3 border border-glass-border rounded-xl text-sm hover:bg-white/5 transition-colors"
+                                className="px-6 py-3 border border-white/20 rounded-full text-sm hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2"
                             >
-                                <i className="fa-solid fa-arrow-left mr-2"></i> Back to Landing
+                                <i className="fa-solid fa-arrow-left"></i> 
+                                <span>Back to Landing</span>
                             </button>
                         </div>
                     </header>
@@ -190,11 +196,11 @@ export default function ClientDashboardView({
             {/* Pricing Modal */}
             {showPricingModal && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowPricingModal(false)}></div>
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-md cursor-pointer" onClick={() => setShowPricingModal(false)}></div>
                     <div className="aerogel-card p-8 rounded-3xl w-full max-w-4xl relative z-10 animate-enter max-h-[90vh] overflow-y-auto">
                         <button
                             onClick={() => setShowPricingModal(false)}
-                            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer"
                         >
                             <i className="fa-solid fa-xmark text-xl"></i>
                         </button>
@@ -213,7 +219,7 @@ export default function ClientDashboardView({
                                 </ul>
                                 <button
                                     onClick={() => setShowPricingModal(false)}
-                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-white/5"
+                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-white/5 cursor-pointer"
                                 >
                                     Current Plan
                                 </button>
@@ -234,7 +240,7 @@ export default function ClientDashboardView({
                                 </ul>
                                 <button
                                     onClick={() => { setShowPricingModal(false); setShowSubscriptionModal(true); }}
-                                    className="w-full py-3 bg-white text-black rounded-xl font-bold hover:scale-105 transition-transform"
+                                    className="w-full py-3 bg-white text-black rounded-xl font-bold hover:scale-105 transition-transform cursor-pointer"
                                 >
                                     Upgrade Now
                                 </button>
@@ -252,7 +258,7 @@ export default function ClientDashboardView({
                                 </ul>
                                 <button
                                     onClick={() => { setShowPricingModal(false); setShowSubscriptionModal(true); }}
-                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-white/5"
+                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-white/5 cursor-pointer"
                                 >
                                     Contact Sales
                                 </button>

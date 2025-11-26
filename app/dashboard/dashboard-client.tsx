@@ -72,8 +72,8 @@ export default function DashboardClient({
   };
 
   const handleNavigateBack = () => {
-    // Navigate back to dashboard, not landing page
-    router.push('/dashboard');
+    // Navigate back to landing page
+    router.push('/');
   };
 
   return (

@@ -183,16 +183,16 @@ export default function ContentGenerator({ currentLanguage = 'en' }: ContentGene
 
             <div className="px-3 py-2 border-t border-gray-200 mt-2">
                 <div className="flex justify-around items-center">
-                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors">
+                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors cursor-pointer">
                         <i className="fa-regular fa-thumbs-up text-lg"></i> <span className="text-xs font-bold">Like</span>
                     </button>
-                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors">
+                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors cursor-pointer">
                         <i className="fa-regular fa-comment-dots text-lg"></i> <span className="text-xs font-bold">Comment</span>
                     </button>
-                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors">
+                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors cursor-pointer">
                         <i className="fa-solid fa-repeat text-lg"></i> <span className="text-xs font-bold">Repost</span>
                     </button>
-                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors">
+                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors cursor-pointer">
                         <i className="fa-regular fa-paper-plane text-lg"></i> <span className="text-xs font-bold">Send</span>
                     </button>
                 </div>
@@ -238,9 +238,9 @@ export default function ContentGenerator({ currentLanguage = 'en' }: ContentGene
                     <div>3 Comments</div>
                 </div>
                 <div className="border-t border-gray-200 pt-1 flex justify-between">
-                    <button className="flex-1 py-2 text-gray-600 font-bold text-sm hover:bg-gray-100 rounded flex items-center justify-center gap-2"><i className="fa-regular fa-thumbs-up"></i> Like</button>
-                    <button className="flex-1 py-2 text-gray-600 font-bold text-sm hover:bg-gray-100 rounded flex items-center justify-center gap-2"><i className="fa-regular fa-comment"></i> Comment</button>
-                    <button className="flex-1 py-2 text-gray-600 font-bold text-sm hover:bg-gray-100 rounded flex items-center justify-center gap-2"><i className="fa-solid fa-share"></i> Share</button>
+                    <button className="flex-1 py-2 text-gray-600 font-bold text-sm hover:bg-gray-100 rounded flex items-center justify-center gap-2 cursor-pointer"><i className="fa-regular fa-thumbs-up"></i> Like</button>
+                    <button className="flex-1 py-2 text-gray-600 font-bold text-sm hover:bg-gray-100 rounded flex items-center justify-center gap-2 cursor-pointer"><i className="fa-regular fa-comment"></i> Comment</button>
+                    <button className="flex-1 py-2 text-gray-600 font-bold text-sm hover:bg-gray-100 rounded flex items-center justify-center gap-2 cursor-pointer"><i className="fa-solid fa-share"></i> Share</button>
                 </div>
             </div>
         </div>
@@ -328,7 +328,7 @@ export default function ContentGenerator({ currentLanguage = 'en' }: ContentGene
                     <button
                         type="submit"
                         disabled={isPending}
-                        className="w-full py-4 bg-gradient-to-r from-neon-grape to-[#5A189A] text-white font-body font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(157,78,221,0.4)] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full py-4 bg-gradient-to-r from-neon-grape to-[#5A189A] text-white font-body font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(157,78,221,0.4)] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                         {isPending ? (
                             <>
@@ -376,21 +376,21 @@ export default function ContentGenerator({ currentLanguage = 'en' }: ContentGene
                                 {!isEditing ? (
                                     <button
                                         onClick={() => setIsEditing(true)}
-                                        className="text-gray-400 hover:text-white transition-colors text-xs flex gap-2 items-center bg-white/5 px-3 py-1 rounded-lg border border-white/10 hover:border-neon-grape"
+                                        className="text-gray-400 hover:text-white transition-colors text-xs flex gap-2 items-center bg-white/5 px-3 py-1 rounded-lg border border-white/10 hover:border-neon-grape cursor-pointer"
                                     >
                                         <i className="fa-solid fa-pen"></i> Edit Text
                                     </button>
                                 ) : (
                                     <button
                                         onClick={() => setIsEditing(false)}
-                                        className="text-joburg-teal hover:text-white transition-colors text-xs flex gap-2 items-center bg-joburg-teal/10 px-3 py-1 rounded-lg border border-joburg-teal/30"
+                                        className="text-joburg-teal hover:text-white transition-colors text-xs flex gap-2 items-center bg-joburg-teal/10 px-3 py-1 rounded-lg border border-joburg-teal/30 cursor-pointer"
                                     >
                                         <i className="fa-solid fa-check"></i> Done
                                     </button>
                                 )}
                                 <button
                                     onClick={() => { navigator.clipboard.writeText(localContent); alert('Copied!') }}
-                                    className="text-gray-400 hover:text-white transition-colors text-xs flex gap-2 items-center bg-white/5 px-3 py-1 rounded-lg border border-white/10 hover:border-white/50"
+                                    className="text-gray-400 hover:text-white transition-colors text-xs flex gap-2 items-center bg-white/5 px-3 py-1 rounded-lg border border-white/10 hover:border-white/50 cursor-pointer"
                                 >
                                     <i className="fa-regular fa-copy"></i>
                                 </button>
@@ -405,13 +405,13 @@ export default function ContentGenerator({ currentLanguage = 'en' }: ContentGene
                         <div className="mt-auto pt-4 border-t border-white/10 flex gap-4">
                             <button
                                 onClick={handleDiscard}
-                                className="flex-1 py-3 border border-red-500/30 text-red-400 rounded-xl hover:bg-red-500/10 transition-colors text-sm font-bold"
+                                className="flex-1 py-3 border border-red-500/30 text-red-400 rounded-xl hover:bg-red-500/10 transition-colors text-sm font-bold cursor-pointer"
                             >
                                 Discard
                             </button>
                             <button
                                 onClick={handleSchedule}
-                                className="flex-1 py-3 bg-white text-black rounded-xl hover:scale-105 transition-transform text-sm font-bold shadow-lg flex items-center justify-center gap-2"
+                                className="flex-1 py-3 bg-white text-black rounded-xl hover:scale-105 transition-transform text-sm font-bold shadow-lg flex items-center justify-center gap-2 cursor-pointer"
                             >
                                 <i className="fa-regular fa-calendar-check"></i> Schedule Post
                             </button>
