@@ -1,8 +1,13 @@
-import { pgTable, text, timestamp, boolean, uuid, integer, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, uuid, integer, pgEnum, jsonb } from "drizzle-orm/pg-core";
 
 export const tierEnum = pgEnum("tier", ["free", "pro", "business"]);
 export const platformEnum = pgEnum("platform", ["facebook", "instagram", "twitter", "linkedin"]);
 export const statusEnum = pgEnum("status", ["draft", "scheduled", "posted", "failed"]);
+export const transactionTypeEnum = pgEnum("transaction_type", ["credit_purchase", "subscription", "refund"]);
+export const transactionStatusEnum = pgEnum("transaction_status", ["pending", "completed", "failed", "refunded"]);
+export const subscriptionStatusEnum = pgEnum("subscription_status", ["active", "canceled", "past_due", "trialing"]);
+export const billingCycleEnum = pgEnum("billing_cycle", ["monthly", "annual"]);
+export const webhookStatusEnum = pgEnum("webhook_status", ["pending", "processed", "failed"]);
 
 // Better Auth expects these specific export names (singular)
 export const user = pgTable("user", {
@@ -13,6 +18,7 @@ export const user = pgTable("user", {
   image: text("image"),
   tier: tierEnum("tier").default("free"),
   credits: integer("credits").notNull().default(10),
+  polarCustomerId: text("polar_customer_id"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -99,6 +105,52 @@ export const connectedAccounts = pgTable("connected_account", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+// Transactions table for payment records
+export const transactions = pgTable("transactions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  polarOrderId: text("polar_order_id").unique(),
+  type: transactionTypeEnum("type").notNull(),
+  amount: integer("amount").notNull(), // Amount in cents
+  currency: text("currency").notNull().default("ZAR"),
+  status: transactionStatusEnum("status").notNull().default("pending"),
+  credits: integer("credits"), // Credits added/removed (nullable for subscriptions)
+  description: text("description").notNull(),
+  metadata: jsonb("metadata"), // Additional data from Polar
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Subscriptions table for managing user subscriptions
+export const subscriptions = pgTable("subscriptions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  polarSubscriptionId: text("polar_subscription_id").notNull().unique(),
+  polarCustomerId: text("polar_customer_id").notNull(),
+  planId: text("plan_id").notNull(), // 'pro' or 'business'
+  billingCycle: billingCycleEnum("billing_cycle").notNull(),
+  status: subscriptionStatusEnum("status").notNull().default("active"),
+  currentPeriodStart: timestamp("current_period_start").notNull(),
+  currentPeriodEnd: timestamp("current_period_end").notNull(),
+  cancelAtPeriodEnd: boolean("cancel_at_period_end").notNull().default(false),
+  canceledAt: timestamp("canceled_at"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Webhook events table for audit trail and idempotency
+export const webhookEvents = pgTable("webhook_events", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  eventType: text("event_type").notNull(),
+  eventId: text("event_id").notNull().unique(), // Polar event ID for idempotency
+  payload: jsonb("payload").notNull(),
+  status: webhookStatusEnum("status").notNull().default("pending"),
+  processedAt: timestamp("processed_at"),
+  errorMessage: text("error_message"),
+  retryCount: integer("retry_count").notNull().default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 // Note: users table above already includes credits field
 
 // TypeScript types for better type safety
@@ -109,3 +161,9 @@ export type Post = typeof posts.$inferSelect;
 export type AutomationRule = typeof automationRules.$inferSelect;
 export type ConnectedAccount = typeof connectedAccounts.$inferSelect;
 export type NewConnectedAccount = typeof connectedAccounts.$inferInsert;
+export type Transaction = typeof transactions.$inferSelect;
+export type NewTransaction = typeof transactions.$inferInsert;
+export type Subscription = typeof subscriptions.$inferSelect;
+export type NewSubscription = typeof subscriptions.$inferInsert;
+export type WebhookEvent = typeof webhookEvents.$inferSelect;
+export type NewWebhookEvent = typeof webhookEvents.$inferInsert;
