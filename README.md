@@ -6,6 +6,16 @@ Purple Glow Social 2.0 is a comprehensive social media automation platform desig
 
 ---
 
+## 💳 Payment Integration
+
+Purple Glow Social uses **Polar.sh** for secure payment processing:
+- Real-time credit purchases
+- Subscription management (Pro & Business plans)
+- ZAR currency support
+- PCI DSS compliant checkout
+
+**Setup Guide**: See [docs/POLAR_SETUP_GUIDE.md](docs/POLAR_SETUP_GUIDE.md)
+
 ## 🚀 Quick Start
 
 ```bash
@@ -250,6 +260,22 @@ Better-auth is integrated and ready for activation when connecting to a real bac
    ```
 
 3. **Configure Environment Variables**
+
+   Copy `.env.example` to `.env` and configure:
+   
+   ```bash
+   cp .env.example .env
+   ```
+   
+   **Required for Payment Integration:**
+   - `POLAR_ACCESS_TOKEN` - Get from Polar.sh dashboard
+   - `POLAR_WEBHOOK_SECRET` - Generate in webhook settings
+   - `POLAR_ORGANIZATION_ID` - Your Polar organization ID
+   - Product IDs for credit packages and subscriptions
+   
+   See [docs/POLAR_SETUP_GUIDE.md](docs/POLAR_SETUP_GUIDE.md) for detailed setup.
+
+4. **Run Database Migrations**
    - Copy `.env.production.example` to your Vercel project
    - Fill in all required values (see DEPLOYMENT_GUIDE.md)
 

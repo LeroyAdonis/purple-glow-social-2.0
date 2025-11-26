@@ -212,7 +212,7 @@ This document outlines the phased implementation of Polar.sh payment system inte
   - Handle API errors gracefully
 
 ### 5.2 Update Subscription Modal
-- [ ] Update `components/modals/subscription-modal.tsx`
+- [x] Update `components/modals/subscription-modal.tsx`
   - Replace mock subscription handler
   - Call `/api/checkout/subscription` on plan selection
   - Show loading state during checkout creation

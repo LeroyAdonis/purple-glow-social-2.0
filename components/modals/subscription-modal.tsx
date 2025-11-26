@@ -17,6 +17,13 @@ interface SubscriptionModalProps {
   currentTier: 'free' | 'pro' | 'business';
 }
 
+interface CheckoutResponse {
+  success: boolean;
+  checkoutUrl?: string;
+  error?: string;
+  message?: string;
+}
+
 const PLANS: Plan[] = [
   {
     id: 'free',
@@ -62,25 +69,60 @@ export default function SubscriptionModal({ isOpen, onClose, onSubscribe, curren
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
   const [showCheckout, setShowCheckout] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
   const handleSelectPlan = (plan: Plan) => {
     setSelectedPlan(plan);
     setShowCheckout(true);
+    setError(null);
   };
 
   const handleBack = () => {
     setShowCheckout(false);
     setSelectedPlan(null);
+    setError(null);
   };
 
-  const handleCompleteSubscription = () => {
-    if (selectedPlan) {
-      onSubscribe(selectedPlan.id, billingCycle);
-      onClose();
-      setShowCheckout(false);
-      setSelectedPlan(null);
+  const handleCompleteSubscription = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!selectedPlan || selectedPlan.id === 'free') return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Call API to create Polar checkout
+      const response = await fetch('/api/checkout/subscription', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planId: selectedPlan.id,
+          billingCycle,
+        }),
+      });
+
+      const data: CheckoutResponse = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || data.error || 'Failed to create checkout');
+      }
+
+      // Redirect to Polar checkout
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to initiate checkout');
+      setIsLoading(false);
     }
   };
 
@@ -261,6 +303,15 @@ export default function SubscriptionModal({ isOpen, onClose, onSubscribe, curren
             </div>
 
             <div>
+              {error && (
+                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
+                  <div className="flex items-center gap-2 text-red-400">
+                    <i className="fa-solid fa-exclamation-circle"></i>
+                    <span className="text-sm">{error}</span>
+                  </div>
+                </div>
+              )}
+
               <div className="aerogel-card p-8 rounded-2xl">
                 <div className="flex items-center justify-between mb-6 pb-6 border-b border-glass-border">
                   <h3 className="font-bold text-xl">Payment Details</h3>
@@ -270,7 +321,7 @@ export default function SubscriptionModal({ isOpen, onClose, onSubscribe, curren
                   </div>
                 </div>
 
-                <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleCompleteSubscription(); }}>
+                <form className="space-y-4" onSubmit={handleCompleteSubscription}>
                   <div>
                     <label className="text-xs font-mono text-gray-400 mb-2 block">CARD NUMBER</label>
                     <input
