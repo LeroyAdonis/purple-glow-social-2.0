@@ -176,6 +176,82 @@
     "success": "Sukses!",
     "error": "Fout",
     "confirm": "Bevestig",
-    "back": "Terug"
+    "back": "Terug",
+    "logout": "Teken Uit",
+    "goToDashboard": "Gaan na Dashboard",
+    "backToLanding": "Terug na Tuisblad"
+  },
+  "scheduleModal": {
+    "title": "Skeduleer Plasing",
+    "platform": "Platform",
+    "aiBestTimes": "KI Beste Tye",
+    "aiDescription": "Ons KI het jou gehoor se betrokkenheidspatrone ontleed. Hierdie tye kry die meeste trekkrag:",
+    "orChooseTime": "Of Kies Jou Eie Tyd",
+    "date": "Datum",
+    "time": "Tyd",
+    "timezone": "Tydsone",
+    "recurrence": "Herhaling (Opsioneel)",
+    "repeatOn": "Herhaal op:",
+    "noRepeat": "Moenie Herhaal nie",
+    "daily": "Daagliks",
+    "weekly": "Weekliks",
+    "monthly": "Maandeliks",
+    "queuePosition": "Tou Posisie",
+    "postsScheduledBefore": "plasings geskeduleer voor hierdie tyd",
+    "postPreview": "Plasing Voorskou",
+    "schedulePost": "Skeduleer Plasing",
+    "engagement": {
+      "veryHigh": "Baie Hoog",
+      "high": "Hoog",
+      "medium": "Gemiddeld"
+    },
+    "timeSlots": {
+      "morning": "Oggend Stormloop",
+      "lunch": "Middagete Pouse",
+      "evening": "Aand Piek",
+      "night": "Naguile"
+    }
+  },
+  "contentGenerator": {
+    "title": "Inhoud Generator",
+    "topic": "Onderwerp / Produk",
+    "topicPlaceholder": "bv., Nuwe tekkies bekendstelling, Plaaslike koffiekroeg, Tegnologie beginner",
+    "platform": "Platform",
+    "selectPlatform": "Kies platform",
+    "language": "Inhoud Taal",
+    "tone": "Toon",
+    "customInstructions": "Pasgemaakte Instruksies (Opsioneel)",
+    "customPlaceholder": "Voeg spesifieke hashtags, vermelde, of stylvoorkeure by...",
+    "generate": "Begin Generasie",
+    "generating": "Genereer...",
+    "generatedContent": "Gegenereerde Inhoud",
+    "editText": "Redigeer Teks",
+    "done": "Klaar",
+    "discard": "Gooi Weg",
+    "schedulePost": "Skeduleer Plasing",
+    "platforms": {
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook"
+    },
+    "tones": {
+      "professional": "Professioneel",
+      "casual": "Informeel",
+      "funny": "Snaaks",
+      "inspirational": "Inspirerend"
+    }
+  },
+  "smartSuggestions": {
+    "title": "KI Slim Voorstelle",
+    "subtitle": "Aangedryf deur gehoor-analise en betrokkenheidspatrone",
+    "bestTimes": "Beste Tye",
+    "bestPractices": "Beste Praktyke",
+    "trending": "Neigings",
+    "content": "Inhoud",
+    "tone": "Toon",
+    "description": "Gebaseer op jou gehoor se aktiwiteit, hier is die beste tye om te plaas:",
+    "adjustTone": "Pas jou toon aan gebaseer op wanneer jy plaas:",
+    "updateNote": "Voorstelle word opgedateer gebaseer op jou gehoor se betrokkenheidsdata"
   }
 }

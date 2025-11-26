@@ -20,7 +20,7 @@ import { useLanguage } from '../lib/context/LanguageContext';
 export default function HomePage() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
-  const { t: translate } = useLanguage();
+  const { t: translate, isInitialized } = useLanguage();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);

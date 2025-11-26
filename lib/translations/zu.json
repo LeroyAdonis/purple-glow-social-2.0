@@ -176,6 +176,82 @@
     "success": "Impumelelo!",
     "error": "Iphutha",
     "confirm": "Qinisekisa",
-    "back": "Emuva"
+    "back": "Emuva",
+    "logout": "Phuma",
+    "goToDashboard": "Iya ku-Dashboard",
+    "backToLanding": "Buyela Ekhaya"
+  },
+  "scheduleModal": {
+    "title": "Hlela Ukuthumela",
+    "platform": "Inkundla",
+    "aiBestTimes": "Izikhathi Ezihle Kakhulu ze-AI",
+    "aiDescription": "I-AI yethu ihlaziye amaphethini okubandakanyeka kwezilaleli zakho. Lezi zikhathi zithola ukuxhumana okuphezulu:",
+    "orChooseTime": "Noma Khetha Isikhathi Sakho",
+    "date": "Usuku",
+    "time": "Isikhathi",
+    "timezone": "Umkhawulo Wesikhathi",
+    "recurrence": "Ukuphindaphinda (Okukhethekile)",
+    "repeatOn": "Phinda ku:",
+    "noRepeat": "Ungaphindi",
+    "daily": "Nsuku Zonke",
+    "weekly": "Ngesonto",
+    "monthly": "Ngenyanga",
+    "queuePosition": "Indawo Yomugqa",
+    "postsScheduledBefore": "izithombe ezihleliwe ngaphambi kwalesisikhathi",
+    "postPreview": "Ukubuka Kwangaphambili Kwesithombe",
+    "schedulePost": "Hlela Isithombe",
+    "engagement": {
+      "veryHigh": "Okuphezulu Kakhulu",
+      "high": "Okuphezulu",
+      "medium": "Okuphakathi"
+    },
+    "timeSlots": {
+      "morning": "Ukugijima Kwasekuseni",
+      "lunch": "Ikhefu Lasemini",
+      "evening": "Isikhathi Santambama",
+      "night": "Izikhova Zobusuku"
+    }
+  },
+  "contentGenerator": {
+    "title": "Umkhiqizi Wokuqukethwe",
+    "topic": "Isihloko / Umkhiqizo",
+    "topicPlaceholder": "isb., Ukwethulwa kwamabhidisi amasha, Ikhofi yasendaweni, I-startup yezobuchwepheshe",
+    "platform": "Inkundla",
+    "selectPlatform": "Khetha inkundla",
+    "language": "Ulimi Lokuqukethwe",
+    "tone": "Ithoni",
+    "customInstructions": "Imiyalelo Yezifiso (Okukhethekile)",
+    "customPlaceholder": "Engeza ama-hashtags athile, ukukhomba, noma ukhetho lwesitayela...",
+    "generate": "Qala Ukukhiqiza",
+    "generating": "Iyakhiqiza...",
+    "generatedContent": "Okuqukethwe Okukhiqiziwe",
+    "editText": "Hlela Umbhalo",
+    "done": "Kwenziwe",
+    "discard": "Lahla",
+    "schedulePost": "Hlela Isithombe",
+    "platforms": {
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook"
+    },
+    "tones": {
+      "professional": "Zobungcweti",
+      "casual": "Okuvamile",
+      "funny": "Okuhlekisayo",
+      "inspirational": "Okugqugquzelayo"
+    }
+  },
+  "smartSuggestions": {
+    "title": "Iziphakamiso Ezihlakaniphile ze-AI",
+    "subtitle": "Inikezwa amandla ukuhlaziya kwezilaleli namaphethini okubandakanyeka",
+    "bestTimes": "Izikhathi Ezihle Kakhulu",
+    "bestPractices": "Izinqubo Ezihle Kakhulu",
+    "trending": "Okusaziwayo",
+    "content": "Okuqukethwe",
+    "tone": "Ithoni",
+    "description": "Ngokusekelwe ekusebenzeni kwezilaleli zakho, nazi izikhathi ezihle kakhulu zokuthumela:",
+    "adjustTone": "Lungisa ithoni yakho ngokusekelwe ekutheni uthumela nini:",
+    "updateNote": "Iziphakamiso ziyabuyekezwa ngokusekelwe kudatha yokubandakanyeka kwezilaleli zakho"
   }
 }
