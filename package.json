@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "NEXT_TURBOPACK=0 next dev",
+    "dev": "next dev",
     "dev:vite": "vite",
     "build": "next build",
     "build:vite": "vite build",
@@ -25,7 +25,7 @@
     "better-auth": "^1.4.1",
     "drizzle-orm": "^0.44.7",
     "nanoid": "^5.1.6",
-    "next": "^16.0.3",
+    "next": "^15.0.4",
     "pg": "^8.16.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
