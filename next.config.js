@@ -84,8 +84,8 @@ const nextConfig = {
   },
 
   // Turbopack configuration (Next.js 16 default)
-  // Empty config to silence webpack migration warning
-  turbopack: {},
+  // Disabled via CLI flag for StackBlitz compatibility
+  // turbopack: false,
 
   // Webpack configuration (fallback for when --webpack flag is used)
   webpack: (config, { isServer }) => {
