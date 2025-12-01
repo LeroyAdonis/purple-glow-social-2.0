@@ -13,7 +13,7 @@ const initialState = {
 };
 
 export default function ContentGenerator() {
-    const { language: currentLanguage } = useLanguage();
+    const { language: currentLanguage, t: translate } = useLanguage();
     const [state, formAction, isPending] = useActionState(generatePostAction, initialState);
 
     // Controlled inputs to drive preview logic
@@ -263,7 +263,7 @@ export default function ContentGenerator() {
                     <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-joburg-teal border border-glass-border shadow-[0_0_15px_-5px_#00E0FF]">
                         <i className="fa-solid fa-pen-nib"></i>
                     </div>
-                    <h3 className="font-display font-bold text-2xl">Content Architect</h3>
+                    <h3 className="font-display font-bold text-2xl">{translate('contentGenerator.title')}</h3>
                 </div>
 
                 <form action={formAction} className="space-y-6">
@@ -271,13 +271,13 @@ export default function ContentGenerator() {
                     <input type="hidden" name="language" value={currentLanguage} />
                     
                     <div>
-                        <label className="block font-mono text-xs text-gray-400 mb-2">TOPIC / PRODUCT</label>
+                        <label className="block font-mono text-xs text-gray-400 mb-2">{translate('contentGenerator.topic').toUpperCase()}</label>
                         <textarea
                             name="topic"
                             rows={4}
                             value={prompt}
                             onChange={(e) => setPrompt(e.target.value)}
-                            placeholder="e.g. A summer sale on futuristic sneakers for urban explorers in Joburg..."
+                            placeholder={translate('contentGenerator.topicPlaceholder')}
                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-neon-grape focus:bg-white/10 focus:outline-none transition-all font-body resize-none"
                             required
                         />
@@ -285,32 +285,32 @@ export default function ContentGenerator() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block font-mono text-xs text-gray-400 mb-2">VIBE CHECK</label>
+                            <label className="block font-mono text-xs text-gray-400 mb-2">{translate('contentGenerator.tone').toUpperCase()}</label>
                             <CustomSelect
                                 value={vibe}
                                 onChange={setVibe}
                                 options={[
                                     { value: "Mzansi Cool (Local Slang)", label: "Mzansi Cool 🇿🇦" },
-                                    { value: "Professional Corporate", label: "Corporate Pro" },
+                                    { value: "Professional Corporate", label: translate('contentGenerator.tones.professional') },
                                     { value: "High Energy Cyberpunk", label: "Cyberpunk Energy" },
-                                    { value: "Warm & Community", label: "Warm Community" }
+                                    { value: "Warm & Community", label: translate('contentGenerator.tones.casual') }
                                 ]}
-                                placeholder="Select vibe"
+                                placeholder={translate('contentGenerator.selectPlatform')}
                             />
                             <input type="hidden" name="vibe" value={vibe} />
                         </div>
                         <div>
-                            <label className="block font-mono text-xs text-gray-400 mb-2">PLATFORM</label>
+                            <label className="block font-mono text-xs text-gray-400 mb-2">{translate('contentGenerator.platform').toUpperCase()}</label>
                             <CustomSelect
                                 value={platform}
                                 onChange={setPlatform}
                                 options={[
-                                    { value: "instagram", label: "Instagram", icon: "fa-brands fa-instagram", color: "text-pink-500" },
-                                    { value: "twitter", label: "Twitter / X", icon: "fa-brands fa-twitter", color: "text-blue-400" },
-                                    { value: "linkedin", label: "LinkedIn", icon: "fa-brands fa-linkedin", color: "text-blue-600" },
-                                    { value: "facebook", label: "Facebook", icon: "fa-brands fa-facebook", color: "text-blue-500" }
+                                    { value: "instagram", label: translate('contentGenerator.platforms.instagram'), icon: "fa-brands fa-instagram", color: "text-pink-500" },
+                                    { value: "twitter", label: translate('contentGenerator.platforms.twitter'), icon: "fa-brands fa-twitter", color: "text-blue-400" },
+                                    { value: "linkedin", label: translate('contentGenerator.platforms.linkedin'), icon: "fa-brands fa-linkedin", color: "text-blue-600" },
+                                    { value: "facebook", label: translate('contentGenerator.platforms.facebook'), icon: "fa-brands fa-facebook", color: "text-blue-500" }
                                 ]}
-                                placeholder="Select platform"
+                                placeholder={translate('contentGenerator.selectPlatform')}
                             />
                             <input type="hidden" name="platform" value={platform} />
                         </div>
@@ -318,7 +318,7 @@ export default function ContentGenerator() {
 
                     {state?.error && (
                         <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-mono">
-                            ERROR: {state.error}
+                            {translate('common.error')}: {state.error}
                         </div>
                     )}
 
@@ -329,11 +329,11 @@ export default function ContentGenerator() {
                     >
                         {isPending ? (
                             <>
-                                <i className="fa-solid fa-circle-notch animate-spin"></i> Processing...
+                                <i className="fa-solid fa-circle-notch animate-spin"></i> {translate('contentGenerator.generating')}
                             </>
                         ) : (
                             <>
-                                <span className="group-hover:animate-pulse">Initialize Generation</span> <i className="fa-solid fa-wand-magic-sparkles"></i>
+                                <span className="group-hover:animate-pulse">{translate('contentGenerator.generate')}</span> <i className="fa-solid fa-wand-magic-sparkles"></i>
                             </>
                         )}
                     </button>
@@ -358,7 +358,7 @@ export default function ContentGenerator() {
                 {!localContent && !isPending && (
                     <div className="flex-1 flex flex-col items-center justify-center text-center opacity-30">
                         <i className="fa-brands fa-space-awesome text-7xl mb-6"></i>
-                        <p className="font-body text-xl">Awaiting input coordinates...</p>
+                        <p className="font-body text-xl">{translate('common.loading')}...</p>
                     </div>
                 )}
 
@@ -366,7 +366,7 @@ export default function ContentGenerator() {
                     <div className="flex-1 flex flex-col h-full animate-enter">
                         <div className="flex justify-between items-start mb-6 border-b border-white/10 pb-4">
                             <div className="flex items-center gap-2">
-                                <span className="font-mono text-[10px] tracking-widest text-joburg-teal border border-joburg-teal/30 px-2 py-1 rounded bg-joburg-teal/10">PREVIEW MODE</span>
+                                <span className="font-mono text-[10px] tracking-widest text-joburg-teal border border-joburg-teal/30 px-2 py-1 rounded bg-joburg-teal/10">{translate('contentGenerator.generatedContent').toUpperCase()}</span>
                                 <span className="text-xs text-gray-400 capitalize">• {platform}</span>
                             </div>
                             <div className="flex gap-2">
@@ -375,14 +375,14 @@ export default function ContentGenerator() {
                                         onClick={() => setIsEditing(true)}
                                         className="text-gray-400 hover:text-white transition-colors text-xs flex gap-2 items-center bg-white/5 px-3 py-1 rounded-lg border border-white/10 hover:border-neon-grape cursor-pointer"
                                     >
-                                        <i className="fa-solid fa-pen"></i> Edit Text
+                                        <i className="fa-solid fa-pen"></i> {translate('contentGenerator.editText')}
                                     </button>
                                 ) : (
                                     <button
                                         onClick={() => setIsEditing(false)}
                                         className="text-joburg-teal hover:text-white transition-colors text-xs flex gap-2 items-center bg-joburg-teal/10 px-3 py-1 rounded-lg border border-joburg-teal/30 cursor-pointer"
                                     >
-                                        <i className="fa-solid fa-check"></i> Done
+                                        <i className="fa-solid fa-check"></i> {translate('contentGenerator.done')}
                                     </button>
                                 )}
                                 <button
@@ -404,13 +404,13 @@ export default function ContentGenerator() {
                                 onClick={handleDiscard}
                                 className="flex-1 py-3 border border-red-500/30 text-red-400 rounded-xl hover:bg-red-500/10 transition-colors text-sm font-bold cursor-pointer"
                             >
-                                Discard
+                                {translate('contentGenerator.discard')}
                             </button>
                             <button
                                 onClick={handleSchedule}
                                 className="flex-1 py-3 bg-white text-black rounded-xl hover:scale-105 transition-transform text-sm font-bold shadow-lg flex items-center justify-center gap-2 cursor-pointer"
                             >
-                                <i className="fa-regular fa-calendar-check"></i> Schedule Post
+                                <i className="fa-regular fa-calendar-check"></i> {translate('contentGenerator.schedulePost')}
                             </button>
                         </div>
                     </div>

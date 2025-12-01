@@ -46,6 +46,7 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
     const topic = formData.get("topic") as string;
     const platform = formData.get("platform") as "instagram" | "twitter" | "facebook" | "linkedin";
     const vibe = formData.get("vibe") as string;
+    const language = (formData.get("language") as string) || 'en';
     
     if (!topic || !platform) {
       return { error: "Missing required fields." };
@@ -78,7 +79,7 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
     const contentResult = await geminiService.generateContent({
       topic,
       platform,
-      language: 'en', // Default to English for now
+      language, // Use language from user's selection
       tone,
       includeHashtags: true,
       includeEmojis: true,
