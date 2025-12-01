@@ -35,14 +35,20 @@ export default function LoginPage() {
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
+    setError(null);
     try {
       await signIn.social({
         provider: 'google',
         callbackURL: '/dashboard',
       });
     } catch (err: any) {
-      console.error('Google sign-in error:', err);
-      setError('Failed to sign in with Google');
+      // FedCM AbortError is expected when user closes popup or navigates away
+      if (err?.message?.includes('AbortError') || err?.name === 'AbortError') {
+        console.log('Google sign-in cancelled by user');
+      } else {
+        console.error('Google sign-in error:', err);
+        setError('Failed to sign in with Google. Please try again.');
+      }
       setIsLoading(false);
     }
   };
