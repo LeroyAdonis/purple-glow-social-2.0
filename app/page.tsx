@@ -201,6 +201,10 @@ export default function HomePage() {
                       src={session.user?.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(session.user?.name || 'User')}&background=9D4EDD&color=fff`} 
                       alt="User" 
                       className="w-8 h-8 rounded-full border border-glass-border"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(session.user?.name || 'User')}&background=9D4EDD&color=fff`;
+                      }}
                     />
                     <i className={`fa-solid fa-chevron-down text-xs transition-transform ${showUserMenu ? 'rotate-180' : ''}`}></i>
                   </button>
