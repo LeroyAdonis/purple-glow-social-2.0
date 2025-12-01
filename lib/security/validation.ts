@@ -132,7 +132,7 @@ export function formatValidationErrors(errors: z.ZodError): {
 } {
   return {
     message: 'Validation failed',
-    details: errors.errors.map(err => ({
+    details: errors.issues.map(err => ({
       field: err.path.join('.'),
       message: err.message,
     })),
