@@ -168,12 +168,12 @@ export default function HomePage() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6 text-sm text-gray-400 font-medium">
-            <a href="#features" onClick={(e) => scrollToSection(e, 'features')} className="hover:text-white transition-colors">Capabilities</a>
-            <a href="#how-it-works" onClick={(e) => scrollToSection(e, 'how-it-works')} className="hover:text-white transition-colors">How It Works</a>
-            <a href="#testimonials" onClick={(e) => scrollToSection(e, 'testimonials')} className="hover:text-white transition-colors">Testimonials</a>
-            <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} className="hover:text-white transition-colors">Pricing</a>
-            <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')} className="hover:text-white transition-colors">Contact</a>
-            <a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-white transition-colors">Legal</a>
+            <a href="#features" onClick={(e) => scrollToSection(e, 'features')} className="hover:text-white transition-colors">{translate('nav.features')}</a>
+            <a href="#how-it-works" onClick={(e) => scrollToSection(e, 'how-it-works')} className="hover:text-white transition-colors">{translate('howItWorks.title')}</a>
+            <a href="#testimonials" onClick={(e) => scrollToSection(e, 'testimonials')} className="hover:text-white transition-colors">{translate('testimonials.title').split(' ')[0]}</a>
+            <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} className="hover:text-white transition-colors">{translate('nav.pricing')}</a>
+            <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')} className="hover:text-white transition-colors">{translate('nav.contact')}</a>
+            <a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-white transition-colors">{translate('footer.legal')}</a>
           </div>
 
           {/* Desktop Actions */}
@@ -279,12 +279,12 @@ export default function HomePage() {
         {/* Mobile Menu Overlay */}
         <div className={`md:hidden absolute top-0 left-0 w-full bg-void/95 backdrop-blur-xl border-b border-white/10 transition-all duration-300 ease-in-out overflow-hidden ${isMobileMenuOpen ? 'max-h-[700px] opacity-100 pt-24 pb-8' : 'max-h-0 opacity-0 py-0'}`}>
           <div className="px-6 flex flex-col gap-6">
-            <a href="#features" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'features')}>Capabilities</a>
-            <a href="#how-it-works" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'how-it-works')}>How It Works</a>
-            <a href="#testimonials" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'testimonials')}>Testimonials</a>
-            <a href="#pricing" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'pricing')}>Pricing</a>
-            <a href="#contact" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'contact')}>Contact</a>
-            <a href="#legal" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'legal')}>Legal</a>
+            <a href="#features" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'features')}>{translate('nav.features')}</a>
+            <a href="#how-it-works" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'how-it-works')}>{translate('howItWorks.title')}</a>
+            <a href="#testimonials" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'testimonials')}>{translate('testimonials.title').split(' ')[0]}</a>
+            <a href="#pricing" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'pricing')}>{translate('nav.pricing')}</a>
+            <a href="#contact" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'contact')}>{translate('nav.contact')}</a>
+            <a href="#legal" className="text-xl font-display font-bold text-gray-300 hover:text-white" onClick={(e) => scrollToSection(e, 'legal')}>{translate('footer.legal')}</a>
 
             <div className="h-px bg-white/10 w-full my-2"></div>
 
@@ -369,7 +369,7 @@ export default function HomePage() {
             </h1>
 
             <p className="font-body text-xl text-gray-400 max-w-lg leading-relaxed">
-              Automate your social presence with South African flair. Generating posts, images, and videos with local "gees" in 11 official languages.
+              {translate('hero.subtitle')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -377,10 +377,10 @@ export default function HomePage() {
                 href="/signup"
                 className="px-8 py-4 bg-neon-grape text-white font-bold rounded-xl hover:bg-opacity-90 transition-all shadow-[0_0_30px_-10px_#9D4EDD] hover:scale-105 text-center"
               >
-                Launch Dashboard
+                {translate('hero.cta')}
               </Link>
               <button className="px-8 py-4 border border-white/20 text-white rounded-xl hover:bg-white/5 transition-colors flex items-center justify-center gap-2 group">
-                <i className="fa-solid fa-play text-xs group-hover:text-joburg-teal transition-colors"></i> Watch Demo
+                <i className="fa-solid fa-play text-xs group-hover:text-joburg-teal transition-colors"></i> {translate('hero.demo')}
               </button>
             </div>
 
@@ -435,8 +435,8 @@ export default function HomePage() {
       <section id="features" className="py-24 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="font-display font-bold text-4xl mb-4">Engineered for <span className="text-joburg-teal">Mzansi</span></h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">Most AI tools sound like robots. Ours sounds like your best friend from Soweto.</p>
+            <h2 className="font-display font-bold text-4xl mb-4">{translate('features.title').split(' ')[0]} <span className="text-joburg-teal">{translate('features.title').split(' ').slice(1).join(' ')}</span></h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">{translate('features.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

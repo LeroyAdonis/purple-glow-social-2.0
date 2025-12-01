@@ -10,6 +10,7 @@ import PaymentSuccessModal from './modals/payment-success-modal';
 import LanguageSelector from './language-selector';
 import ContentGenerator from './content-generator';
 import LogoutButton from './LogoutButton';
+import { useLanguage } from '../lib/context/LanguageContext';
 
 interface ClientDashboardViewProps {
     userName: string;
@@ -36,6 +37,7 @@ export default function ClientDashboardView({
     showSuccessModal,
     setShowSuccessModal
 }: ClientDashboardViewProps) {
+    const { t: translate } = useLanguage();
     const [showSettings, setShowSettings] = useState(false);
     const [showPricingModal, setShowPricingModal] = useState(false);
     const [showScheduleModal, setShowScheduleModal] = useState(false);
@@ -81,7 +83,7 @@ export default function ClientDashboardView({
                                 : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
                             }`}
                     >
-                        <i className="fa-solid fa-layer-group text-neon-grape"></i> Dashboard
+                        <i className="fa-solid fa-layer-group text-neon-grape"></i> {translate('dashboard.sidebar.dashboard')}
                     </button>
                     <button
                         onClick={() => setActiveTab('schedule')}
@@ -90,7 +92,7 @@ export default function ClientDashboardView({
                                 : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
                             }`}
                     >
-                        <i className="fa-regular fa-calendar"></i> Schedule
+                        <i className="fa-regular fa-calendar"></i> {translate('dashboard.sidebar.schedule')}
                     </button>
                     <button
                         onClick={() => setActiveTab('automation')}
@@ -99,22 +101,22 @@ export default function ClientDashboardView({
                                 : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
                             }`}
                     >
-                        <i className="fa-solid fa-bolt"></i> Automation
+                        <i className="fa-solid fa-bolt"></i> {translate('dashboard.sidebar.automation')}
                     </button>
                     <button
                         onClick={() => setShowSettings(true)}
                         className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl text-gray-400 hover:text-white transition-colors text-sm font-medium text-left cursor-pointer"
                     >
-                        <i className="fa-solid fa-cog"></i> Settings
+                        <i className="fa-solid fa-cog"></i> {translate('dashboard.sidebar.settings')}
                     </button>
                 </nav>
 
                 <div className="mt-auto">
                     <div className="p-4 rounded-xl border border-glass-border bg-gradient-to-br from-white/5 to-transparent">
-                        <p className="text-xs font-mono text-gray-400 mb-2">CREDITS REMAINING</p>
+                        <p className="text-xs font-mono text-gray-400 mb-2">{translate('dashboard.credits')}</p>
                         <div className="flex justify-between items-end">
                             <span className="text-2xl font-display font-bold text-white">{mockUser.credits}</span>
-                            <span className="text-xs text-mzansi-gold mb-1">PRO TIER</span>
+                            <span className="text-xs text-mzansi-gold mb-1">{mockUser.tier.toUpperCase()} TIER</span>
                         </div>
                         <div className="w-full h-1 bg-white/10 rounded-full mt-3 overflow-hidden">
                             <div className="h-full w-3/4 bg-joburg-teal"></div>
@@ -125,7 +127,7 @@ export default function ClientDashboardView({
                         <img src={mockUser.image} alt="User" className="w-10 h-10 rounded-full border border-glass-border" />
                         <div>
                             <p className="text-sm font-bold truncate w-32">{mockUser.name}</p>
-                            <button onClick={() => setShowSettings(true)} className="text-xs text-gray-400 hover:text-white cursor-pointer">Settings</button>
+                            <button onClick={() => setShowSettings(true)} className="text-xs text-gray-400 hover:text-white cursor-pointer">{translate('dashboard.sidebar.settings')}</button>
                         </div>
                     </div>
 
@@ -140,8 +142,8 @@ export default function ClientDashboardView({
                 <div className="max-w-6xl mx-auto space-y-8 relative">
                     <header className="flex justify-between items-center">
                         <div>
-                            <h2 className="font-display font-bold text-4xl mb-2">Welcome back, {mockUser.name.split(' ')[0]}</h2>
-                            <p className="text-gray-400">Your AI fleet is ready. System status: <span className="text-joburg-teal">OPTIMAL</span></p>
+                            <h2 className="font-display font-bold text-4xl mb-2">{translate('dashboard.welcome')}, {mockUser.name.split(' ')[0]}</h2>
+                            <p className="text-gray-400">{translate('dashboard.status')}: <span className="text-joburg-teal">{translate('dashboard.optimal')}</span></p>
                         </div>
                         <div className="flex items-center gap-4">
                             <LanguageSelector
@@ -152,7 +154,7 @@ export default function ClientDashboardView({
                                 className="px-6 py-3 border border-white/20 rounded-full text-sm hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2"
                             >
                                 <i className="fa-solid fa-arrow-left"></i> 
-                                <span>Back to Landing</span>
+                                <span>{translate('common.backToLanding')}</span>
                             </button>
                         </div>
                     </header>
