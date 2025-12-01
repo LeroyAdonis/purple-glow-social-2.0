@@ -157,7 +157,12 @@
     "credits": "Amakhredithi Asele",
     "contentGenerator": "Umkhiqizi Wokuqukethwe",
     "recentDrafts": "Izidwebo Zakamuva",
-    "createManually": "Dala Ngesandla"
+    "createManually": "Dala Ngesandla",
+    "tiers": {
+      "free": "IZINGA LAMAHHALA",
+      "pro": "IZINGA LE-PRO",
+      "business": "IZINGA LEBHIZINISI"
+    }
   },
   "settings": {
     "title": "Izilungiselelo",

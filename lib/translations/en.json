@@ -163,7 +163,12 @@
     "credits": "Credits Remaining",
     "contentGenerator": "Content Generator",
     "recentDrafts": "Recent Drafts",
-    "createManually": "Create Manually"
+    "createManually": "Create Manually",
+    "tiers": {
+      "free": "FREE TIER",
+      "pro": "PRO TIER",
+      "business": "BUSINESS TIER"
+    }
   },
   "settings": {
     "title": "Settings",

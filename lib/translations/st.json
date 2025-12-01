@@ -157,7 +157,12 @@
     "credits": "Dikhrediti tse Setseng",
     "contentGenerator": "Mohahi wa Dikahare",
     "recentDrafts": "Dikgatiso tsa Morao-rao",
-    "createManually": "Hlahisa ka Seatla"
+    "createManually": "Hlahisa ka Seatla",
+    "tiers": {
+      "free": "BOEMO BA MAHALA",
+      "pro": "BOEMO BA PRO",
+      "business": "BOEMO BA KGWEBO"
+    }
   },
   "settings": {
     "title": "Ditlhophiso",

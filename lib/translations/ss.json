@@ -157,7 +157,12 @@
     "credits": "Emacrediithi Lasele",
     "contentGenerator": "Umdalisi Weludzaba",
     "recentDrafts": "Tidrafti Takamuva",
-    "createManually": "Dala Ngesandla"
+    "createManually": "Dala Ngesandla",
+    "tiers": {
+      "free": "LIZINGA LEMAHHALA",
+      "pro": "LIZINGA LE-PRO",
+      "business": "LIZINGA LEBHIZINISI"
+    }
   },
   "settings": {
     "title": "Timo",

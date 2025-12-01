@@ -163,7 +163,12 @@
     "credits": "Oorblywende Krediete",
     "contentGenerator": "Inhoud Generator",
     "recentDrafts": "Onlangse Konsepte",
-    "createManually": "Skep Handmatig"
+    "createManually": "Skep Handmatig",
+    "tiers": {
+      "free": "GRATIS VLAK",
+      "pro": "PRO VLAK",
+      "business": "BESIGHEID VLAK"
+    }
   },
   "settings": {
     "title": "Instellings",

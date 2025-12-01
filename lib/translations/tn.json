@@ -157,7 +157,12 @@
     "credits": "Dikhrediti tse di Setseng",
     "contentGenerator": "Motlhami wa Diteng",
     "recentDrafts": "Dikgatiso tsa Bosheng",
-    "createManually": "Tlhama ka Seatla"
+    "createManually": "Tlhama ka Seatla",
+    "tiers": {
+      "free": "LEGATO LA MAHALA",
+      "pro": "LEGATO LA PRO",
+      "business": "LEGATO LA KGWEBO"
+    }
   },
   "settings": {
     "title": "Dithulaganyo",

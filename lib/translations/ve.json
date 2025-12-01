@@ -157,7 +157,12 @@
     "credits": "Makheredithe o Salaho",
     "contentGenerator": "Muvhumbhi wa Zwinwe",
     "recentDrafts": "Zwidzhirafuthe zwa Zwino",
-    "createManually": "Vhumbhani nga Ḓandamikano"
+    "createManually": "Vhumbhani nga Ḓandamikano",
+    "tiers": {
+      "free": "VHUIMO HA MAHALA",
+      "pro": "VHUIMO HA PRO",
+      "business": "VHUIMO HA VHUBINDUDZI"
+    }
   },
   "settings": {
     "title": "Maitele",

@@ -116,7 +116,7 @@ export default function ClientDashboardView({
                         <p className="text-xs font-mono text-gray-400 mb-2">{translate('dashboard.credits')}</p>
                         <div className="flex justify-between items-end">
                             <span className="text-2xl font-display font-bold text-white">{mockUser.credits}</span>
-                            <span className="text-xs text-mzansi-gold mb-1">{mockUser.tier.toUpperCase()} TIER</span>
+                            <span className="text-xs text-mzansi-gold mb-1">{translate(`dashboard.tiers.${mockUser.tier}`)}</span>
                         </div>
                         <div className="w-full h-1 bg-white/10 rounded-full mt-3 overflow-hidden">
                             <div className="h-full w-3/4 bg-joburg-teal"></div>

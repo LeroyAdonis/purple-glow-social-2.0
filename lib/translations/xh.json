@@ -157,7 +157,12 @@
     "credits": "Iikhredithi Eziseleyo",
     "contentGenerator": "Umvelisi Womxholo",
     "recentDrafts": "Izidrafti Zamva Nje",
-    "createManually": "Dala Ngesandla"
+    "createManually": "Dala Ngesandla",
+    "tiers": {
+      "free": "INQANABA LASIMAHLA",
+      "pro": "INQANABA LE-PRO",
+      "business": "INQANABA LESHISHINI"
+    }
   },
   "settings": {
     "title": "Iisethingi",

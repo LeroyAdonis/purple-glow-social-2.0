@@ -157,7 +157,12 @@
     "credits": "Dipointing tšeo di Šetšego",
     "contentGenerator": "Mohlodi wa Dikagare",
     "recentDrafts": "Ditirhafo tša Morago",
-    "createManually": "Hlola ka Seatla"
+    "createManually": "Hlola ka Seatla",
+    "tiers": {
+      "free": "LEGATO LA MAHALA",
+      "pro": "LEGATO LA PRO",
+      "business": "LEGATO LA KGWEBO"
+    }
   },
   "settings": {
     "title": "Dipeakanyo",

@@ -3,10 +3,12 @@
 import { signOut } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useLanguage } from '../lib/context/LanguageContext';
 
 export default function LogoutButton() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { t: translate } = useLanguage();
 
   const handleLogout = async () => {
     setIsLoading(true);
@@ -27,7 +29,7 @@ export default function LogoutButton() {
       className="flex items-center gap-2 px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors disabled:opacity-50 cursor-pointer"
     >
       <i className={`fa-solid ${isLoading ? 'fa-spinner fa-spin' : 'fa-sign-out'}`}></i>
-      {isLoading ? 'Logging out...' : 'Logout'}
+      {isLoading ? translate('common.loading') : translate('common.logout')}
     </button>
   );
 }

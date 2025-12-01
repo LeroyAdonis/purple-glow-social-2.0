@@ -157,7 +157,12 @@
     "credits": "Tikhirediti Leti Saleke",
     "contentGenerator": "Muendli wa Nhundzu",
     "recentDrafts": "Tindrafti ta Sweswi",
-    "createManually": "Endla Hi Voko"
+    "createManually": "Endla Hi Voko",
+    "tiers": {
+      "free": "XIYIMO XA MAHALA",
+      "pro": "XIYIMO XA PRO",
+      "business": "XIYIMO XA MABINDZU"
+    }
   },
   "settings": {
     "title": "Swiyimiso",
