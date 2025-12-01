@@ -21,7 +21,7 @@ export default function DashboardClient({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successData, setSuccessData] = useState<any>(null);
 
-  // TODO: Fetch from database - for now using defaults
+  // Fetch user tier and credits from database
   const [userTier, setUserTier] = useState<'free' | 'pro' | 'business'>('free');
   const [userCredits, setUserCredits] = useState(10);
 

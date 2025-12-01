@@ -1,11 +1,23 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { MockUser, getCurrentUser } from '../mock-data';
 import { Language, getCurrentLanguage, setCurrentLanguage } from '../i18n';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  tier: 'free' | 'pro' | 'business';
+  credits: number;
+  image: string;
+  joined: Date;
+  lastActive: Date;
+  postsCreated: number;
+  status: 'active' | 'inactive';
+}
 
 interface AppContextType {
   // User state
-  user: MockUser;
-  updateUser: (updates: Partial<MockUser>) => void;
+  user: User | null;
+  updateUser: (updates: Partial<User>) => void;
   
   // Credits
   credits: number;
@@ -46,10 +58,24 @@ interface AppProviderProps {
   children: ReactNode;
 }
 
+// Default user for initial state (will be fetched from API)
+const defaultUser: User = {
+  id: '',
+  name: 'User',
+  email: '',
+  tier: 'free',
+  credits: 10,
+  image: '',
+  joined: new Date(),
+  lastActive: new Date(),
+  postsCreated: 0,
+  status: 'active',
+};
+
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<MockUser>(getCurrentUser());
-  const [credits, setCredits] = useState(user.credits);
-  const [tier, setTier] = useState<'free' | 'pro' | 'business'>(user.tier);
+  const [user, setUser] = useState<User | null>(null);
+  const [credits, setCredits] = useState(10);
+  const [tier, setTier] = useState<'free' | 'pro' | 'business'>('free');
   const [language, setLanguageState] = useState<Language>(getCurrentLanguage());
   const [modals, setModals] = useState({
     creditTopup: false,
@@ -65,8 +91,35 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setLanguageState(savedLang);
   }, []);
 
-  const updateUser = (updates: Partial<MockUser>) => {
-    setUser(prev => ({ ...prev, ...updates }));
+  // Fetch user data from API on mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('/api/user/profile');
+        if (response.ok) {
+          const data = await response.json();
+          setUser({
+            ...defaultUser,
+            id: data.id,
+            name: data.name || data.email?.split('@')[0] || 'User',
+            email: data.email,
+            tier: data.tier || 'free',
+            credits: data.credits || 10,
+            image: data.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(data.name || 'User')}&background=9D4EDD&color=fff`,
+          });
+          setTier(data.tier || 'free');
+          setCredits(data.credits || 10);
+        }
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const updateUser = (updates: Partial<User>) => {
+    setUser(prev => prev ? { ...prev, ...updates } : null);
     
     // Sync related states
     if (updates.credits !== undefined) {

@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CalendarView from './calendar-view';
 import SmartSuggestions from './smart-suggestions';
-import { MOCK_SCHEDULED_POSTS, MockScheduledPost } from '../lib/mock-data';
 
 interface ScheduledPost {
   id: string;
@@ -18,22 +17,7 @@ interface ScheduleViewProps {
   onSchedulePost?: () => void;
 }
 
-// Convert mock data to component format
-const convertMockPosts = (mockPosts: MockScheduledPost[]): ScheduledPost[] => {
-  return mockPosts.map(post => ({
-    id: post.id,
-    title: post.topic,
-    platform: post.platform,
-    scheduledTime: post.scheduledDate.toISOString(),
-    status: post.status === 'posted' ? 'published' : post.status,
-    content: post.content,
-  }));
-};
-
-const mockScheduledPosts: ScheduledPost[] = convertMockPosts(MOCK_SCHEDULED_POSTS);
-
 type ViewMode = 'calendar' | 'list' | 'timeline';
-type DateFilter = 'week' | 'month' | 'custom';
 
 const platformColors = {
   instagram: 'from-purple-500 to-pink-500',
@@ -51,9 +35,40 @@ const platformIcons = {
 
 export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('calendar');
-  const [dateFilter, setDateFilter] = useState<DateFilter>('month');
   const [platformFilters, setPlatformFilters] = useState<string[]>([]);
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
+  const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({ total: 0, scheduled: 0, posted: 0, failed: 0 });
+
+  // Fetch posts from API
+  useEffect(() => {
+    async function fetchPosts() {
+      setLoading(true);
+      try {
+        const response = await fetch('/api/user/posts?status=scheduled');
+        if (response.ok) {
+          const data = await response.json();
+          // Convert database posts to component format
+          const posts = (data.posts || []).map((post: any) => ({
+            id: post.id,
+            title: post.topic || 'Untitled',
+            platform: post.platform,
+            scheduledTime: post.scheduledDate,
+            status: post.status === 'posted' ? 'published' : post.status,
+            content: post.content,
+          }));
+          setScheduledPosts(posts);
+          setStats(data.stats || { total: 0, scheduled: 0, posted: 0, failed: 0 });
+        }
+      } catch (error) {
+        console.error('Failed to fetch posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPosts();
+  }, []);
 
   const togglePlatformFilter = (platform: string) => {
     setPlatformFilters(prev =>
@@ -63,7 +78,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
     );
   };
 
-  const filteredPosts = mockScheduledPosts.filter(post =>
+  const filteredPosts = scheduledPosts.filter(post =>
     platformFilters.length === 0 || platformFilters.includes(post.platform)
   );
 

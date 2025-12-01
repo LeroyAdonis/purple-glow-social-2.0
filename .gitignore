@@ -25,6 +25,7 @@ out/
 .env.test
 !.env.production.example
 !.env.example
+.vscode
 
 # MCP
 mcp.json

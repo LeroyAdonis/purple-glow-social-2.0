@@ -5,13 +5,17 @@
 **Purple Glow Social 2.0** is a South African-focused AI-powered social media management platform. It enables small businesses and entrepreneurs to generate, schedule, and automate social media content across multiple platforms (Instagram, Twitter, LinkedIn, Facebook) with culturally relevant, localized content in all 11 South African official languages.
 
 ### Tech Stack
-- **Framework:** React 18+ with TypeScript
-- **Build Tool:** Vite
-- **Styling:** Tailwind CSS
-- **Icons:** Font Awesome
-- **Routing:** Client-side routing (Next.js App Router structure)
+- **Framework:** Next.js 16 with React 19 and TypeScript
+- **Build Tool:** Next.js (no longer using Vite)
+- **Styling:** Tailwind CSS v4
+- **Icons:** Font Awesome 6.4
+- **Routing:** Next.js App Router
 - **State Management:** React Context API
-- **Data:** Mock data system (ready for backend integration)
+- **Database:** PostgreSQL (Neon) with Drizzle ORM
+- **Authentication:** Better-auth with OAuth support
+- **AI:** Google Gemini Pro (via @google/genai)
+- **Payments:** Polar.sh integration
+- **Storage:** Vercel Blob for images
 
 ---
 
@@ -30,27 +34,54 @@ purple-glow-social-2.0/
 │   ├── schedule-view.tsx        # Main scheduling interface
 │   ├── automation-view.tsx      # Automation rules dashboard
 │   ├── smart-suggestions.tsx    # AI suggestions widget
-│   ├── content-generator.tsx    # Content generation UI
+│   ├── ai-content-studio.tsx    # AI content generation UI
 │   ├── admin-dashboard-view.tsx # Admin interface
+│   ├── client-dashboard-view.tsx # Client-side dashboard
 │   ├── settings-view.tsx        # User settings
 │   ├── language-selector.tsx    # Language switcher
+│   ├── test-posting.tsx         # Testing component for posting
+│   ├── LogoutButton.tsx         # Logout functionality
 │   ├── LoadingSkeletons.tsx     # Loading state components
-│   └── modals/                  # Modal components
-│       ├── schedule-post-modal.tsx
-│       ├── automation-wizard.tsx
-│       ├── credit-topup-modal.tsx
-│       ├── subscription-modal.tsx
-│       └── payment-success-modal.tsx
+│   ├── modals/                  # Modal components
+│   │   ├── schedule-post-modal.tsx
+│   │   ├── automation-wizard.tsx
+│   │   ├── credit-topup-modal.tsx
+│   │   ├── subscription-modal.tsx
+│   │   └── payment-success-modal.tsx
+│   ├── providers/               # Context providers
+│   └── connected-accounts/      # OAuth connection UI
 ├── lib/                         # Utilities and helpers
-│   ├── mock-data.ts            # Centralized mock data
-│   ├── auth.ts                 # Better-auth integration
+│   ├── auth.ts                 # Better-auth server config
+│   ├── auth-client.ts          # Better-auth client
 │   ├── i18n.ts                 # Internationalization
 │   ├── load-translations.ts    # Translation loader
 │   ├── ErrorBoundary.tsx       # Error boundaries
 │   ├── accessibility.ts        # Accessibility utilities
 │   ├── responsive-utils.ts     # Responsive design hooks
+│   ├── ai/
+│   │   └── gemini-service.ts   # Google Gemini Pro integration
+│   ├── oauth/                  # OAuth providers
+│   │   ├── base-provider.ts
+│   │   ├── facebook-provider.ts
+│   │   ├── instagram-provider.ts
+│   │   ├── twitter-provider.ts
+│   │   └── linkedin-provider.ts
+│   ├── posting/                # Auto-posting services
+│   │   ├── post-service.ts
+│   │   ├── facebook-poster.ts
+│   │   ├── instagram-poster.ts
+│   │   ├── twitter-poster.ts
+│   │   └── linkedin-poster.ts
+│   ├── polar/                  # Polar payment integration
+│   ├── db/                     # Database helpers
+│   │   ├── connected-accounts.ts
+│   │   ├── subscriptions.ts
+│   │   ├── transactions.ts
+│   │   └── webhook-events.ts
+│   ├── crypto/                 # Token encryption
 │   ├── context/
-│   │   └── AppContext.tsx      # Global state management
+│   │   ├── AppContext.tsx      # Global state management
+│   │   └── LanguageContext.tsx # Language state
 │   └── translations/            # Language files (11 SA languages)
 │       ├── en.json
 │       ├── af.json
@@ -119,16 +150,18 @@ purple-glow-social-2.0/
 
 ### ✅ Phase 1-2: Foundation & UI Components
 - Landing page with hero, features, pricing
-- Better-auth integration (ready)
+- Better-auth integration (active)
 - Responsive navigation
 - Design system implementation
+- Next.js App Router migration
 
 ### ✅ Phase 3: Payment & Admin
-- Polar payment simulation
+- **Polar.sh** payment integration (LIVE)
 - Admin dashboard with user management
-- Transaction history
-- Credit top-up system
+- Real transaction tracking
+- Credit top-up system with webhooks
 - Subscription management (Free/Pro/Business)
+- PostgreSQL database with Drizzle ORM
 
 ### ✅ Phase 4: Internationalization
 - 11 South African official languages:
@@ -138,6 +171,7 @@ purple-glow-social-2.0/
 - Language selector component
 - Translation infrastructure
 - Cultural context in all content
+- LanguageContext for state management
 
 ### ✅ Phase 5: Automation & Scheduling
 - **Calendar View:** Monthly grid with scheduled posts
@@ -155,12 +189,55 @@ purple-glow-social-2.0/
 
 ### ✅ Phase 6: Integration & Polish
 - **Global State:** React Context for user, credits, tier, modals
-- **Mock Data:** Centralized with helper functions
 - **Error Handling:** Error boundaries for crash prevention
 - **Loading States:** 10+ skeleton components
 - **Accessibility:** WCAG AA compliance utilities
 - **Responsive:** Hooks and utilities for breakpoints
-- **Documentation:** 1,500+ lines of comprehensive docs
+- **Documentation:** Comprehensive docs
+
+### ✅ Phase 7: OAuth UI & Connected Accounts
+- Connected accounts dashboard
+- One-click OAuth connection flow
+- Platform connection status indicators
+- Disconnect functionality
+- Real-time connection sync
+
+### ✅ Phase 8: Authentication & OAuth Backend
+- **Better-auth** with email/password + Google OAuth
+- Login and signup pages with validation
+- Session management (7-day expiry)
+- Protected routes with middleware
+- **OAuth Backend** for 4 platforms:
+  - Facebook Pages
+  - Instagram Business
+  - Twitter/X (with PKCE)
+  - LinkedIn
+- **AES-256-GCM token encryption**
+- Database schema with 7 tables
+- Security: CSRF, HttpOnly cookies, input validation
+
+### ✅ Phase 9: Auto-Posting Feature
+- **Real posting** to all 4 platforms
+- Platform-specific posting services
+- Immediate posting via API
+- **Automated posting** via Vercel Cron (every minute)
+- Post tracking (platform IDs, URLs, timestamps)
+- Error handling and retry logic
+- Image support for all platforms
+- Thread support (Twitter)
+- Carousel support (Instagram)
+
+### ✅ Phase 10: AI Content Generation
+- **Google Gemini Pro** integration
+- 11 language content generation
+- 4 tone variations (professional, casual, friendly, energetic)
+- Platform-specific optimization
+- Automatic hashtag generation
+- Image prompt suggestions
+- Multiple content variations
+- Topic suggestions by industry
+- Credit management system
+- South African cultural context
 
 ---
 
@@ -374,62 +451,78 @@ useEffect(() => {
 
 ### For Quick Help
 - `QUICK_REFERENCE.md` - Quick developer guide
-- `PHASE_5_AND_6_SUMMARY.md` - Recent implementation summary
+- `PHASE_8_AUTHENTICATION_COMPLETE.md` - Auth system details
+- `PHASE_9_AUTO_POSTING_COMPLETE.md` - Auto-posting implementation
+- `PHASE_10_AI_CONTENT_GENERATION_COMPLETE.md` - AI integration details
+- `POLAR_INTEGRATION_COMPLETE.md` - Payment system details
 
 ---
 
 ## 🔐 Authentication & Backend
 
-### Current State: MOCK/SIMULATION
-- Better-auth is integrated but not active
-- All data is in-memory mock data
-- No real API calls or database connections
-- Ready for backend integration
+### Current State: PRODUCTION-READY
+- Better-auth is **ACTIVE** with PostgreSQL
+- Real database with Drizzle ORM
+- OAuth connections working (4 platforms)
+- Auto-posting functional
+- AI content generation live
+- Payment system integrated (Polar.sh)
 
-### Migration Path to Production
-1. **Replace Mock Data:**
+### Backend Architecture (IMPLEMENTED)
+1. **Authentication:**
    ```typescript
-   // Before
-   import { getCurrentUser } from './lib/mock-data';
-   const user = getCurrentUser();
-   
-   // After
-   import { getCurrentUser } from './lib/api/users';
-   const user = await getCurrentUser();
+   // Get authenticated user
+   import { auth } from '@/lib/auth';
+   const session = await auth.api.getSession({ headers });
+   const user = session.user;
    ```
 
-2. **Add Authentication:**
-   - Activate Better-auth
-   - Implement login/signup flows
-   - Add session management
-   - Protect routes with middleware
+2. **Database Access:**
+   ```typescript
+   // Query with Drizzle ORM
+   import { db } from '@/lib/db';
+   import { posts, user } from '@/drizzle/schema';
+   
+   const userPosts = await db.select()
+     .from(posts)
+     .where(eq(posts.userId, userId));
+   ```
 
-3. **Connect Database:**
-   - Drizzle ORM schema already defined
-   - Connect to Postgres/MySQL
-   - Migrate mock data structure to real tables
+3. **OAuth Connections:**
+   ```typescript
+   // Get decrypted OAuth token
+   import { getDecryptedToken } from '@/lib/db/connected-accounts';
+   
+   const token = await getDecryptedToken(userId, 'instagram');
+   ```
 
-4. **Add API Layer:**
-   - Create API routes in `app/api/`
-   - Implement CRUD operations
-   - Add error handling
-   - Rate limiting
+4. **API Routes:**
+   - `/api/auth/[...all]` - Better-auth endpoints
+   - `/api/oauth/[platform]/[action]` - OAuth flows
+   - `/api/posts/publish` - Immediate posting
+   - `/api/posts/scheduled/publish` - Scheduled posts
+   - `/api/ai/generate` - AI content generation
+   - `/api/ai/hashtags` - Hashtag generation
+   - `/api/ai/topics` - Topic suggestions
+   - `/api/cron/process-scheduled-posts` - Cron job
 
 ---
 
 ## ⚠️ Important Notes
 
 ### DO NOT:
-- ❌ Modify mock data structure without updating docs
 - ❌ Add components without TypeScript types
 - ❌ Skip error boundaries on complex components
-- ❌ Hardcode user data (always use getCurrentUser)
+- ❌ Hardcode credentials or secrets (use .env)
 - ❌ Ignore accessibility (keyboard nav, ARIA labels)
 - ❌ Remove South African context (timezone, currency, language)
 - ❌ Skip loading states for async operations
+- ❌ Modify database schema without migrations
+- ❌ Store tokens unencrypted
+- ❌ Skip session validation on protected routes
 
 ### ALWAYS:
-- ✅ Use centralized mock data helpers
+- ✅ Use Better-auth for authentication
 - ✅ Follow existing component patterns
 - ✅ Add TypeScript interfaces
 - ✅ Test responsive design
@@ -437,6 +530,10 @@ useEffect(() => {
 - ✅ Document new features
 - ✅ Maintain South African context
 - ✅ Use AppContext for global state
+- ✅ Encrypt sensitive data (tokens)
+- ✅ Validate user sessions
+- ✅ Handle errors gracefully
+- ✅ Use Drizzle ORM for database queries
 
 ---
 
@@ -477,10 +574,12 @@ useEffect(() => {
 - Verify `openModal()` is called correctly
 - Check z-index conflicts
 
-**Problem:** Mock data not found
-- Use helper functions from `lib/mock-data.ts`
-- Verify userId references are correct
-- Check data exists in mock arrays
+**Problem:** Database query fails
+- Check DATABASE_URL is set correctly
+- Verify database connection is active
+- Check userId references are correct
+- Use Drizzle ORM properly (await queries)
+- Check for table migrations
 
 **Problem:** Responsive design broken
 - Test with DevTools device emulation
@@ -513,31 +612,44 @@ useEffect(() => {
 
 ## 🎯 Current Status
 
-### ✅ Completed (Phases 1-6)
+### ✅ Completed (Phases 1-10)
 - Landing page & design system
 - Admin dashboard & user management
-- Payment simulation (Polar)
+- **Real payment integration (Polar.sh)**
 - 11-language internationalization
 - Scheduling system (Calendar/List/Timeline)
 - Automation rules & wizard
 - Smart AI suggestions
+- **Authentication system (Better-auth)**
+- **OAuth backend (4 platforms)**
+- **Auto-posting to social media**
+- **AI content generation (Gemini Pro)**
+- PostgreSQL database (Neon)
+- Token encryption & security
+- Vercel Cron for automation
 - Global state management
 - Error handling & loading states
 - Accessibility utilities
 - Comprehensive documentation
 
-### 🚧 In Progress (Phase 7)
-- Final testing & cleanup
-- Browser compatibility testing
-- Performance profiling
-- Code optimization
+### 🚧 Production Deployment
+- Vercel hosting ready
+- Environment variables configured
+- Cron jobs enabled
+- Webhook listeners active
+- SSL/HTTPS enabled
 
-### 📋 Future Phases
-- Real backend integration
-- Authentication system
+### 📋 Future Enhancements
 - WebSocket for real-time updates
 - PWA implementation
-- Analytics integration
+- Advanced analytics dashboard
+- Video content support
+- Instagram Stories
+- LinkedIn Company Pages
+- Post performance tracking
+- A/B testing for content
+- Team collaboration features
+- Retry logic for failed posts
 
 ---
 
@@ -568,17 +680,22 @@ useEffect(() => {
 ## 🔄 Version History
 
 - **Phase 1-2:** Foundation & UI Components
-- **Phase 3:** Payment & Admin Dashboard
+- **Phase 3:** Payment & Admin Dashboard (Polar.sh integration)
 - **Phase 4:** Internationalization (11 languages)
 - **Phase 5:** Automation & Scheduling Features
-- **Phase 6:** Integration & Polish (Current)
-- **Phase 7:** Final Testing & Cleanup (Next)
+- **Phase 6:** Integration & Polish
+- **Phase 7:** OAuth UI & Connected Accounts
+- **Phase 8:** Authentication & OAuth Backend (Better-auth + 4 platforms)
+- **Phase 9:** Auto-Posting Feature (Real posting to social media)
+- **Phase 10:** AI Content Generation (Google Gemini Pro) - **CURRENT**
+- **Next:** Production testing, monitoring, and optimization
 
 ---
 
-**Last Updated:** Phase 6 Completion  
+**Last Updated:** Phase 10 Complete - Production Ready  
 **Maintainer:** Purple Glow Social Team  
-**License:** Proprietary
+**License:** Proprietary  
+**Version:** 2.0 (Next.js 16, React 19)
 
 ---
 

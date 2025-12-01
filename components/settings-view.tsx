@@ -1,9 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
-import { generateMockInvoices } from '../lib/mock-data';
+import React, { useState, useEffect } from 'react';
 import CustomSelect from './custom-select';
 import ConnectedAccountsView from './connected-accounts/connected-accounts-view';
+
+interface Invoice {
+  id: string;
+  date: Date;
+  plan: string;
+  amount: number;
+  vat: number;
+  total: number;
+  status: string;
+  invoiceNumber: string;
+}
 
 interface SettingsViewProps {
   user: {
@@ -24,8 +34,27 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
   const [showAddCardModal, setShowAddCardModal] = useState(false);
   const [timezone, setTimezone] = useState('SAST');
   const [language, setLanguage] = useState('en');
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [loadingInvoices, setLoadingInvoices] = useState(false);
 
-  const mockInvoices = generateMockInvoices(user.id);
+  // Fetch billing history when billing tab is active
+  useEffect(() => {
+    if (activeTab === 'billing' && user.tier !== 'free') {
+      setLoadingInvoices(true);
+      fetch('/api/user/billing-history')
+        .then(res => res.json())
+        .then(data => {
+          setInvoices(data.invoices || []);
+        })
+        .catch(err => {
+          console.error('Failed to fetch billing history:', err);
+        })
+        .finally(() => {
+          setLoadingInvoices(false);
+        });
+    }
+  }, [activeTab, user.tier]);
+
   const mockCards = [
     { id: '1', brand: 'Visa', last4: '4532', expiry: '12/25', isDefault: true },
     { id: '2', brand: 'Mastercard', last4: '8821', expiry: '08/26', isDefault: false }
@@ -328,7 +357,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
             </div>
           )}
 
-          {/* Billing History Tab - Continued in next message due to length */}
+          {/* Billing History Tab */}
           {activeTab === 'billing' && (
             <div className="space-y-6 animate-enter">
               <header>
@@ -336,7 +365,12 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                 <p className="text-gray-400">View and download past invoices</p>
               </header>
 
-              {mockInvoices.length === 0 ? (
+              {loadingInvoices ? (
+                <div className="aerogel-card p-12 rounded-2xl text-center">
+                  <i className="fa-solid fa-spinner fa-spin text-4xl text-neon-grape mb-4"></i>
+                  <p className="text-gray-400">Loading billing history...</p>
+                </div>
+              ) : invoices.length === 0 ? (
                 <div className="aerogel-card p-12 rounded-2xl text-center">
                   <i className="fa-solid fa-file-invoice text-6xl text-gray-600 mb-4"></i>
                   <p className="text-gray-400">No billing history available</p>
@@ -355,9 +389,9 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-glass-border">
-                      {mockInvoices.map((invoice) => (
+                      {invoices.map((invoice) => (
                         <tr key={invoice.id} className="hover:bg-white/5 transition-colors">
-                          <td className="px-6 py-4 text-sm">{invoice.date.toLocaleDateString('en-ZA')}</td>
+                          <td className="px-6 py-4 text-sm">{new Date(invoice.date).toLocaleDateString('en-ZA')}</td>
                           <td className="px-6 py-4 text-sm">{invoice.plan}</td>
                           <td className="px-6 py-4">
                             <div className="font-mono font-bold text-green-400">R{invoice.total.toFixed(2)}</div>

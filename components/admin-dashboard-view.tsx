@@ -1,9 +1,29 @@
 'use client';
 
-import React, { useState } from 'react';
-import { MOCK_USERS, MOCK_TRANSACTIONS, calculateRevenueMetrics, getTierDistribution } from '../lib/mock-data';
-import type { MockUser, MockTransaction } from '../lib/mock-data';
+import React, { useState, useEffect } from 'react';
 import CustomSelect from './custom-select';
+
+interface AdminUser {
+  id: string;
+  name: string | null;
+  email: string;
+  tier: 'free' | 'pro' | 'business' | null;
+  credits: number;
+  image: string | null;
+  createdAt: Date | null;
+  postsCreated: number;
+}
+
+interface AdminTransaction {
+  id: string;
+  userId: string;
+  userName: string;
+  type: 'subscription' | 'credit_purchase' | 'refund';
+  amount: number;
+  status: 'completed' | 'pending' | 'failed' | 'refunded';
+  createdAt: Date;
+  description: string;
+}
 
 interface AdminDashboardViewProps {
   onBackToLanding?: () => void;
@@ -11,54 +31,130 @@ interface AdminDashboardViewProps {
 
 export default function AdminDashboardView({ onBackToLanding }: AdminDashboardViewProps = {}) {
   const [activeTab, setActiveTab] = useState<'users' | 'revenue' | 'transactions'>('users');
-  const [users, setUsers] = useState(MOCK_USERS);
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [transactions, setTransactions] = useState<AdminTransaction[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [tierFilter, setTierFilter] = useState<'all' | 'free' | 'pro' | 'business'>('all');
-  const [selectedUser, setSelectedUser] = useState<MockUser | null>(null);
+  const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null);
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [creditAmount, setCreditAmount] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Transaction filters
   const [transactionTypeFilter, setTransactionTypeFilter] = useState<'all' | 'subscription' | 'credits' | 'refund'>('all');
   const [transactionStatusFilter, setTransactionStatusFilter] = useState<'all' | 'completed' | 'pending' | 'failed'>('all');
 
-  const metrics = calculateRevenueMetrics();
-  const tierDist = getTierDistribution();
+  // Stats state
+  const [metrics, setMetrics] = useState({
+    mrr: 0,
+    monthlyRevenue: 0,
+    activeUsers: 0,
+    totalRevenue: 0,
+    totalUsers: 0,
+  });
+  const [tierDist, setTierDist] = useState({ free: 0, pro: 0, business: 0 });
+
+  // Fetch data from API
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      setError(null);
+      try {
+        // Fetch users and stats in parallel
+        const [usersRes, statsRes, transactionsRes] = await Promise.all([
+          fetch('/api/admin/users'),
+          fetch('/api/admin/stats'),
+          fetch('/api/admin/transactions'),
+        ]);
+
+        if (!usersRes.ok || !statsRes.ok || !transactionsRes.ok) {
+          throw new Error('Failed to fetch admin data');
+        }
+
+        const usersData = await usersRes.json();
+        const statsData = await statsRes.json();
+        const transactionsData = await transactionsRes.json();
+
+        setUsers(usersData.users || []);
+        setTransactions(transactionsData.transactions || []);
+        setMetrics({
+          mrr: statsData.revenue?.mrr || 0,
+          monthlyRevenue: statsData.revenue?.monthlyRevenue || 0,
+          activeUsers: statsData.users?.active || 0,
+          totalRevenue: statsData.revenue?.totalRevenue || 0,
+          totalUsers: statsData.users?.total || 0,
+        });
+        setTierDist(statsData.users?.tierDistribution || { free: 0, pro: 0, business: 0 });
+      } catch (err: any) {
+        setError(err.message || 'Failed to load data');
+        console.error('Admin data fetch error:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   // Filter users based on search and tier
   const filteredUsers = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const userName = user.name || '';
+    const matchesSearch = userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTier = tierFilter === 'all' || user.tier === tierFilter;
     return matchesSearch && matchesTier;
   });
 
   // Filter transactions based on type and status
-  const filteredTransactions = MOCK_TRANSACTIONS.filter(txn => {
-    const matchesType = transactionTypeFilter === 'all' || txn.type === transactionTypeFilter;
+  const filteredTransactions = transactions.filter(txn => {
+    const txnType = txn.type === 'credit_purchase' ? 'credits' : txn.type;
+    const matchesType = transactionTypeFilter === 'all' || txnType === transactionTypeFilter;
     const matchesStatus = transactionStatusFilter === 'all' || txn.status === transactionStatusFilter;
     return matchesType && matchesStatus;
   });
 
   // Handle tier change
-  const handleTierChange = (userId: string, newTier: 'free' | 'pro' | 'business') => {
-    setUsers(users.map(u => u.id === userId ? { ...u, tier: newTier } : u));
+  const handleTierChange = async (userId: string, newTier: 'free' | 'pro' | 'business') => {
+    try {
+      const response = await fetch('/api/admin/users', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, tier: newTier }),
+      });
+      if (response.ok) {
+        setUsers(users.map(u => u.id === userId ? { ...u, tier: newTier } : u));
+      }
+    } catch (error) {
+      console.error('Failed to update tier:', error);
+    }
   };
 
   // Handle credit adjustment
-  const handleCreditAdjustment = () => {
+  const handleCreditAdjustment = async () => {
     if (selectedUser && creditAmount) {
       const amount = parseInt(creditAmount);
-      setUsers(users.map(u =>
-        u.id === selectedUser.id ? { ...u, credits: u.credits + amount } : u
-      ));
+      try {
+        const response = await fetch('/api/admin/users', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: selectedUser.id, creditAdjustment: amount }),
+        });
+        if (response.ok) {
+          setUsers(users.map(u =>
+            u.id === selectedUser.id ? { ...u, credits: u.credits + amount } : u
+          ));
+        }
+      } catch (error) {
+        console.error('Failed to adjust credits:', error);
+      }
       setShowCreditModal(false);
       setCreditAmount('');
       setSelectedUser(null);
     }
   };
 
-  const getTierBadgeColor = (tier: string) => {
+  const getTierBadgeColor = (tier: string | null) => {
     switch (tier) {
       case 'free': return 'bg-gray-500/20 text-gray-300 border-gray-500/30';
       case 'pro': return 'bg-neon-grape/20 text-neon-grape border-neon-grape/30';
@@ -66,6 +162,36 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
       default: return 'bg-gray-500/20 text-gray-300 border-gray-500/30';
     }
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex min-h-screen bg-void text-white items-center justify-center">
+        <div className="text-center">
+          <i className="fa-solid fa-spinner fa-spin text-4xl text-neon-grape mb-4"></i>
+          <p className="text-gray-400">Loading admin dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="flex min-h-screen bg-void text-white items-center justify-center">
+        <div className="text-center">
+          <i className="fa-solid fa-exclamation-triangle text-4xl text-red-400 mb-4"></i>
+          <p className="text-gray-400 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-neon-grape rounded-lg hover:bg-opacity-90"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-void text-white">
@@ -214,13 +340,16 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-glass-border">
-                      {filteredUsers.map((user) => (
+                      {filteredUsers.map((user) => {
+                        const userName = user.name || user.email.split('@')[0];
+                        const userImage = user.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=9D4EDD&color=fff`;
+                        return (
                         <tr key={user.id} className="hover:bg-white/5 transition-colors">
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
-                              <img src={user.image} alt={user.name} className="w-10 h-10 rounded-full border border-glass-border" />
+                              <img src={userImage} alt={userName} className="w-10 h-10 rounded-full border border-glass-border" />
                               <div>
-                                <p className="font-bold text-sm">{user.name}</p>
+                                <p className="font-bold text-sm">{userName}</p>
                                 <p className="text-xs text-gray-400">{user.email}</p>
                               </div>
                             </div>
@@ -228,7 +357,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                           <td className="px-6 py-4">
                             <div className="w-32">
                               <CustomSelect
-                                value={user.tier}
+                                value={user.tier || 'free'}
                                 onChange={(value) => handleTierChange(user.id, value as any)}
                                 options={[
                                   { value: "free", label: "FREE" },
@@ -255,9 +384,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                           </td>
                           <td className="px-6 py-4 text-gray-300">{user.postsCreated}</td>
                           <td className="px-6 py-4">
-                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${user.status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
-                              }`}>
-                              {user.status.toUpperCase()}
+                            <span className="px-2 py-1 rounded-full text-xs font-bold bg-green-500/20 text-green-400">
+                              ACTIVE
                             </span>
                           </td>
                           <td className="px-6 py-4">
@@ -266,7 +394,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                             </button>
                           </td>
                         </tr>
-                      ))}
+                      );
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -308,7 +437,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                   <p className="text-3xl font-display font-bold">R{metrics.totalRevenue.toLocaleString()}</p>
                   <p className="text-sm text-gray-400 mt-1">Total Revenue (All Time)</p>
                   <div className="mt-4 flex items-center gap-2 text-xs">
-                    <span className="text-gray-400">{MOCK_TRANSACTIONS.length} transactions</span>
+                    <span className="text-gray-400">{transactions.length} transactions</span>
                   </div>
                 </div>
               </div>
@@ -470,26 +599,28 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                           </td>
                         </tr>
                       ) : (
-                        filteredTransactions.sort((a, b) => b.date.getTime() - a.date.getTime()).map((txn) => (
+                        filteredTransactions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((txn) => {
+                          const txnDate = new Date(txn.createdAt);
+                          const displayType = txn.type === 'credit_purchase' ? 'CREDITS' : txn.type.toUpperCase();
+                          const typeClass = txn.type === 'subscription' ? 'bg-neon-grape/20 text-neon-grape' :
+                            txn.type === 'credit_purchase' ? 'bg-mzansi-gold/20 text-mzansi-gold' :
+                            'bg-red-500/20 text-red-400';
+                          return (
                           <tr key={txn.id} className="hover:bg-white/5 transition-colors">
                             <td className="px-6 py-4 text-sm text-gray-300">
-                              {txn.date.toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: 'numeric' })}
+                              {txnDate.toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: 'numeric' })}
                             </td>
                             <td className="px-6 py-4">
                               <div className="font-bold text-sm">{txn.userName}</div>
-                              <div className="text-xs text-gray-500">{txn.paymentMethod}</div>
                             </td>
                             <td className="px-6 py-4">
-                              <span className={`px-2 py-1 rounded-full text-xs font-bold ${txn.type === 'subscription' ? 'bg-neon-grape/20 text-neon-grape' :
-                                  txn.type === 'credits' ? 'bg-mzansi-gold/20 text-mzansi-gold' :
-                                    'bg-red-500/20 text-red-400'
-                                }`}>
-                                {txn.type.toUpperCase()}
+                              <span className={`px-2 py-1 rounded-full text-xs font-bold ${typeClass}`}>
+                                {displayType}
                               </span>
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-300">{txn.description}</td>
                             <td className="px-6 py-4">
-                              <span className="font-mono font-bold text-green-400">R{txn.amount.toFixed(2)}</span>
+                              <span className="font-mono font-bold text-green-400">R{(txn.amount / 100).toFixed(2)}</span>
                             </td>
                             <td className="px-6 py-4">
                               <span className={`px-2 py-1 rounded-full text-xs font-bold ${txn.status === 'completed' ? 'bg-green-500/20 text-green-400' :
@@ -500,7 +631,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                               </span>
                             </td>
                           </tr>
-                        ))
+                        );
+                        })
                       )}
                     </tbody>
                   </table>
@@ -519,7 +651,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter">
             <h3 className="font-display font-bold text-2xl mb-4">Adjust Credits</h3>
             <p className="text-gray-400 mb-6">
-              Adjusting credits for <span className="text-white font-bold">{selectedUser.name}</span>
+              Adjusting credits for <span className="text-white font-bold">{selectedUser.name || selectedUser.email}</span>
             </p>
             <div className="space-y-4 mb-6">
               <div>

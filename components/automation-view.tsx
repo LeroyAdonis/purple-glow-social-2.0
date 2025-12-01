@@ -1,7 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
-import { MOCK_AUTOMATION_RULES, MockAutomationRule } from '../lib/mock-data';
+import React, { useState, useEffect } from 'react';
+
+interface AutomationRule {
+  id: string;
+  userId: string;
+  frequency: string;
+  coreTopic: string | null;
+  isActive: boolean | null;
+  createdAt: Date | null;
+}
 
 interface AutomationViewProps {
   onCreateRule: () => void;
@@ -15,26 +23,81 @@ const platformIcons: Record<string, string> = {
 };
 
 export default function AutomationView({ onCreateRule }: AutomationViewProps) {
-  const [rules, setRules] = useState<MockAutomationRule[]>(MOCK_AUTOMATION_RULES);
+  const [rules, setRules] = useState<AutomationRule[]>([]);
   const [selectedRule, setSelectedRule] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({ total: 0, active: 0 });
 
-  const toggleRuleActive = (ruleId: string) => {
-    setRules(prev =>
-      prev.map(rule =>
-        rule.id === ruleId ? { ...rule, isActive: !rule.isActive } : rule
-      )
-    );
+  // Fetch automation rules from API
+  useEffect(() => {
+    async function fetchRules() {
+      setLoading(true);
+      try {
+        const response = await fetch('/api/user/automation-rules');
+        if (response.ok) {
+          const data = await response.json();
+          setRules(data.rules || []);
+          setStats(data.stats || { total: 0, active: 0 });
+        }
+      } catch (error) {
+        console.error('Failed to fetch automation rules:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchRules();
+  }, []);
+
+  const toggleRuleActive = async (ruleId: string) => {
+    try {
+      const response = await fetch('/api/user/automation-rules', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: ruleId, toggle: true }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setRules(prev =>
+          prev.map(rule =>
+            rule.id === ruleId ? { ...rule, isActive: data.rule.isActive } : rule
+          )
+        );
+      }
+    } catch (error) {
+      console.error('Failed to toggle rule:', error);
+    }
   };
 
   const runNow = (ruleId: string) => {
-    alert(`Running automation rule: ${rules.find(r => r.id === ruleId)?.name}`);
+    const rule = rules.find(r => r.id === ruleId);
+    alert(`Running automation rule: ${rule?.coreTopic || 'Untitled'}`);
   };
 
-  const deleteRule = (ruleId: string) => {
+  const deleteRule = async (ruleId: string) => {
     if (confirm('Are you sure you want to delete this automation rule?')) {
-      setRules(prev => prev.filter(rule => rule.id !== ruleId));
+      try {
+        const response = await fetch(`/api/user/automation-rules?id=${ruleId}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          setRules(prev => prev.filter(rule => rule.id !== ruleId));
+        }
+      } catch (error) {
+        console.error('Failed to delete rule:', error);
+      }
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-12">
+        <div className="text-center">
+          <i className="fa-solid fa-spinner fa-spin text-4xl text-neon-grape mb-4"></i>
+          <p className="text-gray-400">Loading automation rules...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -64,9 +127,9 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
             </div>
             <div>
               <div className="text-3xl font-display font-bold text-white">
-                {rules.reduce((sum, rule) => sum + rule.postsGenerated, 0)}
+                {stats.total}
               </div>
-              <div className="text-sm text-gray-400">Posts Auto-Generated</div>
+              <div className="text-sm text-gray-400">Total Rules</div>
             </div>
           </div>
         </div>
@@ -90,7 +153,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
             </div>
             <div>
               <div className="text-3xl font-display font-bold text-white">
-                {rules.filter(r => r.isActive).length}
+                {stats.active}
               </div>
               <div className="text-sm text-gray-400">Active Automations</div>
             </div>
@@ -149,7 +212,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2 flex-wrap">
-                      <h3 className="text-2xl font-display font-bold text-white">{rule.name}</h3>
+                      <h3 className="text-2xl font-display font-bold text-white">{rule.coreTopic || 'Untitled Rule'}</h3>
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${
                           rule.isActive
@@ -161,32 +224,15 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                       </span>
                     </div>
                     <p className="text-gray-400 mb-4">
-                      Runs {rule.frequency} • {rule.postsGenerated} posts generated
+                      Runs {rule.frequency || 'weekly'}
                     </p>
                     
-                    {/* Platforms */}
-                    <div className="flex items-center gap-2 mb-4 flex-wrap">
-                      {rule.platforms.map(platform => (
-                        <span
-                          key={platform}
-                          className="inline-flex items-center gap-1 px-3 py-1 bg-white/5 border border-glass-border rounded-lg text-sm text-gray-300"
-                        >
-                          <i className={platformIcons[platform]}></i>
-                          {platform}
-                        </span>
-                      ))}
-                    </div>
-
                     {/* Schedule Info */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                      <div className="text-gray-400">
-                        <i className="fa-solid fa-calendar-day mr-2 text-joburg-teal"></i>
-                        Next run: {rule.nextRun.toLocaleDateString()}
-                      </div>
-                      {rule.lastRun && (
+                      {rule.createdAt && (
                         <div className="text-gray-400">
-                          <i className="fa-solid fa-clock-rotate-left mr-2 text-joburg-teal"></i>
-                          Last run: {rule.lastRun.toLocaleDateString()}
+                          <i className="fa-solid fa-calendar-day mr-2 text-joburg-teal"></i>
+                          Created: {new Date(rule.createdAt).toLocaleDateString()}
                         </div>
                       )}
                     </div>
@@ -210,15 +256,15 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                 {/* Stats Row */}
                 <div className="grid grid-cols-3 gap-4 p-4 bg-white/5 rounded-xl border border-glass-border mb-4">
                   <div className="text-center">
-                    <div className="text-2xl font-display font-bold text-white">{rule.postsGenerated}</div>
+                    <div className="text-2xl font-display font-bold text-white">-</div>
                     <div className="text-xs text-gray-400">Posts Generated</div>
                   </div>
                   <div className="text-center border-l border-glass-border">
-                    <div className="text-2xl font-display font-bold text-green-400">{rule.postsGenerated}</div>
+                    <div className="text-2xl font-display font-bold text-green-400">-</div>
                     <div className="text-xs text-gray-400">Successful</div>
                   </div>
                   <div className="text-center border-l border-glass-border">
-                    <div className="text-2xl font-display font-bold text-joburg-teal">{rule.frequency}</div>
+                    <div className="text-2xl font-display font-bold text-joburg-teal">{rule.frequency || 'weekly'}</div>
                     <div className="text-xs text-gray-400">Frequency</div>
                   </div>
                 </div>
