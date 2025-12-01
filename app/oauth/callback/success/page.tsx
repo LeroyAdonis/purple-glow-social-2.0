@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 function SuccessContent() {
@@ -9,12 +9,15 @@ function SuccessContent() {
   const platform = searchParams.get('platform');
   const [countdown, setCountdown] = useState(3);
 
+  const navigateToDashboard = useCallback(() => {
+    router.push('/dashboard');
+  }, [router]);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          router.push('/dashboard');
           return 0;
         }
         return prev - 1;
@@ -22,7 +25,14 @@ function SuccessContent() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [router]);
+  }, []);
+
+  // Separate effect for navigation to avoid setState during render
+  useEffect(() => {
+    if (countdown === 0) {
+      navigateToDashboard();
+    }
+  }, [countdown, navigateToDashboard]);
 
   const platformIcons: Record<string, string> = {
     instagram: '📷',
