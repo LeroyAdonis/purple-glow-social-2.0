@@ -18,10 +18,13 @@ export class InstagramProvider implements OAuthProvider {
   }
   
   getAuthorizationUrl(state: string): string {
+    // Default permissions that work in development mode
+    // For production posting, you need App Review for:
+    // - instagram_basic, instagram_content_publish
     const params = new URLSearchParams({
       client_id: this.clientId,
       redirect_uri: this.redirectUri,
-      scope: 'instagram_basic,instagram_content_publish,pages_read_engagement',
+      scope: 'public_profile,email',
       response_type: 'code',
       state,
     });

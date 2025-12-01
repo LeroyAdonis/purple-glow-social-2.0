@@ -18,10 +18,14 @@ export class FacebookProvider implements OAuthProvider {
   }
   
   getAuthorizationUrl(state: string): string {
+    // Default permissions that work in development mode
+    // For production posting, you need App Review for:
+    // - pages_manage_posts (to post to Facebook Pages)
+    // - instagram_content_publish (to post to Instagram)
     const params = new URLSearchParams({
       client_id: this.clientId,
       redirect_uri: this.redirectUri,
-      scope: 'pages_manage_posts,pages_read_engagement,publish_to_groups',
+      scope: 'public_profile,email',
       response_type: 'code',
       state,
     });
