@@ -168,44 +168,90 @@
     "preferences": "Zwo Fundelwaho"
   },
   "common": {
-    "backToLanding": "Back to Landing",
-    "back": "Back",
-    "goToDashboard": "Go to Dashboard",
-    "error": "Error",
-    "confirm": "Confirm",
-    "edit": "Edit",
-    "save": "Save Changes",
-    "logout": "Logout",
-    "success": "Success!",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "loading": "Loading..."
+    "save": "Vhulungani Tshanduko",
+    "cancel": "Khansela",
+    "delete": "Thuthani",
+    "edit": "Lulamela",
+    "loading": "I khou lodha...",
+    "success": "Hu Khou Bvelela!",
+    "error": "Tshefu",
+    "confirm": "Khwaṱhisedza",
+    "back": "Murahu",
+    "logout": "Bvani",
+    "goToDashboard": "Yani kha Dashboard",
+    "backToLanding": "Vhuyelelani Murahu"
   },
   "scheduleModal": {
-    "schedulePost": "Schedule Post",
-    "time": "Time",
-    "postPreview": "Post Preview",
-    "repeatOn": "Repeat on:",
-    "aiBestTimes": "AI Pilot Best Times",
-    "date": "Date",
-    "aiDescription": "Our AI analyzed your audience engagement patterns. These times get the most traction:",
-    "orChooseTime": "Or Choose Your Own Time",
-    "postsScheduledBefore": "posts scheduled before this time",
-    "monthly": "Monthly",
-    "daily": "Daily",
-    "title": "Schedule Post",
-    "weekly": "Weekly",
-    "noRepeat": "No Repeat",
-    "recurrence": "Recurrence (Optional)",
-    "timezone": "Timezone",
-    "queuePosition": "Queue Position",
-    "platform": "Platform"
+    "title": "Dzhielani Pfunzo u Rumela",
+    "platform": "Pulatifomu",
+    "aiBestTimes": "Tshifhinga Tsho Teaho Khwine tsha AI",
+    "aiDescription": "AI yashu yo sedza matimu a u kwamana a vhavhali vhawe. Tshifhinga itshi tshi wana u kwamana khwine:",
+    "orChooseTime": "Kana Nangulani Tshifhinga Tshavho",
+    "date": "Ḓuvha",
+    "time": "Tshifhinga",
+    "timezone": "Vhupo ha Tshifhinga",
+    "recurrence": "U Pindulela (Nga U Nangula)",
+    "repeatOn": "Pindulani nga:",
+    "noRepeat": "Ni Songo Pindulela",
+    "daily": "Ḓuvha ḽiṅwe na ḽiṅwe",
+    "weekly": "Vhege ṅwe na ṅwe",
+    "monthly": "Ṅwedzi muṅwe na muṅwe",
+    "queuePosition": "Vhuimo ha Mutevhe",
+    "postsScheduledBefore": "zwiposo zwo dzhielwaho pfunzo phanḓa ha tshifhinga itshi",
+    "postPreview": "Tsumbonanguludzwa ya Poso",
+    "schedulePost": "Dzhielani Pfunzo Poso",
+    "engagement": {
+      "veryHigh": "Zwo Thoma Khwine Vhukuma",
+      "high": "Zwo Thoma Khwine",
+      "medium": "Vhukati"
+    },
+    "timeSlots": {
+      "morning": "U Gidimela ha Matsheloni",
+      "lunch": "Tshifhinga tsha Zwiḽiwa tsha Masiari",
+      "evening": "Tshifhinga tsha Madekwana",
+      "night": "Vhathu vha Vhusiku"
+    }
   },
   "contentGenerator": {
-    "title": "Content Generator",
-    "generate": "Initialize Generation"
+    "title": "Muvhumbhi wa Zwinwe",
+    "topic": "Ṱhoho / Zwibveledzwa",
+    "topicPlaceholder": "tsumbo, U vhekanywa ha zwienda zwitwa, Siṱoro ya kofi ya fhano, Mabindzu mashwa a thekhinolodzhi",
+    "platform": "Pulatifomu",
+    "selectPlatform": "Nangulani pulatifomu",
+    "language": "Luambo lwa Zwinwe",
+    "tone": "Mupo",
+    "customInstructions": "Ndaela dzo Nangulwaho (Nga U Nangula)",
+    "customPlaceholder": "Engedzani zwiheshiteke zwo nangulwaho, u sumba, kana zwo nangulwaho zwa sethaela...",
+    "generate": "Thomani U Bveledza",
+    "generating": "I khou bveledza...",
+    "generatedContent": "Zwinwe Zwo Bveledzwaho",
+    "editText": "Lulamelani Nyathiso",
+    "done": "Zwo Fhela",
+    "discard": "Laṱani",
+    "schedulePost": "Dzhielani Pfunzo Poso",
+    "platforms": {
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook"
+    },
+    "tones": {
+      "professional": "Ya Vhukorhokeri",
+      "casual": "Ya Vhuimo ha Vhathu",
+      "funny": "Yo Segisaho",
+      "inspirational": "Yo Ṱuṱuwedzaho"
+    }
   },
   "smartSuggestions": {
-    "title": "AI Pilot Smart Suggestions"
+    "title": "Themendelo dzo Vhalaho dza AI",
+    "subtitle": "Dzo ṱuṱuwedzwa nga tsedzuluso ya vhavhali na matimu a u kwamana",
+    "bestTimes": "Tshifhinga Tsho Teaho Khwine",
+    "bestPractices": "Maitele A Khwine",
+    "trending": "Zwo Ḓumaho",
+    "content": "Zwinwe",
+    "tone": "Mupo",
+    "description": "Zwo ḓitika nga mushumo wa vhavhali vhawe, ndatsini tshifhinga tsho teaho khwine tsha u rumela:",
+    "adjustTone": "Lulamelani mupo wavho zwo ḓitika nga musi ni tshi rumela lini:",
+    "updateNote": "Themendelo dzi mpshafadzwa zwo ḓitika nga data ya u kwamana ya vhavhali vhawe"
   }
 }

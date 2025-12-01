@@ -85,33 +85,41 @@ export class GeminiService {
       linkedin: 'Write a professional post. Focus on value and insights, up to 700 words.',
     };
 
-    // Language-specific context
+    // Language-specific context with full language names
     const languageContext = this.getLanguageContext(language);
+    const languageFullName = this.getLanguageFullName(language);
+
+    // Language-specific greeting examples
+    const languageExamples = this.getLanguageExamples(language);
 
     const prompt = `You are a South African social media content creator for small businesses and entrepreneurs.
+
+**CRITICAL: LANGUAGE REQUIREMENT**
+You MUST write the entire post in ${languageFullName} (language code: ${language}).
+${language !== 'en' ? `The main content MUST be written in ${languageFullName}. Only use English for hashtags, brand names, or widely understood words.` : 'Write in South African English with local expressions.'}
 
 **Context:**
 - Platform: ${platform}
 - Topic: ${topic}
-- Language: ${language} (${languageContext})
+- Language: ${languageFullName} (${languageContext})
 - Tone: ${tone}
 - Include hashtags: ${includeHashtags}
 - Include emojis: ${includeEmojis}
 
 **Requirements:**
 1. ${platformConstraints[platform]}
-2. Use South African context, culture, and local references
-3. ${language !== 'en' ? `Write primarily in ${language}, with occasional English words if natural` : 'Write in South African English'}
-4. Use local slang and expressions (e.g., "lekker", "sharp sharp", "howzit", "eish")
+2. WRITE THE POST ENTIRELY IN ${languageFullName.toUpperCase()}
+3. Use South African context, culture, and local references
+4. ${languageExamples}
 5. Reference South African locations (Joburg, Cape Town, Durban, Pretoria, etc.)
-6. ${includeHashtags ? 'Include 3-5 relevant hashtags at the end' : 'Do not include hashtags'}
+6. ${includeHashtags ? 'Include 3-5 relevant hashtags at the end (hashtags can be in English or the target language)' : 'Do not include hashtags'}
 7. ${includeEmojis ? 'Use relevant emojis naturally throughout' : 'Do not use emojis'}
 8. Make it authentic and relatable to South African audiences
 9. Focus on the topic: ${topic}
 10. Keep the ${tone} tone throughout
 
 **Format:**
-- Main content (with emojis if requested)
+- Main content in ${languageFullName} (with emojis if requested)
 - Blank line
 - Hashtags on separate lines (if requested)
 
@@ -122,9 +130,49 @@ export class GeminiService {
 - "#LocalIsLekker #MzansiMagic"
 - References to braai, biltong, rugby, etc.
 
-Generate the content now:`;
+Generate the content in ${languageFullName} now:`;
 
     return prompt;
+  }
+
+  /**
+   * Get full language name for clarity in prompts
+   */
+  private getLanguageFullName(language: string): string {
+    const names: Record<string, string> = {
+      en: 'English',
+      af: 'Afrikaans',
+      zu: 'isiZulu',
+      xh: 'isiXhosa',
+      nso: 'Sepedi (Northern Sotho)',
+      tn: 'Setswana',
+      st: 'Sesotho (Southern Sotho)',
+      ts: 'Xitsonga',
+      ss: 'siSwati',
+      ve: 'Tshivenda',
+      nr: 'isiNdebele',
+    };
+    return names[language] || 'English';
+  }
+
+  /**
+   * Get language-specific examples and guidance
+   */
+  private getLanguageExamples(language: string): string {
+    const examples: Record<string, string> = {
+      en: 'Use South African English with local expressions like "lekker", "sharp sharp", "howzit", "eish"',
+      af: 'Use authentic Afrikaans expressions like "baie lekker", "sommer net so", "nou-nou", "ag shame"',
+      zu: 'Use isiZulu greetings and expressions like "Sawubona", "Yebo", "Siyabonga", "Hhayi bo!"',
+      xh: 'Use isiXhosa greetings and expressions like "Molo", "Enkosi", "Hayi khona!", "Ewe"',
+      nso: 'Use Sepedi expressions like "Dumela", "Ke a leboga", "Go lokile"',
+      tn: 'Use Setswana expressions like "Dumela", "Ke a leboga", "Go siame"',
+      st: 'Use Sesotho expressions like "Dumela", "Kea leboha", "Ho lokile"',
+      ts: 'Use Xitsonga expressions like "Avuxeni", "Inkomu", "Swi ta famba"',
+      ss: 'Use siSwati expressions like "Sawubona", "Ngiyabonga", "Yebo"',
+      ve: 'Use Tshivenda expressions like "Ndaa", "Ndo livhuwa", "Ndi zwavhudi"',
+      nr: 'Use isiNdebele expressions like "Lotjhani", "Ngiyathokoza", "Yebo"',
+    };
+    return examples[language] || examples.en;
   }
 
   /**

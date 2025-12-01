@@ -168,44 +168,90 @@
     "preferences": "Izinto Ozikhethayo"
   },
   "common": {
-    "backToLanding": "Back to Landing",
-    "back": "Back",
-    "goToDashboard": "Go to Dashboard",
-    "error": "Error",
-    "confirm": "Confirm",
-    "edit": "Edit",
-    "save": "Save Changes",
-    "logout": "Logout",
-    "success": "Success!",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "loading": "Loading..."
+    "save": "Gcina Utshintsho",
+    "cancel": "Rhoxisa",
+    "delete": "Cima",
+    "edit": "Hlela",
+    "loading": "Iyalayisha...",
+    "success": "Impumelelo!",
+    "error": "Iphutha",
+    "confirm": "Qinisekisa",
+    "back": "Emva",
+    "logout": "Phuma",
+    "goToDashboard": "Yiya kwiDashboard",
+    "backToLanding": "Buyela Ekhaya"
   },
   "scheduleModal": {
-    "schedulePost": "Schedule Post",
-    "time": "Time",
-    "postPreview": "Post Preview",
-    "repeatOn": "Repeat on:",
-    "aiBestTimes": "AI Pilot Best Times",
-    "date": "Date",
-    "aiDescription": "Our AI analyzed your audience engagement patterns. These times get the most traction:",
-    "orChooseTime": "Or Choose Your Own Time",
-    "postsScheduledBefore": "posts scheduled before this time",
-    "monthly": "Monthly",
-    "daily": "Daily",
-    "title": "Schedule Post",
-    "weekly": "Weekly",
-    "noRepeat": "No Repeat",
-    "recurrence": "Recurrence (Optional)",
-    "timezone": "Timezone",
-    "queuePosition": "Queue Position",
-    "platform": "Platform"
+    "title": "Cwangcisa Ukuthumela",
+    "platform": "Iqonga",
+    "aiBestTimes": "Amaxesha Afaneleyo e-AI",
+    "aiDescription": "I-AI yethu ihlolisise ipateni yokubandakanyeka kwabaphulaphuli bakho. La maxesha afumana ukuthandwa kakhulu:",
+    "orChooseTime": "Okanye Khetha Ixesha Lakho",
+    "date": "Umhla",
+    "time": "Ixesha",
+    "timezone": "Indawo Yexesha",
+    "recurrence": "Ukuphindaphinda (Ngokukhetha)",
+    "repeatOn": "Phinda nge:",
+    "noRepeat": "Ungaphindi",
+    "daily": "Yonke Imihla",
+    "weekly": "Iveki Nganye",
+    "monthly": "Inyanga Nganye",
+    "queuePosition": "Indawo Yomgca",
+    "postsScheduledBefore": "izithuba ezicwangcisiweyo phambi kweli xesha",
+    "postPreview": "Ukubona Kwangaphambili Isithuba",
+    "schedulePost": "Cwangcisa Isithuba",
+    "engagement": {
+      "veryHigh": "Ephezulu Kakhulu",
+      "high": "Ephezulu",
+      "medium": "Ephakathi"
+    },
+    "timeSlots": {
+      "morning": "Ukubaleka Kwasekuseni",
+      "lunch": "Ikhefu Lasemini",
+      "evening": "Ixesha Langokuhlwa",
+      "night": "Abantu Bobusuku"
+    }
   },
   "contentGenerator": {
-    "title": "Content Generator",
-    "generate": "Initialize Generation"
+    "title": "Umvelisi Womsebenzi",
+    "topic": "Umxholo / Umkhiqizo",
+    "topicPlaceholder": "umz., Ukuqaliswa kweetakkies ezintsha, Ivenkile yekhofi yasekuhlaleni, I-startup yezobuchwepheshe",
+    "platform": "Iqonga",
+    "selectPlatform": "Khetha iqonga",
+    "language": "Ulwimi Lomsebenzi",
+    "tone": "Ithoni",
+    "customInstructions": "Imiyalelo Ekhethekileyo (Ngokukhetha)",
+    "customPlaceholder": "Yongeza iihashtagi ezithile, izincomba, okanye izikhethwa zesitayile...",
+    "generate": "Qalisa Ukwenza",
+    "generating": "Iyenza...",
+    "generatedContent": "Umsebenzi Owenziweyo",
+    "editText": "Hlela Umbhalo",
+    "done": "Kugqityiwe",
+    "discard": "Lahla",
+    "schedulePost": "Cwangcisa Isithuba",
+    "platforms": {
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook"
+    },
+    "tones": {
+      "professional": "Yobungcweti",
+      "casual": "Evamileyo",
+      "funny": "Ehlekisayo",
+      "inspirational": "Ekhuthazayo"
+    }
   },
   "smartSuggestions": {
-    "title": "AI Pilot Smart Suggestions"
+    "title": "Iziphakamiso Ezihlakaniphile ze-AI",
+    "subtitle": "Inikezwe amandla yokuhlalutya abaphulaphuli nepateni yokubandakanyeka",
+    "bestTimes": "Amaxesha Afaneleyo",
+    "bestPractices": "Iindlela Ezifaneleyo",
+    "trending": "Okudumileyo",
+    "content": "Umsebenzi",
+    "tone": "Ithoni",
+    "description": "Ngokusekelwe kumsebenzi wabaphulaphuli bakho, nanga amaxesha afaneleyo okuthumela:",
+    "adjustTone": "Lungisa ithoni yakho ngokusekelwe ekutheni uthumela nini:",
+    "updateNote": "Iziphakamiso zihlaziywa ngokusekelwe kwidatha yokubandakanyeka kwabaphulaphuli bakho"
   }
 }

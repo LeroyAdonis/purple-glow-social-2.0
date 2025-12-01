@@ -168,44 +168,90 @@
     "preferences": "Dikgetho"
   },
   "common": {
-    "backToLanding": "Back to Landing",
-    "back": "Back",
-    "goToDashboard": "Go to Dashboard",
-    "error": "Error",
-    "confirm": "Confirm",
-    "edit": "Edit",
-    "save": "Save Changes",
-    "logout": "Logout",
-    "success": "Success!",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "loading": "Loading..."
+    "save": "Boloka Diphetoho",
+    "cancel": "Hlakola",
+    "delete": "Hlakola",
+    "edit": "Fetola",
+    "loading": "E a laela...",
+    "success": "Katleho!",
+    "error": "Phoso",
+    "confirm": "Netefatsa",
+    "back": "Morao",
+    "logout": "Tswa",
+    "goToDashboard": "Eya Dashboard",
+    "backToLanding": "Kgutlela Morao"
   },
   "scheduleModal": {
-    "schedulePost": "Schedule Post",
-    "time": "Time",
-    "postPreview": "Post Preview",
-    "repeatOn": "Repeat on:",
-    "aiBestTimes": "AI Pilot Best Times",
-    "date": "Date",
-    "aiDescription": "Our AI analyzed your audience engagement patterns. These times get the most traction:",
-    "orChooseTime": "Or Choose Your Own Time",
-    "postsScheduledBefore": "posts scheduled before this time",
-    "monthly": "Monthly",
-    "daily": "Daily",
-    "title": "Schedule Post",
-    "weekly": "Weekly",
-    "noRepeat": "No Repeat",
-    "recurrence": "Recurrence (Optional)",
-    "timezone": "Timezone",
-    "queuePosition": "Queue Position",
-    "platform": "Platform"
+    "title": "Hlophisa Poso",
+    "platform": "Sethala",
+    "aiBestTimes": "Dinako tse Ntle ka ho Fetisisa tsa AI",
+    "aiDescription": "AI ya rona e hlahlobile mekgwa ya ho kopana ya babadi ba hao. Dinako tsena di fumana kgahlego e kgolo:",
+    "orChooseTime": "Kapa Kgetha Nako ya Hao",
+    "date": "Letsatsi",
+    "time": "Nako",
+    "timezone": "Sebaka sa Nako",
+    "recurrence": "Phetoho (Ka Boithatelo)",
+    "repeatOn": "Pheta ka:",
+    "noRepeat": "Se Phete",
+    "daily": "Letsatsi le Letsatsi",
+    "weekly": "Beke le Beke",
+    "monthly": "Kgwedi le Kgwedi",
+    "queuePosition": "Maemo a Molola",
+    "postsScheduledBefore": "diposo tse hlophisitsweng pele ho nako ena",
+    "postPreview": "Ponelopele ya Poso",
+    "schedulePost": "Hlophisa Poso",
+    "engagement": {
+      "veryHigh": "E Phahameng Haholo",
+      "high": "E Phahameng",
+      "medium": "E Mahareng"
+    },
+    "timeSlots": {
+      "morning": "Potlako ya Hoseng",
+      "lunch": "Nako ya Dijo tsa Motsheare",
+      "evening": "Nako ya Mantsiboya",
+      "night": "Batho ba Bosiu"
+    }
   },
   "contentGenerator": {
-    "title": "Content Generator",
-    "generate": "Initialize Generation"
+    "title": "Mohahi wa Dikahare",
+    "topic": "Sehlooho / Sehlahiswa",
+    "topicPlaceholder": "mohlala, Ho kengwa ha dieta tse ntjha, Lebenkele la kofi la selegae, Kgwebo e ntjha ya theknoloji",
+    "platform": "Sethala",
+    "selectPlatform": "Kgetha sethala",
+    "language": "Puo ya Dikahare",
+    "tone": "Modumo",
+    "customInstructions": "Ditaelo tse Ikgethileng (Ka Boithatelo)",
+    "customPlaceholder": "Kenya dihashtagi tse itseng, dikgatiso, kapa dikgetho tsa setaele...",
+    "generate": "Qala ho Hlahisa",
+    "generating": "E a hlahisa...",
+    "generatedContent": "Dikahare tse Hlahisitsweng",
+    "editText": "Fetola Mongolo",
+    "done": "Ho Phethilwe",
+    "discard": "Lahla",
+    "schedulePost": "Hlophisa Poso",
+    "platforms": {
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook"
+    },
+    "tones": {
+      "professional": "Ya Boprofeshenale",
+      "casual": "Ya Tlwaelo",
+      "funny": "E Tshehisang",
+      "inspirational": "E Kgothaletsang"
+    }
   },
   "smartSuggestions": {
-    "title": "AI Pilot Smart Suggestions"
+    "title": "Dikgothaletso tse Bohlale tsa AI",
+    "subtitle": "E matlafatswa ke tlhahlobo ya babadi le mekgwa ya ho kopana",
+    "bestTimes": "Dinako tse Ntle ka ho Fetisisa",
+    "bestPractices": "Mekgwa e Ntle ka ho Fetisisa",
+    "trending": "Tse Tumileng",
+    "content": "Dikahare",
+    "tone": "Modumo",
+    "description": "Ho ya ka mosebetsi wa babadi ba hao, tsena ke dinako tse ntle ka ho fetisisa tsa ho posa:",
+    "adjustTone": "Fetola modumo wa hao ho latela ha o posa neng:",
+    "updateNote": "Dikgothaletso di ntjhafatswa ho ya ka data ya ho kopana ya babadi ba hao"
   }
 }

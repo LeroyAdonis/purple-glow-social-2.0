@@ -168,44 +168,90 @@
     "preferences": "Dikgetho"
   },
   "common": {
-    "backToLanding": "Back to Landing",
-    "back": "Back",
-    "goToDashboard": "Go to Dashboard",
-    "error": "Error",
-    "confirm": "Confirm",
-    "edit": "Edit",
-    "save": "Save Changes",
-    "logout": "Logout",
-    "success": "Success!",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "loading": "Loading..."
+    "save": "Boloka Diphetogo",
+    "cancel": "Khansela",
+    "delete": "Phumula",
+    "edit": "Fetola",
+    "loading": "E a laela...",
+    "success": "Katleho!",
+    "error": "Phoso",
+    "confirm": "Tiisa",
+    "back": "Morago",
+    "logout": "Tswa",
+    "goToDashboard": "Eya go Dashibodo",
+    "backToLanding": "Boela Morago"
   },
   "scheduleModal": {
-    "schedulePost": "Schedule Post",
-    "time": "Time",
-    "postPreview": "Post Preview",
-    "repeatOn": "Repeat on:",
-    "aiBestTimes": "AI Pilot Best Times",
-    "date": "Date",
-    "aiDescription": "Our AI analyzed your audience engagement patterns. These times get the most traction:",
-    "orChooseTime": "Or Choose Your Own Time",
-    "postsScheduledBefore": "posts scheduled before this time",
-    "monthly": "Monthly",
-    "daily": "Daily",
-    "title": "Schedule Post",
-    "weekly": "Weekly",
-    "noRepeat": "No Repeat",
-    "recurrence": "Recurrence (Optional)",
-    "timezone": "Timezone",
-    "queuePosition": "Queue Position",
-    "platform": "Platform"
+    "title": "Beakanya Poso",
+    "platform": "Sethala",
+    "aiBestTimes": "Dinako Tše Kaone Tša AI",
+    "aiDescription": "AI ya rena e sekasekile mekgwa ya go amana ya batheeletši ba gago. Dinako tše di hwetša kgahlego ye kgolo:",
+    "orChooseTime": "Goba Kgetha Nako ya Gago",
+    "date": "Letšatši",
+    "time": "Nako",
+    "timezone": "Lefelo la Nako",
+    "recurrence": "Poeletšo (Go Kgethwa)",
+    "repeatOn": "Pheta ka:",
+    "noRepeat": "O Se Phete",
+    "daily": "Letšatši le Letšatši",
+    "weekly": "Beke le Beke",
+    "monthly": "Kgwedi le Kgwedi",
+    "queuePosition": "Lefelo la Mola",
+    "postsScheduledBefore": "diposo tšeo di beakantšwego pele ga nako ye",
+    "postPreview": "Ponelopele ya Poso",
+    "schedulePost": "Beakanya Poso",
+    "engagement": {
+      "veryHigh": "Ye Phagamego Kudu",
+      "high": "Ye Phagamego",
+      "medium": "Ye Magareng"
+    },
+    "timeSlots": {
+      "morning": "Potlako ya Gosasa",
+      "lunch": "Khutšo ya Dijo",
+      "evening": "Nako ya Mantšiboa",
+      "night": "Dikhwi tša Bošego"
+    }
   },
   "contentGenerator": {
-    "title": "Content Generator",
-    "generate": "Initialize Generation"
+    "title": "Mohlodi wa Dikagare",
+    "topic": "Hlogo / Sehlahiswa",
+    "topicPlaceholder": "mohlala, Go tšweletšwa ga dieta tše mpsha, Lebenkele la kofi la selegae, Kgwebo ye mpsha ya theknolotši",
+    "platform": "Sethala",
+    "selectPlatform": "Kgetha sethala",
+    "language": "Polelo ya Dikagare",
+    "tone": "Tšhomo",
+    "customInstructions": "Ditaelo Tše Ikgethilego (Go Kgethwa)",
+    "customPlaceholder": "Oketša dihešeteke tše itšeng, ditšhupetšo, goba dikgetho tša setaele...",
+    "generate": "Thoma Go Tšweletša",
+    "generating": "E a tšweletša...",
+    "generatedContent": "Dikagare Tše Di Tšweleditšwego",
+    "editText": "Fetola Mongwalo",
+    "done": "Go Phethilwe",
+    "discard": "Lahla",
+    "schedulePost": "Beakanya Poso",
+    "platforms": {
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook"
+    },
+    "tones": {
+      "professional": "Ya Sephrofešenale",
+      "casual": "Ya Tlwaelo",
+      "funny": "Ya Go Segiša",
+      "inspirational": "Ya Go Kgothaletša"
+    }
   },
   "smartSuggestions": {
-    "title": "AI Pilot Smart Suggestions"
+    "title": "Ditšhišinyo Tše Bohlale Tša AI",
+    "subtitle": "E maatlafaletšwa ke tshekatsheko ya batheeletši le mekgwa ya go amana",
+    "bestTimes": "Dinako Tše Kaone",
+    "bestPractices": "Mekgwa Ye Kaone",
+    "trending": "Tše Tumilego",
+    "content": "Dikagare",
+    "tone": "Tšhomo",
+    "description": "Go ya ka mošomo wa batheeletši ba gago, tše ke dinako tše kaone tša go posa:",
+    "adjustTone": "Lokiša tšhomo ya gago go ya ka ge o posa neng:",
+    "updateNote": "Ditšhišinyo di mpshafatšwa go ya ka datha ya go amana ya batheeletši ba gago"
   }
 }

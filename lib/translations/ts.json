@@ -168,44 +168,90 @@
     "preferences": "Swi Tsakisaka"
   },
   "common": {
-    "backToLanding": "Back to Landing",
-    "back": "Back",
-    "goToDashboard": "Go to Dashboard",
-    "error": "Error",
-    "confirm": "Confirm",
-    "edit": "Edit",
-    "save": "Save Changes",
-    "logout": "Logout",
-    "success": "Success!",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "loading": "Loading..."
+    "save": "Hlayisa Ku Cinca",
+    "cancel": "Khansela",
+    "delete": "Susa",
+    "edit": "Lulamisa",
+    "loading": "Ku lerha...",
+    "success": "Ku humelele!",
+    "error": "Xihoxo",
+    "confirm": "Tiyisisa",
+    "back": "Endzhaku",
+    "logout": "Huma",
+    "goToDashboard": "Famba eka Dashboard",
+    "backToLanding": "Tlhelela Endzhaku"
   },
   "scheduleModal": {
-    "schedulePost": "Schedule Post",
-    "time": "Time",
-    "postPreview": "Post Preview",
-    "repeatOn": "Repeat on:",
-    "aiBestTimes": "AI Pilot Best Times",
-    "date": "Date",
-    "aiDescription": "Our AI analyzed your audience engagement patterns. These times get the most traction:",
-    "orChooseTime": "Or Choose Your Own Time",
-    "postsScheduledBefore": "posts scheduled before this time",
-    "monthly": "Monthly",
-    "daily": "Daily",
-    "title": "Schedule Post",
-    "weekly": "Weekly",
-    "noRepeat": "No Repeat",
-    "recurrence": "Recurrence (Optional)",
-    "timezone": "Timezone",
-    "queuePosition": "Queue Position",
-    "platform": "Platform"
+    "title": "Hlela Ku Rhumela",
+    "platform": "Pulatifomo",
+    "aiBestTimes": "Minkarhi Leyi Faneleke ya AI",
+    "aiDescription": "AI ya hina yi hlakulele matimu ya ku khoma ya vayingiseri va wena. Minkarhi leyi yi kuma ku khoma ka le henhla:",
+    "orChooseTime": "Kumbe Hlawula Nkarhi Wa Wena",
+    "date": "Siku",
+    "time": "Nkarhi",
+    "timezone": "Ndhawu ya Nkarhi",
+    "recurrence": "Ku Phindha (Ku Hlawuriwa)",
+    "repeatOn": "Phindha hi:",
+    "noRepeat": "U Nga Phindhi",
+    "daily": "Siku ni Siku",
+    "weekly": "Vhiki ni Vhiki",
+    "monthly": "N'hweti ni N'hweti",
+    "queuePosition": "Xiyimo xa Ntshulu",
+    "postsScheduledBefore": "switsundzuxo leswi hlelweke pele ka nkarhi lowu",
+    "postPreview": "Vulavula bya Pele bya Poso",
+    "schedulePost": "Hlela Poso",
+    "engagement": {
+      "veryHigh": "Yi le Henhla Swinene",
+      "high": "Yi le Henhla",
+      "medium": "Yi le Xikarhi"
+    },
+    "timeSlots": {
+      "morning": "Ku Tsutsuma ka Nimixo",
+      "lunch": "Nkarhi wa Ku Dya wa Exikarhi ka Dyambu",
+      "evening": "Nkarhi wa Madyambu",
+      "night": "Vanhu va Vusiku"
+    }
   },
   "contentGenerator": {
-    "title": "Content Generator",
-    "generate": "Initialize Generation"
+    "title": "Muendli wa Nhundzu",
+    "topic": "Nhlokomhaka / Xitshwa",
+    "topicPlaceholder": "xik., Ku humesa ka timbuti letintshwa, Xitolo xa kofi xa ndhawu, Mabindzu lamantshwa ya theknoloji",
+    "platform": "Pulatifomo",
+    "selectPlatform": "Hlawula pulatifomo",
+    "language": "Ririmi ra Nhundzu",
+    "tone": "Muxaka",
+    "customInstructions": "Swileriso Swo Hlawuriwa (Ku Hlawuriwa)",
+    "customPlaceholder": "Engetela tiheshiteki to hlawuriwa, switsundzuxo, kumbe swihlawulekisi swa setayele...",
+    "generate": "Sungula Ku Endla",
+    "generating": "Yi endla...",
+    "generatedContent": "Nhundzu Lowu Endliweke",
+    "editText": "Lulamisa Matsalwa",
+    "done": "Ku Herile",
+    "discard": "Lahla",
+    "schedulePost": "Hlela Poso",
+    "platforms": {
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook"
+    },
+    "tones": {
+      "professional": "Ya Vukorhokeri",
+      "casual": "Ya Ntolovelo",
+      "funny": "Yo Hleka",
+      "inspirational": "Yo Hlohlotela"
+    }
   },
   "smartSuggestions": {
-    "title": "AI Pilot Smart Suggestions"
+    "title": "Switsundzuxo Swo Thlariha swa AI",
+    "subtitle": "Yi hlohloteliwile hi nxopaxopo wa vayingiseri na matimu ya ku khoma",
+    "bestTimes": "Minkarhi Leyi Faneleke",
+    "bestPractices": "Matikhomelo Layo Fanela",
+    "trending": "Leswi Tumaka",
+    "content": "Nhundzu",
+    "tone": "Muxaka",
+    "description": "Hi ku ya hi ntirho wa vayingiseri va wena, lawa hi minkarhi leyi faneleke yo rhumela:",
+    "adjustTone": "Lulamisa muxaka wa wena hi ku ya hi loko u rhumela rini:",
+    "updateNote": "Switsundzuxo swi mpshafatswa hi ku ya hi data ya ku khoma ya vayingiseri va wena"
   }
 }

@@ -168,44 +168,90 @@
     "preferences": "Letitsakako"
   },
   "common": {
-    "backToLanding": "Back to Landing",
-    "back": "Back",
-    "goToDashboard": "Go to Dashboard",
-    "error": "Error",
-    "confirm": "Confirm",
-    "edit": "Edit",
-    "save": "Save Changes",
-    "logout": "Logout",
-    "success": "Success!",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "loading": "Loading..."
+    "save": "Gcina Kushintsha",
+    "cancel": "Chitha",
+    "delete": "Susa",
+    "edit": "Hlela",
+    "loading": "Iyalayisha...",
+    "success": "Kuphumelele!",
+    "error": "Siphosiso",
+    "confirm": "Qinisekisa",
+    "back": "Emuva",
+    "logout": "Phuma",
+    "goToDashboard": "Hamba kuDashboard",
+    "backToLanding": "Buyela Ekhaya"
   },
   "scheduleModal": {
-    "schedulePost": "Schedule Post",
-    "time": "Time",
-    "postPreview": "Post Preview",
-    "repeatOn": "Repeat on:",
-    "aiBestTimes": "AI Pilot Best Times",
-    "date": "Date",
-    "aiDescription": "Our AI analyzed your audience engagement patterns. These times get the most traction:",
-    "orChooseTime": "Or Choose Your Own Time",
-    "postsScheduledBefore": "posts scheduled before this time",
-    "monthly": "Monthly",
-    "daily": "Daily",
-    "title": "Schedule Post",
-    "weekly": "Weekly",
-    "noRepeat": "No Repeat",
-    "recurrence": "Recurrence (Optional)",
-    "timezone": "Timezone",
-    "queuePosition": "Queue Position",
-    "platform": "Platform"
+    "title": "Hlela Kuposta",
+    "platform": "Inkundla",
+    "aiBestTimes": "Tikhathi Letinhle Kakhulu te-AI",
+    "aiDescription": "I-AI yetfu ihlolile tindlela tekutsintsa tebalaleli bakho. Letikhathi titsola kusebenta lokuphezu:",
+    "orChooseTime": "Noma Khetsa Sikhathi Sakho",
+    "date": "Lilanga",
+    "time": "Sikhathi",
+    "timezone": "Indzawo Yesikhathi",
+    "recurrence": "Kuphindza (Ngekukhetsa)",
+    "repeatOn": "Phindza nge:",
+    "noRepeat": "Ungaphindzi",
+    "daily": "Onkhe Emalanga",
+    "weekly": "Liviki ngalinye",
+    "monthly": "Inyanga ngayinye",
+    "queuePosition": "Indzawo Yemugca",
+    "postsScheduledBefore": "emaposti lahleliwe ngaphambili kwalesikhatsi",
+    "postPreview": "Siboniso Sangaphambili Seposti",
+    "schedulePost": "Hlela Iposti",
+    "engagement": {
+      "veryHigh": "Lelisetulu Kakhulu",
+      "high": "Lelisetulu",
+      "medium": "Emkhatsini"
+    },
+    "timeSlots": {
+      "morning": "Kutfutfuka Kwasekuseni",
+      "lunch": "Sikhathi Sekudla Kwasemini",
+      "evening": "Sikhathi Santambama",
+      "night": "Bantfu Bebusuku"
+    }
   },
   "contentGenerator": {
-    "title": "Content Generator",
-    "generate": "Initialize Generation"
+    "title": "Umkhiciti Weludzaba",
+    "topic": "Sihloko / Umkhicito",
+    "topicPlaceholder": "sib., Kuvetwa kwetakkies letinsha, Sitolo sekhofi sendawo, Ibhizinisi lelisha letheknoloji",
+    "platform": "Inkundla",
+    "selectPlatform": "Khetsa inkundla",
+    "language": "Lulwimi Lweludzaba",
+    "tone": "Ithoni",
+    "customInstructions": "Imiyalelo Lekhetiwe (Ngekukhetsa)",
+    "customPlaceholder": "Engeta emahashtag latsite, tekushaya, noma tikhetfo tesitayela...",
+    "generate": "Cala Kwakha",
+    "generating": "Iyakwakha...",
+    "generatedContent": "Ludzaba Lolukhicitiwe",
+    "editText": "Hlela Umbhalo",
+    "done": "Kuphelile",
+    "discard": "Lahla",
+    "schedulePost": "Hlela Iposti",
+    "platforms": {
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook"
+    },
+    "tones": {
+      "professional": "Yebungcweti",
+      "casual": "Yemvelo",
+      "funny": "Lehlekisako",
+      "inspirational": "Lekhuthatako"
+    }
   },
   "smartSuggestions": {
-    "title": "AI Pilot Smart Suggestions"
+    "title": "Ticebiso Letihlakaniphile te-AI",
+    "subtitle": "Inikwetwe emandla ngekuhlolwa kwebalaleli netindlela tekutsintsa",
+    "bestTimes": "Tikhathi Letinhle Kakhulu",
+    "bestPractices": "Tindlela Letinhle Kakhulu",
+    "trending": "Lokutselako",
+    "content": "Ludzaba",
+    "tone": "Ithoni",
+    "description": "Ngekuya ngekusebenta kwebalaleli bakho, leti ngetikhathi letinhle kakhulu tekuposta:",
+    "adjustTone": "Lungisa ithoni yakho ngekuya ngekutsi uposta nini:",
+    "updateNote": "Ticebiso tibuyeketwa ngekuya ngedatha yekutsintsa yebalaleli bakho"
   }
 }

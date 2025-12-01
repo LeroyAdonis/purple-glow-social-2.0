@@ -168,44 +168,90 @@
     "preferences": "Dikgetho"
   },
   "common": {
-    "backToLanding": "Back to Landing",
-    "back": "Back",
-    "goToDashboard": "Go to Dashboard",
-    "error": "Error",
-    "confirm": "Confirm",
-    "edit": "Edit",
-    "save": "Save Changes",
-    "logout": "Logout",
-    "success": "Success!",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "loading": "Loading..."
+    "save": "Boloka Diphetogo",
+    "cancel": "Khansela",
+    "delete": "Phimola",
+    "edit": "Fetola",
+    "loading": "E a laela...",
+    "success": "Katlego!",
+    "error": "Phoso",
+    "confirm": "Netefatsa",
+    "back": "Morago",
+    "logout": "Tswa",
+    "goToDashboard": "Ya kwa Dashboard",
+    "backToLanding": "Boela Morago"
   },
   "scheduleModal": {
-    "schedulePost": "Schedule Post",
-    "time": "Time",
-    "postPreview": "Post Preview",
-    "repeatOn": "Repeat on:",
-    "aiBestTimes": "AI Pilot Best Times",
-    "date": "Date",
-    "aiDescription": "Our AI analyzed your audience engagement patterns. These times get the most traction:",
-    "orChooseTime": "Or Choose Your Own Time",
-    "postsScheduledBefore": "posts scheduled before this time",
-    "monthly": "Monthly",
-    "daily": "Daily",
-    "title": "Schedule Post",
-    "weekly": "Weekly",
-    "noRepeat": "No Repeat",
-    "recurrence": "Recurrence (Optional)",
-    "timezone": "Timezone",
-    "queuePosition": "Queue Position",
-    "platform": "Platform"
+    "title": "Rulaganya Poso",
+    "platform": "Sethala",
+    "aiBestTimes": "Dinako tse di Siameng Thata tsa AI",
+    "aiDescription": "AI ya rona e sekasekile mekgwa ya go tsenela ya babogedi ba gago. Dinako tse di bona kgatlhego e e kwa godimo:",
+    "orChooseTime": "Kgotsa Tlhopha Nako ya Gago",
+    "date": "Letlha",
+    "time": "Nako",
+    "timezone": "Lefelo la Nako",
+    "recurrence": "Poeletso (Ka Boikgethelo)",
+    "repeatOn": "Boeletsa ka:",
+    "noRepeat": "Se Boeletse",
+    "daily": "Letsatsi le Letsatsi",
+    "weekly": "Beke le Beke",
+    "monthly": "Kgwedi le Kgwedi",
+    "queuePosition": "Maemo a Molola",
+    "postsScheduledBefore": "diposo tse di rulagantsweng pele ga nako e",
+    "postPreview": "Ponelopele ya Poso",
+    "schedulePost": "Rulaganya Poso",
+    "engagement": {
+      "veryHigh": "E e Kwa Godimo Thata",
+      "high": "E e Kwa Godimo",
+      "medium": "E e Magareng"
+    },
+    "timeSlots": {
+      "morning": "Potlako ya Bosigo",
+      "lunch": "Nako ya Dijo tsa Motshegare",
+      "evening": "Nako ya Mantsiboa",
+      "night": "Batho ba Bosigo"
+    }
   },
   "contentGenerator": {
-    "title": "Content Generator",
-    "generate": "Initialize Generation"
+    "title": "Motlhami wa Diteng",
+    "topic": "Setlhogo / Setshwantsho",
+    "topicPlaceholder": "mohlala, Go tsenngwa ga ditlhako tse disha, Lebenkele la kofi la selegae, Kgwebo e ntsha ya theknoloji",
+    "platform": "Sethala",
+    "selectPlatform": "Tlhopha sethala",
+    "language": "Puo ya Diteng",
+    "tone": "Modumo",
+    "customInstructions": "Ditaelo tse di Kgethegileng (Ka Boikgethelo)",
+    "customPlaceholder": "Oketsa dihashtagi tse di rileng, dikgatiso, kgotsa dikgetho tsa setaele...",
+    "generate": "Simolola go Tlhama",
+    "generating": "E a tlhama...",
+    "generatedContent": "Diteng tse di Tlhamiweng",
+    "editText": "Fetola Mokwalo",
+    "done": "Go Feditse",
+    "discard": "Lahla",
+    "schedulePost": "Rulaganya Poso",
+    "platforms": {
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook"
+    },
+    "tones": {
+      "professional": "Ya Boprofešene",
+      "casual": "Ya Tlwaelo",
+      "funny": "E e Tshegisang",
+      "inspirational": "E e Kgothaletsang"
+    }
   },
   "smartSuggestions": {
-    "title": "AI Pilot Smart Suggestions"
+    "title": "Ditshitshinyo tse di Botlhale tsa AI",
+    "subtitle": "E maatlafalediwa ke tshekatsheko ya babogedi le mekgwa ya go tsenela",
+    "bestTimes": "Dinako tse di Siameng Thata",
+    "bestPractices": "Mekgwa e e Siameng Thata",
+    "trending": "Tse di Tumileng",
+    "content": "Diteng",
+    "tone": "Modumo",
+    "description": "Go ya ka tiro ya babogedi ba gago, tse ke dinako tse di siameng thata tsa go posa:",
+    "adjustTone": "Fetola modumo wa gago go ya ka gore o posa leng:",
+    "updateNote": "Ditshitshinyo di mpshafatswa go ya ka data ya go tsenela ya babogedi ba gago"
   }
 }
