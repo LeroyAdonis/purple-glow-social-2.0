@@ -45,6 +45,7 @@
   },
   "testimonials": {
     "title": "Trusted by South African Entrepreneurs",
+    "subtitle": "See how Purple Glow is helping South African entrepreneurs save time and grow.",
     "thabo": {
       "quote": "Purple Glow helped me scale from 500 to 5,000 followers in 3 months. The isiZulu content hits different.",
       "name": "Thabo M.",
@@ -124,10 +125,15 @@
   },
   "footer": {
     "tagline": "Built in South Africa, for South Africa.",
+    "product": "Product",
+    "integration": "Integration",
+    "changelog": "Changelog",
     "legal": "Legal",
     "terms": "Terms of Service",
-    "privacy": "Privacy Policy",
+    "privacy": "Privacy Policy (POPIA)",
     "popia": "POPIA Compliance",
+    "paia": "PAIA Manual",
+    "cookies": "Cookie Policy",
     "support": "Support",
     "help": "Help Center",
     "docs": "Documentation",

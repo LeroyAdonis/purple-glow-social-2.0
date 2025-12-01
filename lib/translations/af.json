@@ -45,6 +45,7 @@
   },
   "testimonials": {
     "title": "Vertrou deur Suid-Afrikaanse Entrepreneurs",
+    "subtitle": "Sien hoe Purple Glow Suid-Afrikaanse entrepreneurs help om tyd te bespaar en te groei.",
     "thabo": {
       "quote": "Purple Glow het my gehelp om van 500 na 5,000 volgelinge in 3 maande te groei. Die isiZulu-inhoud tref anders.",
       "name": "Thabo M.",
@@ -124,10 +125,15 @@
   },
   "footer": {
     "tagline": "Gebou in Suid-Afrika, vir Suid-Afrika.",
+    "product": "Produk",
+    "integration": "Integrasie",
+    "changelog": "Veranderingslog",
     "legal": "Wettig",
     "terms": "Diensbepalings",
-    "privacy": "Privaatheidsbeleid",
+    "privacy": "Privaatheidsbeleid (POPIA)",
     "popia": "POPIA Nakoming",
+    "paia": "PAIA Handleiding",
+    "cookies": "Koekie Beleid",
     "support": "Ondersteuning",
     "help": "Hulpsentrum",
     "docs": "Dokumentasie",

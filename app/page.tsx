@@ -444,27 +444,27 @@ export default function HomePage() {
               <div className="w-14 h-14 rounded-2xl bg-neon-grape/10 text-neon-grape flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
                 <i className="fa-solid fa-comments"></i>
               </div>
-              <h3 className="font-display font-bold text-xl mb-3">The "Gees" Engine</h3>
+              <h3 className="font-display font-bold text-xl mb-3">{translate('features.aiEngine.title')}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Tuned to understand and generate South African context. From "Lekker" to "Eish", we get the tone right across LinkedIn, Twitter, and Insta.
+                {translate('features.aiEngine.description')}
               </p>
             </div>
             <div className="aerogel-card p-8 rounded-3xl group hover:border-joburg-teal/30 transition-colors">
               <div className="w-14 h-14 rounded-2xl bg-joburg-teal/10 text-joburg-teal flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
                 <i className="fa-solid fa-image"></i>
               </div>
-              <h3 className="font-display font-bold text-xl mb-3">Visual Alchemy</h3>
+              <h3 className="font-display font-bold text-xl mb-3">{translate('features.multilingual.title')}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Powered by Imagen 3. Generate photorealistic product shots in Table Mountain backdrops or cyberpunk Joburg street scenes.
+                {translate('features.multilingual.description')}
               </p>
             </div>
             <div className="aerogel-card p-8 rounded-3xl group hover:border-mzansi-gold/30 transition-colors">
               <div className="w-14 h-14 rounded-2xl bg-mzansi-gold/10 text-mzansi-gold flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
                 <i className="fa-solid fa-video"></i>
               </div>
-              <h3 className="font-display font-bold text-xl mb-3">Video Synthesis</h3>
+              <h3 className="font-display font-bold text-xl mb-3">{translate('features.scheduling.title')}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Need a Reel? Use Google Veo to create short, high-impact videos from simple text prompts. Automation like never before.
+                {translate('features.scheduling.description')}
               </p>
             </div>
           </div>
@@ -475,7 +475,7 @@ export default function HomePage() {
       <section id="how-it-works" className="py-24 relative bg-black/20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="font-display font-bold text-4xl mb-4">Get Sorted in 3 Easy Steps</h2>
+            <h2 className="font-display font-bold text-4xl mb-4">{translate('howItWorks.title')}</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
@@ -485,27 +485,27 @@ export default function HomePage() {
             {/* Step 1 */}
             <div className="relative z-10 flex flex-col items-center text-center">
               <div className="w-16 h-16 rounded-full bg-void border border-neon-grape shadow-[0_0_20px_rgba(157,78,221,0.5)] flex items-center justify-center text-xl font-bold font-mono mb-6">1</div>
-              <h3 className="font-display font-bold text-xl mb-3">Describe Your Goal</h3>
+              <h3 className="font-display font-bold text-xl mb-3">{translate('howItWorks.step1.title')}</h3>
               <p className="text-gray-400 text-sm">
-                Give the AI the low-down on your business and the topic. Use 'Manual' for specific instructions or 'AI Pilot' for smart suggestions.
+                {translate('howItWorks.step1.description')}
               </p>
             </div>
 
             {/* Step 2 */}
             <div className="relative z-10 flex flex-col items-center text-center">
               <div className="w-16 h-16 rounded-full bg-void border border-white/30 flex items-center justify-center text-xl font-bold font-mono mb-6">2</div>
-              <h3 className="font-display font-bold text-xl mb-3">Generate & Choose</h3>
+              <h3 className="font-display font-bold text-xl mb-3">{translate('howItWorks.step2.title')}</h3>
               <p className="text-gray-400 text-sm">
-                Instantly receive unique post options with authentic local lingo and stunning AI-generated images. Pick the one with the most gees.
+                {translate('howItWorks.step2.description')}
               </p>
             </div>
 
             {/* Step 3 */}
             <div className="relative z-10 flex flex-col items-center text-center">
               <div className="w-16 h-16 rounded-full bg-void border border-joburg-teal shadow-[0_0_20px_rgba(0,224,255,0.5)] flex items-center justify-center text-xl font-bold font-mono mb-6">3</div>
-              <h3 className="font-display font-bold text-xl mb-3">Schedule or Post</h3>
+              <h3 className="font-display font-bold text-xl mb-3">{translate('howItWorks.step3.title')}</h3>
               <p className="text-gray-400 text-sm">
-                Publish immediately or let our AI schedule it for the optimal time to catch everyone's attention. Sharp sharp!
+                {translate('howItWorks.step3.description')}
               </p>
             </div>
           </div>
@@ -516,8 +516,8 @@ export default function HomePage() {
       <section id="testimonials" className="py-24 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="font-display font-bold text-4xl mb-4">Trusted by Local Businesses Across Mzansi</h2>
-            <p className="text-gray-400">See how Purple Glow is helping South African entrepreneurs save time and grow.</p>
+            <h2 className="font-display font-bold text-4xl mb-4">{translate('testimonials.title')}</h2>
+            <p className="text-gray-400">{translate('testimonials.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -525,13 +525,13 @@ export default function HomePage() {
             <div className="aerogel-card p-8 rounded-3xl flex flex-col h-full hover:border-white/30 transition-all">
               <div className="mb-4 text-neon-grape text-2xl"><i className="fa-solid fa-quote-left"></i></div>
               <p className="text-gray-300 italic mb-6 flex-1">
-                "Ja, nee, this app is a game-changer. I used to spend hours trying to think of posts, now I get amazing, truly South African content in seconds. My engagement has shot up!"
+                "{translate('testimonials.thabo.quote')}"
               </p>
               <div className="flex items-center gap-4 border-t border-glass-border pt-4">
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i className="fa-regular fa-user"></i></div>
                 <div>
-                  <h4 className="font-bold text-sm text-white">Thabo Khumalo</h4>
-                  <p className="text-xs text-gray-500">Owner, TK's Plumbing, Durban</p>
+                  <h4 className="font-bold text-sm text-white">{translate('testimonials.thabo.name')}</h4>
+                  <p className="text-xs text-gray-500">{translate('testimonials.thabo.role')}</p>
                 </div>
               </div>
             </div>
@@ -540,13 +540,13 @@ export default function HomePage() {
             <div className="aerogel-card p-8 rounded-3xl flex flex-col h-full hover:border-white/30 transition-all">
               <div className="mb-4 text-joburg-teal text-2xl"><i className="fa-solid fa-quote-left"></i></div>
               <p className="text-gray-300 italic mb-6 flex-1">
-                "Finally, a tool that gets our humour! The AI writes in our local lingo, and my customers love it. It feels authentic, not like a robot. Purple Glow is just lekker."
+                "{translate('testimonials.zanele.quote')}"
               </p>
               <div className="flex items-center gap-4 border-t border-glass-border pt-4">
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i className="fa-regular fa-user"></i></div>
                 <div>
-                  <h4 className="font-bold text-sm text-white">Anelisa Venter</h4>
-                  <p className="text-xs text-gray-500">Manager, The Daily Grind, Cape Town</p>
+                  <h4 className="font-bold text-sm text-white">{translate('testimonials.zanele.name')}</h4>
+                  <p className="text-xs text-gray-500">{translate('testimonials.zanele.role')}</p>
                 </div>
               </div>
             </div>
@@ -555,13 +555,13 @@ export default function HomePage() {
             <div className="aerogel-card p-8 rounded-3xl flex flex-col h-full hover:border-white/30 transition-all">
               <div className="mb-4 text-mzansi-gold text-2xl"><i className="fa-solid fa-quote-left"></i></div>
               <p className="text-gray-300 italic mb-6 flex-1">
-                "Running a guesthouse leaves no time for social media. Purple Glow's AI Pilot is my secret weapon. It suggests what to post and when. It's like having a marketing boet on my team."
+                "{translate('testimonials.pieter.quote')}"
               </p>
               <div className="flex items-center gap-4 border-t border-glass-border pt-4">
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i className="fa-regular fa-user"></i></div>
                 <div>
-                  <h4 className="font-bold text-sm text-white">Sipho van der Merwe</h4>
-                  <p className="text-xs text-gray-500">Host, Karoo Oasis B&B, Beaufort West</p>
+                  <h4 className="font-bold text-sm text-white">{translate('testimonials.pieter.name')}</h4>
+                  <p className="text-xs text-gray-500">{translate('testimonials.pieter.role')}</p>
                 </div>
               </div>
             </div>
@@ -574,8 +574,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div>
-              <h2 className="font-display font-bold text-4xl mb-2">Choose Your Plan</h2>
-              <p className="text-gray-400">Transparent pricing in ZAR. No hidden international transaction fees.</p>
+              <h2 className="font-display font-bold text-4xl mb-2">{translate('pricing.title')}</h2>
+              <p className="text-gray-400">{translate('pricing.subtitle')}</p>
             </div>
 
             <div className="bg-white/5 p-1 rounded-xl flex border border-glass-border">
@@ -583,13 +583,13 @@ export default function HomePage() {
                 onClick={() => setBillingCycle('monthly')}
                 className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${billingCycle === 'monthly' ? 'bg-white text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}
               >
-                Monthly
+                {translate('pricing.monthly')}
               </button>
               <button
                 onClick={() => setBillingCycle('annual')}
                 className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${billingCycle === 'annual' ? 'bg-white text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}
               >
-                Annual <span className="text-[10px] text-neon-grape ml-1">-20%</span>
+                {translate('pricing.annual')} <span className="text-[10px] text-neon-grape ml-1">-20%</span>
               </button>
             </div>
           </div>
@@ -739,27 +739,27 @@ export default function HomePage() {
       {/* Contact Section */}
       <section id="contact" className="py-24 relative bg-white/[0.02]">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display font-bold text-4xl mb-6">Get in Touch</h2>
-          <p className="text-gray-400 mb-12">Have questions? We'd love to hear from you.</p>
+          <h2 className="font-display font-bold text-4xl mb-6">{translate('contact.title')}</h2>
+          <p className="text-gray-400 mb-12">{translate('contact.subtitle')}</p>
 
           <div className="aerogel-card p-8 rounded-3xl text-left">
             <form className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-mono text-gray-400">YOUR NAME</label>
+                  <label className="text-xs font-mono text-gray-400">{translate('contact.name').toUpperCase()}</label>
                   <input type="text" className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-mono text-gray-400">EMAIL ADDRESS</label>
+                  <label className="text-xs font-mono text-gray-400">{translate('contact.email').toUpperCase()}</label>
                   <input type="email" className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors" />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-mono text-gray-400">MESSAGE</label>
+                <label className="text-xs font-mono text-gray-400">{translate('contact.message').toUpperCase()}</label>
                 <textarea rows={4} className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"></textarea>
               </div>
               <button type="button" className="w-full py-4 bg-gradient-to-r from-neon-grape to-electric-indigo text-white font-bold rounded-xl hover:shadow-[0_0_20px_rgba(157,78,221,0.4)] transition-all">
-                Send Message
+                {translate('contact.send')}
               </button>
             </form>
           </div>
@@ -778,28 +778,27 @@ export default function HomePage() {
                 <span className="font-display font-bold text-lg">PURPLE GLOW</span>
               </div>
               <p className="text-gray-500 text-sm max-w-sm">
-                Built for the hustlers, the dreamers, and the storytellers of South Africa.
-                Proudly engineered in Cape Town.
+                {translate('footer.tagline')}
               </p>
             </div>
 
             <div>
-              <h4 className="font-bold text-white mb-4">Product</h4>
+              <h4 className="font-bold text-white mb-4">{translate('footer.product')}</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="#features" onClick={(e) => scrollToSection(e, 'features')} className="hover:text-neon-grape transition-colors">Features</a></li>
-                <li><a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} className="hover:text-neon-grape transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-neon-grape transition-colors">Integration</a></li>
-                <li><a href="#" className="hover:text-neon-grape transition-colors">Changelog</a></li>
+                <li><a href="#features" onClick={(e) => scrollToSection(e, 'features')} className="hover:text-neon-grape transition-colors">{translate('nav.features')}</a></li>
+                <li><a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} className="hover:text-neon-grape transition-colors">{translate('nav.pricing')}</a></li>
+                <li><a href="#" className="hover:text-neon-grape transition-colors">{translate('footer.integration')}</a></li>
+                <li><a href="#" className="hover:text-neon-grape transition-colors">{translate('footer.changelog')}</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-bold text-white mb-4">Legal (ZA)</h4>
+              <h4 className="font-bold text-white mb-4">{translate('footer.legal')} (ZA)</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors flex items-center gap-2"><i className="fa-solid fa-shield-halved text-xs"></i> Privacy Policy (POPIA)</a></li>
-                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors">Terms of Service</a></li>
-                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors">PAIA Manual</a></li>
-                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors">Cookie Policy</a></li>
+                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors flex items-center gap-2"><i className="fa-solid fa-shield-halved text-xs"></i> {translate('footer.privacy')}</a></li>
+                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors">{translate('footer.terms')}</a></li>
+                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors">{translate('footer.paia')}</a></li>
+                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors">{translate('footer.cookies')}</a></li>
               </ul>
             </div>
           </div>
