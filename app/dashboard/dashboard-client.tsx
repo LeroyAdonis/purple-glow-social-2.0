@@ -72,6 +72,7 @@ export default function DashboardClient({
 
   return (
     <ClientDashboardView
+      userName={userName}
       userEmail={userEmail}
       userTier={userTier}
       userCredits={userCredits}

@@ -12,6 +12,7 @@ import ContentGenerator from './content-generator';
 import LogoutButton from './LogoutButton';
 
 interface ClientDashboardViewProps {
+    userName: string;
     userEmail: string;
     userTier: 'free' | 'pro' | 'business';
     userCredits: number;
@@ -24,6 +25,7 @@ interface ClientDashboardViewProps {
 }
 
 export default function ClientDashboardView({
+    userName,
     userEmail,
     userTier,
     userCredits,
@@ -42,10 +44,10 @@ export default function ClientDashboardView({
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
     const [activeTab, setActiveTab] = useState<'dashboard' | 'schedule' | 'automation'>('dashboard');
 
-    // Use real user data from props, not mock data
+    // Use real user data from props
     const mockUser = {
-        id: 'user-authenticated', // This should come from session
-        name: userEmail.split('@')[0] || 'User',
+        id: 'user-authenticated',
+        name: userName || userEmail.split('@')[0] || 'User',
         email: userEmail,
         tier: userTier,
         credits: userCredits,

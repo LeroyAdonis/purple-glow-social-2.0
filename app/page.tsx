@@ -27,6 +27,7 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'admin'>('landing');
   const [userEmail, setUserEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -120,7 +121,8 @@ export default function HomePage() {
   if (currentView === 'dashboard') {
     return (
       <ClientDashboardView
-        userEmail={userEmail}
+        userName={session?.user?.name || ''}
+        userEmail={userEmail || session?.user?.email || ''}
         userTier={userTier}
         userCredits={userCredits}
         onNavigateBack={() => setCurrentView('landing')}
