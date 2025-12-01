@@ -146,57 +146,6 @@ export default function ContentGenerator() {
         </div>
     );
 
-    const renderLinkedInPreview = () => (
-        <div className="bg-white text-black rounded-xl overflow-hidden shadow-2xl max-w-md mx-auto font-sans border border-gray-300">
-            <div className="p-3 flex gap-2 mb-1">
-                <div className="w-10 h-10 rounded bg-gray-200 overflow-hidden">
-                    <img src="https://ui-avatars.com/api/?name=Purple+Glow&background=0077b5&color=fff" alt="User" />
-                </div>
-                <div>
-                    <div className="text-sm font-bold leading-tight">Purple Glow SA</div>
-                    <div className="text-xs text-gray-500">AI Social Assistant for Mzansi SMBs</div>
-                    <div className="text-xs text-gray-500 flex items-center gap-1">1h • <i className="fa-solid fa-earth-americas"></i></div>
-                </div>
-            </div>
-
-            <div className="px-3 pb-2 text-sm text-gray-800 leading-relaxed">
-                {isEditing ? (
-                    <textarea
-                        className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-black focus:outline-none focus:border-blue-500"
-                        rows={6}
-                        value={localContent}
-                        onChange={(e) => setLocalContent(e.target.value)}
-                    />
-                ) : (
-                    <div className="whitespace-pre-wrap">{localContent}</div>
-                )}
-            </div>
-
-            {state?.data?.imageUrl && (
-                <div className="w-full bg-gray-100">
-                    <img src={state.data.imageUrl} alt="Generated" className="w-full h-auto object-cover" />
-                </div>
-            )}
-
-            <div className="px-3 py-2 border-t border-gray-200 mt-2">
-                <div className="flex justify-around items-center">
-                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors cursor-pointer">
-                        <i className="fa-regular fa-thumbs-up text-lg"></i> <span className="text-xs font-bold">Like</span>
-                    </button>
-                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors cursor-pointer">
-                        <i className="fa-regular fa-comment-dots text-lg"></i> <span className="text-xs font-bold">Comment</span>
-                    </button>
-                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors cursor-pointer">
-                        <i className="fa-solid fa-repeat text-lg"></i> <span className="text-xs font-bold">Repost</span>
-                    </button>
-                    <button className="flex items-center gap-1 text-gray-500 hover:bg-gray-100 px-2 py-3 rounded flex-1 justify-center transition-colors cursor-pointer">
-                        <i className="fa-regular fa-paper-plane text-lg"></i> <span className="text-xs font-bold">Send</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-
     const renderFacebookPreview = () => (
         <div className="bg-white text-black rounded-xl overflow-hidden shadow-2xl max-w-md mx-auto font-sans border border-gray-300">
             <div className="p-3 flex items-center gap-2">
@@ -247,7 +196,6 @@ export default function ContentGenerator() {
         switch (platform) {
             case 'instagram': return renderInstagramPreview();
             case 'twitter': return renderTwitterPreview();
-            case 'linkedin': return renderLinkedInPreview();
             case 'facebook': return renderFacebookPreview();
             default: return renderInstagramPreview();
         }
@@ -307,7 +255,6 @@ export default function ContentGenerator() {
                                 options={[
                                     { value: "instagram", label: translate('contentGenerator.platforms.instagram'), icon: "fa-brands fa-instagram", color: "text-pink-500" },
                                     { value: "twitter", label: translate('contentGenerator.platforms.twitter'), icon: "fa-brands fa-twitter", color: "text-blue-400" },
-                                    { value: "linkedin", label: translate('contentGenerator.platforms.linkedin'), icon: "fa-brands fa-linkedin", color: "text-blue-600" },
                                     { value: "facebook", label: translate('contentGenerator.platforms.facebook'), icon: "fa-brands fa-facebook", color: "text-blue-500" }
                                 ]}
                                 placeholder={translate('contentGenerator.selectPlatform')}

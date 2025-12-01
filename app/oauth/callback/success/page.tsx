@@ -38,14 +38,12 @@ function SuccessContent() {
     instagram: '📷',
     facebook: '👥',
     twitter: '🐦',
-    linkedin: '💼',
   };
 
   const platformNames: Record<string, string> = {
     instagram: 'Instagram',
     facebook: 'Facebook',
     twitter: 'Twitter/X',
-    linkedin: 'LinkedIn',
   };
 
   return (

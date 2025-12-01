@@ -22,7 +22,7 @@ export async function getConnectedAccounts(userId: string) {
  */
 export async function getConnectedAccount(
   userId: string, 
-  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
+  platform: 'instagram' | 'facebook' | 'twitter'
 ) {
   const accounts = await db
     .select()
@@ -43,7 +43,7 @@ export async function getConnectedAccount(
  */
 export async function getDecryptedToken(
   userId: string,
-  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
+  platform: 'instagram' | 'facebook' | 'twitter'
 ): Promise<string | null> {
   const account = await getConnectedAccount(userId, platform);
   if (!account || !account.accessToken) return null;
@@ -61,7 +61,7 @@ export async function getDecryptedToken(
  */
 export async function disconnectAccount(
   userId: string,
-  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
+  platform: 'instagram' | 'facebook' | 'twitter'
 ) {
   await db
     .delete(connectedAccounts)
@@ -78,7 +78,7 @@ export async function disconnectAccount(
  */
 export async function isConnected(
   userId: string,
-  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
+  platform: 'instagram' | 'facebook' | 'twitter'
 ): Promise<boolean> {
   const account = await getConnectedAccount(userId, platform);
   return account !== null && account.isActive;
@@ -89,7 +89,7 @@ export async function isConnected(
  */
 export async function updateLastSynced(
   userId: string,
-  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
+  platform: 'instagram' | 'facebook' | 'twitter'
 ) {
   await db
     .update(connectedAccounts)
@@ -110,7 +110,7 @@ export async function updateLastSynced(
  */
 export async function deactivateConnection(
   userId: string,
-  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
+  platform: 'instagram' | 'facebook' | 'twitter'
 ) {
   await db
     .update(connectedAccounts)

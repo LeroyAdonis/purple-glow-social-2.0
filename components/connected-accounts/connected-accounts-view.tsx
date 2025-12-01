@@ -5,7 +5,7 @@ import ConnectedAccountCard from './connected-account-card';
 
 interface Connection {
   id: string;
-  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin';
+  platform: 'instagram' | 'facebook' | 'twitter';
   platformUsername: string;
   platformDisplayName: string;
   profileImageUrl: string | null;
@@ -50,13 +50,13 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
   }, [userId]);
 
   // Handle connect - redirect to OAuth flow
-  const handleConnect = (platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin') => {
+  const handleConnect = (platform: 'instagram' | 'facebook' | 'twitter') => {
     // Redirect to the OAuth connect endpoint
     window.location.href = `/api/oauth/${platform}/connect`;
   };
 
   // Handle disconnect
-  const handleDisconnect = async (platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin') => {
+  const handleDisconnect = async (platform: 'instagram' | 'facebook' | 'twitter') => {
     try {
       const response = await fetch(`/api/oauth/${platform}/disconnect`, {
         method: 'POST',
@@ -75,20 +75,19 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
   };
 
   // Check if a platform is connected
-  const isConnected = (platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin') => {
+  const isConnected = (platform: 'instagram' | 'facebook' | 'twitter') => {
     return connections.some(conn => conn.platform === platform && conn.isActive);
   };
 
   // Get connection data for a platform
-  const getConnection = (platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin') => {
+  const getConnection = (platform: 'instagram' | 'facebook' | 'twitter') => {
     return connections.find(conn => conn.platform === platform);
   };
 
-  const platforms: Array<'instagram' | 'facebook' | 'twitter' | 'linkedin'> = [
+  const platforms: Array<'instagram' | 'facebook' | 'twitter'> = [
     'instagram',
     'facebook', 
-    'twitter',
-    'linkedin'
+    'twitter'
   ];
 
   if (isLoading) {
@@ -154,7 +153,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
         </div>
         <div className="aerogel-card px-4 py-2 rounded-xl border border-glass-border">
           <p className="text-xs text-gray-400 font-mono mb-1">CONNECTED</p>
-          <p className="font-display font-bold text-2xl text-neon-grape">{connectedCount}/4</p>
+          <p className="font-display font-bold text-2xl text-neon-grape">{connectedCount}/3</p>
         </div>
       </header>
 
@@ -209,10 +208,6 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
           <li className="flex items-start gap-2">
             <i className="fa-solid fa-check text-emerald-400 mt-1"></i>
             <span><strong>Twitter / X:</strong> Tokens last 2 hours but refresh automatically.</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <i className="fa-solid fa-check text-emerald-400 mt-1"></i>
-            <span><strong>LinkedIn:</strong> Tokens last 60 days with automatic refresh.</span>
           </li>
           <li className="flex items-start gap-2">
             <i className="fa-solid fa-shield-halved text-joburg-teal mt-1"></i>
