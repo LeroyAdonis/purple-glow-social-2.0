@@ -3,6 +3,7 @@
 ## 📋 Pre-Deployment Checklist
 
 ### ✅ Development Complete
+
 - [x] Phase 1-2: Foundation & UI
 - [x] Phase 3: Payments & Admin
 - [x] Phase 4: Internationalization (11 languages)
@@ -14,6 +15,7 @@
 - [x] Phase 10: AI Content Generation
 
 ### 🔐 Security Review
+
 - [x] Token encryption (AES-256-GCM)
 - [x] CSRF protection on OAuth flows
 - [x] PKCE for Twitter OAuth 2.0
@@ -28,6 +30,7 @@
 ## 🌐 Deployment Platform: Vercel
 
 ### Why Vercel?
+
 - ✅ Next.js native support
 - ✅ Zero-config deployment
 - ✅ Edge functions for OAuth
@@ -73,11 +76,13 @@ git push origin main
 Go to **Project Settings → Environment Variables** and add:
 
 #### Database
+
 ```
 DATABASE_URL=postgresql://[YOUR_NEON_URL]
 ```
 
 #### Better-auth
+
 ```
 BETTER_AUTH_SECRET=[Generate new 32-char secret]
 BETTER_AUTH_URL=https://your-domain.vercel.app
@@ -85,52 +90,62 @@ NEXT_PUBLIC_BETTER_AUTH_URL=https://your-domain.vercel.app
 ```
 
 Generate secret:
+
 ```bash
 openssl rand -base64 32
 ```
 
 #### Google OAuth (for login)
+
 ```
 GOOGLE_CLIENT_ID=[Your Google OAuth Client ID]
 GOOGLE_CLIENT_SECRET=[Your Google OAuth Client Secret]
 ```
 
 Setup at: [Google Cloud Console](https://console.cloud.google.com)
+
 - Authorized redirect URIs:
   - `https://your-domain.vercel.app/api/auth/callback/google`
 
 #### Meta/Facebook (for Instagram & Facebook posting)
+
 ```
 META_APP_ID=[Your Meta App ID]
 META_APP_SECRET=[Your Meta App Secret]
 ```
 
 Setup at: [Meta for Developers](https://developers.facebook.com)
+
 - Authorized redirect URIs:
   - `https://your-domain.vercel.app/api/oauth/facebook/callback`
   - `https://your-domain.vercel.app/api/oauth/instagram/callback`
 
 #### Twitter/X
+
 ```
 TWITTER_CLIENT_ID=[Your Twitter Client ID]
 TWITTER_CLIENT_SECRET=[Your Twitter Client Secret]
 ```
 
 Setup at: [Twitter Developer Portal](https://developer.twitter.com)
+
 - Authorized redirect URIs:
   - `https://your-domain.vercel.app/api/oauth/twitter/callback`
 
 #### LinkedIn
+
 ```
 LINKEDIN_CLIENT_ID=[Your LinkedIn Client ID]
 LINKEDIN_CLIENT_SECRET=[Your LinkedIn Client Secret]
 ```
 
 Setup at: [LinkedIn Developers](https://www.linkedin.com/developers)
+
 - Authorized redirect URIs:
   - `https://your-domain.vercel.app/api/oauth/linkedin/callback`
 
 #### AI & Storage
+
 ```
 GEMINI_API_KEY=[Your Google Gemini API Key]
 API_KEY=[Your Google Gemini API Key - fallback]
@@ -139,37 +154,49 @@ BLOB_READ_WRITE_TOKEN=[Vercel Blob token - auto-created]
 ```
 
 Generate encryption key:
+
 ```bash
 openssl rand -hex 32
 ```
 
-#### Cron Job Security
+#### Job Processing (Inngest)
+
 ```
-CRON_SECRET=[Generate random secret]
+INNGEST_SIGNING_KEY=[Your Inngest Signing Key]
+INNGEST_EVENT_KEY=[Your Inngest Event Key - optional]
+INNGEST_EVENT_API_URL=[Inngest Events API URL - optional, defaults to app.inngest.com]
 ```
 
-Generate:
-```bash
-openssl rand -base64 32
-```
+Setup at: [Inngest Dashboard](https://app.inngest.com)
+
+- Create new app
+- Copy signing key for webhook verification
+- Event key for sending events (optional)
+- API URL is usually `https://app.inngest.com/api/v1/events`
+
+**Note:** Cron jobs are no longer needed - Inngest handles all scheduled processing with better reliability and retry logic.
 
 ### Step 4: Configure OAuth Redirect URIs
 
 Update all OAuth apps with production URLs:
 
 **Google OAuth:**
+
 - Authorized JavaScript origins: `https://your-domain.vercel.app`
 - Authorized redirect URIs: `https://your-domain.vercel.app/api/auth/callback/google`
 
 **Meta (Facebook/Instagram):**
+
 - Valid OAuth Redirect URIs:
   - `https://your-domain.vercel.app/api/oauth/facebook/callback`
   - `https://your-domain.vercel.app/api/oauth/instagram/callback`
 
 **Twitter:**
+
 - Callback URLs: `https://your-domain.vercel.app/api/oauth/twitter/callback`
 
 **LinkedIn:**
+
 - Authorized redirect URLs: `https://your-domain.vercel.app/api/oauth/linkedin/callback`
 
 ### Step 5: Deploy
@@ -184,13 +211,33 @@ vercel login
 vercel --prod
 ```
 
-### Step 6: Verify Cron Job
+### Step 6: Set Up Inngest Integration
 
-1. Go to Vercel Dashboard → Your Project → Cron
-2. Verify cron job is registered:
-   - Path: `/api/cron/process-scheduled-posts`
-   - Schedule: `* * * * *` (every minute)
-3. Check logs after deployment to ensure it runs
+1. **Run Database Migration:**
+
+   ```bash
+   npm run db:push  # Apply the Inngest integration migration
+   ```
+
+2. **Configure Inngest Database Settings:**
+
+   ```bash
+   npm run inngest:setup  # Set up database triggers and test connection
+   ```
+
+3. **Configure Inngest Webhook:**
+   - Go to [Inngest Dashboard](https://app.inngest.com)
+   - Create app: "Purple Glow Social"
+   - Set webhook URL: `https://your-domain.vercel.app/api/inngest`
+   - Copy signing key to `INNGEST_SIGNING_KEY` environment variable
+
+**Note:** Database triggers will automatically send events to Inngest when:
+
+- Posts are scheduled or status changes
+- Credit reservations are created/updated
+- User credits change (low credit warnings)
+
+**Note:** Inngest replaces the old Vercel cron jobs. All scheduled post processing is now handled by Inngest functions with retry logic and better reliability.
 
 ### Step 7: Configure Custom Domain (Optional)
 
@@ -209,6 +256,7 @@ vercel --prod
 ## 🧪 Post-Deployment Testing
 
 ### Test Authentication
+
 1. ✅ Register new account with email/password
 2. ✅ Login with email/password
 3. ✅ Login with Google OAuth
@@ -216,6 +264,7 @@ vercel --prod
 5. ✅ Protected routes redirect to login
 
 ### Test OAuth Connections
+
 1. ✅ Connect Facebook account
 2. ✅ Connect Instagram Business account
 3. ✅ Connect Twitter account
@@ -224,6 +273,7 @@ vercel --prod
 6. ✅ Verify tokens are encrypted in database
 
 ### Test AI Content Generation
+
 1. ✅ Generate content for Twitter
 2. ✅ Generate content for Instagram
 3. ✅ Generate content for Facebook
@@ -234,6 +284,7 @@ vercel --prod
 8. ✅ Test with 0 credits
 
 ### Test Auto-Posting
+
 1. ✅ Post immediately to Twitter
 2. ✅ Post immediately to Instagram (with image)
 3. ✅ Schedule post for 2 minutes in future
@@ -242,6 +293,7 @@ vercel --prod
 6. ✅ Check database for platform post ID and URL
 
 ### Test Scheduling System
+
 1. ✅ Create automation rule
 2. ✅ Activate automation rule
 3. ✅ View scheduled posts in calendar
@@ -253,7 +305,9 @@ vercel --prod
 ## 🔍 Monitoring Setup
 
 ### 1. Vercel Analytics (Built-in)
+
 Already enabled automatically:
+
 - Page views
 - Visitor analytics
 - Performance metrics
@@ -261,16 +315,19 @@ Already enabled automatically:
 ### 2. Error Monitoring (Sentry)
 
 Install Sentry:
+
 ```bash
 npm install @sentry/nextjs
 ```
 
 Initialize:
+
 ```bash
 npx @sentry/wizard@latest -i nextjs
 ```
 
 Add to environment variables:
+
 ```
 NEXT_PUBLIC_SENTRY_DSN=[Your Sentry DSN]
 SENTRY_AUTH_TOKEN=[Your Sentry Auth Token]
@@ -279,6 +336,7 @@ SENTRY_AUTH_TOKEN=[Your Sentry Auth Token]
 ### 3. Application Monitoring
 
 Create monitoring dashboard to track:
+
 - User registrations
 - OAuth connections
 - AI generations
@@ -289,11 +347,13 @@ Create monitoring dashboard to track:
 ### 4. Uptime Monitoring
 
 Use services like:
+
 - [Uptime Robot](https://uptimerobot.com) (Free)
 - [Pingdom](https://www.pingdom.com)
 - [Better Uptime](https://betteruptime.com)
 
 Monitor endpoints:
+
 - `https://your-domain.vercel.app/` (200 OK)
 - `https://your-domain.vercel.app/api/health` (create health check)
 
@@ -302,15 +362,18 @@ Monitor endpoints:
 ## 📊 Database Management
 
 ### Neon Console
+
 Access at: [console.neon.tech](https://console.neon.tech)
 
 **Regular Tasks:**
+
 - Monitor database size
 - Check connection pooling
 - Review query performance
 - Set up automated backups
 
 **Backup Strategy:**
+
 ```sql
 -- Manual backup
 pg_dump $DATABASE_URL > backup.sql
@@ -320,6 +383,7 @@ psql $DATABASE_URL < backup.sql
 ```
 
 **Monitoring Queries:**
+
 ```sql
 -- Active users count
 SELECT COUNT(*) FROM "user";
@@ -340,36 +404,47 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 
 ### Common Issues & Solutions
 
-#### Issue: Cron job not running
+#### Issue: Scheduled posts not processing
+
 **Solution:**
-1. Check Vercel Cron logs
-2. Verify `vercel.json` is deployed
-3. Test manually: `POST /api/cron/process-scheduled-posts`
-4. Check `CRON_SECRET` environment variable
+
+1. Check Inngest dashboard for function runs
+2. Verify `INNGEST_SIGNING_KEY` is correct
+3. Check webhook URL is accessible: `POST /api/inngest`
+4. Review Inngest function logs for errors
+5. Test manual trigger if needed
 
 #### Issue: OAuth connection fails
+
 **Solution:**
+
 1. Check redirect URI matches exactly
 2. Verify OAuth credentials in environment variables
 3. Check OAuth app status (not in development mode)
 4. Review logs for specific error messages
 
 #### Issue: AI generation fails
+
 **Solution:**
+
 1. Verify `GEMINI_API_KEY` is correct
 2. Check Gemini API quota/limits
 3. Review error logs
 4. Test with simple topic
 
 #### Issue: Database connection errors
+
 **Solution:**
+
 1. Check `DATABASE_URL` is correct
 2. Verify Neon database is active
 3. Check connection pooling limits
 4. Review Neon console for issues
 
 #### Issue: Image upload fails
+
 **Solution:**
+
 1. Verify `BLOB_READ_WRITE_TOKEN` exists
 2. Check Vercel Blob storage quota
 3. Ensure image URL is accessible
@@ -380,29 +455,35 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 ## 📈 Scaling Considerations
 
 ### Current Limits (Vercel Free Tier)
+
 - **Bandwidth:** 100GB/month
 - **Serverless Function Execution:** 100GB-hours
 - **Edge Function Execution:** 1M invocations
-- **Cron Jobs:** 2 per project
+- **Cron Jobs:** Not used (Inngest handles scheduling)
 
 ### When to Upgrade (Vercel Pro - $20/month)
+
 - 1TB bandwidth
 - 1000GB-hours execution
 - 100M edge invocations
-- 60 cron jobs
 - Team collaboration
+- (Cron jobs not needed - using Inngest)
 
 ### Database Scaling (Neon)
+
 **Current:** Free tier
+
 - 0.5 GB storage
 - 1 concurrent connection
 
 **Upgrade when:**
+
 - Storage > 0.5 GB
 - Need more connections
 - Require auto-scaling
 
 **Neon Pro ($19/month):**
+
 - 10 GB storage
 - Auto-scaling compute
 - Multiple branches
@@ -415,11 +496,13 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 ### Monthly Costs (Production)
 
 **Infrastructure:**
+
 - Vercel Pro: $20/month (recommended for production)
 - Neon Pro: $19/month (as you scale)
 - Domain: $10-15/year
 
 **APIs:**
+
 - Google Gemini: Pay-per-use (~$0.0005 per generation)
 - Google Imagen: Pay-per-use (~$0.04 per image)
 - Meta API: Free (within limits)
@@ -427,10 +510,12 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 - LinkedIn API: Free
 
 **Monitoring:**
+
 - Sentry: Free tier (5k events/month) or $26/month
 - Analytics: Free (Vercel built-in)
 
 **Total Estimate:**
+
 - **Minimum (launch):** ~$50/month
 - **Growth phase:** ~$100-200/month
 - **Scaled (1000+ users):** ~$500+/month
@@ -440,6 +525,7 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 ## 🎯 Launch Checklist
 
 ### Pre-Launch (Technical)
+
 - [ ] All environment variables set in production
 - [ ] OAuth apps approved and configured
 - [ ] Database migrations applied
@@ -452,6 +538,7 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 - [ ] Security audit passed
 
 ### Pre-Launch (Business)
+
 - [ ] Terms of Service page
 - [ ] Privacy Policy page
 - [ ] Pricing page finalized
@@ -463,6 +550,7 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 - [ ] Landing page optimized
 
 ### Launch Day
+
 - [ ] Deploy to production
 - [ ] Verify all features work
 - [ ] Monitor error logs
@@ -474,6 +562,7 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 - [ ] Update documentation
 
 ### Post-Launch (Week 1)
+
 - [ ] Daily monitoring
 - [ ] User feedback collection
 - [ ] Bug fixes as needed
@@ -487,12 +576,14 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 ## 📞 Support & Maintenance
 
 ### Daily Tasks
+
 - Monitor error logs (Sentry)
 - Check uptime (monitoring service)
 - Review user feedback
 - Respond to support requests
 
 ### Weekly Tasks
+
 - Review analytics
 - Check database performance
 - Update documentation
@@ -500,6 +591,7 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 - Security updates
 
 ### Monthly Tasks
+
 - Backup database
 - Review costs
 - API quota checks
@@ -511,18 +603,21 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 ## 🔗 Useful Links
 
 **Documentation:**
+
 - Vercel Docs: https://vercel.com/docs
 - Next.js Docs: https://nextjs.org/docs
 - Drizzle ORM: https://orm.drizzle.team
 - Better-auth: https://www.better-auth.com/docs
 
 **APIs:**
+
 - Google Gemini: https://ai.google.dev
 - Meta for Developers: https://developers.facebook.com
 - Twitter Developer: https://developer.twitter.com
 - LinkedIn Developers: https://www.linkedin.com/developers
 
 **Monitoring:**
+
 - Vercel Analytics: https://vercel.com/analytics
 - Sentry: https://sentry.io
 - Neon Console: https://console.neon.tech
@@ -532,6 +627,7 @@ SELECT platform, COUNT(*) FROM connected_account GROUP BY platform;
 ## 🎉 You're Ready to Launch!
 
 Purple Glow Social is **production-ready** with:
+
 - ✅ Complete authentication system
 - ✅ OAuth integration (4 platforms)
 - ✅ AI content generation
@@ -542,6 +638,7 @@ Purple Glow Social is **production-ready** with:
 - ✅ Enterprise security
 
 **Next Steps:**
+
 1. Deploy to Vercel
 2. Configure all OAuth apps
 3. Test thoroughly
@@ -549,6 +646,6 @@ Purple Glow Social is **production-ready** with:
 
 ---
 
-*Good luck with your launch!* 🇿🇦✨
+_Good luck with your launch!_ 🇿🇦✨
 
 **Questions?** Review this guide and the phase completion documents for detailed information on each system.

@@ -18,6 +18,7 @@ Purple Glow Social 2.0 is a production-ready AI-powered social media management 
 ## Critical: South African Context
 
 **ALWAYS maintain South African cultural context:**
+
 - **Timezone:** SAST (UTC+2) - the default for all dates/times
 - **Currency:** ZAR (South African Rand) with 15% VAT
 - **Languages:** Support all 11 official SA languages (en, af, zu, xh, nso, tn, st, ts, ss, ve, nr)
@@ -28,13 +29,14 @@ Purple Glow Social 2.0 is a production-ready AI-powered social media management 
 ## Code Standards
 
 ### TypeScript Requirements
+
 ```typescript
 // ✅ ALWAYS define interfaces for all data structures
 interface User {
   id: string;
   name: string;
   email: string;
-  tier: 'free' | 'pro' | 'business';
+  tier: "free" | "pro" | "business";
   credits: number;
 }
 
@@ -48,37 +50,37 @@ async function getUserById(userId: string): Promise<User | null> {
 ```
 
 ### Authentication Pattern
+
 ```typescript
 // ✅ ALWAYS validate sessions in API routes and server components
-import { auth } from '@/lib/auth';
+import { auth } from "@/lib/auth";
 
 export async function GET(request: Request) {
   const session = await auth.api.getSession({
-    headers: request.headers
+    headers: request.headers,
   });
-  
+
   if (!session?.user) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
-  
+
   const userId = session.user.id;
   // ... rest of logic
 }
 ```
 
 ### Database Access Pattern
+
 ```typescript
 // ✅ ALWAYS use Drizzle ORM for database queries
-import { db } from '@/lib/db';
-import { posts, user } from '@/drizzle/schema';
-import { eq, and, desc } from 'drizzle-orm';
+import { db } from "@/lib/db";
+import { posts, user } from "@/drizzle/schema";
+import { eq, and, desc } from "drizzle-orm";
 
-const userPosts = await db.select()
+const userPosts = await db
+  .select()
   .from(posts)
-  .where(and(
-    eq(posts.userId, userId),
-    eq(posts.status, 'posted')
-  ))
+  .where(and(eq(posts.userId, userId), eq(posts.status, "posted")))
   .orderBy(desc(posts.createdAt));
 
 // ❌ NEVER write raw SQL queries
@@ -86,13 +88,14 @@ const userPosts = await db.select()
 ```
 
 ### OAuth Token Handling
+
 ```typescript
 // ✅ ALWAYS decrypt tokens before use
-import { getDecryptedToken } from '@/lib/db/connected-accounts';
+import { getDecryptedToken } from "@/lib/db/connected-accounts";
 
-const accessToken = await getDecryptedToken(userId, 'instagram');
+const accessToken = await getDecryptedToken(userId, "instagram");
 if (!accessToken) {
-  throw new Error('Instagram not connected');
+  throw new Error("Instagram not connected");
 }
 
 // ❌ NEVER store tokens unencrypted
@@ -102,11 +105,12 @@ if (!accessToken) {
 ## Component Patterns
 
 ### Server Components (Default)
+
 ```typescript
 // ✅ Use for data fetching and static content
 export default async function DashboardPage() {
   const session = await auth.api.getSession({ headers: headers() });
-  
+
   return (
     <div>
       <h1>Welcome {session.user.name}</h1>
@@ -116,22 +120,24 @@ export default async function DashboardPage() {
 ```
 
 ### Client Components
+
 ```typescript
 // ✅ Use 'use client' for interactivity
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 export function ContentGenerator() {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   // ... interactive logic
 }
 ```
 
 ### Error Boundaries
+
 ```typescript
 // ✅ ALWAYS wrap complex components with error boundaries
-import { ErrorBoundary } from '@/lib/ErrorBoundary';
+import { ErrorBoundary } from "@/lib/ErrorBoundary";
 
 export default function FeaturePage() {
   return (
@@ -145,6 +151,7 @@ export default function FeaturePage() {
 ## Security Rules
 
 ### Environment Variables
+
 ```typescript
 // ✅ ALWAYS use environment variables for secrets
 const apiKey = process.env.GEMINI_API_KEY;
@@ -154,13 +161,14 @@ const apiKey = process.env.GEMINI_API_KEY;
 ```
 
 ### Input Validation
+
 ```typescript
 // ✅ ALWAYS validate user input
-import { z } from 'zod';
+import { z } from "zod";
 
 const postSchema = z.object({
   content: z.string().min(1).max(5000),
-  platform: z.enum(['facebook', 'instagram', 'twitter', 'linkedin']),
+  platform: z.enum(["facebook", "instagram", "twitter", "linkedin"]),
   scheduledDate: z.string().datetime().optional(),
 });
 
@@ -168,6 +176,7 @@ const validatedData = postSchema.parse(request.body);
 ```
 
 ### CSRF Protection
+
 ```typescript
 // ✅ OAuth flows ALWAYS include state parameter
 const state = crypto.randomUUID();
@@ -178,6 +187,7 @@ const state = crypto.randomUUID();
 ## AI Content Generation
 
 ### Always Include SA Context
+
 ```typescript
 // ✅ When generating content with Gemini
 const prompt = `
@@ -196,23 +206,28 @@ CRITICAL REQUIREMENTS:
 ## API Route Patterns
 
 ### Standard Response Format
+
 ```typescript
 // ✅ Success response
 return Response.json({
   success: true,
   data: result,
-  message: 'Operation completed successfully'
+  message: "Operation completed successfully",
 });
 
 // ✅ Error response
-return Response.json({
-  success: false,
-  error: 'Descriptive error message',
-  code: 'ERROR_CODE'
-}, { status: 400 });
+return Response.json(
+  {
+    success: false,
+    error: "Descriptive error message",
+    code: "ERROR_CODE",
+  },
+  { status: 400 }
+);
 ```
 
 ### Rate Limiting Consideration
+
 ```typescript
 // 🔔 Remember to add rate limiting for production
 // Consider using @vercel/rate-limit or similar
@@ -221,6 +236,7 @@ return Response.json({
 ## Testing Guidelines
 
 ### Manual Testing Checklist
+
 - [ ] Test on mobile (320px), tablet (768px), desktop (1024px+)
 - [ ] Test with all 11 languages
 - [ ] Verify authentication flow (login/logout)
@@ -232,6 +248,7 @@ return Response.json({
 ## Common Pitfalls to Avoid
 
 ### ❌ DON'T:
+
 1. Use React 18 patterns (we're on React 19)
 2. Skip session validation on protected routes
 3. Store sensitive data unencrypted
@@ -244,6 +261,7 @@ return Response.json({
 10. Skip accessibility attributes (ARIA labels, keyboard nav)
 
 ### ✅ DO:
+
 1. Use Next.js 16 App Router patterns
 2. Validate user sessions everywhere
 3. Encrypt all OAuth tokens (AES-256-GCM)
@@ -258,6 +276,7 @@ return Response.json({
 ## File Organization
 
 ### API Routes
+
 - `app/api/auth/[...all]/route.ts` - Better-auth endpoints
 - `app/api/oauth/[platform]/[action]/route.ts` - OAuth flows
 - `app/api/posts/publish/route.ts` - Immediate posting
@@ -265,6 +284,7 @@ return Response.json({
 - `app/api/cron/process-scheduled-posts/route.ts` - Scheduled posting
 
 ### Key Libraries
+
 - `lib/auth.ts` - Better-auth server configuration
 - `lib/auth-client.ts` - Better-auth client
 - `lib/ai/gemini-service.ts` - AI content generation
@@ -273,6 +293,7 @@ return Response.json({
 - `lib/db/connected-accounts.ts` - Database helpers
 
 ### Components
+
 - Server components in `app/` directory
 - Client components in `components/` directory
 - Mark client components with `'use client'`
@@ -280,6 +301,7 @@ return Response.json({
 ## Documentation
 
 **Always refer to:**
+
 - `AGENTS.md` - Complete project architecture guide
 - `QUICK_REFERENCE.md` - Quick developer reference
 - `docs/COMPONENT_GUIDE.md` - Component API documentation
@@ -337,6 +359,10 @@ POLAR_WEBHOOK_SECRET=
 TOKEN_ENCRYPTION_KEY=         # 32-byte hex string for AES-256
 CRON_SECRET=                  # Secret for cron job authentication
 
+# Job Processing
+INNGEST_SIGNING_KEY=          # Inngest webhook signature verification
+INNGEST_EVENT_KEY=            # Inngest event key (optional)
+
 # Storage
 BLOB_READ_WRITE_TOKEN=        # Vercel Blob storage
 ```
@@ -352,14 +378,14 @@ interface NewFeatureData {
 }
 
 // 2. Create API route (app/api/feature/route.ts)
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
 
 export async function POST(request: Request) {
   // Validate session
   const session = await auth.api.getSession({ headers: request.headers });
   if (!session?.user) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   // Parse and validate input
@@ -369,22 +395,22 @@ export async function POST(request: Request) {
   // Database operation
   const result = await db.insert(table).values({
     userId: session.user.id,
-    ...body
+    ...body,
   });
 
   return Response.json({ success: true, data: result });
 }
 
 // 3. Create client component (components/new-feature.tsx)
-'use client';
+("use client");
 
 export function NewFeature() {
   // ... implementation with proper error handling and loading states
 }
 
 // 4. Add to page with error boundary
-import { ErrorBoundary } from '@/lib/ErrorBoundary';
-import { NewFeature } from '@/components/new-feature';
+import { ErrorBoundary } from "@/lib/ErrorBoundary";
+import { NewFeature } from "@/components/new-feature";
 
 export default function FeaturePage() {
   return (
@@ -401,17 +427,17 @@ When implementing multi-language features:
 
 ```typescript
 const SA_LANGUAGES = {
-  en: 'English',
-  af: 'Afrikaans',
-  zu: 'Zulu (isiZulu)',
-  xh: 'Xhosa (isiXhosa)',
-  nso: 'Northern Sotho (Sepedi)',
-  tn: 'Tswana (Setswana)',
-  st: 'Southern Sotho (Sesotho)',
-  ts: 'Tsonga (Xitsonga)',
-  ss: 'Swati (siSwati)',
-  ve: 'Venda (Tshivenda)',
-  nr: 'Ndebele (isiNdebele)',
+  en: "English",
+  af: "Afrikaans",
+  zu: "Zulu (isiZulu)",
+  xh: "Xhosa (isiXhosa)",
+  nso: "Northern Sotho (Sepedi)",
+  tn: "Tswana (Setswana)",
+  st: "Southern Sotho (Sesotho)",
+  ts: "Tsonga (Xitsonga)",
+  ss: "Swati (siSwati)",
+  ve: "Venda (Tshivenda)",
+  nr: "Ndebele (isiNdebele)",
 } as const;
 ```
 

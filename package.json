@@ -17,6 +17,7 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:seed-test": "npx tsx scripts/seed-test-accounts.ts",
+    "inngest:setup": "npx tsx scripts/setup-inngest-integration.ts",
     "tunnel": "npx localtunnel --port 3000",
     "webhook:setup": "pwsh -File setup-webhook.ps1",
     "webhook:test": "pwsh -File tmp_rovodev_test_webhook.ps1"
