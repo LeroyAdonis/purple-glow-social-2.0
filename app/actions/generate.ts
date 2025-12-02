@@ -87,10 +87,32 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
     
     const generatedText = contentResult.content + '\n\n' + contentResult.hashtags.join(' ');
 
-    // 3. Image Generation - DISABLED (Gemini image generation is geo-restricted)
-    // TODO: Re-enable when image generation is available in South Africa
-    // or integrate an alternative service like Unsplash API for stock images
+    // 3. Generate Image with Pollinations.ai (free, no API key, no geo-restrictions)
     let imageUrl = null;
+
+    try {
+      // Platform-specific dimensions
+      const dimensions: Record<string, { width: number; height: number }> = {
+        instagram: { width: 1024, height: 1024 },
+        facebook: { width: 1200, height: 630 },
+        twitter: { width: 1200, height: 675 },
+        linkedin: { width: 1200, height: 627 },
+      };
+
+      const { width, height } = dimensions[platform] || dimensions.instagram;
+
+      // Create image prompt with South African context
+      const imagePrompt = `Professional social media photo for ${platform}: ${topic}. South African context, vibrant colors, modern, high quality, photorealistic. Style: ${vibe}`;
+      
+      // Pollinations.ai URL-based API (no authentication needed)
+      const encodedPrompt = encodeURIComponent(imagePrompt);
+      imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${width}&height=${height}&model=flux&nologo=true&seed=${Date.now()}`;
+      
+      console.log('Generated Pollinations image URL for', platform);
+    } catch (imgError: any) {
+      console.error("Image URL generation failed:", imgError?.message || imgError);
+      // Continue without image
+    }
 
     // 4. Save Draft to Database and Deduct Credits
     let postId = "mock-post-id-" + Date.now();
