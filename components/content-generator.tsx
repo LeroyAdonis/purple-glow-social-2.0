@@ -75,12 +75,15 @@ export default function ContentGenerator() {
                 <i className="fa-solid fa-ellipsis text-xs"></i>
             </div>
 
-            {/* Image */}
-            <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden relative">
+            {/* Image - show placeholder gradient when no image */}
+            <div className="aspect-square bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center overflow-hidden relative">
                 {state?.data?.imageUrl ? (
                     <img src={state.data.imageUrl} alt="Generated" className="w-full h-full object-cover" />
                 ) : (
-                    <span className="text-gray-400 text-xs">Image Preview</span>
+                    <div className="text-center text-white/80">
+                        <i className="fa-solid fa-image text-4xl mb-2 opacity-50"></i>
+                        <p className="text-xs font-medium">Add your own image</p>
+                    </div>
                 )}
             </div>
 

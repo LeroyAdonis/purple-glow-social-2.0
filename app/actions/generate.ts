@@ -87,54 +87,12 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
     
     const generatedText = contentResult.content + '\n\n' + contentResult.hashtags.join(' ');
 
-    // 3. Generate Image with Gemini 2.0 Flash Image Generation
+    // 3. Image Generation - DISABLED (Gemini image generation is geo-restricted)
+    // TODO: Re-enable when image generation is available in South Africa
+    // or integrate an alternative service like Unsplash API for stock images
     let imageUrl = null;
 
-    try {
-        const imagePrompt = `Generate a high quality, photorealistic, professional social media image for: ${topic}. Style: ${vibe}. South African context, vibrant colors, modern composition. Make it visually appealing for ${platform}.`;
-        
-        const imageResponse = await ai.models.generateContent({
-            model: 'gemini-2.0-flash-exp-image-generation',
-            contents: imagePrompt,
-            config: {
-                responseModalities: ['Image', 'Text'],
-            }
-        });
-
-        // Extract image from response
-        const parts = imageResponse.candidates?.[0]?.content?.parts || [];
-        for (const part of parts) {
-            if (part.inlineData?.mimeType?.startsWith('image/')) {
-                const imageBase64 = part.inlineData.data;
-                if (imageBase64) {
-                    const imageBuffer = Buffer.from(imageBase64, 'base64');
-                    const filename = `purple-glow/${session.user.id}/${Date.now()}.png`;
-                    
-                    try {
-                        const blob = await put(filename, imageBuffer, {
-                            access: 'public',
-                            contentType: part.inlineData.mimeType || 'image/png',
-                            token: process.env.BLOB_READ_WRITE_TOKEN
-                        });
-                        imageUrl = blob.url;
-                    } catch (blobError) {
-                        console.warn("Blob upload failed, falling back to data URI");
-                        imageUrl = `data:${part.inlineData.mimeType};base64,${imageBase64}`;
-                    }
-                    break;
-                }
-            }
-        }
-        
-        if (!imageUrl) {
-            console.warn("No image found in Gemini response. Response structure:", JSON.stringify(imageResponse, null, 2).substring(0, 500));
-        }
-    } catch (imgError: any) {
-        console.error("Image generation failed:", imgError?.message || imgError);
-        // We continue even if image generation fails, returning just text
-    }
-
-    // 5. Save Draft to Database and Deduct Credits
+    // 4. Save Draft to Database and Deduct Credits
     let postId = "mock-post-id-" + Date.now();
     
     if (isDatabaseConfigured) {
