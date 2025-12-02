@@ -77,13 +77,15 @@ export class GeminiService {
   private buildPrompt(params: GenerateContentParams): string {
     const { topic, platform, language, tone = 'friendly', includeHashtags = true, includeEmojis = true } = params;
 
-    // Platform-specific constraints
-    const platformConstraints = {
-      twitter: 'Keep it under 280 characters.',
-      instagram: 'Write an engaging caption. Can be longer, up to 2200 characters.',
-      facebook: 'Write a compelling post. Can be detailed, up to 500 words.',
-      linkedin: 'Write a professional post. Focus on value and insights, up to 700 words.',
+    // Platform-specific character limits (strict)
+    const platformLimits: Record<string, { limit: number; description: string }> = {
+      twitter: { limit: 280, description: 'STRICTLY under 280 characters total including hashtags' },
+      instagram: { limit: 2200, description: 'STRICTLY under 2000 characters to leave room for hashtags (max 2200 total)' },
+      facebook: { limit: 2000, description: 'Keep it concise, around 1500-2000 characters for best engagement' },
+      linkedin: { limit: 3000, description: 'Professional post under 2500 characters for best engagement' },
     };
+
+    const limitInfo = platformLimits[platform] || platformLimits.instagram;
 
     // Language-specific context with full language names
     const languageContext = this.getLanguageContext(language);
@@ -94,6 +96,11 @@ export class GeminiService {
 
     const prompt = `You are a South African social media content creator for small businesses and entrepreneurs.
 
+**CRITICAL: CHARACTER LIMIT - THIS IS MANDATORY**
+⚠️ ${limitInfo.description}
+⚠️ Character limit for ${platform}: ${limitInfo.limit} characters MAXIMUM
+⚠️ Count your characters carefully. Exceeding this limit will cause the post to fail.
+
 **CRITICAL: LANGUAGE REQUIREMENT**
 You MUST write the entire post in ${languageFullName} (language code: ${language}).
 ${language !== 'en' ? `The main content MUST be written in ${languageFullName}. Only use English for hashtags, brand names, or widely understood words.` : 'Write in South African English with local expressions.'}
@@ -103,17 +110,18 @@ ${language !== 'en' ? `The main content MUST be written in ${languageFullName}. 
 - Topic: ${topic}
 - Language: ${languageFullName} (${languageContext})
 - Tone: ${tone}
+- Character Limit: ${limitInfo.limit} (STRICT - do not exceed)
 - Include hashtags: ${includeHashtags}
 - Include emojis: ${includeEmojis}
 
 **Requirements:**
-1. ${platformConstraints[platform]}
+1. ⚠️ STAY UNDER ${limitInfo.limit} CHARACTERS - This is the most important rule
 2. WRITE THE POST ENTIRELY IN ${languageFullName.toUpperCase()}
 3. Use South African context, culture, and local references
 4. ${languageExamples}
 5. Reference South African locations (Joburg, Cape Town, Durban, Pretoria, etc.)
-6. ${includeHashtags ? 'Include 3-5 relevant hashtags at the end (hashtags can be in English or the target language)' : 'Do not include hashtags'}
-7. ${includeEmojis ? 'Use relevant emojis naturally throughout' : 'Do not use emojis'}
+6. ${includeHashtags ? 'Include 3-5 relevant hashtags at the end (count these in your character limit!)' : 'Do not include hashtags'}
+7. ${includeEmojis ? 'Use relevant emojis naturally (emojis count as characters!)' : 'Do not use emojis'}
 8. Make it authentic and relatable to South African audiences
 9. Focus on the topic: ${topic}
 10. Keep the ${tone} tone throughout
@@ -122,15 +130,15 @@ ${language !== 'en' ? `The main content MUST be written in ${languageFullName}. 
 - Main content in ${languageFullName} (with emojis if requested)
 - Blank line
 - Hashtags on separate lines (if requested)
+- TOTAL must be under ${limitInfo.limit} characters
 
 **Example South African touches:**
 - "Howzit Mzansi!"
 - "Sharp sharp, don't miss out!"
 - "Lekker deals this weekend!"
 - "#LocalIsLekker #MzansiMagic"
-- References to braai, biltong, rugby, etc.
 
-Generate the content in ${languageFullName} now:`;
+Generate CONCISE content under ${limitInfo.limit} characters in ${languageFullName} now:`;
 
     return prompt;
   }

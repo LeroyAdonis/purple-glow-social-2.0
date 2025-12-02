@@ -97,7 +97,7 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
             model: 'gemini-2.0-flash-exp-image-generation',
             contents: imagePrompt,
             config: {
-                responseModalities: ['image', 'text'],
+                responseModalities: ['Image', 'Text'],
             }
         });
 
@@ -108,12 +108,12 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
                 const imageBase64 = part.inlineData.data;
                 if (imageBase64) {
                     const imageBuffer = Buffer.from(imageBase64, 'base64');
-                    const filename = `purple-glow/${session.user.id}/${Date.now()}.jpg`;
+                    const filename = `purple-glow/${session.user.id}/${Date.now()}.png`;
                     
                     try {
                         const blob = await put(filename, imageBuffer, {
                             access: 'public',
-                            contentType: part.inlineData.mimeType || 'image/jpeg',
+                            contentType: part.inlineData.mimeType || 'image/png',
                             token: process.env.BLOB_READ_WRITE_TOKEN
                         });
                         imageUrl = blob.url;
@@ -125,8 +125,12 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
                 }
             }
         }
-    } catch (imgError) {
-        console.error("Image generation failed:", imgError);
+        
+        if (!imageUrl) {
+            console.warn("No image found in Gemini response. Response structure:", JSON.stringify(imageResponse, null, 2).substring(0, 500));
+        }
+    } catch (imgError: any) {
+        console.error("Image generation failed:", imgError?.message || imgError);
         // We continue even if image generation fails, returning just text
     }
 
