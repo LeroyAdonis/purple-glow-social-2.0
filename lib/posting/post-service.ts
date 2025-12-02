@@ -1,12 +1,12 @@
 /**
  * Unified Post Service
  * Orchestrates posting to all social media platforms
+ * Note: LinkedIn removed - requires developer account we can't create
  */
 
 import { FacebookPoster } from './facebook-poster';
 import { InstagramPoster } from './instagram-poster';
 import { TwitterPoster } from './twitter-poster';
-import { LinkedInPoster } from './linkedin-poster';
 import { getConnectedAccount, getDecryptedToken } from '@/lib/db/connected-accounts';
 import { db } from '@/drizzle/db';
 import { posts } from '@/drizzle/schema';
@@ -31,13 +31,11 @@ export class PostService {
   private facebookPoster: FacebookPoster;
   private instagramPoster: InstagramPoster;
   private twitterPoster: TwitterPoster;
-  private linkedinPoster: LinkedInPoster;
 
   constructor() {
     this.facebookPoster = new FacebookPoster();
     this.instagramPoster = new InstagramPoster();
     this.twitterPoster = new TwitterPoster();
-    this.linkedinPoster = new LinkedInPoster();
   }
 
   /**
@@ -45,7 +43,7 @@ export class PostService {
    */
   async postToPlatform(
     userId: string,
-    platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin',
+    platform: 'facebook' | 'instagram' | 'twitter',
     content: PostContent
   ): Promise<PostResult> {
     try {
@@ -89,13 +87,8 @@ export class PostService {
         case 'twitter':
           result = await this.postToTwitter(accessToken, content);
           break;
-        case 'linkedin':
-          result = await this.postToLinkedIn(
-            accessToken,
-            connection.platformUserId,
-            content
-          );
-          break;
+        default:
+          throw new Error(`Unsupported platform: ${platform}`);
       }
 
       return {
@@ -171,34 +164,11 @@ export class PostService {
   }
 
   /**
-   * Post to LinkedIn
-   */
-  private async postToLinkedIn(
-    accessToken: string,
-    personUrn: string,
-    content: PostContent
-  ) {
-    if (content.imageUrl) {
-      return await this.linkedinPoster.postWithImage(accessToken, personUrn, {
-        text: content.content,
-        imageUrl: content.imageUrl,
-      });
-    } else if (content.link) {
-      return await this.linkedinPoster.postWithLink(accessToken, personUrn, {
-        text: content.content,
-        link: content.link,
-      });
-    } else {
-      return await this.linkedinPoster.postText(accessToken, personUrn, content.content);
-    }
-  }
-
-  /**
    * Post to multiple platforms at once
    */
   async postToMultiplePlatforms(
     userId: string,
-    platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin'>,
+    platforms: Array<'facebook' | 'instagram' | 'twitter'>,
     content: PostContent
   ): Promise<PostResult[]> {
     const results = await Promise.all(
@@ -233,10 +203,19 @@ export class PostService {
         videoUrl: post.videoUrl || undefined,
       };
 
+      // Skip LinkedIn posts (not supported)
+      if (post.platform === 'linkedin') {
+        return [{
+          success: false,
+          platform: 'linkedin',
+          error: 'LinkedIn posting not supported',
+        }];
+      }
+
       // Post to platform
       const result = await this.postToPlatform(
         post.userId,
-        post.platform,
+        post.platform as 'facebook' | 'instagram' | 'twitter',
         content
       );
 

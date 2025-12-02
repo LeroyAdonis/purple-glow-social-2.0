@@ -32,7 +32,7 @@ export async function createCreditCheckout(params: CreateCreditCheckoutParams) {
 
   try {
     const checkout = await polarClient.checkouts.create({
-      productId: product.id,
+      products: [product.id],
       successUrl: `${CHECKOUT_URLS.success}?type=credits&packageId=${packageId}`,
       customerEmail: user.email,
       customerName: user.name || undefined,
@@ -69,7 +69,7 @@ export async function createSubscriptionCheckout(params: CreateSubscriptionCheck
 
   try {
     const checkout = await polarClient.checkouts.create({
-      productId: product.id,
+      products: [product.id],
       successUrl: `${CHECKOUT_URLS.success}?type=subscription&planId=${planId}&billingCycle=${billingCycle}`,
       customerEmail: user.email,
       customerName: user.name || undefined,

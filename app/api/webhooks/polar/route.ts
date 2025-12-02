@@ -17,9 +17,11 @@ export const POST = Webhooks({
     console.log('Received Polar webhook:', payload.type);
     
     try {
+      // Generate a unique event ID from type and timestamp
+      const eventId = `${payload.type}-${Date.now()}`;
       await processWebhookEvent(
         payload.type,
-        payload.id || `${payload.type}-${Date.now()}`,
+        eventId,
         payload.data
       );
     } catch (error) {

@@ -71,8 +71,8 @@ export function validateEnv(): Env {
   
   if (!parsed.success) {
     console.error('❌ Invalid environment variables:');
-    for (const error of parsed.error.errors) {
-      console.error(`  - ${error.path.join('.')}: ${error.message}`);
+    for (const issue of parsed.error.issues) {
+      console.error(`  - ${issue.path.join('.')}: ${issue.message}`);
     }
     
     // In production, throw an error

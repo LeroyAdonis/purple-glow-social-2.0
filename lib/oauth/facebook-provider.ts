@@ -25,7 +25,7 @@ export class FacebookProvider implements OAuthProvider {
     const params = new URLSearchParams({
       client_id: this.clientId,
       redirect_uri: this.redirectUri,
-      scope: 'public_profile,email',
+      scope: 'public_profile',
       response_type: 'code',
       state,
     });
@@ -124,32 +124,36 @@ export class FacebookProvider implements OAuthProvider {
       
       const profile = await meResponse.json();
       
-      // Get user's Facebook Pages
-      const pagesResponse = await fetch(
-        `https://graph.facebook.com/v18.0/${profile.id}/accounts?access_token=${accessToken}`
-      );
-      
-      if (!pagesResponse.ok) {
-        throw new OAuthError('Failed to get Facebook pages', 'pages_fetch_failed');
-      }
-      
-      const pagesData = await pagesResponse.json();
-      
-      if (!pagesData.data || pagesData.data.length === 0) {
-        throw new OAuthError(
-          'No Facebook Pages found. You need to have at least one Facebook Page to post content.',
-          'no_facebook_pages',
-          400
+      // Try to get user's Facebook Pages (may fail without pages_show_list permission)
+      try {
+        const pagesResponse = await fetch(
+          `https://graph.facebook.com/v18.0/${profile.id}/accounts?access_token=${accessToken}`
         );
+        
+        if (pagesResponse.ok) {
+          const pagesData = await pagesResponse.json();
+          
+          if (pagesData.data && pagesData.data.length > 0) {
+            // Use the first page as the primary connection
+            const primaryPage = pagesData.data[0];
+            return {
+              id: primaryPage.id,
+              username: primaryPage.name,
+              displayName: primaryPage.name,
+              profileImageUrl: profile.picture?.data?.url,
+            };
+          }
+        }
+      } catch (e) {
+        // Pages permission not available, fall back to user profile
+        console.log('Pages not accessible, using user profile instead');
       }
       
-      // Use the first page as the primary connection
-      const primaryPage = pagesData.data[0];
-      
+      // Fall back to user profile if no pages accessible
       return {
-        id: primaryPage.id,
-        username: primaryPage.name,
-        displayName: primaryPage.name,
+        id: profile.id,
+        username: profile.name,
+        displayName: profile.name,
         profileImageUrl: profile.picture?.data?.url,
       };
     } catch (error) {

@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${syne.variable} ${outfit.variable} ${spaceGrotesk.variable}`}>
       <head>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
       </head>
       <body className="bg-void text-white antialiased font-body min-h-screen selection:bg-neon-grape selection:text-white">
         <QueryProvider>

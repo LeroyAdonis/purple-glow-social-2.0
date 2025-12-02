@@ -6,7 +6,7 @@
 
 import { db } from '../../drizzle/db';
 import { user as userTable } from '../../drizzle/schema';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { createTransaction, updateTransactionStatus, getTransactionByPolarOrderId } from '../db/transactions';
 import { createSubscription, updateSubscription, getSubscriptionByPolarId } from '../db/subscriptions';
 import { createWebhookEvent, markEventProcessed, markEventFailed, webhookEventExists } from '../db/webhook-events';
@@ -125,7 +125,7 @@ async function handleOrderPaid(payload: any) {
     await db
       .update(userTable)
       .set({ 
-        credits: db.$sql`credits + ${transaction.credits}`,
+        credits: sql`${userTable.credits} + ${transaction.credits}`,
         updatedAt: new Date(),
       })
       .where(eq(userTable.id, metadata.userId));
@@ -276,7 +276,7 @@ async function handleOrderRefunded(payload: any) {
     await db
       .update(userTable)
       .set({ 
-        credits: db.$sql`GREATEST(credits - ${transaction.credits}, 0)`,
+        credits: sql`GREATEST(${userTable.credits} - ${transaction.credits}, 0)`,
         updatedAt: new Date(),
       })
       .where(eq(userTable.id, metadata.userId));

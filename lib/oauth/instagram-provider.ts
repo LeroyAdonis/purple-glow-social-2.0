@@ -24,7 +24,7 @@ export class InstagramProvider implements OAuthProvider {
     const params = new URLSearchParams({
       client_id: this.clientId,
       redirect_uri: this.redirectUri,
-      scope: 'public_profile,email',
+      scope: 'public_profile',
       response_type: 'code',
       state,
     });
@@ -114,7 +114,7 @@ export class InstagramProvider implements OAuthProvider {
     try {
       // Get Facebook user ID first
       const meResponse = await fetch(
-        `https://graph.facebook.com/v18.0/me?access_token=${accessToken}`
+        `https://graph.facebook.com/v18.0/me?fields=id,name,picture&access_token=${accessToken}`
       );
       
       if (!meResponse.ok) {
@@ -123,44 +123,46 @@ export class InstagramProvider implements OAuthProvider {
       
       const meData = await meResponse.json();
       
-      // Get Instagram Business Account
-      const igResponse = await fetch(
-        `https://graph.facebook.com/v18.0/${meData.id}/accounts?` +
-        `fields=instagram_business_account&access_token=${accessToken}`
-      );
-      
-      if (!igResponse.ok) {
-        throw new OAuthError('Failed to get Instagram account', 'instagram_account_failed');
-      }
-      
-      const igData = await igResponse.json();
-      const igAccountId = igData.data[0]?.instagram_business_account?.id;
-      
-      if (!igAccountId) {
-        throw new OAuthError(
-          'No Instagram Business Account found. Please convert your account to a Business or Creator account.',
-          'no_instagram_business_account',
-          400
+      // Try to get Instagram Business Account (may fail without proper permissions)
+      try {
+        const igResponse = await fetch(
+          `https://graph.facebook.com/v18.0/${meData.id}/accounts?` +
+          `fields=instagram_business_account&access_token=${accessToken}`
         );
+        
+        if (igResponse.ok) {
+          const igData = await igResponse.json();
+          const igAccountId = igData.data?.[0]?.instagram_business_account?.id;
+          
+          if (igAccountId) {
+            // Get Instagram profile info
+            const profileResponse = await fetch(
+              `https://graph.facebook.com/v18.0/${igAccountId}?` +
+              `fields=id,username,name,profile_picture_url&access_token=${accessToken}`
+            );
+            
+            if (profileResponse.ok) {
+              const profile = await profileResponse.json();
+              return {
+                id: profile.id,
+                username: profile.username,
+                displayName: profile.name || profile.username,
+                profileImageUrl: profile.profile_picture_url,
+              };
+            }
+          }
+        }
+      } catch (e) {
+        // Instagram Business Account not accessible, fall back to Facebook profile
+        console.log('Instagram Business Account not accessible, using Facebook profile');
       }
       
-      // Get Instagram profile info
-      const profileResponse = await fetch(
-        `https://graph.facebook.com/v18.0/${igAccountId}?` +
-        `fields=id,username,name,profile_picture_url&access_token=${accessToken}`
-      );
-      
-      if (!profileResponse.ok) {
-        throw new OAuthError('Failed to get Instagram profile', 'profile_fetch_failed');
-      }
-      
-      const profile = await profileResponse.json();
-      
+      // Fall back to Facebook user profile
       return {
-        id: profile.id,
-        username: profile.username,
-        displayName: profile.name || profile.username,
-        profileImageUrl: profile.profile_picture_url,
+        id: meData.id,
+        username: meData.name,
+        displayName: meData.name,
+        profileImageUrl: meData.picture?.data?.url,
       };
     } catch (error) {
       if (error instanceof OAuthError) throw error;

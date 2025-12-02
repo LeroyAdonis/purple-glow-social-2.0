@@ -81,8 +81,8 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Cancel subscription in Polar
-    await polarClient.subscriptions.cancel({
+    // Cancel subscription in Polar (revoke = immediate cancel)
+    await polarClient.subscriptions.revoke({
       id: subscription.polarSubscriptionId,
     });
 

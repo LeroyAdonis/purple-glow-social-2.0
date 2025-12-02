@@ -39,6 +39,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'admin'>('landing');
   const [userEmail, setUserEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -139,6 +140,7 @@ export default function App() {
   if (currentView === 'dashboard') {
     return (
       <ClientDashboardView
+        userName={userName || 'User'}
         userEmail={userEmail}
         userTier={userTier}
         userCredits={userCredits}

@@ -7,7 +7,7 @@
  */
 
 import dynamic from 'next/dynamic';
-import { ComponentType, ReactNode } from 'react';
+import React, { ComponentType, ReactNode, ReactElement } from 'react';
 
 // Loading fallback component
 function LoadingFallback({ message = 'Loading...' }: { message?: string }) {
@@ -41,7 +41,7 @@ export function lazyLoad<P extends object>(
   }
 ) {
   return dynamic(importFn, {
-    loading: () => (options?.loading as JSX.Element) || <LoadingFallback />,
+    loading: () => (options?.loading as ReactElement) || <LoadingFallback />,
     ssr: options?.ssr ?? true,
   });
 }
@@ -50,7 +50,7 @@ export function lazyLoad<P extends object>(
 
 // Admin Dashboard (heavy with charts)
 export const LazyAdminDashboard = dynamic(
-  () => import('@/components/admin-dashboard-view').then(mod => ({ default: mod.AdminDashboardView })),
+  () => import('@/components/admin-dashboard-view'),
   {
     loading: () => <LoadingFallback message="Loading admin dashboard..." />,
     ssr: false, // Admin dashboard doesn't need SSR
@@ -59,7 +59,7 @@ export const LazyAdminDashboard = dynamic(
 
 // AI Content Studio (heavy with AI features)
 export const LazyAIContentStudio = dynamic(
-  () => import('@/components/ai-content-studio').then(mod => ({ default: mod.AIContentStudio })),
+  () => import('@/components/ai-content-studio'),
   {
     loading: () => <LoadingFallback message="Loading AI studio..." />,
     ssr: false,
@@ -68,7 +68,7 @@ export const LazyAIContentStudio = dynamic(
 
 // Automation View
 export const LazyAutomationView = dynamic(
-  () => import('@/components/automation-view').then(mod => ({ default: mod.AutomationView })),
+  () => import('@/components/automation-view'),
   {
     loading: () => <LoadingFallback message="Loading automation..." />,
     ssr: false,
@@ -77,7 +77,7 @@ export const LazyAutomationView = dynamic(
 
 // Schedule View
 export const LazyScheduleView = dynamic(
-  () => import('@/components/schedule-view').then(mod => ({ default: mod.ScheduleView })),
+  () => import('@/components/schedule-view'),
   {
     loading: () => <LoadingFallback message="Loading schedule..." />,
     ssr: false,
@@ -86,27 +86,27 @@ export const LazyScheduleView = dynamic(
 
 // Settings View
 export const LazySettingsView = dynamic(
-  () => import('@/components/settings-view').then(mod => ({ default: mod.SettingsView })),
+  () => import('@/components/settings-view'),
   {
     loading: () => <LoadingFallback message="Loading settings..." />,
     ssr: false,
   }
 );
 
-// Analytics View
-export const LazyAnalyticsView = dynamic(
-  () => import('@/components/analytics-view').then(mod => ({ default: mod.AnalyticsView })),
-  {
-    loading: () => <LoadingFallback message="Loading analytics..." />,
-    ssr: false,
-  }
-);
+// Analytics View - TODO: Create this component when analytics feature is implemented
+// export const LazyAnalyticsView = dynamic(
+//   () => import('@/components/analytics-view'),
+//   {
+//     loading: () => <LoadingFallback message="Loading analytics..." />,
+//     ssr: false,
+//   }
+// );
 
 // ============ Lazy Loaded Modals ============
 
 // Credit Topup Modal
 export const LazyCreditTopupModal = dynamic(
-  () => import('@/components/modals/credit-topup-modal').then(mod => ({ default: mod.CreditTopupModal })),
+  () => import('@/components/modals/credit-topup-modal'),
   {
     loading: () => null, // Modals don't show loading state
     ssr: false,
@@ -115,7 +115,7 @@ export const LazyCreditTopupModal = dynamic(
 
 // Subscription Modal
 export const LazySubscriptionModal = dynamic(
-  () => import('@/components/modals/subscription-modal').then(mod => ({ default: mod.SubscriptionModal })),
+  () => import('@/components/modals/subscription-modal'),
   {
     loading: () => null,
     ssr: false,
