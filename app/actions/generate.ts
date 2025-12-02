@@ -9,7 +9,7 @@ import { neon } from "@neondatabase/serverless";
 import { posts, user } from "../../drizzle/schema";
 import * as schema from "../../drizzle/schema";
 import { GeminiService } from "../../lib/ai/gemini-service";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 // Only initialize database if DATABASE_URL is a real connection string
 const isDatabaseConfigured = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('mock');
@@ -150,7 +150,7 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
         await db
           .update(user)
           .set({
-            credits: db.raw('credits - 1'),
+            credits: sql`${user.credits} - 1`,
             updatedAt: new Date(),
           })
           .where(eq(user.id, session.user.id));
