@@ -26,6 +26,7 @@ out/
 !.env.production.example
 !.env.example
 .vscode
+.github
 
 # MCP
 mcp.json
