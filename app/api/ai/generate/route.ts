@@ -4,10 +4,18 @@ import { GeminiService } from '@/lib/ai/gemini-service';
 import { db } from '@/drizzle/db';
 import { user } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
+import { canGenerate } from '@/lib/tiers/validation';
+import { getTierLimits } from '@/lib/tiers/config';
+import { logGeneration, getDailyGenerations } from '@/lib/db/generation-logs';
+import { incrementGenerations, checkGenerationLimit } from '@/lib/db/daily-usage';
+import type { TierName } from '@/lib/tiers/types';
 
 /**
  * API endpoint to generate AI content
  * POST /api/ai/generate
+ * 
+ * Credits are NOT deducted for generation - only for publishing.
+ * Generation is limited by daily tier limits.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -23,7 +31,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check user credits
+    // Get user info
     const userRecord = await db.query.user.findFirst({
       where: eq(user.id, session.user.id),
     });
@@ -35,10 +43,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (userRecord.credits <= 0) {
+    // Check tier-based daily generation limit
+    const userTier = (userRecord.tier || 'free') as TierName;
+    const tierLimits = getTierLimits(userTier);
+    const todayGenerations = await getDailyGenerations(session.user.id);
+    
+    const generationCheck = canGenerate(userTier, todayGenerations);
+    if (!generationCheck.allowed) {
       return NextResponse.json(
-        { error: 'Insufficient credits. Please top up to continue.' },
-        { status: 403 }
+        { 
+          error: generationCheck.message,
+          limit: generationCheck.limit,
+          current: generationCheck.current,
+          remaining: 0,
+        },
+        { status: 429 } // Too Many Requests
       );
     }
 
@@ -73,43 +92,68 @@ export async function POST(request: NextRequest) {
     const geminiService = new GeminiService();
     
     let results;
-    if (variations > 1) {
-      results = await geminiService.generateVariations(
-        {
+    let generationSuccess = true;
+    let errorMessage: string | undefined;
+
+    try {
+      if (variations > 1) {
+        results = await geminiService.generateVariations(
+          {
+            topic,
+            platform,
+            language,
+            tone,
+            includeHashtags,
+            includeEmojis,
+          },
+          Math.min(variations, 3) // Max 3 variations
+        );
+      } else {
+        const result = await geminiService.generateContent({
           topic,
           platform,
           language,
           tone,
           includeHashtags,
           includeEmojis,
-        },
-        Math.min(variations, 3) // Max 3 variations
-      );
-    } else {
-      const result = await geminiService.generateContent({
+        });
+        results = [result];
+      }
+    } catch (genError: any) {
+      generationSuccess = false;
+      errorMessage = genError.message || 'AI generation failed';
+      throw genError;
+    } finally {
+      // Log generation to generationLogs table (regardless of success)
+      await logGeneration({
+        userId: session.user.id,
+        platform: platform as 'facebook' | 'instagram' | 'twitter' | 'linkedin',
         topic,
-        platform,
-        language,
         tone,
-        includeHashtags,
-        includeEmojis,
+        language,
+        success: generationSuccess,
+        errorMessage,
       });
-      results = [result];
+
+      // Increment daily usage counter (even for failed attempts to prevent abuse)
+      if (generationSuccess) {
+        await incrementGenerations(session.user.id);
+      }
     }
 
-    // Deduct credits (1 credit per generation, regardless of variations)
-    await db
-      .update(user)
-      .set({
-        credits: userRecord.credits - 1,
-        updatedAt: new Date(),
-      })
-      .where(eq(user.id, session.user.id));
+    // Calculate remaining generations for today
+    const updatedGenerations = todayGenerations + 1;
+    const remainingGenerations = Math.max(0, tierLimits.dailyGenerations - updatedGenerations);
 
     return NextResponse.json({
       success: true,
       results,
-      creditsRemaining: userRecord.credits - 1,
+      credits: userRecord.credits, // Credits unchanged (not deducted for generation)
+      dailyGenerations: {
+        used: updatedGenerations,
+        limit: tierLimits.dailyGenerations,
+        remaining: remainingGenerations,
+      },
     });
   } catch (error: any) {
     console.error('AI generation error:', error);

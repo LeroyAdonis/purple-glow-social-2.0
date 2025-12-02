@@ -161,6 +161,13 @@ export async function getPostsInRange(
 }
 
 /**
+ * Count scheduled posts for a user (for queue size validation)
+ */
+export async function countScheduledPosts(userId: string): Promise<number> {
+  return await countUserPosts(userId, 'scheduled');
+}
+
+/**
  * Get post statistics for a user
  */
 export async function getPostStats(userId: string): Promise<{

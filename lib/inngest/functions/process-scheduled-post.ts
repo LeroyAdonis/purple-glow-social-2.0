@@ -1,7 +1,8 @@
 /**
  * Inngest Function: Process Scheduled Post
  * 
- * Handles publishing a single scheduled post with retry logic
+ * Handles publishing a single scheduled post with retry logic.
+ * Credits are consumed on success, released on final failure.
  */
 
 import { inngest } from '../client';
@@ -22,9 +23,38 @@ export const processScheduledPost = inngest.createFunction(
     id: 'process-scheduled-post',
     name: 'Process Scheduled Post',
     retries: MAX_RETRIES,
+    onFailure: async ({ event, error }) => {
+      // This runs after all retries are exhausted
+      const { postId, userId, platform } = event.data.event.data;
+      const errorMessage = error?.message || 'Unknown error';
+
+      console.log(`[process-scheduled-post] Final failure for post ${postId}: ${errorMessage}`);
+
+      try {
+        // Release the credit reservation since post permanently failed
+        await releaseReservationByPostId(postId);
+
+        // Update post status to failed
+        await db
+          .update(posts)
+          .set({
+            status: 'failed',
+            errorMessage: `Failed after ${MAX_RETRIES} retries: ${errorMessage}`,
+            updatedAt: new Date(),
+          })
+          .where(eq(posts.id, postId));
+
+        // Notify user about the failure
+        await notifyPostFailed(userId, postId, platform, errorMessage);
+
+        console.log(`[process-scheduled-post] Credits released and user notified for post ${postId}`);
+      } catch (cleanupError) {
+        console.error(`[process-scheduled-post] Cleanup failed for post ${postId}:`, cleanupError);
+      }
+    },
   },
   { event: 'post/scheduled.process' },
-  async ({ event, step }) => {
+  async ({ event, step, attempt }) => {
     const { postId, userId, platform } = event.data;
 
     // Log job start
@@ -33,7 +63,7 @@ export const processScheduledPost = inngest.createFunction(
         inngestEventId: event.id,
         functionName: 'process-scheduled-post',
         status: 'running',
-        payload: { postId, userId, platform },
+        payload: { postId, userId, platform, attempt },
       });
     });
 
@@ -79,7 +109,7 @@ export const processScheduledPost = inngest.createFunction(
         return { hasCredits: false, source: null, reservationId: null };
       });
 
-      // Step 3: Handle no credits
+      // Step 3: Handle no credits (skip without retrying)
       if (!creditCheck.hasCredits) {
         await step.run('handle-no-credits', async () => {
           // Update post status to failed
@@ -102,6 +132,7 @@ export const processScheduledPost = inngest.createFunction(
           });
         });
 
+        // Return without throwing - no retry needed
         return { status: 'skipped', reason: 'no_credits' };
       }
 
@@ -115,11 +146,11 @@ export const processScheduledPost = inngest.createFunction(
       // Step 5: Handle result
       if (postResult.success) {
         await step.run('handle-success', async () => {
-          // Consume credit reservation
+          // Consume credit reservation (mark as used)
           if (creditCheck.source === 'reservation') {
             await consumeReservationByPostId(postId);
           } else {
-            // Direct deduction
+            // Direct deduction (fallback)
             await deductCredits(userId, 1);
           }
 
@@ -148,37 +179,13 @@ export const processScheduledPost = inngest.createFunction(
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
 
-      // Check if we've exhausted retries (Inngest handles retry count internally)
-      const isLastRetry = false; // Let Inngest handle this
-
-      if (isLastRetry) {
-        // Final failure - release credits and notify
-        await step.run('handle-final-failure', async () => {
-          await releaseReservationByPostId(postId);
-
-          await db
-            .update(posts)
-            .set({
-              status: 'failed',
-              errorMessage: `Failed after ${MAX_RETRIES} attempts: ${errorMessage}`,
-              updatedAt: new Date(),
-            })
-            .where(eq(posts.id, postId));
-
-          await notifyPostFailed(userId, postId, platform, errorMessage);
-          await updateJobStatus(jobLog.id, 'failed', { errorMessage });
-        });
-
-        return { status: 'failed', error: errorMessage };
-      }
-
       // Update job log with retry info
       await updateJobStatus(jobLog.id, 'pending', {
         errorMessage,
         incrementRetry: true,
       });
 
-      // Throw to trigger retry
+      // Throw to trigger retry (onFailure handles final cleanup)
       throw error;
     }
   }

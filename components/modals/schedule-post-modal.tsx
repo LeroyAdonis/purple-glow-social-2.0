@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CustomSelect from '../custom-select';
 
 interface SchedulePostModalProps {
@@ -9,6 +9,8 @@ interface SchedulePostModalProps {
   postId?: string;
   postContent?: string;
   platform?: string;
+  platforms?: string[]; // Support multiple platforms
+  availableCredits?: number;
   onScheduleSuccess?: () => void;
 }
 
@@ -27,6 +29,8 @@ export default function SchedulePostModal({
   postId,
   postContent = '',
   platform = 'All Platforms',
+  platforms = [],
+  availableCredits,
   onScheduleSuccess
 }: SchedulePostModalProps) {
   const [selectedDate, setSelectedDate] = useState('');
@@ -37,6 +41,16 @@ export default function SchedulePostModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [scheduleResult, setScheduleResult] = useState<{
+    creditsReserved?: number;
+    creditsAvailable?: number;
+    queuePosition?: number;
+    queueLimit?: number;
+  } | null>(null);
+
+  // Calculate credit cost (1 credit per platform)
+  const creditCost = platforms.length > 0 ? platforms.length : 1;
+  const hasEnoughCredits = availableCredits === undefined || availableCredits >= creditCost;
 
   if (!isOpen) return null;
 
@@ -48,6 +62,11 @@ export default function SchedulePostModal({
 
     if (!postId) {
       setError('No post to schedule. Please generate content first.');
+      return;
+    }
+
+    if (!hasEnoughCredits) {
+      setError(`Insufficient credits. You need ${creditCost} credit(s) but only have ${availableCredits}.`);
       return;
     }
 
@@ -75,6 +94,14 @@ export default function SchedulePostModal({
       if (!response.ok) {
         throw new Error(data.error || 'Failed to schedule post');
       }
+
+      // Capture credit and queue info from response
+      setScheduleResult({
+        creditsReserved: data.creditsReserved,
+        creditsAvailable: data.creditsAvailable,
+        queuePosition: data.queuePosition,
+        queueLimit: data.queueLimit,
+      });
 
       setSuccess(true);
       onScheduleSuccess?.();
@@ -290,13 +317,43 @@ export default function SchedulePostModal({
             )}
           </div>
 
+          {/* Credit Cost Display */}
+          <div className={`rounded-xl p-4 flex items-center gap-3 ${
+            hasEnoughCredits 
+              ? 'bg-neon-grape/10 border border-neon-grape/30' 
+              : 'bg-red-500/10 border border-red-500/30'
+          }`}>
+            <i className={`fa-solid fa-coins text-xl ${hasEnoughCredits ? 'text-neon-grape' : 'text-red-400'}`}></i>
+            <div className="flex-1">
+              <p className="text-sm font-medium text-white font-body">
+                Credit Cost: <span className="font-mono">{creditCost}</span> credit{creditCost !== 1 ? 's' : ''}
+              </p>
+              {availableCredits !== undefined && (
+                <p className={`text-xs font-mono ${hasEnoughCredits ? 'text-gray-400' : 'text-red-400'}`}>
+                  Available: {availableCredits} credit{availableCredits !== 1 ? 's' : ''}
+                  {!hasEnoughCredits && ' (insufficient)'}
+                </p>
+              )}
+            </div>
+            {platforms.length > 1 && (
+              <div className="text-xs text-gray-400 font-mono">
+                {platforms.length} platform{platforms.length !== 1 ? 's' : ''}
+              </div>
+            )}
+          </div>
+
           {/* Queue Position Indicator */}
           {selectedDate && selectedTime && (
             <div className="bg-joburg-teal/10 border border-joburg-teal/30 rounded-xl p-4 flex items-center gap-3">
               <i className="fa-solid fa-info-circle text-joburg-teal text-xl"></i>
               <div>
-                <p className="text-sm font-medium text-white font-body">Queue Position: #3</p>
-                <p className="text-xs text-gray-400 font-mono">2 posts scheduled before this time</p>
+                <p className="text-sm font-medium text-white font-body">Queue Position: #{scheduleResult?.queuePosition || '...'}</p>
+                <p className="text-xs text-gray-400 font-mono">
+                  {scheduleResult?.queueLimit 
+                    ? `${scheduleResult.queuePosition || 0}/${scheduleResult.queueLimit} slots used`
+                    : 'Calculating queue position...'
+                  }
+                </p>
               </div>
             </div>
           )}
@@ -323,6 +380,11 @@ export default function SchedulePostModal({
             <div className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 text-sm flex items-center gap-2">
               <i className="fa-solid fa-check-circle"></i>
               Post scheduled successfully! 🎉
+              {scheduleResult && (
+                <span className="ml-2 text-xs font-mono">
+                  ({scheduleResult.creditsReserved} credit{scheduleResult.creditsReserved !== 1 ? 's' : ''} reserved)
+                </span>
+              )}
             </div>
           )}
 
@@ -336,7 +398,7 @@ export default function SchedulePostModal({
             </button>
             <button
               onClick={handleSchedule}
-              disabled={!selectedDate || !selectedTime || isSubmitting || success}
+              disabled={!selectedDate || !selectedTime || isSubmitting || success || !hasEnoughCredits}
               className="px-6 py-3 rounded-xl bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-medium font-body hover:shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer flex items-center gap-2"
             >
               {isSubmitting ? (
