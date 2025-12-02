@@ -188,32 +188,47 @@
 
 ---
 
-## Phase 5: Notifications & Warnings
+## Phase 5: Notifications & Warnings ✅ COMPLETE
 **Estimated Duration:** 1-2 days
+**Completed:** 2025-12-02
 
 ### 5.1 Credit Warnings
-- [ ] Create low credit warning component
+- [x] Create low credit warning component
   - File: `components/credit-warning-banner.tsx`
   - Logic: Show when credits < 20% of tier allocation
-- [ ] Integrate banner into dashboard layout
-  - File: `app/dashboard/layout.tsx` or `components/client-dashboard-view.tsx`
-- [ ] Create credit expiry warning
+- [x] Integrate banner into dashboard layout
+  - File: `components/client-dashboard-view.tsx`
+- [x] Create credit expiry warning
   - File: `components/credit-expiry-warning.tsx`
 
 ### 5.2 User Notifications System
-- [ ] Create notifications dropdown component
+- [x] Create notifications dropdown component
   - File: `components/notifications-dropdown.tsx`
-- [ ] Add notifications icon to header
-  - File: `components/navigation/header.tsx` or similar
-- [ ] Create notification types: `low_credits`, `credits_expiring`, `post_skipped`, `post_failed`, `tier_limit_reached`
-- [ ] Implement notification polling or real-time updates
+- [x] Add notifications icon to header
+  - File: `components/client-dashboard-view.tsx` (integrated into dashboard header)
+- [x] Create notification types: `low_credits`, `credits_expiring`, `post_skipped`, `post_failed`, `tier_limit_reached`
+  - Already defined in: `drizzle/schema.ts` (notificationTypeEnum)
+- [x] Implement notification polling or real-time updates
   - File: `lib/hooks/use-notifications.ts`
+  - Features: 30-second polling, optimistic updates, mark as read, dismiss
 
 ### 5.3 Scheduled Post Notifications
-- [ ] Notify when post skipped due to zero credits
+- [x] Notify when post skipped due to zero credits
   - File: `lib/inngest/functions/process-scheduled-post.ts`
-- [ ] Notify when post failed after retries
+  - Already implemented: calls `notifyPostSkipped()` when credits unavailable
+- [x] Notify when post failed after retries
   - File: `lib/inngest/functions/process-scheduled-post.ts`
+  - Already implemented: `onFailure` handler calls `notifyPostFailed()`
+
+### 5.4 API Endpoints (Added)
+- [x] Create notifications list endpoint
+  - File: `app/api/notifications/route.ts`
+- [x] Create mark as read endpoint
+  - File: `app/api/notifications/read/route.ts`
+- [x] Create mark all as read endpoint
+  - File: `app/api/notifications/read-all/route.ts`
+- [x] Create dismiss notification endpoint
+  - File: `app/api/notifications/dismiss/route.ts`
 
 ---
 
@@ -440,13 +455,13 @@
 | 2 | Inngest Integration | 2-3 days | ✅ COMPLETE |
 | 3 | Credit System Refactor | 1-2 days | ✅ COMPLETE |
 | 4 | Tier Enforcement | 2 days | ✅ COMPLETE |
-| 5 | Notifications & Warnings | 1-2 days | 🔲 Pending |
+| 5 | Notifications & Warnings | 1-2 days | ✅ COMPLETE |
 | 6 | Admin Dashboard Enhancements | 2-3 days | 🔲 Pending |
 | 7 | Test Accounts & Testing | 1 day | 🔲 Pending |
 | 8 | UI Updates & Polish | 1-2 days | 🔲 Pending |
 | 9 | Final Integration & Review | 1 day | 🔲 Pending |
 | 10 | CI/CD & Testing Infrastructure | 1 day | ✅ COMPLETE |
-| **Total** | | **13-19 days** | 5/10 Complete |
+| **Total** | | **13-19 days** | 6/10 Complete |
 
 ---
 
@@ -491,16 +506,20 @@ Phase 9 (Integration) <──────── Phase 10 (CI/CD) ✅
 - `lib/inngest/functions/reset-monthly-credits.ts`
 - `lib/inngest/functions/check-low-credits.ts`
 - `lib/inngest/functions/index.ts`
-- `lib/hooks/use-notifications.ts`
+- `lib/hooks/use-notifications.ts` ✅
 - `app/api/inngest/route.ts`
 - `app/api/limits/check/route.ts`
+- `app/api/notifications/route.ts` ✅
+- `app/api/notifications/read/route.ts` ✅
+- `app/api/notifications/read-all/route.ts` ✅
+- `app/api/notifications/dismiss/route.ts` ✅
 - `app/api/admin/analytics/route.ts`
 - `app/api/admin/jobs/route.ts`
 - `app/api/admin/jobs/retry/route.ts`
 - `app/api/admin/errors/route.ts`
-- `components/credit-warning-banner.tsx`
-- `components/credit-expiry-warning.tsx`
-- `components/notifications-dropdown.tsx`
+- `components/credit-warning-banner.tsx` ✅
+- `components/credit-expiry-warning.tsx` ✅
+- `components/notifications-dropdown.tsx` ✅
 - `components/admin/credits-analytics.tsx`
 - `components/admin/generation-stats.tsx`
 - `components/admin/publishing-stats.tsx`

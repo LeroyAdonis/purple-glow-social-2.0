@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import SettingsView from './settings-view';
 import ScheduleView from './schedule-view';
@@ -10,6 +12,8 @@ import PaymentSuccessModal from './modals/payment-success-modal';
 import LanguageSelector from './language-selector';
 import ContentGenerator from './content-generator';
 import LogoutButton from './LogoutButton';
+import NotificationsDropdown from './notifications-dropdown';
+import CreditWarningBanner from './credit-warning-banner';
 import { useLanguage } from '../lib/context/LanguageContext';
 
 interface ClientDashboardViewProps {
@@ -146,6 +150,7 @@ export default function ClientDashboardView({
                             <p className="text-gray-400">{translate('dashboard.status')}: <span className="text-joburg-teal">{translate('dashboard.optimal')}</span></p>
                         </div>
                         <div className="flex items-center gap-4">
+                            <NotificationsDropdown />
                             <LanguageSelector
                                 variant="compact"
                             />
@@ -158,6 +163,13 @@ export default function ClientDashboardView({
                             </button>
                         </div>
                     </header>
+
+                    {/* Credit Warning Banner */}
+                    <CreditWarningBanner
+                        credits={mockUser.credits}
+                        tier={mockUser.tier}
+                        onUpgrade={() => setShowSubscriptionModal(true)}
+                    />
 
                     {/* Render different views based on active tab */}
                     {activeTab === 'dashboard' && (
