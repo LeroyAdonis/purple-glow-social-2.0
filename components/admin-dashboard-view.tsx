@@ -2,6 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import CustomSelect from './custom-select';
+import CreditsAnalytics from './admin/credits-analytics';
+import GenerationStats from './admin/generation-stats';
+import PublishingStats from './admin/publishing-stats';
+import TierDistribution from './admin/tier-distribution';
+import JobMonitor from './admin/job-monitor';
+import JobDetailModal from './admin/job-detail-modal';
+import GenerationErrors from './admin/generation-errors';
+import PublishingErrors from './admin/publishing-errors';
+import AutomationOverview from './admin/automation-overview';
 
 interface AdminUser {
   id: string;
@@ -25,12 +34,25 @@ interface AdminTransaction {
   description: string;
 }
 
+interface Job {
+  id: string;
+  inngestEventId: string | null;
+  functionName: string;
+  status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+  payload: Record<string, unknown> | null;
+  result: Record<string, unknown> | null;
+  errorMessage: string | null;
+  retryCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface AdminDashboardViewProps {
   onBackToLanding?: () => void;
 }
 
 export default function AdminDashboardView({ onBackToLanding }: AdminDashboardViewProps = {}) {
-  const [activeTab, setActiveTab] = useState<'users' | 'revenue' | 'transactions'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'revenue' | 'transactions' | 'analytics' | 'jobs' | 'errors' | 'automation'>('users');
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [transactions, setTransactions] = useState<AdminTransaction[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -54,6 +76,21 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
     totalUsers: 0,
   });
   const [tierDist, setTierDist] = useState({ free: 0, pro: 0, business: 0 });
+
+  // Analytics state
+  const [analyticsData, setAnalyticsData] = useState<any>(null);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
+  
+  // Jobs state
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [jobStats, setJobStats] = useState({ total: 0, pending: 0, running: 0, completed: 0, failed: 0, cancelled: 0, averageRetries: 0 });
+  const [jobsLoading, setJobsLoading] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  
+  // Errors state
+  const [generationErrors, setGenerationErrors] = useState<any[]>([]);
+  const [publishingErrors, setPublishingErrors] = useState<any[]>([]);
+  const [errorsLoading, setErrorsLoading] = useState(false);
 
   // Fetch data from API
   useEffect(() => {
@@ -96,6 +133,81 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
 
     fetchData();
   }, []);
+
+  // Fetch analytics data when tab changes
+  useEffect(() => {
+    if (activeTab === 'analytics' && !analyticsData) {
+      fetchAnalytics();
+    }
+    if (activeTab === 'jobs') {
+      fetchJobs();
+    }
+    if (activeTab === 'errors') {
+      fetchErrors();
+    }
+  }, [activeTab]);
+
+  const fetchAnalytics = async () => {
+    setAnalyticsLoading(true);
+    try {
+      const res = await fetch('/api/admin/analytics');
+      if (res.ok) {
+        const data = await res.json();
+        setAnalyticsData(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch analytics:', err);
+    } finally {
+      setAnalyticsLoading(false);
+    }
+  };
+
+  const fetchJobs = async () => {
+    setJobsLoading(true);
+    try {
+      const res = await fetch('/api/admin/jobs');
+      if (res.ok) {
+        const data = await res.json();
+        setJobs(data.jobs || []);
+        setJobStats(data.stats || { total: 0, pending: 0, running: 0, completed: 0, failed: 0, cancelled: 0, averageRetries: 0 });
+      }
+    } catch (err) {
+      console.error('Failed to fetch jobs:', err);
+    } finally {
+      setJobsLoading(false);
+    }
+  };
+
+  const fetchErrors = async () => {
+    setErrorsLoading(true);
+    try {
+      const res = await fetch('/api/admin/errors');
+      if (res.ok) {
+        const data = await res.json();
+        setGenerationErrors(data.generationErrors || []);
+        setPublishingErrors(data.publishingErrors || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch errors:', err);
+    } finally {
+      setErrorsLoading(false);
+    }
+  };
+
+  const handleJobRetry = async (jobId: string) => {
+    try {
+      const res = await fetch('/api/admin/jobs/retry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jobId }),
+      });
+      if (res.ok) {
+        fetchJobs(); // Refresh jobs list
+      }
+    } catch (err) {
+      console.error('Failed to retry job:', err);
+    }
+  };
 
   // Filter users based on search and tier
   const filteredUsers = users.filter(user => {
@@ -242,6 +354,50 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
               }`}
           >
             <i className="fa-solid fa-receipt"></i> Transactions
+          </button>
+          
+          <div className="h-px bg-glass-border my-2"></div>
+          
+          <button
+            onClick={() => setActiveTab('analytics')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'analytics'
+                ? 'bg-white/5 border border-glass-border text-white'
+                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+          >
+            <i className="fa-solid fa-chart-pie"></i> Analytics
+          </button>
+          <button
+            onClick={() => setActiveTab('jobs')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'jobs'
+                ? 'bg-white/5 border border-glass-border text-white'
+                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+          >
+            <i className="fa-solid fa-gears"></i> Job Monitor
+            {jobStats.failed > 0 && (
+              <span className="ml-auto px-1.5 py-0.5 rounded-full bg-red-500 text-white text-xs">
+                {jobStats.failed}
+              </span>
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab('errors')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'errors'
+                ? 'bg-white/5 border border-glass-border text-white'
+                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+          >
+            <i className="fa-solid fa-triangle-exclamation"></i> Errors
+          </button>
+          <button
+            onClick={() => setActiveTab('automation')}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'automation'
+                ? 'bg-white/5 border border-glass-border text-white'
+                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+          >
+            <i className="fa-solid fa-robot"></i> Automation
           </button>
         </nav>
 
@@ -641,6 +797,137 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
             </div>
           )}
 
+          {/* Analytics Tab */}
+          {activeTab === 'analytics' && (
+            <div className="space-y-8 animate-enter">
+              <div className="flex items-center justify-between">
+                <h3 className="font-display font-bold text-2xl">Platform Analytics</h3>
+                <button
+                  onClick={fetchAnalytics}
+                  className="px-4 py-2 rounded-xl bg-white/5 border border-glass-border hover:bg-white/10 transition-colors flex items-center gap-2"
+                >
+                  <i className="fa-solid fa-refresh"></i> Refresh
+                </button>
+              </div>
+
+              {/* Sub-tabs for analytics */}
+              <div className="flex gap-2 border-b border-glass-border pb-4">
+                <button className="px-4 py-2 rounded-lg bg-neon-grape text-white font-medium">
+                  Credits
+                </button>
+                <button className="px-4 py-2 rounded-lg bg-white/5 text-gray-400 hover:text-white">
+                  Generation
+                </button>
+                <button className="px-4 py-2 rounded-lg bg-white/5 text-gray-400 hover:text-white">
+                  Publishing
+                </button>
+                <button className="px-4 py-2 rounded-lg bg-white/5 text-gray-400 hover:text-white">
+                  Tiers
+                </button>
+              </div>
+
+              {analyticsData?.credits && (
+                <CreditsAnalytics data={analyticsData.credits} isLoading={analyticsLoading} />
+              )}
+              
+              {analyticsData?.generation && (
+                <GenerationStats 
+                  data={{
+                    ...analyticsData.generation,
+                    topTopics: [],
+                    errorsByType: {},
+                  }} 
+                  isLoading={analyticsLoading} 
+                />
+              )}
+              
+              {analyticsData?.publishing && (
+                <PublishingStats data={analyticsData.publishing} isLoading={analyticsLoading} />
+              )}
+              
+              {analyticsData?.tiers && (
+                <TierDistribution data={analyticsData.tiers} isLoading={analyticsLoading} />
+              )}
+            </div>
+          )}
+
+          {/* Jobs Tab */}
+          {activeTab === 'jobs' && (
+            <div className="space-y-6 animate-enter">
+              <div className="flex items-center justify-between">
+                <h3 className="font-display font-bold text-2xl">Job Monitor</h3>
+                <button
+                  onClick={fetchJobs}
+                  className="px-4 py-2 rounded-xl bg-white/5 border border-glass-border hover:bg-white/10 transition-colors flex items-center gap-2"
+                >
+                  <i className="fa-solid fa-refresh"></i> Refresh
+                </button>
+              </div>
+
+              <JobMonitor
+                jobs={jobs}
+                stats={jobStats}
+                onRetry={handleJobRetry}
+                onViewDetails={(job) => setSelectedJob(job)}
+                isLoading={jobsLoading}
+              />
+            </div>
+          )}
+
+          {/* Errors Tab */}
+          {activeTab === 'errors' && (
+            <div className="space-y-8 animate-enter">
+              <div className="flex items-center justify-between">
+                <h3 className="font-display font-bold text-2xl">Error Tracking</h3>
+                <button
+                  onClick={fetchErrors}
+                  className="px-4 py-2 rounded-xl bg-white/5 border border-glass-border hover:bg-white/10 transition-colors flex items-center gap-2"
+                >
+                  <i className="fa-solid fa-refresh"></i> Refresh
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                <h4 className="font-display font-bold text-xl text-red-400">
+                  <i className="fa-solid fa-wand-magic-sparkles mr-2"></i>
+                  AI Generation Errors
+                </h4>
+                <GenerationErrors
+                  errors={generationErrors}
+                  isLoading={errorsLoading}
+                  onRefresh={fetchErrors}
+                />
+              </div>
+
+              <div className="space-y-6">
+                <h4 className="font-display font-bold text-xl text-red-400">
+                  <i className="fa-solid fa-paper-plane mr-2"></i>
+                  Publishing Errors
+                </h4>
+                <PublishingErrors
+                  errors={publishingErrors}
+                  isLoading={errorsLoading}
+                  onRefresh={fetchErrors}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Automation Tab */}
+          {activeTab === 'automation' && (
+            <div className="space-y-6 animate-enter">
+              <div className="flex items-center justify-between">
+                <h3 className="font-display font-bold text-2xl">Automation Overview</h3>
+              </div>
+
+              <AutomationOverview
+                rules={analyticsData?.automation?.rules || []}
+                stats={analyticsData?.automation?.stats || { totalRules: 0, activeRules: 0, totalCreditsConsumed: 0, totalPostsGenerated: 0 }}
+                isLoading={analyticsLoading}
+              />
+            </div>
+          )}
+
         </div>
       </main>
 
@@ -685,6 +972,18 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
             </div>
           </div>
         </div>
+      )}
+
+      {/* Job Detail Modal */}
+      {selectedJob && (
+        <JobDetailModal
+          job={selectedJob}
+          onClose={() => setSelectedJob(null)}
+          onRetry={async () => {
+            await handleJobRetry(selectedJob.id);
+            setSelectedJob(null);
+          }}
+        />
       )}
     </div>
   );
