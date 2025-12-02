@@ -6,8 +6,10 @@ import CustomSelect from '../custom-select';
 interface SchedulePostModalProps {
   isOpen: boolean;
   onClose: () => void;
+  postId?: string;
   postContent?: string;
   platform?: string;
+  onScheduleSuccess?: () => void;
 }
 
 type RecurrenceType = 'none' | 'daily' | 'weekly' | 'monthly' | 'custom';
@@ -22,26 +24,71 @@ const bestTimes = [
 export default function SchedulePostModal({
   isOpen,
   onClose,
+  postId,
   postContent = '',
-  platform = 'All Platforms'
+  platform = 'All Platforms',
+  onScheduleSuccess
 }: SchedulePostModalProps) {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [timezone] = useState('SAST (UTC+2)');
   const [recurrence, setRecurrence] = useState<RecurrenceType>('none');
   const [customDays, setCustomDays] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSchedule = () => {
+  const handleSchedule = async () => {
     if (!selectedDate || !selectedTime) {
-      alert('Please select both date and time');
+      setError('Please select both date and time');
       return;
     }
 
-    const scheduledDateTime = `${selectedDate} ${selectedTime}`;
-    alert(`Post scheduled for ${scheduledDateTime} ${timezone}\n${recurrence !== 'none' ? `Recurrence: ${recurrence}` : ''}`);
-    onClose();
+    if (!postId) {
+      setError('No post to schedule. Please generate content first.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      // Create ISO datetime string (SAST is UTC+2)
+      const scheduledDateTime = new Date(`${selectedDate}T${selectedTime}:00+02:00`).toISOString();
+
+      const response = await fetch('/api/posts/schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          postId,
+          scheduledDate: scheduledDateTime,
+          recurrence: recurrence !== 'none' ? recurrence : undefined,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to schedule post');
+      }
+
+      setSuccess(true);
+      onScheduleSuccess?.();
+      
+      // Close modal after showing success
+      setTimeout(() => {
+        onClose();
+        setSuccess(false);
+      }, 2000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to schedule post');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleBestTimeSelect = (time: string) => {
@@ -264,21 +311,52 @@ export default function SchedulePostModal({
         </div>
 
         {/* Footer Actions */}
-        <div className="sticky bottom-0 bg-void/95 backdrop-blur-sm px-6 py-4 rounded-b-2xl border-t border-glass-border flex items-center justify-between z-10">
-          <button
-            onClick={onClose}
-            className="px-6 py-3 rounded-xl border border-glass-border text-gray-300 font-medium font-body hover:bg-white/10 hover:border-neon-grape/50 transition-all cursor-pointer"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSchedule}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-medium font-body hover:shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer"
-            disabled={!selectedDate || !selectedTime}
-          >
-            <i className="fa-regular fa-calendar-check mr-2"></i>
-            Schedule Post
-          </button>
+        <div className="sticky bottom-0 bg-void/95 backdrop-blur-sm px-6 py-4 rounded-b-2xl border-t border-glass-border z-10">
+          {error && (
+            <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm flex items-center gap-2">
+              <i className="fa-solid fa-exclamation-circle"></i>
+              {error}
+            </div>
+          )}
+          
+          {success && (
+            <div className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 text-sm flex items-center gap-2">
+              <i className="fa-solid fa-check-circle"></i>
+              Post scheduled successfully! 🎉
+            </div>
+          )}
+
+          <div className="flex items-center justify-between">
+            <button
+              onClick={onClose}
+              disabled={isSubmitting}
+              className="px-6 py-3 rounded-xl border border-glass-border text-gray-300 font-medium font-body hover:bg-white/10 hover:border-neon-grape/50 transition-all cursor-pointer disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSchedule}
+              disabled={!selectedDate || !selectedTime || isSubmitting || success}
+              className="px-6 py-3 rounded-xl bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-medium font-body hover:shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer flex items-center gap-2"
+            >
+              {isSubmitting ? (
+                <>
+                  <i className="fa-solid fa-circle-notch animate-spin"></i>
+                  Scheduling...
+                </>
+              ) : success ? (
+                <>
+                  <i className="fa-solid fa-check"></i>
+                  Scheduled!
+                </>
+              ) : (
+                <>
+                  <i className="fa-regular fa-calendar-check"></i>
+                  Schedule Post
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

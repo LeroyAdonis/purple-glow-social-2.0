@@ -87,42 +87,42 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
     
     const generatedText = contentResult.content + '\n\n' + contentResult.hashtags.join(' ');
 
-    // 3. Generate Image with Imagen 3 (via @google/genai generateImages)
+    // 3. Generate Image with Gemini 2.0 Flash Image Generation
     let imageUrl = null;
 
     try {
-        const imagePrompt = `High quality, photorealistic, professional social media image for: ${topic}. Style: ${vibe}. South African context, vibrant colors, modern composition.`;
+        const imagePrompt = `Generate a high quality, photorealistic, professional social media image for: ${topic}. Style: ${vibe}. South African context, vibrant colors, modern composition. Make it visually appealing for ${platform}.`;
         
-        const imageResponse = await ai.models.generateImages({
-            model: 'imagen-3.0-generate-001',
-            prompt: imagePrompt,
+        const imageResponse = await ai.models.generateContent({
+            model: 'gemini-2.0-flash-exp-image-generation',
+            contents: imagePrompt,
             config: {
-                numberOfImages: 1,
-                aspectRatio: platform === 'instagram' ? '1:1' : '16:9',
-                outputMimeType: 'image/jpeg'
+                responseModalities: ['image', 'text'],
             }
         });
 
-        const imageBase64 = imageResponse.generatedImages?.[0]?.image?.imageBytes;
-
-        if (imageBase64) {
-            // 4. Upload to Vercel Blob
-            // Convert base64 to Buffer
-            const imageBuffer = Buffer.from(imageBase64, 'base64');
-            const filename = `purple-glow/${session.user.id}/${Date.now()}.jpg`;
-            
-            // In Mock mode, we can't upload to Vercel Blob without a token. 
-            // We'll return a data URI if upload fails or just try upload.
-            try {
-                 const blob = await put(filename, imageBuffer, {
-                    access: 'public',
-                    contentType: 'image/jpeg',
-                    token: process.env.BLOB_READ_WRITE_TOKEN
-                });
-                imageUrl = blob.url;
-            } catch (blobError) {
-                console.warn("Blob upload failed (expected in preview without token), falling back to data URI");
-                imageUrl = `data:image/jpeg;base64,${imageBase64}`;
+        // Extract image from response
+        const parts = imageResponse.candidates?.[0]?.content?.parts || [];
+        for (const part of parts) {
+            if (part.inlineData?.mimeType?.startsWith('image/')) {
+                const imageBase64 = part.inlineData.data;
+                if (imageBase64) {
+                    const imageBuffer = Buffer.from(imageBase64, 'base64');
+                    const filename = `purple-glow/${session.user.id}/${Date.now()}.jpg`;
+                    
+                    try {
+                        const blob = await put(filename, imageBuffer, {
+                            access: 'public',
+                            contentType: part.inlineData.mimeType || 'image/jpeg',
+                            token: process.env.BLOB_READ_WRITE_TOKEN
+                        });
+                        imageUrl = blob.url;
+                    } catch (blobError) {
+                        console.warn("Blob upload failed, falling back to data URI");
+                        imageUrl = `data:${part.inlineData.mimeType};base64,${imageBase64}`;
+                    }
+                    break;
+                }
             }
         }
     } catch (imgError) {

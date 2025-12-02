@@ -28,6 +28,18 @@ export default function ContentGenerator() {
     // Schedule modal state
     const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
 
+    // Platform character limits
+    const platformLimits: Record<string, number> = {
+        twitter: 280,
+        instagram: 2200,
+        facebook: 63206,
+        linkedin: 3000,
+    };
+
+    const currentLimit = platformLimits[platform] || 2200;
+    const charCount = localContent.length;
+    const isOverLimit = charCount > currentLimit;
+
     // Sync server state to local state when generation finishes
     useEffect(() => {
         if (state?.data?.content) {
@@ -346,6 +358,19 @@ export default function ContentGenerator() {
                             {renderPlatformPreview()}
                         </div>
 
+                        {/* Character Count Indicator */}
+                        <div className={`flex items-center justify-between text-xs font-mono mb-4 px-2 py-2 rounded-lg ${isOverLimit ? 'bg-red-500/10 border border-red-500/30' : 'bg-white/5 border border-white/10'}`}>
+                            <span className={isOverLimit ? 'text-red-400' : 'text-gray-400'}>
+                                <i className={`fa-solid ${isOverLimit ? 'fa-exclamation-triangle' : 'fa-keyboard'} mr-2`}></i>
+                                {charCount.toLocaleString()} / {currentLimit.toLocaleString()} characters
+                            </span>
+                            {isOverLimit && (
+                                <span className="text-red-400">
+                                    {(charCount - currentLimit).toLocaleString()} over limit
+                                </span>
+                            )}
+                        </div>
+
                         <div className="mt-auto pt-4 border-t border-white/10 flex gap-4">
                             <button
                                 onClick={handleDiscard}
@@ -355,7 +380,8 @@ export default function ContentGenerator() {
                             </button>
                             <button
                                 onClick={handleSchedule}
-                                className="flex-1 py-3 bg-white text-black rounded-xl hover:scale-105 transition-transform text-sm font-bold shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+                                disabled={isOverLimit}
+                                className="flex-1 py-3 bg-white text-black rounded-xl hover:scale-105 transition-transform text-sm font-bold shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
                             >
                                 <i className="fa-regular fa-calendar-check"></i> {translate('contentGenerator.schedulePost')}
                             </button>
@@ -368,8 +394,13 @@ export default function ContentGenerator() {
             <SchedulePostModal
                 isOpen={isScheduleModalOpen}
                 onClose={() => setIsScheduleModalOpen(false)}
+                postId={state?.data?.postId}
                 postContent={localContent}
                 platform={platform.charAt(0).toUpperCase() + platform.slice(1)}
+                onScheduleSuccess={() => {
+                    setLocalContent("");
+                    setIsScheduleModalOpen(false);
+                }}
             />
         </div>
     );
