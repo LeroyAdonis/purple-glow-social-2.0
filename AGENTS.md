@@ -239,6 +239,38 @@ purple-glow-social-2.0/
 - Credit management system
 - South African cultural context
 
+### ✅ Phase 11: Post Generation, Scheduling & Credit System
+- **Credit System Refactor:**
+  - Credits only deducted on successful publish (not generation)
+  - 1 credit per platform per post
+  - Credit reservation for scheduled posts
+  - Automatic release on failed posts
+- **Tier Enforcement:**
+  - Free: 10 credits, 5 queue, 5 daily generations
+  - Pro: 500 credits, 50 queue, 50 daily generations, 5 automation rules
+  - Business: 2000 credits, 200 queue, 200 daily generations, 20 automation rules
+- **Inngest Integration:**
+  - Reliable job processing with retry logic
+  - 3 retries with exponential backoff (1min, 5min, 15min)
+  - Scheduled post processing
+  - Automation rule execution
+  - Credit expiry checks
+- **Admin Dashboard Enhancements:**
+  - Credits analytics
+  - Generation stats
+  - Publishing stats
+  - Job monitoring with retry
+  - Error tracking
+  - Automation overview
+- **Notifications System:**
+  - Low credit warnings (< 20%)
+  - Credit expiry warnings (3 days)
+  - Post skipped/failed notifications
+- **Test Infrastructure:**
+  - 128 passing tests (unit + integration)
+  - CI/CD pipeline with GitHub Actions
+  - Test accounts for all tiers
+
 ---
 
 ## 🗄️ Data Models
@@ -417,7 +449,27 @@ useEffect(() => {
 
 ---
 
-## 🧪 Testing Guidelines
+### 🧪 Testing Guidelines
+
+### Test Accounts
+
+Purple Glow Social 2.0 includes pre-configured test accounts for development and QA:
+
+| Account | Email | Password | Tier | Credits |
+|---------|-------|----------|------|---------|
+| Free User | free@test.purpleglow.co.za | TestFree123! | Free | 10 |
+| Pro User | pro@test.purpleglow.co.za | TestPro123! | Pro | 500 |
+| Business User | business@test.purpleglow.co.za | TestBiz123! | Business | 2000 |
+| Admin User | admin@test.purpleglow.co.za | TestAdmin123! | Business | 2000 |
+| Low Credit | lowcredit@test.purpleglow.co.za | TestLow123! | Pro | 2 |
+| Zero Credit | zerocredit@test.purpleglow.co.za | TestZero123! | Pro | 0 |
+
+**Seed test accounts:**
+```bash
+npm run db:seed-test
+```
+
+**See:** `docs/TEST_ACCOUNTS_GUIDE.md` for comprehensive testing procedures.
 
 ### Manual Testing Checklist
 - [ ] Test on mobile (320px), tablet (768px), desktop (1024px+)

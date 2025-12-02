@@ -91,6 +91,9 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
   const [generationErrors, setGenerationErrors] = useState<any[]>([]);
   const [publishingErrors, setPublishingErrors] = useState<any[]>([]);
   const [errorsLoading, setErrorsLoading] = useState(false);
+  
+  // Analytics sub-tab state
+  const [analyticsSubTab, setAnalyticsSubTab] = useState<'credits' | 'generation' | 'publishing' | 'tiers'>('credits');
 
   // Fetch data from API
   useEffect(() => {
@@ -105,6 +108,13 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           fetch('/api/admin/transactions'),
         ]);
 
+        // Check for auth/permission errors
+        if (usersRes.status === 401 || statsRes.status === 401 || transactionsRes.status === 401) {
+          throw new Error('Please sign in to access the admin dashboard');
+        }
+        if (usersRes.status === 403 || statsRes.status === 403 || transactionsRes.status === 403) {
+          throw new Error('Admin access required. Your account does not have admin privileges.');
+        }
         if (!usersRes.ok || !statsRes.ok || !transactionsRes.ok) {
           throw new Error('Failed to fetch admin data');
         }
@@ -812,25 +822,37 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
 
               {/* Sub-tabs for analytics */}
               <div className="flex gap-2 border-b border-glass-border pb-4">
-                <button className="px-4 py-2 rounded-lg bg-neon-grape text-white font-medium">
+                <button 
+                  onClick={() => setAnalyticsSubTab('credits')}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'credits' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
+                >
                   Credits
                 </button>
-                <button className="px-4 py-2 rounded-lg bg-white/5 text-gray-400 hover:text-white">
+                <button 
+                  onClick={() => setAnalyticsSubTab('generation')}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'generation' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
+                >
                   Generation
                 </button>
-                <button className="px-4 py-2 rounded-lg bg-white/5 text-gray-400 hover:text-white">
+                <button 
+                  onClick={() => setAnalyticsSubTab('publishing')}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'publishing' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
+                >
                   Publishing
                 </button>
-                <button className="px-4 py-2 rounded-lg bg-white/5 text-gray-400 hover:text-white">
+                <button 
+                  onClick={() => setAnalyticsSubTab('tiers')}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'tiers' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
+                >
                   Tiers
                 </button>
               </div>
 
-              {analyticsData?.credits && (
+              {analyticsSubTab === 'credits' && analyticsData?.credits && (
                 <CreditsAnalytics data={analyticsData.credits} isLoading={analyticsLoading} />
               )}
               
-              {analyticsData?.generation && (
+              {analyticsSubTab === 'generation' && analyticsData?.generation && (
                 <GenerationStats 
                   data={{
                     ...analyticsData.generation,
@@ -841,11 +863,11 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                 />
               )}
               
-              {analyticsData?.publishing && (
+              {analyticsSubTab === 'publishing' && analyticsData?.publishing && (
                 <PublishingStats data={analyticsData.publishing} isLoading={analyticsLoading} />
               )}
               
-              {analyticsData?.tiers && (
+              {analyticsSubTab === 'tiers' && analyticsData?.tiers && (
                 <TierDistribution data={analyticsData.tiers} isLoading={analyticsLoading} />
               )}
             </div>

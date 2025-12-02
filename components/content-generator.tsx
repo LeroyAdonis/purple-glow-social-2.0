@@ -4,6 +4,7 @@ import React, { useActionState, useState, useEffect } from 'react';
 import { generatePostAction } from '../app/actions/generate';
 import SchedulePostModal from './modals/schedule-post-modal';
 import CustomSelect from './custom-select';
+import LimitStatusBadge from './limit-status-badge';
 import { useLanguage } from '../lib/context/LanguageContext';
 
 const initialState = {
@@ -11,6 +12,24 @@ const initialState = {
     error: '',
     data: { content: '', imageUrl: '', postId: '' }
 };
+
+interface DailyLimits {
+    current: number;
+    limit: number;
+    remaining: number;
+    percentage: number;
+    isAtLimit: boolean;
+}
+
+interface UserLimits {
+    tier: string;
+    credits: {
+        total: number;
+        available: number;
+        isLow: boolean;
+    };
+    dailyGenerations: DailyLimits;
+}
 
 export default function ContentGenerator() {
     const { language: currentLanguage, t: translate } = useLanguage();
@@ -27,6 +46,47 @@ export default function ContentGenerator() {
 
     // Schedule modal state
     const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
+
+    // User limits state
+    const [userLimits, setUserLimits] = useState<UserLimits | null>(null);
+    const [limitsLoading, setLimitsLoading] = useState(true);
+
+    // Fetch user limits on mount
+    useEffect(() => {
+        async function fetchLimits() {
+            try {
+                const response = await fetch('/api/limits/check');
+                if (response.ok) {
+                    const data = await response.json();
+                    setUserLimits({
+                        tier: data.tier,
+                        credits: data.credits,
+                        dailyGenerations: data.dailyGenerations,
+                    });
+                }
+            } catch (err) {
+                console.error('Failed to fetch limits:', err);
+            } finally {
+                setLimitsLoading(false);
+            }
+        }
+        fetchLimits();
+    }, []);
+
+    // Update limits after successful generation
+    useEffect(() => {
+        if (state?.success && userLimits) {
+            setUserLimits(prev => prev ? {
+                ...prev,
+                dailyGenerations: {
+                    ...prev.dailyGenerations,
+                    current: prev.dailyGenerations.current + 1,
+                    remaining: Math.max(0, prev.dailyGenerations.remaining - 1),
+                    isAtLimit: prev.dailyGenerations.remaining <= 1,
+                }
+            } : null);
+        }
+    }, [state?.success]);
 
     // Platform character limits
     const platformLimits: Record<string, number> = {
@@ -278,6 +338,30 @@ export default function ContentGenerator() {
                         </div>
                     </div>
 
+                    {/* Daily Generation Limit Indicator */}
+                    {userLimits && !limitsLoading && (
+                        <div className="flex items-center justify-between">
+                            <LimitStatusBadge
+                                current={userLimits.dailyGenerations.current}
+                                limit={userLimits.dailyGenerations.limit}
+                                label="Daily Generations"
+                                icon="fa-solid fa-wand-magic-sparkles"
+                            />
+                            <span className="text-xs text-gray-500 capitalize">{userLimits.tier} tier</span>
+                        </div>
+                    )}
+
+                    {/* Limit Warning */}
+                    {userLimits?.dailyGenerations.isAtLimit && (
+                        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm flex items-center gap-2">
+                            <i className="fa-solid fa-circle-exclamation"></i>
+                            <span>
+                                Haibo! You've used all {userLimits.dailyGenerations.limit} AI generations for today.
+                                Resets at midnight SAST.
+                            </span>
+                        </div>
+                    )}
+
                     {state?.error && (
                         <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-mono">
                             {translate('common.error')}: {state.error}
@@ -286,12 +370,16 @@ export default function ContentGenerator() {
 
                     <button
                         type="submit"
-                        disabled={isPending}
+                        disabled={isPending || userLimits?.dailyGenerations.isAtLimit}
                         className="w-full py-4 bg-gradient-to-r from-neon-grape to-[#5A189A] text-white font-body font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(157,78,221,0.4)] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                         {isPending ? (
                             <>
                                 <i className="fa-solid fa-circle-notch animate-spin"></i> {translate('contentGenerator.generating')}
+                            </>
+                        ) : userLimits?.dailyGenerations.isAtLimit ? (
+                            <>
+                                <i className="fa-solid fa-lock"></i> Limit Reached
                             </>
                         ) : (
                             <>
@@ -400,9 +488,21 @@ export default function ContentGenerator() {
                 postId={state?.data?.postId}
                 postContent={localContent}
                 platform={platform.charAt(0).toUpperCase() + platform.slice(1)}
+                platforms={[platform]}
+                availableCredits={userLimits?.credits.available}
                 onScheduleSuccess={() => {
                     setLocalContent("");
                     setIsScheduleModalOpen(false);
+                    // Update credits after successful schedule
+                    if (userLimits) {
+                        setUserLimits(prev => prev ? {
+                            ...prev,
+                            credits: {
+                                ...prev.credits,
+                                available: Math.max(0, prev.credits.available - 1),
+                            }
+                        } : null);
+                    }
                 }}
             />
         </div>

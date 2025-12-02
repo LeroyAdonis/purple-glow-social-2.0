@@ -1,46 +1,108 @@
-# Quick Reference Guide - Phases 5 & 6
+# Quick Reference Guide - Purple Glow Social 2.0
 
-## 🎯 What Was Completed
+## 🎯 All Phases Complete
 
-### Phase 5: Automation & Scheduling ✅
-- ✅ Calendar, List, and Timeline views for scheduled posts
-- ✅ AI-powered scheduling with best time suggestions
+### Phase 11: Post Generation & Credit System ✅ (Latest)
+- ✅ Credit system refactor (credits on publish only)
+- ✅ Tier-based limits enforced server-side
+- ✅ Inngest job processing with retry logic
+- ✅ Admin dashboard enhancements
+- ✅ Notifications system
+- ✅ 128 passing tests (unit + integration)
+- ✅ CI/CD pipeline with GitHub Actions
+
+### Phase 10: AI Content Generation ✅
+- ✅ Google Gemini Pro integration
+- ✅ 11 language support
+- ✅ Platform-specific optimization
+- ✅ Automatic hashtag generation
+
+### Phase 9: Auto-Posting ✅
+- ✅ Real posting to all 4 platforms
+- ✅ Vercel Cron automation
+- ✅ Error handling and retry
+
+### Phases 5-8: Earlier Features ✅
+- ✅ Calendar, List, Timeline views for scheduling
 - ✅ Automation rules creation wizard
-- ✅ Smart suggestions widget (5 categories)
-- ✅ Platform filtering and bulk actions
-- ✅ South African timezone (SAST - UTC+2)
-
-### Phase 6: Integration & Polish ✅
+- ✅ OAuth for Facebook, Instagram, Twitter, LinkedIn
+- ✅ Better-auth with email/password + Google
 - ✅ Global state management (React Context)
-- ✅ Centralized mock data system
-- ✅ Error boundaries for crash prevention
-- ✅ Loading skeletons for better UX
+- ✅ Error boundaries and loading skeletons
 - ✅ Accessibility utilities (WCAG AA)
-- ✅ Responsive design utilities
-- ✅ Comprehensive documentation (1,500+ lines)
+- ✅ South African timezone (SAST - UTC+2)
 
 ---
 
-## 📂 New Files Created (13 total)
+## 💳 Credit System
 
-### Components (6)
-1. `components/calendar-view.tsx` - Monthly calendar with posts
-2. `components/schedule-view.tsx` - Main scheduling interface
-3. `components/automation-view.tsx` - Automation dashboard
-4. `components/smart-suggestions.tsx` - AI suggestions widget
-5. `components/modals/schedule-post-modal.tsx` - Post scheduling
-6. `components/modals/automation-wizard.tsx` - Rule creation wizard
+### How Credits Work
+| Action | Credit Cost |
+|--------|-------------|
+| AI Content Generation | **FREE** |
+| Publish to 1 Platform | 1 credit |
+| Publish to 3 Platforms | 3 credits |
+| Failed Post | 0 credits (refunded) |
+| Scheduled Post | Reserved until published |
 
-### Utilities (5)
-7. `lib/context/AppContext.tsx` - Global state management
-8. `lib/responsive-utils.ts` - Responsive hooks
-9. `lib/accessibility.ts` - Accessibility helpers
-10. `lib/ErrorBoundary.tsx` - Error boundaries
-11. `components/LoadingSkeletons.tsx` - Loading states
+### Tier Limits
+| Feature | Free | Pro | Business |
+|---------|------|-----|----------|
+| Monthly Credits | 10 | 500 | 2,000 |
+| Connected Accounts (per platform) | 1 | 3 | 10 |
+| Max Scheduled Posts | 5 | 50 | 200 |
+| AI Generations per day | 5 | 50 | 200 |
+| Automation Rules | ❌ | 5 | 20 |
+| Advance Scheduling | 7 days | 30 days | 90 days |
 
-### Documentation (2)
-12. `docs/COMPONENT_GUIDE.md` - Component usage guide
-13. `docs/MOCK_DATA_STRUCTURE.md` - Mock data reference
+---
+
+## 🧪 Test Accounts
+
+| Account | Email | Password | Tier |
+|---------|-------|----------|------|
+| Free | free@test.purpleglow.co.za | TestFree123! | Free |
+| Pro | pro@test.purpleglow.co.za | TestPro123! | Pro |
+| Business | business@test.purpleglow.co.za | TestBiz123! | Business |
+| Admin | admin@test.purpleglow.co.za | TestAdmin123! | Business + Admin |
+| Low Credit | lowcredit@test.purpleglow.co.za | TestLow123! | Pro (2 credits) |
+| Zero Credit | zerocredit@test.purpleglow.co.za | TestZero123! | Pro (0 credits) |
+
+**Seed command:** `npm run db:seed-test`
+
+---
+
+## 📂 Key Files Created (Phase 11)
+
+### Tier System
+- `lib/tiers/config.ts` - Tier limits configuration
+- `lib/tiers/validation.ts` - Limit checking functions
+- `lib/tiers/types.ts` - TypeScript types
+
+### Database Helpers
+- `lib/db/credit-reservations.ts` - Credit reservation logic
+- `lib/db/generation-logs.ts` - AI usage tracking
+- `lib/db/daily-usage.ts` - Rate limiting
+- `lib/db/notifications.ts` - User notifications
+- `lib/db/job-logs.ts` - Job tracking
+
+### Inngest Functions
+- `lib/inngest/functions/process-scheduled-post.ts`
+- `lib/inngest/functions/execute-automation-rule.ts`
+- `lib/inngest/functions/check-credit-expiry.ts`
+- `lib/inngest/functions/check-low-credits.ts`
+- `lib/inngest/functions/reset-monthly-credits.ts`
+
+### UI Components
+- `components/credit-warning-banner.tsx`
+- `components/notifications-dropdown.tsx`
+- `components/usage-summary.tsx`
+- `components/credit-cost-preview.tsx`
+- `components/admin/*.tsx` (9 admin components)
+
+### Tests
+- `tests/integration/post-generation-flow.test.ts` (67 tests)
+- `tests/unit/*.test.ts` (61 tests)
 
 ---
 

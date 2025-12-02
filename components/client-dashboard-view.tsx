@@ -14,6 +14,7 @@ import ContentGenerator from './content-generator';
 import LogoutButton from './LogoutButton';
 import NotificationsDropdown from './notifications-dropdown';
 import CreditWarningBanner from './credit-warning-banner';
+import UsageSummary from './usage-summary';
 import { useLanguage } from '../lib/context/LanguageContext';
 
 interface ClientDashboardViewProps {
@@ -173,7 +174,11 @@ export default function ClientDashboardView({
 
                     {/* Render different views based on active tab */}
                     {activeTab === 'dashboard' && (
-                        <ContentGenerator />
+                        <div className="space-y-8">
+                            <ContentGenerator />
+                            {/* Usage Summary - shows below content generator */}
+                            <UsageSummary onUpgrade={() => setShowSubscriptionModal(true)} />
+                        </div>
                     )}
 
                     {activeTab === 'schedule' && (
