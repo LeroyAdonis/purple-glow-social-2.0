@@ -26,7 +26,15 @@ out/
 !.env.production.example
 !.env.example
 .vscode
-.github
+
+# GitHub - keep copilot instructions local but allow workflows and templates
+.github/agents/
+.github/prompts/
+.github/commands/
+.github/copilot-instructions.md
+!.github/workflows/
+!.github/pull_request_template.md
+!.github/ISSUE_TEMPLATE/
 
 # MCP
 mcp.json

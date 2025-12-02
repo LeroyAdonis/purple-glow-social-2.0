@@ -5,6 +5,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
+import { z } from 'zod';
 import {
   contentGenerationSchema,
   postSchema,
@@ -242,12 +243,12 @@ describe('formatValidationErrors', () => {
     const result = validateRequest(contentGenerationSchema, invalidRequest);
     expect(result.success).toBe(false);
     
-    if (!result.success && result.errors) {
-      const formatted = formatValidationErrors(result.errors);
-      expect(formatted.message).toBe('Validation failed');
-      expect(formatted.details.length).toBeGreaterThan(0);
-      expect(formatted.details[0]).toHaveProperty('field');
-      expect(formatted.details[0]).toHaveProperty('message');
-    }
+    // Type narrowing: when success is false, errors is guaranteed to exist
+    const failedResult = result as { success: false; errors: z.ZodError };
+    const formatted = formatValidationErrors(failedResult.errors);
+    expect(formatted.message).toBe('Validation failed');
+    expect(formatted.details.length).toBeGreaterThan(0);
+    expect(formatted.details[0]).toHaveProperty('field');
+    expect(formatted.details[0]).toHaveProperty('message');
   });
 });
