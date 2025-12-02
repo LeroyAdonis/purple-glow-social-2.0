@@ -12,21 +12,33 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Debug environment on mount
+  React.useEffect(() => {
+    console.log('[Login] Environment check:', {
+      baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
+      isProduction: typeof window !== 'undefined' && window.location.hostname.includes('vercel.app'),
+      timestamp: new Date().toISOString()
+    });
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
 
     try {
-      await signIn.email({
+      console.log('[Login] Attempting sign in with:', { email, callbackURL: '/dashboard' });
+      
+      const result = await signIn.email({
         email,
         password,
         callbackURL: '/dashboard',
       });
       
+      console.log('[Login] Sign in result:', result);
       router.push('/dashboard');
     } catch (err: any) {
-      console.error('Login error:', err);
+      console.error('[Login] Sign in error:', err);
       setError(err.message || 'Invalid email or password');
     } finally {
       setIsLoading(false);

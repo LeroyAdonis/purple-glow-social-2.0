@@ -10,16 +10,19 @@ export default function DashboardClientPage() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('[Dashboard Client] Session status:', {
+    console.log('[Dashboard Client] Session check:', {
       isPending,
       hasSession: !!session,
       userId: session?.user?.id,
-      userEmail: session?.user?.email
+      userEmail: session?.user?.email,
+      timestamp: new Date().toISOString()
     });
 
     if (!isPending && !session) {
-      console.log('[Dashboard Client] No session, redirecting to login');
+      console.log('[Dashboard Client] No session found, redirecting to login');
       router.push('/login');
+    } else if (session) {
+      console.log('[Dashboard Client] Session found, staying on dashboard');
     }
   }, [session, isPending, router]);
 
