@@ -1,10 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface AIContentStudioProps {
   userId: string;
   currentLanguage?: string;
+}
+
+interface GenerationLimits {
+  current: number;
+  limit: number;
+  remaining: number;
+  percentage: number;
+  isAtLimit: boolean;
+  tier: string;
 }
 
 export default function AIContentStudio({ userId, currentLanguage = 'en' }: AIContentStudioProps) {
@@ -18,10 +27,36 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
   const [topicSuggestions, setTopicSuggestions] = useState<string[]>([]);
   const [selectedVariation, setSelectedVariation] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [generationLimits, setGenerationLimits] = useState<GenerationLimits | null>(null);
+
+  // Fetch generation limits
+  useEffect(() => {
+    async function fetchLimits() {
+      try {
+        const response = await fetch('/api/limits/check');
+        if (response.ok) {
+          const data = await response.json();
+          setGenerationLimits({
+            ...data.dailyGenerations,
+            tier: data.tier,
+          });
+        }
+      } catch (err) {
+        console.error('Failed to fetch limits:', err);
+      }
+    }
+    fetchLimits();
+  }, [userId]);
 
   const handleGenerate = async () => {
     if (!topic.trim()) {
       setError('Please enter a topic');
+      return;
+    }
+
+    // Check if at limit
+    if (generationLimits?.isAtLimit) {
+      setError(`You've used all ${generationLimits.limit} AI generations for today. Upgrade or wait until tomorrow.`);
       return;
     }
 
@@ -42,7 +77,7 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
           tone,
           includeHashtags: true,
           includeEmojis: true,
-          variations: 3, // Generate 3 variations
+          variations: 3,
         }),
       });
 
@@ -54,6 +89,17 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
 
       setResults(data.results);
       setSelectedVariation(0);
+
+      // Update limits from response
+      if (data.dailyGenerations) {
+        setGenerationLimits(prev => prev ? {
+          ...prev,
+          current: data.dailyGenerations.used,
+          remaining: data.dailyGenerations.remaining,
+          percentage: Math.round((data.dailyGenerations.used / data.dailyGenerations.limit) * 100),
+          isAtLimit: data.dailyGenerations.remaining === 0,
+        } : null);
+      }
     } catch (err: any) {
       console.error('Generation error:', err);
       setError(err.message || 'Failed to generate content');
@@ -91,6 +137,47 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
 
   return (
     <div className="space-y-6">
+      {/* Generation Limits Display */}
+      {generationLimits && (
+        <div className="aerogel-card p-4 rounded-xl border border-glass-border">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <i className="fa-solid fa-wand-magic-sparkles text-neon-grape"></i>
+              <span className="font-bold text-sm">Daily AI Generations</span>
+            </div>
+            <span className="text-sm text-gray-400 capitalize">{generationLimits.tier} tier</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex-1 bg-white/10 rounded-full h-2">
+              <div 
+                className={`h-2 rounded-full transition-all ${
+                  generationLimits.percentage >= 90 
+                    ? 'bg-red-500' 
+                    : generationLimits.percentage >= 70 
+                      ? 'bg-mzansi-gold' 
+                      : 'bg-gradient-to-r from-neon-grape to-joburg-teal'
+                }`}
+                style={{ width: `${Math.min(100, generationLimits.percentage)}%` }}
+              />
+            </div>
+            <span className={`text-sm font-bold ${generationLimits.isAtLimit ? 'text-red-400' : 'text-white'}`}>
+              {generationLimits.remaining} left
+            </span>
+          </div>
+          {generationLimits.isAtLimit && (
+            <div className="mt-2 flex items-center justify-between">
+              <span className="text-xs text-red-400">Daily limit reached. Resets at midnight SAST.</span>
+              <a
+                href="/dashboard?view=settings"
+                className="text-xs text-mzansi-gold hover:underline"
+              >
+                Upgrade for more
+              </a>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Topic Suggestions Button */}
       <div className="flex justify-end">
         <button

@@ -15,6 +15,15 @@ interface AutomationViewProps {
   onCreateRule: () => void;
 }
 
+interface AutomationLimits {
+  enabled: boolean;
+  current: number;
+  limit: number;
+  remaining: number;
+  isAtLimit: boolean;
+  tier: string;
+}
+
 const platformIcons: Record<string, string> = {
   instagram: 'fa-brands fa-instagram',
   twitter: 'fa-brands fa-twitter',
@@ -27,26 +36,52 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
   const [selectedRule, setSelectedRule] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ total: 0, active: 0 });
+  const [automationLimits, setAutomationLimits] = useState<AutomationLimits | null>(null);
 
-  // Fetch automation rules from API
+  // Fetch automation rules and limits from API
   useEffect(() => {
-    async function fetchRules() {
+    async function fetchData() {
       setLoading(true);
       try {
-        const response = await fetch('/api/user/automation-rules');
-        if (response.ok) {
-          const data = await response.json();
+        const [rulesRes, limitsRes] = await Promise.all([
+          fetch('/api/user/automation-rules'),
+          fetch('/api/limits/check'),
+        ]);
+
+        if (rulesRes.ok) {
+          const data = await rulesRes.json();
           setRules(data.rules || []);
           setStats(data.stats || { total: 0, active: 0 });
         }
+
+        if (limitsRes.ok) {
+          const limitsData = await limitsRes.json();
+          setAutomationLimits({
+            enabled: limitsData.automation.enabled,
+            ...limitsData.automation.rules,
+            tier: limitsData.tier,
+          });
+        }
       } catch (error) {
-        console.error('Failed to fetch automation rules:', error);
+        console.error('Failed to fetch automation data:', error);
       } finally {
         setLoading(false);
       }
     }
-    fetchRules();
+    fetchData();
   }, []);
+
+  const handleCreateRule = () => {
+    // Check if automation is enabled for this tier
+    if (!automationLimits?.enabled) {
+      return; // Button will be disabled anyway
+    }
+    // Check if at rule limit
+    if (automationLimits?.isAtLimit) {
+      return; // Button will be disabled
+    }
+    onCreateRule();
+  };
 
   const toggleRuleActive = async (ruleId: string) => {
     try {
@@ -99,6 +134,67 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
     );
   }
 
+  // Show locked state for Free tier users
+  if (automationLimits && !automationLimits.enabled) {
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="aerogel-card rounded-2xl p-8">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <h1 className="text-4xl font-display font-bold text-white mb-2 flex items-center gap-3">
+                <i className="fa-solid fa-bolt text-neon-grape"></i>
+                Automation Rules
+                <span className="px-3 py-1 text-xs bg-mzansi-gold/20 border border-mzansi-gold/30 rounded-full text-mzansi-gold">
+                  PRO+
+                </span>
+              </h1>
+              <p className="text-gray-400">Set it and forget it! Let AI Pilot handle your content schedule automatically.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Locked State */}
+        <div className="aerogel-card rounded-2xl p-12 text-center border border-mzansi-gold/20 bg-gradient-to-b from-mzansi-gold/5 to-transparent">
+          <div className="w-24 h-24 bg-gradient-to-r from-mzansi-gold/20 to-neon-grape/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i className="fa-solid fa-lock text-mzansi-gold text-4xl"></i>
+          </div>
+          <h3 className="text-3xl font-display font-bold text-white mb-3">Unlock Automation</h3>
+          <p className="text-gray-400 mb-6 max-w-md mx-auto">
+            Automation rules are available on Pro and Business tiers. Upgrade to let AI automatically 
+            generate and schedule content for you - saving hours every week!
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-8">
+            <div className="bg-white/5 rounded-xl p-4 border border-glass-border">
+              <i className="fa-solid fa-robot text-2xl text-joburg-teal mb-2"></i>
+              <h4 className="font-bold mb-1">Auto-Generate</h4>
+              <p className="text-xs text-gray-400">AI creates content on your schedule</p>
+            </div>
+            <div className="bg-white/5 rounded-xl p-4 border border-glass-border">
+              <i className="fa-solid fa-calendar-check text-2xl text-neon-grape mb-2"></i>
+              <h4 className="font-bold mb-1">Auto-Schedule</h4>
+              <p className="text-xs text-gray-400">Posts automatically queue up</p>
+            </div>
+            <div className="bg-white/5 rounded-xl p-4 border border-glass-border">
+              <i className="fa-solid fa-clock text-2xl text-mzansi-gold mb-2"></i>
+              <h4 className="font-bold mb-1">Save Time</h4>
+              <p className="text-xs text-gray-400">Focus on your business, not posting</p>
+            </div>
+          </div>
+
+          <a
+            href="/dashboard?view=settings"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-mzansi-gold to-neon-grape rounded-xl font-bold text-lg hover:shadow-xl hover:scale-105 transition-all"
+          >
+            <i className="fa-solid fa-crown"></i>
+            Upgrade to Pro
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -114,9 +210,35 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
           <div className="text-right">
             <div className="text-5xl font-display font-bold text-white">{rules.filter(r => r.isActive).length}</div>
             <div className="text-sm text-gray-400">Active Rules</div>
+            {automationLimits && (
+              <div className="text-xs text-gray-500 mt-1">
+                {automationLimits.current}/{automationLimits.limit} rules used
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Rule Limit Warning */}
+      {automationLimits?.isAtLimit && (
+        <div className="aerogel-card p-4 rounded-xl border border-mzansi-gold/30 bg-mzansi-gold/5">
+          <div className="flex items-center gap-3">
+            <i className="fa-solid fa-crown text-mzansi-gold"></i>
+            <div className="flex-1">
+              <span className="font-bold text-mzansi-gold">Rule Limit Reached!</span>
+              <span className="text-gray-400 ml-2">
+                You've reached the maximum of {automationLimits.limit} automation rules for your {automationLimits.tier} tier.
+              </span>
+            </div>
+            <a
+              href="/dashboard?view=settings"
+              className="px-3 py-1 text-xs bg-mzansi-gold/20 border border-mzansi-gold/30 rounded-lg hover:bg-mzansi-gold/30 transition-colors"
+            >
+              Upgrade
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -163,11 +285,19 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
 
       {/* Create New Rule Button */}
       <button
-        onClick={onCreateRule}
-        className="w-full bg-gradient-to-r from-neon-grape to-joburg-teal text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 cursor-pointer"
+        onClick={handleCreateRule}
+        disabled={automationLimits?.isAtLimit}
+        className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
+          automationLimits?.isAtLimit
+            ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+            : 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white hover:shadow-xl hover:scale-105 cursor-pointer'
+        }`}
       >
-        <i className="fa-solid fa-plus-circle text-2xl"></i>
-        Create New Automation Rule
+        <i className={`text-2xl ${automationLimits?.isAtLimit ? 'fa-solid fa-lock' : 'fa-solid fa-plus-circle'}`}></i>
+        {automationLimits?.isAtLimit 
+          ? `Rule Limit Reached (${automationLimits.current}/${automationLimits.limit})`
+          : 'Create New Automation Rule'
+        }
       </button>
 
       {/* Rules List */}

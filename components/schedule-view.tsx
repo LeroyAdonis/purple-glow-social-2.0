@@ -17,6 +17,16 @@ interface ScheduleViewProps {
   onSchedulePost?: () => void;
 }
 
+interface QueueLimits {
+  current: number;
+  limit: number;
+  remaining: number;
+  percentage: number;
+  isAtLimit: boolean;
+  advanceSchedulingDays: number;
+  tier: string;
+}
+
 type ViewMode = 'calendar' | 'list' | 'timeline';
 
 const platformColors = {
@@ -40,16 +50,20 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ total: 0, scheduled: 0, posted: 0, failed: 0 });
+  const [queueLimits, setQueueLimits] = useState<QueueLimits | null>(null);
 
-  // Fetch posts from API
+  // Fetch posts and limits from API
   useEffect(() => {
-    async function fetchPosts() {
+    async function fetchData() {
       setLoading(true);
       try {
-        const response = await fetch('/api/user/posts?status=scheduled');
-        if (response.ok) {
-          const data = await response.json();
-          // Convert database posts to component format
+        const [postsRes, limitsRes] = await Promise.all([
+          fetch('/api/user/posts?status=scheduled'),
+          fetch('/api/limits/check'),
+        ]);
+
+        if (postsRes.ok) {
+          const data = await postsRes.json();
           const posts = (data.posts || []).map((post: any) => ({
             id: post.id,
             title: post.topic || 'Untitled',
@@ -61,13 +75,22 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
           setScheduledPosts(posts);
           setStats(data.stats || { total: 0, scheduled: 0, posted: 0, failed: 0 });
         }
+
+        if (limitsRes.ok) {
+          const limitsData = await limitsRes.json();
+          setQueueLimits({
+            ...limitsData.scheduling.queueSize,
+            advanceSchedulingDays: limitsData.scheduling.advanceSchedulingDays,
+            tier: limitsData.tier,
+          });
+        }
       } catch (error) {
-        console.error('Failed to fetch posts:', error);
+        console.error('Failed to fetch data:', error);
       } finally {
         setLoading(false);
       }
     }
-    fetchPosts();
+    fetchData();
   }, []);
 
   const togglePlatformFilter = (platform: string) => {
@@ -115,10 +138,37 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
       </div>
 
       {/* Stats Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="aerogel-card rounded-xl p-6 border-l-4 border-joburg-teal">
-          <div className="text-3xl font-display font-bold text-white mb-1">{filteredPosts.length}</div>
-          <div className="text-sm text-gray-400">Scheduled Posts</div>
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        {/* Queue Status with Progress */}
+        <div className="aerogel-card rounded-xl p-6 border-l-4 border-neon-grape md:col-span-2">
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-3xl font-display font-bold text-white">
+              {queueLimits ? `${queueLimits.current}/${queueLimits.limit}` : `${filteredPosts.length}`}
+            </div>
+            {queueLimits && (
+              <span className="text-xs text-gray-400 capitalize">{queueLimits.tier} tier</span>
+            )}
+          </div>
+          <div className="text-sm text-gray-400 mb-2">Queue Capacity</div>
+          {queueLimits && (
+            <>
+              <div className="w-full bg-white/10 rounded-full h-2 mb-2">
+                <div 
+                  className={`h-2 rounded-full transition-all ${
+                    queueLimits.percentage >= 90 
+                      ? 'bg-red-500' 
+                      : queueLimits.percentage >= 70 
+                        ? 'bg-mzansi-gold' 
+                        : 'bg-gradient-to-r from-neon-grape to-joburg-teal'
+                  }`}
+                  style={{ width: `${Math.min(100, queueLimits.percentage)}%` }}
+                />
+              </div>
+              <div className="text-xs text-gray-500">
+                {queueLimits.remaining} slots remaining • Up to {queueLimits.advanceSchedulingDays} days in advance
+              </div>
+            </>
+          )}
         </div>
         <div className="aerogel-card rounded-xl p-6 border-l-4 border-green-500">
           <div className="text-3xl font-display font-bold text-white mb-1">
@@ -148,6 +198,25 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
           <div className="text-sm text-gray-400">Active Platforms</div>
         </div>
       </div>
+
+      {/* Queue Full Warning */}
+      {queueLimits?.isAtLimit && (
+        <div className="aerogel-card p-4 rounded-xl border border-red-500/30 bg-red-500/5">
+          <div className="flex items-center gap-3">
+            <i className="fa-solid fa-exclamation-circle text-red-400"></i>
+            <div className="flex-1">
+              <span className="font-bold text-red-400">Queue Full!</span>
+              <span className="text-gray-400 ml-2">Delete or publish some posts to schedule more.</span>
+            </div>
+            <a
+              href="/dashboard?view=settings"
+              className="px-3 py-1 text-xs bg-mzansi-gold/20 border border-mzansi-gold/30 rounded-lg hover:bg-mzansi-gold/30 transition-colors"
+            >
+              Upgrade
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* Controls Bar */}
       <div className="aerogel-card rounded-xl p-6">

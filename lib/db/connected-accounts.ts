@@ -125,3 +125,43 @@ export async function deactivateConnection(
       )
     );
 }
+
+/**
+ * Count connected accounts by platform for a user
+ * Used for tier limit enforcement
+ */
+export async function countConnectionsByPlatform(
+  userId: string
+): Promise<Record<string, number>> {
+  const accounts = await db
+    .select()
+    .from(connectedAccounts)
+    .where(
+      and(
+        eq(connectedAccounts.userId, userId),
+        eq(connectedAccounts.isActive, true)
+      )
+    );
+
+  const counts: Record<string, number> = {};
+  for (const account of accounts) {
+    counts[account.platform] = (counts[account.platform] || 0) + 1;
+  }
+  return counts;
+}
+
+/**
+ * Get total count of active connected accounts for a user
+ */
+export async function countTotalConnections(userId: string): Promise<number> {
+  const accounts = await db
+    .select()
+    .from(connectedAccounts)
+    .where(
+      and(
+        eq(connectedAccounts.userId, userId),
+        eq(connectedAccounts.isActive, true)
+      )
+    );
+  return accounts.length;
+}

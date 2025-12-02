@@ -80,6 +80,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Import tier validation
+    const { canUseAutomation } = await import('@/lib/tiers/validation');
+    const { db } = await import('@/drizzle/db');
+    const { user } = await import('@/drizzle/schema');
+    const { eq } = await import('drizzle-orm');
+
+    // Get user tier
+    const userRecord = await db.query.user.findFirst({
+      where: eq(user.id, session.user.id),
+    });
+
+    if (!userRecord) {
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404 }
+      );
+    }
+
+    const userTier = (userRecord.tier || 'free') as 'free' | 'pro' | 'business';
+
+    // Check if user can use automation
+    const currentRulesCount = await countUserAutomationRules(session.user.id);
+    const automationCheck = canUseAutomation(userTier, currentRulesCount);
+
+    if (!automationCheck.allowed) {
+      return NextResponse.json(
+        { 
+          error: automationCheck.message,
+          limit: automationCheck.limit,
+          current: automationCheck.current,
+        },
+        { status: 403 } // Forbidden
+      );
+    }
+
     const body = await request.json();
     const { frequency, coreTopic, isActive } = body;
 
