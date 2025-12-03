@@ -9,12 +9,13 @@ export const TIER_LIMITS: Record<TierName, TierLimits> = {
     totalConnectedAccounts: 4, // 1 per platform
     queueSize: 5,
     advanceSchedulingDays: 7,
-    dailyPostsPerPlatform: 2,
+    dailyPostsPerPlatform: 3,
     dailyGenerations: 5,
     automationEnabled: false,
     maxAutomationRules: 0,
     monthlyCredits: 10,
     maxCreditCarryover: 0, // No carryover for free tier
+    videoCredits: 0,
   },
   pro: {
     connectedAccountsPerPlatform: 3,
@@ -22,23 +23,25 @@ export const TIER_LIMITS: Record<TierName, TierLimits> = {
     queueSize: 50,
     advanceSchedulingDays: 30,
     dailyPostsPerPlatform: 10,
-    dailyGenerations: 50,
+    dailyGenerations: 100,
     automationEnabled: true,
     maxAutomationRules: 5,
     monthlyCredits: 500,
-    maxCreditCarryover: 100, // Can carry over up to 100 credits
+    maxCreditCarryover: 0, // No carryover allowed
+    videoCredits: 10,
   },
   business: {
-    connectedAccountsPerPlatform: 10,
-    totalConnectedAccounts: 40, // 10 per platform
-    queueSize: 200,
+    connectedAccountsPerPlatform: 100, // Unlimited
+    totalConnectedAccounts: 400, // Unlimited
+    queueSize: 10000, // Unlimited
     advanceSchedulingDays: 90,
-    dailyPostsPerPlatform: 50,
-    dailyGenerations: 200,
+    dailyPostsPerPlatform: 10000, // Unlimited
+    dailyGenerations: 10000, // Unlimited
     automationEnabled: true,
-    maxAutomationRules: 20,
+    maxAutomationRules: 10000, // Unlimited
     monthlyCredits: 2000,
-    maxCreditCarryover: 500, // Can carry over up to 500 credits
+    maxCreditCarryover: 0, // No carryover allowed
+    videoCredits: 50,
   },
 };
 

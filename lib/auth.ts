@@ -5,9 +5,10 @@ import { neon } from "@neondatabase/serverless";
 import * as schema from "../drizzle/schema";
 
 // Only initialize database if DATABASE_URL is a real connection string
-const isDatabaseConfigured = process.env.DATABASE_URL && 
+// Relaxed check to allow 'postgres://' which is common in some environments
+const isDatabaseConfigured = process.env.DATABASE_URL &&
   !process.env.DATABASE_URL.includes('mock') &&
-  process.env.DATABASE_URL.startsWith('postgresql://');
+  (process.env.DATABASE_URL.startsWith('postgresql://') || process.env.DATABASE_URL.startsWith('postgres://'));
 
 let db: any;
 if (isDatabaseConfigured) {
@@ -17,6 +18,13 @@ if (isDatabaseConfigured) {
     console.log('[Auth] Database connected successfully');
   } catch (error) {
     console.error('[Auth] Database connection failed:', error);
+  }
+} else {
+  console.warn('[Auth] Database NOT configured. Auth will run in mock mode.');
+  console.log('[Auth] DATABASE_URL present:', !!process.env.DATABASE_URL);
+  if (process.env.DATABASE_URL) {
+    // Log prefix only for security
+    console.log('[Auth] DATABASE_URL prefix:', process.env.DATABASE_URL.split('://')[0]);
   }
 }
 
@@ -36,7 +44,7 @@ export const auth = betterAuth({
       verification: schema.verification,
     },
   }) : undefined as any, // Mock mode - auth won't actually work but won't crash
-  emailAndPassword: {  
+  emailAndPassword: {
     enabled: true,
     requireEmailVerification: false, // Disable for easier testing
   },

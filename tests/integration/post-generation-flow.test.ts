@@ -74,31 +74,34 @@ describe("Post Generation, Scheduling & Publishing Flow", () => {
       expect(limits.connectedAccountsPerPlatform).toBe(1);
       expect(limits.queueSize).toBe(5);
       expect(limits.dailyGenerations).toBe(5);
-      expect(limits.dailyPostsPerPlatform).toBe(2);
+      expect(limits.dailyPostsPerPlatform).toBe(3);
       expect(limits.automationEnabled).toBe(false);
       expect(limits.monthlyCredits).toBe(10);
+      expect(limits.videoCredits).toBe(0);
     });
 
     it("should have correct limits for pro tier", () => {
       const limits = getTierLimits("pro");
       expect(limits.connectedAccountsPerPlatform).toBe(3);
       expect(limits.queueSize).toBe(50);
-      expect(limits.dailyGenerations).toBe(50);
+      expect(limits.dailyGenerations).toBe(100);
       expect(limits.dailyPostsPerPlatform).toBe(10);
       expect(limits.automationEnabled).toBe(true);
       expect(limits.maxAutomationRules).toBe(5);
       expect(limits.monthlyCredits).toBe(500);
+      expect(limits.videoCredits).toBe(10);
     });
 
     it("should have correct limits for business tier", () => {
       const limits = getTierLimits("business");
-      expect(limits.connectedAccountsPerPlatform).toBe(10);
-      expect(limits.queueSize).toBe(200);
-      expect(limits.dailyGenerations).toBe(200);
-      expect(limits.dailyPostsPerPlatform).toBe(50);
+      expect(limits.connectedAccountsPerPlatform).toBe(100);
+      expect(limits.queueSize).toBe(10000);
+      expect(limits.dailyGenerations).toBe(10000);
+      expect(limits.dailyPostsPerPlatform).toBe(10000);
       expect(limits.automationEnabled).toBe(true);
-      expect(limits.maxAutomationRules).toBe(20);
+      expect(limits.maxAutomationRules).toBe(10000);
       expect(limits.monthlyCredits).toBe(2000);
+      expect(limits.videoCredits).toBe(50);
     });
 
     it("should format prices correctly in ZAR", () => {
@@ -209,16 +212,16 @@ describe("Post Generation, Scheduling & Publishing Flow", () => {
       expect(result.message).toContain("5 AI generations");
     });
 
-    it("should allow pro user 50 daily generations", () => {
-      const result = canGenerate("pro", 49);
+    it("should allow pro user 100 daily generations", () => {
+      const result = canGenerate("pro", 99);
       expect(result.allowed).toBe(true);
-      expect(result.limit).toBe(50);
+      expect(result.limit).toBe(100);
     });
 
-    it("should allow business user 200 daily generations", () => {
-      const result = canGenerate("business", 199);
+    it("should allow business user 10000 daily generations", () => {
+      const result = canGenerate("business", 9999);
       expect(result.allowed).toBe(true);
-      expect(result.limit).toBe(200);
+      expect(result.limit).toBe(10000);
     });
   });
 
@@ -230,14 +233,14 @@ describe("Post Generation, Scheduling & Publishing Flow", () => {
     });
 
     it("should block posting when platform daily limit reached", () => {
-      const breakdown: PlatformBreakdown = { facebook: 2 };
+      const breakdown: PlatformBreakdown = { facebook: 3 };
       const result = canPost("free", "facebook", breakdown);
       expect(result.allowed).toBe(false);
-      expect(result.message).toContain("daily limit of 2");
+      expect(result.message).toContain("daily limit of 3");
     });
 
     it("should track limits per platform independently", () => {
-      const breakdown: PlatformBreakdown = { facebook: 2, instagram: 1 };
+      const breakdown: PlatformBreakdown = { facebook: 3, instagram: 1 };
 
       const facebookResult = canPost("free", "facebook", breakdown);
       expect(facebookResult.allowed).toBe(false);
@@ -268,8 +271,8 @@ describe("Post Generation, Scheduling & Publishing Flow", () => {
       expect(result2.allowed).toBe(false);
     });
 
-    it("should allow business user up to 20 automation rules", () => {
-      const result = canUseAutomation("business", 19);
+    it("should allow business user up to 10000 automation rules", () => {
+      const result = canUseAutomation("business", 9999);
       expect(result.allowed).toBe(true);
     });
   });
@@ -339,8 +342,8 @@ describe("Post Generation, Scheduling & Publishing Flow", () => {
       const tier: TierName = "pro";
       const credits = 500;
 
-      it("should allow 50 daily generations", () => {
-        const result = canGenerate(tier, 49);
+      it("should allow 100 daily generations", () => {
+        const result = canGenerate(tier, 99);
         expect(result.allowed).toBe(true);
       });
 
@@ -367,20 +370,20 @@ describe("Post Generation, Scheduling & Publishing Flow", () => {
       const tier: TierName = "business";
       const credits = 2000;
 
-      it("should allow 200 daily generations", () => {
-        const result = canGenerate(tier, 199);
+      it("should allow 10000 daily generations", () => {
+        const result = canGenerate(tier, 9999);
         expect(result.allowed).toBe(true);
       });
 
-      it("should allow scheduling up to 200 posts", () => {
+      it("should allow scheduling up to 10000 posts", () => {
         const date = new Date();
         date.setDate(date.getDate() + 1);
-        const result = canSchedule(tier, 199, date);
+        const result = canSchedule(tier, 9999, date);
         expect(result.allowed).toBe(true);
       });
 
-      it("should allow up to 20 automation rules", () => {
-        const result = canUseAutomation(tier, 19);
+      it("should allow up to 10000 automation rules", () => {
+        const result = canUseAutomation(tier, 9999);
         expect(result.allowed).toBe(true);
       });
 
