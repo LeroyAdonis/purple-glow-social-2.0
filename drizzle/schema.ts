@@ -11,6 +11,8 @@ export const webhookStatusEnum = pgEnum("webhook_status", ["pending", "processed
 export const creditReservationStatusEnum = pgEnum("credit_reservation_status", ["pending", "consumed", "released"]);
 export const notificationTypeEnum = pgEnum("notification_type", ["low_credits", "credits_expiring", "post_skipped", "post_failed", "tier_limit_reached"]);
 export const jobStatusEnum = pgEnum("job_status", ["pending", "running", "completed", "failed", "cancelled"]);
+export const feedbackTypeEnum = pgEnum("feedback_type", ["thumbs_up", "thumbs_down", "selected", "edited", "rejected"]);
+export const toneEnum = pgEnum("tone", ["professional", "casual", "friendly", "energetic"]);
 
 // Better Auth expects these specific export names (singular)
 export const user = pgTable("user", {
@@ -245,3 +247,181 @@ export type Notification = typeof notifications.$inferSelect;
 export type NewNotification = typeof notifications.$inferInsert;
 export type JobLog = typeof jobLogs.$inferSelect;
 export type NewJobLog = typeof jobLogs.$inferInsert;
+
+// ========================================
+// AI Feedback Loop & Analytics Learning
+// ========================================
+
+// Post Analytics - Tracks engagement metrics for learning
+export const postAnalytics = pgTable("post_analytics", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  postId: uuid("post_id").notNull().references(() => posts.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  platform: platformEnum("platform").notNull(),
+  
+  // Engagement metrics (fetched from platforms)
+  likes: integer("likes").default(0),
+  comments: integer("comments").default(0),
+  shares: integer("shares").default(0),
+  saves: integer("saves").default(0),
+  reach: integer("reach").default(0),
+  impressions: integer("impressions").default(0),
+  clicks: integer("clicks").default(0),
+  
+  // Calculated engagement score (0-100)
+  engagementScore: integer("engagement_score").default(0),
+  
+  // Generation context for learning correlation
+  topic: text("topic"),
+  tone: toneEnum("tone"),
+  language: text("language"),
+  promptVariation: text("prompt_variation"), // Track which prompt style was used
+  
+  // Timing
+  fetchedAt: timestamp("fetched_at").defaultNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// User Learning Profiles - Stores accumulated learning per user
+export const userLearningProfiles = pgTable("user_learning_profiles", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }).unique(),
+  
+  // Industry & audience context
+  industry: text("industry"),
+  targetAudience: text("target_audience"),
+  brandVoice: text("brand_voice"), // User's preferred brand voice description
+  
+  // Learned preferences (updated by learning engine)
+  preferredTones: jsonb("preferred_tones").$type<string[]>().default([]), // Ranked tones by performance
+  preferredLanguages: jsonb("preferred_languages").$type<string[]>().default([]), // Ranked languages
+  topHashtags: jsonb("top_hashtags").$type<string[]>().default([]), // Best performing hashtags
+  topTopics: jsonb("top_topics").$type<string[]>().default([]), // Best performing topics
+  
+  // Platform-specific insights
+  platformInsights: jsonb("platform_insights").$type<Record<string, {
+    avgEngagement: number;
+    bestPostingTimes: string[];
+    topContentTypes: string[];
+  }>>().default({}),
+  
+  // South African context learning
+  effectiveSaExpressions: jsonb("effective_sa_expressions").$type<string[]>().default([]),
+  localTrends: jsonb("local_trends").$type<string[]>().default([]),
+  
+  // Aggregate metrics
+  totalPostsAnalyzed: integer("total_posts_analyzed").default(0),
+  avgEngagementScore: integer("avg_engagement_score").default(0),
+  
+  // Learning timestamps
+  lastLearningUpdate: timestamp("last_learning_update").defaultNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Content Feedback - Explicit user feedback on generated content
+export const contentFeedback = pgTable("content_feedback", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  postId: uuid("post_id").references(() => posts.id, { onDelete: "set null" }),
+  
+  // What was generated
+  generatedContent: text("generated_content").notNull(),
+  platform: platformEnum("platform").notNull(),
+  topic: text("topic"),
+  tone: toneEnum("tone"),
+  language: text("language"),
+  
+  // Feedback type
+  feedbackType: feedbackTypeEnum("feedback_type").notNull(),
+  
+  // Additional context
+  editedContent: text("edited_content"), // If user edited, what they changed to
+  rejectionReason: text("rejection_reason"), // Why they rejected
+  rating: integer("rating"), // 1-5 star rating if provided
+  
+  // Learning weight (how much this feedback should influence learning)
+  learningWeight: integer("learning_weight").default(1),
+  
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// Prompt Patterns - Stores successful prompt patterns for self-learning
+export const promptPatterns = pgTable("prompt_patterns", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  
+  // Pattern identification
+  patternType: text("pattern_type").notNull(), // e.g., 'opening', 'cta', 'hashtag_style'
+  platform: platformEnum("platform").notNull(),
+  language: text("language"),
+  tone: toneEnum("tone"),
+  
+  // The pattern itself
+  patternContent: text("pattern_content").notNull(), // The actual prompt segment or example
+  exampleOutput: text("example_output"), // Example of what this pattern produces
+  
+  // Effectiveness metrics
+  usageCount: integer("usage_count").default(0),
+  successCount: integer("success_count").default(0), // Posts with above-avg engagement
+  avgEngagementScore: integer("avg_engagement_score").default(0),
+  effectivenessScore: integer("effectiveness_score").default(0), // Calculated score 0-100
+  
+  // South African specifics
+  saContext: jsonb("sa_context").$type<{
+    expressions: string[];
+    locations: string[];
+    culturalNotes: string[];
+  }>(),
+  
+  // Active status
+  isActive: boolean("is_active").default(true),
+  
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// High-Performing Examples - Few-shot examples from successful posts
+export const highPerformingExamples = pgTable("high_performing_examples", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: text("user_id").references(() => user.id, { onDelete: "set null" }), // Null for system-wide
+  postId: uuid("post_id").references(() => posts.id, { onDelete: "set null" }),
+  
+  // Content details
+  content: text("content").notNull(),
+  platform: platformEnum("platform").notNull(),
+  topic: text("topic"),
+  tone: toneEnum("tone"),
+  language: text("language"),
+  hashtags: jsonb("hashtags").$type<string[]>().default([]),
+  
+  // Why it's high-performing
+  engagementScore: integer("engagement_score").notNull(),
+  engagementMetrics: jsonb("engagement_metrics").$type<{
+    likes: number;
+    comments: number;
+    shares: number;
+    reach: number;
+  }>(),
+  
+  // Usage in prompts
+  usedInPromptCount: integer("used_in_prompt_count").default(0),
+  lastUsedAt: timestamp("last_used_at"),
+  
+  // Scope
+  isSystemWide: boolean("is_system_wide").default(false), // Available to all users
+  
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// Types
+export type PostAnalytics = typeof postAnalytics.$inferSelect;
+export type NewPostAnalytics = typeof postAnalytics.$inferInsert;
+export type UserLearningProfile = typeof userLearningProfiles.$inferSelect;
+export type NewUserLearningProfile = typeof userLearningProfiles.$inferInsert;
+export type ContentFeedback = typeof contentFeedback.$inferSelect;
+export type NewContentFeedback = typeof contentFeedback.$inferInsert;
+export type PromptPattern = typeof promptPatterns.$inferSelect;
+export type NewPromptPattern = typeof promptPatterns.$inferInsert;
+export type HighPerformingExample = typeof highPerformingExamples.$inferSelect;
+export type NewHighPerformingExample = typeof highPerformingExamples.$inferInsert;
