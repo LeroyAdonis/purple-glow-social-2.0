@@ -45,7 +45,7 @@ This implementation plan follows a phased approach to enhance platform API integ
 - [x] Create `app/api/oauth/linkedin/connect/route.ts` for OAuth initiation
 - [x] Create `app/api/oauth/linkedin/callback/route.ts` for OAuth callback
 - [x] Create `app/api/oauth/linkedin/disconnect/route.ts` for disconnection
-- [ ] Add LinkedIn to connected accounts UI
+- [x] Add LinkedIn to connected accounts UI
 
 ### 2.3 LinkedIn Posting Service
 - [x] Create `lib/posting/linkedin-poster.ts` with text posting
@@ -54,10 +54,10 @@ This implementation plan follows a phased approach to enhance platform API integ
 - [x] Update `lib/posting/post-service.ts` to include LinkedIn
 
 ### 2.4 LinkedIn UI Integration
-- [ ] Add LinkedIn option to platform selector in content generator
-- [ ] Add LinkedIn connection card to settings page
-- [ ] Update post preview for LinkedIn format
-- [ ] Add LinkedIn-specific character limit (3000)
+- [x] Add LinkedIn option to platform selector in content generator
+- [x] Add LinkedIn connection card to settings page
+- [x] Update post preview for LinkedIn format
+- [x] Add LinkedIn-specific character limit (3000)
 
 ---
 
@@ -104,9 +104,9 @@ This implementation plan follows a phased approach to enhance platform API integ
 - [ ] Implement automatic regeneration for low-quality outputs
 
 ### 4.4 Update Gemini Service
-- [ ] Refactor `lib/ai/gemini-service.ts` to use new prompt templates
-- [ ] Integrate cultural context database
-- [ ] Add content validation pipeline
+- [x] Refactor `lib/ai/gemini-service.ts` to use new prompt templates
+- [x] Integrate cultural context database
+- [x] Add content validation pipeline
 - [ ] Implement prompt A/B testing infrastructure
 
 ---
@@ -145,11 +145,12 @@ This implementation plan follows a phased approach to enhance platform API integ
 ## Phase 6: Integration & Refinement
 
 ### 6.1 Dashboard Updates
-- [ ] Add connection health status indicators
+- [x] Add connection health status indicators
 - [ ] Show token expiry warnings (7 days before expiry)
 - [x] Add LinkedIn to platform selector in content generator
 - [x] Add LinkedIn preview component
 - [x] Update gemini-service with new prompt templates
+- [x] Add LinkedIn to connected accounts settings page
 
 ### 6.2 Error Handling
 - [ ] Implement consistent error responses across all platforms
