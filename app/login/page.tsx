@@ -35,12 +35,28 @@ export default function LoginPage() {
         callbackURL: '/dashboard',
       });
 
-      console.log('[Login] Sign in result:', result);
-      router.push('/dashboard');
+      console.log('[Login] Sign in result:', JSON.stringify(result, null, 2));
+      
+      // Check if sign in was successful
+      if (result?.error) {
+        console.error('[Login] Sign in failed:', result.error);
+        setError(result.error.message || 'Sign in failed');
+        setIsLoading(false);
+        return;
+      }
+
+      // Only redirect if we got a successful result
+      if (result?.data) {
+        console.log('[Login] Sign in successful, redirecting to dashboard');
+        router.push('/dashboard');
+      } else {
+        console.warn('[Login] Unexpected result format:', result);
+        setError('Unexpected response from server');
+        setIsLoading(false);
+      }
     } catch (err: any) {
       console.error('[Login] Sign in error:', err);
       setError(err.message || 'Invalid email or password');
-    } finally {
       setIsLoading(false);
     }
   };

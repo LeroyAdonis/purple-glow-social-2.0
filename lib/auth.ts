@@ -51,9 +51,24 @@ if (twitterConfig) {
 // Build trusted origins from environment using centralized utility
 const trustedOrigins = getTrustedOrigins();
 
+// Determine base URL for production
+const getAuthBaseURL = () => {
+  if (process.env.BETTER_AUTH_URL) {
+    return process.env.BETTER_AUTH_URL;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  // Fallback for production Vercel deployment
+  if (process.env.VERCEL) {
+    return 'https://purple-glow-social-2-0.vercel.app';
+  }
+  return 'http://localhost:3000';
+};
+
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-for-development",
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  baseURL: getAuthBaseURL(),
   basePath: "/api/auth",
   trustedOrigins: trustedOrigins,
   database: isDatabaseConfigured && db ? drizzleAdapter(db, {

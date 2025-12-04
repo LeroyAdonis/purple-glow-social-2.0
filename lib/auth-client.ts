@@ -1,23 +1,9 @@
 import { createAuthClient } from "better-auth/react";
 
-// Determine base URL with smart fallback for production
-const getBaseURL = () => {
-  // Use explicitly set environment variable if available
-  if (process.env.NEXT_PUBLIC_BETTER_AUTH_URL) {
-    return process.env.NEXT_PUBLIC_BETTER_AUTH_URL;
-  }
-  
-  // In browser, use the current origin (handles Vercel deployments automatically)
-  if (typeof window !== 'undefined') {
-    return window.location.origin;
-  }
-  
-  // Server-side fallback to localhost during development
-  return "http://localhost:3000";
-};
-
+// Use relative URL for API calls - this ensures requests go to the same origin
+// better-auth client will use the current origin when baseURL is empty/relative
 export const authClient = createAuthClient({
-  baseURL: getBaseURL(),
+  baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "",
   basePath: "/api/auth",
 });
 
