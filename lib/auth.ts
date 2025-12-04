@@ -3,11 +3,11 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { drizzle, NeonHttpDatabase } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 import * as schema from "../drizzle/schema";
-import { 
-  validateAuthEnvVars, 
-  getGoogleOAuthConfig, 
+import {
+  validateAuthEnvVars,
+  getGoogleOAuthConfig,
   getTwitterOAuthConfig,
-  logOAuthStatus 
+  logOAuthStatus
 } from "./config/env-validation";
 import { getTrustedOrigins } from "./config/urls";
 import { logger } from "./logger";
@@ -19,10 +19,10 @@ validateAuthEnvVars();
 logOAuthStatus();
 
 // Only initialize database if DATABASE_URL is a real connection string
-const isDatabaseConfigured = process.env.DATABASE_URL && 
+const isDatabaseConfigured = process.env.DATABASE_URL &&
   !process.env.DATABASE_URL.includes('mock') &&
-  (process.env.DATABASE_URL.startsWith('postgresql://') || 
-   process.env.DATABASE_URL.startsWith('postgres://'));
+  (process.env.DATABASE_URL.startsWith('postgresql://') ||
+    process.env.DATABASE_URL.startsWith('postgres://'));
 
 let db: NeonHttpDatabase<typeof schema> | undefined;
 if (isDatabaseConfigured) {
@@ -54,6 +54,7 @@ const trustedOrigins = getTrustedOrigins();
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-for-development",
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  basePath: "/api/auth",
   trustedOrigins: trustedOrigins,
   database: isDatabaseConfigured && db ? drizzleAdapter(db, {
     provider: "pg",
@@ -64,7 +65,7 @@ export const auth = betterAuth({
       verification: schema.verification,
     },
   }) : undefined as unknown as ReturnType<typeof drizzleAdapter>, // Mock mode - auth won't work but won't crash
-  emailAndPassword: {  
+  emailAndPassword: {
     enabled: true,
     requireEmailVerification: false, // Disable for easier testing
   },
