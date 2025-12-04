@@ -14,6 +14,7 @@ import AutomationView from '../components/automation-view';
 import AutomationWizard from '../components/modals/automation-wizard';
 import SettingsView from '../components/settings-view';
 import ClientDashboardView from '../components/client-dashboard-view';
+import LogoutButton from '../components/LogoutButton';
 import { useSession } from '../lib/auth-client';
 import { useLanguage } from '../lib/context/LanguageContext';
 
@@ -230,14 +231,9 @@ export default function HomePage() {
                           <span>Settings</span>
                         </button>
                         <div className="h-px bg-glass-border my-2"></div>
-                        <Link
-                          href="/api/auth/sign-out"
-                          className="flex items-center gap-3 px-4 py-2 hover:bg-white/5 transition-colors text-red-400 cursor-pointer"
-                          onClick={() => setShowUserMenu(false)}
-                        >
-                          <i className="fa-solid fa-sign-out"></i>
-                          <span>Logout</span>
-                        </Link>
+                        <div className="px-4 py-2">
+                          <LogoutButton onClick={() => setShowUserMenu(false)} />
+                        </div>
                       </div>
                     </div>
                   )}

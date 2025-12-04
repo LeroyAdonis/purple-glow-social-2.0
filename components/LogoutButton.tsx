@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useLanguage } from '../lib/context/LanguageContext';
 
-export default function LogoutButton() {
+export default function LogoutButton({ onClick }: { onClick?: () => void }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { t: translate } = useLanguage();
@@ -14,6 +14,7 @@ export default function LogoutButton() {
     setIsLoading(true);
     try {
       await signOut();
+      onClick?.(); // Close menu before redirect
       router.push('/login');
     } catch (error) {
       console.error('Logout error:', error);
@@ -26,10 +27,10 @@ export default function LogoutButton() {
     <button
       onClick={handleLogout}
       disabled={isLoading}
-      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors disabled:opacity-50 cursor-pointer"
+      className="flex items-center gap-3 px-4 py-2 hover:bg-white/5 transition-colors text-red-400 cursor-pointer w-full text-left disabled:opacity-50"
     >
       <i className={`fa-solid ${isLoading ? 'fa-spinner fa-spin' : 'fa-sign-out'}`}></i>
-      {isLoading ? translate('common.loading') : translate('common.logout')}
+      <span>{isLoading ? translate('common.loading') : 'Logout'}</span>
     </button>
   );
 }
