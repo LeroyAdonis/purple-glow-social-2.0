@@ -142,18 +142,18 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
   // Analytics state
   const [analyticsData, setAnalyticsData] = useState<AdminAnalyticsData | null>(null);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
-  
+
   // Jobs state
   const [jobs, setJobs] = useState<Job[]>([]);
   const [jobStats, setJobStats] = useState({ total: 0, pending: 0, running: 0, completed: 0, failed: 0, cancelled: 0, averageRetries: 0 });
   const [jobsLoading, setJobsLoading] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  
+
   // Errors state
   const [generationErrors, setGenerationErrors] = useState<AdminGenerationError[]>([]);
   const [publishingErrors, setPublishingErrors] = useState<AdminPublishingError[]>([]);
   const [errorsLoading, setErrorsLoading] = useState(false);
-  
+
   // Analytics sub-tab state
   const [analyticsSubTab, setAnalyticsSubTab] = useState<'credits' | 'generation' | 'publishing' | 'tiers'>('credits');
 
@@ -366,7 +366,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
         <div className="text-center">
           <i className="fa-solid fa-exclamation-triangle text-4xl text-red-400 mb-4"></i>
           <p className="text-gray-400 mb-4">{error}</p>
-          <button 
+          <button
             onClick={() => window.location.reload()}
             className="px-4 py-2 bg-neon-grape rounded-lg hover:bg-opacity-90"
           >
@@ -403,8 +403,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('users')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'users'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
           >
             <i className="fa-solid fa-users"></i> User Management
@@ -412,8 +412,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('revenue')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'revenue'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
           >
             <i className="fa-solid fa-chart-line"></i> Revenue
@@ -421,20 +421,20 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('transactions')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'transactions'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
           >
             <i className="fa-solid fa-receipt"></i> Transactions
           </button>
-          
+
           <div className="h-px bg-glass-border my-2"></div>
-          
+
           <button
             onClick={() => setActiveTab('analytics')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'analytics'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
           >
             <i className="fa-solid fa-chart-pie"></i> Analytics
@@ -442,8 +442,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('jobs')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'jobs'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
           >
             <i className="fa-solid fa-gears"></i> Job Monitor
@@ -456,8 +456,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('errors')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'errors'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
           >
             <i className="fa-solid fa-triangle-exclamation"></i> Errors
@@ -465,8 +465,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('automation')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'automation'
-                ? 'bg-white/5 border border-glass-border text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-white/5 border border-glass-border text-white'
+              : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
           >
             <i className="fa-solid fa-robot"></i> Automation
@@ -572,57 +572,57 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                         const userName = user.name || user.email.split('@')[0];
                         const userImage = user.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=9D4EDD&color=fff`;
                         return (
-                        <tr key={user.id} className="hover:bg-white/5 transition-colors">
-                          <td className="px-6 py-4">
-                            <div className="flex items-center gap-3">
-                              <img src={userImage} alt={userName} className="w-10 h-10 rounded-full border border-glass-border" />
-                              <div>
-                                <p className="font-bold text-sm">{userName}</p>
-                                <p className="text-xs text-gray-400">{user.email}</p>
+                          <tr key={user.id} className="hover:bg-white/5 transition-colors">
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-3">
+                                <img src={userImage} alt={userName} className="w-10 h-10 rounded-full border border-glass-border" />
+                                <div>
+                                  <p className="font-bold text-sm">{userName}</p>
+                                  <p className="text-xs text-gray-400">{user.email}</p>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="w-32">
-                              <CustomSelect
-                                value={user.tier || 'free'}
-                                onChange={(value) => handleTierChange(user.id, value as any)}
-                                options={[
-                                  { value: "free", label: "FREE" },
-                                  { value: "pro", label: "PRO" },
-                                  { value: "business", label: "BUSINESS" }
-                                ]}
-                                variant="compact"
-                                buttonClassName={`
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="w-32">
+                                <CustomSelect
+                                  value={user.tier || 'free'}
+                                  onChange={(value) => handleTierChange(user.id, value as any)}
+                                  options={[
+                                    { value: "free", label: "FREE" },
+                                    { value: "pro", label: "PRO" },
+                                    { value: "business", label: "BUSINESS" }
+                                  ]}
+                                  variant="compact"
+                                  buttonClassName={`
                                   rounded-full font-bold border
                                   ${getTierBadgeColor(user.tier)}
                                   hover:brightness-110
                                 `}
-                                placeholder="Select tier"
-                              />
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <button
-                              onClick={() => { setSelectedUser(user); setShowCreditModal(true); }}
-                              className="text-mzansi-gold hover:text-white font-mono font-bold transition-colors"
-                            >
-                              {user.credits}
-                            </button>
-                          </td>
-                          <td className="px-6 py-4 text-gray-300">{user.postsCreated}</td>
-                          <td className="px-6 py-4">
-                            <span className="px-2 py-1 rounded-full text-xs font-bold bg-green-500/20 text-green-400">
-                              ACTIVE
-                            </span>
-                          </td>
-                          <td className="px-6 py-4">
-                            <button className="text-gray-400 hover:text-white transition-colors">
-                              <i className="fa-solid fa-ellipsis-vertical"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      );
+                                  placeholder="Select tier"
+                                />
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <button
+                                onClick={() => { setSelectedUser(user); setShowCreditModal(true); }}
+                                className="text-mzansi-gold hover:text-white font-mono font-bold transition-colors"
+                              >
+                                {user.credits}
+                              </button>
+                            </td>
+                            <td className="px-6 py-4 text-gray-300">{user.postsCreated}</td>
+                            <td className="px-6 py-4">
+                              <span className="px-2 py-1 rounded-full text-xs font-bold bg-green-500/20 text-green-400">
+                                ACTIVE
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <button className="text-gray-400 hover:text-white transition-colors">
+                                <i className="fa-solid fa-ellipsis-vertical"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        );
                       })}
                     </tbody>
                   </table>
@@ -832,34 +832,34 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                           const displayType = txn.type === 'credit_purchase' ? 'CREDITS' : txn.type.toUpperCase();
                           const typeClass = txn.type === 'subscription' ? 'bg-neon-grape/20 text-neon-grape' :
                             txn.type === 'credit_purchase' ? 'bg-mzansi-gold/20 text-mzansi-gold' :
-                            'bg-red-500/20 text-red-400';
+                              'bg-red-500/20 text-red-400';
                           return (
-                          <tr key={txn.id} className="hover:bg-white/5 transition-colors">
-                            <td className="px-6 py-4 text-sm text-gray-300">
-                              {txnDate.toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: 'numeric' })}
-                            </td>
-                            <td className="px-6 py-4">
-                              <div className="font-bold text-sm">{txn.userName}</div>
-                            </td>
-                            <td className="px-6 py-4">
-                              <span className={`px-2 py-1 rounded-full text-xs font-bold ${typeClass}`}>
-                                {displayType}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-300">{txn.description}</td>
-                            <td className="px-6 py-4">
-                              <span className="font-mono font-bold text-green-400">R{(txn.amount / 100).toFixed(2)}</span>
-                            </td>
-                            <td className="px-6 py-4">
-                              <span className={`px-2 py-1 rounded-full text-xs font-bold ${txn.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                            <tr key={txn.id} className="hover:bg-white/5 transition-colors">
+                              <td className="px-6 py-4 text-sm text-gray-300">
+                                {txnDate.toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: 'numeric' })}
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="font-bold text-sm">{txn.userName}</div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <span className={`px-2 py-1 rounded-full text-xs font-bold ${typeClass}`}>
+                                  {displayType}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 text-sm text-gray-300">{txn.description}</td>
+                              <td className="px-6 py-4">
+                                <span className="font-mono font-bold text-green-400">R{(txn.amount / 100).toFixed(2)}</span>
+                              </td>
+                              <td className="px-6 py-4">
+                                <span className={`px-2 py-1 rounded-full text-xs font-bold ${txn.status === 'completed' ? 'bg-green-500/20 text-green-400' :
                                   txn.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
                                     'bg-red-500/20 text-red-400'
-                                }`}>
-                                {txn.status.toUpperCase()}
-                              </span>
-                            </td>
-                          </tr>
-                        );
+                                  }`}>
+                                  {txn.status.toUpperCase()}
+                                </span>
+                              </td>
+                            </tr>
+                          );
                         })
                       )}
                     </tbody>
@@ -884,25 +884,25 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
 
               {/* Sub-tabs for analytics */}
               <div className="flex gap-2 border-b border-glass-border pb-4">
-                <button 
+                <button
                   onClick={() => setAnalyticsSubTab('credits')}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'credits' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
                 >
                   Credits
                 </button>
-                <button 
+                <button
                   onClick={() => setAnalyticsSubTab('generation')}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'generation' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
                 >
                   Generation
                 </button>
-                <button 
+                <button
                   onClick={() => setAnalyticsSubTab('publishing')}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'publishing' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
                 >
                   Publishing
                 </button>
-                <button 
+                <button
                   onClick={() => setAnalyticsSubTab('tiers')}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'tiers' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
                 >
@@ -913,22 +913,22 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
               {analyticsSubTab === 'credits' && analyticsData?.credits && (
                 <CreditsAnalytics data={analyticsData.credits as Parameters<typeof CreditsAnalytics>[0]['data']} isLoading={analyticsLoading} />
               )}
-              
+
               {analyticsSubTab === 'generation' && analyticsData?.generation && (
-                <GenerationStats 
+                <GenerationStats
                   data={{
                     ...(analyticsData.generation as Record<string, unknown>),
                     topTopics: [],
                     errorsByType: {},
-                  } as Parameters<typeof GenerationStats>[0]['data']} 
-                  isLoading={analyticsLoading} 
+                  } as Parameters<typeof GenerationStats>[0]['data']}
+                  isLoading={analyticsLoading}
                 />
               )}
-              
+
               {analyticsSubTab === 'publishing' && analyticsData?.publishing && (
                 <PublishingStats data={analyticsData.publishing as Parameters<typeof PublishingStats>[0]['data']} isLoading={analyticsLoading} />
               )}
-              
+
               {analyticsSubTab === 'tiers' && analyticsData?.tiers && (
                 <TierDistribution data={analyticsData.tiers as Parameters<typeof TierDistribution>[0]['data']} isLoading={analyticsLoading} />
               )}

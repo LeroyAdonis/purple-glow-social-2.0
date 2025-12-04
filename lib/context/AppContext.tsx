@@ -19,20 +19,20 @@ interface AppContextType {
   // User state
   user: User | null;
   updateUser: (updates: Partial<User>) => void;
-  
+
   // Credits
   credits: number;
   addCredits: (amount: number) => void;
   deductCredits: (amount: number) => void;
-  
+
   // Subscription
   tier: 'free' | 'pro' | 'business';
   upgradeTier: (newTier: 'free' | 'pro' | 'business') => void;
-  
+
   // Language
   language: Language;
   setLanguage: (lang: Language) => void;
-  
+
   // Modal states
   modals: {
     creditTopup: boolean;
@@ -121,7 +121,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const updateUser = (updates: Partial<User>) => {
     setUser(prev => prev ? { ...prev, ...updates } : null);
-    
+
     // Sync related states
     if (updates.credits !== undefined) {
       setCredits(updates.credits);
