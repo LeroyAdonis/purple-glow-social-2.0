@@ -27,7 +27,7 @@ export async function getPostById(postId: string): Promise<Post | null> {
     .from(posts)
     .where(eq(posts.id, postId))
     .limit(1);
-  
+
   return post || null;
 }
 
@@ -46,11 +46,11 @@ export async function getUserPosts(
   const { status, platform, limit = 50, offset = 0 } = options;
 
   const conditions = [eq(posts.userId, userId)];
-  
+
   if (status) {
     conditions.push(eq(posts.status, status));
   }
-  
+
   if (platform) {
     conditions.push(eq(posts.platform, platform));
   }
@@ -83,7 +83,7 @@ export async function getScheduledPosts(userId: string): Promise<Post[]> {
  */
 export async function getPostsReadyToPublish(): Promise<Post[]> {
   const now = new Date();
-  
+
   return await db
     .select()
     .from(posts)
@@ -99,9 +99,10 @@ export async function getPostsReadyToPublish(): Promise<Post[]> {
  */
 export async function updatePost(
   postId: string,
-  data: Partial<NewPost>
+  data: Partial<NewPost>,
+  tx?: any
 ): Promise<Post> {
-  const [post] = await db
+  const [post] = await (tx || db)
     .update(posts)
     .set({
       ...data,
@@ -109,7 +110,7 @@ export async function updatePost(
     })
     .where(eq(posts.id, postId))
     .returning();
-  
+
   return post;
 }
 
@@ -128,7 +129,7 @@ export async function countUserPosts(
   status?: 'draft' | 'scheduled' | 'posted' | 'failed'
 ): Promise<number> {
   const conditions = [eq(posts.userId, userId)];
-  
+
   if (status) {
     conditions.push(eq(posts.status, status));
   }
@@ -137,7 +138,7 @@ export async function countUserPosts(
     .select({ count: count() })
     .from(posts)
     .where(and(...conditions));
-  
+
   return result?.count || 0;
 }
 
@@ -184,7 +185,7 @@ export async function getPostStats(userId: string): Promise<{
     .from(posts)
     .where(eq(posts.userId, userId))
     .groupBy(posts.status);
-  
+
   const stats = {
     total: 0,
     scheduled: 0,

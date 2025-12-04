@@ -14,8 +14,107 @@ import type { TierName } from '@/lib/tiers/types';
 const scheduleSchema = z.object({
   postId: z.string().uuid(),
   scheduledDate: z.string().datetime(),
-  recurrence: z.enum(['none', 'daily', 'weekly', 'monthly']).optional(),
+  // recurrence: z.enum(['none', 'daily', 'weekly', 'monthly']).optional(), // TODO: Implement recurrence
 });
+
+type ValidationSuccess = {
+  success: true;
+  data: {
+    userRecord: typeof user.$inferSelect;
+    post: NonNullable<Awaited<ReturnType<typeof getPostById>>>;
+    creditCost: number;
+    availableCredits: number;
+    tierLimits: ReturnType<typeof getTierLimits>;
+    currentQueueSize: number;
+  };
+};
+
+type ValidationFailure = {
+  success: false;
+  error: string;
+  status: number;
+  details?: any;
+};
+
+type ValidationResult = ValidationSuccess | ValidationFailure;
+
+/**
+ * Validate scheduling request
+ */
+async function validateScheduleRequest(
+  userId: string,
+  postId: string,
+  scheduledDate: Date
+): Promise<ValidationResult> {
+  // Verify post belongs to user
+  const post = await getPostById(postId);
+  if (!post) {
+    return { success: false, error: 'Post not found', status: 404 };
+  }
+
+  if (post.userId !== userId) {
+    return { success: false, error: 'Unauthorized', status: 403 };
+  }
+
+  // Get user info
+  const userRecord = await db.query.user.findFirst({
+    where: eq(user.id, userId),
+  });
+
+  if (!userRecord) {
+    return { success: false, error: 'User not found', status: 404 };
+  }
+
+  const userTier = (userRecord.tier || 'free') as TierName;
+  const tierLimits = getTierLimits(userTier);
+
+  // Check queue size and advance scheduling limits
+  const currentQueueSize = await countScheduledPosts(userId);
+  const scheduleCheck = canSchedule(userTier, currentQueueSize, scheduledDate);
+
+  if (!scheduleCheck.allowed) {
+    return {
+      success: false,
+      error: scheduleCheck.message,
+      status: 429,
+      details: {
+        limit: scheduleCheck.limit,
+        current: scheduleCheck.current,
+      },
+    };
+  }
+
+  // Calculate credit cost (1 credit per post/platform)
+  const creditCost = 1; // Single platform post
+
+  // Check if user has enough available credits
+  const availableCredits = await getAvailableCredits(userId);
+  const creditCheck = hasEnoughCredits(userRecord.credits, userRecord.credits - availableCredits, creditCost);
+
+  if (!creditCheck.allowed) {
+    return {
+      success: false,
+      error: creditCheck.message,
+      status: 402,
+      details: {
+        required: creditCost,
+        available: availableCredits,
+      },
+    };
+  }
+
+  return {
+    success: true,
+    data: {
+      userRecord,
+      post,
+      creditCost,
+      availableCredits,
+      tierLimits,
+      currentQueueSize,
+    },
+  };
+}
 
 /**
  * POST /api/posts/schedule
@@ -39,87 +138,49 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const validated = scheduleSchema.parse(body);
-
-    // Verify post belongs to user
-    const post = await getPostById(validated.postId);
-    if (!post) {
-      return NextResponse.json(
-        { error: 'Post not found' },
-        { status: 404 }
-      );
-    }
-
-    if (post.userId !== session.user.id) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 403 }
-      );
-    }
-
-    // Get user info
-    const userRecord = await db.query.user.findFirst({
-      where: eq(user.id, session.user.id),
-    });
-
-    if (!userRecord) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
-    }
-
-    const userTier = (userRecord.tier || 'free') as TierName;
-    const tierLimits = getTierLimits(userTier);
     const scheduledDate = new Date(validated.scheduledDate);
 
-    // Check queue size and advance scheduling limits
-    const currentQueueSize = await countScheduledPosts(session.user.id);
-    const scheduleCheck = canSchedule(userTier, currentQueueSize, scheduledDate);
+    // 1. Validate Request
+    const validation = await validateScheduleRequest(session.user.id, validated.postId, scheduledDate);
 
-    if (!scheduleCheck.allowed) {
+    if (!validation.success) {
+      const failure = validation as ValidationFailure;
       return NextResponse.json(
         {
-          error: scheduleCheck.message,
-          limit: scheduleCheck.limit,
-          current: scheduleCheck.current,
+          error: failure.error,
+          ...failure.details,
         },
-        { status: 429 } // Too Many Requests
+        { status: failure.status }
       );
     }
 
-    // Calculate credit cost (1 credit per post/platform)
-    const creditCost = 1; // Single platform post
+    const { post, creditCost, tierLimits, currentQueueSize } = validation.data;
 
-    // Check if user has enough available credits
-    const availableCredits = await getAvailableCredits(session.user.id);
-    const creditCheck = hasEnoughCredits(userRecord.credits, userRecord.credits - availableCredits, creditCost);
-
-    if (!creditCheck.allowed) {
-      return NextResponse.json(
-        {
-          error: creditCheck.message,
-          required: creditCost,
-          available: availableCredits,
-        },
-        { status: 402 } // Payment Required
+    // 2. Perform DB updates in transaction
+    const result = await db.transaction(async (tx) => {
+      // Reserve credits
+      const reservation = await reserveCredits(
+        session.user.id,
+        validated.postId,
+        creditCost,
+        scheduledDate, // Reservation expires when post is scheduled
+        tx
       );
-    }
 
-    // Reserve credits for this scheduled post
-    const reservation = await reserveCredits(
-      session.user.id,
-      validated.postId,
-      creditCost,
-      scheduledDate // Reservation expires when post is scheduled
-    );
+      // Update post status
+      const updatedPost = await updatePost(
+        validated.postId,
+        {
+          status: 'scheduled',
+          scheduledDate,
+        },
+        tx
+      );
 
-    // Update post with scheduled date and status
-    const updatedPost = await updatePost(validated.postId, {
-      status: 'scheduled',
-      scheduledDate,
+      return { reservation, updatedPost };
     });
 
-    // Trigger Inngest workflow for native scheduling
+    // 3. Trigger Inngest workflow (after successful DB transaction)
     await inngest.send({
       name: 'post/scheduled.process',
       data: {
@@ -130,19 +191,20 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Get updated available credits
+    // Get updated available credits (fresh read)
     const updatedAvailable = await getAvailableCredits(session.user.id);
 
     return NextResponse.json({
       success: true,
-      post: updatedPost,
+      post: result.updatedPost,
       message: 'Post scheduled successfully',
       creditsReserved: creditCost,
       creditsAvailable: updatedAvailable,
-      reservationId: reservation.id,
+      reservationId: result.reservation.id,
       queuePosition: currentQueueSize + 1,
       queueLimit: tierLimits.queueSize,
     });
+
   } catch (error: any) {
     console.error('Schedule post error:', error);
 

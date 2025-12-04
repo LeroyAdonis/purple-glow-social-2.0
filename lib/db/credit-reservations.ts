@@ -16,13 +16,14 @@ export async function reserveCredits(
   userId: string,
   postId: string,
   credits: number,
-  expiresAt?: Date
+  expiresAt?: Date,
+  tx?: any
 ): Promise<CreditReservation> {
   // Default expiration: 30 days from now
   const defaultExpiry = new Date();
   defaultExpiry.setDate(defaultExpiry.getDate() + 30);
 
-  const [reservation] = await db
+  const [reservation] = await (tx || db)
     .insert(creditReservations)
     .values({
       userId,
