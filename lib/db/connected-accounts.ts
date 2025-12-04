@@ -23,7 +23,7 @@ export async function getConnectedAccounts(userId: string) {
  */
 export async function getConnectedAccount(
   userId: string, 
-  platform: 'instagram' | 'facebook' | 'twitter'
+  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
 ) {
   const accounts = await db
     .select()
@@ -44,7 +44,7 @@ export async function getConnectedAccount(
  */
 export async function getDecryptedToken(
   userId: string,
-  platform: 'instagram' | 'facebook' | 'twitter'
+  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
 ): Promise<string | null> {
   const account = await getConnectedAccount(userId, platform);
   if (!account || !account.accessToken) return null;
@@ -62,7 +62,7 @@ export async function getDecryptedToken(
  */
 export async function disconnectAccount(
   userId: string,
-  platform: 'instagram' | 'facebook' | 'twitter'
+  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
 ) {
   await db
     .delete(connectedAccounts)
@@ -74,12 +74,15 @@ export async function disconnectAccount(
     );
 }
 
+// Alias for disconnectAccount
+export const deleteConnectedAccount = disconnectAccount;
+
 /**
  * Check if a platform is connected for a user
  */
 export async function isConnected(
   userId: string,
-  platform: 'instagram' | 'facebook' | 'twitter'
+  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
 ): Promise<boolean> {
   const account = await getConnectedAccount(userId, platform);
   return account !== null && account.isActive;
@@ -90,7 +93,7 @@ export async function isConnected(
  */
 export async function updateLastSynced(
   userId: string,
-  platform: 'instagram' | 'facebook' | 'twitter'
+  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
 ) {
   await db
     .update(connectedAccounts)
@@ -111,7 +114,7 @@ export async function updateLastSynced(
  */
 export async function deactivateConnection(
   userId: string,
-  platform: 'instagram' | 'facebook' | 'twitter'
+  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
 ) {
   await db
     .update(connectedAccounts)
@@ -166,3 +169,80 @@ export async function countTotalConnections(userId: string): Promise<number> {
     );
   return accounts.length;
 }
+
+/**
+ * Save or update a connected account
+ */
+export interface ConnectedAccountData {
+  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin';
+  platformUserId: string;
+  platformUsername: string;
+  platformDisplayName?: string;
+  accessToken: string;
+  refreshToken?: string;
+  tokenExpiresAt?: Date;
+  profileImageUrl?: string;
+  scope?: string;
+}
+
+export async function saveConnectedAccount(
+  userId: string,
+  data: ConnectedAccountData
+) {
+  // Check if account already exists
+  const existing = await getConnectedAccount(userId, data.platform);
+  
+  // Encrypt tokens
+  const encryptedAccessToken = encryptToken(data.accessToken);
+  const encryptedRefreshToken = data.refreshToken ? encryptToken(data.refreshToken) : null;
+  
+  if (existing) {
+    // Update existing account
+    await db
+      .update(connectedAccounts)
+      .set({
+        platformUserId: data.platformUserId,
+        platformUsername: data.platformUsername,
+        platformDisplayName: data.platformDisplayName || data.platformUsername,
+        accessToken: encryptedAccessToken,
+        refreshToken: encryptedRefreshToken,
+        tokenExpiresAt: data.tokenExpiresAt,
+        profileImageUrl: data.profileImageUrl,
+        scope: data.scope || '',
+        isActive: true,
+        updatedAt: new Date(),
+      })
+      .where(eq(connectedAccounts.id, existing.id));
+    
+    return existing.id;
+  } else {
+    // Generate a unique ID
+    const id = crypto.randomUUID();
+    
+    // Create new account
+    await db
+      .insert(connectedAccounts)
+      .values({
+        id,
+        userId,
+        platform: data.platform,
+        platformUserId: data.platformUserId,
+        platformUsername: data.platformUsername,
+        platformDisplayName: data.platformDisplayName || data.platformUsername,
+        accessToken: encryptedAccessToken,
+        refreshToken: encryptedRefreshToken,
+        tokenExpiresAt: data.tokenExpiresAt,
+        profileImageUrl: data.profileImageUrl,
+        scope: data.scope || 'default',
+        isActive: true,
+        lastSyncedAt: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    
+    return id;
+  }
+}
+
+// Re-export token functions for convenience
+export { encryptToken, decryptToken } from '@/lib/crypto/token-encryption';
