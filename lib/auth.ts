@@ -66,11 +66,22 @@ const getAuthBaseURL = () => {
   return 'http://localhost:3000';
 };
 
+// Detect if running on Vercel's shared domain (has cookie restrictions)
+const isVercelSharedDomain = process.env.VERCEL_URL?.includes('.vercel.app') || 
+                              process.env.VERCEL === '1';
+
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-for-development",
   baseURL: getAuthBaseURL(),
   basePath: "/api/auth",
   trustedOrigins: trustedOrigins,
+  // Cookie configuration for Vercel's shared domain
+  advanced: {
+    // Disable __Secure- prefix on .vercel.app (Public Suffix List domain)
+    useSecureCookies: !isVercelSharedDomain && process.env.NODE_ENV === 'production',
+    // Cross-site cookie settings
+    cookiePrefix: "better-auth",
+  },
   database: isDatabaseConfigured && db ? drizzleAdapter(db, {
     provider: "pg",
     schema: {
