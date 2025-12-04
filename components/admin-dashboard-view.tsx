@@ -47,6 +47,67 @@ interface Job {
   updatedAt: string;
 }
 
+/** Local interface for generation errors from API */
+interface AdminGenerationError {
+  id: string;
+  userId: string;
+  userName?: string;
+  userEmail?: string;
+  platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin';
+  topic: string | null;
+  tone: string | null;
+  language: string | null;
+  errorMessage: string | null;
+  createdAt: string;
+}
+
+/** Local interface for publishing errors from API */
+interface AdminPublishingError {
+  id: string;
+  userId: string;
+  userName?: string;
+  userEmail?: string;
+  platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin';
+  content: string;
+  status: 'failed';
+  errorMessage: string | null;
+  retryCount?: number;
+  scheduledDate: string | null;
+  createdAt: string;
+}
+
+/** Local interface for automation rules from API */
+interface AdminAutomationRule {
+  id: string;
+  userId: string;
+  userName?: string;
+  userEmail?: string;
+  frequency: string;
+  coreTopic: string | null;
+  isActive: boolean;
+  creditsConsumed?: number;
+  postsGenerated?: number;
+  nextRun?: string | null;
+  createdAt: string;
+}
+
+/** Analytics data structure from API */
+interface AdminAnalyticsData {
+  credits?: Record<string, unknown>;
+  generation?: Record<string, unknown>;
+  publishing?: Record<string, unknown>;
+  tiers?: Record<string, unknown>;
+  automation?: {
+    rules: AdminAutomationRule[];
+    stats: {
+      totalRules: number;
+      activeRules: number;
+      totalCreditsConsumed: number;
+      totalPostsGenerated: number;
+    };
+  };
+}
+
 interface AdminDashboardViewProps {
   onBackToLanding?: () => void;
 }
@@ -78,7 +139,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
   const [tierDist, setTierDist] = useState({ free: 0, pro: 0, business: 0 });
 
   // Analytics state
-  const [analyticsData, setAnalyticsData] = useState<any>(null);
+  const [analyticsData, setAnalyticsData] = useState<AdminAnalyticsData | null>(null);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
   
   // Jobs state
@@ -88,8 +149,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   
   // Errors state
-  const [generationErrors, setGenerationErrors] = useState<any[]>([]);
-  const [publishingErrors, setPublishingErrors] = useState<any[]>([]);
+  const [generationErrors, setGenerationErrors] = useState<AdminGenerationError[]>([]);
+  const [publishingErrors, setPublishingErrors] = useState<AdminPublishingError[]>([]);
   const [errorsLoading, setErrorsLoading] = useState(false);
   
   // Analytics sub-tab state
@@ -849,26 +910,26 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
               </div>
 
               {analyticsSubTab === 'credits' && analyticsData?.credits && (
-                <CreditsAnalytics data={analyticsData.credits} isLoading={analyticsLoading} />
+                <CreditsAnalytics data={analyticsData.credits as Parameters<typeof CreditsAnalytics>[0]['data']} isLoading={analyticsLoading} />
               )}
               
               {analyticsSubTab === 'generation' && analyticsData?.generation && (
                 <GenerationStats 
                   data={{
-                    ...analyticsData.generation,
+                    ...(analyticsData.generation as Record<string, unknown>),
                     topTopics: [],
                     errorsByType: {},
-                  }} 
+                  } as Parameters<typeof GenerationStats>[0]['data']} 
                   isLoading={analyticsLoading} 
                 />
               )}
               
               {analyticsSubTab === 'publishing' && analyticsData?.publishing && (
-                <PublishingStats data={analyticsData.publishing} isLoading={analyticsLoading} />
+                <PublishingStats data={analyticsData.publishing as Parameters<typeof PublishingStats>[0]['data']} isLoading={analyticsLoading} />
               )}
               
               {analyticsSubTab === 'tiers' && analyticsData?.tiers && (
-                <TierDistribution data={analyticsData.tiers} isLoading={analyticsLoading} />
+                <TierDistribution data={analyticsData.tiers as Parameters<typeof TierDistribution>[0]['data']} isLoading={analyticsLoading} />
               )}
             </div>
           )}

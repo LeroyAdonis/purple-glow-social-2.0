@@ -4,6 +4,7 @@ import { db } from '@/drizzle/db';
 import { generationLogs, posts, user } from '@/drizzle/schema';
 import { eq, desc, and } from 'drizzle-orm';
 import { getGenerationErrors } from '@/lib/db/generation-logs';
+import type { GenerationError, PublishingError } from '@/lib/types';
 
 /**
  * Check if user is admin
@@ -36,8 +37,8 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50');
 
     const result: {
-      generationErrors: any[];
-      publishingErrors: any[];
+      generationErrors: GenerationError[];
+      publishingErrors: PublishingError[];
     } = {
       generationErrors: [],
       publishingErrors: [],
@@ -111,10 +112,11 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Admin errors fetch error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to fetch errors';
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch errors' },
+      { error: message },
       { status: 500 }
     );
   }

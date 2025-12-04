@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getAllUsersWithStats, updateUser, countUsers, getTierDistribution } from '@/lib/db/users';
 import { addCredits, deductCredits } from '@/lib/db/users';
+import type { UserUpdateData, UserTier } from '@/lib/types';
 
 /**
  * Check if user is admin (email-based for now)
@@ -55,10 +56,11 @@ export async function GET(request: NextRequest) {
         hasMore: users.length === limit,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Admin users fetch error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to fetch users';
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch users' },
+      { error: message },
       { status: 500 }
     );
   }
@@ -108,9 +110,9 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Handle tier and other updates
-    const updateData: Record<string, any> = { ...otherUpdates };
+    const updateData: UserUpdateData = { ...otherUpdates };
     if (tier) {
-      updateData.tier = tier;
+      updateData.tier = tier as UserTier;
     }
 
     let updatedUser;
@@ -123,10 +125,11 @@ export async function PATCH(request: NextRequest) {
       user: updatedUser,
       message: 'User updated successfully',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Admin user update error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to update user';
     return NextResponse.json(
-      { error: error.message || 'Failed to update user' },
+      { error: message },
       { status: 500 }
     );
   }

@@ -1,7 +1,9 @@
 // Simple i18n system for 11 South African official languages
 // No external dependencies - lightweight and performant
 
-export type Language = 'en' | 'af' | 'zu' | 'xh' | 'nso' | 'tn' | 'st' | 'ts' | 'ss' | 've' | 'nr';
+import type { TranslationRecord, TranslationValue, LanguageCode } from './types';
+
+export type Language = LanguageCode;
 
 export interface LanguageInfo {
   code: Language;
@@ -25,20 +27,20 @@ export const LANGUAGES: LanguageInfo[] = [
 ];
 
 // Translation storage
-const translations: Record<Language, any> = {} as any;
+const translations: Record<Language, TranslationRecord> = {} as Record<Language, TranslationRecord>;
 
 // Load translation
-export function loadTranslation(lang: Language, data: any) {
+export function loadTranslation(lang: Language, data: TranslationRecord) {
   translations[lang] = data;
 }
 
 // Get translation
 export function t(key: string, lang: Language): string {
   const keys = key.split('.');
-  let value: any = translations[lang];
+  let value: TranslationValue = translations[lang];
   
   for (const k of keys) {
-    if (value && typeof value === 'object') {
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
       value = value[k];
     } else {
       return key; // Return key if translation not found

@@ -31,7 +31,7 @@ export default function HomePage() {
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [successData, setSuccessData] = useState<any>(null);
+  const [successData, setSuccessData] = useState<import('../lib/types').SuccessData | null>(null);
   const [userCredits, setUserCredits] = useState(450);
   const [userTier, setUserTier] = useState<'free' | 'pro' | 'business'>('pro');
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -100,7 +100,7 @@ export default function HomePage() {
     // Simulate payment processing
     setTimeout(() => {
       setIsLoading(false);
-      setUserTier(planId as any);
+      setUserTier(planId as 'free' | 'pro' | 'business');
       const prices = { free: 0, pro: 299, business: 999 };
       const amount = prices[planId as keyof typeof prices];
       setSuccessData({

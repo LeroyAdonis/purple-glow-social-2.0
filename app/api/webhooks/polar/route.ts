@@ -19,10 +19,11 @@ export const POST = Webhooks({
     try {
       // Generate a unique event ID from type and timestamp
       const eventId = `${payload.type}-${Date.now()}`;
+      // Cast through unknown to handle Polar's various payload types
       await processWebhookEvent(
         payload.type,
         eventId,
-        payload.data
+        payload.data as unknown as Parameters<typeof processWebhookEvent>[2]
       );
     } catch (error) {
       console.error('Error processing webhook:', error);

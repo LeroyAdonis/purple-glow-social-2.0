@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import type { GenerationResult } from '@/lib/types';
 
 interface AIContentStudioProps {
   userId: string;
@@ -23,7 +24,7 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
   const [language, setLanguage] = useState(currentLanguage);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<GenerationResult[]>([]);
   const [topicSuggestions, setTopicSuggestions] = useState<string[]>([]);
   const [selectedVariation, setSelectedVariation] = useState(0);
   const [error, setError] = useState<string | null>(null);

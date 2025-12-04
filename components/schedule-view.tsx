@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import CalendarView from './calendar-view';
 import SmartSuggestions from './smart-suggestions';
+import type { Post } from '@/lib/types';
 
 interface ScheduledPost {
   id: string;
@@ -10,6 +11,16 @@ interface ScheduledPost {
   platform: 'instagram' | 'twitter' | 'linkedin' | 'facebook';
   scheduledTime: string;
   status: 'scheduled' | 'published' | 'failed';
+  content: string;
+}
+
+/** API response for posts */
+interface PostApiResponse {
+  id: string;
+  topic?: string;
+  platform: 'instagram' | 'twitter' | 'linkedin' | 'facebook';
+  scheduledDate: string;
+  status: string;
   content: string;
 }
 
@@ -64,7 +75,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
 
         if (postsRes.ok) {
           const data = await postsRes.json();
-          const posts = (data.posts || []).map((post: any) => ({
+          const posts = (data.posts || []).map((post: PostApiResponse) => ({
             id: post.id,
             title: post.topic || 'Untitled',
             platform: post.platform,

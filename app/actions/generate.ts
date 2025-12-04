@@ -4,7 +4,7 @@ import { GoogleGenAI } from "@google/genai";
 import { put } from "@vercel/blob";
 import { auth } from "../../lib/auth";
 import { headers } from "next/headers";
-import { drizzle } from "drizzle-orm/neon-http";
+import { drizzle, NeonHttpDatabase } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 import { posts, user } from "../../drizzle/schema";
 import * as schema from "../../drizzle/schema";
@@ -13,10 +13,10 @@ import { eq, sql } from "drizzle-orm";
 
 // Only initialize database if DATABASE_URL is a real connection string
 const isDatabaseConfigured = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('mock');
-let db: any;
+let db: NeonHttpDatabase<typeof schema> | undefined;
 if (isDatabaseConfigured) {
-  const sql = neon(process.env.DATABASE_URL!);
-  db = drizzle(sql, { schema });
+  const sqlClient = neon(process.env.DATABASE_URL!);
+  db = drizzle(sqlClient, { schema });
 }
 
 // Initialize Gemini (for image generation)
@@ -109,8 +109,9 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
       imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${width}&height=${height}&model=flux&nologo=true&seed=${Date.now()}`;
       
       console.log('Generated Pollinations image URL for', platform);
-    } catch (imgError: any) {
-      console.error("Image URL generation failed:", imgError?.message || imgError);
+    } catch (imgError: unknown) {
+      const errorMessage = imgError instanceof Error ? imgError.message : String(imgError);
+      console.error("Image URL generation failed:", errorMessage);
       // Continue without image
     }
 
@@ -154,8 +155,9 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
       }
     };
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Generation Error:", error);
-    return { error: error.message || "Failed to generate content." };
+    const errorMessage = error instanceof Error ? error.message : "Failed to generate content.";
+    return { error: errorMessage };
   }
 }

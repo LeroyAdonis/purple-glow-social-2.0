@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import type { AutomationRule } from '@/lib/types';
 
 interface AutomationWizardProps {
   isOpen: boolean;
   onClose: () => void;
-  onComplete?: (rule: any) => void;
+  onComplete?: (rule: AutomationRule) => void;
 }
 
 type WizardStep = 1 | 2 | 3 | 4;
@@ -80,8 +81,8 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
   };
 
   const handleComplete = () => {
-    const rule = {
-      name: ruleName || templates.find(t => t.id === selectedTemplate)?.name,
+    const rule: AutomationRule = {
+      name: ruleName || templates.find(t => t.id === selectedTemplate)?.name || 'Untitled Rule',
       template: selectedTemplate,
       frequency,
       days: selectedDays,

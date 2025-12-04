@@ -12,6 +12,7 @@ import SettingsView from './components/settings-view';
 import ClientDashboardView from './components/client-dashboard-view';
 import { Language, getCurrentLanguage, t } from './lib/i18n';
 import { initializeTranslations } from './lib/load-translations';
+import type { SuccessData, TranslationRecord, TranslationValue, LanguageCode } from './lib/types';
 
 // Import all translations
 import en from './lib/translations/en.json';
@@ -26,9 +27,9 @@ import ss from './lib/translations/ss.json';
 import ve from './lib/translations/ve.json';
 import nr from './lib/translations/nr.json';
 
-const translations: Record<Language, any> = {
+const translations = {
   en, af, zu, xh, nso, tn, st, ts, ss, ve, nr
-};
+} as Record<LanguageCode, TranslationRecord>;
 
 // This component serves as the Landing Page / Design System Preview
 // In a real Next.js deployment, the logic shifts to app/page.tsx
@@ -43,7 +44,7 @@ export default function App() {
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [successData, setSuccessData] = useState<any>(null);
+  const [successData, setSuccessData] = useState<SuccessData | null>(null);
   const [userCredits, setUserCredits] = useState(450);
   const [userTier, setUserTier] = useState<'free' | 'pro' | 'business'>('pro');
   const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
@@ -58,10 +59,10 @@ export default function App() {
   // Helper function to get translation
   const translate = (key: string) => {
     const keys = key.split('.');
-    let value: any = translations[currentLanguage];
+    let value: TranslationValue = translations[currentLanguage];
 
     for (const k of keys) {
-      if (value && typeof value === 'object') {
+      if (value && typeof value === 'object' && !Array.isArray(value)) {
         value = value[k];
       } else {
         return key;
@@ -120,7 +121,7 @@ export default function App() {
     // Simulate payment processing
     setTimeout(() => {
       setIsLoading(false);
-      setUserTier(planId as any);
+      setUserTier(planId as 'free' | 'pro' | 'business');
       const prices = { free: 0, pro: 299, business: 999 };
       const amount = prices[planId as keyof typeof prices];
       setSuccessData({

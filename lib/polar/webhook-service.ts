@@ -11,11 +11,33 @@ import { createTransaction, updateTransactionStatus, getTransactionByPolarOrderI
 import { createSubscription, updateSubscription, getSubscriptionByPolarId } from '../db/subscriptions';
 import { createWebhookEvent, markEventProcessed, markEventFailed, webhookEventExists } from '../db/webhook-events';
 
+// Flexible webhook payload type for Polar SDK compatibility
+interface WebhookPayloadData {
+  id: string;
+  customer?: { id: string; email: string };
+  customerId?: string;
+  product?: { id: string; name: string };
+  amount?: number;
+  currency?: string;
+  currentPeriodStart?: string;
+  currentPeriodEnd?: string;
+  status?: string;
+  canceledAt?: string;
+  cancelAtPeriodEnd?: boolean;
+  metadata?: {
+    userId?: string;
+    planId?: string;
+    billingCycle?: string;
+    credits?: string;
+    type?: string;
+  };
+}
+
 /**
  * Process a webhook event
  * This is the main entry point for webhook processing
  */
-export async function processWebhookEvent(eventType: string, eventId: string, payload: any) {
+export async function processWebhookEvent(eventType: string, eventId: string, payload: WebhookPayloadData) {
   console.log(`Processing webhook event: ${eventType} (${eventId})`);
 
   // Check if event already processed (idempotency)
@@ -77,7 +99,7 @@ export async function processWebhookEvent(eventType: string, eventId: string, pa
 /**
  * Handle order.created event
  */
-async function handleOrderCreated(payload: any) {
+async function handleOrderCreated(payload: WebhookPayloadData) {
   const { id, customer, product, amount, currency, metadata } = payload;
   
   if (!metadata?.userId) {
@@ -104,7 +126,7 @@ async function handleOrderCreated(payload: any) {
  * Handle order.paid event
  * This is where we add credits to the user's account
  */
-async function handleOrderPaid(payload: any) {
+async function handleOrderPaid(payload: WebhookPayloadData) {
   const { id, metadata } = payload;
   
   if (!metadata?.userId) {
@@ -137,7 +159,7 @@ async function handleOrderPaid(payload: any) {
 /**
  * Handle subscription.created event
  */
-async function handleSubscriptionCreated(payload: any) {
+async function handleSubscriptionCreated(payload: WebhookPayloadData) {
   const { id, customerId, product, currentPeriodStart, currentPeriodEnd, status, metadata } = payload;
   
   if (!metadata?.userId) {
@@ -150,10 +172,10 @@ async function handleSubscriptionCreated(payload: any) {
     polarSubscriptionId: id,
     polarCustomerId: customerId,
     planId: metadata.planId,
-    billingCycle: metadata.billingCycle,
+    billingCycle: (metadata.billingCycle as 'monthly' | 'annual') || 'monthly',
     status: status === 'active' ? 'active' : 'trialing',
-    currentPeriodStart: new Date(currentPeriodStart),
-    currentPeriodEnd: new Date(currentPeriodEnd),
+    currentPeriodStart: new Date(currentPeriodStart!),
+    currentPeriodEnd: new Date(currentPeriodEnd!),
   });
 
   console.log(`Subscription created: ${id} for user ${metadata.userId}`);
@@ -163,7 +185,7 @@ async function handleSubscriptionCreated(payload: any) {
  * Handle subscription.active event
  * This is where we upgrade the user's tier
  */
-async function handleSubscriptionActive(payload: any) {
+async function handleSubscriptionActive(payload: WebhookPayloadData) {
   const { id, metadata } = payload;
   
   if (!metadata?.userId || !metadata?.planId) {
@@ -192,7 +214,7 @@ async function handleSubscriptionActive(payload: any) {
  * Handle subscription.canceled event
  * Downgrade user tier
  */
-async function handleSubscriptionCanceled(payload: any) {
+async function handleSubscriptionCanceled(payload: WebhookPayloadData) {
   const { id, metadata, canceledAt } = payload;
   
   if (!metadata?.userId) {
@@ -223,7 +245,7 @@ async function handleSubscriptionCanceled(payload: any) {
 /**
  * Handle subscription.updated event
  */
-async function handleSubscriptionUpdated(payload: any) {
+async function handleSubscriptionUpdated(payload: WebhookPayloadData) {
   const { id, currentPeriodStart, currentPeriodEnd, status, cancelAtPeriodEnd } = payload;
   
   const subscription = await getSubscriptionByPolarId(id);
@@ -232,9 +254,9 @@ async function handleSubscriptionUpdated(payload: any) {
   }
 
   await updateSubscription(subscription.id, {
-    status,
-    currentPeriodStart: new Date(currentPeriodStart),
-    currentPeriodEnd: new Date(currentPeriodEnd),
+    status: (status as 'active' | 'canceled' | 'past_due' | 'trialing') || 'active',
+    currentPeriodStart: new Date(currentPeriodStart!),
+    currentPeriodEnd: new Date(currentPeriodEnd!),
     cancelAtPeriodEnd: cancelAtPeriodEnd || false,
   });
 
@@ -245,7 +267,7 @@ async function handleSubscriptionUpdated(payload: any) {
  * Handle order.refunded event
  * Deduct credits from user
  */
-async function handleOrderRefunded(payload: any) {
+async function handleOrderRefunded(payload: WebhookPayloadData) {
   const { id, metadata } = payload;
   
   if (!metadata?.userId) {

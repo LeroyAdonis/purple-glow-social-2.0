@@ -51,7 +51,7 @@ export default function DashboardClientPage() {
   }
 
   return (
-    <DashboardClient 
+    <DashboardClient
       userName={session.user.name || "User"}
       userEmail={session.user.email}
       userImage={session.user.image}

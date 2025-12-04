@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import type { PublishResult } from '@/lib/types';
 
 interface TestPostingProps {
   userId: string;
@@ -11,7 +12,7 @@ export default function TestPosting({ userId }: TestPostingProps) {
   const [content, setContent] = useState('Hey Mzansi! 🇿🇦 Testing auto-posting from Purple Glow Social. This is lekker! #MadeInSA #PurpleGlowSocial');
   const [imageUrl, setImageUrl] = useState('');
   const [isPosting, setIsPosting] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<PublishResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handlePost = async () => {

@@ -28,13 +28,13 @@ export default function LoginPage() {
 
     try {
       console.log('[Login] Attempting sign in with:', { email, callbackURL: '/dashboard' });
-      
+
       const result = await signIn.email({
         email,
         password,
         callbackURL: '/dashboard',
       });
-      
+
       console.log('[Login] Sign in result:', result);
       router.push('/dashboard');
     } catch (err: any) {
