@@ -15,6 +15,7 @@ import {
   type Platform 
 } from './prompt-templates';
 import { getLanguageContext, getLanguageHashtags } from './sa-cultural-context';
+import { validateContent, shouldRegenerate, type ValidationResult } from './content-validator';
 
 interface GenerateContentParams {
   topic: string;
@@ -31,6 +32,7 @@ interface GeneratedContent {
   content: string;
   hashtags: string[];
   suggestedImagePrompt?: string;
+  validation?: ValidationResult;
 }
 
 export class GeminiService {
@@ -98,11 +100,54 @@ export class GeminiService {
       const data = await response.json();
       const generatedText = data.candidates[0]?.content?.parts[0]?.text || '';
 
-      return this.parseGeneratedContent(generatedText, params);
+      const result = this.parseGeneratedContent(generatedText, params);
+      
+      // Validate content quality
+      const validation = validateContent(result.content, platform, language);
+      result.validation = validation;
+      
+      // Log quality metrics
+      logger.ai.info('Content generated', {
+        topic,
+        platform,
+        language,
+        qualityScore: validation.qualityScore,
+        isValid: validation.isValid,
+        characterCount: validation.characterCount,
+      });
+      
+      return result;
     } catch (error) {
       logger.ai.exception(error, { topic: params.topic, platform: params.platform });
       throw error;
     }
+  }
+
+  /**
+   * Generate content with automatic regeneration for low quality
+   */
+  async generateContentWithRetry(
+    params: GenerateContentParams,
+    maxRetries: number = 2
+  ): Promise<GeneratedContent> {
+    let lastResult: GeneratedContent | null = null;
+    
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      const result = await this.generateContent(params);
+      lastResult = result;
+      
+      if (result.validation && !shouldRegenerate(result.validation)) {
+        return result;
+      }
+      
+      logger.ai.info('Regenerating content due to low quality', {
+        attempt: attempt + 1,
+        qualityScore: result.validation?.qualityScore,
+      });
+    }
+    
+    // Return last result even if quality is low
+    return lastResult!;
   }
 
   /**
