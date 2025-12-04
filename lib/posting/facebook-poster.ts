@@ -1,6 +1,8 @@
 /**
  * Facebook Posting Service
  * Posts content to Facebook Pages using the Graph API
+ * 
+ * Reference: https://developers.facebook.com/docs/pages-api/posts
  */
 
 import { logger } from '@/lib/logger';
@@ -15,6 +17,15 @@ interface FacebookPostResponse {
   id: string;
   postUrl: string;
 }
+
+interface VideoUploadStartResponse {
+  video_id: string;
+  upload_session_id: string;
+  start_offset: string;
+  end_offset: string;
+}
+
+const VIDEO_CHUNK_SIZE = 4 * 1024 * 1024; // 4MB chunks
 
 export class FacebookPoster {
   /**
@@ -94,6 +105,157 @@ export class FacebookPoster {
       };
     } catch (error) {
       logger.posting.exception(error, { platform: 'facebook', action: 'post-image' });
+      throw error;
+    }
+  }
+
+  /**
+   * Start resumable video upload session
+   */
+  private async startVideoUpload(
+    accessToken: string,
+    pageId: string,
+    fileSize: number
+  ): Promise<VideoUploadStartResponse> {
+    const response = await fetch(
+      `https://graph.facebook.com/v18.0/${pageId}/videos`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          upload_phase: 'start',
+          file_size: fileSize,
+          access_token: accessToken,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error?.message || 'Failed to start video upload');
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Upload a video chunk
+   */
+  private async uploadVideoChunk(
+    accessToken: string,
+    uploadSessionId: string,
+    startOffset: number,
+    chunk: ArrayBuffer
+  ): Promise<{ start_offset: string; end_offset: string }> {
+    const formData = new FormData();
+    formData.append('upload_phase', 'transfer');
+    formData.append('upload_session_id', uploadSessionId);
+    formData.append('start_offset', startOffset.toString());
+    formData.append('video_file_chunk', new Blob([chunk]));
+    formData.append('access_token', accessToken);
+
+    const response = await fetch(
+      'https://graph.facebook.com/v18.0/me/videos',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error?.message || 'Failed to upload video chunk');
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Finish video upload
+   */
+  private async finishVideoUpload(
+    accessToken: string,
+    uploadSessionId: string,
+    description?: string
+  ): Promise<{ video_id: string }> {
+    const params: Record<string, string> = {
+      upload_phase: 'finish',
+      upload_session_id: uploadSessionId,
+      access_token: accessToken,
+    };
+
+    if (description) {
+      params.description = description;
+    }
+
+    const response = await fetch(
+      'https://graph.facebook.com/v18.0/me/videos',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error?.message || 'Failed to finish video upload');
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Post video to Facebook Page using resumable upload
+   */
+  async postVideo(
+    accessToken: string,
+    pageId: string,
+    videoUrl: string,
+    description?: string
+  ): Promise<FacebookPostResponse> {
+    try {
+      // Step 1: Download video
+      const videoResponse = await fetch(videoUrl);
+      if (!videoResponse.ok) {
+        throw new Error('Failed to fetch video');
+      }
+      const videoBuffer = await videoResponse.arrayBuffer();
+      const fileSize = videoBuffer.byteLength;
+
+      // Step 2: Start upload session
+      const uploadSession = await this.startVideoUpload(accessToken, pageId, fileSize);
+      const { upload_session_id } = uploadSession;
+
+      // Step 3: Upload chunks
+      let offset = 0;
+      while (offset < fileSize) {
+        const end = Math.min(offset + VIDEO_CHUNK_SIZE, fileSize);
+        const chunk = videoBuffer.slice(offset, end);
+        
+        const result = await this.uploadVideoChunk(
+          accessToken,
+          upload_session_id,
+          offset,
+          chunk
+        );
+        
+        offset = parseInt(result.end_offset, 10);
+      }
+
+      // Step 4: Finish upload
+      const result = await this.finishVideoUpload(accessToken, upload_session_id, description);
+
+      return {
+        id: result.video_id,
+        postUrl: `https://www.facebook.com/${result.video_id}`,
+      };
+    } catch (error) {
+      logger.posting.exception(error, { platform: 'facebook', action: 'post-video' });
       throw error;
     }
   }

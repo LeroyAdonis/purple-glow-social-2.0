@@ -267,11 +267,75 @@ export default function ContentGenerator() {
         </div>
     );
 
+    const renderLinkedInPreview = () => (
+        <div className="bg-white text-black rounded-xl overflow-hidden shadow-2xl max-w-lg mx-auto font-sans border border-gray-200">
+            {/* Header */}
+            <div className="p-4 flex items-start gap-3">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center text-white font-bold text-lg overflow-hidden">
+                    <img src="https://ui-avatars.com/api/?name=Purple+Glow&background=0077B5&color=fff" alt="User" />
+                </div>
+                <div className="flex-1">
+                    <div className="font-semibold text-sm">Purple Glow Social</div>
+                    <div className="text-xs text-gray-500">Digital Marketing Agency • 500+ followers</div>
+                    <div className="text-xs text-gray-400 flex items-center gap-1 mt-1">
+                        <span>2h</span>
+                        <span>•</span>
+                        <i className="fa-solid fa-earth-africa text-[10px]"></i>
+                    </div>
+                </div>
+                <i className="fa-solid fa-ellipsis text-gray-400"></i>
+            </div>
+
+            {/* Content */}
+            <div className="px-4 pb-3">
+                {isEditing ? (
+                    <textarea
+                        className="w-full p-2 border border-gray-300 rounded bg-gray-50 text-black focus:outline-none focus:border-blue-500 text-sm"
+                        rows={6}
+                        value={localContent}
+                        onChange={(e) => setLocalContent(e.target.value)}
+                    />
+                ) : (
+                    <div className="text-sm leading-relaxed whitespace-pre-wrap">{localContent}</div>
+                )}
+            </div>
+
+            {/* Image */}
+            {state?.data?.imageUrl && (
+                <div className="w-full bg-gray-100 border-t border-gray-200">
+                    <img src={state.data.imageUrl} alt="Generated" className="w-full h-auto object-cover" />
+                </div>
+            )}
+
+            {/* Engagement */}
+            <div className="px-4 py-2 border-t border-gray-200">
+                <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+                    <div className="flex items-center gap-1">
+                        <span className="flex -space-x-1">
+                            <span className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-white text-[8px]"><i className="fa-solid fa-thumbs-up"></i></span>
+                            <span className="w-4 h-4 rounded-full bg-red-500 flex items-center justify-center text-white text-[8px]"><i className="fa-solid fa-heart"></i></span>
+                            <span className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center text-white text-[8px]"><i className="fa-solid fa-hands-clapping"></i></span>
+                        </span>
+                        <span className="ml-1">42</span>
+                    </div>
+                    <span>8 comments • 5 reposts</span>
+                </div>
+                <div className="border-t border-gray-200 pt-2 flex justify-between">
+                    <button className="flex-1 py-2 text-gray-600 font-medium text-xs hover:bg-gray-100 rounded flex items-center justify-center gap-2 cursor-pointer"><i className="fa-regular fa-thumbs-up"></i> Like</button>
+                    <button className="flex-1 py-2 text-gray-600 font-medium text-xs hover:bg-gray-100 rounded flex items-center justify-center gap-2 cursor-pointer"><i className="fa-regular fa-comment"></i> Comment</button>
+                    <button className="flex-1 py-2 text-gray-600 font-medium text-xs hover:bg-gray-100 rounded flex items-center justify-center gap-2 cursor-pointer"><i className="fa-solid fa-retweet"></i> Repost</button>
+                    <button className="flex-1 py-2 text-gray-600 font-medium text-xs hover:bg-gray-100 rounded flex items-center justify-center gap-2 cursor-pointer"><i className="fa-solid fa-paper-plane"></i> Send</button>
+                </div>
+            </div>
+        </div>
+    );
+
     const renderPlatformPreview = () => {
         switch (platform) {
             case 'instagram': return renderInstagramPreview();
             case 'twitter': return renderTwitterPreview();
             case 'facebook': return renderFacebookPreview();
+            case 'linkedin': return renderLinkedInPreview();
             default: return renderInstagramPreview();
         }
     };
@@ -330,7 +394,8 @@ export default function ContentGenerator() {
                                 options={[
                                     { value: "instagram", label: translate('contentGenerator.platforms.instagram'), icon: "fa-brands fa-instagram", color: "text-pink-500" },
                                     { value: "twitter", label: translate('contentGenerator.platforms.twitter'), icon: "fa-brands fa-twitter", color: "text-blue-400" },
-                                    { value: "facebook", label: translate('contentGenerator.platforms.facebook'), icon: "fa-brands fa-facebook", color: "text-blue-500" }
+                                    { value: "facebook", label: translate('contentGenerator.platforms.facebook'), icon: "fa-brands fa-facebook", color: "text-blue-500" },
+                                    { value: "linkedin", label: "LinkedIn", icon: "fa-brands fa-linkedin", color: "text-blue-600" }
                                 ]}
                                 placeholder={translate('contentGenerator.selectPlatform')}
                             />

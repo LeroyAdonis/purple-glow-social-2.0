@@ -1,9 +1,20 @@
 /**
  * Google Gemini AI Service
  * Generates culturally relevant South African content
+ * 
+ * Reference: https://ai.google.dev/docs/prompt_best_practices
  */
 
 import { logger } from '@/lib/logger';
+import { 
+  buildEnhancedPrompt, 
+  buildHashtagPrompt, 
+  buildTopicSuggestionPrompt,
+  getGenerationConfig,
+  type Tone,
+  type Platform 
+} from './prompt-templates';
+import { getLanguageContext, getLanguageHashtags } from './sa-cultural-context';
 
 interface GenerateContentParams {
   topic: string;
@@ -12,6 +23,8 @@ interface GenerateContentParams {
   tone?: 'professional' | 'casual' | 'friendly' | 'energetic';
   includeHashtags?: boolean;
   includeEmojis?: boolean;
+  targetAudience?: string;
+  callToAction?: string;
 }
 
 interface GeneratedContent {
@@ -32,11 +45,35 @@ export class GeminiService {
   }
 
   /**
-   * Generate content for social media post
+   * Generate content for social media post using enhanced prompts
    */
   async generateContent(params: GenerateContentParams): Promise<GeneratedContent> {
     try {
-      const prompt = this.buildPrompt(params);
+      const { 
+        topic, 
+        platform, 
+        language, 
+        tone = 'friendly', 
+        includeHashtags = true, 
+        includeEmojis = true,
+        targetAudience,
+        callToAction 
+      } = params;
+      
+      // Build enhanced prompt using new template system
+      const prompt = buildEnhancedPrompt({
+        topic,
+        platform: platform as Platform,
+        language,
+        tone: tone as Tone,
+        includeHashtags,
+        includeEmojis,
+        targetAudience,
+        callToAction,
+      });
+      
+      // Get optimized generation config
+      const genConfig = getGenerationConfig(platform as Platform, tone as Tone);
       
       const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
         method: 'POST',
@@ -49,12 +86,7 @@ export class GeminiService {
               text: prompt,
             }],
           }],
-          generationConfig: {
-            temperature: 0.9,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
-          },
+          generationConfig: genConfig,
         }),
       });
 
@@ -74,75 +106,19 @@ export class GeminiService {
   }
 
   /**
+   * Legacy method - kept for backward compatibility
    * Build context-aware prompt for Gemini
    */
   private buildPrompt(params: GenerateContentParams): string {
-    const { topic, platform, language, tone = 'friendly', includeHashtags = true, includeEmojis = true } = params;
-
-    // Platform-specific character limits (strict)
-    const platformLimits: Record<string, { limit: number; description: string }> = {
-      twitter: { limit: 280, description: 'STRICTLY under 280 characters total including hashtags' },
-      instagram: { limit: 2200, description: 'STRICTLY under 2000 characters to leave room for hashtags (max 2200 total)' },
-      facebook: { limit: 2000, description: 'Keep it concise, around 1500-2000 characters for best engagement' },
-      linkedin: { limit: 3000, description: 'Professional post under 2500 characters for best engagement' },
-    };
-
-    const limitInfo = platformLimits[platform] || platformLimits.instagram;
-
-    // Language-specific context with full language names
-    const languageContext = this.getLanguageContext(language);
-    const languageFullName = this.getLanguageFullName(language);
-
-    // Language-specific greeting examples
-    const languageExamples = this.getLanguageExamples(language);
-
-    const prompt = `You are a South African social media content creator for small businesses and entrepreneurs.
-
-**CRITICAL: CHARACTER LIMIT - THIS IS MANDATORY**
-⚠️ ${limitInfo.description}
-⚠️ Character limit for ${platform}: ${limitInfo.limit} characters MAXIMUM
-⚠️ Count your characters carefully. Exceeding this limit will cause the post to fail.
-
-**CRITICAL: LANGUAGE REQUIREMENT**
-You MUST write the entire post in ${languageFullName} (language code: ${language}).
-${language !== 'en' ? `The main content MUST be written in ${languageFullName}. Only use English for hashtags, brand names, or widely understood words.` : 'Write in South African English with local expressions.'}
-
-**Context:**
-- Platform: ${platform}
-- Topic: ${topic}
-- Language: ${languageFullName} (${languageContext})
-- Tone: ${tone}
-- Character Limit: ${limitInfo.limit} (STRICT - do not exceed)
-- Include hashtags: ${includeHashtags}
-- Include emojis: ${includeEmojis}
-
-**Requirements:**
-1. ⚠️ STAY UNDER ${limitInfo.limit} CHARACTERS - This is the most important rule
-2. WRITE THE POST ENTIRELY IN ${languageFullName.toUpperCase()}
-3. Use South African context, culture, and local references
-4. ${languageExamples}
-5. Reference South African locations (Joburg, Cape Town, Durban, Pretoria, etc.)
-6. ${includeHashtags ? 'Include 3-5 relevant hashtags at the end (count these in your character limit!)' : 'Do not include hashtags'}
-7. ${includeEmojis ? 'Use relevant emojis naturally (emojis count as characters!)' : 'Do not use emojis'}
-8. Make it authentic and relatable to South African audiences
-9. Focus on the topic: ${topic}
-10. Keep the ${tone} tone throughout
-
-**Format:**
-- Main content in ${languageFullName} (with emojis if requested)
-- Blank line
-- Hashtags on separate lines (if requested)
-- TOTAL must be under ${limitInfo.limit} characters
-
-**Example South African touches:**
-- "Howzit Mzansi!"
-- "Sharp sharp, don't miss out!"
-- "Lekker deals this weekend!"
-- "#LocalIsLekker #MzansiMagic"
-
-Generate CONCISE content under ${limitInfo.limit} characters in ${languageFullName} now:`;
-
-    return prompt;
+    // Use the new enhanced prompt builder
+    return buildEnhancedPrompt({
+      topic: params.topic,
+      platform: params.platform as Platform,
+      language: params.language,
+      tone: (params.tone || 'friendly') as Tone,
+      includeHashtags: params.includeHashtags ?? true,
+      includeEmojis: params.includeEmojis ?? true,
+    });
   }
 
   /**
@@ -284,20 +260,15 @@ Generate CONCISE content under ${limitInfo.limit} characters in ${languageFullNa
   }
 
   /**
-   * Generate hashtag suggestions for a topic
+   * Generate hashtag suggestions for a topic using enhanced prompts
    */
-  async generateHashtags(topic: string, count: number = 10): Promise<string[]> {
+  async generateHashtags(topic: string, language: string = 'en', count: number = 10): Promise<string[]> {
     try {
-      const prompt = `Generate ${count} relevant hashtags for a South African social media post about "${topic}".
-
-Requirements:
-1. Mix of popular and niche hashtags
-2. Include South African-specific hashtags (e.g., #Mzansi, #SouthAfrica, #LocalIsLekker)
-3. Include topic-specific hashtags
-4. Make them relevant for small businesses and entrepreneurs
-5. Format each hashtag starting with #
-
-Generate the hashtags as a comma-separated list:`;
+      // Use the new hashtag prompt builder
+      const prompt = buildHashtagPrompt(topic, language, count);
+      
+      // Get language-specific hashtags to mix in
+      const langHashtags = getLanguageHashtags(language);
 
       const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
         method: 'POST',
@@ -325,8 +296,11 @@ Generate the hashtags as a comma-separated list:`;
       const text = data.candidates[0]?.content?.parts[0]?.text || '';
       
       // Extract hashtags
-      const hashtags: string[] = text.match(/#\w+/g) || [];
-      return Array.from(new Set(hashtags)).slice(0, count);
+      const generatedHashtags: string[] = text.match(/#\w+/g) || [];
+      
+      // Combine with language-specific hashtags
+      const allHashtags = [...generatedHashtags, ...langHashtags];
+      return Array.from(new Set(allHashtags)).slice(0, count);
     } catch (error) {
       logger.ai.exception(error, { action: 'hashtag-generation', topic });
       return [];
@@ -334,20 +308,12 @@ Generate the hashtags as a comma-separated list:`;
   }
 
   /**
-   * Get content suggestions based on current trends
+   * Get content suggestions based on current trends using enhanced prompts
    */
-  async getTopicSuggestions(industry: string): Promise<string[]> {
+  async getTopicSuggestions(industry: string, language: string = 'en'): Promise<string[]> {
     try {
-      const prompt = `Suggest 10 trending content topics for a South African ${industry} business to post on social media.
-
-Requirements:
-1. Topics should be relevant to South Africa
-2. Include local events, holidays, and cultural moments
-3. Mix of evergreen and timely topics
-4. Suitable for small businesses
-5. Engaging and relatable
-
-Format as a simple numbered list:`;
+      // Use the new topic suggestion prompt builder
+      const prompt = buildTopicSuggestionPrompt(industry, language);
 
       const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
         method: 'POST',
