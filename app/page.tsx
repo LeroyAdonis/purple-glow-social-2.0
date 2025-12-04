@@ -185,16 +185,16 @@ export default function HomePage() {
                   <i className="fa-solid fa-grid-2 mr-2"></i>
                   Dashboard
                 </Link>
-                
+
                 {/* User Profile Dropdown */}
                 <div className="relative user-menu-container">
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
                   >
-                    <img 
-                      src={session.user?.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(session.user?.name || 'User')}&background=9D4EDD&color=fff`} 
-                      alt="User" 
+                    <img
+                      src={session.user?.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(session.user?.name || 'User')}&background=9D4EDD&color=fff`}
+                      alt="User"
                       className="w-8 h-8 rounded-full border border-glass-border"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
@@ -203,7 +203,7 @@ export default function HomePage() {
                     />
                     <i className={`fa-solid fa-chevron-down text-xs transition-transform ${showUserMenu ? 'rotate-180' : ''}`}></i>
                   </button>
-                  
+
                   {/* Dropdown Menu */}
                   {showUserMenu && (
                     <div className="absolute right-0 mt-2 w-56 bg-void border border-glass-border rounded-xl shadow-2xl overflow-hidden z-50 animate-enter">
