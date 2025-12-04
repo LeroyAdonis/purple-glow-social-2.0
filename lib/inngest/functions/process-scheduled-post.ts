@@ -56,7 +56,10 @@ export const processScheduledPost = inngest.createFunction(
   },
   { event: 'post/scheduled.process' },
   async ({ event, step, attempt }) => {
-    const { postId, userId, platform } = event.data;
+    const { postId, userId, platform, scheduledAt } = event.data;
+
+    // Step 0: Wait until the scheduled time
+    await step.sleepUntil('wait-for-schedule', scheduledAt);
 
     // Log job start
     const jobLog = await step.run('log-job-start', async () => {
@@ -93,7 +96,7 @@ export const processScheduledPost = inngest.createFunction(
       // Step 2: Check if user has credits (via reservation or available)
       const creditCheck = await step.run('check-credits', async () => {
         const reservation = await getReservationByPostId(postId);
-        
+
         if (reservation && reservation.status === 'pending') {
           return { hasCredits: true, source: 'reservation', reservationId: reservation.id };
         }

@@ -1,4 +1,25 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { inngest } from '@/lib/inngest/client';
+
+// ... existing imports ...
+
+// Inside POST function, after updatePost:
+
+// Update post with scheduled date and status
+const updatedPost = await updatePost(validated.postId, {
+  status: 'scheduled',
+  scheduledDate,
+});
+
+// Trigger Inngest workflow for native scheduling
+await inngest.send({
+  name: 'post/scheduled.process',
+  data: {
+    postId: validated.postId,
+    userId: session.user.id,
+    platform: post.platform,
+    scheduledAt: scheduledDate.toISOString(),
+  },
+});
 import { auth } from '@/lib/auth';
 import { updatePost, getPostById, countScheduledPosts } from '@/lib/db/posts';
 import { db } from '@/drizzle/db';
@@ -28,7 +49,7 @@ export async function POST(request: NextRequest) {
     const session = await auth.api.getSession({
       headers: request.headers
     });
-    
+
     if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -74,10 +95,10 @@ export async function POST(request: NextRequest) {
     // Check queue size and advance scheduling limits
     const currentQueueSize = await countScheduledPosts(session.user.id);
     const scheduleCheck = canSchedule(userTier, currentQueueSize, scheduledDate);
-    
+
     if (!scheduleCheck.allowed) {
       return NextResponse.json(
-        { 
+        {
           error: scheduleCheck.message,
           limit: scheduleCheck.limit,
           current: scheduleCheck.current,
@@ -92,10 +113,10 @@ export async function POST(request: NextRequest) {
     // Check if user has enough available credits
     const availableCredits = await getAvailableCredits(session.user.id);
     const creditCheck = hasEnoughCredits(userRecord.credits, userRecord.credits - availableCredits, creditCost);
-    
+
     if (!creditCheck.allowed) {
       return NextResponse.json(
-        { 
+        {
           error: creditCheck.message,
           required: creditCost,
           available: availableCredits,
@@ -133,14 +154,14 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     console.error('Schedule post error:', error);
-    
+
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: 'Invalid request data', details: error.issues },
         { status: 400 }
       );
     }
-    
+
     return NextResponse.json(
       { error: error.message || 'Failed to schedule post' },
       { status: 500 }
