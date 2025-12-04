@@ -9,6 +9,7 @@ import {
   getTwitterOAuthConfig,
   logOAuthStatus 
 } from "./config/env-validation";
+import { getTrustedOrigins } from "./config/urls";
 import { logger } from "./logger";
 
 // Validate environment variables at startup
@@ -47,22 +48,13 @@ if (twitterConfig) {
   socialProviders.twitter = twitterConfig;
 }
 
-// Build trusted origins from environment
-const trustedOrigins = [
-  "http://localhost:3000",
-  process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
-  process.env.BETTER_AUTH_URL,
-  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
-  "https://purple-glow-social-2-0.vercel.app", // Keep for backwards compatibility
-].filter((origin): origin is string => Boolean(origin));
-
-// Remove duplicates
-const uniqueTrustedOrigins = [...new Set(trustedOrigins)];
+// Build trusted origins from environment using centralized utility
+const trustedOrigins = getTrustedOrigins();
 
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-for-development",
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
-  trustedOrigins: uniqueTrustedOrigins,
+  trustedOrigins: trustedOrigins,
   database: isDatabaseConfigured && db ? drizzleAdapter(db, {
     provider: "pg",
     schema: {

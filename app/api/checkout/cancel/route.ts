@@ -6,10 +6,11 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getBaseUrl } from '../../../../lib/config/urls';
 
 export async function GET(request: NextRequest) {
   // Build redirect URL with cancel parameters
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const baseUrl = getBaseUrl();
   const redirectUrl = new URL('/dashboard', baseUrl);
   
   redirectUrl.searchParams.set('payment_canceled', 'true');

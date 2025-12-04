@@ -157,12 +157,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-void text-white font-body overflow-x-hidden relative selection:bg-neon-grape selection:text-white">
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        html { 
-          scroll-behavior: smooth; 
-        }
-      `}} />
 
       {/* Ambient Background */}
       <div className="fixed inset-0 pointer-events-none">

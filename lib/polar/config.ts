@@ -7,6 +7,8 @@
  * - Success/cancel URLs for checkout flows
  */
 
+import { getBaseUrl } from '../config/urls';
+
 export const POLAR_CONFIG = {
   // API Configuration
   accessToken: process.env.POLAR_ACCESS_TOKEN || '',
@@ -14,8 +16,10 @@ export const POLAR_CONFIG = {
   organizationId: process.env.POLAR_ORGANIZATION_ID || '',
   server: (process.env.POLAR_SERVER as 'sandbox' | 'production') || 'sandbox',
   
-  // Base URL for callbacks
-  baseUrl: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+  // Base URL for callbacks (using centralized URL utility)
+  get baseUrl() {
+    return getBaseUrl();
+  },
 };
 
 /**
