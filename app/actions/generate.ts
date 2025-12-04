@@ -108,10 +108,9 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
       const encodedPrompt = encodeURIComponent(imagePrompt);
       imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${width}&height=${height}&model=flux&nologo=true&seed=${Date.now()}`;
       
-      console.log('Generated Pollinations image URL for', platform);
+      // Image URL generated successfully
     } catch (imgError: unknown) {
-      const errorMessage = imgError instanceof Error ? imgError.message : String(imgError);
-      console.error("Image URL generation failed:", errorMessage);
+      // Continue without image - non-critical error
       // Continue without image
     }
 

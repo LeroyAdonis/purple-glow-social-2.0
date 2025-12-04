@@ -11,6 +11,7 @@ import JobDetailModal from './admin/job-detail-modal';
 import GenerationErrors from './admin/generation-errors';
 import PublishingErrors from './admin/publishing-errors';
 import AutomationOverview from './admin/automation-overview';
+import { logger } from '../lib/logger';
 
 interface AdminUser {
   id: string;
@@ -196,7 +197,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
         setTierDist(statsData.users?.tierDistribution || { free: 0, pro: 0, business: 0 });
       } catch (err: any) {
         setError(err.message || 'Failed to load data');
-        console.error('Admin data fetch error:', err);
+        logger.admin.exception(err as Error, { context: 'fetchData' });
       } finally {
         setLoading(false);
       }
@@ -227,7 +228,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
         setAnalyticsData(data);
       }
     } catch (err) {
-      console.error('Failed to fetch analytics:', err);
+      logger.admin.exception(err as Error, { context: 'fetchAnalytics' });
     } finally {
       setAnalyticsLoading(false);
     }
@@ -243,7 +244,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
         setJobStats(data.stats || { total: 0, pending: 0, running: 0, completed: 0, failed: 0, cancelled: 0, averageRetries: 0 });
       }
     } catch (err) {
-      console.error('Failed to fetch jobs:', err);
+      logger.admin.exception(err as Error, { context: 'fetchJobs' });
     } finally {
       setJobsLoading(false);
     }
@@ -259,7 +260,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
         setPublishingErrors(data.publishingErrors || []);
       }
     } catch (err) {
-      console.error('Failed to fetch errors:', err);
+      logger.admin.exception(err as Error, { context: 'fetchErrors' });
     } finally {
       setErrorsLoading(false);
     }
@@ -276,7 +277,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
         fetchJobs(); // Refresh jobs list
       }
     } catch (err) {
-      console.error('Failed to retry job:', err);
+      logger.admin.exception(err as Error, { context: 'handleJobRetry', jobId });
     }
   };
 
@@ -309,7 +310,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
         setUsers(users.map(u => u.id === userId ? { ...u, tier: newTier } : u));
       }
     } catch (error) {
-      console.error('Failed to update tier:', error);
+      logger.admin.exception(error as Error, { context: 'handleTierChange', userId, newTier });
     }
   };
 
@@ -329,7 +330,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           ));
         }
       } catch (error) {
-        console.error('Failed to adjust credits:', error);
+        logger.admin.exception(error as Error, { context: 'handleCreditAdjustment', userId: selectedUser.id, amount });
       }
       setShowCreditModal(false);
       setCreditAmount('');

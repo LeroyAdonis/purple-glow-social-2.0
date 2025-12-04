@@ -1,4 +1,5 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
+import { logger } from './logger';
 
 interface Props {
   children?: ReactNode;
@@ -21,7 +22,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error('Uncaught error:', error, errorInfo);
+    logger.security.exception(error, { component: 'ErrorBoundary', errorInfo });
   }
 
   render(): ReactNode {
@@ -98,7 +99,7 @@ export class ModalErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error('Modal error:', error, errorInfo);
+    logger.security.exception(error, { component: 'ModalErrorBoundary', errorInfo });
   }
 
   render(): ReactNode {

@@ -558,6 +558,29 @@ npm run db:seed-test
    - `/api/ai/topics` - Topic suggestions
    - `/api/cron/process-scheduled-posts` - Cron job
 
+5. **Structured Logging:**
+   ```typescript
+   // Use the pre-configured logger instead of console.log
+   import { logger } from '@/lib/logger';
+   
+   // Context-specific loggers
+   logger.auth.info('User logged in', { userId });
+   logger.api.debug('Request received', { endpoint });
+   logger.cron.warn('Slow job execution', { duration });
+   logger.polar.error('Payment failed', { error });
+   
+   // Log exceptions with stack traces (auto-sends to Sentry in production)
+   logger.oauth.exception(error, { platform: 'twitter' });
+   
+   // Available contexts: auth, api, cron, oauth, posting, ai, polar, db, admin, security
+   ```
+   
+   Features:
+   - Log level filtering by environment (debug in dev, info+ in prod)
+   - Automatic sensitive data sanitization (tokens, passwords)
+   - Sentry integration for error-level logs
+   - Consistent timestamp and context formatting
+
 ---
 
 ## ⚠️ Important Notes

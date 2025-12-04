@@ -8,13 +8,14 @@
 import { Webhooks } from '@polar-sh/nextjs';
 import { POLAR_CONFIG } from '../../../../lib/polar/config';
 import { processWebhookEvent } from '../../../../lib/polar/webhook-service';
+import { logger } from '../../../../lib/logger';
 
 export const POST = Webhooks({
   webhookSecret: POLAR_CONFIG.webhookSecret,
   
   // Main payload handler - processes all events
   onPayload: async (payload) => {
-    console.log('Received Polar webhook:', payload.type);
+    logger.polar.info('Received Polar webhook', { type: payload.type });
     
     try {
       // Generate a unique event ID from type and timestamp
@@ -26,7 +27,7 @@ export const POST = Webhooks({
         payload.data as unknown as Parameters<typeof processWebhookEvent>[2]
       );
     } catch (error) {
-      console.error('Error processing webhook:', error);
+      logger.polar.exception(error, { webhookType: payload.type });
       // Note: We still return success to Polar to avoid retries for unrecoverable errors
       // The error is logged in our database via webhook-events table
     }
@@ -34,26 +35,26 @@ export const POST = Webhooks({
 
   // Granular handlers for specific events (optional - for logging/monitoring)
   onOrderCreated: async (payload) => {
-    console.log('Order created:', payload.data.id);
+    logger.polar.info('Order created', { orderId: payload.data.id });
   },
 
   onOrderPaid: async (payload) => {
-    console.log('Order paid:', payload.data.id);
+    logger.polar.info('Order paid', { orderId: payload.data.id });
   },
 
   onSubscriptionCreated: async (payload) => {
-    console.log('Subscription created:', payload.data.id);
+    logger.polar.info('Subscription created', { subscriptionId: payload.data.id });
   },
 
   onSubscriptionActive: async (payload) => {
-    console.log('Subscription activated:', payload.data.id);
+    logger.polar.info('Subscription activated', { subscriptionId: payload.data.id });
   },
 
   onSubscriptionCanceled: async (payload) => {
-    console.log('Subscription canceled:', payload.data.id);
+    logger.polar.info('Subscription canceled', { subscriptionId: payload.data.id });
   },
 
   onOrderRefunded: async (payload) => {
-    console.log('Order refunded:', payload.data.id);
+    logger.polar.info('Order refunded', { orderId: payload.data.id });
   },
 });

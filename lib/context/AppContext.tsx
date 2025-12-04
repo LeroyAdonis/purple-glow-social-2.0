@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Language, getCurrentLanguage, setCurrentLanguage } from '../i18n';
+import { logger } from '../logger';
 
 interface User {
   id: string;
@@ -111,7 +112,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           setCredits(data.credits || 10);
         }
       } catch (error) {
-        console.error('Failed to fetch user data:', error);
+        logger.api.exception(error as Error, { context: 'fetchUserData' });
       }
     };
 

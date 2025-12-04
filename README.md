@@ -267,25 +267,46 @@ Better-auth is integrated and ready for activation when connecting to a real bac
    cp .env.example .env
    ```
    
-   **Required for Payment Integration:**
+   **Required Variables:**
+   | Variable | Description |
+   |----------|-------------|
+   | `DATABASE_URL` | PostgreSQL connection string (Neon) |
+   | `BETTER_AUTH_SECRET` | Secret key for auth (min 32 chars) |
+   | `BETTER_AUTH_URL` | Base URL for auth (e.g., http://localhost:3000) |
+   | `NEXT_PUBLIC_BETTER_AUTH_URL` | Same as above, for client-side |
+   
+   **For Payment Integration:**
    - `POLAR_ACCESS_TOKEN` - Get from Polar.sh dashboard
    - `POLAR_WEBHOOK_SECRET` - Generate in webhook settings
    - `POLAR_ORGANIZATION_ID` - Your Polar organization ID
    - Product IDs for credit packages and subscriptions
    
-   See [docs/POLAR_SETUP_GUIDE.md](docs/POLAR_SETUP_GUIDE.md) for detailed setup.
+   **For OAuth/Social Posting:**
+   - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` - Google OAuth login
+   - `META_APP_ID` / `META_APP_SECRET` - Facebook/Instagram
+   - `TWITTER_CLIENT_ID` / `TWITTER_CLIENT_SECRET` - Twitter/X
+   - `LINKEDIN_CLIENT_ID` / `LINKEDIN_CLIENT_SECRET` - LinkedIn
+   
+   **For AI Content:**
+   - `GEMINI_API_KEY` - Google Gemini Pro API key
+   
+   **For Security:**
+   - `TOKEN_ENCRYPTION_KEY` - 64-char hex string for AES-256-GCM
+   - `CRON_SECRET` - Secret for cron job authentication
+   
+   See [docs/POLAR_SETUP_GUIDE.md](docs/POLAR_SETUP_GUIDE.md) for detailed payment setup.
 
 4. **Run Database Migrations**
    - Copy `.env.production.example` to your Vercel project
    - Fill in all required values (see DEPLOYMENT_GUIDE.md)
 
-4. **Deploy**
+5. **Deploy**
    ```bash
    npm i -g vercel
    vercel --prod
    ```
 
-5. **Configure OAuth Apps**
+6. **Configure OAuth Apps**
    - Update redirect URIs for all OAuth providers
    - See DEPLOYMENT_GUIDE.md for detailed instructions
 
