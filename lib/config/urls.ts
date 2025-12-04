@@ -58,6 +58,8 @@ export function buildUrl(path: string): string {
 export function getTrustedOrigins(): string[] {
   const origins: (string | null | undefined)[] = [
     'http://localhost:3000',
+    // Canonical production URL - must be explicitly included
+    'https://purple-glow-social-2-0.vercel.app',
     process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
     process.env.BETTER_AUTH_URL,
     process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
