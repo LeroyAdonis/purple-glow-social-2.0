@@ -181,15 +181,20 @@ export async function POST(request: NextRequest) {
     });
 
     // 3. Trigger Inngest workflow (after successful DB transaction)
-    await inngest.send({
-      name: 'post/scheduled.process',
-      data: {
-        postId: validated.postId,
-        userId: session.user.id,
-        platform: post.platform,
-        scheduledAt: scheduledDate.toISOString(),
-      },
-    });
+    // Non-blocking: don't fail the request if Inngest is unavailable (e.g., missing event key in dev)
+    try {
+      await inngest.send({
+        name: 'post/scheduled.process',
+        data: {
+          postId: validated.postId,
+          userId: session.user.id,
+          platform: post.platform,
+          scheduledAt: scheduledDate.toISOString(),
+        },
+      });
+    } catch (inngestError) {
+      console.warn('Inngest send failed (non-critical):', inngestError);
+    }
 
     // Get updated available credits (fresh read)
     const updatedAvailable = await getAvailableCredits(session.user.id);
