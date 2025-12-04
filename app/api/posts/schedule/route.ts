@@ -1,25 +1,5 @@
+import { NextRequest, NextResponse } from 'next/server';
 import { inngest } from '@/lib/inngest/client';
-
-// ... existing imports ...
-
-// Inside POST function, after updatePost:
-
-// Update post with scheduled date and status
-const updatedPost = await updatePost(validated.postId, {
-  status: 'scheduled',
-  scheduledDate,
-});
-
-// Trigger Inngest workflow for native scheduling
-await inngest.send({
-  name: 'post/scheduled.process',
-  data: {
-    postId: validated.postId,
-    userId: session.user.id,
-    platform: post.platform,
-    scheduledAt: scheduledDate.toISOString(),
-  },
-});
 import { auth } from '@/lib/auth';
 import { updatePost, getPostById, countScheduledPosts } from '@/lib/db/posts';
 import { db } from '@/drizzle/db';
@@ -137,6 +117,17 @@ export async function POST(request: NextRequest) {
     const updatedPost = await updatePost(validated.postId, {
       status: 'scheduled',
       scheduledDate,
+    });
+
+    // Trigger Inngest workflow for native scheduling
+    await inngest.send({
+      name: 'post/scheduled.process',
+      data: {
+        postId: validated.postId,
+        userId: session.user.id,
+        platform: post.platform,
+        scheduledAt: scheduledDate.toISOString(),
+      },
     });
 
     // Get updated available credits
