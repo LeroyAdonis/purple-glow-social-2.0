@@ -1,5 +1,6 @@
 import { OAuthProvider, TokenResponse, UserProfile, OAuthError } from './base-provider';
 import crypto from 'crypto';
+import { logger } from '@/lib/logger';
 
 export class TwitterProvider implements OAuthProvider {
   platform = 'twitter' as const;
@@ -91,7 +92,7 @@ export class TwitterProvider implements OAuthProvider {
       };
     } catch (error) {
       if (error instanceof OAuthError) throw error;
-      console.error('Twitter token exchange error:', error);
+      logger.oauth.exception(error, { platform: 'twitter', action: 'token-exchange' });
       throw new OAuthError('Failed to exchange code for token', 'token_exchange_error');
     }
   }
@@ -157,7 +158,7 @@ export class TwitterProvider implements OAuthProvider {
       };
     } catch (error) {
       if (error instanceof OAuthError) throw error;
-      console.error('Twitter profile fetch error:', error);
+      logger.oauth.exception(error, { platform: 'twitter', action: 'get-profile' });
       throw new OAuthError('Failed to get user profile', 'profile_error');
     }
   }
@@ -180,7 +181,7 @@ export class TwitterProvider implements OAuthProvider {
         body: body.toString(),
       });
     } catch (error) {
-      console.error('Twitter token revocation error:', error);
+      logger.oauth.exception(error, { platform: 'twitter', action: 'revoke-token' });
       // Don't throw - best effort
     }
   }

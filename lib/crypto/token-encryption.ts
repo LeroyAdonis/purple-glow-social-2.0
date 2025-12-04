@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { logger } from '@/lib/logger';
 
 const ALGORITHM = 'aes-256-gcm';
 const IV_LENGTH = 16;
@@ -45,7 +46,7 @@ export function encryptToken(token: string): string {
       encrypted
     ].join(':');
   } catch (error) {
-    console.error('Token encryption failed:', error);
+    logger.security.exception(error, { action: 'token-encryption' });
     throw new Error('Failed to encrypt token');
   }
 }
@@ -77,7 +78,7 @@ export function decryptToken(encryptedToken: string): string {
     
     return decrypted;
   } catch (error) {
-    console.error('Token decryption failed:', error);
+    logger.security.exception(error, { action: 'token-decryption' });
     throw new Error('Failed to decrypt token');
   }
 }

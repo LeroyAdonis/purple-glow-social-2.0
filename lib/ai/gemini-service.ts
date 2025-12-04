@@ -3,6 +3,8 @@
  * Generates culturally relevant South African content
  */
 
+import { logger } from '@/lib/logger';
+
 interface GenerateContentParams {
   topic: string;
   platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin';
@@ -25,7 +27,7 @@ export class GeminiService {
   constructor() {
     this.apiKey = process.env.GEMINI_API_KEY || '';
     if (!this.apiKey) {
-      console.warn('GEMINI_API_KEY not found in environment variables');
+      logger.ai.warn('GEMINI_API_KEY not found in environment variables');
     }
   }
 
@@ -66,7 +68,7 @@ export class GeminiService {
 
       return this.parseGeneratedContent(generatedText, params);
     } catch (error) {
-      console.error('Gemini content generation error:', error);
+      logger.ai.exception(error, { topic: params.topic, platform: params.platform });
       throw error;
     }
   }
@@ -274,7 +276,7 @@ Generate CONCISE content under ${limitInfo.limit} characters in ${languageFullNa
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
       } catch (error) {
-        console.error(`Failed to generate variation ${i + 1}:`, error);
+        logger.ai.exception(error, { variation: i + 1 });
       }
     }
 
@@ -326,7 +328,7 @@ Generate the hashtags as a comma-separated list:`;
       const hashtags: string[] = text.match(/#\w+/g) || [];
       return Array.from(new Set(hashtags)).slice(0, count);
     } catch (error) {
-      console.error('Hashtag generation error:', error);
+      logger.ai.exception(error, { action: 'hashtag-generation', topic });
       return [];
     }
   }
@@ -381,7 +383,7 @@ Format as a simple numbered list:`;
       
       return topics;
     } catch (error) {
-      console.error('Topic suggestion error:', error);
+      logger.ai.exception(error, { action: 'topic-suggestions', industry });
       return [];
     }
   }

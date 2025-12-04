@@ -1,4 +1,5 @@
 import { OAuthProvider, TokenResponse, UserProfile, OAuthError } from './base-provider';
+import { logger } from '@/lib/logger';
 
 export class FacebookProvider implements OAuthProvider {
   platform = 'facebook' as const;
@@ -78,7 +79,7 @@ export class FacebookProvider implements OAuthProvider {
       };
     } catch (error) {
       if (error instanceof OAuthError) throw error;
-      console.error('Facebook token exchange error:', error);
+      logger.oauth.exception(error, { platform: 'facebook', action: 'token-exchange' });
       throw new OAuthError('Failed to exchange code for token', 'token_exchange_error');
     }
   }
@@ -146,7 +147,7 @@ export class FacebookProvider implements OAuthProvider {
         }
       } catch (e) {
         // Pages permission not available, fall back to user profile
-        console.log('Pages not accessible, using user profile instead');
+        logger.oauth.debug('Pages not accessible, using user profile instead');
       }
       
       // Fall back to user profile if no pages accessible
@@ -158,7 +159,7 @@ export class FacebookProvider implements OAuthProvider {
       };
     } catch (error) {
       if (error instanceof OAuthError) throw error;
-      console.error('Facebook profile fetch error:', error);
+      logger.oauth.exception(error, { platform: 'facebook', action: 'get-profile' });
       throw new OAuthError('Failed to get user profile', 'profile_error');
     }
   }
@@ -174,7 +175,7 @@ export class FacebookProvider implements OAuthProvider {
         throw new OAuthError('Failed to revoke token', 'revoke_failed');
       }
     } catch (error) {
-      console.error('Facebook token revocation error:', error);
+      logger.oauth.exception(error, { platform: 'facebook', action: 'revoke-token' });
       // Don't throw - token revocation is best effort
     }
   }

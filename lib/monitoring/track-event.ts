@@ -5,11 +5,12 @@
  */
 
 import * as Sentry from '@sentry/nextjs';
+import { logger } from '@/lib/logger';
 
 interface TrackEvent {
   name: string;
   category: 'user' | 'system' | 'business' | 'error';
-  properties?: Record<string, any>;
+  properties?: Record<string, unknown>;
   userId?: string;
 }
 
@@ -17,14 +18,14 @@ interface TrackEvent {
  * Track a custom event
  */
 export function trackEvent(event: TrackEvent) {
-  // Log event
-  console.log(`[EVENT] ${event.category}/${event.name}`, event.properties);
+  // Log event using structured logger
+  logger.api.debug(`Event: ${event.category}/${event.name}`, event.properties as Record<string, unknown>);
   
   // Send to Sentry as breadcrumb
   Sentry.addBreadcrumb({
     category: event.category,
     message: event.name,
-    data: event.properties,
+    data: event.properties as Record<string, unknown>,
     level: event.category === 'error' ? 'error' : 'info',
   });
 }

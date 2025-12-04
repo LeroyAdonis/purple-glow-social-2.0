@@ -3,6 +3,8 @@
  * Posts content to Instagram Business Accounts using the Graph API
  */
 
+import { logger } from '@/lib/logger';
+
 interface InstagramPostParams {
   caption: string;
   imageUrl: string;
@@ -78,7 +80,7 @@ export class InstagramPoster {
         postUrl: `https://www.instagram.com/p/${this.getShortcode(publishData.id)}`,
       };
     } catch (error) {
-      console.error('Instagram posting error:', error);
+      logger.posting.exception(error, { platform: 'instagram', action: 'post-image' });
       throw error;
     }
   }
@@ -171,7 +173,7 @@ export class InstagramPoster {
         postUrl: `https://www.instagram.com/p/${this.getShortcode(publishData.id)}`,
       };
     } catch (error) {
-      console.error('Instagram carousel posting error:', error);
+      logger.posting.exception(error, { platform: 'instagram', action: 'post-carousel' });
       throw error;
     }
   }
@@ -193,7 +195,7 @@ export class InstagramPoster {
         throw new Error(error.error?.message || 'Failed to delete Instagram post');
       }
     } catch (error) {
-      console.error('Instagram post deletion error:', error);
+      logger.posting.exception(error, { platform: 'instagram', action: 'delete-post' });
       throw error;
     }
   }

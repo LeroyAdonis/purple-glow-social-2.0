@@ -3,6 +3,8 @@
  * Posts content to Facebook Pages using the Graph API
  */
 
+import { logger } from '@/lib/logger';
+
 interface FacebookPostParams {
   message: string;
   imageUrl?: string;
@@ -46,7 +48,7 @@ export class FacebookPoster {
         postUrl: `https://www.facebook.com/${data.id}`,
       };
     } catch (error) {
-      console.error('Facebook posting error:', error);
+      logger.posting.exception(error, { platform: 'facebook', action: 'post-text' });
       throw error;
     }
   }
@@ -91,7 +93,7 @@ export class FacebookPoster {
         postUrl: `https://www.facebook.com/${data.id}`,
       };
     } catch (error) {
-      console.error('Facebook image posting error:', error);
+      logger.posting.exception(error, { platform: 'facebook', action: 'post-image' });
       throw error;
     }
   }
@@ -136,7 +138,7 @@ export class FacebookPoster {
         postUrl: `https://www.facebook.com/${data.id}`,
       };
     } catch (error) {
-      console.error('Facebook link posting error:', error);
+      logger.posting.exception(error, { platform: 'facebook', action: 'post-link' });
       throw error;
     }
   }
@@ -158,7 +160,7 @@ export class FacebookPoster {
         throw new Error(error.error?.message || 'Failed to delete Facebook post');
       }
     } catch (error) {
-      console.error('Facebook post deletion error:', error);
+      logger.posting.exception(error, { platform: 'facebook', action: 'delete-post' });
       throw error;
     }
   }

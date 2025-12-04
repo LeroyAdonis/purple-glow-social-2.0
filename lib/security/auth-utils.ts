@@ -6,6 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
+import { logger } from '@/lib/logger';
 
 /**
  * Admin email addresses (from environment or hardcoded for now)
@@ -61,7 +62,7 @@ export async function requireAuth(request: NextRequest): Promise<{
       },
     };
   } catch (error) {
-    console.error('Auth check error:', error);
+    logger.security.exception(error, { action: 'auth-check' });
     return {
       authenticated: false,
       response: NextResponse.json(

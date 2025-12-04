@@ -9,6 +9,7 @@ import { db } from '../../drizzle/db';
 import { user as userTable } from '../../drizzle/schema';
 import { eq } from 'drizzle-orm';
 import type { User } from '../../drizzle/schema';
+import { logger } from '@/lib/logger';
 
 /**
  * Get or create a Polar customer for a user
@@ -40,7 +41,7 @@ export async function getOrCreateCustomer(user: User): Promise<string> {
 
     return customer.id;
   } catch (error) {
-    console.error('Error creating Polar customer:', error);
+    logger.polar.exception(error, { action: 'create-customer', userId: user.id });
     throw new Error('Failed to create customer');
   }
 }
@@ -58,7 +59,7 @@ export async function updateCustomer(customerId: string, data: { email?: string;
       },
     });
   } catch (error) {
-    console.error('Error updating Polar customer:', error);
+    logger.polar.exception(error, { action: 'update-customer', customerId });
     throw new Error('Failed to update customer');
   }
 }

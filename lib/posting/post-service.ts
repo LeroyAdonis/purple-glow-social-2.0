@@ -11,6 +11,7 @@ import { getConnectedAccount, getDecryptedToken } from '@/lib/db/connected-accou
 import { db } from '@/drizzle/db';
 import { posts } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
+import { logger } from '@/lib/logger';
 
 interface PostContent {
   content: string;
@@ -97,12 +98,13 @@ export class PostService {
         postId: result.id,
         postUrl: result.postUrl,
       };
-    } catch (error: any) {
-      console.error(`Error posting to ${platform}:`, error);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      logger.posting.exception(error, { platform, userId });
       return {
         success: false,
         platform,
-        error: error.message || 'Unknown error',
+        error: errorMessage,
       };
     }
   }
@@ -244,15 +246,16 @@ export class PostService {
       }
 
       return [result];
-    } catch (error: any) {
-      console.error('Error publishing scheduled post:', error);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      logger.posting.exception(error, { postId, action: 'publish-scheduled' });
       
       // Update post status to failed
       await db
         .update(posts)
         .set({
           status: 'failed',
-          errorMessage: error.message || 'Unknown error',
+          errorMessage,
           updatedAt: new Date(),
         })
         .where(eq(posts.id, postId));
@@ -275,19 +278,19 @@ export class PostService {
           ),
       });
 
-      console.log(`Found ${duePosts.length} posts due for publishing`);
+      logger.posting.info(`Found ${duePosts.length} posts due for publishing`);
 
       // Process each post
       for (const post of duePosts) {
         try {
           await this.publishScheduledPost(post.id);
-          console.log(`Successfully published post ${post.id}`);
+          logger.posting.info(`Successfully published post ${post.id}`);
         } catch (error) {
-          console.error(`Failed to publish post ${post.id}:`, error);
+          logger.posting.exception(error, { postId: post.id, action: 'process-scheduled' });
         }
       }
     } catch (error) {
-      console.error('Error processing scheduled posts:', error);
+      logger.posting.exception(error, { action: 'process-scheduled-posts' });
       throw error;
     }
   }

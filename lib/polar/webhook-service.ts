@@ -10,6 +10,7 @@ import { eq, sql } from 'drizzle-orm';
 import { createTransaction, updateTransactionStatus, getTransactionByPolarOrderId } from '../db/transactions';
 import { createSubscription, updateSubscription, getSubscriptionByPolarId } from '../db/subscriptions';
 import { createWebhookEvent, markEventProcessed, markEventFailed, webhookEventExists } from '../db/webhook-events';
+import { logger } from '@/lib/logger';
 
 // Flexible webhook payload type for Polar SDK compatibility
 interface WebhookPayloadData {
@@ -38,11 +39,11 @@ interface WebhookPayloadData {
  * This is the main entry point for webhook processing
  */
 export async function processWebhookEvent(eventType: string, eventId: string, payload: WebhookPayloadData) {
-  console.log(`Processing webhook event: ${eventType} (${eventId})`);
+  logger.polar.info(`Processing webhook event: ${eventType}`, { eventId });
 
   // Check if event already processed (idempotency)
   if (await webhookEventExists(eventId)) {
-    console.log(`Event ${eventId} already processed, skipping`);
+    logger.polar.info('Event already processed, skipping', { eventId });
     return { success: true, message: 'Event already processed' };
   }
 
@@ -79,7 +80,7 @@ export async function processWebhookEvent(eventType: string, eventId: string, pa
         await handleOrderRefunded(payload);
         break;
       default:
-        console.log(`Unhandled event type: ${eventType}`);
+        logger.polar.debug(`Unhandled event type: ${eventType}`);
     }
 
     // Mark event as processed
@@ -87,7 +88,7 @@ export async function processWebhookEvent(eventType: string, eventId: string, pa
     
     return { success: true, message: 'Event processed successfully' };
   } catch (error) {
-    console.error(`Error processing webhook event ${eventId}:`, error);
+    logger.polar.exception(error, { eventId, eventType });
     
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     await markEventFailed(eventId, errorMessage);
@@ -119,7 +120,7 @@ async function handleOrderCreated(payload: WebhookPayloadData) {
     metadata: payload,
   });
 
-  console.log(`Transaction created for order ${id}`);
+  logger.polar.info('Transaction created for order', { orderId: id });
 }
 
 /**
@@ -152,7 +153,7 @@ async function handleOrderPaid(payload: WebhookPayloadData) {
       })
       .where(eq(userTable.id, metadata.userId));
 
-    console.log(`Added ${transaction.credits} credits to user ${metadata.userId}`);
+    logger.polar.info('Added credits to user', { userId: metadata.userId, credits: transaction.credits });
   }
 }
 
@@ -178,7 +179,7 @@ async function handleSubscriptionCreated(payload: WebhookPayloadData) {
     currentPeriodEnd: new Date(currentPeriodEnd!),
   });
 
-  console.log(`Subscription created: ${id} for user ${metadata.userId}`);
+  logger.polar.info('Subscription created', { subscriptionId: id, userId: metadata.userId });
 }
 
 /**
@@ -207,7 +208,7 @@ async function handleSubscriptionActive(payload: WebhookPayloadData) {
     })
     .where(eq(userTable.id, metadata.userId));
 
-  console.log(`User ${metadata.userId} upgraded to ${metadata.planId} tier`);
+  logger.polar.info('User upgraded tier', { userId: metadata.userId, tier: metadata.planId });
 }
 
 /**
@@ -239,7 +240,7 @@ async function handleSubscriptionCanceled(payload: WebhookPayloadData) {
     })
     .where(eq(userTable.id, metadata.userId));
 
-  console.log(`User ${metadata.userId} downgraded to free tier`);
+  logger.polar.info('User downgraded to free tier', { userId: metadata.userId });
 }
 
 /**
@@ -260,7 +261,7 @@ async function handleSubscriptionUpdated(payload: WebhookPayloadData) {
     cancelAtPeriodEnd: cancelAtPeriodEnd || false,
   });
 
-  console.log(`Subscription updated: ${id}`);
+  logger.polar.info('Subscription updated', { subscriptionId: id });
 }
 
 /**
@@ -303,7 +304,7 @@ async function handleOrderRefunded(payload: WebhookPayloadData) {
       })
       .where(eq(userTable.id, metadata.userId));
 
-    console.log(`Deducted ${transaction.credits} credits from user ${metadata.userId}`);
+    logger.polar.info('Deducted credits from user', { userId: metadata.userId, credits: transaction.credits });
   }
 
   // Update original transaction status

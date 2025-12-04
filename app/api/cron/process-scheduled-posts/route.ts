@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PostService } from '@/lib/posting/post-service';
 import { auth } from '@/lib/auth';
 import { isAdmin } from '@/lib/security/auth-utils';
+import { logger } from '@/lib/logger';
 
 /**
  * Cron job endpoint to process scheduled posts
@@ -33,7 +34,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log('Starting scheduled post processing...');
+    logger.cron.info('Starting scheduled post processing');
 
     const postService = new PostService();
     await postService.processScheduledPosts();
@@ -45,7 +46,7 @@ export async function GET(request: NextRequest) {
     });
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to process scheduled posts';
-    console.error('Cron job error:', error);
+    logger.cron.exception(error, { action: 'cron-get' });
     return NextResponse.json(
       { 
         success: false,
@@ -79,14 +80,14 @@ export async function POST(request: NextRequest) {
 
     // Require admin role
     if (!isAdmin(session.user.email)) {
-      console.warn(`[Cron] Non-admin user ${session.user.email} attempted manual trigger`);
+      logger.cron.warn('Non-admin user attempted manual trigger', { email: session.user.email });
       return NextResponse.json(
         { error: 'Forbidden - admin access required' },
         { status: 403 }
       );
     }
 
-    console.log(`[Cron] Manual trigger by admin: ${session.user.email}`);
+    logger.cron.info('Manual trigger by admin', { email: session.user.email });
 
     const postService = new PostService();
     await postService.processScheduledPosts();
@@ -99,7 +100,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to process scheduled posts';
-    console.error('Manual cron trigger error:', error);
+    logger.cron.exception(error, { action: 'manual-trigger' });
     return NextResponse.json(
       { 
         success: false,

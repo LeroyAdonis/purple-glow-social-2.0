@@ -7,6 +7,7 @@
 import { polarClient } from './client';
 import { getCreditProduct, getSubscriptionProduct, CHECKOUT_URLS } from './config';
 import type { User } from '../../drizzle/schema';
+import { logger } from '@/lib/logger';
 
 export interface CreateCreditCheckoutParams {
   user: User;
@@ -51,7 +52,7 @@ export async function createCreditCheckout(params: CreateCreditCheckoutParams) {
       clientSecret: checkout.clientSecret,
     };
   } catch (error) {
-    console.error('Error creating credit checkout:', error);
+    logger.polar.exception(error, { action: 'create-credit-checkout', packageId });
     throw new Error('Failed to create checkout session');
   }
 }
@@ -88,7 +89,7 @@ export async function createSubscriptionCheckout(params: CreateSubscriptionCheck
       clientSecret: checkout.clientSecret,
     };
   } catch (error) {
-    console.error('Error creating subscription checkout:', error);
+    logger.polar.exception(error, { action: 'create-subscription-checkout', planId });
     throw new Error('Failed to create checkout session');
   }
 }
@@ -100,7 +101,7 @@ export async function getCheckout(checkoutId: string) {
   try {
     return await polarClient.checkouts.get({ id: checkoutId });
   } catch (error) {
-    console.error('Error fetching checkout:', error);
+    logger.polar.exception(error, { action: 'get-checkout', checkoutId });
     throw new Error('Failed to fetch checkout session');
   }
 }

@@ -6,7 +6,9 @@
  * In development, fallbacks are allowed with warnings.
  */
 
-const isProduction = process.env.NODE_ENV === 'production' || 
+import { logger } from '@/lib/logger';
+
+const isProduction = process.env.NODE_ENV === 'production' ||
                      process.env.VERCEL_ENV === 'production';
 
 interface ValidationResult {
@@ -61,14 +63,12 @@ export function validateAuthEnvVars(): ValidationResult {
 
   // Log warnings
   if (warnings.length > 0) {
-    console.warn('[Auth] Environment warnings:');
-    warnings.forEach(w => console.warn(`  ⚠️ ${w}`));
+    logger.auth.warn('Environment warnings:', { warnings });
   }
 
   // Throw in production if there are errors
   if (errors.length > 0) {
-    console.error('[Auth] Environment validation failed:');
-    errors.forEach(e => console.error(`  ❌ ${e}`));
+    logger.auth.error('Environment validation failed:', { errors });
     
     if (isProduction) {
       throw new Error(
@@ -144,8 +144,8 @@ export function logOAuthStatus(): void {
     .map(([name]) => name);
   
   if (enabled.length > 0) {
-    console.log(`[Auth] OAuth providers enabled: ${enabled.join(', ')}`);
+    logger.auth.info(`OAuth providers enabled: ${enabled.join(', ')}`);
   } else {
-    console.log('[Auth] No OAuth providers configured');
+    logger.auth.info('No OAuth providers configured');
   }
 }

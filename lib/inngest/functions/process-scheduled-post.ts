@@ -15,6 +15,7 @@ import { consumeReservationByPostId, releaseReservationByPostId, getReservationB
 import { notifyPostFailed, notifyPostSkipped } from '@/lib/db/notifications';
 import { deductCredits } from '@/lib/db/users';
 import { incrementPosts } from '@/lib/db/daily-usage';
+import { logger } from '@/lib/logger';
 
 const MAX_RETRIES = 3;
 
@@ -28,7 +29,7 @@ export const processScheduledPost = inngest.createFunction(
       const { postId, userId, platform } = event.data.event.data;
       const errorMessage = error?.message || 'Unknown error';
 
-      console.log(`[process-scheduled-post] Final failure for post ${postId}: ${errorMessage}`);
+      logger.cron.info('Final failure for scheduled post', { postId, errorMessage });
 
       try {
         // Release the credit reservation since post permanently failed
@@ -47,9 +48,9 @@ export const processScheduledPost = inngest.createFunction(
         // Notify user about the failure
         await notifyPostFailed(userId, postId, platform, errorMessage);
 
-        console.log(`[process-scheduled-post] Credits released and user notified for post ${postId}`);
+        logger.cron.info('Credits released and user notified for failed post', { postId });
       } catch (cleanupError) {
-        console.error(`[process-scheduled-post] Cleanup failed for post ${postId}:`, cleanupError);
+        logger.cron.exception(cleanupError, { postId, action: 'cleanup-failed' });
       }
     },
   },

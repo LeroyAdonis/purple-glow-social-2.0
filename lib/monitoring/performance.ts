@@ -5,13 +5,14 @@
  */
 
 import * as Sentry from '@sentry/nextjs';
+import { logger } from '@/lib/logger';
 
 interface PerformanceMetric {
   name: string;
   duration: number;
   timestamp: Date;
   tags?: Record<string, string>;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 // In-memory metrics buffer (in production, use Redis or similar)
@@ -32,7 +33,7 @@ export function trackMetric(metric: PerformanceMetric) {
 
   // Log slow operations
   if (metric.duration > 3000) {
-    console.warn(`[PERF] Slow operation: ${metric.name} took ${metric.duration}ms`, metric.tags);
+    logger.api.warn(`Slow operation: ${metric.name} took ${metric.duration}ms`, metric.tags);
     
     // Report to Sentry as a custom event
     Sentry.captureMessage(`Slow operation: ${metric.name}`, {

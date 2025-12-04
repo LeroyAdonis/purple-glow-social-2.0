@@ -3,6 +3,8 @@
  * Posts content to Twitter using the Twitter API v2
  */
 
+import { logger } from '@/lib/logger';
+
 interface TwitterPostParams {
   text: string;
   mediaIds?: string[];
@@ -47,7 +49,7 @@ export class TwitterPoster {
         postUrl: `https://twitter.com/i/web/status/${tweetId}`,
       };
     } catch (error) {
-      console.error('Twitter posting error:', error);
+      logger.posting.exception(error, { platform: 'twitter', action: 'post-text' });
       throw error;
     }
   }
@@ -119,7 +121,7 @@ export class TwitterPoster {
         postUrl: `https://twitter.com/i/web/status/${tweetId}`,
       };
     } catch (error) {
-      console.error('Twitter image posting error:', error);
+      logger.posting.exception(error, { platform: 'twitter', action: 'post-with-image' });
       throw error;
     }
   }
@@ -169,7 +171,7 @@ export class TwitterPoster {
 
       return results;
     } catch (error) {
-      console.error('Twitter thread posting error:', error);
+      logger.posting.exception(error, { platform: 'twitter', action: 'post-thread' });
       throw error;
     }
   }
@@ -191,7 +193,7 @@ export class TwitterPoster {
         throw new Error(error.detail || 'Failed to delete tweet');
       }
     } catch (error) {
-      console.error('Twitter deletion error:', error);
+      logger.posting.exception(error, { platform: 'twitter', action: 'delete-tweet' });
       throw error;
     }
   }
@@ -199,7 +201,7 @@ export class TwitterPoster {
   /**
    * Get tweet details
    */
-  async getTweet(accessToken: string, tweetId: string): Promise<any> {
+  async getTweet(accessToken: string, tweetId: string): Promise<unknown> {
     try {
       const response = await fetch(
         `https://api.twitter.com/2/tweets/${tweetId}?tweet.fields=created_at,public_metrics`,
@@ -217,7 +219,7 @@ export class TwitterPoster {
       const data = await response.json();
       return data.data;
     } catch (error) {
-      console.error('Twitter fetch error:', error);
+      logger.posting.exception(error, { platform: 'twitter', action: 'get-tweet' });
       throw error;
     }
   }

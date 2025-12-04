@@ -1,4 +1,5 @@
 import { OAuthProvider, TokenResponse, UserProfile, OAuthError } from './base-provider';
+import { logger } from '@/lib/logger';
 
 export class InstagramProvider implements OAuthProvider {
   platform = 'instagram' as const;
@@ -77,7 +78,7 @@ export class InstagramProvider implements OAuthProvider {
       };
     } catch (error) {
       if (error instanceof OAuthError) throw error;
-      console.error('Instagram token exchange error:', error);
+      logger.oauth.exception(error, { platform: 'instagram', action: 'token-exchange' });
       throw new OAuthError('Failed to exchange code for token', 'token_exchange_error');
     }
   }
@@ -154,7 +155,7 @@ export class InstagramProvider implements OAuthProvider {
         }
       } catch (e) {
         // Instagram Business Account not accessible, fall back to Facebook profile
-        console.log('Instagram Business Account not accessible, using Facebook profile');
+        logger.oauth.debug('Instagram Business Account not accessible, using Facebook profile');
       }
       
       // Fall back to Facebook user profile
@@ -166,7 +167,7 @@ export class InstagramProvider implements OAuthProvider {
       };
     } catch (error) {
       if (error instanceof OAuthError) throw error;
-      console.error('Instagram profile fetch error:', error);
+      logger.oauth.exception(error, { platform: 'instagram', action: 'get-profile' });
       throw new OAuthError('Failed to get user profile', 'profile_error');
     }
   }
@@ -182,7 +183,7 @@ export class InstagramProvider implements OAuthProvider {
         throw new OAuthError('Failed to revoke token', 'revoke_failed');
       }
     } catch (error) {
-      console.error('Instagram token revocation error:', error);
+      logger.oauth.exception(error, { platform: 'instagram', action: 'revoke-token' });
       // Don't throw - token revocation is best effort
     }
   }

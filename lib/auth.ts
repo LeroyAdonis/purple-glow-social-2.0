@@ -9,6 +9,7 @@ import {
   getTwitterOAuthConfig,
   logOAuthStatus 
 } from "./config/env-validation";
+import { logger } from "./logger";
 
 // Validate environment variables at startup
 validateAuthEnvVars();
@@ -27,9 +28,9 @@ if (isDatabaseConfigured) {
   try {
     const sql = neon(process.env.DATABASE_URL!);
     db = drizzle(sql, { schema });
-    console.log('[Auth] Database connected successfully');
+    logger.auth.info('Database connected successfully');
   } catch (error) {
-    console.error('[Auth] Database connection failed:', error);
+    logger.auth.exception(error, { action: 'database-connection' });
   }
 }
 

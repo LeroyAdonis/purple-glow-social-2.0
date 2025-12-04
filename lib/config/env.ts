@@ -5,6 +5,7 @@
  */
 
 import { z } from 'zod';
+import { logger } from '@/lib/logger';
 
 // Environment variable schema
 const envSchema = z.object({
@@ -70,10 +71,9 @@ export function validateEnv(): Env {
   const parsed = envSchema.safeParse(process.env);
   
   if (!parsed.success) {
-    console.error('❌ Invalid environment variables:');
-    for (const issue of parsed.error.issues) {
-      console.error(`  - ${issue.path.join('.')}: ${issue.message}`);
-    }
+    logger.auth.error('Invalid environment variables', { 
+      issues: parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`) 
+    });
     
     // In production, throw an error
     if (process.env.NODE_ENV === 'production') {
@@ -81,7 +81,7 @@ export function validateEnv(): Env {
     }
     
     // In development, warn but continue
-    console.warn('⚠️ Continuing with invalid environment configuration in development mode');
+    logger.auth.warn('Continuing with invalid environment configuration in development mode');
   }
   
   return parsed.data as Env;

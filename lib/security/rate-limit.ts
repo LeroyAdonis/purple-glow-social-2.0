@@ -8,6 +8,7 @@
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 import { NextRequest, NextResponse } from 'next/server';
+import { logger } from '@/lib/logger';
 
 // Initialize Redis client (only if credentials are available)
 let redis: Redis | null = null;
@@ -128,7 +129,7 @@ export async function applyRateLimit(
     return { success: true };
   } catch (error) {
     // If rate limiting fails, allow the request (fail open)
-    console.error('Rate limiting error:', error);
+    logger.security.exception(error, { action: 'rate-limiting' });
     return { success: true };
   }
 }

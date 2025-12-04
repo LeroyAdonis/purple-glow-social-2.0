@@ -6,6 +6,7 @@ import { db } from '@/drizzle/db';
 import { connectedAccounts } from '@/drizzle/schema';
 import { eq, and } from 'drizzle-orm';
 import { encryptToken, decryptToken } from '@/lib/crypto/token-encryption';
+import { logger } from '@/lib/logger';
 
 /**
  * Get all connected accounts for a user
@@ -51,7 +52,7 @@ export async function getDecryptedToken(
   try {
     return decryptToken(account.accessToken);
   } catch (error) {
-    console.error('Token decryption failed:', error);
+    logger.db.exception(error, { action: 'token-decryption', platform, userId });
     return null;
   }
 }
