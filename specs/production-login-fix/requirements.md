@@ -1,32 +1,52 @@
 # Production Login Fix - Requirements
 
 ## Problem Statement
-Login functionality is not working in production at `https://purple-glow-social-2-0.vercel.app`.
+Login functionality was not working in production at `https://purple-glow-social-2-0.vercel.app`.
 
 ## Root Cause Analysis
-1. **Missing Trusted Origin**: The production URL was not explicitly included in `trustedOrigins`
-2. **Client-Side BaseURL**: The auth client fallback was hardcoded to `localhost:3000` instead of dynamically using the current origin
-3. **Environment Variable Dependency**: System relied entirely on environment variables being correctly set
+1. **`__Secure-` Cookie Prefix on Public Suffix List Domain**: The `.vercel.app` domain is on the Public Suffix List, causing browsers to silently reject cookies with `__Secure-` prefix
+2. **Missing Trusted Origin**: The production URL was not explicitly included in `trustedOrigins`
+3. **Client-Side BaseURL**: The auth client fallback was hardcoded to `localhost:3000`
+
+## ⚠️ CRITICAL LEARNING: Vercel Cookie Configuration
+
+**NEVER use `__Secure-` cookie prefix on `.vercel.app` domains!**
+
+This is the **#1 cause** of silent authentication failures on Vercel. The symptoms are:
+- Login form submits successfully (no errors)
+- User is redirected to dashboard
+- Dashboard immediately redirects back to login
+- No errors in browser console
+- Cookie shows `__Secure-better-auth.state` in network tab
+
+The fix:
+```typescript
+const isVercelSharedDomain = process.env.VERCEL_URL?.includes('.vercel.app') || 
+                              process.env.VERCEL === '1';
+
+export const auth = betterAuth({
+  advanced: {
+    useSecureCookies: !isVercelSharedDomain && process.env.NODE_ENV === 'production',
+  },
+});
+```
 
 ## Requirements
 
-### R1: Trusted Origins Must Include Production URL
-- The canonical production URL `https://purple-glow-social-2-0.vercel.app` must be in the `trustedOrigins` list
-- Better-auth rejects authentication requests from origins not in this list
+### R1: Disable Secure Cookie Prefix on Vercel
+- Detect `.vercel.app` domain and disable `__Secure-` prefix
+- This is REQUIRED for authentication to work on Vercel's shared domain
 
-### R2: Auth Client Must Dynamically Resolve BaseURL
-- In the browser, use `window.location.origin` as fallback
-- This ensures auth requests go to the correct server regardless of deployment URL
+### R2: Trusted Origins Must Include Production URL
+- The canonical production URL must be in the `trustedOrigins` list
 
-### R3: Environment Variables (User Action Required)
-The following environment variables must be set in Vercel dashboard:
-- `BETTER_AUTH_URL=https://purple-glow-social-2-0.vercel.app`
-- `NEXT_PUBLIC_BETTER_AUTH_URL=https://purple-glow-social-2-0.vercel.app`
-- `NEXT_PUBLIC_BASE_URL=https://purple-glow-social-2-0.vercel.app` (optional but recommended)
+### R3: Auth Client Must Use Same-Origin Requests
+- Use empty string baseURL for same-origin API calls
 
 ## Acceptance Criteria
-- [x] Production URL hardcoded in trusted origins
-- [x] Auth client dynamically resolves baseURL in browser
+- [x] Secure cookie prefix disabled on Vercel
+- [x] Production URL in trusted origins
+- [x] Auth client uses same-origin requests
 - [x] Build succeeds without errors
-- [ ] User can login with email/password in production
-- [ ] User can login with Google OAuth in production
+- [x] User can login with email/password in production
+- [x] User can login with Google OAuth in production

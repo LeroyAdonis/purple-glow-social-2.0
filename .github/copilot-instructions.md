@@ -260,6 +260,39 @@ return Response.json(
 9. Mix server and client components incorrectly
 10. Skip accessibility attributes (ARIA labels, keyboard nav)
 
+### ⚠️ CRITICAL: Vercel Cookie Configuration
+
+**NEVER use `__Secure-` cookie prefix on `.vercel.app` domains!**
+
+The `.vercel.app` domain is on the **Public Suffix List**, which causes browsers to reject cookies with `__Secure-` prefix. This breaks authentication silently - login appears to work but sessions are never persisted.
+
+```typescript
+// ✅ CORRECT: Disable secure cookies on Vercel's shared domain
+const isVercelSharedDomain = process.env.VERCEL_URL?.includes('.vercel.app') || 
+                              process.env.VERCEL === '1';
+
+export const auth = betterAuth({
+  // ... other config
+  advanced: {
+    useSecureCookies: !isVercelSharedDomain && process.env.NODE_ENV === 'production',
+  },
+});
+
+// ❌ WRONG: Using default secure cookies on .vercel.app
+export const auth = betterAuth({
+  // This will break auth on .vercel.app!
+});
+```
+
+**Symptoms of this issue:**
+- Login form submits successfully (no errors)
+- User is redirected to dashboard
+- Dashboard immediately redirects back to login
+- No errors in browser console
+- Cookie shows `__Secure-better-auth.state` in network tab
+
+**Solution:** Either disable `__Secure-` prefix (as shown above) OR use a custom domain.
+
 ### ✅ DO:
 
 1. Use Next.js 16 App Router patterns

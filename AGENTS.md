@@ -520,6 +520,34 @@ npm run db:seed-test
 - AI content generation live
 - Payment system integrated (Polar.sh)
 
+### ⚠️ CRITICAL: Vercel Cookie Configuration
+
+**NEVER use `__Secure-` cookie prefix on `.vercel.app` domains!**
+
+The `.vercel.app` domain is on the **Public Suffix List**, which causes browsers to reject cookies with `__Secure-` prefix. This breaks authentication silently - login appears to work but sessions are never persisted.
+
+```typescript
+// ✅ CORRECT: Disable secure cookies on Vercel's shared domain
+const isVercelSharedDomain = process.env.VERCEL_URL?.includes('.vercel.app') || 
+                              process.env.VERCEL === '1';
+
+export const auth = betterAuth({
+  // ... other config
+  advanced: {
+    useSecureCookies: !isVercelSharedDomain && process.env.NODE_ENV === 'production',
+  },
+});
+```
+
+**Symptoms of this issue:**
+- Login form submits successfully (no errors)
+- User is redirected to dashboard
+- Dashboard immediately redirects back to login
+- No errors in browser console
+- Cookie shows `__Secure-better-auth.state` in network tab
+
+**Solution:** Either disable `__Secure-` prefix OR use a custom domain.
+
 ### Backend Architecture (IMPLEMENTED)
 1. **Authentication:**
    ```typescript

@@ -66,7 +66,11 @@ const getAuthBaseURL = () => {
   return 'http://localhost:3000';
 };
 
-// Detect if running on Vercel's shared domain (has cookie restrictions)
+// ⚠️ CRITICAL: Vercel Cookie Configuration
+// The .vercel.app domain is on the Public Suffix List, which causes browsers
+// to reject cookies with __Secure- prefix. This breaks authentication silently.
+// DO NOT remove this check - login will appear to work but sessions won't persist!
+// See: AGENTS.md and .github/copilot-instructions.md for full documentation.
 const isVercelSharedDomain = process.env.VERCEL_URL?.includes('.vercel.app') || 
                               process.env.VERCEL === '1';
 
@@ -75,7 +79,8 @@ export const auth = betterAuth({
   baseURL: getAuthBaseURL(),
   basePath: "/api/auth",
   trustedOrigins: trustedOrigins,
-  // Cookie configuration for Vercel's shared domain
+  // ⚠️ CRITICAL: Cookie configuration for Vercel's shared domain
+  // Disabling __Secure- prefix is REQUIRED for .vercel.app to work!
   advanced: {
     // Disable __Secure- prefix on .vercel.app (Public Suffix List domain)
     useSecureCookies: !isVercelSharedDomain && process.env.NODE_ENV === 'production',
