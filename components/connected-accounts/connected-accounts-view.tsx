@@ -5,7 +5,7 @@ import ConnectedAccountCard from './connected-account-card';
 
 interface Connection {
   id: string;
-  platform: 'instagram' | 'facebook' | 'twitter';
+  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin';
   platformUsername: string;
   platformDisplayName: string;
   profileImageUrl: string | null;
@@ -93,7 +93,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
   }, [userId]);
 
   // Handle connect - check limits first
-  const handleConnect = (platform: 'instagram' | 'facebook' | 'twitter') => {
+  const handleConnect = (platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin') => {
     // Check if at limit before redirecting
     if (tierLimits) {
       const platformLimit = tierLimits.connectedAccounts.byPlatform[platform];
@@ -114,7 +114,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
   };
 
   // Handle disconnect
-  const handleDisconnect = async (platform: 'instagram' | 'facebook' | 'twitter') => {
+  const handleDisconnect = async (platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin') => {
     try {
       const response = await fetch(`/api/oauth/${platform}/disconnect`, {
         method: 'POST',
@@ -133,27 +133,28 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
   };
 
   // Check if a platform is connected
-  const isConnected = (platform: 'instagram' | 'facebook' | 'twitter') => {
+  const isConnected = (platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin') => {
     return connections.some(conn => conn.platform === platform && conn.isActive);
   };
 
   // Get connection data for a platform
-  const getConnection = (platform: 'instagram' | 'facebook' | 'twitter') => {
+  const getConnection = (platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin') => {
     return connections.find(conn => conn.platform === platform);
   };
 
   // Check if can connect more for a platform
-  const canConnectMore = (platform: 'instagram' | 'facebook' | 'twitter') => {
+  const canConnectMore = (platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin') => {
     if (!tierLimits) return true;
     const platformLimit = tierLimits.connectedAccounts.byPlatform[platform];
     const totalLimit = tierLimits.connectedAccounts.total;
     return !platformLimit?.isAtLimit && !totalLimit?.isAtLimit;
   };
 
-  const platforms: Array<'instagram' | 'facebook' | 'twitter'> = [
+  const platforms: Array<'instagram' | 'facebook' | 'twitter' | 'linkedin'> = [
     'instagram',
     'facebook', 
-    'twitter'
+    'twitter',
+    'linkedin'
   ];
 
   if (isLoading) {
@@ -330,6 +331,10 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
           <li className="flex items-start gap-2">
             <i className="fa-solid fa-check text-emerald-400 mt-1"></i>
             <span><strong>Twitter / X:</strong> Tokens last 2 hours but refresh automatically.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <i className="fa-solid fa-check text-emerald-400 mt-1"></i>
+            <span><strong>LinkedIn:</strong> Professional network posting with 60-day token validity.</span>
           </li>
           <li className="flex items-start gap-2">
             <i className="fa-solid fa-shield-halved text-joburg-teal mt-1"></i>

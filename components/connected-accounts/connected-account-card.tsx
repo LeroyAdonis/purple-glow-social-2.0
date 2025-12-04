@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import ConnectionStatusBadge from './connection-status-badge';
 
 interface ConnectedAccountCardProps {
-  platform: 'instagram' | 'facebook' | 'twitter';
+  platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin';
   isConnected: boolean;
   platformUsername?: string;
   platformDisplayName?: string;
@@ -39,6 +39,14 @@ const platformConfig = {
     bgColor: 'bg-gray-500/10',
     borderColor: 'border-gray-500/20',
     description: 'Tweet to your X (Twitter) followers',
+  },
+  linkedin: {
+    name: 'LinkedIn',
+    icon: 'fa-brands fa-linkedin',
+    color: 'from-blue-600 to-blue-700',
+    bgColor: 'bg-blue-600/10',
+    borderColor: 'border-blue-600/20',
+    description: 'Share professional content on LinkedIn',
   },
 };
 
