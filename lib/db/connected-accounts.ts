@@ -47,13 +47,31 @@ export async function getDecryptedToken(
   platform: 'instagram' | 'facebook' | 'twitter' | 'linkedin'
 ): Promise<string | null> {
   const account = await getConnectedAccount(userId, platform);
-  if (!account || !account.accessToken) return null;
+  if (!account || !account.accessToken) {
+    logger.db.warn('No account or token found', { platform, userId });
+    return null;
+  }
   
   try {
+    // Log key info for debugging (first/last 4 chars only)
+    const key = process.env.TOKEN_ENCRYPTION_KEY;
+    logger.db.debug('Attempting decryption', { 
+      platform, 
+      keyStart: key?.substring(0, 4),
+      keyEnd: key?.substring(60),
+      tokenStart: account.accessToken.substring(0, 20),
+    });
+    
     return decryptToken(account.accessToken);
   } catch (error) {
-    logger.db.exception(error, { action: 'token-decryption', platform, userId });
-    return null;
+    logger.db.exception(error, { 
+      action: 'token-decryption', 
+      platform, 
+      userId,
+      hasKey: !!process.env.TOKEN_ENCRYPTION_KEY,
+      keyLength: process.env.TOKEN_ENCRYPTION_KEY?.length,
+    });
+    throw new Error('Failed to decrypt access token');
   }
 }
 

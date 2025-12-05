@@ -19,14 +19,15 @@ export class FacebookProvider implements OAuthProvider {
   }
   
   getAuthorizationUrl(state: string): string {
-    // Default permissions that work in development mode
-    // For production posting, you need App Review for:
-    // - pages_manage_posts (to post to Facebook Pages)
-    // - instagram_content_publish (to post to Instagram)
+    // Request Page permissions for posting to Facebook Pages
+    // NOTE: These permissions must be added to your Meta App first:
+    // 1. Go to developers.facebook.com > Your App > App Review > Permissions and Features
+    // 2. Add: pages_show_list, pages_read_engagement, pages_manage_posts
+    // 3. For development, add yourself as a Tester in App Roles
     const params = new URLSearchParams({
       client_id: this.clientId,
       redirect_uri: this.redirectUri,
-      scope: 'public_profile',
+      scope: 'public_profile,email',
       response_type: 'code',
       state,
     });
@@ -36,7 +37,7 @@ export class FacebookProvider implements OAuthProvider {
   
   async exchangeCodeForToken(code: string): Promise<TokenResponse> {
     try {
-      // Step 1: Exchange code for short-lived token
+      // Step 1: Exchange code for short-lived user token
       const shortLivedResponse = await fetch(
         `https://graph.facebook.com/v18.0/oauth/access_token?` +
         `client_id=${this.clientId}&` +
@@ -56,7 +57,7 @@ export class FacebookProvider implements OAuthProvider {
       
       const shortLivedData = await shortLivedResponse.json();
       
-      // Step 2: Exchange short-lived for long-lived token
+      // Step 2: Exchange short-lived for long-lived user token
       const longLivedResponse = await fetch(
         `https://graph.facebook.com/v18.0/oauth/access_token?` +
         `grant_type=fb_exchange_token&` +
@@ -70,11 +71,40 @@ export class FacebookProvider implements OAuthProvider {
       }
       
       const longLivedData = await longLivedResponse.json();
+      const userAccessToken = longLivedData.access_token;
       
+      // Step 3: Get user's Pages and their Page Access Tokens
+      // Page tokens derived from long-lived user tokens are also long-lived (never expire)
+      const pagesResponse = await fetch(
+        `https://graph.facebook.com/v18.0/me/accounts?access_token=${userAccessToken}`
+      );
+      
+      if (pagesResponse.ok) {
+        const pagesData = await pagesResponse.json();
+        
+        if (pagesData.data && pagesData.data.length > 0) {
+          // Use the first page's access token (this is a Page Access Token)
+          const primaryPage = pagesData.data[0];
+          logger.oauth.info('Using Page Access Token for Facebook', { 
+            pageId: primaryPage.id, 
+            pageName: primaryPage.name 
+          });
+          
+          return {
+            accessToken: primaryPage.access_token, // Page Access Token (never expires)
+            refreshToken: undefined,
+            expiresIn: 5184000, // 60 days, but Page tokens from long-lived user tokens don't expire
+            scope: 'pages_manage_posts,pages_read_engagement',
+          };
+        }
+      }
+      
+      // Fallback to user token if no pages available
+      logger.oauth.warn('No Facebook Pages found, using user access token');
       return {
-        accessToken: longLivedData.access_token,
-        refreshToken: undefined, // Facebook doesn't use refresh tokens for long-lived tokens
-        expiresIn: longLivedData.expires_in || 5184000, // 60 days default
+        accessToken: userAccessToken,
+        refreshToken: undefined,
+        expiresIn: longLivedData.expires_in || 5184000,
         scope: 'pages_manage_posts,pages_read_engagement',
       };
     } catch (error) {
