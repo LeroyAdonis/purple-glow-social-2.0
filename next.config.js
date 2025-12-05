@@ -142,6 +142,16 @@ const sentryWebpackPluginOptions = {
 
   // Enables automatic instrumentation of Vercel Cron Monitors
   automaticVercelMonitors: true,
+  
+  // Disable source map uploads if no auth token (prevents build failures)
+  sourcemaps: {
+    disable: !process.env.SENTRY_AUTH_TOKEN,
+  },
+  
+  // Disable release creation if no auth token
+  release: {
+    create: !!process.env.SENTRY_AUTH_TOKEN,
+  },
 };
 
 // Export with Sentry wrapper (only if DSN is configured)
