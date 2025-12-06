@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { disconnectAccount, getDecryptedToken } from '@/lib/db/connected-accounts';
 import { InstagramProvider } from '@/lib/oauth/instagram-provider';
+import { logger } from '@/lib/logger';
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,12 +28,16 @@ export async function POST(request: NextRequest) {
           const provider = new InstagramProvider();
           await provider.revokeToken(accessToken);
         } catch (error) {
-          console.error('Failed to revoke Instagram token:', error);
+          logger.oauth.warn('Failed to revoke Instagram token', { error, platform: 'instagram' });
           // Continue anyway - we'll delete locally
         }
       }
     } catch (decryptError) {
-      console.error('Failed to decrypt token for revocation (will still disconnect):', decryptError);
+      logger.oauth.warn('Failed to decrypt token for revocation (will still disconnect)', { 
+        error: decryptError, 
+        platform: 'instagram',
+        userId: session.user.id 
+      });
       // Continue with disconnection even if decryption fails
     }
     
@@ -44,7 +49,7 @@ export async function POST(request: NextRequest) {
       message: 'Instagram account disconnected successfully'
     });
   } catch (error) {
-    console.error('Instagram disconnect error:', error);
+    logger.oauth.error('Instagram disconnect error', { error, platform: 'instagram' });
     return NextResponse.json(
       { error: 'Failed to disconnect Instagram account' },
       { status: 500 }
