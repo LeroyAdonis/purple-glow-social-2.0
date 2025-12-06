@@ -17,18 +17,23 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Get the access token to revoke it
-    const accessToken = await getDecryptedToken(session.user.id, 'instagram');
-    
-    // Revoke token with Instagram (best effort)
-    if (accessToken) {
-      try {
-        const provider = new InstagramProvider();
-        await provider.revokeToken(accessToken);
-      } catch (error) {
-        console.error('Failed to revoke Instagram token:', error);
-        // Continue anyway - we'll delete locally
+    // Try to get the access token to revoke it (best effort)
+    // If decryption fails, we'll still proceed with disconnection
+    try {
+      const accessToken = await getDecryptedToken(session.user.id, 'instagram');
+      
+      if (accessToken) {
+        try {
+          const provider = new InstagramProvider();
+          await provider.revokeToken(accessToken);
+        } catch (error) {
+          console.error('Failed to revoke Instagram token:', error);
+          // Continue anyway - we'll delete locally
+        }
       }
+    } catch (decryptError) {
+      console.error('Failed to decrypt token for revocation (will still disconnect):', decryptError);
+      // Continue with disconnection even if decryption fails
     }
     
     // Delete connection from database
