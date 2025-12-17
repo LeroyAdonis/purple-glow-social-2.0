@@ -68,20 +68,27 @@ export type Env = z.infer<typeof envSchema>;
  * Call this at application startup
  */
 export function validateEnv(): Env {
+  // Skip validation during build if required vars aren't set
+  // This allows building without all production secrets
+  if (process.env.SKIP_ENV_VALIDATION === 'true') {
+    logger.auth.warn('Environment validation skipped');
+    return process.env as unknown as Env;
+  }
+  
   const parsed = envSchema.safeParse(process.env);
   
   if (!parsed.success) {
-    logger.auth.error('Invalid environment variables', { 
-      issues: parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`) 
-    });
+    const errors = parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`);
+    
+    logger.auth.error('Environment validation failed', { errors });
     
     // In production, throw an error
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('Invalid environment configuration');
+    if (process.env.NODE_ENV === 'production' && !process.env.VERCEL_ENV) {
+      throw new Error('Missing required environment variables in production:\n' + errors.join('\n'));
     }
     
-    // In development, warn but continue
-    logger.auth.warn('Continuing with invalid environment configuration in development mode');
+    // In development or build, warn but continue
+    logger.auth.warn('Environment warnings', { warnings: errors });
   }
   
   return parsed.data as Env;

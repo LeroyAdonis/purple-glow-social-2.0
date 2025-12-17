@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Google Fonts - loaded via CSS for build reliability */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
+
 @theme {
   /* Custom Colors */
   --color-void: #05040A;
@@ -11,10 +14,10 @@
   --color-electric-indigo: #5A189A;
   --color-glass-border: rgba(255, 255, 255, 0.1);
   
-  /* Custom Fonts */
-  --font-family-display: 'Syne', sans-serif;
-  --font-family-body: 'Outfit', sans-serif;
-  --font-family-mono: 'Space Grotesk', monospace;
+  /* Custom Fonts with fallbacks */
+  --font-family-display: 'Syne', ui-serif, Georgia, serif;
+  --font-family-body: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-family-mono: 'Space Grotesk', ui-monospace, 'Courier New', monospace;
 }
 
 @layer base {

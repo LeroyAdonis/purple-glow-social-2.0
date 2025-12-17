@@ -1,28 +1,15 @@
 import React from 'react';
 import type { Metadata } from "next";
-import { Syne, Outfit, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/context/LanguageContext";
 import { QueryProvider } from "@/lib/api/query-provider";
 
 // Font Configuration
-const syne = Syne({ 
-  subsets: ["latin"], 
-  variable: "--font-syne",
-  display: "swap",
-});
+// Google Fonts are loaded via CSS in globals.css for better build reliability
+// This avoids build failures when Google Fonts CDN is unreachable
+// Fonts: Syne (display), Outfit (sans), Space Grotesk (mono)
+// Fallbacks defined in tailwind.config.js
 
-const outfit = Outfit({ 
-  subsets: ["latin"], 
-  variable: "--font-outfit", 
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({ 
-  subsets: ["latin"], 
-  variable: "--font-space", 
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Purple Glow | AI Social Manager",
@@ -35,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${outfit.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en">
       <head>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
       </head>

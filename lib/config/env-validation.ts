@@ -4,12 +4,17 @@
  * This module validates critical environment variables at runtime.
  * In production, missing required variables will throw errors.
  * In development, fallbacks are allowed with warnings.
+ * During builds, validation is skipped to allow CI/CD pipelines.
  */
 
 import { logger } from '@/lib/logger';
 
 const isProduction = process.env.NODE_ENV === 'production' ||
                      process.env.VERCEL_ENV === 'production';
+
+// Skip validation during build phase
+const isBuild = process.env.NEXT_PHASE === 'phase-production-build' ||
+                process.env.SKIP_ENV_VALIDATION === 'true';
 
 interface ValidationResult {
   valid: boolean;
@@ -22,6 +27,12 @@ interface ValidationResult {
  * Throws in production if critical variables are missing
  */
 export function validateAuthEnvVars(): ValidationResult {
+  // Skip validation during build
+  if (isBuild) {
+    logger.auth.info('Environment validation skipped during build');
+    return { valid: true, errors: [], warnings: [] };
+  }
+  
   const errors: string[] = [];
   const warnings: string[] = [];
 
@@ -49,12 +60,16 @@ export function validateAuthEnvVars(): ValidationResult {
     }
   }
 
-  // DATABASE_URL - Required always
+  // DATABASE_URL - Required always (but allow placeholder during build)
   if (!process.env.DATABASE_URL) {
-    errors.push('DATABASE_URL is required');
+    if (isProduction && !isBuild) {
+      errors.push('DATABASE_URL is required');
+    } else {
+      warnings.push('DATABASE_URL not set');
+    }
   } else if (!process.env.DATABASE_URL.startsWith('postgresql://') && 
              !process.env.DATABASE_URL.startsWith('postgres://')) {
-    if (isProduction) {
+    if (isProduction && !isBuild) {
       errors.push('DATABASE_URL must be a valid PostgreSQL connection string');
     } else {
       warnings.push('DATABASE_URL does not appear to be a valid PostgreSQL URL');
@@ -66,15 +81,13 @@ export function validateAuthEnvVars(): ValidationResult {
     logger.auth.warn('Environment warnings:', { warnings });
   }
 
-  // Throw in production if there are errors
-  if (errors.length > 0) {
+  // Throw in production if there are errors (but not during build)
+  if (errors.length > 0 && isProduction && !isBuild) {
     logger.auth.error('Environment validation failed:', { errors });
     
-    if (isProduction) {
-      throw new Error(
-        `Missing required environment variables in production:\n${errors.join('\n')}`
-      );
-    }
+    throw new Error(
+      `Missing required environment variables in production:\n${errors.join('\n')}`
+    );
   }
 
   return {
