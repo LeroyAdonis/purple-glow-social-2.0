@@ -14,6 +14,7 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
+    "regression-test": "SKIP_ENV_VALIDATION=true BETTER_AUTH_SECRET=\"${REGRESSION_TEST_SECRET:-test-secret-for-regression-testing-min-32-chars}\" npx tsx scripts/regression-test.ts",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
