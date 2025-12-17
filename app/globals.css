@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
 /* Google Fonts - loaded via CSS for build reliability */
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
+/* Separate imports for better performance and progressive loading */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 
 @theme {
   /* Custom Colors */

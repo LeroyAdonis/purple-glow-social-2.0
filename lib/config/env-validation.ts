@@ -81,8 +81,8 @@ export function validateAuthEnvVars(): ValidationResult {
     logger.auth.warn('Environment warnings:', { warnings });
   }
 
-  // Throw in production if there are errors (but not during build)
-  if (errors.length > 0 && isProduction && !isBuild) {
+  // Throw in production if there are errors (but not during build or preview environments)
+  if (errors.length > 0 && isProduction && !isBuild && process.env.VERCEL_ENV !== 'preview') {
     logger.auth.error('Environment validation failed:', { errors });
     
     throw new Error(

@@ -42,29 +42,25 @@ function startSection(name: string) {
   testResults.push({ section: name, results: [] });
 }
 
-function test(name: string, fn: () => void | Promise<void>): Promise<void> {
-  return new Promise<void>(async (resolve) => {
-    process.stdout.write(`  Testing: ${name}... `);
-    
-    try {
-      await fn();
-      console.log(`${colors.green}✓ PASS${colors.reset}`);
-      testResults[testResults.length - 1].results.push({
-        name,
-        passed: true,
-      });
-    } catch (error: any) {
-      console.log(`${colors.red}✗ FAIL${colors.reset}`);
-      console.log(`    ${colors.red}${error.message}${colors.reset}`);
-      testResults[testResults.length - 1].results.push({
-        name,
-        passed: false,
-        error: error.message,
-      });
-    }
-    
-    resolve();
-  });
+async function test(name: string, fn: () => void | Promise<void>): Promise<void> {
+  process.stdout.write(`  Testing: ${name}... `);
+  
+  try {
+    await fn();
+    console.log(`${colors.green}✓ PASS${colors.reset}`);
+    testResults[testResults.length - 1].results.push({
+      name,
+      passed: true,
+    });
+  } catch (error: any) {
+    console.log(`${colors.red}✗ FAIL${colors.reset}`);
+    console.log(`    ${colors.red}${error.message}${colors.reset}`);
+    testResults[testResults.length - 1].results.push({
+      name,
+      passed: false,
+      error: error.message,
+    });
+  }
 }
 
 function skip(name: string, reason: string): void {
