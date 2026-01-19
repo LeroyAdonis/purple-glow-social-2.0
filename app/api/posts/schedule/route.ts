@@ -10,6 +10,8 @@ import { reserveCredits, getAvailableCredits } from '@/lib/db/credit-reservation
 import { hasEnoughCredits, canSchedule } from '@/lib/tiers/validation';
 import { getTierLimits } from '@/lib/tiers/config';
 import type { TierName } from '@/lib/tiers/types';
+import { rateLimiters } from '@/lib/security/rate-limit';
+import { logger } from '@/lib/logger';
 
 const scheduleSchema = z.object({
   postId: z.string().uuid(),
@@ -136,6 +138,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Apply rate limiting (10 requests per minute for scheduling)
+    const rateLimitResult = await rateLimiters.contentGen.limit(`post-schedule:${session.user.id}`);
+    if (!rateLimitResult.success) {
+      const resetTime = Math.ceil(((rateLimitResult as any).reset - Date.now()) / 1000);
+      return NextResponse.json(
+        { 
+          error: 'Rate limit exceeded', 
+          message: `Too many schedule requests. Try again in ${resetTime} seconds.`,
+          retryAfter: resetTime,
+        },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const validated = scheduleSchema.parse(body);
     const scheduledDate = new Date(validated.scheduledDate);
@@ -193,7 +209,7 @@ export async function POST(request: NextRequest) {
         },
       });
     } catch (inngestError) {
-      console.warn('Inngest send failed (non-critical):', inngestError);
+      logger.cron.warn('Inngest send failed (non-critical)', { error: inngestError });
     }
 
     // Get updated available credits (fresh read)
@@ -211,7 +227,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('Schedule post error:', error);
+    logger.posting.error('Schedule post failed', { error });
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(

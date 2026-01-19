@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getRecentJobs, getFailedJobs, getPendingJobs, getJobStats } from '@/lib/db/job-logs';
+import { logger } from '@/lib/logger';
 
 /**
  * Check if user is admin
@@ -59,7 +60,7 @@ export async function GET(request: NextRequest) {
       stats,
     });
   } catch (error: any) {
-    console.error('Admin jobs fetch error:', error);
+    logger.admin.exception(error, { action: 'fetch-jobs' });
     return NextResponse.json(
       { error: error.message || 'Failed to fetch jobs' },
       { status: 500 }

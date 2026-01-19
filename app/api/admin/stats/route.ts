@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getPlatformStats, getRevenueMetrics, getMRR, getTierDistribution } from '@/lib/db/analytics';
+import { logger } from '@/lib/logger';
 
 /**
  * Check if user is admin (email-based for now)
@@ -64,7 +65,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error: any) {
-    console.error('Admin stats fetch error:', error);
+    logger.admin.exception(error, { action: 'fetch-stats' });
     return NextResponse.json(
       { error: error.message || 'Failed to fetch statistics' },
       { status: 500 }

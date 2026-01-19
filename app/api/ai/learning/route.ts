@@ -8,6 +8,7 @@ import { auth } from '@/lib/auth';
 import { learningProfileService } from '@/lib/ai/learning-profile-service';
 import { promptPatternAnalyzer } from '@/lib/ai/prompt-pattern-analyzer';
 import { z } from 'zod';
+import { logger } from '@/lib/logger';
 
 const updateProfileSchema = z.object({
   industry: z.string().optional(),
@@ -37,7 +38,7 @@ export async function GET(request: Request) {
       data: context,
     });
   } catch (error) {
-    console.error('Learning profile error:', error);
+    logger.ai.error('Learning profile retrieval failed', { error });
     return NextResponse.json({ error: 'Failed to get learning profile' }, { status: 500 });
   }
 }
@@ -75,7 +76,7 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
     
-    console.error('Profile update error:', error);
+    logger.ai.error('Profile update failed', { error });
     return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
   }
 }
@@ -97,7 +98,7 @@ export async function PUT(request: Request) {
       message: 'Learning analysis triggered',
     });
   } catch (error) {
-    console.error('Learning analysis error:', error);
+    logger.ai.error('Learning analysis failed', { error });
     return NextResponse.json({ error: 'Failed to run learning analysis' }, { status: 500 });
   }
 }

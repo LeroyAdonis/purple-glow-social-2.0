@@ -9,6 +9,8 @@ import { getTierLimits } from '@/lib/tiers/config';
 import { logGeneration, getDailyGenerations } from '@/lib/db/generation-logs';
 import { incrementGenerations, checkGenerationLimit } from '@/lib/db/daily-usage';
 import type { TierName } from '@/lib/tiers/types';
+import { rateLimiters } from '@/lib/security/rate-limit';
+import { logger } from '@/lib/logger';
 
 /**
  * API endpoint to generate AI content
@@ -28,6 +30,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
+      );
+    }
+
+    // Apply rate limiting (10 requests per minute for AI generation)
+    const rateLimitResult = await rateLimiters.contentGen.limit(`ai-generation:${session.user.id}`);
+    if (!rateLimitResult.success) {
+      const resetTime = Math.ceil(((rateLimitResult as any).reset - Date.now()) / 1000);
+      return NextResponse.json(
+        { 
+          error: 'Rate limit exceeded', 
+          message: `Too many AI generation requests. Try again in ${resetTime} seconds.`,
+          retryAfter: resetTime,
+        },
+        { status: 429 }
       );
     }
 
@@ -156,7 +172,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error: any) {
-    console.error('AI generation error:', error);
+    logger.ai.error('AI generation failed', { error });
     return NextResponse.json(
       { error: error.message || 'Failed to generate content' },
       { status: 500 }

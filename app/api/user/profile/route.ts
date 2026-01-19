@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { db } from '@/drizzle/db';
 import { user } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
+import { logger } from '@/lib/logger';
 
 /**
  * GET /api/user/profile
@@ -45,7 +46,7 @@ export async function GET(request: NextRequest) {
       emailVerified: userRecord.emailVerified,
     });
   } catch (error: any) {
-    console.error('Profile fetch error:', error);
+    logger.api.exception(error, { action: 'fetch-profile' });
     return NextResponse.json(
       { error: error.message || 'Failed to fetch profile' },
       { status: 500 }
@@ -89,7 +90,7 @@ export async function PATCH(request: NextRequest) {
       user: updatedUser,
     });
   } catch (error: any) {
-    console.error('Profile update error:', error);
+    logger.api.exception(error, { action: 'update-profile' });
     return NextResponse.json(
       { error: error.message || 'Failed to update profile' },
       { status: 500 }

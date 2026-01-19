@@ -6,6 +6,7 @@ import { db } from '@/drizzle/db';
 import { connectedAccounts } from '@/drizzle/schema';
 import { eq, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
+import { logger } from '@/lib/logger';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -115,7 +116,7 @@ export async function GET(request: NextRequest) {
     
     return response;
   } catch (error) {
-    console.error('Instagram callback error:', error);
+    logger.oauth.error('Instagram callback failed', { error });
     
     const errorMessage = error instanceof OAuthError 
       ? error.message 

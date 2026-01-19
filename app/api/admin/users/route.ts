@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { getAllUsersWithStats, updateUser, countUsers, getTierDistribution } from '@/lib/db/users';
 import { addCredits, deductCredits } from '@/lib/db/users';
 import type { UserUpdateData, UserTier } from '@/lib/types';
+import { logger } from '@/lib/logger';
 
 /**
  * Check if user is admin (email-based for now)
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error: unknown) {
-    console.error('Admin users fetch error:', error);
+    logger.admin.exception(error, { action: 'fetch-users' });
     const message = error instanceof Error ? error.message : 'Failed to fetch users';
     return NextResponse.json(
       { error: message },
@@ -126,7 +127,7 @@ export async function PATCH(request: NextRequest) {
       message: 'User updated successfully',
     });
   } catch (error: unknown) {
-    console.error('Admin user update error:', error);
+    logger.admin.exception(error, { action: 'update-user' });
     const message = error instanceof Error ? error.message : 'Failed to update user';
     return NextResponse.json(
       { error: message },

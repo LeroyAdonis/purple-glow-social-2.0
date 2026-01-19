@@ -11,6 +11,7 @@ import { createSubscriptionCheckout } from '../../../../lib/polar/checkout-servi
 import { db } from '../../../../drizzle/db';
 import { user as userTable } from '../../../../drizzle/schema';
 import { eq } from 'drizzle-orm';
+import { logger } from '../../../../lib/logger';
 
 export async function POST(request: NextRequest) {
   try {
@@ -77,7 +78,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error creating subscription checkout:', error);
+    logger.polar.exception(error, { action: 'create-subscription' });
     
     return NextResponse.json(
       { 

@@ -17,6 +17,7 @@ import { getDailyGenerations } from '@/lib/db/generation-logs';
 import { countScheduledPosts } from '@/lib/db/posts';
 import { getAvailableCredits } from '@/lib/db/credit-reservations';
 import type { TierName, PlatformBreakdown } from '@/lib/tiers/types';
+import { logger } from '@/lib/logger';
 
 interface LimitStatus {
   current: number;
@@ -191,7 +192,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(response);
   } catch (error: any) {
-    console.error('Limits check error:', error);
+    logger.api.exception(error, { action: 'check-limits' });
     return NextResponse.json(
       { error: error.message || 'Failed to check limits' },
       { status: 500 }

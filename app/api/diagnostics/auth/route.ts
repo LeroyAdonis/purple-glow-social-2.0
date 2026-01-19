@@ -6,6 +6,7 @@
 
 import { diagnoseAuth } from "@/lib/diagnostics/auth-diagnostic";
 import { NextRequest } from "next/server";
+import { logger } from "@/lib/logger";
 
 export async function GET(request: NextRequest) {
   try {
@@ -28,7 +29,7 @@ export async function GET(request: NextRequest) {
       issues: result.success ? [] : [result],
     });
   } catch (error) {
-    console.error("Diagnostic error:", error);
+    logger.auth.exception(error, { action: 'diagnostics' });
     return Response.json(
       {
         success: false,

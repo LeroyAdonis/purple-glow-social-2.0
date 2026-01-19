@@ -4,6 +4,7 @@ import { Syne, Outfit, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/context/LanguageContext";
 import { QueryProvider } from "@/lib/api/query-provider";
+import CookieConsentBanner from "@/components/cookie-consent-banner";
 
 // Font Configuration
 const syne = Syne({ 
@@ -48,6 +49,7 @@ export default function RootLayout({
                 <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-joburg-teal opacity-[0.08] blur-[150px] rounded-full"></div>
             </div>
             {children}
+            <CookieConsentBanner />
           </LanguageProvider>
         </QueryProvider>
       </body>

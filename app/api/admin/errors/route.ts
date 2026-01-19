@@ -5,6 +5,7 @@ import { generationLogs, posts, user } from '@/drizzle/schema';
 import { eq, desc, and } from 'drizzle-orm';
 import { getGenerationErrors } from '@/lib/db/generation-logs';
 import type { GenerationError, PublishingError } from '@/lib/types';
+import { logger } from '@/lib/logger';
 
 /**
  * Check if user is admin
@@ -113,7 +114,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error: unknown) {
-    console.error('Admin errors fetch error:', error);
+    logger.admin.exception(error, { action: 'fetch-errors' });
     const message = error instanceof Error ? error.message : 'Failed to fetch errors';
     return NextResponse.json(
       { error: message },

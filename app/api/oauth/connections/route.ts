@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getConnectedAccounts } from '@/lib/db/connected-accounts';
+import { logger } from '@/lib/logger';
 
 export async function GET(request: NextRequest) {
   try {
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest) {
       connections: safeConnections
     });
   } catch (error) {
-    console.error('Get connections error:', error);
+    logger.oauth.error('Failed to fetch connections', { error });
     return NextResponse.json(
       { error: 'Failed to fetch connections' },
       { status: 500 }

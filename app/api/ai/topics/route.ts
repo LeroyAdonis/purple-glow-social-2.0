@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { GeminiService } from '@/lib/ai/gemini-service';
+import { rateLimiters } from '@/lib/security/rate-limit';
+import { logger } from '@/lib/logger';
 
 /**
  * API endpoint to get topic suggestions
@@ -20,6 +22,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Apply rate limiting (20 requests per minute for topics)
+    const rateLimitResult = await rateLimiters.contentGen.limit(`ai-topics:${session.user.id}`);
+    if (!rateLimitResult.success) {
+      const resetTime = Math.ceil(((rateLimitResult as any).reset - Date.now()) / 1000);
+      return NextResponse.json(
+        { 
+          error: 'Rate limit exceeded', 
+          message: `Too many topic requests. Try again in ${resetTime} seconds.`,
+          retryAfter: resetTime,
+        },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { industry = 'general business' } = body;
 
@@ -32,7 +48,7 @@ export async function POST(request: NextRequest) {
       topics,
     });
   } catch (error: any) {
-    console.error('Topic suggestion error:', error);
+    logger.ai.error('Topic suggestion failed', { error });
     return NextResponse.json(
       { error: error.message || 'Failed to generate topic suggestions' },
       { status: 500 }

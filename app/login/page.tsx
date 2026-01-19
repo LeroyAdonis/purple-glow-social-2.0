@@ -2,24 +2,29 @@
 
 import React, { useState } from 'react';
 import { signIn } from '../../lib/auth-client';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Get redirect URL from query params (set by middleware)
+  const redirectTo = searchParams.get('redirect') || '/dashboard';
 
   // Debug environment on mount
   React.useEffect(() => {
     console.log('[Login] Environment check:', {
       baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
       isProduction: typeof window !== 'undefined' && window.location.hostname.includes('vercel.app'),
+      redirectTo,
       timestamp: new Date().toISOString()
     });
-  }, []);
+  }, [redirectTo]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,12 +32,12 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      console.log('[Login] Attempting sign in with:', { email, callbackURL: '/dashboard' });
+      console.log('[Login] Attempting sign in with:', { email, callbackURL: redirectTo });
 
       const result = await signIn.email({
         email,
         password,
-        callbackURL: '/dashboard',
+        callbackURL: redirectTo,
       });
 
       console.log('[Login] Sign in result:', JSON.stringify(result, null, 2));
@@ -47,8 +52,8 @@ export default function LoginPage() {
 
       // Only redirect if we got a successful result
       if (result?.data) {
-        console.log('[Login] Sign in successful, redirecting to dashboard');
-        router.push('/dashboard');
+        console.log('[Login] Sign in successful, redirecting to:', redirectTo);
+        router.push(redirectTo);
       } else {
         console.warn('[Login] Unexpected result format:', result);
         setError('Unexpected response from server');
@@ -67,7 +72,7 @@ export default function LoginPage() {
     try {
       await signIn.social({
         provider: 'google',
-        callbackURL: '/dashboard',
+        callbackURL: redirectTo,
       });
     } catch (err: any) {
       // FedCM AbortError is expected when user closes popup or navigates away

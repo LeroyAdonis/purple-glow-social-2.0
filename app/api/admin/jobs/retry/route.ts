@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getJobById, updateJobStatus } from '@/lib/db/job-logs';
 import { inngest } from '@/lib/inngest/client';
+import { logger } from '@/lib/logger';
 
 /**
  * Check if user is admin
@@ -98,7 +99,7 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
   } catch (error: any) {
-    console.error('Job retry error:', error);
+    logger.admin.exception(error, { action: 'retry-job' });
     return NextResponse.json(
       { error: error.message || 'Failed to retry job' },
       { status: 500 }

@@ -10,6 +10,7 @@ import { markAsRead as markNotificationAsRead } from '@/lib/db/notifications';
 import { db } from '@/drizzle/db';
 import { notifications } from '@/drizzle/schema';
 import { eq, and } from 'drizzle-orm';
+import { logger } from '@/lib/logger';
 
 export async function POST(request: NextRequest) {
   try {
@@ -57,7 +58,7 @@ export async function POST(request: NextRequest) {
       message: 'Notification marked as read',
     });
   } catch (error) {
-    console.error('[notifications/read] Error:', error);
+    logger.api.exception(error, { action: 'mark-read' });
     return NextResponse.json(
       { success: false, error: 'Failed to mark notification as read' },
       { status: 500 }

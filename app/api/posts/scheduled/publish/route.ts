@@ -4,6 +4,7 @@ import { PostService } from '@/lib/posting/post-service';
 import { db } from '@/drizzle/db';
 import { posts } from '@/drizzle/schema';
 import { eq, and } from 'drizzle-orm';
+import { logger } from '@/lib/logger';
 
 /**
  * API endpoint to publish a specific scheduled post
@@ -73,7 +74,7 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error: any) {
-    console.error('Publish scheduled post error:', error);
+    logger.posting.error('Publish scheduled post failed', { error });
     return NextResponse.json(
       { error: error.message || 'Failed to publish scheduled post' },
       { status: 500 }

@@ -7,6 +7,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { markAllAsRead } from '@/lib/db/notifications';
+import { logger } from '@/lib/logger';
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
       message: 'All notifications marked as read',
     });
   } catch (error) {
-    console.error('[notifications/read-all] Error:', error);
+    logger.api.exception(error, { action: 'mark-all-read' });
     return NextResponse.json(
       { success: false, error: 'Failed to mark all notifications as read' },
       { status: 500 }

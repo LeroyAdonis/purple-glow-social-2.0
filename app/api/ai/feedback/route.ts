@@ -8,6 +8,7 @@ import { auth } from '@/lib/auth';
 import { enhancedGeminiService } from '@/lib/ai/enhanced-gemini-service';
 import { promptPatternAnalyzer } from '@/lib/ai/prompt-pattern-analyzer';
 import { z } from 'zod';
+import { logger } from '@/lib/logger';
 
 const feedbackSchema = z.object({
   content: z.string().min(1),
@@ -67,7 +68,7 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
     
-    console.error('Feedback error:', error);
+    logger.ai.error('Feedback recording failed', { error });
     return NextResponse.json({ error: 'Failed to record feedback' }, { status: 500 });
   }
 }

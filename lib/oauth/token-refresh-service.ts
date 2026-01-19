@@ -8,6 +8,7 @@ import { connectedAccounts } from '@/drizzle/schema';
 import { eq, and, lt } from 'drizzle-orm';
 import { FacebookProvider } from './facebook-provider';
 import { TwitterProvider } from './twitter-provider';
+import { LinkedInProvider } from './linkedin-provider';
 import { encryptToken, decryptToken } from '@/lib/db/connected-accounts';
 import { logger } from '@/lib/logger';
 
@@ -81,9 +82,29 @@ async function refreshTokenWithRetry(
         }
         
         case 'linkedin': {
-          // LinkedIn refresh will be implemented in linkedin-provider.ts
-          logger.oauth.warn('LinkedIn token refresh not yet implemented');
-          return null;
+          if (!refreshToken) {
+            throw new Error('LinkedIn requires refresh token for token refresh');
+          }
+          try {
+            const provider = new LinkedInProvider();
+            
+            // Check if provider is configured
+            if (!provider.isConfigured()) {
+              throw new Error('LinkedIn credentials not configured');
+            }
+            
+            const result = await provider.refreshAccessToken(refreshToken);
+            return {
+              accessToken: result.accessToken,
+              refreshToken: result.refreshToken || refreshToken, // LinkedIn returns new refresh token
+              expiresIn: result.expiresIn,
+            };
+          } catch (error) {
+            logger.oauth.error('LinkedIn token refresh failed', {
+              error: error instanceof Error ? error.message : 'Unknown error'
+            });
+            throw error;
+          }
         }
         
         default:

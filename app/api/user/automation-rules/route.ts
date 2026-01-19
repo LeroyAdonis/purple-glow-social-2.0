@@ -8,6 +8,7 @@ import {
   deleteAutomationRule,
   toggleAutomationRule
 } from '@/lib/db/automation';
+import { logger } from '@/lib/logger';
 
 /**
  * GET /api/user/automation-rules

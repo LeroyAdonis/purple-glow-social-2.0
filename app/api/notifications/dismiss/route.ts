@@ -10,6 +10,7 @@ import { dismissNotification as deleteNotification } from '@/lib/db/notification
 import { db } from '@/drizzle/db';
 import { notifications } from '@/drizzle/schema';
 import { eq, and } from 'drizzle-orm';
+import { logger } from '@/lib/logger';
 
 export async function POST(request: NextRequest) {
   try {
@@ -57,7 +58,7 @@ export async function POST(request: NextRequest) {
       message: 'Notification dismissed',
     });
   } catch (error) {
-    console.error('[notifications/dismiss] Error:', error);
+    logger.api.exception(error, { action: 'dismiss-notification' });
     return NextResponse.json(
       { success: false, error: 'Failed to dismiss notification' },
       { status: 500 }

@@ -11,6 +11,8 @@ import { deductCredits } from '@/lib/db/users';
 import { incrementPosts, getDailyUsage } from '@/lib/db/daily-usage';
 import type { TierName } from '@/lib/tiers/types';
 import type { PlatformBreakdown } from '@/lib/tiers/types';
+import { rateLimiters } from '@/lib/security/rate-limit';
+import { logger } from '@/lib/logger';
 
 /**
  * API endpoint to publish a post immediately
@@ -30,6 +32,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
+      );
+    }
+
+    // Apply rate limiting (5 posts per minute to prevent spam)
+    const rateLimitResult = await rateLimiters.contentGen.limit(`post-publish:${session.user.id}`);
+    if (!rateLimitResult.success) {
+      const resetTime = Math.ceil(((rateLimitResult as any).reset - Date.now()) / 1000);
+      return NextResponse.json(
+        { 
+          error: 'Rate limit exceeded', 
+          message: `Too many publish requests. Try again in ${resetTime} seconds.`,
+          retryAfter: resetTime,
+        },
+        { status: 429 }
       );
     }
 
@@ -181,7 +197,7 @@ export async function POST(request: NextRequest) {
       });
     }
   } catch (error: any) {
-    console.error('Publish post error:', error);
+    logger.posting.error('Publish post failed', { error });
     return NextResponse.json(
       { error: error.message || 'Failed to publish post' },
       { status: 500 }

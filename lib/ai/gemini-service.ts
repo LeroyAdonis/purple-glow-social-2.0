@@ -6,6 +6,19 @@
  */
 
 import { logger } from '@/lib/logger';
+
+/**
+ * Timeout helper for AI API calls
+ * Wraps a promise with a timeout to prevent hanging requests
+ */
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => 
+      setTimeout(() => reject(new Error('Request timeout')), timeoutMs)
+    )
+  ]);
+}
 import { 
   buildEnhancedPrompt, 
   buildHashtagPrompt, 
@@ -77,20 +90,23 @@ export class GeminiService {
       // Get optimized generation config
       const genConfig = getGenerationConfig(platform as Platform, tone as Tone);
       
-      const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt,
+      const response = await withTimeout(
+        fetch(`${this.baseUrl}?key=${this.apiKey}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: prompt,
+              }],
             }],
-          }],
-          generationConfig: genConfig,
+            generationConfig: genConfig,
+          }),
         }),
-      });
+        30000 // 30 second timeout
+      );
 
       if (!response.ok) {
         const error = await response.json();
@@ -315,23 +331,26 @@ export class GeminiService {
       // Get language-specific hashtags to mix in
       const langHashtags = getLanguageHashtags(language);
 
-      const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt,
-            }],
-          }],
-          generationConfig: {
-            temperature: 0.8,
-            maxOutputTokens: 256,
+      const response = await withTimeout(
+        fetch(`${this.baseUrl}?key=${this.apiKey}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: prompt,
+              }],
+            }],
+            generationConfig: {
+              temperature: 0.8,
+              maxOutputTokens: 256,
+            },
+          }),
         }),
-      });
+        30000 // 30 second timeout
+      );
 
       if (!response.ok) {
         throw new Error('Failed to generate hashtags');
@@ -360,23 +379,26 @@ export class GeminiService {
       // Use the new topic suggestion prompt builder
       const prompt = buildTopicSuggestionPrompt(industry, language);
 
-      const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt,
-            }],
-          }],
-          generationConfig: {
-            temperature: 0.9,
-            maxOutputTokens: 512,
+      const response = await withTimeout(
+        fetch(`${this.baseUrl}?key=${this.apiKey}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: prompt,
+              }],
+            }],
+            generationConfig: {
+              temperature: 0.9,
+              maxOutputTokens: 512,
+            },
+          }),
         }),
-      });
+        30000 // 30 second timeout
+      );
 
       if (!response.ok) {
         throw new Error('Failed to generate topic suggestions');

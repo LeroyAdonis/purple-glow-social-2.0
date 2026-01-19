@@ -5,6 +5,7 @@ import { user, posts, generationLogs, dailyUsage, automationRules, transactions 
 import { eq, sql, gte, desc, and, count } from 'drizzle-orm';
 import { getSystemGenerationStats } from '@/lib/db/generation-logs';
 import { getJobStats } from '@/lib/db/job-logs';
+import { logger } from '@/lib/logger';
 
 /**
  * Check if user is admin
@@ -63,7 +64,7 @@ export async function GET(request: NextRequest) {
       automation: automationData
     });
   } catch (error: any) {
-    console.error('Admin analytics error:', error);
+    logger.admin.exception(error, { action: 'fetch-analytics' });
     return NextResponse.json(
       { error: error.message || 'Failed to fetch analytics' },
       { status: 500 }

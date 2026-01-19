@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/drizzle/db';
+import { logger } from '@/lib/logger';
 
 /**
  * Health check endpoint for monitoring
@@ -19,7 +20,7 @@ export async function GET() {
       dbResponseTime = Date.now() - dbStart;
       dbStatus = dbResponseTime < 1000 ? 'healthy' : 'slow';
     } catch (error) {
-      console.error('Database health check failed:', error);
+      logger.db.exception(error, { action: 'health-check' });
       dbStatus = 'unhealthy';
     }
 
@@ -64,7 +65,7 @@ export async function GET() {
       status: isHealthy ? 200 : 503,
     });
   } catch (error: any) {
-    console.error('Health check error:', error);
+    logger.api.exception(error, { action: 'health-check' });
     return NextResponse.json(
       {
         status: 'unhealthy',

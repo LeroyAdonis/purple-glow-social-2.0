@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { analyticsService } from '@/lib/ai/analytics-service';
 import { z } from 'zod';
+import { logger } from '@/lib/logger';
 
 const recordAnalyticsSchema = z.object({
   postId: z.string().uuid(),
@@ -50,7 +51,7 @@ export async function GET(request: Request) {
       data: summary,
     });
   } catch (error) {
-    console.error('Analytics error:', error);
+    logger.ai.error('Analytics retrieval failed', { error });
     return NextResponse.json({ error: 'Failed to get analytics' }, { status: 500 });
   }
 }
@@ -87,7 +88,7 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
     
-    console.error('Analytics recording error:', error);
+    logger.ai.error('Analytics recording failed', { error });
     return NextResponse.json({ error: 'Failed to record analytics' }, { status: 500 });
   }
 }

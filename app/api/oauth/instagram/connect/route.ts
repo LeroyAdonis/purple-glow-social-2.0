@@ -8,6 +8,8 @@ import { user } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 import type { TierName } from '@/lib/tiers/types';
 import crypto from 'crypto';
+import { logger } from '@/lib/logger';
+import { rateLimiters } from '@/lib/security/rate-limit';
 
 export async function GET(request: NextRequest) {
   try {
@@ -20,6 +22,20 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
+      );
+    }
+
+    // Apply rate limiting (5 OAuth connections per minute for security)
+    const rateLimitResult = await rateLimiters.oauth.limit(`oauth-connect:${session.user.id}`);
+    if (!rateLimitResult.success) {
+      const resetTime = Math.ceil(((rateLimitResult as any).reset - Date.now()) / 1000);
+      return NextResponse.json(
+        { 
+          error: 'Rate limit exceeded', 
+          message: `Too many connection attempts. Try again in ${resetTime} seconds.`,
+          retryAfter: resetTime,
+        },
+        { status: 429 }
       );
     }
 
@@ -77,7 +93,7 @@ export async function GET(request: NextRequest) {
     
     return response;
   } catch (error) {
-    console.error('Instagram connect error:', error);
+    logger.oauth.error('Instagram connect failed', { error });
     return NextResponse.json(
       { error: 'Failed to initiate Instagram connection' },
       { status: 500 }

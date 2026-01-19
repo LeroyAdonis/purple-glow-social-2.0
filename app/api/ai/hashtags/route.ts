@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { GeminiService } from '@/lib/ai/gemini-service';
+import { rateLimiters } from '@/lib/security/rate-limit';
+import { logger } from '@/lib/logger';
 
 /**
  * API endpoint to generate hashtag suggestions
@@ -17,6 +19,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
+      );
+    }
+
+    // Apply rate limiting (20 requests per minute for hashtags)
+    const rateLimitResult = await rateLimiters.contentGen.limit(`ai-hashtags:${session.user.id}`);
+    if (!rateLimitResult.success) {
+      const resetTime = Math.ceil(((rateLimitResult as any).reset - Date.now()) / 1000);
+      return NextResponse.json(
+        { 
+          error: 'Rate limit exceeded', 
+          message: `Too many hashtag requests. Try again in ${resetTime} seconds.`,
+          retryAfter: resetTime,
+        },
+        { status: 429 }
       );
     }
 
@@ -39,7 +55,7 @@ export async function POST(request: NextRequest) {
       hashtags,
     });
   } catch (error: any) {
-    console.error('Hashtag generation error:', error);
+    logger.ai.error('Hashtag generation failed', { error });
     return NextResponse.json(
       { error: error.message || 'Failed to generate hashtags' },
       { status: 500 }
