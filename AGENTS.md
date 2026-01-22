@@ -220,7 +220,7 @@ purple-glow-social-2.0/
 - **Real posting** to all 4 platforms
 - Platform-specific posting services
 - Immediate posting via API
-- **Automated posting** via Vercel Cron (every minute)
+- **Automated posting** via Inngest (every minute)
 - Post tracking (platform IDs, URLs, timestamps)
 - Error handling and retry logic
 - Image support for all platforms
@@ -255,6 +255,9 @@ purple-glow-social-2.0/
   - Scheduled post processing
   - Automation rule execution
   - Credit expiry checks
+  - OAuth token refresh automation
+  - PKCE verifier cleanup
+  - AI pattern learning
 - **Admin Dashboard Enhancements:**
   - Credits analytics
   - Generation stats
@@ -586,7 +589,58 @@ export const auth = betterAuth({
    - `/api/ai/topics` - Topic suggestions
    - `/api/cron/process-scheduled-posts` - Cron job
 
-5. **Structured Logging:**
+5. **Inngest Scheduled Functions:**
+
+   Purple Glow Social uses **Inngest** for all scheduled background jobs (replaced Vercel Cron for $240/year savings + better reliability).
+
+   **Active Functions (8 total):**
+
+   1. **process-scheduled-post** - Every minute
+      - Publishes scheduled posts to social media
+      - File: `lib/inngest/functions/process-scheduled-post.ts`
+
+   2. **execute-automation-rule** - Every 5 minutes
+      - Runs active automation rules
+      - File: `lib/inngest/functions/execute-automation-rule.ts`
+
+   3. **check-credit-expiry** - Daily at 6am SAST (4am UTC)
+      - Warns users about expiring credits
+      - File: `lib/inngest/functions/check-credit-expiry.ts`
+
+   4. **reset-monthly-credits** - 1st of each month at 2am SAST (midnight UTC)
+      - Resets Pro/Business tier monthly credits
+      - File: `lib/inngest/functions/reset-monthly-credits.ts`
+
+   5. **check-low-credits** - Daily at 9am SAST (7am UTC)
+      - Notifies users with low credit balance
+      - File: `lib/inngest/functions/check-low-credits.ts`
+
+   6. **cleanup-pkce-verifiers** - Every hour
+      - Deletes expired OAuth state tokens (24h retention)
+      - File: `lib/inngest/functions/cleanup-pkce-verifiers.ts`
+
+   7. **refresh-oauth-tokens** - Every 6 hours
+      - Refreshes expiring social media tokens
+      - File: `lib/inngest/functions/refresh-oauth-tokens.ts`
+
+   8. **learn-ai-patterns** - Daily at 3am SAST (1am UTC)
+      - Analyzes user content for AI improvements
+      - File: `lib/inngest/functions/learn-ai-patterns.ts`
+
+   **Local Development:**
+   ```bash
+   # Terminal 1: Start Inngest Dev Server
+   npx inngest-cli@latest dev
+
+   # Terminal 2: Start Next.js
+   npm run dev
+   ```
+
+   **Inngest Dev UI:** http://localhost:8288
+
+   **Production:** Functions auto-deploy with Vercel, no additional configuration needed.
+
+6. **Structured Logging:**
    ```typescript
    // Use the pre-configured logger instead of console.log
    import { logger } from '@/lib/logger';
@@ -729,7 +783,7 @@ export const auth = betterAuth({
 - **AI content generation (Gemini Pro)**
 - PostgreSQL database (Neon)
 - Token encryption & security
-- Vercel Cron for automation
+- Inngest for background job automation
 - Global state management
 - Error handling & loading states
 - Accessibility utilities
@@ -738,7 +792,7 @@ export const auth = betterAuth({
 ### 🚧 Production Deployment
 - Vercel hosting ready
 - Environment variables configured
-- Cron jobs enabled
+- Inngest functions enabled (8 scheduled jobs)
 - Webhook listeners active
 - SSL/HTTPS enabled
 

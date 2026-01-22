@@ -12,6 +12,9 @@ import {
   checkCreditExpiry,
   resetMonthlyCredits,
   checkLowCredits,
+  cleanupPkceVerifiers,
+  refreshOAuthTokens,
+  learnAiPatterns,
 } from '@/lib/inngest/functions';
 
 // Create the serve handler with all functions
@@ -23,5 +26,8 @@ export const { GET, POST, PUT } = serve({
     checkCreditExpiry,
     resetMonthlyCredits,
     checkLowCredits,
+    cleanupPkceVerifiers,
+    refreshOAuthTokens,
+    learnAiPatterns,
   ],
 });
