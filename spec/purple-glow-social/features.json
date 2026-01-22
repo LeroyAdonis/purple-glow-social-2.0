@@ -1,0 +1,1844 @@
+{
+  "application": {
+    "name": "Purple Glow Social 2.0",
+    "version": "2.0.0",
+    "description": "South African-focused AI-powered social media management platform enabling small businesses and entrepreneurs to generate, schedule, and automate social media content across multiple platforms with culturally relevant, localized content in all 11 South African official languages",
+    "status": "production-ready",
+    "lastUpdated": "2026-01-19",
+    "techStack": {
+      "framework": "Next.js 16 with React 19",
+      "language": "TypeScript",
+      "styling": "Tailwind CSS v4",
+      "database": "PostgreSQL (Neon) with Drizzle ORM",
+      "authentication": "Better-auth",
+      "ai": "Google Gemini Pro",
+      "payments": "Polar.sh",
+      "storage": "Vercel Blob",
+      "hosting": "Vercel"
+    }
+  },
+  "categories": [
+    "Authentication",
+    "OAuth",
+    "AI Content Generation",
+    "Post Publishing",
+    "Automation",
+    "Payments",
+    "Admin",
+    "Compliance",
+    "User Management",
+    "Notifications",
+    "Analytics"
+  ],
+  "platforms": [
+    {
+      "id": "facebook",
+      "name": "Facebook Pages",
+      "status": "active",
+      "apiVersion": "v18.0",
+      "features": ["text-posts", "image-posts", "immediate-publish", "scheduled-publish"],
+      "limitations": ["No video support yet", "No Stories"],
+      "oauthType": "OAuth 2.0",
+      "scopes": ["pages_manage_posts", "pages_read_engagement"]
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram Business",
+      "status": "active",
+      "apiVersion": "v18.0",
+      "features": ["text-posts", "image-posts", "carousel", "immediate-publish", "scheduled-publish"],
+      "limitations": ["No Stories yet", "No Reels yet", "Business accounts only"],
+      "oauthType": "OAuth 2.0",
+      "scopes": ["instagram_basic", "instagram_content_publish"]
+    },
+    {
+      "id": "twitter",
+      "name": "Twitter/X",
+      "status": "active",
+      "apiVersion": "v2",
+      "features": ["text-posts", "image-posts", "threads", "immediate-publish", "scheduled-publish"],
+      "limitations": ["280 char limit per tweet"],
+      "oauthType": "OAuth 2.0 + PKCE",
+      "scopes": ["tweet.read", "tweet.write", "offline.access"]
+    },
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "status": "active",
+      "apiVersion": "v2",
+      "features": ["text-posts", "image-posts", "immediate-publish", "scheduled-publish"],
+      "limitations": ["Personal profiles only", "No company pages yet"],
+      "oauthType": "OAuth 2.0",
+      "scopes": ["w_member_social", "openid", "profile"]
+    }
+  ],
+  "integrations": [
+    {
+      "name": "Google Gemini Pro",
+      "type": "AI",
+      "status": "active",
+      "version": "1.5-flash",
+      "purpose": "Content generation in 11 languages with tone variations",
+      "envVars": ["GEMINI_API_KEY"]
+    },
+    {
+      "name": "Polar.sh",
+      "type": "Payment",
+      "status": "active",
+      "version": "latest",
+      "purpose": "Payment processing and subscription management",
+      "envVars": ["POLAR_ACCESS_TOKEN", "POLAR_WEBHOOK_SECRET", "POLAR_ORGANIZATION_ID"]
+    },
+    {
+      "name": "Better-auth",
+      "type": "Authentication",
+      "status": "active",
+      "version": "1.4.1",
+      "purpose": "User authentication and session management",
+      "envVars": ["BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]
+    },
+    {
+      "name": "Inngest",
+      "type": "Background Jobs",
+      "status": "active",
+      "version": "3.27.0",
+      "purpose": "Reliable background job processing with retry logic",
+      "envVars": ["INNGEST_SIGNING_KEY", "INNGEST_EVENT_KEY"]
+    },
+    {
+      "name": "Sentry",
+      "type": "Monitoring",
+      "status": "active",
+      "version": "10.27.0",
+      "purpose": "Error tracking and performance monitoring",
+      "envVars": ["SENTRY_DSN", "SENTRY_AUTH_TOKEN"]
+    },
+    {
+      "name": "Upstash Redis",
+      "type": "Cache",
+      "status": "active",
+      "version": "latest",
+      "purpose": "Rate limiting with distributed caching",
+      "envVars": ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"]
+    },
+    {
+      "name": "Drizzle ORM",
+      "type": "Database",
+      "status": "active",
+      "version": "0.44.7",
+      "purpose": "Type-safe database queries and migrations",
+      "envVars": ["DATABASE_URL"]
+    },
+    {
+      "name": "Vercel Blob",
+      "type": "Storage",
+      "status": "active",
+      "version": "2.0.0",
+      "purpose": "Image and media storage",
+      "envVars": ["BLOB_READ_WRITE_TOKEN"]
+    }
+  ],
+  "tiers": [
+    {
+      "name": "Free",
+      "price": "R0/month",
+      "credits": 10,
+      "limits": {
+        "dailyGenerations": 5,
+        "queueSize": 5,
+        "automationRules": 0,
+        "connectedAccountsPerPlatform": 1,
+        "totalConnectedAccounts": 4,
+        "advanceSchedulingDays": 7,
+        "dailyPostsPerPlatform": 2,
+        "monthlyCredits": 10,
+        "maxCreditCarryover": 0,
+        "automationEnabled": false
+      }
+    },
+    {
+      "name": "Pro",
+      "price": "R299/month",
+      "annualPrice": "R2,999/year",
+      "credits": 500,
+      "limits": {
+        "dailyGenerations": 50,
+        "queueSize": 50,
+        "automationRules": 5,
+        "connectedAccountsPerPlatform": 3,
+        "totalConnectedAccounts": 12,
+        "advanceSchedulingDays": 30,
+        "dailyPostsPerPlatform": 10,
+        "monthlyCredits": 500,
+        "maxCreditCarryover": 100,
+        "automationEnabled": true
+      }
+    },
+    {
+      "name": "Business",
+      "price": "R799/month",
+      "annualPrice": "R7,999/year",
+      "credits": 2000,
+      "limits": {
+        "dailyGenerations": 200,
+        "queueSize": 200,
+        "automationRules": 20,
+        "connectedAccountsPerPlatform": 10,
+        "totalConnectedAccounts": 40,
+        "advanceSchedulingDays": 90,
+        "dailyPostsPerPlatform": 50,
+        "monthlyCredits": 2000,
+        "maxCreditCarryover": 500,
+        "automationEnabled": true
+      }
+    }
+  ],
+  "features": [
+    {
+      "id": "auth-001",
+      "category": "Authentication",
+      "name": "Email/Password Authentication",
+      "description": "Secure user authentication using email and password with bcrypt hashing and session management",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["better-auth"],
+      "implementation": {
+        "files": ["lib/auth.ts", "lib/auth-client.ts", "app/api/auth/[...all]/route.ts", "app/login/page.tsx", "app/signup/page.tsx"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/auth/signin", "authenticated": false, "rateLimit": "5 per 15min"},
+          {"method": "POST", "path": "/api/auth/signup", "authenticated": false, "rateLimit": "5 per 15min"}
+        ],
+        "components": ["LoginForm", "SignupForm"],
+        "database": ["users", "sessions", "verification"]
+      },
+      "testing": {"tested": true, "testFiles": ["tests/unit/security.test.ts"], "coverage": "high"},
+      "security": {"level": "high", "measures": ["Bcrypt hashing", "CSRF protection", "Rate limiting", "HttpOnly cookies"]}
+    },
+    {
+      "id": "auth-002",
+      "category": "Authentication",
+      "name": "Google OAuth",
+      "description": "One-click sign-in using Google OAuth provider",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "dependencies": ["better-auth", "google-oauth"],
+      "implementation": {
+        "files": ["lib/auth.ts", "app/api/auth/callback/google/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/auth/callback/google", "authenticated": false}
+        ],
+        "database": ["users", "accounts", "sessions"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["OAuth 2.0 protocol", "State parameter CSRF protection"]}
+    },
+    {
+      "id": "auth-003",
+      "category": "Authentication",
+      "name": "Session Management",
+      "description": "7-day session expiry with secure HttpOnly cookies",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["better-auth"],
+      "implementation": {
+        "files": ["lib/auth.ts", "middleware.ts"],
+        "database": ["sessions"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["HttpOnly cookies", "Secure flag (custom domains)", "7-day expiry", "Auto-refresh"]}
+    },
+    {
+      "id": "auth-004",
+      "category": "Authentication",
+      "name": "Password Reset",
+      "description": "Email-based password reset flow with token verification",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "dependencies": ["better-auth"],
+      "implementation": {
+        "files": ["lib/auth.ts", "app/reset-password/page.tsx"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/auth/reset-password", "authenticated": false}
+        ],
+        "database": ["users", "verification"]
+      },
+      "testing": {"tested": true, "coverage": "medium"},
+      "security": {"level": "high", "measures": ["Time-limited tokens", "One-time use tokens"]}
+    },
+    {
+      "id": "auth-005",
+      "category": "Authentication",
+      "name": "User Profile Management",
+      "description": "Update user name, email, and avatar",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/user/profile/route.ts", "components/settings-view.tsx"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/user/profile", "authenticated": true},
+          {"method": "PATCH", "path": "/api/user/profile", "authenticated": true}
+        ],
+        "database": ["users"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "auth-006",
+      "category": "Authentication",
+      "name": "Account Deletion",
+      "description": "POPIA-compliant account and data deletion",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/user/delete/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/user/delete", "authenticated": true}
+        ],
+        "database": ["users", "sessions", "posts", "automationRules", "connectedAccounts", "notifications", "generationLogs", "dailyUsage"]
+      },
+      "testing": {"tested": true, "coverage": "medium"},
+      "security": {"level": "high", "measures": ["Double confirmation required", "Email verification", "Audit logging"]}
+    },
+    {
+      "id": "auth-007",
+      "category": "Authentication",
+      "name": "Admin Authorization",
+      "description": "Email-based admin role detection with centralized authorization",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/security/auth-utils.ts"],
+        "endpoints": ["All /api/admin/* routes"],
+        "database": ["users"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["Centralized requireAdmin() helper", "Audit logging", "Email whitelist"]}
+    },
+    {
+      "id": "oauth-001",
+      "category": "OAuth",
+      "name": "Facebook Pages Connection",
+      "description": "Connect Facebook Pages via OAuth 2.0",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["facebook-graph-api"],
+      "implementation": {
+        "files": ["lib/oauth/facebook-provider.ts", "app/api/oauth/facebook/connect/route.ts", "app/api/oauth/facebook/callback/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/oauth/facebook/connect", "authenticated": true},
+          {"method": "GET", "path": "/api/oauth/facebook/callback", "authenticated": true}
+        ],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["AES-256-GCM token encryption", "State parameter CSRF protection", "Scope validation"]}
+    },
+    {
+      "id": "oauth-002",
+      "category": "OAuth",
+      "name": "Facebook Token Refresh",
+      "description": "Automatic refresh of expiring Facebook access tokens",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/oauth/facebook-provider.ts", "app/api/cron/refresh-tokens/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/cron/refresh-tokens", "authenticated": false, "cronJob": true}
+        ],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "oauth-003",
+      "category": "OAuth",
+      "name": "Facebook Disconnection",
+      "description": "Disconnect Facebook account and revoke tokens",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/oauth/facebook/disconnect/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/oauth/facebook/disconnect", "authenticated": true}
+        ],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "oauth-004",
+      "category": "OAuth",
+      "name": "Instagram Business Connection",
+      "description": "Connect Instagram Business accounts via OAuth 2.0",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["facebook-graph-api"],
+      "implementation": {
+        "files": ["lib/oauth/instagram-provider.ts", "app/api/oauth/instagram/connect/route.ts", "app/api/oauth/instagram/callback/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/oauth/instagram/connect", "authenticated": true},
+          {"method": "GET", "path": "/api/oauth/instagram/callback", "authenticated": true}
+        ],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["AES-256-GCM token encryption", "State parameter CSRF protection"]}
+    },
+    {
+      "id": "oauth-005",
+      "category": "OAuth",
+      "name": "Instagram Token Refresh",
+      "description": "Automatic refresh of expiring Instagram access tokens",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/oauth/instagram-provider.ts", "app/api/cron/refresh-tokens/route.ts"],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "oauth-006",
+      "category": "OAuth",
+      "name": "Instagram Disconnection",
+      "description": "Disconnect Instagram account and revoke tokens",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/oauth/instagram/disconnect/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/oauth/instagram/disconnect", "authenticated": true}
+        ],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "oauth-007",
+      "category": "OAuth",
+      "name": "Twitter/X Connection",
+      "description": "Connect Twitter/X accounts via OAuth 2.0 with PKCE",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["twitter-api-v2"],
+      "implementation": {
+        "files": ["lib/oauth/twitter-provider.ts", "app/api/oauth/twitter/connect/route.ts", "app/api/oauth/twitter/callback/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/oauth/twitter/connect", "authenticated": true},
+          {"method": "GET", "path": "/api/oauth/twitter/callback", "authenticated": true}
+        ],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["PKCE for OAuth 2.0", "AES-256-GCM token encryption", "State parameter"]}
+    },
+    {
+      "id": "oauth-008",
+      "category": "OAuth",
+      "name": "Twitter Token Refresh",
+      "description": "Automatic refresh of expiring Twitter access tokens",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/oauth/twitter-provider.ts", "app/api/cron/refresh-tokens/route.ts"],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "oauth-009",
+      "category": "OAuth",
+      "name": "Twitter Disconnection",
+      "description": "Disconnect Twitter account and revoke tokens",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/oauth/twitter/disconnect/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/oauth/twitter/disconnect", "authenticated": true}
+        ],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "oauth-010",
+      "category": "OAuth",
+      "name": "LinkedIn Connection",
+      "description": "Connect LinkedIn profiles via OAuth 2.0",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["linkedin-api-v2"],
+      "implementation": {
+        "files": ["lib/oauth/linkedin-provider.ts", "app/api/oauth/linkedin/connect/route.ts", "app/api/oauth/linkedin/callback/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/oauth/linkedin/connect", "authenticated": true},
+          {"method": "GET", "path": "/api/oauth/linkedin/callback", "authenticated": true}
+        ],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["AES-256-GCM token encryption", "State parameter"]}
+    },
+    {
+      "id": "oauth-011",
+      "category": "OAuth",
+      "name": "LinkedIn Token Refresh",
+      "description": "Automatic refresh of expiring LinkedIn access tokens",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/oauth/linkedin-provider.ts", "app/api/cron/refresh-tokens/route.ts"],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "oauth-012",
+      "category": "OAuth",
+      "name": "LinkedIn Disconnection",
+      "description": "Disconnect LinkedIn account and revoke tokens",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/oauth/linkedin/disconnect/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/oauth/linkedin/disconnect", "authenticated": true}
+        ],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "ai-001",
+      "category": "AI Content Generation",
+      "name": "Multi-Language Content Generation",
+      "description": "Generate social media content in all 11 South African official languages using Google Gemini Pro",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["google-gemini-pro"],
+      "implementation": {
+        "files": ["lib/ai/gemini-service.ts", "app/api/ai/generate/route.ts", "components/ai-content-studio.tsx"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/ai/generate", "authenticated": true, "rateLimit": "10 per 1min"}
+        ],
+        "database": ["generationLogs", "dailyUsage"]
+      },
+      "testing": {"tested": true, "testFiles": ["tests/unit/ai-generation.test.ts"], "coverage": "high"},
+      "languages": ["en", "af", "zu", "xh", "nso", "tn", "st", "ts", "ss", "ve", "nr"]
+    },
+    {
+      "id": "ai-002",
+      "category": "AI Content Generation",
+      "name": "Tone Variations",
+      "description": "Generate content with 4 different tone options: professional, casual, friendly, energetic",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/ai/gemini-service.ts", "components/ai-content-studio.tsx"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/ai/generate", "authenticated": true}
+        ]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "ai-003",
+      "category": "AI Content Generation",
+      "name": "Platform-Specific Optimization",
+      "description": "Optimize content for each platform's character limits and best practices",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/ai/gemini-service.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/ai/generate", "authenticated": true}
+        ]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "platformLimits": {
+        "twitter": "280 characters per tweet",
+        "facebook": "63,206 characters",
+        "instagram": "2,200 characters",
+        "linkedin": "3,000 characters"
+      }
+    },
+    {
+      "id": "ai-004",
+      "category": "AI Content Generation",
+      "name": "Automatic Hashtag Generation",
+      "description": "Generate relevant hashtags for social media posts",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/ai/gemini-service.ts", "app/api/ai/hashtags/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/ai/hashtags", "authenticated": true}
+        ]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "ai-005",
+      "category": "AI Content Generation",
+      "name": "Image Prompt Suggestions",
+      "description": "Generate image prompt suggestions for visual content",
+      "status": "implemented",
+      "priority": "low",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/ai/gemini-service.ts"]
+      },
+      "testing": {"tested": true, "coverage": "low"}
+    },
+    {
+      "id": "ai-006",
+      "category": "AI Content Generation",
+      "name": "Multiple Content Variations",
+      "description": "Generate 3-5 content variations per request for user selection",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/ai/gemini-service.ts", "app/api/ai/generate/route.ts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "ai-007",
+      "category": "AI Content Generation",
+      "name": "Topic Suggestions by Industry",
+      "description": "Provide topic suggestions based on user's industry",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/ai/gemini-service.ts", "app/api/ai/topics/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/ai/topics", "authenticated": true}
+        ]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "ai-008",
+      "category": "AI Content Generation",
+      "name": "South African Cultural Context",
+      "description": "Integrate South African cultural context, slang, and local references into generated content",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/ai/gemini-service.ts"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "culturalElements": ["Local expressions", "SA city references", "Mzansi hashtags", "SAST timezone awareness"]
+    },
+    {
+      "id": "ai-009",
+      "category": "AI Content Generation",
+      "name": "Content Feedback System",
+      "description": "Allow users to provide feedback on AI-generated content for learning",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/ai/feedback/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/ai/feedback", "authenticated": true}
+        ],
+        "database": ["contentFeedback"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "ai-010",
+      "category": "AI Content Generation",
+      "name": "User Learning Profiles",
+      "description": "Track user preferences and improve content generation over time",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/ai/learning/route.ts", "app/api/cron/learn-patterns/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/ai/learning", "authenticated": true},
+          {"method": "POST", "path": "/api/ai/learning", "authenticated": true}
+        ],
+        "database": ["userLearningProfiles", "promptPatterns", "highPerformingExamples"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "publishing-001",
+      "category": "Post Publishing",
+      "name": "Immediate Facebook Publishing",
+      "description": "Publish text and image posts to Facebook Pages immediately",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/posting/facebook-poster.ts", "lib/posting/post-service.ts", "app/api/posts/publish/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/posts/publish", "authenticated": true}
+        ],
+        "database": ["posts", "connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "publishing-002",
+      "category": "Post Publishing",
+      "name": "Immediate Instagram Publishing",
+      "description": "Publish text, images, and carousel posts to Instagram Business accounts immediately",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/posting/instagram-poster.ts", "lib/posting/post-service.ts", "app/api/posts/publish/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/posts/publish", "authenticated": true}
+        ],
+        "database": ["posts", "connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "publishing-003",
+      "category": "Post Publishing",
+      "name": "Immediate Twitter Publishing",
+      "description": "Publish tweets and threads to Twitter/X immediately",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/posting/twitter-poster.ts", "lib/posting/post-service.ts", "app/api/posts/publish/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/posts/publish", "authenticated": true}
+        ],
+        "database": ["posts", "connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "publishing-004",
+      "category": "Post Publishing",
+      "name": "Immediate LinkedIn Publishing",
+      "description": "Publish text and image posts to LinkedIn profiles immediately",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/posting/linkedin-poster.ts", "lib/posting/post-service.ts", "app/api/posts/publish/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/posts/publish", "authenticated": true}
+        ],
+        "database": ["posts", "connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "publishing-005",
+      "category": "Post Publishing",
+      "name": "Scheduled Post Processing",
+      "description": "Process and publish scheduled posts at their designated time via Inngest",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["inngest"],
+      "implementation": {
+        "files": ["lib/inngest/functions/process-scheduled-post.ts", "app/api/posts/scheduled/publish/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/posts/scheduled/publish", "authenticated": true}
+        ],
+        "database": ["posts", "creditReservations"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "publishing-006",
+      "category": "Post Publishing",
+      "name": "Multi-Platform Publishing",
+      "description": "Publish the same content to multiple platforms simultaneously",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/posts/publish/route.ts", "lib/posting/post-service.ts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "publishing-007",
+      "category": "Post Publishing",
+      "name": "Image Upload and Storage",
+      "description": "Upload images to Vercel Blob and attach to social media posts",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "dependencies": ["vercel-blob"],
+      "implementation": {
+        "files": ["app/api/posts/publish/route.ts", "lib/posting/post-service.ts"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "publishing-008",
+      "category": "Post Publishing",
+      "name": "Retry Logic with Exponential Backoff",
+      "description": "Automatically retry failed posts 3 times with increasing delays (1min, 5min, 15min)",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "dependencies": ["inngest"],
+      "implementation": {
+        "files": ["lib/inngest/functions/process-scheduled-post.ts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "automation-001",
+      "category": "Automation",
+      "name": "Automation Rules Creation",
+      "description": "Create automation rules with frequency, platforms, and core topics",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/user/automation-rules/route.ts", "components/automation-wizard.tsx"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/user/automation-rules", "authenticated": true}
+        ],
+        "database": ["automationRules"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "automation-002",
+      "category": "Automation",
+      "name": "Automation Rules Management",
+      "description": "List, update, activate/deactivate, and delete automation rules",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/user/automation-rules/route.ts", "components/automation-view.tsx"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/user/automation-rules", "authenticated": true},
+          {"method": "PATCH", "path": "/api/user/automation-rules", "authenticated": true},
+          {"method": "DELETE", "path": "/api/user/automation-rules", "authenticated": true}
+        ],
+        "database": ["automationRules"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "automation-003",
+      "category": "Automation",
+      "name": "Automated Content Generation",
+      "description": "Automatically generate content based on automation rules",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/inngest/functions/execute-automation-rule.ts"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "automation-004",
+      "category": "Automation",
+      "name": "Recurring Schedule Support",
+      "description": "Support daily, weekly, bi-weekly, and monthly recurring schedules",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/inngest/functions/execute-automation-rule.ts", "components/automation-wizard.tsx"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "automation-005",
+      "category": "Automation",
+      "name": "Credit Reservation for Scheduled Posts",
+      "description": "Reserve credits when scheduling posts, release on failure or cancellation",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/posts/schedule/route.ts", "lib/inngest/functions/process-scheduled-post.ts"],
+        "database": ["creditReservations"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "automation-006",
+      "category": "Automation",
+      "name": "Low Credit Notifications",
+      "description": "Notify users when credits drop below 20% of tier allocation",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/inngest/functions/check-low-credits.ts"],
+        "database": ["notifications"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "automation-007",
+      "category": "Automation",
+      "name": "Credit Expiry Warnings",
+      "description": "Warn users 3 days before credits expire",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/inngest/functions/check-credit-expiry.ts"],
+        "database": ["notifications"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "payments-001",
+      "category": "Payments",
+      "name": "Credit Package Purchase",
+      "description": "Purchase one-time credit packages (100, 500, 1000 credits)",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["polar.sh"],
+      "implementation": {
+        "files": ["app/api/checkout/credits/route.ts", "lib/polar/checkout.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/checkout/credits", "authenticated": true}
+        ],
+        "database": ["transactions"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "payments-002",
+      "category": "Payments",
+      "name": "Subscription Management",
+      "description": "Subscribe to Pro or Business plans (monthly or annual)",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["polar.sh"],
+      "implementation": {
+        "files": ["app/api/checkout/subscription/route.ts", "lib/polar/checkout.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/checkout/subscription", "authenticated": true}
+        ],
+        "database": ["subscriptions", "transactions"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "payments-003",
+      "category": "Payments",
+      "name": "Polar Webhook Processing",
+      "description": "Process Polar webhooks for order completion, subscription updates, and cancellations",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/webhooks/polar/route.ts", "lib/polar/webhook-handler.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/webhooks/polar", "authenticated": false, "webhookSignature": true}
+        ],
+        "database": ["webhookEvents", "transactions", "subscriptions", "users"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "webhookEvents": ["checkout.created", "order.paid", "subscription.created", "subscription.updated", "subscription.canceled"]
+    },
+    {
+      "id": "payments-004",
+      "category": "Payments",
+      "name": "Transaction History",
+      "description": "View all user transactions and payment history",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/transactions/route.ts", "app/api/user/billing-history/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/transactions", "authenticated": true},
+          {"method": "GET", "path": "/api/user/billing-history", "authenticated": true}
+        ],
+        "database": ["transactions"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "payments-005",
+      "category": "Payments",
+      "name": "Subscription Cancellation",
+      "description": "Cancel active subscriptions",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/subscription/route.ts"],
+        "endpoints": [
+          {"method": "DELETE", "path": "/api/subscription", "authenticated": true}
+        ],
+        "database": ["subscriptions"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "payments-006",
+      "category": "Payments",
+      "name": "Tier Enforcement",
+      "description": "Enforce tier-based limits for all features",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/tiers/config.ts", "lib/tiers/enforcement.ts", "app/api/limits/check/route.ts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "payments-007",
+      "category": "Payments",
+      "name": "Monthly Credit Reset",
+      "description": "Reset Pro and Business credits on the 1st of each month",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/inngest/functions/reset-monthly-credits.ts"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "payments-008",
+      "category": "Payments",
+      "name": "Credit Carryover Management",
+      "description": "Allow limited credit carryover based on tier (Pro: 100, Business: 500)",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/inngest/functions/reset-monthly-credits.ts"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "admin-001",
+      "category": "Admin",
+      "name": "User Management",
+      "description": "View, search, and manage all users in the system",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/users/route.ts", "app/admin/page.tsx", "components/admin-dashboard-view.tsx"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/admin/users", "authenticated": true, "adminOnly": true},
+          {"method": "PATCH", "path": "/api/admin/users", "authenticated": true, "adminOnly": true}
+        ],
+        "database": ["users"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["requireAdmin() authorization", "Audit logging"]}
+    },
+    {
+      "id": "admin-002",
+      "category": "Admin",
+      "name": "Platform Statistics",
+      "description": "View platform-wide metrics and statistics",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/stats/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/admin/stats", "authenticated": true, "adminOnly": true}
+        ],
+        "database": ["users", "posts", "transactions", "subscriptions"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "admin-003",
+      "category": "Admin",
+      "name": "Detailed Analytics",
+      "description": "View detailed analytics including generation stats, publishing stats, and automation overview",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/analytics/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/admin/analytics", "authenticated": true, "adminOnly": true}
+        ],
+        "database": ["generationLogs", "posts", "automationRules", "creditReservations"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "admin-004",
+      "category": "Admin",
+      "name": "Job Monitoring",
+      "description": "Monitor Inngest background job status and history",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/jobs/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/admin/jobs", "authenticated": true, "adminOnly": true}
+        ],
+        "database": ["jobLogs"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "admin-005",
+      "category": "Admin",
+      "name": "Job Retry",
+      "description": "Manually retry failed background jobs",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/jobs/retry/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/admin/jobs/retry", "authenticated": true, "adminOnly": true}
+        ],
+        "database": ["jobLogs"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "admin-006",
+      "category": "Admin",
+      "name": "Transaction Oversight",
+      "description": "View all transactions across the platform",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/transactions/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/admin/transactions", "authenticated": true, "adminOnly": true}
+        ],
+        "database": ["transactions"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "admin-007",
+      "category": "Admin",
+      "name": "Error Tracking",
+      "description": "View application errors and exceptions",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/errors/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/admin/errors", "authenticated": true, "adminOnly": true}
+        ],
+        "database": ["jobLogs"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "admin-008",
+      "category": "Admin",
+      "name": "User Tier Management",
+      "description": "Update user tiers and credit allocations",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/users/route.ts"],
+        "endpoints": [
+          {"method": "PATCH", "path": "/api/admin/users", "authenticated": true, "adminOnly": true}
+        ],
+        "database": ["users"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["Audit logging", "Input validation"]}
+    },
+    {
+      "id": "admin-009",
+      "category": "Admin",
+      "name": "Credit Analytics",
+      "description": "View credit usage analytics across all users",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/analytics/route.ts"],
+        "database": ["users", "creditReservations", "posts"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "admin-010",
+      "category": "Admin",
+      "name": "Automation Overview",
+      "description": "View all automation rules across the platform",
+      "status": "implemented",
+      "priority": "low",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/analytics/route.ts"],
+        "database": ["automationRules"]
+      },
+      "testing": {"tested": true, "coverage": "low"}
+    },
+    {
+      "id": "admin-011",
+      "category": "Admin",
+      "name": "Audit Logging",
+      "description": "Log all admin actions for security and compliance",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/security/auth-utils.ts", "lib/logger.ts"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["All admin actions logged", "Immutable logs"]}
+    },
+    {
+      "id": "admin-012",
+      "category": "Admin",
+      "name": "Webhook Event History",
+      "description": "View all webhook events and their processing status",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/admin/webhooks/route.ts"],
+        "database": ["webhookEvents"]
+      },
+      "testing": {"tested": false, "coverage": "none"}
+    },
+    {
+      "id": "compliance-001",
+      "category": "Compliance",
+      "name": "Privacy Policy Page",
+      "description": "Comprehensive privacy policy compliant with POPIA",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/privacy/page.tsx"]
+      },
+      "testing": {"tested": true, "coverage": "low"}
+    },
+    {
+      "id": "compliance-002",
+      "category": "Compliance",
+      "name": "Terms of Service Page",
+      "description": "Terms of service outlining usage rights and responsibilities",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/terms/page.tsx"]
+      },
+      "testing": {"tested": true, "coverage": "low"}
+    },
+    {
+      "id": "compliance-003",
+      "category": "Compliance",
+      "name": "Cookie Consent Banner",
+      "description": "Cookie consent management for POPIA compliance",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["components/CookieConsentBanner.tsx"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "compliance-004",
+      "category": "Compliance",
+      "name": "Data Export (Right to Portability)",
+      "description": "Export all user data in machine-readable format",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/user/export/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/user/export", "authenticated": true}
+        ],
+        "database": ["users", "posts", "automationRules", "connectedAccounts", "transactions", "notifications", "generationLogs"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["Tokens excluded", "Only user's own data", "Audit logging"]}
+    },
+    {
+      "id": "compliance-005",
+      "category": "Compliance",
+      "name": "Account Deletion (Right to Erasure)",
+      "description": "Permanently delete user account and all associated data",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/user/delete/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/user/delete", "authenticated": true}
+        ],
+        "database": ["users", "sessions", "posts", "automationRules", "connectedAccounts", "notifications", "generationLogs", "dailyUsage", "creditReservations", "jobLogs"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["Double confirmation", "Email verification", "Audit logging"]},
+      "notes": "Retains anonymized transactions for 7 years per SA tax law"
+    },
+    {
+      "id": "compliance-006",
+      "category": "Compliance",
+      "name": "Audit Logging for Data Access",
+      "description": "Log all access to sensitive user data",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/logger.ts", "lib/security/auth-utils.ts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "compliance-007",
+      "category": "Compliance",
+      "name": "Data Minimization",
+      "description": "Only collect and store necessary user data",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["drizzle/schema.ts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "compliance-008",
+      "category": "Compliance",
+      "name": "Consent Management",
+      "description": "Explicit opt-in for marketing and non-essential communications",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/signup/page.tsx", "components/settings-view.tsx"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "user-mgmt-001",
+      "category": "User Management",
+      "name": "User Profile View",
+      "description": "View user profile information",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/user/profile/route.ts", "components/settings-view.tsx"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/user/profile", "authenticated": true}
+        ],
+        "database": ["users"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "user-mgmt-002",
+      "category": "User Management",
+      "name": "User Posts Management",
+      "description": "View and manage all user posts",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/user/posts/route.ts", "components/schedule-view.tsx"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/user/posts", "authenticated": true}
+        ],
+        "database": ["posts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "user-mgmt-003",
+      "category": "User Management",
+      "name": "Connected Accounts Dashboard",
+      "description": "View and manage all connected social media accounts",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/oauth/connections/route.ts", "components/connected-accounts/ConnectedAccountsDashboard.tsx"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/oauth/connections", "authenticated": true}
+        ],
+        "database": ["connectedAccounts"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "user-mgmt-004",
+      "category": "User Management",
+      "name": "Subscription Status",
+      "description": "View current subscription status and details",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/subscription/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/subscription", "authenticated": true}
+        ],
+        "database": ["subscriptions"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "user-mgmt-005",
+      "category": "User Management",
+      "name": "Tier Limits Check",
+      "description": "Check current tier limits and usage",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/limits/check/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/limits/check", "authenticated": true}
+        ]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "notifications-001",
+      "category": "Notifications",
+      "name": "Notification System",
+      "description": "In-app notification system for important alerts",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/notifications/route.ts", "components/NotificationCenter.tsx"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/notifications", "authenticated": true}
+        ],
+        "database": ["notifications"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "notifications-002",
+      "category": "Notifications",
+      "name": "Mark Notification as Read",
+      "description": "Mark individual notifications as read",
+      "status": "implemented",
+      "priority": "low",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/notifications/read/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/notifications/read", "authenticated": true}
+        ],
+        "database": ["notifications"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "notifications-003",
+      "category": "Notifications",
+      "name": "Mark All Notifications as Read",
+      "description": "Mark all user notifications as read",
+      "status": "implemented",
+      "priority": "low",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/notifications/read-all/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/notifications/read-all", "authenticated": true}
+        ],
+        "database": ["notifications"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "notifications-004",
+      "category": "Notifications",
+      "name": "Dismiss Notification",
+      "description": "Permanently dismiss notifications",
+      "status": "implemented",
+      "priority": "low",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/notifications/dismiss/route.ts"],
+        "endpoints": [
+          {"method": "POST", "path": "/api/notifications/dismiss", "authenticated": true}
+        ],
+        "database": ["notifications"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "notifications-005",
+      "category": "Notifications",
+      "name": "Post Failure Notifications",
+      "description": "Notify users when scheduled posts fail to publish",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/inngest/functions/process-scheduled-post.ts"],
+        "database": ["notifications"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "analytics-001",
+      "category": "Analytics",
+      "name": "AI Generation Analytics",
+      "description": "Track and analyze AI content generation performance",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/ai/analytics/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/ai/analytics", "authenticated": true}
+        ],
+        "database": ["generationLogs", "contentFeedback"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "analytics-002",
+      "category": "Analytics",
+      "name": "Post Analytics Tracking",
+      "description": "Track post engagement metrics (future feature)",
+      "status": "planned",
+      "priority": "low",
+      "version": "future",
+      "implementation": {
+        "database": ["postAnalytics"]
+      },
+      "testing": {"tested": false, "coverage": "none"}
+    },
+    {
+      "id": "analytics-003",
+      "category": "Analytics",
+      "name": "Daily Usage Tracking",
+      "description": "Track daily generation limits per user",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/ai/generate/route.ts"],
+        "database": ["dailyUsage"]
+      },
+      "testing": {"tested": true, "coverage": "high"}
+    },
+    {
+      "id": "scheduling-001",
+      "category": "Post Publishing",
+      "name": "Calendar View",
+      "description": "Visual calendar for viewing scheduled posts",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["components/calendar-view.tsx", "components/schedule-view.tsx"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "scheduling-002",
+      "category": "Post Publishing",
+      "name": "Schedule View Modes",
+      "description": "Three view modes: Calendar, List, and Timeline",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["components/schedule-view.tsx"]
+      },
+      "testing": {"tested": true, "coverage": "medium"}
+    },
+    {
+      "id": "scheduling-003",
+      "category": "Post Publishing",
+      "name": "Best Time Suggestions",
+      "description": "AI-powered suggestions for optimal posting times",
+      "status": "implemented",
+      "priority": "low",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["components/modals/schedule-post-modal.tsx"]
+      },
+      "testing": {"tested": true, "coverage": "low"}
+    },
+    {
+      "id": "security-001",
+      "category": "Authentication",
+      "name": "Rate Limiting",
+      "description": "Distributed rate limiting using Upstash Redis",
+      "status": "implemented",
+      "priority": "critical",
+      "version": "2.0.0",
+      "dependencies": ["upstash-redis"],
+      "implementation": {
+        "files": ["lib/security/rate-limit.ts"],
+        "endpoints": ["All API routes"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["IP + User ID based", "In-memory fallback", "Configurable limits per endpoint"]}
+    },
+    {
+      "id": "security-002",
+      "category": "Authentication",
+      "name": "Structured Logging with Sanitization",
+      "description": "Context-aware logging with automatic sensitive data removal",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "dependencies": ["sentry"],
+      "implementation": {
+        "files": ["lib/logger.ts"]
+      },
+      "testing": {"tested": true, "coverage": "high"},
+      "security": {"level": "high", "measures": ["Automatic sanitization of passwords, tokens, API keys", "Sentry integration for errors"]}
+    },
+    {
+      "id": "internationalization-001",
+      "category": "User Management",
+      "name": "11-Language Support",
+      "description": "Full UI localization in all 11 South African official languages",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["lib/i18n.ts", "lib/translations/*.json", "components/language-selector.tsx"]
+      },
+      "testing": {"tested": true, "coverage": "medium"},
+      "languages": ["English", "Afrikaans", "Zulu", "Xhosa", "Northern Sotho", "Tswana", "Southern Sotho", "Tsonga", "Swati", "Venda", "Ndebele"]
+    },
+    {
+      "id": "infrastructure-001",
+      "category": "Automation",
+      "name": "Health Check Endpoint",
+      "description": "System health monitoring endpoint",
+      "status": "implemented",
+      "priority": "medium",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/health/route.ts"],
+        "endpoints": [
+          {"method": "GET", "path": "/api/health", "authenticated": false}
+        ]
+      },
+      "testing": {"tested": true, "coverage": "low"}
+    },
+    {
+      "id": "infrastructure-002",
+      "category": "Automation",
+      "name": "Vercel Cron Jobs",
+      "description": "Scheduled background tasks via Vercel cron",
+      "status": "implemented",
+      "priority": "high",
+      "version": "2.0.0",
+      "implementation": {
+        "files": ["app/api/cron/refresh-tokens/route.ts", "app/api/cron/learn-patterns/route.ts", "vercel.json"]
+      },
+      "testing": {"tested": true, "coverage": "medium"},
+      "cronJobs": [
+        {"path": "/api/cron/refresh-tokens", "schedule": "Every 6 hours"},
+        {"path": "/api/cron/learn-patterns", "schedule": "Daily at 1am UTC"}
+      ]
+    }
+  ],
+  "security": {
+    "score": 8.5,
+    "scoreBreakdown": {
+      "authentication": 10,
+      "authorization": 10,
+      "dataProtection": 9,
+      "inputValidation": 9,
+      "errorHandling": 8,
+      "rateLimiting": 8,
+      "concurrency": 5
+    },
+    "measures": [
+      "AES-256-GCM token encryption",
+      "Rate limiting via Upstash Redis",
+      "SQL injection prevention via Drizzle ORM",
+      "CSRF protection via Better-auth",
+      "Audit logging for admin actions",
+      "Input validation with Zod schemas",
+      "Structured logging with sensitive data sanitization",
+      "Bcrypt password hashing",
+      "HttpOnly secure cookies",
+      "PKCE for OAuth 2.0"
+    ],
+    "compliance": ["POPIA (South African data protection)"],
+    "encryption": {
+      "algorithm": "AES-256-GCM",
+      "keySize": "256 bits (64-character hex)",
+      "usage": "OAuth tokens, refresh tokens"
+    },
+    "rateLimits": {
+      "authentication": "5 per 15 minutes",
+      "generalAPI": "100 per 1 minute",
+      "contentGeneration": "10 per 1 minute",
+      "oauth": "10 per 1 minute",
+      "webhooks": "100 per 1 minute",
+      "admin": "50 per 1 minute"
+    }
+  },
+  "knownIssues": [
+    {
+      "id": "issue-001",
+      "severity": "critical",
+      "title": "Race condition in credit deduction",
+      "description": "Credit deduction is not atomic, allowing concurrent requests to exploit the system",
+      "location": "app/api/posts/publish/route.ts:154, lib/db/users.ts:116-127",
+      "impact": "Users can abuse system for free posts, revenue loss",
+      "status": "fixed",
+      "blocking": false,
+      "effort": "4-6 hours",
+      "recommendedFix": "Implement atomic check-and-deduct using SQL WHERE clause",
+      "fixedIn": "2026-01-19",
+      "fixDescription": "Implemented atomic SQL-level credit deduction with check-and-deduct in single operation. New deductCreditsAtomic() function uses WHERE credits >= amount clause to ensure atomicity. Credits are now deducted BEFORE posting with automatic refunds for failed posts."
+    },
+    {
+      "id": "issue-002",
+      "severity": "high",
+      "title": "Inconsistent JSON parsing",
+      "description": "18 API routes lack consistent error handling for malformed JSON",
+      "location": "Multiple API routes",
+      "impact": "Poor user experience with 500 errors instead of 400 Bad Request",
+      "status": "open",
+      "blocking": false,
+      "effort": "2-3 hours",
+      "affectedRoutes": 18
+    },
+    {
+      "id": "issue-003",
+      "severity": "high",
+      "title": "Job log deletion bug (POPIA compliance)",
+      "description": "JSONB query fixed to properly delete job logs on account deletion",
+      "location": "app/api/user/delete/route.ts:97",
+      "impact": "POPIA compliance issue - job logs not deleted during account deletion",
+      "status": "fixed",
+      "blocking": false,
+      "effort": "1-2 hours",
+      "fixedIn": "2026-01-19",
+      "fixDescription": "Replaced JSONB equality check with proper JSONB extraction (payload->>'userId'). Added 8 comprehensive tests to verify complete data deletion."
+    },
+    {
+      "id": "issue-004",
+      "severity": "medium",
+      "title": "Account deletion endpoint lacks rate limiting",
+      "description": "No rate limiting on account deletion endpoint",
+      "location": "app/api/user/delete/route.ts",
+      "impact": "Potential DoS via deletion request spam",
+      "status": "open",
+      "blocking": false,
+      "effort": "30 minutes"
+    },
+    {
+      "id": "issue-005",
+      "severity": "medium",
+      "title": "Webhook error swallowing",
+      "description": "All webhook errors treated as unrecoverable, preventing retries",
+      "location": "app/api/webhooks/polar/route.ts:28-32",
+      "impact": "Lost webhook events for transient failures",
+      "status": "open",
+      "blocking": false,
+      "effort": "2 hours"
+    },
+    {
+      "id": "issue-006",
+      "severity": "medium",
+      "title": "Transaction data retention not clear to users",
+      "description": "Account deletion retains transactions for 7 years but users not informed",
+      "location": "app/api/user/delete/route.ts:78-90",
+      "impact": "POPIA compliance and user trust issue",
+      "status": "open",
+      "blocking": false,
+      "effort": "2 hours"
+    },
+    {
+      "id": "issue-007",
+      "severity": "medium",
+      "title": "Token decryption debug logging",
+      "description": "Debug logging exposes partial encryption key and token information",
+      "location": "lib/db/connected-accounts.ts:55-62",
+      "impact": "Information disclosure in development logs",
+      "status": "open",
+      "blocking": false,
+      "effort": "15 minutes"
+    },
+    {
+      "id": "issue-008",
+      "severity": "low",
+      "title": "TODO comment in production code",
+      "description": "Commented-out recurrence feature with TODO",
+      "location": "app/api/posts/schedule/route.ts:19",
+      "impact": "None - feature commented out",
+      "status": "open",
+      "blocking": false,
+      "effort": "5 minutes"
+    },
+    {
+      "id": "issue-009",
+      "severity": "low",
+      "title": "NPM dependency vulnerabilities",
+      "description": "6 moderate/low npm vulnerabilities in dev dependencies and transitive dependencies: esbuild SSRF (via drizzle-kit), undici resource exhaustion (via @vercel/blob), and 2 low-severity react-router issues",
+      "location": "package.json, package-lock.json",
+      "impact": "Minimal - all vulnerabilities are in dev/build dependencies or server-side only code with mitigations in place",
+      "status": "documented",
+      "blocking": false,
+      "effort": "Ongoing monitoring",
+      "details": {
+        "esbuild": "Dev dependency only, not used in production. Waiting for drizzle-kit upstream fix.",
+        "undici": "Server-side only via @vercel/blob, trusted endpoints, rate limited. Waiting for @vercel/blob upstream fix.",
+        "documentation": "SECURITY.md contains full risk assessment and mitigation strategies"
+      },
+      "mitigation": "All vulnerabilities documented in SECURITY.md with risk assessments. Monthly monitoring in place via npm audit scripts.",
+      "nextReview": "2026-02-20"
+    }
+  ]
+}

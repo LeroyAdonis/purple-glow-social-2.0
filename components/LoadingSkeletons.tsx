@@ -194,6 +194,78 @@ export const ModalSkeleton: React.FC = () => (
   </div>
 );
 
+// Draft Card skeleton - Cyberpunk/Neo-Brutalism style
+export const DraftCardSkeleton: React.FC = () => (
+  <div className="">
+    {/* Header */}
+    <div className="flex items-center justify-between p-4 border-b border-white/10">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-lg bg-[#9D4EDD]/20"></div>
+        <div className="h-4 w-24 rounded bg-[#9D4EDD]/20"></div>
+      </div>
+      <div className="w-8 h-8 rounded-lg bg-white/5"></div>
+    </div>
+
+    {/* Body */}
+    <div className="p-4">
+      <div className="flex gap-4">
+        <div className="w-20 h-20 flex-shrink-0 rounded-lg bg-[#9D4EDD]/10"></div>
+        <div className="flex-1 space-y-2">
+          <div className="h-3 rounded bg-white/10"></div>
+          <div className="h-3 rounded bg-white/10 w-5/6"></div>
+          <div className="h-3 rounded bg-white/10 w-4/6"></div>
+        </div>
+      </div>
+    </div>
+
+    {/* Footer */}
+    <div className="px-4 pb-4 space-y-3">
+      <div className="flex items-center justify-between">
+        <div className="h-6 w-24 rounded-full bg-[#9D4EDD]/10"></div>
+        <div className="h-4 w-20 rounded bg-gray-700"></div>
+      </div>
+      <div className="grid grid-cols-4 gap-2">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="h-9 rounded-lg bg-white/5"></div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// Draft Manager skeleton - Full view
+export const DraftManagerSkeleton: React.FC = () => (
+  <div className="space-y-6">
+    {/* Header */}
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-4">
+        <div className="h-10 w-32 rounded bg-[#9D4EDD]/20 animate-pulse"></div>
+        <div className="h-8 w-12 rounded-full bg-[#9D4EDD]/20 animate-pulse"></div>
+      </div>
+      <div className="h-12 w-36 rounded-xl bg-[#9D4EDD]/30 animate-pulse"></div>
+    </div>
+
+    {/* Filter Bar */}
+    <div className="p-4 rounded-xl bg-[#1A1F3A]/40 border-2 border-[#9D4EDD]/30">
+      <div className="flex items-center justify-between">
+        <div className="flex gap-2">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-10 w-24 rounded-xl bg-white/5 animate-pulse"></div>
+          ))}
+        </div>
+        <div className="h-10 w-40 rounded-xl bg-white/5 animate-pulse"></div>
+      </div>
+    </div>
+
+    {/* Grid */}
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {[...Array(6)].map((_, i) => (
+        <DraftCardSkeleton key={i} />
+      ))}
+    </div>
+  </div>
+);
+
 // Smart Suggestions skeleton
 export const SmartSuggestionsSkeleton: React.FC = () => (
   <div className="bg-white rounded-xl shadow-lg border-2 border-gray-200 overflow-hidden">

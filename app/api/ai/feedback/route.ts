@@ -3,12 +3,13 @@
  * Allows users to provide feedback on generated content
  */
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { enhancedGeminiService } from '@/lib/ai/enhanced-gemini-service';
 import { promptPatternAnalyzer } from '@/lib/ai/prompt-pattern-analyzer';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 const feedbackSchema = z.object({
   content: z.string().min(1),
@@ -21,7 +22,7 @@ const feedbackSchema = z.object({
   rejectionReason: z.string().optional(),
 });
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: request.headers });
     
@@ -29,7 +30,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{
+      content: string;
+      feedbackType: 'thumbs_up' | 'thumbs_down' | 'selected' | 'edited' | 'rejected';
+      platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin';
+      topic?: string;
+      tone?: 'professional' | 'casual' | 'friendly' | 'energetic';
+      language?: string;
+      editedContent?: string;
+      rejectionReason?: string;
+    }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const validatedData = feedbackSchema.parse(body);
 
     // Submit feedback to learning system

@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../../../lib/auth';
 import { getUserActiveSubscription, cancelSubscription } from '../../../lib/db/subscriptions';
 import { polarClient } from '../../../lib/polar/client';
+import { logger } from '../../../lib/logger';
 
 export async function GET(request: NextRequest) {
   try {
@@ -47,7 +48,7 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error fetching subscription:', error);
+    logger.polar.exception(error, { action: 'fetch-subscription' });
     
     return NextResponse.json(
       { 
@@ -95,7 +96,7 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error canceling subscription:', error);
+    logger.polar.exception(error, { action: 'cancel-subscription' });
     
     return NextResponse.json(
       { 

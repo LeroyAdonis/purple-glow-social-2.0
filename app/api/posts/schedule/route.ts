@@ -12,6 +12,7 @@ import { getTierLimits } from '@/lib/tiers/config';
 import type { TierName } from '@/lib/tiers/types';
 import { rateLimiters } from '@/lib/security/rate-limit';
 import { logger } from '@/lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 const scheduleSchema = z.object({
   postId: z.string().uuid(),
@@ -152,7 +153,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{
+      postId: string;
+      scheduledDate: string;
+    }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const validated = scheduleSchema.parse(body);
     const scheduledDate = new Date(validated.scheduledDate);
 

@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { disconnectAccount, getDecryptedToken } from '@/lib/db/connected-accounts';
 import { InstagramProvider } from '@/lib/oauth/instagram-provider';
 import { logger } from '@/lib/logger';
+import { auditLog } from '@/lib/db/audit';
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,6 +44,12 @@ export async function POST(request: NextRequest) {
     
     // Delete connection from database
     await disconnectAccount(session.user.id, 'instagram');
+    
+    // Audit log
+    await auditLog(session.user.id, 'oauth_disconnect', {
+      platform: 'instagram',
+      timestamp: new Date().toISOString()
+    });
     
     return NextResponse.json({
       success: true,

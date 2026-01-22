@@ -7,10 +7,14 @@
 import { diagnoseAuth } from "@/lib/diagnostics/auth-diagnostic";
 import { NextRequest } from "next/server";
 import { logger } from "@/lib/logger";
+import { healthCheck } from "@/drizzle/db";
+import { useSecureCookies } from "@/lib/auth";
+import { isDevFallbackActive } from "@/lib/auth-dev-fallback";
 
 export async function GET(request: NextRequest) {
   try {
     const result = await diagnoseAuth();
+    const dbHealth = await healthCheck();
 
     return Response.json({
       success: result.success,
@@ -25,6 +29,12 @@ export async function GET(request: NextRequest) {
         secretConfigured: result.secretConfigured,
         baseUrl: result.baseUrl,
         publicUrl: result.publicUrl,
+      },
+      diagnostics: {
+        dbHealth,
+        cookie: { useSecureCookies },
+        runtime: { auth: 'nodejs', dynamic: 'force-dynamic' },
+        devFallbackActive: isDevFallbackActive(),
       },
       issues: result.success ? [] : [result],
     });

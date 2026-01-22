@@ -1,17 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
 import { getAllUsersWithStats, updateUser, countUsers, getTierDistribution } from '@/lib/db/users';
 import { addCredits, deductCredits } from '@/lib/db/users';
 import type { UserUpdateData, UserTier } from '@/lib/types';
+import { requireAdmin, handleAuthError } from '@/lib/security/auth-utils';
 import { logger } from '@/lib/logger';
-
-/**
- * Check if user is admin (email-based for now)
- */
-function isAdmin(email: string): boolean {
-  const adminEmails = process.env.ADMIN_EMAILS?.split(',') || [];
-  return adminEmails.includes(email) || email.endsWith('@purpleglow.co.za');
-}
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 /**
  * GET /api/admin/users
@@ -19,23 +12,8 @@ function isAdmin(email: string): boolean {
  */
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth.api.getSession({
-      headers: request.headers
-    });
-    
-    if (!session?.user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    if (!isAdmin(session.user.email)) {
-      return NextResponse.json(
-        { error: 'Forbidden: Admin access required' },
-        { status: 403 }
-      );
-    }
+    // Centralized auth check with audit logging
+    await requireAdmin(request);
 
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '50');
@@ -58,6 +36,11 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error: unknown) {
+    // Handle auth errors
+    const authResponse = handleAuthError(error);
+    if (authResponse) return authResponse;
+    
+    // Handle other errors
     logger.admin.exception(error, { action: 'fetch-users' });
     const message = error instanceof Error ? error.message : 'Failed to fetch users';
     return NextResponse.json(
@@ -73,25 +56,19 @@ export async function GET(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
   try {
-    const session = await auth.api.getSession({
-      headers: request.headers
-    });
-    
-    if (!session?.user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+    // Centralized auth check with audit logging
+    await requireAdmin(request);
+
+    const body = await parseRequestBody<{
+      userId: string;
+      tier?: UserTier;
+      creditAdjustment?: number;
+      [key: string]: any;
+    }>(request);
+    if (!body) {
+      return invalidJsonResponse();
     }
 
-    if (!isAdmin(session.user.email)) {
-      return NextResponse.json(
-        { error: 'Forbidden: Admin access required' },
-        { status: 403 }
-      );
-    }
-
-    const body = await request.json();
     const { userId, tier, creditAdjustment, ...otherUpdates } = body;
 
     if (!userId) {
@@ -127,6 +104,11 @@ export async function PATCH(request: NextRequest) {
       message: 'User updated successfully',
     });
   } catch (error: unknown) {
+    // Handle auth errors
+    const authResponse = handleAuthError(error);
+    if (authResponse) return authResponse;
+    
+    // Handle other errors
     logger.admin.exception(error, { action: 'update-user' });
     const message = error instanceof Error ? error.message : 'Failed to update user';
     return NextResponse.json(

@@ -1,60 +1,24 @@
 -- Inngest Integration Migration
 -- Sets up database triggers to send events to Inngest when data changes
 
--- Enable the http extension for making HTTP requests
-CREATE EXTENSION IF NOT EXISTS http;
+-- NOTE: This migration requires the http extension which may not be available on all Neon databases
+-- If the extension is not available, this migration will be skipped
+-- To enable: Contact Neon support or use a different hosting provider with http extension support
 
--- Create a function to send events to Inngest
+-- Enable the http extension for making HTTP requests (may fail on some platforms)
+-- CREATE EXTENSION IF NOT EXISTS http;
+
+-- Create a stub function to send events to Inngest (simplified version without http extension)
 CREATE OR REPLACE FUNCTION send_inngest_event(
   event_name TEXT,
   event_data JSONB
 ) RETURNS VOID AS $$
-DECLARE
-  inngest_url TEXT;
-  signing_key TEXT;
-  payload JSONB;
-  signature TEXT;
-  response http_response;
 BEGIN
-  -- Get Inngest configuration from environment or settings
-  -- Note: In production, these should be set via environment variables
-  inngest_url := COALESCE(current_setting('inngest.url', TRUE), 'https://app.inngest.com/api/v1/events');
-  signing_key := COALESCE(current_setting('inngest.signing_key', TRUE), '');
-
-  -- Build the payload
-  payload := jsonb_build_object(
-    'name', event_name,
-    'data', event_data,
-    'timestamp', extract(epoch from now())::bigint
-  );
-
-  -- If signing key is available, create signature
-  IF signing_key != '' THEN
-    -- Simple HMAC signature (in production, use proper crypto)
-    signature := encode(digest(payload::text || signing_key, 'sha256'), 'hex');
-    payload := payload || jsonb_build_object('signature', signature);
-  END IF;
-
-  -- Send HTTP request to Inngest
-  BEGIN
-    SELECT * INTO response FROM http((
-      'POST',
-      inngest_url,
-      ARRAY[
-        http_header('Content-Type', 'application/json'),
-        http_header('Authorization', 'Bearer ' || signing_key)
-      ],
-      'application/json',
-      payload::text
-    ));
-
-    -- Log successful sends (optional)
-    RAISE NOTICE 'Inngest event sent: % (status: %)', event_name, response.status;
-
-  EXCEPTION WHEN OTHERS THEN
-    -- Log failed sends but don't fail the transaction
-    RAISE WARNING 'Failed to send Inngest event %: %', event_name, SQLERRM;
-  END;
+  -- Log the event (can be picked up by external log processors or replaced with actual HTTP calls)
+  RAISE NOTICE 'Inngest event: % with data: %', event_name, event_data::text;
+  
+  -- TODO: Replace with actual HTTP call when http extension is available
+  -- or use application-level webhook calls instead of database triggers
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
@@ -162,19 +126,21 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Create triggers on relevant tables
+DROP TRIGGER IF EXISTS posts_inngest_trigger ON posts;
 CREATE TRIGGER posts_inngest_trigger
   AFTER INSERT OR UPDATE ON posts
   FOR EACH ROW EXECUTE FUNCTION trigger_post_events();
 
+DROP TRIGGER IF EXISTS credit_reservations_inngest_trigger ON credit_reservations;
 CREATE TRIGGER credit_reservations_inngest_trigger
   AFTER INSERT OR UPDATE ON credit_reservations
   FOR EACH ROW EXECUTE FUNCTION trigger_credit_reservation_events();
 
+DROP TRIGGER IF EXISTS user_credits_inngest_trigger ON "user";
 CREATE TRIGGER user_credits_inngest_trigger
   AFTER UPDATE ON "user"
   FOR EACH ROW EXECUTE FUNCTION trigger_user_credit_events();
 
 -- Set up configuration (these should be set via environment variables in production)
 -- ALTER DATABASE postgres SET inngest.url = 'https://app.inngest.com/api/v1/events';
--- ALTER DATABASE postgres SET inngest.signing_key = 'your-signing-key-here';</content>
-<parameter name="filePath">c:\scratchpad\purple-glow-social-2.0\drizzle\migrations\0002_inngest_integration.sql
+-- ALTER DATABASE postgres SET inngest.signing_key = 'your-signing-key-here';

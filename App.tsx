@@ -59,7 +59,7 @@ export default function App() {
   // Helper function to get translation
   const translate = (key: string) => {
     const keys = key.split('.');
-    let value: TranslationValue = translations[currentLanguage];
+    let value: TranslationValue | undefined = translations[currentLanguage];
 
     for (const k of keys) {
       if (value && typeof value === 'object' && !Array.isArray(value)) {

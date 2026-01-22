@@ -197,6 +197,14 @@ export const dailyUsage = pgTable("daily_usage", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+// PKCE Verifiers for secure OAuth state management
+export const pkceVerifiers = pgTable("pkce_verifiers", {
+  state: text("state").primaryKey(),
+  codeVerifier: text("code_verifier").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  expiresAt: timestamp("expires_at").notNull(),
+});
+
 // User notifications
 export const notifications = pgTable("notifications", {
   id: uuid("id").defaultRandom().primaryKey(),

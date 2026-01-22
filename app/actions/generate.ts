@@ -53,7 +53,7 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
     }
 
     // Check user credits
-    if (isDatabaseConfigured) {
+    if (isDatabaseConfigured && db) {
       const userRecord = await db.query.user.findFirst({
         where: eq(user.id, session.user.id),
       });
@@ -99,7 +99,8 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
         linkedin: { width: 1200, height: 627 },
       };
 
-      const { width, height } = dimensions[platform] || dimensions.instagram;
+      const dim = dimensions[platform] || dimensions.instagram;
+      const { width, height } = dim;
 
       // Create image prompt with South African context
       const imagePrompt = `Professional social media photo for ${platform}: ${topic}. South African context, vibrant colors, modern, high quality, photorealistic. Style: ${vibe}`;
@@ -117,7 +118,7 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
     // 4. Save Draft to Database and Deduct Credits
     let postId = "mock-post-id-" + Date.now();
     
-    if (isDatabaseConfigured) {
+    if (isDatabaseConfigured && db) {
       try {
         // Save post as draft
         const [newPost] = await db.insert(posts).values({
@@ -128,7 +129,10 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
           status: "draft",
           topic: topic,
         }).returning();
-        postId = newPost.id;
+        
+        if (newPost) {
+          postId = newPost.id;
+        }
 
         // Deduct 1 credit
         await db

@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
     }
     
     // Generate state with PKCE using state manager
-    const oauthState = createOAuthState('linkedin', '/dashboard/settings');
+    const oauthState = await createOAuthState('linkedin', '/dashboard/settings');
     
     // Get authorization URL
     const authUrl = provider.getAuthorizationUrl(oauthState.state);

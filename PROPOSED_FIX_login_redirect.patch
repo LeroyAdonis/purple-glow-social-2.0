@@ -1,0 +1,82 @@
+# PROPOSED FIX: Login Redirect Bug
+# File: app/login/page.tsx
+# Issue: router.push() fails to redirect after successful authentication
+
+--- a/app/login/page.tsx
++++ b/app/login/page.tsx
+@@ -51,8 +51,24 @@
+ 
+       // Better-auth signIn.email() returns undefined on success (similar to signUp)
+       // The session is automatically set via cookies, so we can redirect immediately
+       console.log('[Login] Sign in successful, redirecting to:', redirectTo);
+-      router.push(redirectTo);
++      
++      // ✅ FIX: Use window.location.href for reliable redirect
++      // router.push() can fail silently in some cases, especially with cookie-based auth
++      window.location.href = redirectTo;
++      
++      // Alternative approach with fallback:
++      /*
++      router.push(redirectTo);
++      
++      // Fallback: If still on login page after 1.5 seconds, force redirect
++      setTimeout(() => {
++        if (window.location.pathname.includes('/login')) {
++          console.warn('[Login] Router.push failed, using window.location fallback');
++          window.location.href = redirectTo;
++        }
++        setIsLoading(false); // Reset loading state
++      }, 1500);
++      */
+     } catch (err: any) {
+       console.error('[Login] Sign in error:', err);
+       setError(err.message || 'Invalid email or password');
+
+# ADDITIONAL IMPROVEMENTS (Optional):
+
+# 1. Add loading timeout safety
++  // Reset loading state after 10 seconds to prevent infinite spinner
++  React.useEffect(() => {
++    if (isLoading) {
++      const timeout = setTimeout(() => {
++        console.warn('[Login] Loading timeout - resetting state');
++        setIsLoading(false);
++        setError('Login is taking longer than expected. Please try again.');
++      }, 10000);
++      return () => clearTimeout(timeout);
++    }
++  }, [isLoading]);
+
+# 2. Improve error handling for invalid credentials
+# Ensure error state is visible and properly displayed
+
+# TESTING AFTER FIX:
+
+1. Apply this patch to app/login/page.tsx
+2. Restart dev server (npm run dev)
+3. Navigate to http://localhost:3000/login
+4. Test with pro@test.purpleglow.co.za / TestPro123!
+5. Verify immediate redirect to /dashboard
+6. Test with invalid credentials
+7. Verify error message displays
+8. Test all 4 account tiers
+9. Test on mobile/tablet viewports
+10. Re-run Playwright test suite
+
+# EXPECTED OUTCOME:
+- ✅ Users redirected to /dashboard immediately after login
+- ✅ Dashboard loads and displays content
+- ✅ Session persists on page reload
+- ✅ All authentication tests pass
+- ✅ Application is usable
+
+# ROLLBACK PLAN:
+If fix causes issues, simply change:
+  window.location.href = redirectTo;
+Back to:
+  router.push(redirectTo);
+And investigate further.
+
+# PRIORITY: P0 - CRITICAL
+# ESTIMATED FIX TIME: 15 minutes
+# ESTIMATED TEST TIME: 20 minutes

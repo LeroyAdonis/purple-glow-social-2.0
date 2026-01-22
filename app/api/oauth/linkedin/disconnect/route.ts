@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { LinkedInProvider } from '@/lib/oauth/linkedin-provider';
 import { getConnectedAccount, deleteConnectedAccount, getDecryptedToken } from '@/lib/db/connected-accounts';
 import { logger } from '@/lib/logger';
+import { auditLog } from '@/lib/db/audit';
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,6 +45,12 @@ export async function POST(request: NextRequest) {
     
     // Delete the connected account from database
     await deleteConnectedAccount(userId, 'linkedin');
+    
+    // Audit log
+    await auditLog(userId, 'oauth_disconnect', {
+      platform: 'linkedin',
+      timestamp: new Date().toISOString()
+    });
     
     logger.oauth.info('LinkedIn account disconnected', { userId });
     

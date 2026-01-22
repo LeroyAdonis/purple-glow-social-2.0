@@ -4,6 +4,8 @@ import { db } from '@/drizzle/db';
 import { user } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { logger } from '@/lib/logger';
+import { auditLog } from '@/lib/db/audit';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 /**
  * GET /api/user/profile
@@ -34,6 +36,11 @@ export async function GET(request: NextRequest) {
         { status: 404 }
       );
     }
+
+    // Audit log
+    await auditLog(session.user.id, 'profile_view', { 
+      timestamp: new Date().toISOString() 
+    });
 
     // Return user profile data
     return NextResponse.json({
@@ -71,7 +78,11 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{ name?: string; image?: string }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const { name, image } = body;
 
     // Update user profile
@@ -84,6 +95,12 @@ export async function PATCH(request: NextRequest) {
       })
       .where(eq(user.id, session.user.id))
       .returning();
+
+    // Audit log
+    await auditLog(session.user.id, 'profile_update', { 
+      changes: { name: !!name, image: !!image },
+      timestamp: new Date().toISOString() 
+    });
 
     return NextResponse.json({
       success: true,

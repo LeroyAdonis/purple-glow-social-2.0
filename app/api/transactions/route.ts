@@ -8,6 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../../../lib/auth';
 import { getUserTransactions } from '../../../lib/db/transactions';
+import { logger } from '../../../lib/logger';
 
 export async function GET(request: NextRequest) {
   try {
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error fetching transactions:', error);
+    logger.polar.exception(error, { action: 'fetch-transactions' });
     
     return NextResponse.json(
       { 

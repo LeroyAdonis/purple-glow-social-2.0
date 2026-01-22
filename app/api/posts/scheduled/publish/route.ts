@@ -5,6 +5,7 @@ import { db } from '@/drizzle/db';
 import { posts } from '@/drizzle/schema';
 import { eq, and } from 'drizzle-orm';
 import { logger } from '@/lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 /**
  * API endpoint to publish a specific scheduled post
@@ -24,7 +25,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{ postId: string }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const { postId } = body;
 
     if (!postId) {

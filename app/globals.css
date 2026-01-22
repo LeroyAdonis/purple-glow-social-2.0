@@ -75,3 +75,37 @@
     }
   }
 }
+
+/* Print styles for legal pages */
+@media print {
+  .legal-page header,
+  .legal-page aside,
+  .legal-page details,
+  .legal-page footer {
+    display: none !important;
+  }
+  
+  .legal-page main {
+    max-width: 100% !important;
+  }
+  
+  .legal-page .prose {
+    color: black !important;
+  }
+  
+  .legal-page .prose h2,
+  .legal-page .prose h3,
+  .legal-page .prose strong {
+    color: black !important;
+  }
+  
+  .legal-page .prose p,
+  .legal-page .prose li {
+    color: #333 !important;
+  }
+  
+  .legal-page .prose a {
+    color: #333 !important;
+    text-decoration: underline !important;
+  }
+}

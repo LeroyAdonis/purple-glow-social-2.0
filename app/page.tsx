@@ -398,7 +398,7 @@ export default function HomePage() {
                 <img src="https://picsum.photos/600/600" alt="Generated Content" className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10 flex items-center gap-2">
                   <i className="fa-solid fa-wand-magic-sparkles text-neon-grape text-xs"></i>
-                  <span className="text-[10px] font-mono tracking-wider">IMAGEN 3</span>
+                  <span className="text-[10px] font-mono tracking-wider">AI POWERED</span>
                 </div>
               </div>
 
@@ -785,16 +785,16 @@ export default function HomePage() {
             <div>
               <h4 className="font-bold text-white mb-4">{translate('footer.legal')} (ZA)</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors flex items-center gap-2"><i className="fa-solid fa-shield-halved text-xs"></i> {translate('footer.privacy')}</a></li>
-                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors">{translate('footer.terms')}</a></li>
+                <li><Link href="/privacy" className="hover:text-joburg-teal transition-colors flex items-center gap-2"><i className="fa-solid fa-shield-halved text-xs"></i> {translate('footer.privacy')}</Link></li>
+                <li><Link href="/terms" className="hover:text-joburg-teal transition-colors">{translate('footer.terms')}</Link></li>
                 <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors">{translate('footer.paia')}</a></li>
-                <li><a href="#legal" onClick={(e) => scrollToSection(e, 'legal')} className="hover:text-joburg-teal transition-colors">{translate('footer.cookies')}</a></li>
+                <li><Link href="/privacy#cookies" className="hover:text-joburg-teal transition-colors">{translate('footer.cookies')}</Link></li>
               </ul>
             </div>
           </div>
 
           <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 font-mono">
-            <p>&copy; 2024 Purple Glow Technologies (Pty) Ltd. All rights reserved.</p>
+            <p>&copy; 2025 Purple Glow Technologies (Pty) Ltd. All rights reserved.</p>
             <div className="flex gap-6">
               <a href="#" className="hover:text-white"><i className="fa-brands fa-twitter"></i></a>
               <a href="#" className="hover:text-white"><i className="fa-brands fa-instagram"></i></a>

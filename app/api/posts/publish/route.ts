@@ -3,16 +3,17 @@ import { auth } from '@/lib/auth';
 import { PostService } from '@/lib/posting/post-service';
 import { db } from '@/drizzle/db';
 import { user } from '@/drizzle/schema';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { getAvailableCredits } from '@/lib/db/credit-reservations';
 import { hasEnoughCredits, calculatePostCredits, canPost } from '@/lib/tiers/validation';
 import { getTierLimits } from '@/lib/tiers/config';
-import { deductCredits } from '@/lib/db/users';
+import { deductCredits, deductCreditsAtomic } from '@/lib/db/users';
 import { incrementPosts, getDailyUsage } from '@/lib/db/daily-usage';
 import type { TierName } from '@/lib/tiers/types';
 import type { PlatformBreakdown } from '@/lib/tiers/types';
 import { rateLimiters } from '@/lib/security/rate-limit';
 import { logger } from '@/lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 /**
  * API endpoint to publish a post immediately
@@ -49,7 +50,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{
+      platforms?: string[];
+      platform?: string;
+      content: string;
+      imageUrl?: string;
+      link?: string;
+    }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     // Support both single platform and array of platforms
     const { platforms: platformsInput, platform: singlePlatform, content, imageUrl, link } = body;
     
@@ -119,7 +130,7 @@ export async function POST(request: NextRequest) {
     // Calculate credit cost (1 credit per platform)
     const creditCost = calculatePostCredits(platforms);
     
-    // Check if user has enough available credits
+    // Check if user has enough available credits (quick check to fail fast)
     const availableCredits = await getAvailableCredits(session.user.id);
     const creditCheck = hasEnoughCredits(userRecord.credits, userRecord.credits - availableCredits, creditCost);
     
@@ -134,25 +145,95 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    logger.api.info('Attempting to deduct credits atomically', {
+      userId: session.user.id,
+      creditsNeeded: creditCost,
+      platforms,
+    });
+
+    // Use atomic deduction to prevent race conditions
+    // This performs check-and-deduct in a single SQL operation
+    const deductionResult = await deductCreditsAtomic(session.user.id, creditCost);
+
+    if (!deductionResult.success) {
+      logger.api.warn('Insufficient credits for publishing', {
+        userId: session.user.id,
+        creditsNeeded: creditCost,
+        currentBalance: deductionResult.newBalance,
+      });
+      
+      return NextResponse.json(
+        {
+          error: 'Insufficient credits',
+          message: `You need ${creditCost} credits but only have ${deductionResult.newBalance}`,
+          creditsNeeded: creditCost,
+          currentBalance: deductionResult.newBalance,
+        },
+        { status: 402 } // 402 Payment Required
+      );
+    }
+
+    logger.api.info('Credits deducted successfully', {
+      userId: session.user.id,
+      creditsDeducted: creditCost,
+      newBalance: deductionResult.newBalance,
+    });
+
     // Post to all platforms
     const postService = new PostService();
-    const results = await postService.postToMultiplePlatforms(
-      session.user.id,
-      platforms as Array<'facebook' | 'instagram' | 'twitter'>,
-      {
-        content,
-        imageUrl,
-        link,
-      }
-    );
+    let results;
+    try {
+      results = await postService.postToMultiplePlatforms(
+        session.user.id,
+        platforms as Array<'facebook' | 'instagram' | 'twitter'>,
+        {
+          content,
+          imageUrl,
+          link,
+        }
+      );
+    } catch (postError: any) {
+      // If posting fails completely, refund the credits
+      logger.api.error('Posting failed, refunding credits', {
+        userId: session.user.id,
+        creditsToRefund: creditCost,
+        error: postError,
+      });
+      
+      await db
+        .update(user)
+        .set({
+          credits: sql`${user.credits} + ${creditCost}`,
+          updatedAt: new Date(),
+        })
+        .where(eq(user.id, session.user.id));
+      
+      throw postError;
+    }
 
-    // Count successful posts and deduct credits accordingly
+    // Count successful posts
     const successfulPosts = results.filter(r => r.success);
     const failedPosts = results.filter(r => !r.success);
 
+    // If some posts failed, refund credits for failed posts
+    if (failedPosts.length > 0) {
+      const refundAmount = failedPosts.length;
+      logger.api.info('Refunding credits for failed posts', {
+        userId: session.user.id,
+        refundAmount,
+        failedPlatforms: failedPosts.map(f => f.platform),
+      });
+      
+      await db
+        .update(user)
+        .set({
+          credits: sql`${user.credits} + ${refundAmount}`,
+          updatedAt: new Date(),
+        })
+        .where(eq(user.id, session.user.id));
+    }
+
     if (successfulPosts.length > 0) {
-      // Deduct credits only for successful posts
-      await deductCredits(session.user.id, successfulPosts.length);
 
       // Track daily usage for each successful platform
       for (const result of successfulPosts) {

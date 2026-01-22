@@ -1,19 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
 import { db } from '@/drizzle/db';
 import { generationLogs, posts, user } from '@/drizzle/schema';
 import { eq, desc, and } from 'drizzle-orm';
 import { getGenerationErrors } from '@/lib/db/generation-logs';
 import type { GenerationError, PublishingError } from '@/lib/types';
+import { requireAdmin, handleAuthError } from '@/lib/security/auth-utils';
 import { logger } from '@/lib/logger';
-
-/**
- * Check if user is admin
- */
-function isAdmin(email: string): boolean {
-  const adminEmails = process.env.ADMIN_EMAILS?.split(',') || [];
-  return adminEmails.includes(email) || email.endsWith('@purpleglow.co.za');
-}
 
 /**
  * GET /api/admin/errors
@@ -21,17 +13,8 @@ function isAdmin(email: string): boolean {
  */
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth.api.getSession({
-      headers: request.headers
-    });
-    
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    if (!isAdmin(session.user.email)) {
-      return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
-    }
+    // Centralized auth check with audit logging
+    await requireAdmin(request);
 
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type') || 'all'; // 'generation', 'publishing', 'all'
@@ -61,7 +44,7 @@ export async function GET(request: NextRequest) {
           return {
             id: error.id,
             userId: error.userId,
-            userName: userData?.name,
+            userName: userData?.name ?? undefined,
             userEmail: userData?.email,
             platform: error.platform,
             topic: error.topic,
@@ -97,7 +80,7 @@ export async function GET(request: NextRequest) {
           return {
             id: post.id,
             userId: post.userId,
-            userName: userData?.name,
+            userName: userData?.name ?? undefined,
             userEmail: userData?.email,
             platform: post.platform,
             content: post.content.slice(0, 200) + (post.content.length > 200 ? '...' : ''),
@@ -114,6 +97,11 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error: unknown) {
+    // Handle auth errors
+    const authResponse = handleAuthError(error);
+    if (authResponse) return authResponse;
+    
+    // Handle other errors
     logger.admin.exception(error, { action: 'fetch-errors' });
     const message = error instanceof Error ? error.message : 'Failed to fetch errors';
     return NextResponse.json(

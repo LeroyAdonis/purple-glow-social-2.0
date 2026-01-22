@@ -69,18 +69,18 @@ export function validateContent(
   const characterCount = content.length;
   
   // Check character limits
-  const withinLimit = characterCount <= limits.max;
-  const isOptimalLength = characterCount >= limits.optimal.min && characterCount <= limits.optimal.max;
+  const withinLimit = limits ? characterCount <= limits.max : true;
+  const isOptimalLength = limits ? (characterCount >= limits.optimal.min && characterCount <= limits.optimal.max) : false;
   
-  if (!withinLimit) {
+  if (!withinLimit && limits) {
     issues.push(`Content exceeds ${platform} character limit (${characterCount}/${limits.max})`);
   }
   
-  if (characterCount < limits.min) {
+  if (limits && characterCount < limits.min) {
     issues.push(`Content is too short (minimum ${limits.min} characters)`);
   }
   
-  if (!isOptimalLength && withinLimit && characterCount >= limits.min) {
+  if (!isOptimalLength && withinLimit && limits && characterCount >= limits.min) {
     if (characterCount < limits.optimal.min) {
       suggestions.push(`Consider expanding content for better engagement (optimal: ${limits.optimal.min}+ characters)`);
     } else if (characterCount > limits.optimal.max) {
@@ -91,7 +91,7 @@ export function validateContent(
   // Check for SA language markers
   const languageMarkers = SA_LANGUAGE_INDICATORS[language] || SA_LANGUAGE_INDICATORS.en;
   const contentLower = content.toLowerCase();
-  const hasSALanguageMarkers = languageMarkers.some(marker => 
+  const hasSALanguageMarkers = languageMarkers?.some(marker => 
     contentLower.includes(marker.toLowerCase())
   );
   
@@ -139,7 +139,7 @@ export function validateContent(
   
   // Determine validity
   const isValid = withinLimit && 
-                  characterCount >= limits.min && 
+                  (limits ? characterCount >= limits.min : true) && 
                   qualityScore >= 40;
   
   return {
@@ -215,12 +215,12 @@ function calculateQualityScore(factors: QualityFactors, platform: string): numbe
   const weights = getPlatformWeights(platform);
   
   // Add points for quality factors
-  if (factors.hasCallToAction) score += weights.cta;
-  if (factors.hasEmojis) score += weights.emoji;
-  if (factors.hasHashtags) score += weights.hashtag;
-  if (factors.hasSAContext) score += weights.saContext;
-  if (factors.characterOptimal) score += weights.optimal;
-  if (factors.hasQuestions) score += weights.question;
+  if (factors.hasCallToAction) score += weights.cta ?? 10;
+  if (factors.hasEmojis) score += weights.emoji ?? 5;
+  if (factors.hasHashtags) score += weights.hashtag ?? 10;
+  if (factors.hasSAContext) score += weights.saContext ?? 15;
+  if (factors.characterOptimal) score += weights.optimal ?? 20;
+  if (factors.hasQuestions) score += weights.question ?? 8;
   
   // Add readability factor
   score += (factors.readabilityScore - 50) * 0.2;
@@ -239,7 +239,14 @@ function getPlatformWeights(platform: string): Record<string, number> {
     linkedin: { cta: 12, emoji: 2, hashtag: 6, saContext: 6, optimal: 10, question: 8 },
   };
   
-  return weights[platform.toLowerCase()] || weights.facebook;
+  return weights[platform.toLowerCase()] ?? weights.facebook ?? {
+    cta: 10,
+    emoji: 5,
+    hashtag: 10,
+    saContext: 15,
+    optimal: 20,
+    question: 8,
+  };
 }
 
 /**
@@ -285,7 +292,8 @@ export function detectLanguage(content: string): { detected: string; confidence:
   
   // Calculate confidence (0-100)
   const totalMarkers = SA_LANGUAGE_INDICATORS[detected]?.length || 1;
-  const confidence = Math.min(100, (scores[detected] / totalMarkers) * 100);
+  const detectedScore = scores[detected];
+  const confidence = detectedScore ? Math.min(100, (detectedScore / totalMarkers) * 100) : 0;
   
   return { detected, confidence };
 }

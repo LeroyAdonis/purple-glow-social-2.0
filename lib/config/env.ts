@@ -39,7 +39,7 @@ const envSchema = z.object({
   
   // Security
   TOKEN_ENCRYPTION_KEY: z.string().length(64, 'TOKEN_ENCRYPTION_KEY must be 64 hex characters (32 bytes)').optional(),
-  CRON_SECRET: z.string().optional(),
+  CRON_SECRET: z.string().min(32, 'CRON_SECRET must be at least 32 characters').optional(),
   
   // Monitoring (optional)
   NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
@@ -82,6 +82,19 @@ export function validateEnv(): Env {
     
     // In development, warn but continue
     logger.auth.warn('Continuing with invalid environment configuration in development mode');
+  }
+  
+  // Additional production-only validations
+  if (process.env.NODE_ENV === 'production') {
+    if (!process.env.CRON_SECRET) {
+      logger.security.error('CRON_SECRET is required in production');
+      throw new Error('CRON_SECRET must be set in production');
+    }
+    
+    if (!process.env.TOKEN_ENCRYPTION_KEY) {
+      logger.security.error('TOKEN_ENCRYPTION_KEY is required in production');
+      throw new Error('TOKEN_ENCRYPTION_KEY must be set in production');
+    }
   }
   
   return parsed.data as Env;

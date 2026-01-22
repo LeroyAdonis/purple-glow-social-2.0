@@ -14,16 +14,38 @@ import { logger } from '@/lib/logger';
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').split(',').filter(Boolean);
 
 /**
+ * Custom error classes for authentication
+ */
+export class UnauthorizedError extends Error {
+  constructor(message = 'Authentication required') {
+    super(message);
+    this.name = 'UnauthorizedError';
+  }
+}
+
+export class ForbiddenError extends Error {
+  constructor(message = 'Insufficient permissions') {
+    super(message);
+    this.name = 'ForbiddenError';
+  }
+}
+
+/**
  * Check if a user is an admin
+ * Centralized logic - DO NOT DUPLICATE elsewhere
  */
 export function isAdmin(email: string): boolean {
-  // Check against admin list
-  if (ADMIN_EMAILS.includes(email)) {
+  // Normalize email for comparison
+  const normalizedEmail = email.trim().toLowerCase();
+  
+  // Check against admin list from environment
+  const adminEmails = ADMIN_EMAILS.map(e => e.trim().toLowerCase());
+  if (adminEmails.includes(normalizedEmail)) {
     return true;
   }
   
   // Allow all purpleglow.co.za emails
-  if (email.endsWith('@purpleglow.co.za')) {
+  if (normalizedEmail.endsWith('@purpleglow.co.za')) {
     return true;
   }
   
@@ -31,79 +53,89 @@ export function isAdmin(email: string): boolean {
 }
 
 /**
- * Require authentication middleware
+ * Centralized authentication helper
+ * Throws UnauthorizedError if not authenticated
+ * 
+ * @throws {UnauthorizedError} If user is not authenticated
+ * @returns The authenticated user object
  */
-export async function requireAuth(request: NextRequest): Promise<{
-  authenticated: boolean;
-  user?: { id: string; email: string; name?: string };
-  response?: NextResponse;
-}> {
-  try {
-    const session = await auth.api.getSession({
-      headers: request.headers,
-    });
-    
-    if (!session?.user) {
-      return {
-        authenticated: false,
-        response: NextResponse.json(
-          { error: 'Unauthorized', message: 'Please sign in to access this resource' },
-          { status: 401 }
-        ),
-      };
-    }
-    
-    return {
-      authenticated: true,
-      user: {
-        id: session.user.id,
-        email: session.user.email,
-        name: session.user.name || undefined,
-      },
-    };
-  } catch (error) {
-    logger.security.exception(error, { action: 'auth-check' });
-    return {
-      authenticated: false,
-      response: NextResponse.json(
-        { error: 'Authentication error', message: 'Unable to verify authentication' },
-        { status: 500 }
-      ),
-    };
+export async function requireAuth(request: NextRequest) {
+  const session = await auth.api.getSession({
+    headers: request.headers,
+  });
+  
+  if (!session?.user) {
+    throw new UnauthorizedError('Please sign in to access this resource');
   }
+  
+  return session.user;
 }
 
 /**
- * Require admin access middleware
+ * Centralized admin authorization helper
+ * Throws UnauthorizedError if not authenticated
+ * Throws ForbiddenError if not admin
+ * Logs all admin actions for audit trail
+ * 
+ * @throws {UnauthorizedError} If user is not authenticated
+ * @throws {ForbiddenError} If user is not admin
+ * @returns The authenticated admin user object
  */
-export async function requireAdmin(request: NextRequest): Promise<{
-  authorized: boolean;
-  user?: { id: string; email: string; name?: string };
-  response?: NextResponse;
-}> {
-  const authResult = await requireAuth(request);
+export async function requireAdmin(request: NextRequest) {
+  // First check authentication
+  const user = await requireAuth(request);
   
-  if (!authResult.authenticated) {
-    return {
-      authorized: false,
-      response: authResult.response,
-    };
+  // Then check admin status
+  if (!isAdmin(user.email)) {
+    // Log failed admin access attempt
+    logger.security.warn('Admin access denied', {
+      userId: user.id,
+      email: user.email,
+      endpoint: request.nextUrl.pathname,
+      method: request.method,
+      timestamp: new Date().toISOString(),
+    });
+    
+    throw new ForbiddenError('Admin access required');
   }
   
-  if (!authResult.user || !isAdmin(authResult.user.email)) {
-    return {
-      authorized: false,
-      response: NextResponse.json(
-        { error: 'Forbidden', message: 'Admin access required' },
-        { status: 403 }
-      ),
-    };
+  // Log successful admin action for audit trail
+  logger.security.info('Admin action', {
+    userId: user.id,
+    email: user.email,
+    action: request.nextUrl.pathname,
+    method: request.method,
+    timestamp: new Date().toISOString(),
+  });
+  
+  return user;
+}
+
+/**
+ * Helper to handle auth errors in API routes
+ * Returns appropriate NextResponse for auth errors
+ * Re-throws other errors for normal error handling
+ * 
+ * @param error The caught error
+ * @returns NextResponse if auth error, otherwise re-throws
+ */
+export function handleAuthError(error: unknown): NextResponse | null {
+  if (error instanceof UnauthorizedError) {
+    return NextResponse.json(
+      { error: error.message },
+      { status: 401 }
+    );
   }
   
-  return {
-    authorized: true,
-    user: authResult.user,
-  };
+  if (error instanceof ForbiddenError) {
+    return NextResponse.json(
+      { error: error.message },
+      { status: 403 }
+    );
+  }
+  
+  // Not an auth error, return null to signal re-throw
+  return null;
 }
 
 /**

@@ -2,11 +2,13 @@
  * OAuth State Manager
  * Secure state token generation and validation to prevent CSRF attacks
  * 
+ * SECURITY UPDATE: PKCE verifiers now stored in database instead of cookies
  * Reference: https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics
  */
 
 import crypto from 'crypto';
 import { generatePKCEChallenge, PKCEChallenge } from './pkce-utils';
+import { storePKCEVerifier, retrievePKCEVerifier } from '@/lib/db/pkce-verifiers';
 
 export interface OAuthState {
   state: string;
@@ -55,11 +57,12 @@ export function generateStateToken(): string {
 
 /**
  * Create and store a new OAuth state with PKCE
+ * SECURITY: PKCE verifier is stored in database
  */
-export function createOAuthState(
+export async function createOAuthState(
   platform: OAuthState['platform'],
   returnUrl?: string
-): OAuthState {
+): Promise<OAuthState> {
   const state = generateStateToken();
   const pkce = generatePKCEChallenge();
   const now = Date.now();
@@ -73,7 +76,11 @@ export function createOAuthState(
     returnUrl,
   };
   
+  // Store state metadata in memory (without PKCE verifier)
   stateStore.set(state, oauthState);
+  
+  // Store PKCE verifier in database (more secure)
+  await storePKCEVerifier(state, pkce.codeVerifier);
   
   // Start cleanup if not running
   startStateCleanup();
@@ -83,11 +90,12 @@ export function createOAuthState(
 
 /**
  * Validate and consume a state token (one-time use)
+ * SECURITY: Retrieves PKCE verifier from database
  */
-export function validateAndConsumeState(
+export async function validateAndConsumeState(
   state: string,
   expectedPlatform: OAuthState['platform']
-): OAuthState | null {
+): Promise<OAuthState | null> {
   const storedState = stateStore.get(state);
   
   if (!storedState) {
@@ -107,6 +115,12 @@ export function validateAndConsumeState(
     return null;
   }
   
+  // Retrieve PKCE verifier from database
+  const codeVerifier = await retrievePKCEVerifier(state);
+  if (codeVerifier) {
+    storedState.pkce.codeVerifier = codeVerifier;
+  }
+  
   return storedState;
 }
 
@@ -119,10 +133,10 @@ export function peekState(state: string): OAuthState | null {
 
 /**
  * Get the code verifier for a state token
+ * SECURITY: Retrieves from database
  */
-export function getCodeVerifier(state: string): string | null {
-  const storedState = stateStore.get(state);
-  return storedState?.pkce.codeVerifier || null;
+export async function getCodeVerifier(state: string): Promise<string | null> {
+  return await retrievePKCEVerifier(state);
 }
 
 /**

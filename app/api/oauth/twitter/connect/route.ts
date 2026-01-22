@@ -7,7 +7,7 @@ import { db } from '@/drizzle/db';
 import { user } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 import type { TierName } from '@/lib/tiers/types';
-import crypto from 'crypto';
+import { createOAuthState } from '@/lib/oauth/state-manager';
 import { rateLimiters } from '@/lib/security/rate-limit';
 import { logger } from '@/lib/logger';
 
@@ -65,22 +65,20 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(errorUrl);
     }
     
-    // Generate state for CSRF protection
-    const state = crypto.randomBytes(32).toString('hex');
-    
-    // Generate PKCE code verifier
-    const codeVerifier = crypto.randomBytes(32).toString('base64url');
+    // Generate state with PKCE using state manager (stores verifier in DB)
+    const oauthState = await createOAuthState('twitter', '/dashboard/settings');
     
     // Create Twitter provider
     const provider = new TwitterProvider();
     
-    // Get authorization URL
-    const authUrl = provider.getAuthorizationUrl(state, codeVerifier);
+    // Get authorization URL with PKCE challenge
+    const authUrl = provider.getAuthorizationUrl(oauthState.state, oauthState.pkce.codeVerifier);
     
-    // Store state and code verifier in cookies for verification in callback
+    // Store state and user ID in cookies for verification in callback
+    // Note: PKCE verifier is now stored securely in database, not in cookies
     const response = NextResponse.redirect(authUrl);
     
-    response.cookies.set('oauth_state', state, {
+    response.cookies.set('oauth_state', oauthState.state, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -88,13 +86,6 @@ export async function GET(request: NextRequest) {
     });
     
     response.cookies.set('oauth_user_id', session.user.id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 600,
-    });
-    
-    response.cookies.set('oauth_code_verifier', codeVerifier, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

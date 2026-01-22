@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getUserBillingHistory } from '@/lib/db/analytics';
+import { logger } from '@/lib/logger';
 
 /**
  * GET /api/user/billing-history
@@ -28,7 +29,7 @@ export async function GET(request: NextRequest) {
       invoices,
     });
   } catch (error: any) {
-    console.error('Billing history fetch error:', error);
+    logger.polar.exception(error, { action: 'fetch-billing' });
     return NextResponse.json(
       { error: error.message || 'Failed to fetch billing history' },
       { status: 500 }

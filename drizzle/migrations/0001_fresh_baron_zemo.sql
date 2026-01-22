@@ -1,7 +1,19 @@
-CREATE TYPE "public"."credit_reservation_status" AS ENUM('pending', 'consumed', 'released');--> statement-breakpoint
-CREATE TYPE "public"."job_status" AS ENUM('pending', 'running', 'completed', 'failed', 'cancelled');--> statement-breakpoint
-CREATE TYPE "public"."notification_type" AS ENUM('low_credits', 'credits_expiring', 'post_skipped', 'post_failed', 'tier_limit_reached');--> statement-breakpoint
-CREATE TABLE "credit_reservations" (
+DO $$ BEGIN
+  CREATE TYPE "public"."credit_reservation_status" AS ENUM('pending', 'consumed', 'released');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  CREATE TYPE "public"."job_status" AS ENUM('pending', 'running', 'completed', 'failed', 'cancelled');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  CREATE TYPE "public"."notification_type" AS ENUM('low_credits', 'credits_expiring', 'post_skipped', 'post_failed', 'tier_limit_reached');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "credit_reservations" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" text NOT NULL,
 	"post_id" uuid,
@@ -11,7 +23,7 @@ CREATE TABLE "credit_reservations" (
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "daily_usage" (
+CREATE TABLE IF NOT EXISTS "daily_usage" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" text NOT NULL,
 	"date" text NOT NULL,
@@ -22,7 +34,7 @@ CREATE TABLE "daily_usage" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "generation_logs" (
+CREATE TABLE IF NOT EXISTS "generation_logs" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" text NOT NULL,
 	"platform" "platform" NOT NULL,
@@ -34,7 +46,7 @@ CREATE TABLE "generation_logs" (
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "job_logs" (
+CREATE TABLE IF NOT EXISTS "job_logs" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"inngest_event_id" text,
 	"function_name" text NOT NULL,
@@ -47,7 +59,7 @@ CREATE TABLE "job_logs" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "notifications" (
+CREATE TABLE IF NOT EXISTS "notifications" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" text NOT NULL,
 	"type" "notification_type" NOT NULL,
@@ -58,11 +70,43 @@ CREATE TABLE "notifications" (
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE "user" ADD COLUMN "video_credits" integer DEFAULT 0 NOT NULL;--> statement-breakpoint
-ALTER TABLE "user" ADD COLUMN "last_credit_reset" timestamp DEFAULT now();--> statement-breakpoint
-ALTER TABLE "user" ADD COLUMN "tier_limits" jsonb;--> statement-breakpoint
-ALTER TABLE "credit_reservations" ADD CONSTRAINT "credit_reservations_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "credit_reservations" ADD CONSTRAINT "credit_reservations_post_id_posts_id_fk" FOREIGN KEY ("post_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "daily_usage" ADD CONSTRAINT "daily_usage_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "generation_logs" ADD CONSTRAINT "generation_logs_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "notifications" ADD CONSTRAINT "notifications_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+DO $$ BEGIN
+  ALTER TABLE "user" ADD COLUMN "video_credits" integer DEFAULT 0 NOT NULL;
+EXCEPTION
+  WHEN duplicate_column THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "user" ADD COLUMN "last_credit_reset" timestamp DEFAULT now();
+EXCEPTION
+  WHEN duplicate_column THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "user" ADD COLUMN "tier_limits" jsonb;
+EXCEPTION
+  WHEN duplicate_column THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "credit_reservations" ADD CONSTRAINT "credit_reservations_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "credit_reservations" ADD CONSTRAINT "credit_reservations_post_id_posts_id_fk" FOREIGN KEY ("post_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "daily_usage" ADD CONSTRAINT "daily_usage_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "generation_logs" ADD CONSTRAINT "generation_logs_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "notifications" ADD CONSTRAINT "notifications_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;

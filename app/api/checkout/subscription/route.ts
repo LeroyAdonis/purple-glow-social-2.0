@@ -12,6 +12,7 @@ import { db } from '../../../../drizzle/db';
 import { user as userTable } from '../../../../drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { logger } from '../../../../lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,7 +27,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse request body
-    const body = await request.json();
+    const body = await parseRequestBody<{
+      planId: string;
+      billingCycle: string;
+    }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const { planId, billingCycle } = body;
 
     if (!planId || !billingCycle) {

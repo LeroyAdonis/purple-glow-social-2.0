@@ -11,6 +11,7 @@ import { db } from '@/drizzle/db';
 import { notifications } from '@/drizzle/schema';
 import { eq, and } from 'drizzle-orm';
 import { logger } from '@/lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,7 +27,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{ notificationId: string }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const { notificationId } = body;
 
     if (!notificationId) {

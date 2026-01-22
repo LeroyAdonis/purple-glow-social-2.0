@@ -74,6 +74,8 @@ const getAuthBaseURL = () => {
 const isVercelSharedDomain = process.env.VERCEL_URL?.includes('.vercel.app') || 
                               process.env.VERCEL === '1';
 
+export const useSecureCookies = !isVercelSharedDomain && process.env.NODE_ENV === 'production';
+
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-for-development",
   baseURL: getAuthBaseURL(),
@@ -83,7 +85,7 @@ export const auth = betterAuth({
   // Disabling __Secure- prefix is REQUIRED for .vercel.app to work!
   advanced: {
     // Disable __Secure- prefix on .vercel.app (Public Suffix List domain)
-    useSecureCookies: !isVercelSharedDomain && process.env.NODE_ENV === 'production',
+    useSecureCookies,
     // Cross-site cookie settings
     cookiePrefix: "better-auth",
   },

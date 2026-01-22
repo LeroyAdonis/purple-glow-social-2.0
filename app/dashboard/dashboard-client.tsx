@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import ClientDashboardView from '../../components/client-dashboard-view';
 import { useRouter } from 'next/navigation';
+import { logger } from '../../lib/logger';
 
 interface DashboardClientProps {
   userName: string;
@@ -36,7 +37,7 @@ export default function DashboardClient({
           setUserCredits(data.credits || 10);
         }
       } catch (error) {
-        console.error('Failed to fetch user data:', error);
+        logger.api.exception(error as Error, { action: 'fetch-user-profile', userId });
       }
     };
     
@@ -45,7 +46,7 @@ export default function DashboardClient({
 
   const handleCreditPurchase = (credits: number, amount: number) => {
     // In production, this would call an API
-    console.log(`Purchasing ${credits} credits for R${amount}`);
+    logger.api.info('Credit purchase initiated', { credits, amount, userId });
     setUserCredits(prev => prev + credits);
     setSuccessData({ type: 'credit', credits, amount });
     setShowSuccessModal(true);
@@ -53,7 +54,7 @@ export default function DashboardClient({
 
   const handleSubscribe = (planId: string, billingCycle: string) => {
     // In production, this would call an API
-    console.log(`Subscribing to ${planId} - ${billingCycle}`);
+    logger.api.info('Subscription initiated', { planId, billingCycle, userId });
     if (planId === 'pro') {
       setUserTier('pro');
       setUserCredits(prev => prev + 500);

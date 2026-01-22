@@ -15,6 +15,7 @@ import LogoutButton from './LogoutButton';
 import NotificationsDropdown from './notifications-dropdown';
 import CreditWarningBanner from './credit-warning-banner';
 import UsageSummary from './usage-summary';
+import MobileNavigation from './mobile-navigation';
 import { useLanguage } from '../lib/context/LanguageContext';
 
 interface ClientDashboardViewProps {
@@ -71,7 +72,19 @@ export default function ClientDashboardView({
 
     return (
         <div className="flex min-h-screen bg-void text-white">
-            {/* Sidebar */}
+            {/* Mobile Navigation */}
+            <MobileNavigation
+                userName={mockUser.name}
+                userEmail={mockUser.email}
+                userTier={mockUser.tier}
+                userCredits={mockUser.credits}
+                userImage={mockUser.image}
+                activeTab={activeTab}
+                onNavigate={setActiveTab}
+                onSettingsClick={() => setShowSettings(true)}
+            />
+
+            {/* Sidebar - Desktop Only */}
             <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full backdrop-blur-md z-20">
                 <div className="flex items-center gap-2 mb-4">
                     <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
@@ -143,9 +156,9 @@ export default function ClientDashboardView({
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 lg:ml-64 p-6 lg:p-12 overflow-y-auto relative">
+            <main className="flex-1 lg:ml-64 p-6 lg:p-12 overflow-y-auto relative pt-20 lg:pt-12">
                 <div className="max-w-6xl mx-auto space-y-8 relative">
-                    <header className="flex justify-between items-center">
+                    <header className="flex justify-between items-center flex-wrap gap-4">
                         <div>
                             <h2 className="font-display font-bold text-4xl mb-2">{translate('dashboard.welcome')}, {mockUser.name.split(' ')[0]}</h2>
                             <p className="text-gray-400">{translate('dashboard.status')}: <span className="text-joburg-teal">{translate('dashboard.optimal')}</span></p>

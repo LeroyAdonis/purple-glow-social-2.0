@@ -3,12 +3,13 @@
  * Manages user learning profiles and triggers learning updates
  */
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { learningProfileService } from '@/lib/ai/learning-profile-service';
 import { promptPatternAnalyzer } from '@/lib/ai/prompt-pattern-analyzer';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 const updateProfileSchema = z.object({
   industry: z.string().optional(),
@@ -17,7 +18,7 @@ const updateProfileSchema = z.object({
 });
 
 // GET: Get user's learning profile
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: request.headers });
     
@@ -44,7 +45,7 @@ export async function GET(request: Request) {
 }
 
 // POST: Update user's industry context
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: request.headers });
     
@@ -52,7 +53,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{
+      industry?: string;
+      targetAudience?: string;
+      brandVoice?: string;
+    }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const validatedData = updateProfileSchema.parse(body);
 
     if (validatedData.industry) {
@@ -82,7 +91,7 @@ export async function POST(request: Request) {
 }
 
 // PUT: Trigger learning analysis
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: request.headers });
     

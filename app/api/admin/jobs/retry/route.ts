@@ -1,16 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
 import { getJobById, updateJobStatus } from '@/lib/db/job-logs';
 import { inngest } from '@/lib/inngest/client';
+import { requireAdmin, handleAuthError } from '@/lib/security/auth-utils';
 import { logger } from '@/lib/logger';
-
-/**
- * Check if user is admin
- */
-function isAdmin(email: string): boolean {
-  const adminEmails = process.env.ADMIN_EMAILS?.split(',') || [];
-  return adminEmails.includes(email) || email.endsWith('@purpleglow.co.za');
-}
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 /**
  * POST /api/admin/jobs/retry
@@ -18,19 +11,14 @@ function isAdmin(email: string): boolean {
  */
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth.api.getSession({
-      headers: request.headers
-    });
-    
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Centralized auth check with audit logging
+    await requireAdmin(request);
+
+    const body = await parseRequestBody<{ jobId: string }>(request);
+    if (!body) {
+      return invalidJsonResponse();
     }
 
-    if (!isAdmin(session.user.email)) {
-      return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
-    }
-
-    const body = await request.json();
     const { jobId } = body;
 
     if (!jobId) {
@@ -99,6 +87,11 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
   } catch (error: any) {
+    // Handle auth errors
+    const authResponse = handleAuthError(error);
+    if (authResponse) return authResponse;
+    
+    // Handle other errors
     logger.admin.exception(error, { action: 'retry-job' });
     return NextResponse.json(
       { error: error.message || 'Failed to retry job' },

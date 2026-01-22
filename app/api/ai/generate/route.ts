@@ -11,6 +11,7 @@ import { incrementGenerations, checkGenerationLimit } from '@/lib/db/daily-usage
 import type { TierName } from '@/lib/tiers/types';
 import { rateLimiters } from '@/lib/security/rate-limit';
 import { logger } from '@/lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 /**
  * API endpoint to generate AI content
@@ -77,7 +78,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{
+      topic: string;
+      platform: string;
+      language?: string;
+      tone?: string;
+      includeHashtags?: boolean;
+      includeEmojis?: boolean;
+      variations?: number;
+    }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const { 
       topic, 
       platform, 

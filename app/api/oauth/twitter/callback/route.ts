@@ -6,6 +6,7 @@ import { db } from '@/drizzle/db';
 import { connectedAccounts } from '@/drizzle/schema';
 import { eq, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
+import { retrievePKCEVerifier } from '@/lib/db/pkce-verifiers';
 import { logger } from '@/lib/logger';
 
 export async function GET(request: NextRequest) {
@@ -30,11 +31,20 @@ export async function GET(request: NextRequest) {
   // Verify state (CSRF protection)
   const storedState = request.cookies.get('oauth_state')?.value;
   const userId = request.cookies.get('oauth_user_id')?.value;
-  const codeVerifier = request.cookies.get('oauth_code_verifier')?.value;
   
-  if (!storedState || storedState !== state || !userId || !codeVerifier) {
+  if (!storedState || storedState !== state || !userId) {
     return NextResponse.redirect(
       new URL('/oauth/callback/error?error=invalid_state', request.url)
+    );
+  }
+  
+  // Retrieve PKCE code verifier from database (secure storage)
+  const codeVerifier = await retrievePKCEVerifier(state);
+  
+  if (!codeVerifier) {
+    logger.oauth.error('PKCE verifier not found or expired', { state: state.substring(0, 8) + '...' });
+    return NextResponse.redirect(
+      new URL('/oauth/callback/error?error=verifier_expired', request.url)
     );
   }
   
@@ -107,14 +117,13 @@ export async function GET(request: NextRequest) {
       });
     }
     
-    // Clear state cookies
+    // Clear state cookies (PKCE verifier already deleted from DB)
     const response = NextResponse.redirect(
       new URL('/oauth/callback/success?platform=twitter', request.url)
     );
     
     response.cookies.delete('oauth_state');
     response.cookies.delete('oauth_user_id');
-    response.cookies.delete('oauth_code_verifier');
     
     return response;
   } catch (error) {

@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { GeminiService } from '@/lib/ai/gemini-service';
 import { rateLimiters } from '@/lib/security/rate-limit';
 import { logger } from '@/lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 /**
  * API endpoint to generate hashtag suggestions
@@ -36,7 +37,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{ topic: string; count?: number }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const { topic, count = 10 } = body;
 
     if (!topic) {

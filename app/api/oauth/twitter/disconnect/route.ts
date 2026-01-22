@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { disconnectAccount, getDecryptedToken } from '@/lib/db/connected-accounts';
 import { TwitterProvider } from '@/lib/oauth/twitter-provider';
 import { logger } from '@/lib/logger';
+import { auditLog } from '@/lib/db/audit';
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,6 +44,12 @@ export async function POST(request: NextRequest) {
     
     // Delete connection from database
     await disconnectAccount(session.user.id, 'twitter');
+    
+    // Audit log
+    await auditLog(session.user.id, 'oauth_disconnect', {
+      platform: 'twitter',
+      timestamp: new Date().toISOString()
+    });
     
     return NextResponse.json({
       success: true,

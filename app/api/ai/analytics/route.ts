@@ -3,11 +3,12 @@
  * Provides engagement analytics and insights for learning
  */
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { analyticsService } from '@/lib/ai/analytics-service';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 const recordAnalyticsSchema = z.object({
   postId: z.string().uuid(),
@@ -30,7 +31,7 @@ const recordAnalyticsSchema = z.object({
 });
 
 // GET: Get analytics summary for the user
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: request.headers });
     
@@ -57,7 +58,7 @@ export async function GET(request: Request) {
 }
 
 // POST: Record analytics for a post
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: request.headers });
     
@@ -65,7 +66,29 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{
+      postId: string;
+      platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin';
+      metrics: {
+        likes?: number;
+        comments?: number;
+        shares?: number;
+        saves?: number;
+        reach?: number;
+        impressions?: number;
+        clicks?: number;
+      };
+      generationContext?: {
+        topic?: string;
+        tone?: 'professional' | 'casual' | 'friendly' | 'energetic';
+        language?: string;
+        promptVariation?: string;
+      };
+    }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const validatedData = recordAnalyticsSchema.parse(body);
 
     await analyticsService.recordAnalytics(

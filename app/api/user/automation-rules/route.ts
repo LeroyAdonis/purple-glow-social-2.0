@@ -9,6 +9,7 @@ import {
   toggleAutomationRule
 } from '@/lib/db/automation';
 import { logger } from '@/lib/logger';
+import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 /**
  * GET /api/user/automation-rules
@@ -56,7 +57,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error: any) {
-    console.error('Automation rules fetch error:', error);
+    logger.api.exception(error, { action: 'fetch-rules' });
     return NextResponse.json(
       { error: error.message || 'Failed to fetch automation rules' },
       { status: 500 }
@@ -116,7 +117,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{
+      frequency?: string;
+      coreTopic?: string;
+      isActive?: boolean;
+    }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const { frequency, coreTopic, isActive } = body;
 
     const rule = await createAutomationRule({
@@ -131,7 +140,7 @@ export async function POST(request: NextRequest) {
       rule,
     });
   } catch (error: any) {
-    console.error('Automation rule create error:', error);
+    logger.api.exception(error, { action: 'create-rule' });
     return NextResponse.json(
       { error: error.message || 'Failed to create automation rule' },
       { status: 500 }
@@ -156,7 +165,15 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await parseRequestBody<{
+      id: string;
+      toggle?: boolean;
+      [key: string]: any;
+    }>(request);
+    if (!body) {
+      return invalidJsonResponse();
+    }
+
     const { id, toggle, ...updateData } = body;
 
     if (!id) {
@@ -178,7 +195,7 @@ export async function PATCH(request: NextRequest) {
       rule,
     });
   } catch (error: any) {
-    console.error('Automation rule update error:', error);
+    logger.api.exception(error, { action: 'update-rule' });
     return NextResponse.json(
       { error: error.message || 'Failed to update automation rule' },
       { status: 500 }
@@ -220,7 +237,7 @@ export async function DELETE(request: NextRequest) {
       message: 'Automation rule deleted',
     });
   } catch (error: any) {
-    console.error('Automation rule delete error:', error);
+    logger.api.exception(error, { action: 'delete-rule' });
     return NextResponse.json(
       { error: error.message || 'Failed to delete automation rule' },
       { status: 500 }

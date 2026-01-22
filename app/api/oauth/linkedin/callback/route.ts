@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
     }
     
     // Also validate via state manager (if stored there)
-    const oauthState = validateAndConsumeState(state, 'linkedin');
+    const oauthState = await validateAndConsumeState(state, 'linkedin');
     
     if (!userId) {
       const errorUrl = new URL('/dashboard/settings', request.url);

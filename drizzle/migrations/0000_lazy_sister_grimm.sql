@@ -1,12 +1,44 @@
-CREATE TYPE "public"."billing_cycle" AS ENUM('monthly', 'annual');--> statement-breakpoint
-CREATE TYPE "public"."platform" AS ENUM('facebook', 'instagram', 'twitter', 'linkedin');--> statement-breakpoint
-CREATE TYPE "public"."status" AS ENUM('draft', 'scheduled', 'posted', 'failed');--> statement-breakpoint
-CREATE TYPE "public"."subscription_status" AS ENUM('active', 'canceled', 'past_due', 'trialing');--> statement-breakpoint
-CREATE TYPE "public"."tier" AS ENUM('free', 'pro', 'business');--> statement-breakpoint
-CREATE TYPE "public"."transaction_status" AS ENUM('pending', 'completed', 'failed', 'refunded');--> statement-breakpoint
-CREATE TYPE "public"."transaction_type" AS ENUM('credit_purchase', 'subscription', 'refund');--> statement-breakpoint
-CREATE TYPE "public"."webhook_status" AS ENUM('pending', 'processed', 'failed');--> statement-breakpoint
-CREATE TABLE "account" (
+DO $$ BEGIN
+  CREATE TYPE "public"."billing_cycle" AS ENUM('monthly', 'annual');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  CREATE TYPE "public"."platform" AS ENUM('facebook', 'instagram', 'twitter', 'linkedin');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  CREATE TYPE "public"."status" AS ENUM('draft', 'scheduled', 'posted', 'failed');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  CREATE TYPE "public"."subscription_status" AS ENUM('active', 'canceled', 'past_due', 'trialing');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  CREATE TYPE "public"."tier" AS ENUM('free', 'pro', 'business');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  CREATE TYPE "public"."transaction_status" AS ENUM('pending', 'completed', 'failed', 'refunded');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  CREATE TYPE "public"."transaction_type" AS ENUM('credit_purchase', 'subscription', 'refund');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  CREATE TYPE "public"."webhook_status" AS ENUM('pending', 'processed', 'failed');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "account" (
 	"id" text PRIMARY KEY NOT NULL,
 	"account_id" text NOT NULL,
 	"provider_id" text NOT NULL,
@@ -22,7 +54,7 @@ CREATE TABLE "account" (
 	"updated_at" timestamp NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "automation_rules" (
+CREATE TABLE IF NOT EXISTS "automation_rules" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" text NOT NULL,
 	"frequency" text DEFAULT 'weekly',
@@ -31,7 +63,7 @@ CREATE TABLE "automation_rules" (
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
-CREATE TABLE "connected_account" (
+CREATE TABLE IF NOT EXISTS "connected_account" (
 	"id" text PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
 	"platform" "platform" NOT NULL,
@@ -49,7 +81,7 @@ CREATE TABLE "connected_account" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "posts" (
+CREATE TABLE IF NOT EXISTS "posts" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" text NOT NULL,
 	"content" text NOT NULL,
@@ -67,7 +99,7 @@ CREATE TABLE "posts" (
 	"updated_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
-CREATE TABLE "session" (
+CREATE TABLE IF NOT EXISTS "session" (
 	"id" text PRIMARY KEY NOT NULL,
 	"expires_at" timestamp NOT NULL,
 	"token" text NOT NULL,
@@ -79,7 +111,7 @@ CREATE TABLE "session" (
 	CONSTRAINT "session_token_unique" UNIQUE("token")
 );
 --> statement-breakpoint
-CREATE TABLE "subscriptions" (
+CREATE TABLE IF NOT EXISTS "subscriptions" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" text NOT NULL,
 	"polar_subscription_id" text NOT NULL,
@@ -96,7 +128,7 @@ CREATE TABLE "subscriptions" (
 	CONSTRAINT "subscriptions_polar_subscription_id_unique" UNIQUE("polar_subscription_id")
 );
 --> statement-breakpoint
-CREATE TABLE "transactions" (
+CREATE TABLE IF NOT EXISTS "transactions" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" text NOT NULL,
 	"polar_order_id" text,
@@ -112,7 +144,7 @@ CREATE TABLE "transactions" (
 	CONSTRAINT "transactions_polar_order_id_unique" UNIQUE("polar_order_id")
 );
 --> statement-breakpoint
-CREATE TABLE "user" (
+CREATE TABLE IF NOT EXISTS "user" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text,
 	"email" text NOT NULL,
@@ -126,7 +158,7 @@ CREATE TABLE "user" (
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-CREATE TABLE "verification" (
+CREATE TABLE IF NOT EXISTS "verification" (
 	"id" text PRIMARY KEY NOT NULL,
 	"identifier" text NOT NULL,
 	"value" text NOT NULL,
@@ -135,7 +167,7 @@ CREATE TABLE "verification" (
 	"updated_at" timestamp
 );
 --> statement-breakpoint
-CREATE TABLE "webhook_events" (
+CREATE TABLE IF NOT EXISTS "webhook_events" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"event_type" text NOT NULL,
 	"event_id" text NOT NULL,
@@ -148,10 +180,38 @@ CREATE TABLE "webhook_events" (
 	CONSTRAINT "webhook_events_event_id_unique" UNIQUE("event_id")
 );
 --> statement-breakpoint
-ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "automation_rules" ADD CONSTRAINT "automation_rules_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "connected_account" ADD CONSTRAINT "connected_account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "posts" ADD CONSTRAINT "posts_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "subscriptions" ADD CONSTRAINT "subscriptions_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "transactions" ADD CONSTRAINT "transactions_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+DO $$ BEGIN
+  ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "automation_rules" ADD CONSTRAINT "automation_rules_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "connected_account" ADD CONSTRAINT "connected_account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "posts" ADD CONSTRAINT "posts_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "subscriptions" ADD CONSTRAINT "subscriptions_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "transactions" ADD CONSTRAINT "transactions_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;

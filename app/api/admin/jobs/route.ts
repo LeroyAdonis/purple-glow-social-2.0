@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
 import { getRecentJobs, getFailedJobs, getPendingJobs, getJobStats } from '@/lib/db/job-logs';
+import { requireAdmin, handleAuthError } from '@/lib/security/auth-utils';
 import { logger } from '@/lib/logger';
-
-/**
- * Check if user is admin
- */
-function isAdmin(email: string): boolean {
-  const adminEmails = process.env.ADMIN_EMAILS?.split(',') || [];
-  return adminEmails.includes(email) || email.endsWith('@purpleglow.co.za');
-}
 
 /**
  * GET /api/admin/jobs
@@ -17,17 +9,8 @@ function isAdmin(email: string): boolean {
  */
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth.api.getSession({
-      headers: request.headers
-    });
-    
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    if (!isAdmin(session.user.email)) {
-      return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
-    }
+    // Centralized auth check with audit logging
+    await requireAdmin(request);
 
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') as 'pending' | 'running' | 'completed' | 'failed' | 'cancelled' | null;
@@ -60,6 +43,11 @@ export async function GET(request: NextRequest) {
       stats,
     });
   } catch (error: any) {
+    // Handle auth errors
+    const authResponse = handleAuthError(error);
+    if (authResponse) return authResponse;
+    
+    // Handle other errors
     logger.admin.exception(error, { action: 'fetch-jobs' });
     return NextResponse.json(
       { error: error.message || 'Failed to fetch jobs' },

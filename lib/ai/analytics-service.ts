@@ -70,13 +70,13 @@ export class AnalyticsService {
         // Update existing
         await db.update(postAnalytics)
           .set({
-            likes: metrics.likes ?? existing[0].likes,
-            comments: metrics.comments ?? existing[0].comments,
-            shares: metrics.shares ?? existing[0].shares,
-            saves: metrics.saves ?? existing[0].saves,
-            reach: metrics.reach ?? existing[0].reach,
-            impressions: metrics.impressions ?? existing[0].impressions,
-            clicks: metrics.clicks ?? existing[0].clicks,
+            likes: metrics.likes ?? existing[0]?.likes,
+            comments: metrics.comments ?? existing[0]?.comments,
+            shares: metrics.shares ?? existing[0]?.shares,
+            saves: metrics.saves ?? existing[0]?.saves,
+            reach: metrics.reach ?? existing[0]?.reach,
+            impressions: metrics.impressions ?? existing[0]?.impressions,
+            clicks: metrics.clicks ?? existing[0]?.clicks,
             engagementScore,
             fetchedAt: new Date(),
             updatedAt: new Date(),
@@ -124,11 +124,11 @@ export class AnalyticsService {
     const weights = this.platformWeights[platform] || this.platformWeights.facebook;
     
     const rawScore = 
-      (metrics.likes || 0) * weights.likes +
-      (metrics.comments || 0) * weights.comments +
-      (metrics.shares || 0) * weights.shares +
-      (metrics.saves || 0) * weights.saves +
-      (metrics.reach || 0) * weights.reach;
+      (metrics.likes || 0) * (weights?.likes ?? 1) +
+      (metrics.comments || 0) * (weights?.comments ?? 3) +
+      (metrics.shares || 0) * (weights?.shares ?? 5) +
+      (metrics.saves || 0) * (weights?.saves ?? 4) +
+      (metrics.reach || 0) * (weights?.reach ?? 0.01);
 
     // Normalize to 0-100 scale (using logarithmic scaling for better distribution)
     // A score of ~100 raw points = 50, ~1000 = 75, ~10000 = 100
@@ -177,15 +177,19 @@ export class AnalyticsService {
       if (!platformBreakdown[a.platform]) {
         platformBreakdown[a.platform] = { count: 0, avgEngagement: 0 };
       }
-      platformBreakdown[a.platform].count += 1;
-      platformBreakdown[a.platform].avgEngagement += a.engagementScore || 0;
+      if (platformBreakdown[a.platform]) {
+        platformBreakdown[a.platform].count += 1;
+        platformBreakdown[a.platform].avgEngagement += a.engagementScore || 0;
+      }
     }
     
     // Calculate averages per platform
     for (const platform of Object.keys(platformBreakdown)) {
-      platformBreakdown[platform].avgEngagement = Math.round(
-        platformBreakdown[platform].avgEngagement / platformBreakdown[platform].count
-      );
+      if (platformBreakdown[platform] && platformBreakdown[platform].count > 0) {
+        platformBreakdown[platform].avgEngagement = Math.round(
+          platformBreakdown[platform].avgEngagement / platformBreakdown[platform].count
+        );
+      }
     }
 
     // Get top topics
@@ -195,8 +199,10 @@ export class AnalyticsService {
         if (!topicScores[a.topic]) {
           topicScores[a.topic] = { total: 0, count: 0 };
         }
-        topicScores[a.topic].total += a.engagementScore || 0;
-        topicScores[a.topic].count += 1;
+        if (topicScores[a.topic]) {
+          topicScores[a.topic].total += a.engagementScore || 0;
+          topicScores[a.topic].count += 1;
+        }
       }
     }
 
