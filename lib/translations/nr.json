@@ -17,7 +17,7 @@
     "subtitle": "I-Purple Glow ayiguqulelwanga nje—iyaqonda isiko. Ukusuka kwislang yaselokishini ukuya kwisiAfrikaans sebhizinisi.",
     "aiEngine": {
       "title": "Injini Yomsebenzi We-AI",
-      "description": "I-Gemini 2.5 Flash + Imagen 3 inikela amandla ezithuba zakho. Yenza imibhalo, iifoto nevidiyo ehambelana nabaphulaphuli baseNingizimu Afrika."
+      "description": "I-Gemini 2.5 Flash inikela amandla ezithuba zakho. Yenza imibhalo ehambelana nabaphulaphuli baseNingizimu Afrika."
     },
     "multilingual": {
       "title": "Iilwimi Ezilishumi Elinye, Inkundla Enye",
@@ -184,7 +184,8 @@
     "back": "Emva",
     "logout": "Phuma",
     "goToDashboard": "Yiya kwiDashboard",
-    "backToLanding": "Buyela Ekhaya"
+    "backToLanding": "Buyela Ekhaya",
+    "language": "Ulimi"
   },
   "scheduleModal": {
     "title": "Cwangcisa Ukuthumela",

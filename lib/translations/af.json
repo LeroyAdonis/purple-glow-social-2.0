@@ -17,7 +17,7 @@
     "subtitle": "Purple Glow is nie net vertaal nie—dit is kultureel bewus. Van township-slang tot korporatiewe Afrikaans.",
     "aiEngine": {
       "title": "KI Inhoud Enjin",
-      "description": "Gemini 2.5 Flash + Imagen 3 wat jou plasings aandryf. Genereer teks, beelde en video's wat met SA gehore resoneer."
+      "description": "Google Gemini Pro KI wat jou plasings aandryf. Genereer boeiende teksinhoud wat met SA gehore resoneer."
     },
     "multilingual": {
       "title": "11 Tale, Een Platform",
@@ -36,7 +36,7 @@
     },
     "step2": {
       "title": "KI Genereer Inhoud",
-      "description": "Ons Gemini-aangedrewe enjin skep platform-geoptimeerde plasings met beelde in sekondes."
+      "description": "Ons Gemini-aangedrewe enjin skep platform-geoptimeerde plasings in sekondes."
     },
     "step3": {
       "title": "Skeduleer & Plaas",
@@ -83,7 +83,7 @@
       "badge": "Mees Gewild",
       "features": [
         "Onbeperkte Teks Generasie",
-        "50 Beeld Krediete / maand",
+        "500 Inhoud Generasie Krediete",
         "5 Sosiale Profiele",
         "Slim Skedulering",
         "11 Taal Vertaling",
@@ -95,7 +95,7 @@
       "name": "Die Mogul",
       "features": [
         "Als in Skepper",
-        "200 Beeld & Video Krediete",
+        "2000 Inhoud Generasie Krediete",
         "Onbeperkte Profiele",
         "Span Samewerking (3 Sitplekke)",
         "KI Outomatisering Reëls",
@@ -106,7 +106,7 @@
   },
   "credits": {
     "title": "Benodig ekstra vuurkrag?",
-    "subtitle": "Het min beeld of video krediete? Laai onmiddellik op sonder om jou intekening te verander.",
+    "subtitle": "Het min inhoud generasie krediete? Laai onmiddellik op sonder om jou intekening te verander.",
     "packages": {
       "100": "100 Krediete",
       "500": "500 Krediete",
@@ -190,7 +190,8 @@
     "back": "Terug",
     "logout": "Teken Uit",
     "goToDashboard": "Gaan na Dashboard",
-    "backToLanding": "Terug na Tuisblad"
+    "backToLanding": "Terug na Tuisblad",
+    "language": "Taal"
   },
   "scheduleModal": {
     "title": "Skeduleer Plasing",

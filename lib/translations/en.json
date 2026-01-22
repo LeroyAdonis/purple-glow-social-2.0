@@ -17,7 +17,7 @@
     "subtitle": "Purple Glow isn't just translated—it's culturally aware. From township slang to corporate Afrikaans.",
     "aiEngine": {
       "title": "AI Content Engine",
-      "description": "Gemini 2.5 Flash + Imagen 3 powering your posts. Generate text, images, and videos that resonate with SA audiences."
+      "description": "Google Gemini Pro AI powering your posts. Generate engaging text content that resonates with SA audiences."
     },
     "multilingual": {
       "title": "11 Languages, One Platform",
@@ -36,7 +36,7 @@
     },
     "step2": {
       "title": "AI Generates Content",
-      "description": "Our Gemini-powered engine creates platform-optimized posts with images in seconds."
+      "description": "Our Gemini-powered engine creates platform-optimized posts in seconds."
     },
     "step3": {
       "title": "Schedule & Post",
@@ -83,7 +83,7 @@
       "badge": "Most Popular",
       "features": [
         "Unlimited Text Generation",
-        "50 Image Credits / month",
+        "500 Content Generation Credits",
         "5 Social Profiles",
         "Smart Scheduling",
         "11 Language Translation",
@@ -95,7 +95,7 @@
       "name": "The Mogul",
       "features": [
         "Everything in Creator",
-        "200 Image & Video Credits",
+        "2000 Content Generation Credits",
         "Unlimited Profiles",
         "Team Collaboration (3 Seats)",
         "AI Automation Rules",
@@ -106,7 +106,7 @@
   },
   "credits": {
     "title": "Need extra firepower?",
-    "subtitle": "Running low on image or video credits? Top up instantly without changing your subscription.",
+    "subtitle": "Running low on content generation credits? Top up instantly without changing your subscription.",
     "packages": {
       "100": "100 Credits",
       "500": "500 Credits",
@@ -190,7 +190,8 @@
     "back": "Back",
     "logout": "Logout",
     "goToDashboard": "Go to Dashboard",
-    "backToLanding": "Back to Landing"
+    "backToLanding": "Back to Landing",
+    "language": "Language"
   },
   "scheduleModal": {
     "title": "Schedule Post",

@@ -17,7 +17,7 @@
     "subtitle": "Purple Glow ayihundzululwanga nje kuphela—iyati ngemasiko. Kusukela elilwimini letfutfukile kuya ku-Afrikaans webubhizinisi.",
     "aiEngine": {
       "title": "Injini Yeludzaba lwe-AI",
-      "description": "Gemini 2.5 Flash + Imagen 3 iniketa emandla emaphosti akho. Khicita umbhalo, tifaniso netividiyo letihambisana nebalaleli baseNingizimu Afrika."
+      "description": "Gemini 2.5 Flash iniketa emandla emaphosti akho. Khicita umbhalo lotihambisana nebalaleli baseNingizimu Afrika."
     },
     "multilingual": {
       "title": "Tilulwimi te-11, Inkundla yinye",
@@ -184,7 +184,8 @@
     "back": "Emuva",
     "logout": "Phuma",
     "goToDashboard": "Hamba kuDashboard",
-    "backToLanding": "Buyela Ekhaya"
+    "backToLanding": "Buyela Ekhaya",
+    "language": "Lulwimi"
   },
   "scheduleModal": {
     "title": "Hlela Kuposta",

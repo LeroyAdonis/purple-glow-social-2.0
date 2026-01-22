@@ -4,25 +4,38 @@ import { useSession } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import DashboardClient from './dashboard-client';
+import { logger } from '@/lib/logger';
 
 export default function DashboardClientPage() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    console.log('[Dashboard Client] Session check:', {
+    // Check cookies on mount
+    const cookies = typeof document !== 'undefined' ? document.cookie : '';
+    const hasSessionCookie = cookies.includes('better-auth.session');
+    
+    logger.auth.debug('Dashboard session check initiated', {
       isPending,
       hasSession: !!session,
+      hasSessionCookie,
       userId: session?.user?.id,
       userEmail: session?.user?.email,
-      timestamp: new Date().toISOString()
+      userName: session?.user?.name
     });
 
     if (!isPending && !session) {
-      console.log('[Dashboard Client] No session found, redirecting to login');
+      logger.auth.warn('No session found, redirecting to login', {
+        currentPath: typeof window !== 'undefined' ? window.location.pathname : '/dashboard',
+        hadSessionCookie: hasSessionCookie
+      });
       router.push('/login');
     } else if (session) {
-      console.log('[Dashboard Client] Session found, staying on dashboard');
+      logger.auth.info('Dashboard session verified', {
+        userId: session.user.id,
+        email: session.user.email,
+        name: session.user.name
+      });
     }
   }, [session, isPending, router]);
 

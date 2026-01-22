@@ -17,7 +17,7 @@
     "subtitle": "I-Purple Glow ayihunyushwe nje—iyaqonda amasiko. Kusukela eslingweni lase-township kuya ku-Afrikaans yamabhizinisi.",
     "aiEngine": {
       "title": "Injini Yokuqukethwe kwe-AI",
-      "description": "I-Gemini 2.5 Flash + Imagen 3 inikeza amandla ezithombe zakho. Khiqiza umbhalo, izithombe, namavidiyo azoxhumana nezilaleli zase-SA."
+      "description": "I-Google Gemini Pro AI inikeza amandla ezithombe zakho. Khiqiza okuqukethwe kombhalo okuhehayo okuxhumana nezilaleli zase-SA."
     },
     "multilingual": {
       "title": "Izilimi Ezingu-11, Inkundla Eyodwa",
@@ -36,7 +36,7 @@
     },
     "step2": {
       "title": "I-AI Ikhiqiza Okuqukethwe",
-      "description": "Injini yethu enikezwe amandla yi-Gemini idala izithombe ezilungiselelwe inkundla ngezithombe ngemizuzwana."
+      "description": "Injini yethu enikezwe amandla yi-Gemini idala izithombe ezilungiselelwe inkundla ngemizuzwana."
     },
     "step3": {
       "title": "Hlela & Thumela",
@@ -82,7 +82,7 @@
       "badge": "Kudumile Kakhulu",
       "features": [
         "Ukukhiqizwa Kombhalo Okungenamkhawulo",
-        "Amakhredithi Ezithombe Angu-50 / nyanga",
+        "Amakhredithi Okukhiqiza Okuqukethwe Angu-500",
         "Amaphrofayela Ezokuxhumana Angu-5",
         "Ukuhlela Okuhlakaniphile",
         "Ukuhumusha Izilimi Ezingu-11",
@@ -94,7 +94,7 @@
       "name": "I-Mogul",
       "features": [
         "Konke Ku-Creator",
-        "Amakhredithi Esithombe Nevidiyo Angu-200",
+        "Amakhredithi Okukhiqiza Okuqukethwe Angu-2000",
         "Amaphrofayela Angenamkhawulo",
         "Ukusebenzisana Kweqembu (Izihlalo Ezingu-3)",
         "Imithetho Yokuzenzakalela Kwe-AI",
@@ -105,7 +105,7 @@
   },
   "credits": {
     "title": "Udinga amandla engeziwe?",
-    "subtitle": "Amanani wesithombe noma ividiyo mancane? Gcwalisa ngokushesha ngaphandle kokushintsha okubhaliselwe.",
+    "subtitle": "Amakhredithi okukhiqiza okuqukethwe mancane? Gcwalisa ngokushesha ngaphandle kokushintsha okubhaliselwe.",
     "packages": {
       "100": "Amakhredithi Angu-100",
       "500": "Amakhredithi Angu-500",
@@ -184,7 +184,8 @@
     "back": "Emuva",
     "logout": "Phuma",
     "goToDashboard": "Iya ku-Dashboard",
-    "backToLanding": "Buyela Ekhaya"
+    "backToLanding": "Buyela Ekhaya",
+    "language": "Ulimi"
   },
   "scheduleModal": {
     "title": "Hlela Ukuthumela",

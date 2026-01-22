@@ -17,7 +17,7 @@
     "subtitle": "Purple Glow a yo ngo pindululwa fhedzi—i khou pfesesa mvelele. U bva kha luambo lwa doropo hu ya kha Afurikana ha maga zwa vhubindudzi.",
     "aiEngine": {
       "title": "Tshienjini tsha Zwinwe zwa AI",
-      "description": "Gemini 2.5 Flash + Imagen 3 zwo ita uri zwiposo zwavho zwi vhe khwine. Bveledzani nyathiso, zwifanyiso na divhidhiyo zwi re khwine kha vhavhali vha SA."
+      "description": "Gemini 2.5 Flash zwo ita uri zwiposo zwavho zwi vhe khwine. Bveledzani nyathiso zwi re khwine kha vhavhali vha SA."
     },
     "multilingual": {
       "title": "Nyambo 11, Pulatifomu Ithihi",
@@ -184,7 +184,8 @@
     "back": "Murahu",
     "logout": "Bvani",
     "goToDashboard": "Yani kha Dashboard",
-    "backToLanding": "Vhuyelelani Murahu"
+    "backToLanding": "Vhuyelelani Murahu",
+    "language": "Luambo"
   },
   "scheduleModal": {
     "title": "Dzhielani Pfunzo u Rumela",

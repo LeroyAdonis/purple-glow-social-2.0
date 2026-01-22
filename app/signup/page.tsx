@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { signUp, signIn } from '../../lib/auth-client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { logger } from '@/lib/logger';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -42,7 +43,11 @@ export default function SignUpPage() {
       
       router.push('/dashboard');
     } catch (err: any) {
-      console.error('Sign-up error:', err);
+      logger.auth.exception(err, { 
+        action: 'email-signup', 
+        email,
+        hasName: !!name
+      });
       setError(err.message || 'Failed to create account');
     } finally {
       setIsLoading(false);
@@ -59,7 +64,10 @@ export default function SignUpPage() {
         callbackURL: '/dashboard',
       });
     } catch (err: any) {
-      console.error('Google sign-up error:', err);
+      logger.auth.exception(err, { 
+        action: 'google-oauth-signup',
+        provider: 'google'
+      });
       setError('Failed to sign up with Google');
       setIsLoading(false);
     }

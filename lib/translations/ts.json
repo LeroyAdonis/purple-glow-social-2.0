@@ -17,7 +17,7 @@
     "subtitle": "Purple Glow a yi hundzuluxiwanga ntsena—yi twisisa ndhavuko. Ku suka eka ririmi ra matilweni ku ya eka Xifrikanse xa mabindzu.",
     "aiEngine": {
       "title": "Muchini wa Nhundzu wa AI",
-      "description": "Gemini 2.5 Flash + Imagen 3 yi hlohlotela switsundzuxo swa wena. Endla matsalwa, swifaniso na tivhidiyo leswi fambelanaka na vayingiseri va SA."
+      "description": "Google Gemini Pro AI yi hlohlotela switsundzuxo swa wena. Endla nhundzu wa matsalwa lowu tsakisaka lowu fambelanaka na vayingiseri va SA."
     },
     "multilingual": {
       "title": "Tindzimi ta 11, Pulatifomo Yin'we",
@@ -36,7 +36,7 @@
     },
     "step2": {
       "title": "AI yi Endla Nhundzu",
-      "description": "Muchini wa hina lowu hlohloteliwaka hi Gemini wu endla switsundzuxo leswi lunghiseteriweke pulatifomo na swifaniso eka tisekondzi."
+      "description": "Muchini wa hina lowu hlohloteliwaka hi Gemini wu endla switsundzuxo leswi lunghiseteriweke pulatifomo eka tisekondzi."
     },
     "step3": {
       "title": "Hlela & Rhumela",
@@ -82,7 +82,7 @@
       "badge": "Yi Randziwile Swinene",
       "features": [
         "Vutumbuluxi bya Matsalwa leByi nga Heli ni Mpimo",
-        "Tikhirediti ta Swifaniso ta 50 / n'hweti",
+        "Tikhirediti ta Vutumbuluxi bya Nhundzu ta 500",
         "Tiphurofayili ta Vanhu ta 5",
         "Nhlengeletano Lowu nga ni Vutlhari",
         "Vuhundzuluxi bya Tindzimi ta 11",
@@ -94,7 +94,7 @@
       "name": "Mogul",
       "features": [
         "Hinkwaswo eka Creator",
-        "Tikhirediti ta Swifaniso na Tivhidiyo ta 200",
+        "Tikhirediti ta Vutumbuluxi bya Nhundzu ta 2000",
         "Tiphurofayili Leti nga Heli ni Mpimo",
         "Ntirhisano wa Ntlawa (Switsulu swa 3)",
         "Milawu ya Ku Titirha ya AI",
@@ -105,7 +105,7 @@
   },
   "credits": {
     "title": "U lava matimba yo engetela?",
-    "subtitle": "Tikhirediti ta swifaniso kumbe tivhidiyo swi herile? Tata hi ku hatlisa handle ko cinca vungenisi bya wena.",
+    "subtitle": "Tikhirediti ta vutumbuluxi bya nhundzu swi herile? Tata hi ku hatlisa handle ko cinca vungenisi bya wena.",
     "packages": {
       "100": "Tikhirediti ta 100",
       "500": "Tikhirediti ta 500",
@@ -184,7 +184,8 @@
     "back": "Endzhaku",
     "logout": "Huma",
     "goToDashboard": "Famba eka Dashboard",
-    "backToLanding": "Tlhelela Endzhaku"
+    "backToLanding": "Tlhelela Endzhaku",
+    "language": "Ririmi"
   },
   "scheduleModal": {
     "title": "Hlela Ku Rhumela",

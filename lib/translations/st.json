@@ -17,7 +17,7 @@
     "subtitle": "Purple Glow ha se feela e fetoletsweng—e utlwisisa setso. Ho tloha puong ya metse ho ya ho Seafrikanse sa dikgwebo.",
     "aiEngine": {
       "title": "Enjine ya Dikahare tsa AI",
-      "description": "Gemini 2.5 Flash + Imagen 3 e matlafatsa diposo tsa hao. Hlahisa mongolo, ditshwantsho le divideo tse tshwanang le babadi ba SA."
+      "description": "Google Gemini Pro AI e matlafatsa diposo tsa hao. Hlahisa dikahare tsa mongolo tse kgahlehang tse tshwanang le babadi ba SA."
     },
     "multilingual": {
       "title": "Lipuo tse 11, Sethala se le Seng",
@@ -36,7 +36,7 @@
     },
     "step2": {
       "title": "AI e Hlahisa Dikahare",
-      "description": "Enjine ya rona e matlafaditswe ke Gemini e hlahisa diposo tse hlophisitsweng ka sethala ka ditshwantsho ka metsotswana."
+      "description": "Enjine ya rona e matlafaditswe ke Gemini e hlahisa diposo tse hlophisitsweng ka sethala ka metsotswana."
     },
     "step3": {
       "title": "Hlophisa & Posa",
@@ -82,7 +82,7 @@
       "badge": "O Ratwang Haholo",
       "features": [
         "Tlhahiso ya Mongolo e sa Feleng",
-        "Dikhrediti tsa Ditshwantsho tse 50 / kgwedi",
+        "Dikhrediti tsa Tlhahiso ya Dikahare tse 500",
         "Diporofaele tsa Setjhaba tse 5",
         "Tlhophiso e Bohlale",
         "Phetolelo ya Lipuo tse 11",
@@ -94,7 +94,7 @@
       "name": "Mogul",
       "features": [
         "Tsohle tsa ho Creator",
-        "Dikhrediti tsa Ditshwantsho le Divideo tse 200",
+        "Dikhrediti tsa Tlhahiso ya Dikahare tse 2000",
         "Diporofaele tse sa Feleng",
         "Tshebedisano ya Sehlopha (Ditulo tse 3)",
         "Melao ya Itshebetso ya AI",
@@ -105,7 +105,7 @@
   },
   "credits": {
     "title": "O hloka matla a eketsehileng?",
-    "subtitle": "Dikhrediti tsa ditshwantsho kapa divideo di a fela? Tlatsa kapele ntle le ho fetola ngodiso ya hao.",
+    "subtitle": "Dikhrediti tsa tlhahiso ya dikahare di a fela? Tlatsa kapele ntle le ho fetola ngodiso ya hao.",
     "packages": {
       "100": "Dikhrediti tse 100",
       "500": "Dikhrediti tse 500",
@@ -184,7 +184,8 @@
     "back": "Morao",
     "logout": "Tswa",
     "goToDashboard": "Eya Dashboard",
-    "backToLanding": "Kgutlela Morao"
+    "backToLanding": "Kgutlela Morao",
+    "language": "Puo"
   },
   "scheduleModal": {
     "title": "Hlophisa Poso",

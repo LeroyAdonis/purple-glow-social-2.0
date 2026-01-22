@@ -17,7 +17,7 @@
     "subtitle": "I-Purple Glow ayiguqulelwanga nje—iyaqonda inkcubeko. Ukusuka kwislang yaselokishini ukuya kwisiAfrikaans seshishini.",
     "aiEngine": {
       "title": "Injini Yomxholo we-AI",
-      "description": "I-Gemini 2.5 Flash + Imagen 3 inika amandla izithuba zakho. Yenza umbhalo, imifanekiso, nevidiyo ehambelana nabaphulaphuli baseMzansi."
+      "description": "I-Google Gemini Pro AI inika amandla izithuba zakho. Yenza umxholo wombhalo onomdla ohambelana nabaphulaphuli baseMzansi."
     },
     "multilingual": {
       "title": "Iilwimi Ezili-11, Iqonga Elinye",
@@ -36,7 +36,7 @@
     },
     "step2": {
       "title": "I-AI Yenza Umxholo",
-      "description": "Injini yethu enikwe amandla yi-Gemini yenza izithuba ezilungiselelwe iqonga ngemifanekiso ngemizuzwana."
+      "description": "Injini yethu enikwe amandla yi-Gemini yenza izithuba ezilungiselelwe iqonga ngemizuzwana."
     },
     "step3": {
       "title": "Cwangcisa & Thumela",
@@ -82,7 +82,7 @@
       "badge": "Ethandwa Kakhulu",
       "features": [
         "Ukwenziwa Kombhalo Okungenamkhawulo",
-        "Iikhredithi Zemifanekiso Ezingama-50 / nyanga",
+        "Iikhredithi Zokuvelisa Umxholo Ezingama-500",
         "Iiprofayile Zoluntu Ezi-5",
         "Ucwangciso Oluhlakaniphile",
         "Uguqulelo Lweelwimi Ezili-11",
@@ -94,7 +94,7 @@
       "name": "I-Mogul",
       "features": [
         "Konke Ku-Creator",
-        "Iikhredithi Zemifanekiso Nevidiyo Ezingama-200",
+        "Iikhredithi Zokuvelisa Umxholo Ezingama-2000",
         "Iiprofayile Ezingenamkhawulo",
         "Intsebenziswano Yeqela (Izihlalo Ezi-3)",
         "Imithetho Yokuzenzekela Kwe-AI",
@@ -105,7 +105,7 @@
   },
   "credits": {
     "title": "Ufuna amandla ongezelelweyo?",
-    "subtitle": "Ziincinci iikhredithi zemifanekiso okanye zevidiyo? Gcwalisa ngokukhawuleza ngaphandle kokutshintsha ubhaliso lwakho.",
+    "subtitle": "Ziincinci iikhredithi zokuvelisa umxholo? Gcwalisa ngokukhawuleza ngaphandle kokutshintsha ubhaliso lwakho.",
     "packages": {
       "100": "Iikhredithi Ezili-100",
       "500": "Iikhredithi Ezingama-500",
@@ -184,7 +184,8 @@
     "back": "Emva",
     "logout": "Phuma",
     "goToDashboard": "Yiya kwiDashboard",
-    "backToLanding": "Buyela Ekhaya"
+    "backToLanding": "Buyela Ekhaya",
+    "language": "Ulwimi"
   },
   "scheduleModal": {
     "title": "Cwangcisa Ukuthumela",

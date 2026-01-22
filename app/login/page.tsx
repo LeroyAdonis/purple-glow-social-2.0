@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { signIn } from '../../lib/auth-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { logger } from '../../lib/logger';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,11 +19,10 @@ export default function LoginPage() {
 
   // Debug environment on mount
   React.useEffect(() => {
-    console.log('[Login] Environment check:', {
-      baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
+    logger.auth.debug('Login page loaded', {
+      hasAuthURL: !!process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
       isProduction: typeof window !== 'undefined' && window.location.hostname.includes('vercel.app'),
-      redirectTo,
-      timestamp: new Date().toISOString()
+      redirectTo
     });
   }, [redirectTo]);
 
@@ -32,7 +32,10 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      console.log('[Login] Attempting sign in with:', { email, callbackURL: redirectTo });
+      logger.auth.info('Login attempt started', { 
+        email,
+        redirectTo
+      });
 
       const result = await signIn.email({
         email,
@@ -40,28 +43,48 @@ export default function LoginPage() {
         callbackURL: redirectTo,
       });
 
-      console.log('[Login] Sign in result:', JSON.stringify(result, null, 2));
+      logger.auth.debug('Sign in API response received', { 
+        hasError: !!result?.error,
+        errorMessage: result?.error?.message
+      });
       
-      // Check if sign in was successful
+      // Check if sign in failed with an error
       if (result?.error) {
-        console.error('[Login] Sign in failed:', result.error);
-        setError(result.error.message || 'Sign in failed');
+        logger.auth.warn('Login failed', { email, error: result.error.message });
+        setError(result.error.message || 'Invalid email or password');
         setIsLoading(false);
         return;
       }
 
-      // Only redirect if we got a successful result
-      if (result?.data) {
-        console.log('[Login] Sign in successful, redirecting to:', redirectTo);
-        router.push(redirectTo);
-      } else {
-        console.warn('[Login] Unexpected result format:', result);
-        setError('Unexpected response from server');
+      // Check for session cookie
+      const sessionCookie = document.cookie.split('; ').find(row => 
+        row.startsWith('better-auth.session_token') || 
+        row.startsWith('better-auth.session')
+      );
+
+      logger.auth.debug('Session cookie check', { found: !!sessionCookie });
+
+      if (!sessionCookie) {
+        logger.auth.error('Session cookie not created after successful login', { 
+          email,
+          cookieCount: document.cookie.split('; ').length
+        });
+        setError('Authentication succeeded but session was not created. Please check your browser settings and try again.');
         setIsLoading(false);
+        return;
       }
+
+      logger.auth.info('Login successful', { email, redirectTo });
+      
+      // Wait for cookie to propagate (increased from 100ms to 200ms)
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
+      // Use window.location.href for a full page reload to ensure cookies are sent
+      // This is more reliable than router.push() for cookie-based auth
+      window.location.href = redirectTo;
     } catch (err: any) {
-      console.error('[Login] Sign in error:', err);
-      setError(err.message || 'Invalid email or password');
+      logger.auth.exception(err, { action: 'email-login', email });
+      setError(err.message || 'An error occurred during login. Please try again.');
       setIsLoading(false);
     }
   };
@@ -77,9 +100,9 @@ export default function LoginPage() {
     } catch (err: any) {
       // FedCM AbortError is expected when user closes popup or navigates away
       if (err?.message?.includes('AbortError') || err?.name === 'AbortError') {
-        console.log('Google sign-in cancelled by user');
+        logger.auth.debug('Google sign-in cancelled by user');
       } else {
-        console.error('Google sign-in error:', err);
+        logger.auth.exception(err, { action: 'google-oauth-login' });
         setError('Failed to sign in with Google. Please try again.');
       }
       setIsLoading(false);

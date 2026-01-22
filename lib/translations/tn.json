@@ -17,7 +17,7 @@
     "subtitle": "Purple Glow ga se feela go ranolwa—e tlhaloganya setso. Go tswa mo puong ya metse go ya go Seafrikanse sa dikgwebo.",
     "aiEngine": {
       "title": "Enjini ya Diteng tsa AI",
-      "description": "Gemini 2.5 Flash + Imagen 3 e matlafalatsa diposo tsa gago. Tlhama mokwalo, ditshwantsho le dibidio tse di ikamanyetsang le babogedi ba SA."
+      "description": "Google Gemini Pro AI e matlafalatsa diposo tsa gago. Tlhama diteng tsa mokwalo tse di kgatlhang tse di ikamanyetsang le babogedi ba SA."
     },
     "multilingual": {
       "title": "Dipuo tse 11, Sethala se le Sengwe",
@@ -36,7 +36,7 @@
     },
     "step2": {
       "title": "AI e Tlhama Diteng",
-      "description": "Enjini ya rona e e matlhafalatswang ke Gemini e tlhama diposo tse di rulagantsweng go ya ka sethala ka ditshwantsho mo metsotsong."
+      "description": "Enjini ya rona e e matlhafalatswang ke Gemini e tlhama diposo tse di rulagantsweng go ya ka sethala mo metsotsong."
     },
     "step3": {
       "title": "Rulaganya & Posa",
@@ -82,7 +82,7 @@
       "badge": "O Rategang Thata",
       "features": [
         "Tlhagiso ya Mokwalo e e sa Feleng",
-        "Dikhrediti tsa Ditshwantsho tse 50 / kgwedi",
+        "Dikhrediti tsa Tlhagiso ya Diteng tse 500",
         "Diporofaele tsa Loago tse 5",
         "Thulaganyo e e Botlhale",
         "Thanolo ya Dipuo tse 11",
@@ -94,7 +94,7 @@
       "name": "Mogul",
       "features": [
         "Tsotlhe tsa mo go Creator",
-        "Dikhrediti tsa Ditshwantsho le Dibidio tse 200",
+        "Dikhrediti tsa Tlhagiso ya Diteng tse 2000",
         "Diporofaele tse di sa Feleng",
         "Tirisanommogo ya Setlhopha (Ditilo tse 3)",
         "Melao ya Itirisetso ya AI",
@@ -105,7 +105,7 @@
   },
   "credits": {
     "title": "O tlhoka maatla a a oketsegileng?",
-    "subtitle": "Dikhrediti tsa ditshwantsho kgotsa dibidio di a fela? Tlatsa ka bonako ntle le go fetola ngwadiso ya gago.",
+    "subtitle": "Dikhrediti tsa tlhagiso ya diteng di a fela? Tlatsa ka bonako ntle le go fetola ngwadiso ya gago.",
     "packages": {
       "100": "Dikhrediti tse 100",
       "500": "Dikhrediti tse 500",
@@ -184,7 +184,8 @@
     "back": "Morago",
     "logout": "Tswa",
     "goToDashboard": "Ya kwa Dashboard",
-    "backToLanding": "Boela Morago"
+    "backToLanding": "Boela Morago",
+    "language": "Puo"
   },
   "scheduleModal": {
     "title": "Rulaganya Poso",

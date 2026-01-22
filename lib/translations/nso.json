@@ -17,7 +17,7 @@
     "subtitle": "Purple Glow ga e fetolele fela—e kwešiša setšo. Go tloga polelong ya ditšhabeng go ya go Seafrikanse sa dikgwebo.",
     "aiEngine": {
       "title": "Entšene ya Dikagare tša AI",
-      "description": "Gemini 2.5 Flash + Imagen 3 e matlafatša dikgatišo tša gago. Tšweletša mongwalo, diswantšho le dibidio tšeo di swanetšego batheeletši ba SA."
+      "description": "Google Gemini Pro AI e matlafatša dikgatišo tša gago. Tšweletša dikagare tša mongwalo tše di kgahlišago tšeo di swanetšego batheeletši ba SA."
     },
     "multilingual": {
       "title": "Maleme a 11, Sethala se Tee",
@@ -36,7 +36,7 @@
     },
     "step2": {
       "title": "AI e Tšweletša Dikagare",
-      "description": "Entšene ya rena yeo e matlafatšwago ke Gemini e hlola dikgatišo tšeo di rulagantšwego go ya ka sethala ka diswantšho ka metsotswana."
+      "description": "Entšene ya rena yeo e matlafatšwago ke Gemini e hlola dikgatišo tšeo di rulagantšwego go ya ka sethala ka metsotswana."
     },
     "step3": {
       "title": "Beakanya & Romela",
@@ -82,7 +82,7 @@
       "badge": "Yo a Ratuwago Kudu",
       "features": [
         "Tlhagiso ya Mongwalo yeo e se nago Moedi",
-        "Dipointing tša Diswantšho tše 50 / kgwedi",
+        "Dipointing tša Tlhagiso ya Dikagare tše 500",
         "Diporofile tša Leago tše 5",
         "Thulaganyo ya Bohlale",
         "Phetolelo ya Maleme a 11",
@@ -94,7 +94,7 @@
       "name": "Mogul",
       "features": [
         "Tšohle tša go Creator",
-        "Dipointing tša Diswantšho le Dibidio tše 200",
+        "Dipointing tša Tlhagiso ya Dikagare tše 2000",
         "Diporofile tša go se Fele",
         "Tšhomišano ya Sehlopha (Dihlale tše 3)",
         "Melao ya Itiriš ya AI",
@@ -105,7 +105,7 @@
   },
   "credits": {
     "title": "O hloka maatla a tlaleletšo?",
-    "subtitle": "Dipointing tša diswantšho goba dibidio di a fela? Tlatša ka pela ntle le go fetola ngwadišo ya gago.",
+    "subtitle": "Dipointing tša tlhagiso ya dikagare di a fela? Tlatša ka pela ntle le go fetola ngwadišo ya gago.",
     "packages": {
       "100": "Dipointing tše 100",
       "500": "Dipointing tše 500",
@@ -184,7 +184,8 @@
     "back": "Morago",
     "logout": "Tswa",
     "goToDashboard": "Eya go Dashibodo",
-    "backToLanding": "Boela Morago"
+    "backToLanding": "Boela Morago",
+    "language": "Leleme"
   },
   "scheduleModal": {
     "title": "Beakanya Poso",
