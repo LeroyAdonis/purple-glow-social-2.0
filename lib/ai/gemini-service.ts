@@ -174,12 +174,153 @@ export class GeminiService {
       }
     }
     
-    // Return last result even if quality is low (after max retries)
-    logger.ai.error('Max retries reached, returning last result', {
+    // STRICT ENFORCEMENT: If still over-limit after retries, regenerate with emergency fallback
+    if (lastResult?.validation && !lastResult.validation.withinLimit) {
+      logger.ai.error('Content still over-limit after max retries - using emergency short generation', {
+        characterCount: lastResult.validation.characterCount,
+        platform: params.platform,
+      });
+      
+      // Emergency regeneration with ultra-short constraints
+      return await this.generateEmergencyShortContent(params);
+    }
+    
+    // Return last result if quality is low but within limits
+    logger.ai.warn('Max retries reached, returning last result (within limits but low quality)', {
       characterCount: lastResult?.validation?.characterCount,
       qualityScore: lastResult?.validation?.qualityScore,
     });
     return lastResult!;
+  }
+  
+  /**
+   * Emergency fallback for over-limit content
+   * Generates extremely concise content guaranteed to fit
+   */
+  private async generateEmergencyShortContent(
+    params: GenerateContentParams
+  ): Promise<GeneratedContent> {
+    const platformLimits: Record<string, number> = {
+      twitter: 280,
+      instagram: 2200,
+      facebook: 2000,
+      linkedin: 3000,
+    };
+    
+    const limit = platformLimits[params.platform] || 280;
+    const targetLength = Math.floor(limit * 0.8); // Aim for 80% of limit
+    
+    logger.ai.info('Emergency short generation', {
+      platform: params.platform,
+      targetLength,
+      hardLimit: limit,
+    });
+    
+    // Ultra-concise prompt
+    const emergencyPrompt = `Generate a VERY SHORT ${params.platform} post about "${params.topic}" in ${params.language}.
+
+CRITICAL CONSTRAINT: Maximum ${targetLength} characters total (including hashtags and emojis).
+
+ULTRA-CONCISE REQUIREMENTS:
+- Single sentence or two short sentences maximum
+- ${params.includeHashtags ? '1-2 hashtags only' : 'No hashtags'}
+- ${params.includeEmojis ? '1-2 emojis maximum' : 'No emojis'}
+- Direct and punchy message
+- Professional ${params.tone || 'friendly'} tone
+
+Target length: ${targetLength} characters
+Hard limit: ${limit} characters
+
+Generate ONLY the post text, nothing else:`;
+    
+    try {
+      const response = await this.callGeminiAPI(emergencyPrompt);
+      const content = response.trim();
+      
+      // Validate emergency content
+      const validation = validateContent(content, params.platform, params.language);
+      
+      // Extract hashtags if present
+      const hashtagMatches = content.match(/#\w+/g);
+      const hashtags = hashtagMatches || [];
+      
+      if (!validation.withinLimit) {
+        // Last resort: hard truncate with intelligent boundary
+        logger.ai.error('Emergency content still over-limit - hard truncating', {
+          length: content.length,
+          limit,
+        });
+        
+        const truncated = this.intelligentTruncate(content, limit);
+        const truncatedValidation = validateContent(truncated, params.platform, params.language);
+        
+        return {
+          content: truncated,
+          hashtags,
+          validation: truncatedValidation,
+        };
+      }
+      
+      return {
+        content,
+        hashtags,
+        validation,
+      };
+    } catch (error) {
+      logger.ai.error('Emergency generation failed', { error });
+      throw new Error('Failed to generate compliant content after all retry strategies');
+    }
+  }
+  
+  /**
+   * Intelligent truncation that preserves meaning
+   * Only used as absolute last resort
+   */
+  private intelligentTruncate(content: string, maxLength: number): string {
+    if (content.length <= maxLength) return content;
+    
+    // Extract and preserve hashtags
+    const hashtagRegex = /#\w+/g;
+    const hashtags = content.match(hashtagRegex) || [];
+    const mainContent = content.replace(hashtagRegex, '').trim();
+    
+    // Calculate available space for main content
+    const hashtagText = hashtags.length > 0 ? ' ' + hashtags.slice(0, 2).join(' ') : '';
+    const ellipsis = '...';
+    const available = maxLength - hashtagText.length - ellipsis.length - 1;
+    
+    if (available < 50) {
+      // Not enough space for meaningful content
+      return content.substring(0, maxLength - 3) + '...';
+    }
+    
+    // Try to preserve complete sentences
+    const sentences = mainContent.split(/(?<=[.!?])\s+/);
+    let truncated = '';
+    
+    for (const sentence of sentences) {
+      const test = truncated + (truncated ? ' ' : '') + sentence;
+      if (test.length <= available) {
+        truncated = test;
+      } else {
+        break;
+      }
+    }
+    
+    // If no complete sentences fit, truncate at word boundary
+    if (!truncated && mainContent.length > available) {
+      const words = mainContent.split(/\s+/);
+      for (const word of words) {
+        const test = truncated + (truncated ? ' ' : '') + word;
+        if (test.length <= available) {
+          truncated = test;
+        } else {
+          break;
+        }
+      }
+    }
+    
+    return (truncated || mainContent.substring(0, available)) + ellipsis + hashtagText;
   }
 
   /**
@@ -311,6 +452,42 @@ export class GeminiService {
     };
 
     return prompts[platform] ?? prompts.facebook!;
+  }
+
+  /**
+   * Raw API call to Gemini (extracted for reuse)
+   */
+  private async callGeminiAPI(prompt: string): Promise<string> {
+    const response = await withTimeout(
+      fetch(`${this.baseUrl}?key=${this.apiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: prompt,
+            }],
+          }],
+          generationConfig: {
+            temperature: 0.7,
+            topP: 0.9,
+            topK: 40,
+            maxOutputTokens: 1024,
+          },
+        }),
+      }),
+      30000 // 30 second timeout
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error?.message || 'Failed to generate content');
+    }
+
+    const data = await response.json();
+    return data.candidates[0]?.content?.parts[0]?.text || '';
   }
 
   /**

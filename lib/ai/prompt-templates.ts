@@ -256,7 +256,28 @@ REQUIREMENTS CHECKLIST:
 ✅ ${includeEmojis ? 'Use emojis naturally (count toward character limit)' : 'NO emojis'}
 ✅ ${callToAction ? `Include CTA: ${callToAction}` : 'Natural call to action'}
 
-⚠️ CRITICAL: Count your characters carefully. If content exceeds ${platformSpec.charLimit} chars, you MUST shorten it.
+═══════════════════════════════════════════════════════════════
+                    ⚠️  CHARACTER BUDGET ⚠️
+═══════════════════════════════════════════════════════════════
+
+YOU HAVE EXACTLY ${platformSpec.charLimit} CHARACTERS AVAILABLE.
+
+CHARACTER COUNTING RULES (MANDATORY):
+1. Count EVERY character: letters, spaces, punctuation, emojis, hashtags
+2. Each emoji counts as 1-2 characters depending on complexity
+3. Each hashtag counts: # + tag name + space before it
+4. Newlines count as 1 character each
+
+VALIDATION BEFORE SUBMISSION:
+Before generating, mentally allocate your character budget:
+- Main message: ~${Math.floor(platformSpec.charLimit * 0.7)} chars
+- Hashtags (${platformSpec.hashtagLimit} tags): ~${platformSpec.hashtagLimit * 12} chars
+- Emojis and spacing: ~${Math.floor(platformSpec.charLimit * 0.15)} chars
+- Safety buffer: ${Math.floor(platformSpec.charLimit * 0.05)} chars
+
+⛔ REJECTION CRITERIA:
+Content exceeding ${platformSpec.charLimit} characters will be REJECTED and you will be asked to try again.
+Aim for ${Math.floor(platformSpec.charLimit * 0.95)} characters or less to ensure compliance.
 
 Generate the post now:`;
 
