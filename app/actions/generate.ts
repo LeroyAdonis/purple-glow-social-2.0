@@ -9,6 +9,8 @@ import { neon } from "@neondatabase/serverless";
 import { posts, user } from "../../drizzle/schema";
 import * as schema from "../../drizzle/schema";
 import { GeminiService } from "../../lib/ai/gemini-service";
+import { ensureWithinLimit } from "../../lib/ai/content-truncator";
+import { generateImageWithNanoBanana } from "../../lib/ai/nano-banana-service";
 import { eq, sql } from "drizzle-orm";
 
 // Only initialize database if DATABASE_URL is a real connection string
@@ -76,43 +78,41 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
     else if (vibe.includes('Cool') || vibe.includes('Slang')) tone = 'casual';
     else if (vibe.includes('Bold')) tone = 'energetic';
 
-    const contentResult = await geminiService.generateContent({
+    // Use generateContentWithRetry for automatic quality checking and regeneration
+    const contentResult = await geminiService.generateContentWithRetry({
       topic,
       platform,
       language, // Use language from user's selection
       tone,
       includeHashtags: true,
       includeEmojis: true,
-    });
+    }, 3); // Max 3 retries for over-limit or low-quality content
     
-    const generatedText = contentResult.content + '\n\n' + contentResult.hashtags.join(' ');
+    // FIX: Don't concatenate hashtags - they're already in content
+    // Apply final safety truncation as absolute fallback
+    const generatedText = ensureWithinLimit(contentResult.content, platform);
 
-    // 3. Generate Image with Pollinations.ai (free, no API key, no geo-restrictions)
+    // 3. Generate Image with Nano Banana (Gemini CLI)
     let imageUrl = null;
 
     try {
-      // Platform-specific dimensions
-      const dimensions: Record<string, { width: number; height: number }> = {
-        instagram: { width: 1024, height: 1024 },
-        facebook: { width: 1200, height: 630 },
-        twitter: { width: 1200, height: 675 },
-        linkedin: { width: 1200, height: 627 },
-      };
-
-      const dim = (dimensions[platform] ?? dimensions.instagram)!;
-      const { width, height } = dim;
-
-      // Create image prompt with South African context
-      const imagePrompt = `Professional social media photo for ${platform}: ${topic}. South African context, vibrant colors, modern, high quality, photorealistic. Style: ${vibe}`;
+      // Generate image using Gemini CLI nanobanana extension
+      const imageResult = await generateImageWithNanoBanana({
+        topic,
+        platform,
+        vibe,
+        language,
+      });
       
-      // Pollinations.ai URL-based API (no authentication needed)
-      const encodedPrompt = encodeURIComponent(imagePrompt);
-      imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${width}&height=${height}&model=flux&nologo=true&seed=${Date.now()}`;
-      
-      // Image URL generated successfully
+      if (imageResult.success && imageResult.imageUrl) {
+        imageUrl = imageResult.imageUrl;
+      } else {
+        // Log the error but continue without image (non-critical)
+        console.warn("Image generation failed:", imageResult.error);
+      }
     } catch (imgError: unknown) {
       // Continue without image - non-critical error
-      // Continue without image
+      console.warn("Image generation error:", imgError);
     }
 
     // 4. Save Draft to Database and Deduct Credits
