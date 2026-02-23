@@ -73,7 +73,7 @@ export function validateContent(
   const isOptimalLength = limits ? (characterCount >= limits.optimal.min && characterCount <= limits.optimal.max) : false;
   
   if (!withinLimit && limits) {
-    issues.push(`Content exceeds ${platform} character limit (${characterCount}/${limits.max})`);
+    issues.push(`Content EXCEEDS ${platform} character limit (${characterCount}/${limits.max}) - MUST FIX`);
   }
   
   if (limits && characterCount < limits.min) {
@@ -324,6 +324,9 @@ export function detectLanguage(content: string): { detected: string; confidence:
  * Check if content should be regenerated based on quality
  */
 export function shouldRegenerate(validation: ValidationResult): boolean {
+  // STRICT: Regenerate if exceeds character limit
+  if (!validation.withinLimit) return true;
+  
   // Regenerate if invalid or very low quality
   if (!validation.isValid) return true;
   if (validation.qualityScore < 30) return true;

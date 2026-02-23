@@ -67,7 +67,7 @@ export const TONE_INSTRUCTIONS: Record<Tone, {
   professional: {
     description: 'Polished, credible, and business-appropriate',
     wordChoices: ['expertise', 'solution', 'opportunity', 'growth', 'results', 'impact'],
-    avoid: ['slang (unless SA-specific)', 'overly casual language', 'excessive emojis'],
+    avoid: ['forced slang', 'overly casual language', 'excessive emojis', 'cheesy marketing speak'],
   },
   casual: {
     description: 'Relaxed, conversational, and approachable',
@@ -98,26 +98,18 @@ export const LANGUAGE_EXAMPLES: Record<string, {
     {
       topic: 'Weekend sale promotion',
       platform: 'instagram',
-      output: `🔥 Howzit Mzansi! This weekend is going to be LEKKER! 
+      output: `This weekend only: 50% OFF everything in store! 🎉
 
-We're dropping prices like it's hot - up to 50% OFF everything in store! 
+Valid at all locations across South Africa. Shop quality products at incredible prices.
 
-From Joburg to Cape Town, from Durban to Pretoria - we've got you covered, fam! 
+Visit us in-store or online. Limited stock available.
 
-Don't sleep on this one, come through and grab the deals before they're gone! 
-
-Sharp sharp! 🇿🇦
-
-#LocalIsLekker #MzansiDeals #WeekendSale #SouthAfrica #ShopLocal`,
+#WeekendSale #SouthAfrica #ShopLocal #SaleAlert #Deals`,
     },
     {
       topic: 'New product launch',
       platform: 'twitter',
-      output: `Eish! 🚀 Something BIG is coming to Mzansi! 
-
-Our new product drops tomorrow and trust us, it's going to be LEKKER! 
-
-RT if you're ready! #NewDrop #Mzansi #ProudlySA`,
+      output: `Excited to announce our new product launches tomorrow! Designed for South African customers. #NewProduct #Launch #Innovation`,
     },
   ],
   af: [
@@ -230,10 +222,12 @@ ${callToAction ? `🎯 CALL TO ACTION: ${callToAction}` : ''}
 
 📍 REGIONS TO REFERENCE: ${langContext.regions.slice(0, 3).join(', ')}
 
-💬 AUTHENTIC EXPRESSIONS TO USE:
+💬 AVAILABLE EXPRESSIONS (use naturally when appropriate):
    Greetings: ${langContext.greetings.slice(0, 3).join(', ')}
    Expressions: ${langContext.commonExpressions.slice(0, 5).join(', ')}
    Farewells: ${langContext.farewells.slice(0, 2).join(', ')}
+   
+   ⚠️ Only use these expressions when they fit naturally - DO NOT force them
 
 📌 CULTURAL NOTES:
    ${langContext.culturalNotes}
@@ -254,13 +248,15 @@ ${relevantExample.output}
 Create a ${platform} post about "${topic}" in ${langContext.nativeName}.
 
 REQUIREMENTS CHECKLIST:
-✅ UNDER ${platformSpec.charLimit} characters total (count carefully!)
-✅ Written in ${langContext.nativeName}${language !== 'en' ? ' (not English!)' : ''}
+✅ STRICT LIMIT: Stay UNDER ${platformSpec.charLimit} characters (including hashtags and emojis)
+✅ Written in ${langContext.nativeName}${language !== 'en' ? ' (not English!)' : ' with professional tone'}
 ✅ ${tone} tone throughout
-✅ Authentic South African cultural references
-✅ ${includeHashtags ? `Include ${platformSpec.hashtagLimit} relevant hashtags` : 'NO hashtags'}
-✅ ${includeEmojis ? 'Use emojis naturally (they count as characters!)' : 'NO emojis'}
+✅ Natural, not forced or cheesy
+✅ ${includeHashtags ? `Include ${platformSpec.hashtagLimit} relevant hashtags WITHIN the content` : 'NO hashtags'}
+✅ ${includeEmojis ? 'Use emojis naturally (count toward character limit)' : 'NO emojis'}
 ✅ ${callToAction ? `Include CTA: ${callToAction}` : 'Natural call to action'}
+
+⚠️ CRITICAL: Count your characters carefully. If content exceeds ${platformSpec.charLimit} chars, you MUST shorten it.
 
 Generate the post now:`;
 

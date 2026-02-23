@@ -140,11 +140,11 @@ export class GeminiService {
   }
 
   /**
-   * Generate content with automatic regeneration for low quality
+   * Generate content with automatic regeneration for low quality or over-limit posts
    */
   async generateContentWithRetry(
     params: GenerateContentParams,
-    maxRetries: number = 2
+    maxRetries: number = 3
   ): Promise<GeneratedContent> {
     let lastResult: GeneratedContent | null = null;
     
@@ -152,17 +152,33 @@ export class GeminiService {
       const result = await this.generateContent(params);
       lastResult = result;
       
+      // Check if we need to regenerate
       if (result.validation && !shouldRegenerate(result.validation)) {
+        logger.ai.info('Content accepted', {
+          attempt: attempt + 1,
+          qualityScore: result.validation.qualityScore,
+          characterCount: result.validation.characterCount,
+        });
         return result;
       }
       
-      logger.ai.info('Regenerating content due to low quality', {
-        attempt: attempt + 1,
-        qualityScore: result.validation?.qualityScore,
-      });
+      // Log why we're regenerating
+      if (result.validation) {
+        logger.ai.warn('Regenerating content', {
+          attempt: attempt + 1,
+          reason: !result.validation.withinLimit ? 'OVER_LIMIT' : 'LOW_QUALITY',
+          characterCount: result.validation.characterCount,
+          qualityScore: result.validation.qualityScore,
+          issues: result.validation.issues,
+        });
+      }
     }
     
-    // Return last result even if quality is low
+    // Return last result even if quality is low (after max retries)
+    logger.ai.error('Max retries reached, returning last result', {
+      characterCount: lastResult?.validation?.characterCount,
+      qualityScore: lastResult?.validation?.qualityScore,
+    });
     return lastResult!;
   }
 
