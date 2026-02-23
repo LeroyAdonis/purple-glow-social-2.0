@@ -1,14 +1,20 @@
 'use client';
 
-import React, { useActionState, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { generatePostAction } from '../app/actions/generate';
+import { generateWithPuter, isPuterAvailable } from '../lib/ai/puter-ai-service';
 import SchedulePostModal from './modals/schedule-post-modal';
 import CustomSelect from './custom-select';
 import LimitStatusBadge from './limit-status-badge';
 import { useLanguage } from '../lib/context/LanguageContext';
 
-const initialState = {
+interface GenerationState {
+    success?: boolean;
+    error?: string;
+    data?: { content: string; imageUrl?: string; postId?: string };
+}
+
+const initialState: GenerationState = {
     success: false,
     error: '',
     data: { content: '', imageUrl: '', postId: '' }
@@ -34,7 +40,8 @@ interface UserLimits {
 
 export default function ContentGenerator() {
     const { language: currentLanguage, t: translate } = useLanguage();
-    const [state, formAction, isPending] = useActionState(generatePostAction, initialState);
+    const [state, setState] = useState<GenerationState>(initialState);
+    const [isGenerating, setIsGenerating] = useState(false);
 
     // Controlled inputs to drive preview logic
     const [platform, setPlatform] = useState("instagram");
@@ -99,7 +106,7 @@ export default function ContentGenerator() {
     const platformLimits: Record<string, number> = {
         twitter: 280,
         instagram: 2200,
-        facebook: 63206,
+        facebook: 2000,
         linkedin: 3000,
     };
 
@@ -123,6 +130,66 @@ export default function ContentGenerator() {
 
     const handleSchedule = () => {
         setIsScheduleModalOpen(true);
+    };
+
+    const handleGenerate = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!prompt.trim() || !platform) return;
+        
+        setIsGenerating(true);
+        setState({ success: false, error: '', data: undefined });
+
+        try {
+            if (!isPuterAvailable()) {
+                setState({ error: "AI service is loading. Please try again in a moment." });
+                return;
+            }
+
+            const result = await generateWithPuter({
+                topic: prompt,
+                platform: platform as 'instagram' | 'twitter' | 'facebook' | 'linkedin',
+                language: currentLanguage,
+                tone: vibe,
+                includeHashtags: true,
+                includeEmojis: true,
+            });
+
+            // Save draft to server (auth check + DB + credit deduction)
+            let postId = "local-" + Date.now();
+            try {
+                const saveResponse = await fetch('/api/posts/save-draft', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        content: result.content,
+                        imageUrl: result.imageUrl,
+                        platform,
+                        topic: prompt,
+                    }),
+                });
+                if (saveResponse.ok) {
+                    const saveData = await saveResponse.json();
+                    postId = saveData.data?.postId ?? postId;
+                }
+            } catch {
+                // Non-critical — content still generated even if save fails
+                console.warn('Failed to save draft to server');
+            }
+
+            setState({
+                success: true,
+                data: {
+                    content: result.content,
+                    imageUrl: result.imageUrl,
+                    postId,
+                },
+            });
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : "Failed to generate content.";
+            setState({ error: message });
+        } finally {
+            setIsGenerating(false);
+        }
     };
 
     // --- PREVIEW RENDERERS ---
@@ -360,7 +427,7 @@ export default function ContentGenerator() {
                     <h3 className="font-display font-bold text-2xl">{translate('contentGenerator.title')}</h3>
                 </div>
 
-                <form action={formAction} className="space-y-6">
+                <form onSubmit={handleGenerate} className="space-y-6">
                     {/* Hidden field to pass language */}
                     <input type="hidden" name="language" value={currentLanguage} />
                     
@@ -442,10 +509,10 @@ export default function ContentGenerator() {
 
                     <button
                         type="submit"
-                        disabled={isPending || userLimits?.dailyGenerations.isAtLimit}
+                        disabled={isGenerating || userLimits?.dailyGenerations.isAtLimit}
                         className="w-full py-4 bg-gradient-to-r from-neon-grape to-[#5A189A] text-white font-body font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(157,78,221,0.4)] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
-                        {isPending ? (
+                        {isGenerating ? (
                             <>
                                 <i className="fa-solid fa-circle-notch animate-spin"></i> {translate('contentGenerator.generating')}
                             </>
@@ -465,26 +532,26 @@ export default function ContentGenerator() {
             {/* OUTPUT CARD */}
             <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden flex flex-col min-h-[500px] bg-black/40 backdrop-blur-xl border border-white/10">
 
-                {isPending && (
+                {isGenerating && (
                     <div className="absolute inset-0 z-20 bg-void/90 backdrop-blur-sm flex flex-col items-center justify-center text-center p-8">
                         <div className="w-20 h-20 rounded-full border-4 border-white/10 border-t-neon-grape animate-spin mb-6"></div>
                         <h4 className="font-display font-bold text-xl mb-2">Consulting the Neural Net</h4>
                         <p className="font-mono text-joburg-teal text-sm animate-pulse">Generating Text & Rendering Visuals...</p>
                         <div className="mt-8 font-mono text-xs text-gray-500">
-                            <div>AI MODEL: GEMINI 2.5 FLASH</div>
-                            <div>VISUAL MODEL: IMAGEN 3</div>
+                            <div>AI MODEL: PUTER.AI (GEMINI 2.5 FLASH)</div>
+                            <div>VISUAL MODEL: NANO BANANA</div>
                         </div>
                     </div>
                 )}
 
-                {!localContent && !isPending && (
+                {!localContent && !isGenerating && (
                     <div className="flex-1 flex flex-col items-center justify-center text-center opacity-30">
                         <i className="fa-brands fa-space-awesome text-7xl mb-6"></i>
                         <p className="font-body text-xl">{translate('common.loading')}...</p>
                     </div>
                 )}
 
-                {localContent && !isPending && (
+                {localContent && !isGenerating && (
                     <div className="flex-1 flex flex-col h-full animate-enter">
                         <div className="flex justify-between items-start mb-6 border-b border-white/10 pb-4">
                             <div className="flex items-center gap-2">

@@ -1,3 +1,6 @@
+// LEGACY: Server-side generation fallback
+// Primary generation now uses client-side Puter.js (see lib/ai/puter-ai-service.ts)
+// This server action is kept for environments where Puter.js is unavailable
 'use server';
 
 import { GoogleGenAI } from "@google/genai";
