@@ -47,10 +47,10 @@ export async function GET(request: NextRequest) {
             userName: userData?.name ?? undefined,
             userEmail: userData?.email,
             platform: error.platform,
-            topic: error.topic,
-            tone: error.tone,
-            language: error.language,
-            errorMessage: error.errorMessage,
+            topic: error.topic ?? undefined,
+            tone: error.tone ?? undefined,
+            language: error.language ?? undefined,
+            errorMessage: error.errorMessage ?? 'Unknown error',
             createdAt: error.createdAt.toISOString(),
           };
         })
@@ -84,10 +84,10 @@ export async function GET(request: NextRequest) {
             userEmail: userData?.email,
             platform: post.platform,
             content: post.content.slice(0, 200) + (post.content.length > 200 ? '...' : ''),
-            status: post.status,
-            errorMessage: post.errorMessage,
-            scheduledDate: post.scheduledDate?.toISOString() || null,
-            createdAt: post.createdAt?.toISOString() || null,
+            status: post.status ?? 'unknown',
+            errorMessage: post.errorMessage ?? undefined,
+            scheduledDate: post.scheduledDate?.toISOString() ?? undefined,
+            createdAt: post.createdAt?.toISOString() ?? undefined,
           };
         })
       );

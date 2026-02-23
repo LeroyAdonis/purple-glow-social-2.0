@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '../lib/context/LanguageContext';
 import LogoutButton from './LogoutButton';
 import LanguageSelector from './language-selector';
@@ -109,17 +110,21 @@ export default function MobileNavigation({
     let currentX = 0;
 
     const handleTouchStart = (e: TouchEvent) => {
-      startX = e.touches[0].clientX;
+      if (e.touches[0]) {
+        startX = e.touches[0].clientX;
+      }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      currentX = e.touches[0].clientX;
-      const diff = startX - currentX;
+      if (e.touches[0]) {
+        currentX = e.touches[0].clientX;
+        const diff = startX - currentX;
 
-      // Only allow swipe-left gesture (closing from left edge)
-      if (diff > 0 && drawerRef.current) {
-        const transform = Math.min(diff, 256);
-        drawerRef.current.style.transform = `translateX(-${transform}px)`;
+        // Only allow swipe-left gesture (closing from left edge)
+        if (diff > 0 && drawerRef.current) {
+          const transform = Math.min(diff, 256);
+          drawerRef.current.style.transform = `translateX(-${transform}px)`;
+        }
       }
     };
 
@@ -200,10 +205,13 @@ export default function MobileNavigation({
           {/* User Profile Section */}
           <div className="p-4 rounded-xl border border-glass-border bg-gradient-to-br from-white/5 to-transparent">
             <div className="flex items-center gap-3 mb-3">
-              <img 
+              <Image 
                 src={userImage} 
-                alt={userName} 
-                className="w-12 h-12 rounded-full border-2 border-neon-grape/50" 
+                alt={userName}
+                width={48}
+                height={48}
+                className="w-12 h-12 rounded-full border-2 border-neon-grape/50"
+                unoptimized
               />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-bold text-white truncate">{userName}</p>

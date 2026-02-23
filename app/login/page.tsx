@@ -56,31 +56,7 @@ export default function LoginPage() {
         return;
       }
 
-      // Check for session cookie
-      const sessionCookie = document.cookie.split('; ').find(row => 
-        row.startsWith('better-auth.session_token') || 
-        row.startsWith('better-auth.session')
-      );
-
-      logger.auth.debug('Session cookie check', { found: !!sessionCookie });
-
-      if (!sessionCookie) {
-        logger.auth.error('Session cookie not created after successful login', { 
-          email,
-          cookieCount: document.cookie.split('; ').length
-        });
-        setError('Authentication succeeded but session was not created. Please check your browser settings and try again.');
-        setIsLoading(false);
-        return;
-      }
-
       logger.auth.info('Login successful', { email, redirectTo });
-      
-      // Wait for cookie to propagate (increased from 100ms to 200ms)
-      await new Promise(resolve => setTimeout(resolve, 200));
-      
-      // Use window.location.href for a full page reload to ensure cookies are sent
-      // This is more reliable than router.push() for cookie-based auth
       window.location.href = redirectTo;
     } catch (err: any) {
       logger.auth.exception(err, { action: 'email-login', email });

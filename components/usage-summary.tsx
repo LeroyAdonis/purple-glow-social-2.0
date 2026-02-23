@@ -58,23 +58,33 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     async function fetchLimits() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch('/api/limits/check');
+        const response = await fetch('/api/limits/check', { signal: controller.signal });
         if (!response.ok) {
           throw new Error('Failed to fetch usage limits');
         }
         const data = await response.json();
+        if (controller.signal.aborted) return;
         setLimits(data);
-      } catch (err: any) {
-        setError(err.message || 'Failed to load usage data');
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') return;
+        if (error instanceof Error) {
+          setError(error.message || 'Failed to load usage data');
+        } else {
+          setError('Failed to load usage data');
+        }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
     fetchLimits();
+    return () => controller.abort();
   }, []);
 
   // Loading state

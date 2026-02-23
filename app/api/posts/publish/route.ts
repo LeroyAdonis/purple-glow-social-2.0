@@ -14,6 +14,19 @@ import type { PlatformBreakdown } from '@/lib/tiers/types';
 import { rateLimiters } from '@/lib/security/rate-limit';
 import { logger } from '@/lib/logger';
 import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
+import { z } from 'zod';
+
+// Publish post validation schema
+const publishPostSchema = z.object({
+  platforms: z.array(z.enum(['facebook', 'instagram', 'twitter', 'linkedin'])).optional(),
+  platform: z.enum(['facebook', 'instagram', 'twitter', 'linkedin']).optional(),
+  content: z.string().min(1, 'Content is required').max(5000, 'Content too long'),
+  imageUrl: z.string().url().optional(),
+  link: z.string().url().optional(),
+}).refine(
+  (data) => (data.platforms && data.platforms.length > 0) || data.platform,
+  { message: 'At least one platform is required' }
+);
 
 /**
  * API endpoint to publish a post immediately
@@ -50,40 +63,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await parseRequestBody<{
-      platforms?: string[];
-      platform?: string;
-      content: string;
-      imageUrl?: string;
-      link?: string;
-    }>(request);
+    const body = await parseRequestBody(request);
     if (!body) {
       return invalidJsonResponse();
     }
 
-    // Support both single platform and array of platforms
-    const { platforms: platformsInput, platform: singlePlatform, content, imageUrl, link } = body;
-    
-    // Normalize to array
-    const platforms: string[] = platformsInput || (singlePlatform ? [singlePlatform] : []);
-
-    // Validate input
-    if (platforms.length === 0 || !content) {
+    // Validate with Zod schema
+    const validationResult = publishPostSchema.safeParse(body);
+    if (!validationResult.success) {
+      logger.api.warn('Invalid publish request', {
+        userId: session.user.id,
+        errors: validationResult.error.format(),
+      });
       return NextResponse.json(
-        { error: 'At least one platform and content are required' },
+        { 
+          error: 'Invalid input', 
+          details: validationResult.error.format(),
+        },
         { status: 400 }
       );
     }
 
-    const validPlatforms = ['facebook', 'instagram', 'twitter', 'linkedin'];
-    for (const p of platforms) {
-      if (!validPlatforms.includes(p)) {
-        return NextResponse.json(
-          { error: `Invalid platform: ${p}` },
-          { status: 400 }
-        );
-      }
-    }
+    // Support both single platform and array of platforms
+    const { platforms: platformsInput, platform: singlePlatform, content, imageUrl, link } = validationResult.data;
+    
+    // Normalize to array
+    const platforms: string[] = platformsInput || (singlePlatform ? [singlePlatform] : []);
 
     // Special validation for Instagram
     if (platforms.includes('instagram') && !imageUrl) {
@@ -117,7 +122,7 @@ export async function POST(request: NextRequest) {
       if (!postCheck.allowed) {
         return NextResponse.json(
           { 
-            error: postCheck.message,
+            error: postCheck.message || 'Post limit reached',
             platform: p,
             limit: postCheck.limit,
             current: postCheck.current,
@@ -137,7 +142,7 @@ export async function POST(request: NextRequest) {
     if (!creditCheck.allowed) {
       return NextResponse.json(
         { 
-          error: creditCheck.message,
+          error: creditCheck.message || 'Insufficient credits',
           required: creditCost,
           available: availableCredits,
         },

@@ -123,7 +123,10 @@ export default function SchedulePostModal({
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    setSelectedDate(tomorrow.toISOString().split('T')[0]);
+    const dateStr = tomorrow.toISOString().split('T')[0];
+    if (dateStr) {
+      setSelectedDate(dateStr);
+    }
     setSelectedTime(time);
   };
 

@@ -6,6 +6,7 @@ import { eq } from 'drizzle-orm';
 import { logger } from '@/lib/logger';
 import { auditLog } from '@/lib/db/audit';
 import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
+import { userProfileSchema } from '@/lib/security/validation';
 
 /**
  * GET /api/user/profile
@@ -78,21 +79,40 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const body = await parseRequestBody<{ name?: string; image?: string }>(request);
+    const body = await parseRequestBody(request) as any;
     if (!body) {
       return invalidJsonResponse();
     }
 
-    const { name, image } = body;
+    // Validate with Zod schema
+    const validationResult = userProfileSchema.safeParse(body);
+    if (!validationResult.success) {
+      logger.api.warn('Invalid profile update request', {
+        userId: session.user.id,
+        errors: validationResult.error.format(),
+      });
+      return NextResponse.json(
+        { 
+          error: 'Invalid input', 
+          details: validationResult.error.format(),
+        },
+        { status: 400 }
+      );
+    }
+
+    const { name, image } = validationResult.data;
+
+    // Build update object with only provided fields
+    const updates: Partial<typeof user.$inferInsert> = {
+      updatedAt: new Date(),
+    };
+    if (name !== undefined) updates.name = name;
+    if (image !== undefined) updates.image = image;
 
     // Update user profile
     const [updatedUser] = await db
       .update(user)
-      .set({
-        name: name || session.user.name,
-        image: image || session.user.image,
-        updatedAt: new Date(),
-      })
+      .set(updates)
       .where(eq(user.id, session.user.id))
       .returning();
 

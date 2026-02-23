@@ -196,10 +196,10 @@ export function buildEnhancedPrompt(config: PromptConfig): string {
   const langContext = getLanguageContext(language);
   const platformSpec = PLATFORM_SPECS[platform];
   const toneSpec = TONE_INSTRUCTIONS[tone];
-  const examples = LANGUAGE_EXAMPLES[language] || LANGUAGE_EXAMPLES.en;
+  const examples = LANGUAGE_EXAMPLES[language] ?? LANGUAGE_EXAMPLES.en!;
 
   // Find a relevant example
-  const relevantExample = examples.find(ex => ex.platform === platform) || examples[0];
+  const relevantExample = examples.find((ex: { platform: Platform }) => ex.platform === platform) ?? examples[0]!;
 
   const prompt = `You are an expert South African social media content creator specializing in ${langContext.name} (${langContext.nativeName}) content.
 

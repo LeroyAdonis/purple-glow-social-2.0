@@ -284,7 +284,7 @@ export const SA_LANGUAGE_CONTEXTS: Record<string, LanguageContext> = {
  * Get language context by code
  */
 export function getLanguageContext(code: string): LanguageContext {
-  return SA_LANGUAGE_CONTEXTS[code] || SA_LANGUAGE_CONTEXTS.en;
+  return SA_LANGUAGE_CONTEXTS[code] ?? SA_LANGUAGE_CONTEXTS.en!;
 }
 
 /**
@@ -292,7 +292,7 @@ export function getLanguageContext(code: string): LanguageContext {
  */
 export function getRandomGreeting(languageCode: string): string {
   const context = getLanguageContext(languageCode);
-  return context.greetings[Math.floor(Math.random() * context.greetings.length)];
+  return context.greetings[Math.floor(Math.random() * context.greetings.length)] ?? context.greetings[0]!;
 }
 
 /**
@@ -300,7 +300,7 @@ export function getRandomGreeting(languageCode: string): string {
  */
 export function getRandomExpression(languageCode: string): string {
   const context = getLanguageContext(languageCode);
-  return context.commonExpressions[Math.floor(Math.random() * context.commonExpressions.length)];
+  return context.commonExpressions[Math.floor(Math.random() * context.commonExpressions.length)] ?? context.commonExpressions[0]!;
 }
 
 /**
@@ -308,7 +308,7 @@ export function getRandomExpression(languageCode: string): string {
  */
 export function getRandomFarewell(languageCode: string): string {
   const context = getLanguageContext(languageCode);
-  return context.farewells[Math.floor(Math.random() * context.farewells.length)];
+  return context.farewells[Math.floor(Math.random() * context.farewells.length)] ?? context.farewells[0]!;
 }
 
 /**

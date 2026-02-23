@@ -219,7 +219,7 @@ export class GeminiService {
       ve: 'Use Tshivenda expressions like "Ndaa", "Ndo livhuwa", "Ndi zwavhudi"',
       nr: 'Use isiNdebele expressions like "Lotjhani", "Ngiyathokoza", "Yebo"',
     };
-    return examples[language] || examples.en;
+    return examples[language] ?? examples.en!;
   }
 
   /**
@@ -294,7 +294,7 @@ export class GeminiService {
       linkedin: `Professional image related to "${topic}". Clean, business-appropriate, high-quality.`,
     };
 
-    return prompts[platform] || prompts.facebook;
+    return prompts[platform] ?? prompts.facebook!;
   }
 
   /**
@@ -410,8 +410,8 @@ export class GeminiService {
       // Extract topics from numbered list
       const topics = text
         .split('\n')
-        .filter(line => line.match(/^\d+\./))
-        .map(line => line.replace(/^\d+\.\s*/, '').trim())
+        .filter((line: string) => line.match(/^\d+\./))
+        .map((line: string) => line.replace(/^\d+\.\s*/, '').trim())
         .filter(Boolean);
       
       return topics;

@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 // Common patterns
 const platformSchema = z.enum(['facebook', 'instagram', 'twitter', 'linkedin']);
-const toneSchema = z.enum(['professional', 'casual', 'humorous', 'inspirational', 'educational']);
+const toneSchema = z.enum(['professional', 'casual', 'friendly', 'energetic']);
 const tierSchema = z.enum(['free', 'pro', 'business']);
 
 // Language codes for SA languages
@@ -95,6 +95,29 @@ export const checkoutSchema = z.object({
 });
 
 export type CheckoutRequest = z.infer<typeof checkoutSchema>;
+
+/**
+ * Subscription Checkout Schema
+ */
+export const subscriptionCheckoutSchema = z.object({
+  planId: z.enum(['pro', 'business'], { 
+    errorMap: () => ({ message: 'Plan must be either "pro" or "business"' })
+  }),
+  billingCycle: z.enum(['monthly', 'annual'], {
+    errorMap: () => ({ message: 'Billing cycle must be "monthly" or "annual"' })
+  }),
+});
+
+export type SubscriptionCheckoutRequest = z.infer<typeof subscriptionCheckoutSchema>;
+
+/**
+ * Credit Checkout Schema
+ */
+export const creditCheckoutSchema = z.object({
+  packageId: z.string().min(1, 'Package ID is required'),
+});
+
+export type CreditCheckoutRequest = z.infer<typeof creditCheckoutSchema>;
 
 /**
  * OAuth State Schema

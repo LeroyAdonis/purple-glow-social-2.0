@@ -78,7 +78,7 @@ async function validateScheduleRequest(
   if (!scheduleCheck.allowed) {
     return {
       success: false,
-      error: scheduleCheck.message,
+      error: scheduleCheck.message || 'Schedule limit reached',
       status: 429,
       details: {
         limit: scheduleCheck.limit,
@@ -97,7 +97,7 @@ async function validateScheduleRequest(
   if (!creditCheck.allowed) {
     return {
       success: false,
-      error: creditCheck.message,
+      error: creditCheck.message || 'Insufficient credits',
       status: 402,
       details: {
         required: creditCost,

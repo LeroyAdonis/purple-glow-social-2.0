@@ -28,20 +28,24 @@ export default function DashboardClient({
 
   // Fetch user data from database
   useEffect(() => {
+    const controller = new AbortController();
     const fetchUserData = async () => {
       try {
-        const response = await fetch('/api/user/profile');
+        const response = await fetch('/api/user/profile', { signal: controller.signal });
         if (response.ok) {
           const data = await response.json();
+          if (controller.signal.aborted) return;
           setUserTier(data.tier || 'free');
           setUserCredits(data.credits || 10);
         }
-      } catch (error) {
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') return;
         logger.api.exception(error as Error, { action: 'fetch-user-profile', userId });
       }
     };
     
     fetchUserData();
+    return () => controller.abort();
   }, [userId]);
 
   const handleCreditPurchase = (credits: number, amount: number) => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import AdminDashboardView from './components/admin-dashboard-view';
 import CreditTopupModal from './components/modals/credit-topup-modal';
 import SubscriptionModal from './components/modals/subscription-modal';
@@ -335,7 +336,7 @@ export default function App() {
               </div>
 
               <div className="aspect-square rounded-2xl bg-black/50 mb-6 overflow-hidden relative group">
-                <img src="https://picsum.photos/600/600" alt="Generated Content" className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700" />
+                <Image src="https://picsum.photos/600/600" alt="Generated Content" width={600} height={600} className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700" unoptimized />
                 <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10 flex items-center gap-2">
                   <i className="fa-solid fa-wand-magic-sparkles text-neon-grape text-xs"></i>
                   <span className="text-[10px] font-mono tracking-wider">IMAGEN 3</span>

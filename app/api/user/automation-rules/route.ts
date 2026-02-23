@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
     if (!automationCheck.allowed) {
       return NextResponse.json(
         { 
-          error: automationCheck.message,
+          error: automationCheck.message || 'Automation rule limit reached',
           limit: automationCheck.limit,
           current: automationCheck.current,
         },
@@ -117,16 +117,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await parseRequestBody<{
-      frequency?: string;
-      coreTopic?: string;
-      isActive?: boolean;
-    }>(request);
+    const body = await parseRequestBody(request) as any;
     if (!body) {
       return invalidJsonResponse();
     }
 
+    // Validate basic fields (partial validation - full schema requires DB migration)
     const { frequency, coreTopic, isActive } = body;
+
+    if (coreTopic && typeof coreTopic !== 'string') {
+      return NextResponse.json(
+        { error: 'Invalid coreTopic value' },
+        { status: 400 }
+      );
+    }
 
     const rule = await createAutomationRule({
       userId: session.user.id,

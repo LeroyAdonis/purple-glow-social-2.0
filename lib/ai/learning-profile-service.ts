@@ -45,7 +45,7 @@ export class LearningProfileService {
       .where(eq(userLearningProfiles.userId, userId))
       .limit(1);
 
-    if (existing.length > 0) {
+    if (existing.length > 0 && existing[0]) {
       return existing[0];
     }
 
@@ -62,6 +62,10 @@ export class LearningProfileService {
         localTrends: [],
       })
       .returning();
+
+    if (!newProfile) {
+      throw new Error('Failed to create learning profile');
+    }
 
     return newProfile;
   }
@@ -168,27 +172,27 @@ export class LearningProfileService {
         
         if (analytic.tone) {
           if (!toneScores[analytic.tone]) toneScores[analytic.tone] = { total: 0, count: 0 };
-          toneScores[analytic.tone].total += score;
-          toneScores[analytic.tone].count += 1;
+          toneScores[analytic.tone]!.total += score;
+          toneScores[analytic.tone]!.count += 1;
         }
         
         if (analytic.language) {
           if (!languageScores[analytic.language]) languageScores[analytic.language] = { total: 0, count: 0 };
-          languageScores[analytic.language].total += score;
-          languageScores[analytic.language].count += 1;
+          languageScores[analytic.language]!.total += score;
+          languageScores[analytic.language]!.count += 1;
         }
         
         if (analytic.topic) {
           if (!topicScores[analytic.topic]) topicScores[analytic.topic] = { total: 0, count: 0 };
-          topicScores[analytic.topic].total += score;
-          topicScores[analytic.topic].count += 1;
+          topicScores[analytic.topic]!.total += score;
+          topicScores[analytic.topic]!.count += 1;
         }
 
         if (!platformData[analytic.platform]) {
           platformData[analytic.platform] = { scores: [], count: 0 };
         }
-        platformData[analytic.platform].scores.push(score);
-        platformData[analytic.platform].count += 1;
+        platformData[analytic.platform]!.scores.push(score);
+        platformData[analytic.platform]!.count += 1;
       }
 
       // Calculate rankings
@@ -258,8 +262,9 @@ export class LearningProfileService {
     analytics: typeof postAnalytics.$inferSelect[]
   ): Promise<void> {
     // Get top 10% performers
-    const threshold = analytics.length > 10 
-      ? analytics[Math.floor(analytics.length * 0.1)].engagementScore || 50
+    const thresholdIndex = Math.floor(analytics.length * 0.1);
+    const threshold = analytics.length > 10 && analytics[thresholdIndex]
+      ? (analytics[thresholdIndex]!.engagementScore || 50)
       : 50;
 
     const topPerformers = analytics.filter(a => (a.engagementScore || 0) >= threshold);

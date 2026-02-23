@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import SettingsView from './settings-view';
 import ScheduleView from './schedule-view';
 import SchedulePostModal from './modals/schedule-post-modal';
@@ -142,7 +143,7 @@ export default function ClientDashboardView({
                     </div>
 
                     <div className="flex items-center gap-3 mt-6">
-                        <img src={mockUser.image} alt="User" className="w-10 h-10 rounded-full border border-glass-border" />
+                        <Image src={mockUser.image} alt="User" width={40} height={40} className="w-10 h-10 rounded-full border border-glass-border" unoptimized />
                         <div>
                             <p className="text-sm font-bold truncate w-32">{mockUser.name}</p>
                             <button onClick={() => setShowSettings(true)} className="text-xs text-gray-400 hover:text-white cursor-pointer">{translate('dashboard.sidebar.settings')}</button>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import CustomSelect from './custom-select';
 import ConnectedAccountsView from './connected-accounts/connected-accounts-view';
 
@@ -39,20 +40,26 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
 
   // Fetch billing history when billing tab is active
   useEffect(() => {
+    const controller = new AbortController();
     if (activeTab === 'billing' && user.tier !== 'free') {
       setLoadingInvoices(true);
-      fetch('/api/user/billing-history')
+      fetch('/api/user/billing-history', { signal: controller.signal })
         .then(res => res.json())
         .then(data => {
+          if (controller.signal.aborted) return;
           setInvoices(data.invoices || []);
         })
-        .catch(err => {
-          console.error('Failed to fetch billing history:', err);
+        .catch((error: unknown) => {
+          if (error instanceof Error && error.name === 'AbortError') return;
+          logger.api.error('Failed to fetch billing history', { error });
         })
         .finally(() => {
-          setLoadingInvoices(false);
+          if (!controller.signal.aborted) {
+            setLoadingInvoices(false);
+          }
         });
     }
+    return () => controller.abort();
   }, [activeTab, user.tier]);
 
   const mockCards = [
@@ -161,7 +168,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
 
               <div className="aerogel-card p-8 rounded-2xl space-y-6">
                 <div className="flex items-center gap-6">
-                  <img src={user.image} alt={user.name} className="w-24 h-24 rounded-full border-2 border-glass-border" />
+                  <Image src={user.image} alt={user.name} width={96} height={96} className="w-24 h-24 rounded-full border-2 border-glass-border" unoptimized />
                   <div>
                     <button className="px-4 py-2 bg-white/5 border border-glass-border rounded-xl hover:bg-white/10 transition-colors text-sm">
                       Change Photo

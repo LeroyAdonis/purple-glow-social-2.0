@@ -90,8 +90,30 @@ export function validateContent(
   
   // Check for SA language markers
   const languageMarkers = SA_LANGUAGE_INDICATORS[language] || SA_LANGUAGE_INDICATORS.en;
+  if (!languageMarkers) {
+    // Fallback to empty array if both lookups fail (should never happen)
+    return {
+      isValid: false,
+      qualityScore: 0,
+      characterCount,
+      withinLimit,
+      isOptimalLength,
+      hasSALanguageMarkers: false,
+      issues: ['Invalid language configuration'],
+      suggestions,
+      factors: {
+        hasCallToAction: false,
+        hasEmojis: false,
+        hasHashtags: false,
+        hasSAContext: false,
+        characterOptimal: isOptimalLength,
+        hasQuestions: false,
+        readabilityScore: 0,
+      },
+    };
+  }
   const contentLower = content.toLowerCase();
-  const hasSALanguageMarkers = languageMarkers?.some(marker => 
+  const hasSALanguageMarkers = languageMarkers.some(marker => 
     contentLower.includes(marker.toLowerCase())
   );
   

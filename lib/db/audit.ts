@@ -53,7 +53,7 @@ export async function auditLog(
   };
 
   // Log to structured logger (goes to Sentry in production)
-  logger.security.info(`Audit: ${action}`, logEntry);
+  logger.security.info(`Audit: ${action}`, logEntry as unknown as Record<string, unknown>);
 
   // Future enhancement: Store in database table for long-term compliance
   // await db.insert(auditLogs).values(logEntry);

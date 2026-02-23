@@ -78,8 +78,9 @@ export async function GET(request: NextRequest) {
       )
       .limit(1);
     
-    if (existing.length > 0) {
+    if (existing.length > 0 && existing[0]) {
       // Update existing connection
+      const existingAccount = existing[0];
       await db
         .update(connectedAccounts)
         .set({
@@ -95,7 +96,7 @@ export async function GET(request: NextRequest) {
           lastSyncedAt: new Date(),
           updatedAt: new Date(),
         })
-        .where(eq(connectedAccounts.id, existing[0].id));
+        .where(eq(connectedAccounts.id, existingAccount.id));
     } else {
       // Create new connection
       await db.insert(connectedAccounts).values({

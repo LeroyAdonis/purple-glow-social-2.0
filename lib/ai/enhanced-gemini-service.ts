@@ -130,7 +130,7 @@ export class EnhancedGeminiService {
       linkedin: { limit: 3000, description: 'Professional post under 2500 characters' },
     };
 
-    const limitInfo = platformLimits[platform] || platformLimits.instagram;
+    const limitInfo = platformLimits[platform] ?? platformLimits.instagram!;
     const languageFullName = this.getLanguageFullName(language);
 
     // Build few-shot examples from learning context
@@ -418,7 +418,7 @@ ${sections.join('\n')}
       twitter: `Simple, bold image related to "${topic}". Easy to understand at a glance.`,
       linkedin: `Professional image related to "${topic}". Clean, business-appropriate.`,
     };
-    return prompts[platform] || prompts.facebook;
+    return prompts[platform] ?? prompts.facebook!;
   }
 
   /**

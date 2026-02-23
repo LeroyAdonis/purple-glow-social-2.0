@@ -32,21 +32,25 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
 
   // Fetch generation limits
   useEffect(() => {
+    const controller = new AbortController();
     async function fetchLimits() {
       try {
-        const response = await fetch('/api/limits/check');
+        const response = await fetch('/api/limits/check', { signal: controller.signal });
         if (response.ok) {
           const data = await response.json();
+          if (controller.signal.aborted) return;
           setGenerationLimits({
             ...data.dailyGenerations,
             tier: data.tier,
           });
         }
-      } catch (err) {
-        console.error('Failed to fetch limits:', err);
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') return;
+        logger.api.error('Failed to fetch limits', { error });
       }
     }
     fetchLimits();
+    return () => controller.abort();
   }, [userId]);
 
   const handleGenerate = async () => {

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useActionState, useState, useEffect } from 'react';
+import Image from 'next/image';
 import { generatePostAction } from '../app/actions/generate';
 import SchedulePostModal from './modals/schedule-post-modal';
 import CustomSelect from './custom-select';
@@ -53,24 +54,30 @@ export default function ContentGenerator() {
 
     // Fetch user limits on mount
     useEffect(() => {
+        const controller = new AbortController();
         async function fetchLimits() {
             try {
-                const response = await fetch('/api/limits/check');
+                const response = await fetch('/api/limits/check', { signal: controller.signal });
                 if (response.ok) {
                     const data = await response.json();
+                    if (controller.signal.aborted) return;
                     setUserLimits({
                         tier: data.tier,
                         credits: data.credits,
                         dailyGenerations: data.dailyGenerations,
                     });
                 }
-            } catch (err) {
-                console.error('Failed to fetch limits:', err);
+            } catch (error: unknown) {
+                if (error instanceof Error && error.name === 'AbortError') return;
+                logger.api.error('Failed to fetch limits', { error });
             } finally {
-                setLimitsLoading(false);
+                if (!controller.signal.aborted) {
+                    setLimitsLoading(false);
+                }
             }
         }
         fetchLimits();
+        return () => controller.abort();
     }, []);
 
     // Update limits after successful generation
@@ -127,7 +134,7 @@ export default function ContentGenerator() {
                 <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 p-[2px]">
                         <div className="w-full h-full rounded-full bg-white border-2 border-transparent overflow-hidden">
-                            <img src="https://ui-avatars.com/api/?name=Purple+Glow&background=9D4EDD&color=fff" alt="User" />
+                            <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=9D4EDD&color=fff" alt="User" width={32} height={32} unoptimized />
                         </div>
                     </div>
                     <span className="text-xs font-bold">purple_glow_sa</span>
@@ -138,7 +145,7 @@ export default function ContentGenerator() {
             {/* Image - show placeholder gradient when no image */}
             <div className="aspect-square bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center overflow-hidden relative">
                 {state?.data?.imageUrl ? (
-                    <img src={state.data.imageUrl} alt="Generated" className="w-full h-full object-cover" />
+                    <Image src={state.data.imageUrl} alt="Generated" width={600} height={600} className="w-full h-full object-cover" unoptimized />
                 ) : (
                     <div className="text-center text-white/80">
                         <i className="fa-solid fa-image text-4xl mb-2 opacity-50"></i>
@@ -181,7 +188,7 @@ export default function ContentGenerator() {
             <div className="flex gap-3">
                 <div className="shrink-0">
                     <div className="w-10 h-10 rounded-full bg-gray-700 overflow-hidden">
-                        <img src="https://ui-avatars.com/api/?name=Purple+Glow&background=9D4EDD&color=fff" alt="User" />
+                        <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=9D4EDD&color=fff" alt="User" width={40} height={40} unoptimized />
                     </div>
                 </div>
                 <div className="flex-1 min-w-0">
@@ -206,7 +213,7 @@ export default function ContentGenerator() {
 
                     {state?.data?.imageUrl && (
                         <div className="rounded-2xl overflow-hidden border border-gray-800 mb-3">
-                            <img src={state.data.imageUrl} alt="Generated" className="w-full h-auto object-cover" />
+                            <Image src={state.data.imageUrl} alt="Generated" width={600} height={600} className="w-full h-auto object-cover" unoptimized />
                         </div>
                     )}
 
@@ -225,7 +232,7 @@ export default function ContentGenerator() {
         <div className="bg-white text-black rounded-xl overflow-hidden shadow-2xl max-w-md mx-auto font-sans border border-gray-300">
             <div className="p-3 flex items-center gap-2">
                 <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                    <img src="https://ui-avatars.com/api/?name=Purple+Glow&background=1877F2&color=fff" alt="User" />
+                    <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=1877F2&color=fff" alt="User" width={40} height={40} unoptimized />
                 </div>
                 <div>
                     <div className="text-sm font-bold text-gray-900">Purple Glow SA</div>
@@ -249,7 +256,7 @@ export default function ContentGenerator() {
 
             {state?.data?.imageUrl && (
                 <div className="w-full bg-gray-100 border-t border-b border-gray-200">
-                    <img src={state.data.imageUrl} alt="Generated" className="w-full h-auto object-cover" />
+                    <Image src={state.data.imageUrl} alt="Generated" width={600} height={600} className="w-full h-auto object-cover" unoptimized />
                 </div>
             )}
 
@@ -272,7 +279,7 @@ export default function ContentGenerator() {
             {/* Header */}
             <div className="p-4 flex items-start gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center text-white font-bold text-lg overflow-hidden">
-                    <img src="https://ui-avatars.com/api/?name=Purple+Glow&background=0077B5&color=fff" alt="User" />
+                    <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=0077B5&color=fff" alt="User" width={48} height={48} unoptimized />
                 </div>
                 <div className="flex-1">
                     <div className="font-semibold text-sm">Purple Glow Social</div>
@@ -303,7 +310,7 @@ export default function ContentGenerator() {
             {/* Image */}
             {state?.data?.imageUrl && (
                 <div className="w-full bg-gray-100 border-t border-gray-200">
-                    <img src={state.data.imageUrl} alt="Generated" className="w-full h-auto object-cover" />
+                    <Image src={state.data.imageUrl} alt="Generated" width={600} height={600} className="w-full h-auto object-cover" unoptimized />
                 </div>
             )}
 

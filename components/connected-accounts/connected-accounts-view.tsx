@@ -57,39 +57,49 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
     }
   }, []);
 
-  // Fetch connections and limits
-  const fetchData = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      
-      // Fetch connections and limits in parallel
-      const [connectionsRes, limitsRes] = await Promise.all([
-        fetch('/api/oauth/connections'),
-        fetch('/api/limits/check'),
-      ]);
-      
-      if (!connectionsRes.ok) {
-        throw new Error('Failed to fetch connections');
-      }
-      
-      const connectionsData = await connectionsRes.json();
-      setConnections(connectionsData.connections || []);
-
-      if (limitsRes.ok) {
-        const limitsData = await limitsRes.json();
-        setTierLimits(limitsData);
-      }
-    } catch (err) {
-      console.error('Error fetching data:', err);
-      setError('Failed to load connected accounts');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
+    const controller = new AbortController();
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        // Fetch connections and limits in parallel
+        const [connectionsRes, limitsRes] = await Promise.all([
+          fetch('/api/oauth/connections', { signal: controller.signal }),
+          fetch('/api/limits/check', { signal: controller.signal }),
+        ]);
+
+        if (controller.signal.aborted) return;
+        
+        if (!connectionsRes.ok) {
+          throw new Error('Failed to fetch connections');
+        }
+        
+        const connectionsData = await connectionsRes.json();
+        if (controller.signal.aborted) return;
+        setConnections(connectionsData.connections || []);
+
+        if (limitsRes.ok) {
+          const limitsData = await limitsRes.json();
+          if (controller.signal.aborted) return;
+          setTierLimits(limitsData);
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') return;
+        logger.api.error('Error fetching data', { error });
+        if (!controller.signal.aborted) {
+          setError('Failed to load connected accounts');
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
+      }
+    };
     fetchData();
+    return () => controller.abort();
   }, [userId]);
 
   // Handle connect - check limits first

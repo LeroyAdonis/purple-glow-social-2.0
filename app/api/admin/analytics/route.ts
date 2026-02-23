@@ -143,10 +143,10 @@ async function getPublishingAnalytics(startDate: Date) {
       case 'posted':
         posted++;
         if (byPlatform[post.platform]) {
-          byPlatform[post.platform].posted++;
+          byPlatform[post.platform]!.posted++;
         }
         if (byDay[dateKey]) {
-          byDay[dateKey].posted++;
+          byDay[dateKey]!.posted++;
         }
         break;
       case 'scheduled':
@@ -155,10 +155,10 @@ async function getPublishingAnalytics(startDate: Date) {
       case 'failed':
         failed++;
         if (byPlatform[post.platform]) {
-          byPlatform[post.platform].failed++;
+          byPlatform[post.platform]!.failed++;
         }
         if (byDay[dateKey]) {
-          byDay[dateKey].failed++;
+          byDay[dateKey]!.failed++;
         }
         break;
     }

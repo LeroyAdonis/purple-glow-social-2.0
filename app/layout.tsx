@@ -44,7 +44,7 @@ export default function RootLayout({
         <QueryProvider>
           <LanguageProvider>
             {/* Global Ambient Effects */}
-            <div className="fixed inset-0 pointer-events-none z-[-1]">
+            <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
                 <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-neon-grape opacity-[0.08] blur-[150px] rounded-full"></div>
                 <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-joburg-teal opacity-[0.08] blur-[150px] rounded-full"></div>
             </div>

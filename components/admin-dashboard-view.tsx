@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import CustomSelect from './custom-select';
 import CreditsAnalytics from './admin/credits-analytics';
 import GenerationStats from './admin/generation-stats';
@@ -159,16 +160,19 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
 
   // Fetch data from API
   useEffect(() => {
+    const controller = new AbortController();
     async function fetchData() {
       setLoading(true);
       setError(null);
       try {
         // Fetch users and stats in parallel
         const [usersRes, statsRes, transactionsRes] = await Promise.all([
-          fetch('/api/admin/users'),
-          fetch('/api/admin/stats'),
-          fetch('/api/admin/transactions'),
+          fetch('/api/admin/users', { signal: controller.signal }),
+          fetch('/api/admin/stats', { signal: controller.signal }),
+          fetch('/api/admin/transactions', { signal: controller.signal }),
         ]);
+
+        if (controller.signal.aborted) return;
 
         // Check for auth/permission errors
         if (usersRes.status === 401 || statsRes.status === 401 || transactionsRes.status === 401) {
@@ -185,6 +189,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
         const statsData = await statsRes.json();
         const transactionsData = await transactionsRes.json();
 
+        if (controller.signal.aborted) return;
+
         setUsers(usersData.users || []);
         setTransactions(transactionsData.transactions || []);
         setMetrics({
@@ -195,15 +201,23 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           totalUsers: statsData.users?.total || 0,
         });
         setTierDist(statsData.users?.tierDistribution || { free: 0, pro: 0, business: 0 });
-      } catch (err: any) {
-        setError(err.message || 'Failed to load data');
-        logger.admin.exception(err as Error, { context: 'fetchData' });
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') return;
+        if (error instanceof Error) {
+          setError(error.message || 'Failed to load data');
+          logger.admin.exception(error, { context: 'fetchData' });
+        } else {
+          setError('Failed to load data');
+        }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
 
     fetchData();
+    return () => controller.abort();
   }, []);
 
   // Fetch analytics data when tab changes
@@ -569,13 +583,13 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                     </thead>
                     <tbody className="divide-y divide-glass-border">
                       {filteredUsers.map((user) => {
-                        const userName = user.name || user.email.split('@')[0];
+                        const userName = user.name || user.email?.split('@')[0] || 'User';
                         const userImage = user.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=9D4EDD&color=fff`;
                         return (
                           <tr key={user.id} className="hover:bg-white/5 transition-colors">
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-3">
-                                <img src={userImage} alt={userName} className="w-10 h-10 rounded-full border border-glass-border" />
+                                <Image src={userImage} alt={userName} width={40} height={40} className="w-10 h-10 rounded-full border border-glass-border" unoptimized />
                                 <div>
                                   <p className="font-bold text-sm">{userName}</p>
                                   <p className="text-xs text-gray-400">{user.email}</p>
@@ -916,11 +930,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
 
               {analyticsSubTab === 'generation' && analyticsData?.generation && (
                 <GenerationStats
-                  data={{
-                    ...(analyticsData.generation as Record<string, unknown>),
-                    topTopics: [],
-                    errorsByType: {},
-                  } as Parameters<typeof GenerationStats>[0]['data']}
+                  data={analyticsData.generation as Parameters<typeof GenerationStats>[0]['data']}
                   isLoading={analyticsLoading}
                 />
               )}

@@ -99,7 +99,7 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
         linkedin: { width: 1200, height: 627 },
       };
 
-      const dim = dimensions[platform] || dimensions.instagram;
+      const dim = (dimensions[platform] ?? dimensions.instagram)!;
       const { width, height } = dim;
 
       // Create image prompt with South African context

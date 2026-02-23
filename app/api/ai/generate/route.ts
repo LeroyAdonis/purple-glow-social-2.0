@@ -12,6 +12,7 @@ import type { TierName } from '@/lib/tiers/types';
 import { rateLimiters } from '@/lib/security/rate-limit';
 import { logger } from '@/lib/logger';
 import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
+import { contentGenerationSchema } from '@/lib/security/validation';
 
 /**
  * API endpoint to generate AI content
@@ -69,7 +70,7 @@ export async function POST(request: NextRequest) {
     if (!generationCheck.allowed) {
       return NextResponse.json(
         { 
-          error: generationCheck.message,
+          error: generationCheck.message || 'Generation limit reached',
           limit: generationCheck.limit,
           current: generationCheck.current,
           remaining: 0,
@@ -78,44 +79,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await parseRequestBody<{
-      topic: string;
-      platform: string;
-      language?: string;
-      tone?: string;
-      includeHashtags?: boolean;
-      includeEmojis?: boolean;
-      variations?: number;
-    }>(request);
+    const body = await parseRequestBody(request);
     if (!body) {
       return invalidJsonResponse();
+    }
+
+    // Validate with Zod schema
+    const validationResult = contentGenerationSchema.safeParse(body);
+    if (!validationResult.success) {
+      logger.api.warn('Invalid content generation request', {
+        userId: session.user.id,
+        errors: validationResult.error.format(),
+      });
+      return NextResponse.json(
+        { 
+          error: 'Invalid input', 
+          details: validationResult.error.format(),
+        },
+        { status: 400 }
+      );
     }
 
     const { 
       topic, 
       platform, 
-      language = 'en', 
-      tone = 'friendly',
-      includeHashtags = true,
-      includeEmojis = true,
-      variations = 1,
-    } = body;
+      language,
+      tone,
+      includeHashtags,
+      includeEmojis,
+    } = validationResult.data;
 
-    // Validate input
-    if (!topic || !platform) {
-      return NextResponse.json(
-        { error: 'Topic and platform are required' },
-        { status: 400 }
-      );
-    }
-
-    const validPlatforms = ['facebook', 'instagram', 'twitter', 'linkedin'];
-    if (!validPlatforms.includes(platform)) {
-      return NextResponse.json(
-        { error: 'Invalid platform' },
-        { status: 400 }
-      );
-    }
+    // Get variations from original body (not in schema)
+    const variations = typeof (body as any).variations === 'number' ? (body as any).variations : 1;
 
     // Generate content
     const geminiService = new GeminiService();

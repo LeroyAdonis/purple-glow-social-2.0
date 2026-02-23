@@ -94,11 +94,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   // Fetch user data from API on mount
   useEffect(() => {
+    const controller = new AbortController();
     const fetchUserData = async () => {
       try {
-        const response = await fetch('/api/user/profile');
+        const response = await fetch('/api/user/profile', { signal: controller.signal });
         if (response.ok) {
           const data = await response.json();
+          if (controller.signal.aborted) return;
           setUser({
             ...defaultUser,
             id: data.id,
@@ -111,12 +113,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           setTier(data.tier || 'free');
           setCredits(data.credits || 10);
         }
-      } catch (error) {
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') return;
         logger.api.exception(error as Error, { context: 'fetchUserData' });
       }
     };
 
     fetchUserData();
+    return () => controller.abort();
   }, []);
 
   const updateUser = (updates: Partial<User>) => {

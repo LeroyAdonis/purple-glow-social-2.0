@@ -65,16 +65,20 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
 
   // Fetch posts and limits from API
   useEffect(() => {
+    const controller = new AbortController();
     async function fetchData() {
       setLoading(true);
       try {
         const [postsRes, limitsRes] = await Promise.all([
-          fetch('/api/user/posts?status=scheduled'),
-          fetch('/api/limits/check'),
+          fetch('/api/user/posts?status=scheduled', { signal: controller.signal }),
+          fetch('/api/limits/check', { signal: controller.signal }),
         ]);
+
+        if (controller.signal.aborted) return;
 
         if (postsRes.ok) {
           const data = await postsRes.json();
+          if (controller.signal.aborted) return;
           const posts = (data.posts || []).map((post: PostApiResponse) => ({
             id: post.id,
             title: post.topic || 'Untitled',
@@ -89,19 +93,24 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
 
         if (limitsRes.ok) {
           const limitsData = await limitsRes.json();
+          if (controller.signal.aborted) return;
           setQueueLimits({
             ...limitsData.scheduling.queueSize,
             advanceSchedulingDays: limitsData.scheduling.advanceSchedulingDays,
             tier: limitsData.tier,
           });
         }
-      } catch (error) {
-        console.error('Failed to fetch data:', error);
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') return;
+        logger.api.error('Failed to fetch data', { error });
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
     fetchData();
+    return () => controller.abort();
   }, []);
 
   const togglePlatformFilter = (platform: string) => {

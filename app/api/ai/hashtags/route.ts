@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     // Generate hashtags
     const geminiService = new GeminiService();
-    const hashtags = await geminiService.generateHashtags(topic, count);
+    const hashtags = await geminiService.generateHashtags(topic, 'en', count);
 
     return NextResponse.json({
       success: true,

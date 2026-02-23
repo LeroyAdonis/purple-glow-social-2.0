@@ -13,6 +13,7 @@ import { user as userTable } from '../../../../drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { logger } from '../../../../lib/logger';
 import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
+import { subscriptionCheckoutSchema } from '@/lib/security/validation';
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,36 +28,28 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse request body
-    const body = await parseRequestBody<{
-      planId: string;
-      billingCycle: string;
-    }>(request);
+    const body = await parseRequestBody(request);
     if (!body) {
       return invalidJsonResponse();
     }
 
-    const { planId, billingCycle } = body;
-
-    if (!planId || !billingCycle) {
+    // Validate with Zod schema
+    const validationResult = subscriptionCheckoutSchema.safeParse(body);
+    if (!validationResult.success) {
+      logger.polar.warn('Invalid subscription checkout request', {
+        userId: session.user.id,
+        errors: validationResult.error.format(),
+      });
       return NextResponse.json(
-        { error: 'Plan ID and billing cycle are required' },
+        { 
+          error: 'Invalid input', 
+          details: validationResult.error.format(),
+        },
         { status: 400 }
       );
     }
 
-    if (!['pro', 'business'].includes(planId)) {
-      return NextResponse.json(
-        { error: 'Invalid plan ID' },
-        { status: 400 }
-      );
-    }
-
-    if (!['monthly', 'annual'].includes(billingCycle)) {
-      return NextResponse.json(
-        { error: 'Invalid billing cycle' },
-        { status: 400 }
-      );
-    }
+    const { planId, billingCycle } = validationResult.data;
 
     // Get full user data from database
     const [user] = await db
@@ -75,8 +68,8 @@ export async function POST(request: NextRequest) {
     // Create checkout session
     const checkout = await createSubscriptionCheckout({
       user,
-      planId: planId as 'pro' | 'business',
-      billingCycle: billingCycle as 'monthly' | 'annual',
+      planId,
+      billingCycle,
     });
 
     return NextResponse.json({

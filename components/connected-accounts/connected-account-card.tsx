@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import ConnectionStatusBadge from './connection-status-badge';
 
 interface ConnectedAccountCardProps {
@@ -121,9 +122,11 @@ export default function ConnectedAccountCard({
             {/* Profile Info */}
             <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-glass-border">
               {profileImageUrl && (
-                <img 
+                <Image 
                   src={profileImageUrl} 
-                  alt={platformDisplayName || platformUsername} 
+                  alt={platformDisplayName || platformUsername || 'Profile'} 
+                  width={40}
+                  height={40}
                   className="w-10 h-10 rounded-full border border-glass-border"
                 />
               )}

@@ -160,7 +160,8 @@ export class PromptPatternAnalyzer {
    * Extract opening patterns (first line/phrase)
    */
   private extractOpeningPattern(content: string): { pattern: string; example: string } | null {
-    const firstLine = content.split('\n')[0].trim();
+    const lines = content.split('\n');
+    const firstLine = lines[0]?.trim();
     if (!firstLine || firstLine.length < 5) return null;
 
     // Categorize opening types
@@ -260,12 +261,13 @@ export class PromptPatternAnalyzer {
       ))
       .limit(1);
 
-    if (existing.length > 0) {
+    if (existing.length > 0 && existing[0]) {
       // Update existing pattern
-      const newUsageCount = existing[0].usageCount! + 1;
-      const newSuccessCount = existing[0].successCount! + 1;
+      const existingPattern = existing[0];
+      const newUsageCount = existingPattern.usageCount! + 1;
+      const newSuccessCount = existingPattern.successCount! + 1;
       const newAvgScore = Math.round(
-        ((existing[0].avgEngagementScore || 0) * existing[0].usageCount! + pattern.avgEngagementScore) / newUsageCount
+        ((existingPattern.avgEngagementScore || 0) * existingPattern.usageCount! + pattern.avgEngagementScore) / newUsageCount
       );
 
       await db.update(promptPatterns)
@@ -275,7 +277,7 @@ export class PromptPatternAnalyzer {
           avgEngagementScore: newAvgScore,
           updatedAt: new Date(),
         })
-        .where(eq(promptPatterns.id, existing[0].id));
+        .where(eq(promptPatterns.id, existingPattern.id));
     } else {
       // Insert new pattern
       await db.insert(promptPatterns).values({
@@ -387,16 +389,17 @@ export class PromptPatternAnalyzer {
         ))
         .limit(1);
 
-      if (existing.length > 0) {
+      if (existing.length > 0 && existing[0]) {
+        const existingPattern = existing[0];
         await db.update(promptPatterns)
           .set({
-            usageCount: (existing[0].usageCount || 0) + 1,
+            usageCount: (existingPattern.usageCount || 0) + 1,
             successCount: isPositive 
-              ? (existing[0].successCount || 0) + 1 
-              : existing[0].successCount,
+              ? (existingPattern.successCount || 0) + 1 
+              : existingPattern.successCount,
             updatedAt: new Date(),
           })
-          .where(eq(promptPatterns.id, existing[0].id));
+          .where(eq(promptPatterns.id, existingPattern.id));
       }
     }
   }

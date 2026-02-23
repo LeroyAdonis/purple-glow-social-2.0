@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
           lastSyncedAt: new Date(),
           updatedAt: new Date(),
         })
-        .where(eq(connectedAccounts.id, existing[0].id));
+        .where(eq(connectedAccounts.id, existing[0]!.id));
     } else {
       // Create new connection
       await db.insert(connectedAccounts).values({

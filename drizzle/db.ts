@@ -30,10 +30,7 @@ export const db: NeonDatabase<typeof schema> = drizzleWs(pool, { schema });
 export async function healthCheck(): Promise<{ ok: boolean; details?: string }> {
   try {
     // Run a minimal query with a short timeout via pool
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 3_000);
-    await db.execute(sql`select 1`, { signal: controller.signal } as never);
-    clearTimeout(timeout);
+    const result = await db.execute(sql`select 1` as any);
     return { ok: true };
   } catch (err) {
     const details = err instanceof Error ? err.message : 'Unknown error';

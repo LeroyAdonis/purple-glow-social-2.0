@@ -177,18 +177,16 @@ export class AnalyticsService {
       if (!platformBreakdown[a.platform]) {
         platformBreakdown[a.platform] = { count: 0, avgEngagement: 0 };
       }
-      if (platformBreakdown[a.platform]) {
-        platformBreakdown[a.platform].count += 1;
-        platformBreakdown[a.platform].avgEngagement += a.engagementScore || 0;
-      }
+      // Safe to access after initialization above
+      platformBreakdown[a.platform]!.count += 1;
+      platformBreakdown[a.platform]!.avgEngagement += a.engagementScore || 0;
     }
     
     // Calculate averages per platform
     for (const platform of Object.keys(platformBreakdown)) {
-      if (platformBreakdown[platform] && platformBreakdown[platform].count > 0) {
-        platformBreakdown[platform].avgEngagement = Math.round(
-          platformBreakdown[platform].avgEngagement / platformBreakdown[platform].count
-        );
+      const data = platformBreakdown[platform];
+      if (data && data.count > 0) {
+        data.avgEngagement = Math.round(data.avgEngagement / data.count);
       }
     }
 
@@ -199,10 +197,9 @@ export class AnalyticsService {
         if (!topicScores[a.topic]) {
           topicScores[a.topic] = { total: 0, count: 0 };
         }
-        if (topicScores[a.topic]) {
-          topicScores[a.topic].total += a.engagementScore || 0;
-          topicScores[a.topic].count += 1;
-        }
+        // Safe to access after initialization above
+        topicScores[a.topic]!.total += a.engagementScore || 0;
+        topicScores[a.topic]!.count += 1;
       }
     }
 

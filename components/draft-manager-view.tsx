@@ -68,7 +68,7 @@ export default function DraftManagerView({
   const [deletingDraftId, setDeletingDraftId] = useState<string | null>(null);
 
   // Fetch drafts
-  const fetchDrafts = useCallback(async (reset = false) => {
+  const fetchDrafts = useCallback(async (reset = false, signal?: AbortSignal) => {
     setIsLoading(true);
     setError(null);
 
@@ -84,14 +84,16 @@ export default function DraftManagerView({
         params.append('platform', platformFilter);
       }
 
-      const response = await fetch(`/api/posts/drafts?${params}`);
+      const response = await fetch(`/api/posts/drafts?${params}`, { signal });
       const data = await response.json();
+
+      if (signal?.aborted) return;
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to fetch drafts');
       }
 
-      const fetchedDrafts = data.drafts.map((d: any) => ({
+      const fetchedDrafts = data.drafts.map((d: Draft) => ({
         ...d,
         createdAt: new Date(d.createdAt),
         updatedAt: new Date(d.updatedAt),
@@ -107,17 +109,26 @@ export default function DraftManagerView({
       setTotalDrafts(data.total);
       setHasMore(data.pagination.hasMore);
 
-    } catch (err: any) {
-      setError(err.message || 'Failed to load drafts');
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === 'AbortError') return;
+      if (error instanceof Error) {
+        setError(error.message || 'Failed to load drafts');
+      } else {
+        setError('Failed to load drafts');
+      }
     } finally {
-      setIsLoading(false);
+      if (!signal?.aborted) {
+        setIsLoading(false);
+      }
     }
   }, [offset, platformFilter, sortOrder, limit]);
 
   // Initial fetch and filter changes
   useEffect(() => {
-    fetchDrafts(true);
-  }, [platformFilter, sortOrder]);
+    const controller = new AbortController();
+    fetchDrafts(true, controller.signal);
+    return () => controller.abort();
+  }, [platformFilter, sortOrder, fetchDrafts]);
 
   // Handle load more
   const handleLoadMore = () => {

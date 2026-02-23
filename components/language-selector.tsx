@@ -13,7 +13,7 @@ export default function LanguageSelector({ variant = 'default' }: LanguageSelect
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const currentLang = LANGUAGES.find(l => l.code === currentLanguage) || LANGUAGES[0];
+  const currentLang = LANGUAGES.find(l => l.code === currentLanguage) ?? LANGUAGES[0]!;
 
   // Close dropdown when clicking outside
   useEffect(() => {

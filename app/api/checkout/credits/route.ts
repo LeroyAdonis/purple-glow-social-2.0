@@ -13,6 +13,7 @@ import { user as userTable } from '../../../../drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { logger } from '../../../../lib/logger';
 import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
+import { creditCheckoutSchema } from '@/lib/security/validation';
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,19 +28,28 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse request body
-    const body = await parseRequestBody<{ packageId: string }>(request);
+    const body = await parseRequestBody(request);
     if (!body) {
       return invalidJsonResponse();
     }
 
-    const { packageId } = body;
-
-    if (!packageId) {
+    // Validate with Zod schema
+    const validationResult = creditCheckoutSchema.safeParse(body);
+    if (!validationResult.success) {
+      logger.polar.warn('Invalid credit checkout request', {
+        userId: session.user.id,
+        errors: validationResult.error.format(),
+      });
       return NextResponse.json(
-        { error: 'Package ID is required' },
+        { 
+          error: 'Invalid input', 
+          details: validationResult.error.format(),
+        },
         { status: 400 }
       );
     }
+
+    const { packageId } = validationResult.data;
 
     // Get full user data from database
     const [user] = await db

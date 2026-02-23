@@ -40,35 +40,44 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
 
   // Fetch automation rules and limits from API
   useEffect(() => {
+    const controller = new AbortController();
     async function fetchData() {
       setLoading(true);
       try {
         const [rulesRes, limitsRes] = await Promise.all([
-          fetch('/api/user/automation-rules'),
-          fetch('/api/limits/check'),
+          fetch('/api/user/automation-rules', { signal: controller.signal }),
+          fetch('/api/limits/check', { signal: controller.signal }),
         ]);
+
+        if (controller.signal.aborted) return;
 
         if (rulesRes.ok) {
           const data = await rulesRes.json();
+          if (controller.signal.aborted) return;
           setRules(data.rules || []);
           setStats(data.stats || { total: 0, active: 0 });
         }
 
         if (limitsRes.ok) {
           const limitsData = await limitsRes.json();
+          if (controller.signal.aborted) return;
           setAutomationLimits({
             enabled: limitsData.automation.enabled,
             ...limitsData.automation.rules,
             tier: limitsData.tier,
           });
         }
-      } catch (error) {
-        console.error('Failed to fetch automation data:', error);
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') return;
+        logger.api.error('Failed to fetch automation data', { error });
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
     fetchData();
+    return () => controller.abort();
   }, []);
 
   const handleCreateRule = () => {

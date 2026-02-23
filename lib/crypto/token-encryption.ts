@@ -67,6 +67,11 @@ export function decryptToken(encryptedToken: string): string {
     
     const [ivHex, authTagHex, saltHex, encrypted] = parts;
     
+    // Ensure all parts are defined
+    if (!ivHex || !authTagHex || !saltHex || !encrypted) {
+      throw new Error('Invalid encrypted token format - missing parts');
+    }
+    
     const iv = Buffer.from(ivHex, 'hex');
     const authTag = Buffer.from(authTagHex, 'hex');
     

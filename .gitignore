@@ -39,6 +39,9 @@ out/
 # MCP
 mcp.json
 
+# Git Worktrees
+.worktrees/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

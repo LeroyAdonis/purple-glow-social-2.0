@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 
 /**
- * Global Proxy (replaces middleware.ts UX behavior)
+ * Global Middleware
  *
  * Handles route protection, authentication redirects, and admin access control.
  * Uses Better Auth's official session API for reliable authentication.
@@ -59,7 +59,7 @@ function isAdminEmail(email: string | undefined): boolean {
   return ADMIN_EMAIL_DOMAINS.some(domain => email.endsWith(`@${domain}`));
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip middleware for static assets and Next.js internals

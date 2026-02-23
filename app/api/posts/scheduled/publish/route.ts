@@ -65,19 +65,26 @@ export async function POST(request: NextRequest) {
     const postService = new PostService();
     const results = await postService.publishScheduledPost(postId);
 
-    if (results[0].success) {
-      return NextResponse.json({
-        success: true,
-        platform: results[0].platform,
-        postId: results[0].postId,
-        postUrl: results[0].postUrl,
-      });
-    } else {
-      return NextResponse.json(
-        { error: results[0].error || 'Failed to publish post' },
-        { status: 500 }
-      );
+    if (results.length > 0 && results[0]) {
+      if (results[0].success) {
+        return NextResponse.json({
+          success: true,
+          platform: results[0].platform,
+          postId: results[0].postId,
+          postUrl: results[0].postUrl,
+        });
+      } else {
+        return NextResponse.json(
+          { error: results[0].error || 'Failed to publish post' },
+          { status: 500 }
+        );
+      }
     }
+
+    return NextResponse.json(
+      { error: 'No results returned from post service' },
+      { status: 500 }
+    );
   } catch (error: any) {
     logger.posting.error('Publish scheduled post failed', { error });
     return NextResponse.json(
