@@ -5,6 +5,18 @@
  * Reference: https://docs.puter.com/
  */
 
+interface PuterAuth {
+  /**
+   * Sign in the user via Puter popup (must be user-initiated)
+   */
+  signIn(): Promise<{ username?: string } | undefined>;
+
+  /**
+   * Check if the user is signed in
+   */
+  isSignedIn(): boolean;
+}
+
 interface PuterAI {
   /**
    * Generate text content using AI chat models
@@ -36,6 +48,7 @@ interface PuterAI {
 
 interface Puter {
   ai: PuterAI;
+  auth: PuterAuth;
 }
 
 declare const puter: Puter;

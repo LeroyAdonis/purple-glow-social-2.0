@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { generateWithPuter, isPuterAvailable } from '../lib/ai/puter-ai-service';
+import { generateWithPuter, isPuterAvailable, ensurePuterAuth } from '../lib/ai/puter-ai-service';
 import SchedulePostModal from './modals/schedule-post-modal';
 import CustomSelect from './custom-select';
 import LimitStatusBadge from './limit-status-badge';
@@ -145,6 +145,13 @@ export default function ContentGenerator() {
                 return;
             }
 
+            // Authenticate with Puter first (user-initiated, so popup is allowed)
+            const authed = await ensurePuterAuth();
+            if (!authed) {
+                setState({ error: "Please sign in to Puter to use AI generation. If the popup didn't appear, check your popup blocker and try again." });
+                return;
+            }
+
             const result = await generateWithPuter({
                 topic: prompt,
                 platform: platform as 'instagram' | 'twitter' | 'facebook' | 'linkedin',
@@ -186,7 +193,11 @@ export default function ContentGenerator() {
             });
         } catch (error: unknown) {
             const message = error instanceof Error ? error.message : "Failed to generate content.";
-            setState({ error: message });
+            const isTimeout = message.includes('timed out');
+            setState({ error: isTimeout
+                ? "Generation timed out. This can happen with new Puter accounts. Please reload the page and try again."
+                : message
+            });
         } finally {
             setIsGenerating(false);
         }

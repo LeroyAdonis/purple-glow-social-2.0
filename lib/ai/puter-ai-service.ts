@@ -32,13 +32,52 @@ interface GeneratedContent {
 
 // Default model configurations
 const DEFAULT_TEXT_MODEL = 'google/gemini-2.5-flash';
-const DEFAULT_IMAGE_MODEL = 'gemini-2.5-flash-preview-image-generation';
+const DEFAULT_IMAGE_MODEL = 'dall-e-3';
+const FALLBACK_IMAGE_MODEL = 'gemini-2.5-flash-image-preview';
+
+// Timeout durations
+const TEXT_GENERATION_TIMEOUT_MS = 30_000; // 30 seconds
+const IMAGE_GENERATION_TIMEOUT_MS = 60_000; // 60 seconds
+
+/**
+ * Wrap a promise with a timeout to prevent indefinite hangs.
+ * Puter.js can hang forever on auth/rate-limit errors (known bug #2410).
+ */
+function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error(
+        `${label} timed out after ${ms / 1000}s. This can happen when Puter authentication didn't complete. Please reload the page and try again.`
+      )), ms)
+    ),
+  ]);
+}
 
 /**
  * Check if Puter.js is available in the browser
  */
 export function isPuterAvailable(): boolean {
   return typeof window !== 'undefined' && typeof window.puter !== 'undefined';
+}
+
+/**
+ * Ensure the user is authenticated with Puter before making API calls.
+ * Must be called from a user-initiated action (click handler) so the
+ * browser allows the popup.
+ */
+export async function ensurePuterAuth(): Promise<boolean> {
+  if (!isPuterAvailable()) return false;
+  try {
+    const user = await withTimeout(
+      window.puter!.auth.signIn(),
+      TEXT_GENERATION_TIMEOUT_MS,
+      'Puter authentication'
+    );
+    return !!user;
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -123,10 +162,13 @@ async function generateContentWithRetry(
     });
 
     try {
-      // Call Puter.js chat API
-      const response = await window.puter!.ai.chat(prompt, {
-        model: DEFAULT_TEXT_MODEL,
-      });
+      const response = await withTimeout(
+        window.puter!.ai.chat(prompt, {
+          model: DEFAULT_TEXT_MODEL,
+        }),
+        TEXT_GENERATION_TIMEOUT_MS,
+        'AI text generation'
+      );
 
       const generatedText = parsePuterResponse(response);
       const parsed = parseGeneratedContent(generatedText);
@@ -204,24 +246,31 @@ export async function generateImageWithPuter(prompt: string): Promise<string | n
     return null;
   }
 
-  try {
-    console.info('Puter.js: Generating image...', { prompt });
-    
-    const image = await window.puter!.ai.txt2img(prompt, {
-      model: DEFAULT_IMAGE_MODEL,
-    });
+  const models = [DEFAULT_IMAGE_MODEL, FALLBACK_IMAGE_MODEL];
 
-    if (image && image.src) {
-      console.info('Puter.js: Image generated successfully');
-      return image.src; // Returns data URL (base64)
+  for (const model of models) {
+    try {
+      console.info('Puter.js: Generating image...', { prompt, model });
+
+      const image = await withTimeout(
+        window.puter!.ai.txt2img(prompt, { model }),
+        IMAGE_GENERATION_TIMEOUT_MS,
+        'AI image generation'
+      );
+
+      if (image && image.src) {
+        console.info('Puter.js: Image generated successfully', { model });
+        return image.src;
+      }
+
+      console.warn('Puter.js: Image generation returned no src', { model });
+    } catch (error) {
+      console.warn(`Puter.js: Image generation failed with model ${model}`, error);
     }
-
-    console.warn('Puter.js: Image generation returned no src');
-    return null;
-  } catch (error) {
-    console.error('Puter.js: Image generation failed', error);
-    return null;
   }
+
+  console.error('Puter.js: All image models failed');
+  return null;
 }
 
 /**
