@@ -24,11 +24,18 @@ npm run db:seed-test     # Seed test accounts
 npx inngest-cli@latest dev  # Local Inngest dev server (localhost:8288)
 ```
 
+E2E tests use Playwright (`e2e-tests/` directory, config in `playwright.config.ts`). The dev server must be running first:
+
+```bash
+npx playwright test                          # Run all e2e tests
+npx playwright test e2e-tests/login.spec.ts  # Run a single e2e test
+```
+
 ## Architecture
 
-### Authentication Flow
+### Authentication (Better-auth)
 
-Better-auth with Drizzle adapter → Neon PostgreSQL. Session validation via `auth.api.getSession()`. Middleware (`middleware.ts`) handles route protection as a UX convenience layer; API routes must still validate sessions independently.
+Better-auth with Drizzle adapter → Neon PostgreSQL. Session validation via `auth.api.getSession()`. API routes **must** validate sessions independently—never rely solely on middleware for authorization.
 
 ```typescript
 import { auth } from "@/lib/auth";
@@ -39,23 +46,27 @@ if (!session?.user) {
 }
 ```
 
-**Vercel cookie pitfall:** The `.vercel.app` domain is on the Public Suffix List, causing `__Secure-` cookies to be silently rejected by browsers. The auth config conditionally disables `useSecureCookies` when deployed to `.vercel.app`. If auth appears to work but sessions don't persist, this is likely the cause.
+The `app/api/auth/[...all]/route.ts` catch-all is **owned by Better-auth**—don't add custom logic there.
+
+**Vercel cookie pitfall:** The `.vercel.app` domain is on the Public Suffix List, causing `__Secure-` cookies to be silently rejected by browsers. The auth config in `lib/auth.ts` conditionally disables `useSecureCookies` when deployed to `.vercel.app`. If login works but sessions don't persist, this is the cause.
 
 ### Database Layer
 
-Schema is in `drizzle/schema.ts`. All queries go through Drizzle ORM—never use raw SQL. Database helper modules live in `lib/db/` (one file per domain: `posts.ts`, `users.ts`, `connected-accounts.ts`, etc.).
+Schema is in `drizzle/schema.ts` (uses `pgTable` with typed enums). All queries go through Drizzle ORM—never use raw SQL. Domain-specific query helpers live in `lib/db/` (one file per domain: `posts.ts`, `users.ts`, `connected-accounts.ts`, `automation.ts`, etc.).
+
+Better-auth requires specific singular export names (`user`, `session`, `account`) in the schema—don't rename these tables.
 
 OAuth tokens are encrypted with AES-256-GCM (`lib/crypto/token-encryption.ts`). Always use `getDecryptedToken()` from `lib/db/connected-accounts.ts` to read tokens.
 
 ### Background Jobs (Inngest)
 
-8 scheduled functions in `lib/inngest/functions/`: scheduled post processing (every minute), automation rule execution, OAuth token refresh, credit expiry checks, PKCE cleanup, and AI pattern learning. Client config is in `lib/inngest/client.ts`.
+10 scheduled functions in `lib/inngest/functions/`. Client config is in `lib/inngest/client.ts`. Functions are registered via `lib/inngest/functions/index.ts` and served through `app/api/inngest/route.ts`.
 
-For local development, run the Inngest dev server alongside Next.js.
+For local development, run the Inngest dev server alongside Next.js (`npx inngest-cli@latest dev`, UI at localhost:8288).
 
 ### Logging
 
-Use the structured logger (`lib/logger.ts`), not `console.log`. Context-specific loggers are available:
+Use the structured logger (`lib/logger.ts`), **not** `console.log`:
 
 ```typescript
 import { logger } from "@/lib/logger";
@@ -66,9 +77,11 @@ logger.oauth.exception(error, { platform: "twitter" });
 // Contexts: auth, api, cron, oauth, posting, ai, polar, db, admin, security
 ```
 
-The logger auto-sanitizes sensitive data and sends errors to Sentry in production.
+The logger auto-sanitizes sensitive data (tokens, passwords, API keys) and sends error-level logs to Sentry in production.
 
 ### API Response Format
+
+All API routes must use this consistent envelope:
 
 ```typescript
 // Success
@@ -80,24 +93,31 @@ return Response.json({ success: false, error: "...", code: "ERROR_CODE" }, { sta
 
 ### Component Organization
 
-Server components live in `app/`. Client components live in `components/` and must start with `"use client"`. Complex components should be wrapped with `ErrorBoundary` from `lib/ErrorBoundary.tsx`.
+Server components live in `app/`. Client components live in `components/` and **must** start with `"use client"`. The root layout (`app/layout.tsx`) wraps the app with `LanguageProvider` and `QueryProvider`.
+
+Complex components should be wrapped with `ErrorBoundary` from `lib/ErrorBoundary.tsx`.
+
+### OAuth & Social Posting
+
+OAuth providers follow a base-provider pattern in `lib/oauth/` (Facebook, Instagram, Twitter/X with PKCE, LinkedIn). Each has a corresponding poster in `lib/posting/` that handles platform-specific API calls.
+
+OAuth flows **must** include a CSRF `state` parameter. Twitter/X uses PKCE (`lib/oauth/pkce-utils.ts`).
 
 ### Credit System
 
-Credits are deducted on successful publish (not generation). 1 credit per platform per post. Scheduled posts use credit reservations that release on failure. Tiers: Free (10 credits), Pro (500), Business (2000).
+Credits are deducted on **successful publish** (not generation). 1 credit per platform per post. Scheduled posts use credit reservations (`lib/db/credit-reservations.ts`) that release on failure. Tiers: Free (10 credits), Pro (500), Business (2000).
 
 ## South African Context
 
-All dates/times must use SAST (UTC+2). Currency is ZAR with 15% VAT. AI content generation prompts must include SA cultural context (local expressions, hashtags like #Mzansi, #LocalIsLekker, and references to SA cities).
+All dates/times must use **SAST (UTC+2)**. Currency is **ZAR** with 15% VAT. AI content generation prompts must include SA cultural context (local expressions, hashtags like #Mzansi, #LocalIsLekker, and references to SA cities).
 
 The 11 supported language codes: `en`, `af`, `zu`, `xh`, `nso`, `tn`, `st`, `ts`, `ss`, `ve`, `nr`. Translation files are in `lib/translations/`.
 
 ## Key Conventions
 
-- **TypeScript strict mode** is enabled with `noUncheckedIndexedAccess`, `noImplicitAny`, and all strict flags. Never use `any`.
+- **TypeScript strict mode** with `noUncheckedIndexedAccess`, `noImplicitAny`, and all strict flags. Never use `any`.
 - **Zod** for runtime input validation in API routes.
 - **Path alias** `@/*` maps to the project root.
-- **OAuth flows** must include a CSRF `state` parameter and use PKCE where applicable (Twitter/X).
-- All social platform posting logic follows a provider pattern in `lib/posting/` and `lib/oauth/`.
-- The `app/api/auth/[...all]/route.ts` catch-all is owned by Better-auth—don't add custom logic there.
 - Tests are in `tests/` using vitest with jsdom environment. Setup file is `tests/setup.ts`.
+- Environment validation happens at startup via `lib/config/env-validation.ts`. See `.env.example` for all required variables.
+- Fonts: Syne (display), Outfit (body), Space Grotesk (mono) — loaded via `next/font/google` in `app/layout.tsx`.
