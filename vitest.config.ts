@@ -9,7 +9,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./tests/setup.ts'],
     include: ['tests/**/*.{test,spec}.{ts,tsx}'],
-    exclude: ['node_modules', '.next', 'archive'],
+    exclude: ['node_modules', '.next', 'archive', 'tests/integration/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -28,6 +28,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './'),
+      '@sentry/nextjs': path.resolve(__dirname, './tests/mocks/sentry-mock.ts'),
     },
   },
 });

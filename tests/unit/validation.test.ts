@@ -74,7 +74,7 @@ describe('Content Generation Schema', () => {
     const request = {
       topic: 'Test',
       platform: 'instagram',
-      tone: 'humorous',
+      tone: 'casual',
     };
 
     const result = validateRequest(contentGenerationSchema, request);

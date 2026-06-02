@@ -4,8 +4,13 @@
  * Track user interactions and business events
  */
 
-import * as Sentry from '@sentry/nextjs';
 import { logger } from '@/lib/logger';
+
+// Sentry was removed from the project - no-op replacement
+const Sentry = {
+  captureMessage: (..._args: unknown[]) => ({}),
+  addBreadcrumb: (..._args: unknown[]) => ({}),
+};
 
 interface TrackEvent {
   name: string;

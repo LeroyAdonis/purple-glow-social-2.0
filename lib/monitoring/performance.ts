@@ -4,8 +4,13 @@
  * Track API response times, database query times, and AI generation times
  */
 
-import * as Sentry from '@sentry/nextjs';
 import { logger } from '@/lib/logger';
+
+// Sentry was removed from the project - no-op replacement
+const Sentry = {
+  captureMessage: (..._args: unknown[]) => {},
+  addBreadcrumb: (..._args: unknown[]) => {},
+};
 
 interface PerformanceMetric {
   name: string;
@@ -171,12 +176,13 @@ export function getPerformanceSummary(): Record<string, { avg: number; count: nu
   const summary: Record<string, { total: number; count: number; max: number }> = {};
   
   for (const metric of metricsBuffer) {
-    if (!summary[metric.name]) {
-      summary[metric.name] = { total: 0, count: 0, max: 0 };
+    const name = metric.name;
+    if (!summary[name]) {
+      summary[name] = { total: 0, count: 0, max: 0 };
     }
-    summary[metric.name].total += metric.duration;
-    summary[metric.name].count += 1;
-    summary[metric.name].max = Math.max(summary[metric.name].max, metric.duration);
+    summary[name].total += metric.duration;
+    summary[name].count += 1;
+    summary[name].max = Math.max(summary[name].max, metric.duration);
   }
   
   const result: Record<string, { avg: number; count: number; max: number }> = {};

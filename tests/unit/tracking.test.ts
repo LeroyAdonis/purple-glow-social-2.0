@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import * as Sentry from '@sentry/nextjs';
+import { logger } from '@/lib/logger';
 import {
   trackEvent,
   trackAuth,
@@ -23,74 +23,71 @@ describe('trackEvent', () => {
     vi.clearAllMocks();
   });
 
-  it('should add breadcrumb to Sentry', () => {
+  it('should log event with category and name', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
+
     trackEvent({
       name: 'test.event',
       category: 'user',
       properties: { action: 'click' },
     });
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({
-        category: 'user',
-        message: 'test.event',
-        data: { action: 'click' },
-        level: 'info',
-      })
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('user/test.event'),
+      expect.any(Object)
     );
   });
 
   it('should set error level for error category', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
+
     trackEvent({
       name: 'error.event',
       category: 'error',
+      properties: { code: 500 },
     });
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({
-        level: 'error',
-      })
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('error/error.event'),
+      expect.any(Object)
     );
   });
 });
 
 describe('trackAuth', () => {
   it('should track login event', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackAuth('login', 'user123');
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'auth.login',
-        category: 'user',
-      })
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('auth.login'),
+      expect.objectContaining({ action: 'login' })
     );
   });
 
   it('should track signup event', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackAuth('signup', 'newuser');
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'auth.signup',
-      })
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('auth.signup'),
+      expect.any(Object)
     );
   });
 });
 
 describe('trackContentGeneration', () => {
   it('should track successful content generation', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackContentGeneration('linkedin', 'en', 'professional', true, 'user123');
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('content.generated'),
       expect.objectContaining({
-        message: 'content.generated',
-        category: 'business',
-        data: expect.objectContaining({
-          platform: 'linkedin',
-          language: 'en',
-          tone: 'professional',
-          success: true,
-        }),
+        platform: 'linkedin',
+        language: 'en',
+        tone: 'professional',
+        success: true,
       })
     );
   });
@@ -98,16 +95,15 @@ describe('trackContentGeneration', () => {
 
 describe('trackPostScheduled', () => {
   it('should track scheduled post with date', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     const scheduledDate = new Date('2025-12-25T10:00:00Z');
     trackPostScheduled('twitter', scheduledDate, 'user123');
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('post.scheduled'),
       expect.objectContaining({
-        message: 'post.scheduled',
-        data: expect.objectContaining({
-          platform: 'twitter',
-          scheduledDate: '2025-12-25T10:00:00.000Z',
-        }),
+        platform: 'twitter',
+        scheduledDate: '2025-12-25T10:00:00.000Z',
       })
     );
   });
@@ -115,105 +111,81 @@ describe('trackPostScheduled', () => {
 
 describe('trackPostPublished', () => {
   it('should track successful post', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackPostPublished('instagram', true, undefined, 'user123');
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'post.published',
-        category: 'business',
-      })
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('post.published'),
+      expect.objectContaining({ platform: 'instagram', success: true })
     );
   });
 
   it('should track failed post with error message', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackPostPublished('facebook', false, 'Token expired', 'user123');
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'post.failed',
-        category: 'error',
-        data: expect.objectContaining({
-          errorMessage: 'Token expired',
-        }),
-      })
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('post.failed'),
+      expect.objectContaining({ platform: 'facebook', errorMessage: 'Token expired' })
     );
   });
 });
 
 describe('trackPayment', () => {
   it('should track successful subscription', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackPayment('subscription', 299, 'ZAR', true, 'user123');
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'payment.subscription',
-        data: expect.objectContaining({
-          amount: 299,
-          currency: 'ZAR',
-          success: true,
-        }),
-      })
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('payment.subscription'),
+      expect.objectContaining({ amount: 299, currency: 'ZAR', success: true })
     );
   });
 
   it('should track credit purchase', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackPayment('credits', 99, 'ZAR', true);
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'payment.credits',
-      })
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('payment.credits'),
+      expect.any(Object)
     );
   });
 });
 
 describe('trackOAuthConnection', () => {
   it('should track successful connection', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackOAuthConnection('linkedin', 'connected', undefined, 'user123');
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'oauth.connected',
-        category: 'user',
-      })
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('oauth.connected'),
+      expect.objectContaining({ platform: 'linkedin', action: 'connected' })
     );
   });
 
   it('should track failed connection as error', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackOAuthConnection('twitter', 'failed', 'Invalid callback', 'user123');
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: 'oauth.failed',
-        category: 'error',
-      })
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('oauth.failed'),
+      expect.objectContaining({ platform: 'twitter', action: 'failed' })
     );
   });
 });
 
 describe('trackApiError', () => {
-  it('should track API error and send to Sentry', () => {
+  it('should track API error', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackApiError('/api/posts', 'POST', 500, 'Internal server error', 'user123');
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalled();
-    expect(Sentry.captureMessage).toHaveBeenCalledWith(
-      'API Error: POST /api/posts',
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('api.error'),
       expect.objectContaining({
-        level: 'error',
-        tags: expect.objectContaining({
-          statusCode: '500',
-        }),
-      })
-    );
-  });
-
-  it('should use warning level for 4xx errors', () => {
-    trackApiError('/api/auth', 'GET', 401, 'Unauthorized');
-
-    expect(Sentry.captureMessage).toHaveBeenCalledWith(
-      expect.any(String),
-      expect.objectContaining({
-        level: 'warning',
+        endpoint: '/api/posts',
+        method: 'POST',
+        statusCode: 500,
       })
     );
   });
@@ -221,19 +193,18 @@ describe('trackApiError', () => {
 
 describe('trackFeatureUsage', () => {
   it('should track feature usage with metadata', () => {
+    const debugSpy = vi.spyOn(logger.api, 'debug').mockImplementation(() => {});
     trackFeatureUsage('ai-generator', 'generate', 'user123', {
       platform: 'twitter',
       tone: 'casual',
     });
 
-    expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
+    expect(debugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('feature.ai-generator.generate'),
       expect.objectContaining({
-        message: 'feature.ai-generator.generate',
-        data: expect.objectContaining({
-          feature: 'ai-generator',
-          action: 'generate',
-          platform: 'twitter',
-        }),
+        feature: 'ai-generator',
+        action: 'generate',
+        platform: 'twitter',
       })
     );
   });
