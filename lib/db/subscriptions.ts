@@ -13,7 +13,7 @@ import { eq, and } from 'drizzle-orm';
  */
 export async function createSubscription(data: NewSubscription): Promise<Subscription> {
   const [subscription] = await db.insert(subscriptions).values(data).returning();
-  return subscription;
+  return subscription!;
 }
 
 /**
@@ -65,7 +65,7 @@ export async function updateSubscription(
     .where(eq(subscriptions.id, subscriptionId))
     .returning();
   
-  return subscription;
+  return subscription!;
 }
 
 /**
@@ -91,7 +91,7 @@ export async function cancelSubscription(
     .where(eq(subscriptions.id, subscriptionId))
     .returning();
   
-  return subscription;
+  return subscription!;
 }
 
 /**

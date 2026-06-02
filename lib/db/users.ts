@@ -92,7 +92,7 @@ export async function updateUser(
     .where(eq(user.id, userId))
     .returning();
   
-  return updated;
+  return updated!;
 }
 
 /**
@@ -108,7 +108,7 @@ export async function addCredits(userId: string, amount: number): Promise<User> 
     .where(eq(user.id, userId))
     .returning();
   
-  return updated;
+  return updated!;
 }
 
 /**
@@ -180,7 +180,7 @@ export async function deductCredits(userId: string, amount: number): Promise<Use
     .where(eq(user.id, userId))
     .returning();
   
-  return updated;
+  return updated!;
 }
 
 /**

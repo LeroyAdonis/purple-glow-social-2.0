@@ -13,7 +13,7 @@ import { eq } from 'drizzle-orm';
  */
 export async function createWebhookEvent(data: NewWebhookEvent): Promise<WebhookEvent> {
   const [event] = await db.insert(webhookEvents).values(data).returning();
-  return event;
+  return event!;
 }
 
 /**
@@ -42,7 +42,7 @@ export async function markEventProcessed(eventId: string): Promise<WebhookEvent>
     .where(eq(webhookEvents.eventId, eventId))
     .returning();
   
-  return event;
+  return event!;
 }
 
 /**
@@ -68,7 +68,7 @@ export async function markEventFailed(
     .where(eq(webhookEvents.eventId, eventId))
     .returning();
   
-  return event;
+  return event!;
 }
 
 /**

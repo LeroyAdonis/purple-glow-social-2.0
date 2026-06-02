@@ -33,7 +33,7 @@ export async function createNotification(data: {
     })
     .returning();
 
-  return notification;
+  return notification!;
 }
 
 /**

@@ -17,7 +17,7 @@ function getTodayDateString(): string {
   const now = new Date();
   // Adjust for SAST (UTC+2)
   now.setHours(now.getHours() + 2);
-  return now.toISOString().split('T')[0];
+  return now.toISOString().split('T')[0]!;
 }
 
 /**
@@ -39,7 +39,7 @@ async function getOrCreateDailyUsage(userId: string, date?: string): Promise<Dai
     .limit(1);
 
   if (existing) {
-    return existing;
+    return existing!;
   }
 
   // Create new record
@@ -54,7 +54,7 @@ async function getOrCreateDailyUsage(userId: string, date?: string): Promise<Dai
     })
     .returning();
 
-  return newRecord;
+  return newRecord!;
 }
 
 /**
@@ -81,7 +81,7 @@ export async function incrementGenerations(userId: string): Promise<DailyUsage> 
     )
     .returning();
 
-  return updated;
+  return updated!;
 }
 
 /**
@@ -116,7 +116,7 @@ export async function incrementPosts(
     )
     .returning();
 
-  return updated;
+  return updated!;
 }
 
 /**

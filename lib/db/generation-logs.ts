@@ -34,7 +34,7 @@ export async function logGeneration(data: {
     })
     .returning();
 
-  return log;
+  return log!;
 }
 
 /**
@@ -205,7 +205,7 @@ export async function getSystemGenerationStats(days: number = 30): Promise<{
     }
     byPlatform[log.platform] = (byPlatform[log.platform] || 0) + 1;
     
-    const dateKey = log.createdAt.toISOString().split('T')[0];
+    const dateKey = log.createdAt!.toISOString().split('T')[0]!;
     byDayMap[dateKey] = (byDayMap[dateKey] || 0) + 1;
   }
 

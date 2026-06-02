@@ -15,7 +15,7 @@ type NewAutomationRule = typeof automationRules.$inferInsert;
  */
 export async function createAutomationRule(data: NewAutomationRule): Promise<AutomationRule> {
   const [rule] = await db.insert(automationRules).values(data).returning();
-  return rule;
+  return rule!;
 }
 
 /**
@@ -83,7 +83,7 @@ export async function updateAutomationRule(
     .where(eq(automationRules.id, ruleId))
     .returning();
   
-  return rule;
+  return rule!;
 }
 
 /**
@@ -104,7 +104,7 @@ export async function toggleAutomationRule(ruleId: string): Promise<AutomationRu
     .where(eq(automationRules.id, ruleId))
     .returning();
   
-  return rule;
+  return rule!;
 }
 
 /**

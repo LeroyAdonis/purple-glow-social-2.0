@@ -31,7 +31,7 @@ export async function logJob(data: {
     })
     .returning();
 
-  return log;
+  return log!;
 }
 
 /**
@@ -251,12 +251,13 @@ export async function getJobStats(days: number = 7): Promise<{
         break;
     }
 
-    if (!byFunction[log.functionName]) {
-      byFunction[log.functionName] = { total: 0, failed: 0 };
+    const fnName = log.functionName;
+    if (!byFunction[fnName]) {
+      byFunction[fnName] = { total: 0, failed: 0 };
     }
-    byFunction[log.functionName].total++;
+    byFunction[fnName].total++;
     if (log.status === 'failed') {
-      byFunction[log.functionName].failed++;
+      byFunction[fnName].failed++;
     }
   }
 

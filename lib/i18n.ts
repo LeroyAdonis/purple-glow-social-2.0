@@ -41,7 +41,7 @@ export function t(key: string, lang: Language): string {
   
   for (const k of keys) {
     if (value && typeof value === 'object' && !Array.isArray(value)) {
-      value = value[k];
+      value = value[k]!;
     } else {
       return key; // Return key if translation not found
     }

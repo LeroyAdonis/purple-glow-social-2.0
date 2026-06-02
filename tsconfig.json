@@ -59,6 +59,7 @@
     "**/*.spec.ts",
     "**/*.spec.tsx",
     "jest.setup.ts",
-    "firecrawl-mcp-server/**/*"
+    "firecrawl-mcp-server/**/*",
+    "scripts/**/*"
   ]
 }

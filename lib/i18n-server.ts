@@ -4,7 +4,8 @@
  */
 
 import { cookies } from 'next/headers';
-import type { Language, TranslationRecord } from './types';
+import type { TranslationRecord } from './types';
+import type { Language } from './i18n';
 import { LANGUAGES } from './i18n';
 
 // Import all translations
@@ -71,7 +72,7 @@ export function getTranslation(key: string, lang: Language): string {
  * Get all translations for a specific language
  */
 export function getTranslations(lang: Language): TranslationRecord {
-  return serverTranslations[lang];
+  return serverTranslations[lang]!;
 }
 
 /**

@@ -106,7 +106,7 @@ export const getResponsiveValue = <T,>(
   
   // Look for value at current breakpoint or nearest smaller breakpoint
   for (let i = currentIndex; i >= 0; i--) {
-    const bp = breakpointOrder[i];
+    const bp = breakpointOrder[i]!;
     if (values[bp] !== undefined) {
       return values[bp];
     }

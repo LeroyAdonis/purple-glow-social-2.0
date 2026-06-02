@@ -59,7 +59,7 @@ export async function retrievePKCEVerifier(state: string): Promise<string | null
       return null;
     }
     
-    const verifier = result[0].codeVerifier;
+    const verifier = result[0]!.codeVerifier;
     
     // Delete after retrieval (single use)
     await db.delete(pkceVerifiers)

@@ -13,7 +13,7 @@ import { eq, desc } from 'drizzle-orm';
  */
 export async function createTransaction(data: NewTransaction): Promise<Transaction> {
   const [transaction] = await db.insert(transactions).values(data).returning();
-  return transaction;
+  return transaction!;
 }
 
 /**
@@ -52,7 +52,7 @@ export async function updateTransactionStatus(
     .where(eq(transactions.id, transactionId))
     .returning();
   
-  return transaction;
+  return transaction!;
 }
 
 /**

@@ -15,7 +15,7 @@ type NewPost = typeof posts.$inferInsert;
  */
 export async function createPost(data: NewPost): Promise<Post> {
   const [post] = await db.insert(posts).values(data).returning();
-  return post;
+  return post!;
 }
 
 /**
@@ -111,7 +111,7 @@ export async function updatePost(
     .where(eq(posts.id, postId))
     .returning();
 
-  return post;
+  return post!;
 }
 
 /**

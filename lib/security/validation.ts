@@ -100,12 +100,8 @@ export type CheckoutRequest = z.infer<typeof checkoutSchema>;
  * Subscription Checkout Schema
  */
 export const subscriptionCheckoutSchema = z.object({
-  planId: z.enum(['pro', 'business'], { 
-    errorMap: () => ({ message: 'Plan must be either "pro" or "business"' })
-  }),
-  billingCycle: z.enum(['monthly', 'annual'], {
-    errorMap: () => ({ message: 'Billing cycle must be "monthly" or "annual"' })
-  }),
+  planId: z.enum(['pro', 'business']),
+  billingCycle: z.enum(['monthly', 'annual']),
 });
 
 export type SubscriptionCheckoutRequest = z.infer<typeof subscriptionCheckoutSchema>;
