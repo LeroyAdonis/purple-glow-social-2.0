@@ -1,17 +1,15 @@
-# DESIGN.md — POSTA
+# DESIGN.md — Purple Glow Social 2.0
 
 > **Brand Identity & Design Token Spec**
 > *For everyone on the team — designers, developers, founders, and stakeholders*
 
 ---
 
-## What is POSTA?
+## What is Purple Glow Social?
 
-**POSTA** is a South African AI-powered social media management platform. Think of it as your AI marketing assistant that speaks all 11 official languages, understands SA culture (from Joburg to Cape Town), and helps you create, schedule, and automate social media content across Instagram, Twitter/X, Facebook, and LinkedIn.
+**Purple Glow Social (PGS)** is a South African AI-powered social media management platform. Think of it as your AI marketing assistant that speaks all 11 official languages, understands SA culture (from Joburg to Cape Town), and helps you create, schedule, and automate social media content across Instagram, Twitter/X, Facebook, and LinkedIn.
 
-**Tagline:** *"Just Posta."* — Simple, direct, South African.
-
-This document defines how POSTA *looks* and *feels* — our colours, fonts, spacing, components, and brand voice. It's designed to be clear for everyone, not just designers.
+This document defines how PGS *looks* and *feels* — our colours, fonts, spacing, components, and brand voice. It's designed to be clear for everyone, not just designers.
 
 ---
 
@@ -19,11 +17,11 @@ This document defines how POSTA *looks* and *feels* — our colours, fonts, spac
 
 > **This is the most important section of this document.**
 
-Most "dark mode SaaS" products look interchangeable — orange gradients, glass cards, generic tech. POSTA is different because it's unapologetically South African. Here's how that manifests in the design:
+Most "dark mode SaaS" products look interchangeable — purple gradients, glass cards, generic tech. Purple Glow Social is different because it's unapologetically South African. Here's how that manifests in the design:
 
 ### 🇿🇦 Flag Colours Are Design Elements, Not Just Semantic Labels
 
-The SA flag colours are **celebrated** in our design:
+Unlike the old system (where SA green/gold/red/blue were hidden away as "success/warning/error/info" badges), our new system **celebrates** these colours:
 
 - **SA Green (#007749)** — Used in decorative gradients, section dividers, flag stripes, and pattern overlays. Not just for success badges.
 - **SA Gold (#FFB81C)** — Appears in glow effects, premium card borders, and text gradients. Warmer, brighter, more visible.
@@ -37,82 +35,85 @@ The `.flag-stripe` utility renders a horizontal bar with the exact SA flag colou
 The `.pattern-dots` and `.pattern-lines` utilities are a modern, tech-interpretation of Ndebele geometric art. Ndebele design is known for bold geometric shapes, symmetrical patterns, and vibrant colours against dark backgrounds — which maps perfectly to our dark UI.
 
 These patterns are used:
-- **`.pattern-dots`** — As subtle background textures on hero sections and premium cards. An orange dot grid that references Ndebele beadwork patterns.
+- **`.pattern-dots`** — As subtle background textures on hero sections and premium cards. A faint purple dot grid that references Ndebele beadwork patterns.
 - **`.pattern-lines`** — Dynamic diagonal lines used as section separators and decorative backgrounds. The angles and repetition echo Ndebele wall art without being costume-y.
 
 The patterns are subtle (opacity 0.06–0.15) — they're felt more than seen, which is exactly how cultural references should work in a modern tech product.
 
-### 🌑 The Deep Charcoal Void
+### 🌍 The Cosmic Void Background
 
-Our background isn't flat black. `--deep-charcoal (#121218)` is a warm, rich charcoal — darker and more sophisticated than standard dark mode. It provides the perfect canvas for the burnt orange glow effects to pop.
+Our background isn't flat black. `--cosmic-void (#0D001A)` is a deep purple-black — the colour of the night sky over the Karoo Desert, home to the Southern African Large Telescope (SALT). It's darker and richer than the old `#05040A`, with a visible purple undertone that makes the glow effects pop.
 
-This creates a visual identity that's warm, premium, and unmistakable — like the night sky in the Karoo, or obsidian catching firelight.
+This is intentional: the Karoo's dark skies are a South African natural treasure, and referencing that darkness with a purple glow creates a unique visual identity that can't be mistaken for generic dark mode.
 
-### 🌊 Surge Teal — South African Coastline
+### 🌊 Nature-Inspired Teal
 
-The teal accent (`--surge-teal: #00A8B5`) complements the warm orange like the Indian Ocean meets a sunset. It's crisp, clean, and distinctly coastal South African — the colour of the water at Sodwana Bay or the sky over the Drakensberg at dusk.
+The old teal (`#00E0FF`) was electric and generic — it could be from any tech company anywhere. The new teal (`#00D4AA`) is nature-inspired, leaning green-teal like the Indian Ocean along KwaZulu-Natal or the fynbos-covered slopes of Table Mountain catching the morning light. It's warmer, more grounded, and unmistakably coastal South African.
 
 ### 🏗️ The Design Philosophy
 
-**"Visible South African, Globally Competitive."** The SA references aren't Easter eggs — they're visible design elements that create a premium look regardless of whether the viewer recognizes the cultural source. The flag stripes are beautiful gradients. The geometric patterns are sophisticated textures. The deep charcoal background is a premium dark surface. The SA references make it distinctive, not provincial.
+**"Visible South African, Globally Competitive."** The SA references aren't Easter eggs — they're visible design elements that create a premium look regardless of whether the viewer recognizes the cultural source. The flag stripes are beautiful gradients. The geometric patterns are sophisticated textures. The cosmic void is a gorgeous dark background. The SA references make it distinctive, not provincial.
 
 ---
 
 ## The Big Picture — Our Design Personality
 
-POSTA lives at the intersection of three vibes:
+PGS lives at the intersection of three vibes:
 
 | Influence | What It Gives Us |
 |-----------|-----------------|
 | **South African energy** | Visible flag colours, geometric patterns, cultural warmth. We celebrate Mzansi, don't hide it |
-| **Premium tech sophistication** | Deep charcoal backgrounds, orange glow effects, generous spacing. We compete with Linear, Arc, and Raycast |
+| **Premium tech sophistication** | Deep cosmic backgrounds, multi-layer glow effects, generous spacing. We compete with Linear, Arc, and Raycast |
 | **Approachable AI** | Friendly typography (Outfit), warm text tones, human-scale components. We help real people run their businesses |
 
-**In one sentence:** POSTA feels like a premium SA tech company — bold, warm, distinctive, and built for Mzansi with global ambition.
+**In one sentence:** PGS feels like a premium SA tech company — ambitious, warm, distinctive, and built for Mzansi with global ambition.
 
 ---
 
 ## 1. 🌈 Colour Palette
 
-Our colour system has four layers: **Deep Charcoal** (backgrounds), **Posta Orange** (brand identity), **Surge Teal** (secondary accent), and **SA Accents** (flag colours, visible and proud).
+Our colour system has four layers: **Cosmic Void** (backgrounds), **Purple Core** (brand identity), **SA Accents** (flag colours, visible and proud), and **Indian Ocean Teal** (secondary accent).
 
-### Deep Charcoal — Backgrounds & Surfaces
+### Cosmic Void — Backgrounds & Surfaces
 
-Warm dark charcoal backgrounds. Rich, premium, never flat.
-
-| Token | Hex | Used For |
-|-------|-----|----------|
-| `--deep-charcoal` / `--void` | `#121218` | Primary page background. Obsidian-dark base |
-| `--charcoal-elevated` / `--void-elevated` | `#1A1C23` | Card, panel, and sidebar backgrounds |
-| `--charcoal-surface` / `--void-surface` | `#24262E` | Elevated surfaces: dropdowns, modals, tooltips |
-| `--charcoal-hover` / `--void-hover` | `#2E3039` | Hover states on dark surfaces, button backgrounds |
-
-### Posta Orange — Brand Core
-
-Burnt orange is the soul of POSTA. Bold, warm, energetic. Zero purple anywhere in the system.
+Deep purple-black backgrounds inspired by the Karoo night sky. Darker and richer than the old system — the void has visible purple depth.
 
 | Token | Hex | Used For |
 |-------|-----|----------|
-| `--posta-orange` / `--neon-grape` (alias) | `#E85D04` | **Primary brand colour.** CTAs, buttons, links, brand marks |
-| `--orange-light` / `--grape-light` (alias) | `#FF8A30` | Hover states on primary elements, highlighted text |
-| `--orange-dim` / `--grape-dim` (alias) | `#C04E02` | Active/pressed states, secondary orange elements |
-| `--orange-subtle` / `--grape-subtle` (alias) | `rgba(232, 93, 4, 0.15)` | Soft orange backgrounds, badges, selection highlights |
-| `--orange-glow` / `--grape-glow` (alias) | `rgba(232, 93, 4, 0.4)` | Glow aura — used in shadows and backdrop effects |
-| `--ember` / `--electric-indigo` (alias) | `#9A3B02` | Dark orange for gradients, secondary brand surfaces |
+| `--cosmic-void` / `--void` | `#0D001A` | Primary page background. Deep space with purple undertone |
+| `--void-elevated` / `--pretoria-blue` | `#1A0A2E` | Card, panel, and sidebar backgrounds — rich dark plum |
+| `--void-surface` | `#24103A` | Elevated surfaces: dropdowns, modals, tooltips |
+| `--void-hover` | `#2E1A45` | Hover states on dark surfaces, button backgrounds |
 
-### Surge Teal — Secondary Accent
+### Purple Core — Brand Identity
 
-A cool teal that balances the warm orange. Crisp and tech-forward.
+The purple system has been restructured. **Purple Core (#6B21A8)** is the deeper, more sophisticated primary brand color. **Neon Glow (#A855F7)** is reserved as a sparing accent for CTAs and highlights. Old `--neon-grape` (#9D4EDD) is kept as a compatibility alias.
 
 | Token | Hex | Used For |
 |-------|-----|----------|
-| `--surge-teal` / `--joburg-teal` (alias) | `#00A8B5` | Secondary CTAs, interactive accents, active states, link hover |
-| `--teal-dim` | `#008A94` | Pressed/active states on teal elements |
-| `--teal-subtle` | `rgba(0, 168, 181, 0.15)` | Teal-tinted backgrounds, info badges |
+| `--purple-core` | `#6B21A8` | **NEW primary brand colour.** CTAs, buttons, links, brand marks |
+| `--neon-grape` | `#9D4EDD` | **ALIAS** — kept for legacy component compatibility |
+| `--neon-glow` | `#A855F7` | **NEW sparing accent.** Used only for CTAs and careful highlights |
+| `--grape-light` | `#C084FC` | Hover states on primary elements, highlighted text |
+| `--grape-dim` | `#581C87` | Active/pressed states, secondary purple elements |
+| `--grape-subtle` | `rgba(157, 78, 221, 0.15)` | Soft purple backgrounds, badges, selection highlights |
+| `--grape-glow` | `rgba(168, 85, 247, 0.35)` | Glow aura — used in shadows and backdrop effects |
+| `--electric-indigo` | `#4C1D95` | Deep purple for dark gradients, secondary brand surfaces |
+| `--hyper-crimson` | `#FF2A6D` | **Accent pop.** Used sparingly for notifications, alerts, decorative energy — never on CTAs |
+
+### Indian Ocean Teal — Secondary Accent
+
+Shifted from electric blue-teal to a warmer, nature-inspired teal. Think Indian Ocean at sunrise, or the silver leaves of Table Mountain's native trees.
+
+| Token | Hex | Used For |
+|-------|-----|----------|
+| `--joburg-teal` | `#00D4AA` | Secondary CTAs, interactive accents, active states, link hover |
+| `--teal-dim` | `#00A887` | Pressed/active states on teal elements |
+| `--teal-subtle` | `rgba(0, 212, 170, 0.15)` | Teal-tinted backgrounds, info badges |
 
 ### SA Accents — Flag Colours (Visible and Proud)
 
-The SA flag colours are **design elements** visible in gradients, stripes, dividers, and decorative elements.
+Unlike the old system (where these were buried as semantic badge colors), the SA flag colours are now **design elements** visible in gradients, stripes, dividers, and decorative elements.
 
 | Token | Hex | SA Flag Meaning | Used For |
 |-------|-----|-----------------|----------|
@@ -125,14 +126,14 @@ The SA flag colours are **design elements** visible in gradients, stripes, divid
 
 | Token | Hex | Used For |
 |-------|-----|----------|
-| `--text-primary` | `#F5F0EC` | Primary text (warm off-white, paper-in-firelight) |
-| `--text-secondary` | `#C4B8B0` | Body text, descriptions, metadata |
-| `--text-tertiary` | `#8B7D75` | Placeholder text, disabled states, subtle labels |
-| `--text-quaternary` | `#5C4F48` | Footnotes, timestamps, de-emphasized text |
-| `--border-default` | `rgba(255, 255, 255, 0.08)` | Standard card/input borders |
-| `--border-subtle` | `rgba(255, 255, 255, 0.05)` | Ultra-thin dividers |
-| `--border-hover` | `rgba(232, 93, 4, 0.3)` | Hover borders on interactive elements |
-| `--border-active` | `#E85D04` | Active/focus borders — POSTA orange |
+| `--text-primary` | `#F5F0FF` | Primary text (near-white with violet warmth) |
+| `--text-secondary` | `#C4B0D4` | Body text, descriptions, metadata |
+| `--text-tertiary` | `#8B7D98` | Placeholder text, disabled states, subtle labels |
+| `--text-quaternary` | `#5C4F68` | Footnotes, timestamps, de-emphasized text |
+| `--border-default` | `#2A1A3E` | Standard card/input borders |
+| `--border-subtle` | `#1E1030` | Ultra-thin dividers |
+| `--border-hover` | `#4A2570` | Hover borders on interactive elements |
+| `--border-active` | `#A855F7` | Active/focus borders |
 
 ### Colour Aliases (Backward Compatibility)
 
@@ -140,37 +141,30 @@ The following old token names are preserved as aliases so existing components co
 
 | Old Token | Now Maps To |
 |-----------|-------------|
-| `--neon-grape` | `#E85D04` (same as `--posta-orange`) |
-| `--purple-core` | `#E85D04` (same as `--posta-orange`) |
-| `--neon-glow` | `#E85D04` (same as `--posta-orange`) |
-| `--grape-light` | `#FF8A30` (same as `--orange-light`) |
-| `--grape-dim` | `#C04E02` (same as `--orange-dim`) |
-| `--grape-subtle` | `rgba(232, 93, 4, 0.15)` (same as `--orange-subtle`) |
-| `--grape-glow` | `rgba(232, 93, 4, 0.4)` (same as `--orange-glow`) |
-| `--electric-indigo` | `#9A3B02` (same as `--ember`) |
-| `--joburg-teal` | `#00A8B5` (same as `--surge-teal`) |
+| `--neon-grape` | `#9D4EDD` (kept as alias, not primary) |
 | `--mzansi-green` | `#007749` (same as `--sa-green`) |
 | `--mzansi-gold` | `#FFB81C` (same as `--sa-gold`) |
 | `--mzansi-red` | `#E03C31` (same as `--sa-red`) |
 | `--mzansi-blue` | `#002C6F` (same as `--sa-blue`) |
-| `--pretoria-blue` | `#1A1C23` (now maps to charcoal-elevated) |
-| `--cosmic-void` | `#121218` (now maps to deep-charcoal) |
+| `--pretoria-blue` | `#1A0A2E` (now maps to void-elevated) |
 | `--glass-border` | `rgba(255, 255, 255, 0.08)` (kept for glass card compat) |
 
 ### Complete Colour Reference Card
 
 ```
-🟠 Posta Orange    ─── #E85D04   ─── Primary brand colour
-🔥 Orange Light    ─── #FF8A30   ─── Hover states
-🌑 Deep Charcoal   ─── #121218   ─── Page background
-🌑 Charcoal Elevated ─ #1A1C23   ─── Card backgrounds
-🌊 Surge Teal      ─── #00A8B5   ─── Secondary accent
-💚 SA Green        ─── #007749   ─── Flag element / success
-🌟 SA Gold         ─── #FFB81C   ─── Premium highlights / flag
-❤️ SA Red          ─── #E03C31   ─── Flag stripe / errors
-💙 SA Blue         ─── #002C6F   ─── Flag stripe / info
-🟤 Ember           ─── #9A3B02   ─── Dark orange surfaces
-🩷 Hyper Crimson    ─── #FF2A6D   ─── Notifications / alerts
+🟣 Purple Core   ─── #6B21A8   ─── Primary brand colour
+✨ Neon Glow     ─── #A855F7   ─── Sparing accent (CTAs only)
+🔮 Grape Light   ─── #C084FC   ─── Hover states
+🌌 Cosmic Void   ─── #0D001A   ─── Page background (Karoo night sky)
+🌑 Void Elevated  ── #1A0A2E   ─── Card backgrounds (dark plum)
+🌊 Joburg Teal    ─── #00D4AA   ─── Secondary accent (Indian Ocean)
+💚 SA Green       ─── #007749   ─── Flag element / success
+🌟 SA Gold        ─── #FFB81C   ─── Premium highlights / flag
+❤️ SA Red         ─── #E03C31   ─── Flag stripe / errors
+💙 SA Blue        ─── #002C6F   ─── Flag stripe / info
+💜 Electric Indigo ── #4C1D95   ─── Deep purple surfaces
+🩷 Hyper Crimson   ─── #FF2A6D   ─── Notifications / alerts
+🟣 Neon Grape     ─── #9D4EDD   ─── Legacy alias (compat only)
 ```
 
 ---
@@ -225,7 +219,7 @@ The following old token names are preserved as aliases so existing components co
 
 - **Headings in Syne** are bold and confident — let them breathe with generous space above
 - **Body in Outfit** is always easy to read — never go below 14px for body text
-- **Never use pure white (#FFFFFF)** for text — always use `--text-primary` (#F5F0EC) which has a warm, natural tone
+- **Never use pure white (#FFFFFF)** for text — always use `--text-primary` (#F5F0FF) which has a trace of violet warmth
 - **Never use bold (700) weight** on Outfit body text — 600 (semibold) is our maximum emphasis
 - **Syne headlines** can use negative letter-spacing at very large sizes (above 40px) for a tighter, more premium feel
 
@@ -235,37 +229,37 @@ The following old token names are preserved as aliases so existing components co
 
 ### Buttons
 
-**Primary Button (Posta Orange)**
-- Background: `--posta-orange` (#E85D04)
+**Primary Button (Purple Core)**
+- Background: `--purple-core` (#6B21A8)
 - Text: white (#FFFFFF)
 - Border-radius: 8px
 - Padding: 12px 24px
 - Font: Outfit 16px, weight 600
-- Hover: background shifts to `--orange-light` (#FF8A30), subtle glow shadow
-- Active: background shifts to `--orange-dim` (#C04E02)
+- Hover: background shifts to `--grape-light` (#C084FC), subtle glow shadow
+- Active: background shifts to `--grape-dim` (#581C87)
 - Use: Main CTAs ("Get Started", "Generate Post", "Upgrade")
 
 **Secondary Button (Ghost)**
 - Background: transparent
-- Text: `--text-primary` (#F5F0EC)
-- Border: 1px solid `--border-default` (rgba(255,255,255,0.08))
+- Text: `--text-primary` (#F5F0FF)
+- Border: 1px solid `--border-default` (#2A1A3E)
 - Border-radius: 8px
 - Padding: 12px 24px
-- Hover: background becomes `--charcoal-hover` (#2E3039), border becomes `--border-hover`
+- Hover: background becomes `--void-hover` (#2E1A45), border becomes `--border-hover`
 - Use: Secondary actions, "Learn More", "Cancel"
 
 **Teal Accent Button**
-- Background: `--surge-teal` (#00A8B5)
-- Text: `--deep-charcoal` (#121218)
+- Background: `--joburg-teal` (#00D4AA)
+- Text: `--cosmic-void` (#0D001A)
 - Border-radius: 8px
 - Padding: 10px 20px
 - Font: Outfit 14px, weight 600
 - Use: Special actions that need attention without being the main CTA
 
-**Orange Glow CTA** *(premium variant)*
-- Background: `--posta-orange` (#E85D04)
+**Neon Glow CTA** *(premium variant)*
+- Background: `--neon-glow` (#A855F7)
 - Text: white
-- Box-shadow: `.glow-orange` — multi-layer orange glow
+- Box-shadow: `.glow-purple` — multi-layer purple glow
 - Border-radius: 8px
 - Use: **Sparingly.** Only for the most important conversion actions
 
@@ -286,25 +280,25 @@ The following old token names are preserved as aliases so existing components co
 ### Cards & Containers
 
 **Premium Card** (`.premium-card`)
-- Background: layered gradient — charcoal-elevated to charcoal-surface
-- Border: 1px solid `--border-default` (rgba(255,255,255,0.08))
+- Background: layered gradient — dark plum to elevated surface
+- Border: 1px solid `--border-default` (#2A1A3E)
 - Border-radius: 16px
 - Padding: 24px
-- Shadow: deep black shadow + subtle orange edge glow
-- Hover: border shifts to orange-tinted, translateY(-2px), orange aura
+- Shadow: deep black shadow + subtle purple edge glow
+- Hover: border shifts to `#4A2570`, translateY(-2px), purple aura
 - Use: **Primary card style.** Dashboard widgets, pricing cards, feature highlights
 
 **Inset Card** (`.inset-card`)
 - Background: darker gradient that sinks into the background
-- Border: 1px solid `--border-subtle` (rgba(255,255,255,0.05))
+- Border: 1px solid `--border-subtle` (#1E1030)
 - Border-radius: 16px
 - Shadow: inset shadow for depth
 - Use: Sidebar panels, secondary info, content that should feel "behind" the main surface
 
 **Glass Card** (`.glass-card`)
-- Background: subtle gradient with orange-teal tint
+- Background: subtle gradient with purple-teal tint
 - Backdrop-filter: blur(24px)
-- Border: 1px solid rgba(232, 93, 4, 0.12) — orange-tinted glass
+- Border: 1px solid rgba(168, 85, 247, 0.12) — purple-tinted glass
 - Border-radius: 16px
 - Shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
 - Use: Hero overlays, feature showcases, premium hoverable sections
@@ -313,7 +307,7 @@ The following old token names are preserved as aliases so existing components co
 - Same styling as `.glass-card`
 
 **Modal / Dialog**
-- Background: `--charcoal-surface` (#24262E)
+- Background: `--void-surface` (#24103A)
 - Border: 1px solid `--border-default`
 - Border-radius: 16px
 - Overlay: `rgba(0, 0, 0, 0.7)` with backdrop-blur(8px)
@@ -325,11 +319,11 @@ The following old token names are preserved as aliases so existing components co
 **Text Input**
 - Background: `rgba(255, 255, 255, 0.03)`
 - Text: `--text-primary`
-- Border: 1px solid `--border-default` (rgba(255,255,255,0.08))
+- Border: 1px solid `--border-default` (#2A1A3E)
 - Border-radius: 8px
 - Padding: 12px 16px
 - Font: Outfit 16px
-- Focus: border becomes 1px solid `--border-active` (#E85D04), subtle orange glow ring
+- Focus: border becomes 1px solid `--neon-glow` / `--border-active` (#A855F7), subtle purple glow ring
 - Placeholder: `--text-tertiary`
 - Error: border becomes 1px solid `--mzansi-red`
 - Disabled: opacity 0.5
@@ -337,7 +331,7 @@ The following old token names are preserved as aliases so existing components co
 **Select / Dropdown**
 - Same styling as text inputs
 - Chevron icon in `--text-tertiary`
-- Dropdown options: `--charcoal-surface` background
+- Dropdown options: `--void-surface` background
 
 **Text Area**
 - Same as text input, but with 4-row minimum height
@@ -345,9 +339,9 @@ The following old token names are preserved as aliases so existing components co
 
 ### Badges & Tags
 
-**Orange Badge**
-- Background: `--orange-subtle`
-- Text: `--orange-light` (#FF8A30)
+**Purple Badge**
+- Background: `--grape-subtle`
+- Text: `--grape-light` (#C084FC)
 - Border-radius: 6px
 - Padding: 4px 10px
 - Font: Outfit 12px, weight 500
@@ -380,21 +374,21 @@ The following old token names are preserved as aliases so existing components co
 ### Navigation
 
 **Top Navigation Bar**
-- Background: `rgba(18, 18, 24, 0.8)` with backdrop-filter: blur(20px)
+- Background: `rgba(13, 0, 26, 0.8)` with backdrop-filter: blur(20px)
 - Border-bottom: 1px solid `--border-subtle`
 - Height: 64px
-- Logo: left-aligned, Syne font, `--posta-orange` colour
+- Logo: left-aligned, Syne font, `--purple-core` colour
 - Links: Outfit 14px, weight 500, `--text-secondary`
-- Active link: `--posta-orange` colour with subtle underline indicator
+- Active link: `--purple-core` colour with subtle underline indicator
 - Hover: `--text-primary`
-- CTA: Primary orange button (right-aligned)
+- CTA: Primary purple button (right-aligned)
 
 **Sidebar Navigation** *(Dashboard)*
-- Background: `--charcoal-elevated` (#1A1C23)
+- Background: `--void-elevated` (#1A0A2E)
 - Width: 260px (collapsed: 72px)
 - Border-right: 1px solid `--border-subtle`
 - Items: Outfit 14px, weight 500, `--text-secondary`
-- Active item: `--posta-orange` with subtle left border indicator
+- Active item: `--purple-core` with subtle left border indicator
 - Icons: 20px, consistent style (Font Awesome 6)
 - Section headers: Outfit 11px, uppercase, `--text-quaternary`
 
@@ -442,24 +436,24 @@ We use a **4px base grid**. All spacing values are multiples of 4.
 
 ## 5. 💡 Glow & Shadow System
 
-POSTA's signature effect is the **orange glow**. The system offers multiple glow flavours for different contexts.
+Purple Glow Social's signature effect is — you guessed it — **the glow**. But unlike the old single-layer glow, our new system offers multiple glow flavours for different contexts.
 
 ### Glow Effects
 
-**Orange Glow** (`.glow-orange`, `.glow-purple` alias) — for CTAs, featured cards
+**Purple Glow** (`.glow-purple`) — for CTAs, featured cards
 ```
 box-shadow:
-  0 0 30px rgba(232, 93, 4, 0.4),
-  0 0 60px rgba(232, 93, 4, 0.2),
-  0 0 100px rgba(232, 93, 4, 0.1)
+  0 0 30px rgba(107, 33, 168, 0.4),
+  0 0 60px rgba(107, 33, 168, 0.2),
+  0 0 100px rgba(107, 33, 168, 0.1)
 ```
 
 **Teal Glow** (`.glow-teal`) — for teal accent elements
 ```
 box-shadow:
-  0 0 30px rgba(0, 168, 181, 0.35),
-  0 0 60px rgba(0, 168, 181, 0.15),
-  0 0 100px rgba(0, 168, 181, 0.08)
+  0 0 30px rgba(0, 212, 170, 0.35),
+  0 0 60px rgba(0, 212, 170, 0.15),
+  0 0 100px rgba(0, 212, 170, 0.08)
 ```
 
 **Gold Glow** (`.glow-gold`) — for premium/highlight elements
@@ -472,16 +466,16 @@ box-shadow:
 **Subtle Glow** (`.glow-subtle`) — for hover states
 ```
 box-shadow:
-  0 0 20px rgba(232, 93, 4, 0.15),
-  0 0 40px rgba(232, 93, 4, 0.06)
+  0 0 20px rgba(107, 33, 168, 0.15),
+  0 0 40px rgba(107, 33, 168, 0.06)
 ```
 
-**Orange Text Glow** (`.glow-text-orange`, `.glow-text-purple` alias) — for headings, hero text
+**Purple Text Glow** (`.glow-text-purple`) — for headings, hero text
 ```
 text-shadow:
-  0 0 10px rgba(232, 93, 4, 0.4),
-  0 0 30px rgba(232, 93, 4, 0.2),
-  0 0 60px rgba(232, 93, 4, 0.1)
+  0 0 10px rgba(168, 85, 247, 0.4),
+  0 0 30px rgba(168, 85, 247, 0.2),
+  0 0 60px rgba(168, 85, 247, 0.1)
 ```
 
 **Gold Text Glow** (`.glow-text-gold`) — for premium highlighting
@@ -494,7 +488,7 @@ text-shadow:
 
 ### Glow Orbs (Decorative Background Elements)
 
-- `.glow-orb-orange` / `.glow-orb-purple` (alias) — Large blurry orange circle for hero backgrounds
+- `.glow-orb-purple` — Large blurry purple circle for hero backgrounds
 - `.glow-orb-teal` — Teal glow orb
 - `.glow-orb-gold` — Gold glow orb
 
@@ -507,11 +501,11 @@ text-shadow:
 | 2 | `--shadow-md` | `0 4px 16px rgba(0,0,0,0.25)` | Standard cards |
 | 3 | `--shadow-lg` | `0 8px 32px rgba(0,0,0,0.3)` | Elevated cards, dropdowns |
 | 4 | `--shadow-xl` | `0 12px 48px rgba(0,0,0,0.35)` | Modals, popovers |
-| 5 | `--shadow-glow` | `0 0 24px rgba(232,93,4,0.3), 0 4px 16px rgba(0,0,0,0.25)` | Premium glow elements |
+| 5 | `--shadow-glow` | `0 0 24px rgba(107,33,168,0.3), 0 4px 16px rgba(0,0,0,0.25)` | Premium glow elements |
 
 ### Text Gradients
 
-- `.text-gradient-orange` / `.text-gradient-purple` (alias) — Orange gradient text (Syne headings)
+- `.text-gradient-purple` — Purple gradient text (Syne headings)
 - `.text-gradient-gold` — Gold gradient text (premium labels)
 - `.text-gradient-sa` — SA flag colour gradient text (special use)
 - `.text-gradient-teal` — Teal gradient text
@@ -519,13 +513,13 @@ text-shadow:
 ### Background Gradients
 
 - `.bg-gradient-sa` — SA flag colour gradient
-- `.bg-gradient-orange-teal` / `.bg-gradient-purple-teal` (alias) — Orange-to-teal gradient
+- `.bg-gradient-purple-teal` — Purple-to-teal gradient
 
 ---
 
 ## 6. 🌟 Tone of Voice
 
-### The POSTA Personality
+### The PGS Personality
 
 | Quality | What It Means |
 |---------|---------------|
@@ -534,7 +528,6 @@ text-shadow:
 | **Proudly South African** | We use local references naturally — "lekker", "sharp sharp", "howzit" — but never forced |
 | **Helpful, not pushy** | We suggest, we don't demand. "Try generating a post" not "You MUST generate a post" |
 | **Premium but approachable** | We look expensive but talk like a friend. No corporate jargon |
-| **Direct and simple** | "Just Posta." — we get straight to the point |
 
 ### Voice Guidelines
 
@@ -543,7 +536,6 @@ text-shadow:
 - "Your post is scheduled for Thursday at 10 AM (SAST)"
 - "Need a hand? Our AI can suggest some ideas"
 - "That's lekker!" (when something goes well)
-- "Just posta — we'll handle the rest."
 
 **Don't say:**
 - "Utilise our state-of-the-art neural network architecture"
@@ -570,48 +562,40 @@ This is the master list of every design token. Use this as the source of truth.
 ### Colour Tokens
 
 ```
---deep-charcoal: #121218              (alias: --void, --cosmic-void)
---charcoal-elevated: #1A1C23         (alias: --void-elevated, --pretoria-blue)
---charcoal-surface: #24262E          (alias: --void-surface)
---charcoal-hover: #2E3039            (alias: --void-hover)
+--cosmic-void: #0D001A           (alias: --void)
+--void-elevated: #1A0A2E        (alias: --pretoria-blue)
+--void-surface: #24103A
+--void-hover: #2E1A45
 
---posta-orange: #E85D04               ★ NEW primary brand
---orange-light: #FF8A30               ★ NEW hover states
---orange-dim: #C04E02                 ★ NEW active/pressed
---orange-subtle: rgba(232, 93, 4, 0.15)
---orange-glow: rgba(232, 93, 4, 0.4)
---ember: #9A3B02
+--purple-core: #6B21A8           ★ NEW primary brand
+--neon-glow: #A855F7             ★ NEW sparing accent
+--neon-grape: #9D4EDD            (legacy alias)
+--grape-light: #C084FC
+--grape-dim: #581C87
+--grape-subtle: rgba(157, 78, 221, 0.15)
+--grape-glow: rgba(168, 85, 247, 0.35)
+--electric-indigo: #4C1D95
+--hyper-crimson: #FF2A6D
 
---surge-teal: #00A8B5                 ★ NEW secondary accent
---teal-dim: #008A94
---teal-subtle: rgba(0, 168, 181, 0.15)
+--joburg-teal: #00D4AA           ★ UPDATED (nature-inspired)
+--teal-dim: #00A887
+--teal-subtle: rgba(0, 212, 170, 0.15)
 
---sa-green: #007749                   (alias: --mzansi-green)
---sa-gold: #FFB81C                    (alias: --mzansi-gold)
---sa-red: #E03C31                     (alias: --mzansi-red)
---sa-blue: #002C6F                    (alias: --mzansi-blue)
+--sa-green: #007749              (alias: --mzansi-green)  ★ NEW bolder
+--sa-gold: #FFB81C               (alias: --mzansi-gold)   ★ NEW brighter
+--sa-red: #E03C31                (alias: --mzansi-red)    ★ NEW visible
+--sa-blue: #002C6F               (alias: --mzansi-blue)   ★ NEW deeper
 
---text-primary: #F5F0EC
---text-secondary: #C4B8B0
---text-tertiary: #8B7D75
---text-quaternary: #5C4F48
+--text-primary: #F5F0FF
+--text-secondary: #C4B0D4
+--text-tertiary: #8B7D98
+--text-quaternary: #5C4F68
 
---border-default: rgba(255, 255, 255, 0.08)
---border-subtle: rgba(255, 255, 255, 0.05)
---border-hover: rgba(232, 93, 4, 0.3)
---border-active: #E85D04
---glass-border: rgba(255, 255, 255, 0.08)  (legacy alias)
-
---neon-grape: #E85D04                 (alias — now posta-orange)
---purple-core: #E85D04                (alias — now posta-orange)
---neon-glow: #E85D04                  (alias — now posta-orange)
---grape-light: #FF8A30                (alias — now orange-light)
---grape-dim: #C04E02                  (alias — now orange-dim)
---grape-subtle: rgba(232, 93, 4, 0.15) (alias — now orange-subtle)
---grape-glow: rgba(232, 93, 4, 0.4)   (alias — now orange-glow)
---electric-indigo: #9A3B02            (alias — now ember)
---hyper-crimson: #FF2A6D              (kept)
---joburg-teal: #00A8B5                (alias — now surge-teal)
+--border-default: #2A1A3E        ★ NEW (actual colour, not opacity)
+--border-subtle: #1E1030         ★ NEW (actual colour, not opacity)
+--border-hover: #4A2570          ★ NEW (purple-toned)
+--border-active: #A855F7         ★ NEW (neon glow)
+--glass-border: rgba(255,255,255,0.08)  (legacy alias)
 ```
 
 ### Typography Tokens
@@ -673,7 +657,7 @@ This is the master list of every design token. Use this as the source of truth.
 --shadow-md: 0 4px 16px rgba(0,0,0,0.25)
 --shadow-lg: 0 8px 32px rgba(0,0,0,0.3)
 --shadow-xl: 0 12px 48px rgba(0,0,0,0.35)
---shadow-glow: 0 0 24px rgba(232,93,4,0.3), 0 4px 16px rgba(0,0,0,0.25)
+--shadow-glow: 0 0 24px rgba(107,33,168,0.3), 0 4px 16px rgba(0,0,0,0.25)
 ```
 
 ### Layout Tokens
@@ -696,35 +680,35 @@ This is the master list of every design token. Use this as the source of truth.
 
 | Element | Background | Text | Border | Radius |
 |---------|-----------|------|--------|--------|
-| Page body | `--deep-charcoal (#121218)` | `--text-primary` | — | — |
-| Premium card | `--charcoal-elevated` gradient | `--text-primary` | `--border-default` | 16px |
+| Page body | `--cosmic-void (#0D001A)` | `--text-primary` | — | — |
+| Premium card | `--void-elevated` gradient | `--text-primary` | `--border-default` | 16px |
 | Inset card | Darker gradient | `--text-primary` | `--border-subtle` | 16px |
-| Glass card | Orange-teal tint + blur | `--text-primary` | `rgba(232,93,4,0.12)` | 16px |
-| Primary button | `--posta-orange (#E85D04)` | white | none | 8px |
-| Orange glow button | `--posta-orange (#E85D04)` | white | glow-orange | 8px |
+| Glass card | Purple-teal tint + blur | `--text-primary` | `rgba(168,85,247,0.12)` | 16px |
+| Primary button | `--purple-core (#6B21A8)` | white | none | 8px |
+| Neon glow button | `--neon-glow (#A855F7)` | white | glow-purple | 8px |
 | Ghost button | transparent | `--text-primary` | `--border-default` | 8px |
 | Input | `rgba(255,255,255,0.03)` | `--text-primary` | `--border-default` | 8px |
-| Modal | `--charcoal-surface` | `--text-primary` | `--border-default` | 16px |
-| Badge (orange) | `--orange-subtle` | `--orange-light` | none | 6px |
-| Top nav | `rgba(18,18,24,0.8)` + blur | `--text-secondary` | `--border-subtle` | — |
-| Sidebar | `--charcoal-elevated (#1A1C23)` | `--text-secondary` | `--border-subtle` | — |
+| Modal | `--void-surface` | `--text-primary` | `--border-default` | 16px |
+| Badge (purple) | `--grape-subtle` | `--grape-light` | none | 6px |
+| Top nav | `rgba(13,0,26,0.8)` + blur | `--text-secondary` | `--border-subtle` | — |
+| Sidebar | `--void-elevated (#1A0A2E)` | `--text-secondary` | `--border-subtle` | — |
 
 ---
 
-## 9. ✅ What Makes POSTA Different From Every Other Dark SaaS
+## 9. ✅ What Makes New PGS Different From Every Other Dark SaaS
 
-You know you're looking at POSTA when:
+You know you're looking at Purple Glow Social when:
 
-1. **The background is deep charcoal** — warm, rich `#121218`, never flat black or purple
+1. **The background is cosmic void** — deep purple-black (`#0D001A`), referencing the Karoo night sky, not generic flat black
 2. **SA flag colours are visible design elements** — green, gold, red, blue appear in gradients, stripes, section dividers, and decorative patterns. They're not hidden away as semantic badge colours
-3. **The orange has depth** — `#E85D04` (Posta Orange) is bold and warm, not garish. Zero purple anywhere in the system
+3. **The purple has depth** — `#6B21A8` (Purple Core) is sophisticated, not garish. The old `#9D4EDD` (Neon Grape) only appears for legacy compatibility
 4. **Geometric patterns** — Ndebele-inspired dot grids and diagonal lines add texture and cultural resonance
 5. **Noise texture** — a subtle grain overlay across the entire page (`.noise-overlay`), giving warmth and film-like depth
 6. **Flag stripe dividers** — section transitions that celebrate the SA flag (`.flag-stripe`, `.divider-flag`)
-7. **Borders are subtle** — our borders use low-opacity white for neutrality, with orange tint on hover/active
-8. **Multi-layer glow system** — dedicated orange, teal, and gold glow classes for different contexts
+7. **Borders have colour** — our borders (`#2A1A3E`, `#1E1030`) are actual purple-hued colours, not just white opacity
+8. **Multi-layer glow system** — dedicated purple, teal, and gold glow classes for different contexts
 9. **Three card styles** — Premium (elevated depth), Inset (sinks in), Glass (blur backdrop) — each with a purpose
-10. **Surge Teal** — `#00A8B5` (crisp coastal teal) complements the warm orange perfectly
+10. **Nature-inspired teal** — `#00D4AA` (warm coastal teal) replaces the generic electric blue-teal
 11. **Syne headlines are bold** — our display font commands attention
 12. **The tone is SA-warm** — friendly, helpful, proud but not pushy
 
@@ -733,9 +717,10 @@ You know you're looking at POSTA when:
 ## 10. 🙅 Do's and Don'ts
 
 ### ✅ Do
-- Use `--posta-orange` (#E85D04) for all primary CTAs
-- Use `--deep-charcoal` (#121218) as the main page background
-- Use `--text-primary` (#F5F0EC) for headings — never pure white
+- Use `--purple-core` (#6B21A8) for all primary CTAs
+- Use `--neon-glow` (#A855F7) **sparingly** — only for high-impact conversion actions
+- Use `--cosmic-void` (#0D001A) as the main page background
+- Use `--text-primary` (#F5F0FF) for headings — never pure white
 - Use SA flag colours in decorative elements (gradients, stripes, patterns) — they're part of our identity now
 - Add `.noise-overlay` to the page body for the signature grain texture
 - Use `.flag-stripe` as a subtle section divider
@@ -746,24 +731,47 @@ You know you're looking at POSTA when:
 ### ❌ Don't
 - Use pure black (#000000) for backgrounds
 - Use pure white (#FFFFFF) for text
-- Use any purple (#9D4EDD, #6B21A8, #A855F7, etc.) — zero purple
 - Use SA flag colours ONLY as semantic badges — they're design elements now
 - Use corporate jargon in copy ("leverage", "utilise", "synergise")
 - Make buttons pill-shaped (9999px radius) — use 8px radius consistently
+- Use the old `neon-grape` (#9D4EDD) as the primary brand colour — that's `purple-core` now
 - Use flat blur circles for glow — use the multi-layer glow classes instead
 - Use drop shadows on dark surfaces — use glow and background elevation instead
 - Overuse patterns — one pattern per section maximum
 
 ---
 
-## 11. 🔧 Custom Utility Classes
+## 11. 🔄 Migration Guide — From Old to New
+
+If you're updating existing PGS pages to the new design system:
+
+| Old Style | New Style |
+|-----------|-----------|
+| `#05040A` (void) bg | `#0D001A` (cosmic-void) — deeper |
+| `#0A0815` (void-elevated) bg | `#1A0A2E` (void-elevated) — richer plum |
+| `#9D4EDD` (neon-grape) primary | `#6B21A8` (purple-core) — deeper brand purple |
+| `#00E0FF` (joburg-teal) | `#00D4AA` (joburg-teal) — nature-inspired |
+| `#FFCC00` (mzansi-gold old) | `#FFB81C` (sa-gold) — brighter, warmer |
+| `#007A4D` (mzansi-green old) | `#007749` (sa-green) — bolder |
+| `#DE3831` (mzansi-red old) | `#E03C31` (sa-red) — more visible |
+| `#002395` (mzansi-blue old) | `#002C6F` (sa-blue) — deeper |
+| `rgba(255,255,255,0.08)` borders | `#2A1A3E` (border-default) — coloured borders |
+| `rgba(255,255,255,0.05)` borders | `#1E1030` (border-subtle) — coloured subtle |
+| `bg-neon-grape` | Use `bg-purple-core` for primary, `bg-neon-glow` sparingly |
+| `aerogel-card` class | Still works (kept as `.aerogel-card` alias) |
+| `glow-text` class | Still works (kept as alias; prefer `.glow-text-purple`) |
+| `animate-enter` class | Still works (kept as alias; prefer `.animate-fade-up`) |
+
+---
+
+## 12. 🔧 Custom Utility Classes
 
 ### Pattern & Texture Classes
 - `.noise-overlay` — Subtle SVG grain texture overlay on the page
-- `.pattern-dots` — Ndebele-inspired orange dot grid
+- `.pattern-dots` — Ndebele-inspired purple dot grid
 - `.pattern-dots-teal` — Teal dot grid
 - `.pattern-dots-gold` — Gold dot grid
-- `.pattern-lines` — Diagonal orange lines
+- `.pattern-lines` — Diagonal purple lines
 - `.pattern-lines-teal` — Diagonal teal lines
 - `.pattern-lines-gold` — Diagonal gold lines
 
@@ -779,24 +787,21 @@ You know you're looking at POSTA when:
 - `.divider-flag` — Section divider using flag colours
 
 ### Card Classes
-- `.premium-card` — Elevated card with depth and orange edge glow
+- `.premium-card` — Elevated card with depth and purple edge glow
 - `.inset-card` — Card that sinks into background
-- `.glass-card` — Glassmorphism with orange-tinted border
+- `.glass-card` — Glassmorphism with purple-tinted border
 - `.aerogel-card` — Legacy alias for glass-card
 
 ### Glow Classes
-- `.glow-orange` — Multi-layer orange box glow (primary)
-- `.glow-purple` — Legacy alias (now produces orange glow)
+- `.glow-purple` — Multi-layer purple box glow
 - `.glow-teal` — Multi-layer teal box glow
 - `.glow-gold` — Multi-layer gold box glow
-- `.glow-subtle` — Faint ambient orange glow
-- `.glow-text-orange` — Orange text shadow glow (primary)
-- `.glow-text-purple` — Legacy alias (now produces orange text glow)
+- `.glow-subtle` — Faint ambient purple glow
+- `.glow-text-purple` — Purple text shadow glow
 - `.glow-text-gold` — Gold text shadow glow
 - `.glow-text-teal` — Teal text shadow glow
-- `.glow-text` — Legacy alias (maps to simplified orange glow)
-- `.glow-orb-orange` — Large blurry orange decorative orb (primary)
-- `.glow-orb-purple` — Legacy alias (now produces orange orb)
+- `.glow-text` — Legacy alias (maps to simplified purple glow)
+- `.glow-orb-purple` — Large blurry purple decorative orb
 - `.glow-orb-teal` — Large blurry teal decorative orb
 - `.glow-orb-gold` — Large blurry gold decorative orb
 
@@ -804,7 +809,7 @@ You know you're looking at POSTA when:
 - `.animate-fade-up` — Scroll-reveal fade with upward motion
 - `.animate-stagger` — For staggered children (supports up to 8)
 - `.animate-float` — Gentle floating animation (decorative elements)
-- `.animate-pulse-glow` — Pulsing orange glow effect
+- `.animate-pulse-glow` — Pulsing purple glow effect
 - `.animate-pulse-glow-teal` — Pulsing teal glow effect
 - `.animate-spin-slow` — Slow spin (8s)
 - `.animate-slide-up` — Slide up with fade
@@ -812,21 +817,17 @@ You know you're looking at POSTA when:
 - `.animate-enter` — Legacy enter animation (kept for compat)
 
 ### Text Gradient Classes
-- `.text-gradient-orange` — Orange gradient text (primary)
-- `.text-gradient-purple` — Legacy alias (now orange gradient)
+- `.text-gradient-purple` — Purple-to-violet gradient text
 - `.text-gradient-gold` — Gold gradient text
 - `.text-gradient-sa` — SA flag colour gradient text
 - `.text-gradient-teal` — Teal gradient text
 
 ### Background Gradient Classes
 - `.bg-gradient-sa` — SA flag colour gradient background
-- `.bg-gradient-orange-teal` — Orange to teal gradient background (primary)
-- `.bg-gradient-purple-teal` — Legacy alias (now orange-teal gradient)
+- `.bg-gradient-purple-teal` — Purple to teal gradient background
 
 ---
 
-*This design system is a living document. As POSTA grows, these tokens may evolve — but the soul stays the same: burnt orange glow, South African pride, and AI that helps real people.*
+*This design system is a living document. As PGS grows, these tokens may evolve — but the soul stays the same: cosmic purple glow, South African pride, and AI that helps real people.*
 
-*Tagline: "Just Posta."*
-
-*Last updated: June 2026 — POSTA Brand Launch (zero purple, all orange)*
+*Last updated: June 2026 — Design System 2.0 (non-generic, culturally distinctive)*

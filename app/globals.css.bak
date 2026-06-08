@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   POSTA — DESIGN SYSTEM 1.0
-   "Just Posta."
+   PURPLE GLOW SOCIAL — DESIGN SYSTEM 2.0
+   "South Africa meets premium tech"
    Tailwind v4 — ALL tokens in @theme block
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -10,7 +10,6 @@
   /* ─── FONTS ──────────────────────────────────────────────────────── */
   /* Font families use CSS variables set by next/font in layout.tsx:
      --font-syne, --font-outfit, --font-space */
-
   --font-display: var(--font-syne), 'Syne', sans-serif;
   --font-body: var(--font-outfit), 'Outfit', sans-serif;
   --font-mono: var(--font-space), 'Space Grotesk', monospace;
@@ -18,92 +17,74 @@
   --font-family-body: var(--font-body);         /* ALIAS */
   --font-family-mono: var(--font-mono);         /* ALIAS */
 
-  /* ─── DEEP CHARCOAL BACKGROUNDS ──────────────────────────────────── */
-  /* Deep charcoal backgrounds replacing the old purple void.
-     Warm, sophisticated, premium — think obsidian, not flat black. */
+  /* ─── CORE COSMIC COLORS ─────────────────────────────────────────── */
+  /* Deeper, more mysterious than before. The void has a rich purple-black
+     undertone — think midnight over the Karoo, not flat black. */
 
-  --color-deep-charcoal: #121218;          /* ★ NEW — deepest background */
-  --color-charcoal-elevated: #1A1C23;      /* ★ NEW — cards, panels */
-  --color-charcoal-surface: #24262E;        /* ★ NEW — modals, dropdowns */
-  --color-charcoal-hover: #2E3039;          /* ★ NEW — hover states */
+  --color-cosmic-void: #0D001A;       /* NEW — deepest background */
+  --color-void: #0D001A;              /* ALIAS — old name, new value */
+  --color-void-elevated: #1A0A2E;     /* Cards, panels — rich dark plum */
+  --color-void-surface: #24103A;      /* Modals, dropdowns — more visible */
+  --color-void-hover: #2E1A45;        /* Hover states — lifted purple-black */
+  --color-pretoria-blue: #1A0A2E;     /* ALIAS — now maps to void-elevated */
 
-  /* ─── LEGACY ALIASES — Deep Charcoal ─────────────────────────────── */
-  /* Old component class names remapped to new charcoal colors so
-     bg-void, bg-void-elevated, etc. still resolve correctly. */
+  /* ─── PURPLE SYSTEM ──────────────────────────────────────────────── */
+  /* Sophisticated, not garish. Purple Core (#6B21A8) replaces the flat
+     neon-grape as the primary brand color. Neon Glow (#A855F7) is kept
+     as a SPARING accent—CTAs and highlights only. */
 
-  --color-void: #121218;                    /* ALIAS — now deep-charcoal */
-  --color-cosmic-void: #121218;             /* ALIAS — now deep-charcoal */
-  --color-void-elevated: #1A1C23;           /* ALIAS — now charcoal-elevated */
-  --color-void-surface: #24262E;            /* ALIAS — now charcoal-surface */
-  --color-void-hover: #2E3039;              /* ALIAS — now charcoal-hover */
-  --color-pretoria-blue: #1A1C23;           /* ALIAS — now charcoal-elevated */
+  --color-purple-core: #6B21A8;       /* NEW — primary brand purple, deeper */
+  --color-neon-grape: #9D4EDD;        /* ALIAS — kept for component compat */
+  --color-neon-glow: #A855F7;         /* NEW — sparing accent purple glow */
+  --color-grape-light: #C084FC;       /* Hover states on purple elements */
+  --color-grape-dim: #581C87;         /* Pressed/active states */
+  --color-grape-subtle: rgba(157, 78, 221, 0.15);  /* Soft purple bg */
+  --color-grape-glow: rgba(168, 85, 247, 0.35);    /* NEW — glow aura */
+  --color-electric-indigo: #4C1D95;   /* Deep purple for gradients/surfaces */
 
-  /* ─── POSTA ORANGE — Brand Core ──────────────────────────────────── */
-  /* Burnt orange is the soul of POSTA. Bold, warm, energetic.
-     Replaces the old purple system entirely. Zero purple. */
+  /* ─── SA ACCENT SYSTEM ───────────────────────────────────────────── */
+  /* Bold, visible South African flag colors. These aren't just semantic
+     badges anymore — they're DESIGN ELEMENTS that celebrate Mzansi.
+     Green, Gold, Red, Blue — used intentionally, not shyly. */
 
-  --color-posta-orange: #E85D04;            /* ★ NEW — primary brand color */
-  --color-orange-light: #FF8A30;            /* ★ NEW — hover states */
-  --color-orange-dim: #C04E02;              /* ★ NEW — active/pressed */
-  --color-orange-subtle: rgba(232, 93, 4, 0.15);  /* ★ NEW — soft orange bg */
-  --color-orange-glow: rgba(232, 93, 4, 0.4);     /* ★ NEW — glow aura */
-  --color-ember: #9A3B02;                   /* ★ NEW — dark gradients */
+  --color-sa-green: #007749;          /* NEW — bolder SA flag green */
+  --color-mzansi-green: #007749;      /* ALIAS */
+  --color-sa-gold: #FFB81C;           /* NEW — brighter SA flag gold */
+  --color-mzansi-gold: #FFB81C;       /* ALIAS */
+  --color-sa-red: #E03C31;            /* NEW — visible SA flag red */
+  --color-mzansi-red: #E03C31;        /* ALIAS */
+  --color-sa-blue: #002C6F;           /* NEW — deep SA flag blue */
+  --color-mzansi-blue: #002C6F;       /* ALIAS */
 
-  /* ─── LEGACY ALIASES — Purple → Orange ───────────────────────────── */
-  /* Old purple token names now map to POSTA orange. Components still
-     using bg-neon-grape, text-neon-grape, etc. will resolve to orange. */
+  /* ─── TEAL SYSTEM ────────────────────────────────────────────────── */
+  /* Shifted from electric blue-teal (#00E0FF) to a more SA-nature
+     inspired teal. Think Indian Ocean at sunrise, Table Mountain's
+     silver tree leaves catching the light. */
 
-  --color-neon-grape: #E85D04;              /* ALIAS — now posta-orange */
-  --color-neon-glow: #E85D04;               /* ALIAS — now posta-orange */
-  --color-purple-core: #E85D04;             /* ALIAS — now posta-orange */
-  --color-grape-light: #FF8A30;             /* ALIAS — now orange-light */
-  --color-grape-dim: #C04E02;               /* ALIAS — now orange-dim */
-  --color-grape-subtle: rgba(232, 93, 4, 0.15);  /* ALIAS — now orange-subtle */
-  --color-grape-glow: rgba(232, 93, 4, 0.4);     /* ALIAS — now orange-glow */
-  --color-electric-indigo: #9A3B02;         /* ALIAS — now ember */
-  --color-hyper-crimson: #FF2A6D;           /* KEPT — accent pop */
+  --color-joburg-teal: #00D4AA;       /* UPDATED — nature-inspired teal */
+  --color-teal-dim: #00A887;          /* Pressed states */
+  --color-teal-subtle: rgba(0, 212, 170, 0.15);  /* Teal backgrounds */
 
-  /* ─── SURGE TEAL — Secondary Accent ──────────────────────────────── */
-  /* A complementary cool teal that balances the warm orange.
-     Crisp, energetic, tech-forward. */
+  /* ─── ACCENT POP ─────────────────────────────────────────────────── */
+  --color-hyper-crimson: #FF2A6D;     /* Notifications, alerts, energy */
 
-  --color-surge-teal: #00A8B5;              /* ★ NEW — secondary accent */
-  --color-teal-dim: #008A94;                /* Pressed/active states */
-  --color-teal-subtle: rgba(0, 168, 181, 0.15);  /* Teal backgrounds */
+  /* ─── TEXT LAYERS ────────────────────────────────────────────────── */
+  /* All text has a warm purple undertone — never pure white. */
 
-  /* ─── LEGACY ALIASES — Teal ──────────────────────────────────────── */
-  --color-joburg-teal: #00A8B5;             /* ALIAS — now surge-teal */
-
-  /* ─── MZANSI ACCENTS — SA Flag ───────────────────────────────────── */
-  /* Keep these unchanged — they're part of the SA design DNA. */
-
-  --color-sa-green: #007749;                /* SA flag green */
-  --color-mzansi-green: #007749;            /* ALIAS */
-  --color-sa-gold: #FFB81C;                 /* SA flag gold */
-  --color-mzansi-gold: #FFB81C;             /* ALIAS */
-  --color-sa-red: #E03C31;                  /* SA flag red */
-  --color-mzansi-red: #E03C31;              /* ALIAS */
-  --color-sa-blue: #002C6F;                 /* SA flag blue */
-  --color-mzansi-blue: #002C6F;             /* ALIAS */
-
-  /* ─── TEXT LAYERS — Warm Tones ───────────────────────────────────── */
-  /* All text uses warm, natural tones — no cold white, no purple tint.
-     Think paper in firelight, not a sterile screen. */
-
-  --color-text-primary: #F5F0EC;            /* Warm off-white */
-  --color-text-secondary: #C4B8B0;          /* Warm gray — body text */
-  --color-text-tertiary: #8B7D75;           /* Warm muted — placeholders */
-  --color-text-quaternary: #5C4F48;         /* Warm dark — footnotes */
+  --color-text-primary: #F5F0FF;      /* Near-white with violet warmth */
+  --color-text-secondary: #C4B0D4;    /* Body text, descriptions */
+  --color-text-tertiary: #8B7D98;     /* Placeholder, disabled, subtle */
+  --color-text-quaternary: #5C4F68;   /* Footnotes, timestamps */
 
   /* ─── BORDER LAYERS ──────────────────────────────────────────────── */
-  /* Borders use subtle white opacity for neutrality, with orange
-     highlights for active/hover states. */
+  /* Borders use actual color, not just white opacity. Each has a
+     subtle purple or teal hue depending on the element type. */
 
-  --color-border-default: rgba(255, 255, 255, 0.08);  /* Standard borders */
-  --color-border-subtle: rgba(255, 255, 255, 0.05);   /* Ultra-thin dividers */
-  --color-border-hover: rgba(232, 93, 4, 0.3);        /* Hover — orange tint */
-  --color-border-active: #E85D04;                      /* Active/focus — orange */
-  --color-glass-border: rgba(255, 255, 255, 0.08);    /* ALIAS for glass */
+  --color-border-default: #2A1A3E;    /* Standard card/input borders */
+  --color-border-subtle: #1E1030;     /* Ultra-thin dividers */
+  --color-border-hover: #4A2570;      /* Hover on interactive elements */
+  --color-border-active: #A855F7;     /* Active/focus — neon glow */
+  --color-glass-border: rgba(255, 255, 255, 0.08);  /* ALIAS for glass */
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -116,29 +97,29 @@
   }
 
   body {
-    @apply bg-deep-charcoal text-text-primary font-body;
+    @apply bg-cosmic-void text-text-primary font-body;
   }
 
-  /* Warm orange-tinted selection highlight */
+  /* Subtle purple-tinted selection highlight */
   ::selection {
-    background: rgba(232, 93, 4, 0.3);
-    color: #F5F0EC;
+    background: rgba(168, 85, 247, 0.3);
+    color: #F5F0FF;
   }
 
-  /* Scrollbar styling — charcoal track, orange thumb */
+  /* Scrollbar styling — subtle purple track, neon-glow thumb */
   ::-webkit-scrollbar {
     width: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: rgba(26, 28, 35, 0.5);
+    background: rgba(26, 10, 46, 0.5);
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #E85D04, #FF8A30);
+    background: linear-gradient(180deg, #6B21A8, #A855F7);
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #FF8A30;
+    background: #A855F7;
   }
 }
 
@@ -232,13 +213,13 @@
      for a tech product, recognizable enough to feel South African. */
 
   .pattern-dots {
-    background-image: radial-gradient(circle, #E85D04 1px, transparent 1px);
+    background-image: radial-gradient(circle, #6B21A8 1px, transparent 1px);
     background-size: 24px 24px;
     opacity: 0.15;
   }
 
   .pattern-dots-teal {
-    background-image: radial-gradient(circle, #00A8B5 1px, transparent 1px);
+    background-image: radial-gradient(circle, #00D4AA 1px, transparent 1px);
     background-size: 24px 24px;
     opacity: 0.12;
   }
@@ -254,8 +235,8 @@
       45deg,
       transparent,
       transparent 12px,
-      rgba(232, 93, 4, 0.08) 12px,
-      rgba(232, 93, 4, 0.08) 13px
+      rgba(107, 33, 168, 0.08) 12px,
+      rgba(107, 33, 168, 0.08) 13px
     );
   }
 
@@ -264,8 +245,8 @@
       -45deg,
       transparent,
       transparent 12px,
-      rgba(0, 168, 181, 0.06) 12px,
-      rgba(0, 168, 181, 0.06) 13px
+      rgba(0, 212, 170, 0.06) 12px,
+      rgba(0, 212, 170, 0.06) 13px
     );
   }
 
@@ -293,7 +274,7 @@
     left: 0;
     right: 0;
     height: 100%;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80'%3E%3Cpath fill='%23E85D04' fill-opacity='0.08' d='M0,40 C360,80 720,0 1080,40 C1260,60 1350,30 1440,40 L1440,80 L0,80 Z'/%3E%3Cpath fill='%2300A8B5' fill-opacity='0.04' d='M0,55 C240,30 480,70 720,45 C960,20 1200,60 1440,55 L1440,80 L0,80 Z'/%3E%3C/svg%3E") no-repeat bottom;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80'%3E%3Cpath fill='%236B21A8' fill-opacity='0.08' d='M0,40 C360,80 720,0 1080,40 C1260,60 1350,30 1440,40 L1440,80 L0,80 Z'/%3E%3Cpath fill='%2300D4AA' fill-opacity='0.04' d='M0,55 C240,30 480,70 720,45 C960,20 1200,60 1440,55 L1440,80 L0,80 Z'/%3E%3C/svg%3E") no-repeat bottom;
     background-size: 100% 100%;
   }
 
@@ -313,8 +294,8 @@
     background: linear-gradient(
       to right bottom,
       transparent 49.5%,
-      rgba(232, 93, 4, 0.08) 49.5%,
-      rgba(232, 93, 4, 0.08) 50.5%,
+      rgba(107, 33, 168, 0.08) 49.5%,
+      rgba(107, 33, 168, 0.08) 50.5%,
       transparent 50.5%
     );
   }
@@ -355,28 +336,19 @@
   }
 
   /* ─── PREMIUM GLOW SYSTEM ────────────────────────────────────────── */
-  /* All glow effects now use POSTA orange. The old .glow-purple class
-     name is retained for backward compatibility but produces orange glow. */
 
   .glow-purple {
     box-shadow:
-      0 0 30px rgba(232, 93, 4, 0.4),
-      0 0 60px rgba(232, 93, 4, 0.2),
-      0 0 100px rgba(232, 93, 4, 0.1);
-  }
-
-  .glow-orange {
-    box-shadow:
-      0 0 30px rgba(232, 93, 4, 0.4),
-      0 0 60px rgba(232, 93, 4, 0.2),
-      0 0 100px rgba(232, 93, 4, 0.1);
+      0 0 30px rgba(107, 33, 168, 0.4),
+      0 0 60px rgba(107, 33, 168, 0.2),
+      0 0 100px rgba(107, 33, 168, 0.1);
   }
 
   .glow-teal {
     box-shadow:
-      0 0 30px rgba(0, 168, 181, 0.35),
-      0 0 60px rgba(0, 168, 181, 0.15),
-      0 0 100px rgba(0, 168, 181, 0.08);
+      0 0 30px rgba(0, 212, 170, 0.35),
+      0 0 60px rgba(0, 212, 170, 0.15),
+      0 0 100px rgba(0, 212, 170, 0.08);
   }
 
   .glow-gold {
@@ -387,22 +359,15 @@
 
   .glow-subtle {
     box-shadow:
-      0 0 20px rgba(232, 93, 4, 0.15),
-      0 0 40px rgba(232, 93, 4, 0.06);
+      0 0 20px rgba(107, 33, 168, 0.15),
+      0 0 40px rgba(107, 33, 168, 0.06);
   }
 
   .glow-text-purple {
     text-shadow:
-      0 0 10px rgba(232, 93, 4, 0.4),
-      0 0 30px rgba(232, 93, 4, 0.2),
-      0 0 60px rgba(232, 93, 4, 0.1);
-  }
-
-  .glow-text-orange {
-    text-shadow:
-      0 0 10px rgba(232, 93, 4, 0.4),
-      0 0 30px rgba(232, 93, 4, 0.2),
-      0 0 60px rgba(232, 93, 4, 0.1);
+      0 0 10px rgba(168, 85, 247, 0.4),
+      0 0 30px rgba(168, 85, 247, 0.2),
+      0 0 60px rgba(168, 85, 247, 0.1);
   }
 
   .glow-text-gold {
@@ -414,17 +379,17 @@
 
   .glow-text-teal {
     text-shadow:
-      0 0 10px rgba(0, 168, 181, 0.35),
-      0 0 30px rgba(0, 168, 181, 0.15);
+      0 0 10px rgba(0, 212, 170, 0.35),
+      0 0 30px rgba(0, 212, 170, 0.15);
   }
 
   /* ─── LEGACY GLOW TEXT ───────────────────────────────────────────── */
-  /* Kept for component backward compatibility. Maps to orange glow. */
+  /* Kept for component backward compatibility. Maps to purple glow. */
 
   .glow-text {
     text-shadow:
-      0 0 10px rgba(232, 93, 4, 0.4),
-      0 0 30px rgba(232, 93, 4, 0.2);
+      0 0 10px rgba(168, 85, 247, 0.4),
+      0 0 30px rgba(168, 85, 247, 0.2);
   }
 
   /* ─── CARD STYLES ────────────────────────────────────────────────── */
@@ -432,33 +397,33 @@
   .premium-card {
     background: linear-gradient(
       145deg,
-      rgba(26, 28, 35, 0.9) 0%,
-      rgba(36, 38, 46, 0.7) 100%
+      rgba(26, 10, 46, 0.9) 0%,
+      rgba(36, 16, 58, 0.7) 100%
     );
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid #2A1A3E;
     border-radius: 16px;
     padding: 24px;
     box-shadow:
       0 4px 24px rgba(0, 0, 0, 0.4),
-      0 1px 3px rgba(232, 93, 4, 0.1);
+      0 1px 3px rgba(107, 33, 168, 0.1);
     transition: all 0.3s ease;
   }
 
   .premium-card:hover {
-    border-color: rgba(232, 93, 4, 0.3);
+    border-color: #4A2570;
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.5),
-      0 0 20px rgba(232, 93, 4, 0.15);
+      0 0 20px rgba(107, 33, 168, 0.15);
     transform: translateY(-2px);
   }
 
   .inset-card {
     background: linear-gradient(
       135deg,
-      rgba(18, 18, 24, 0.8) 0%,
-      rgba(26, 28, 35, 0.5) 100%
+      rgba(13, 0, 26, 0.8) 0%,
+      rgba(26, 10, 46, 0.5) 100%
     );
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid #1E1030;
     border-radius: 16px;
     padding: 24px;
     box-shadow:
@@ -469,13 +434,13 @@
   .glass-card {
     background: linear-gradient(
       135deg,
-      rgba(232, 93, 4, 0.05) 0%,
-      rgba(0, 168, 181, 0.03) 50%,
+      rgba(168, 85, 247, 0.05) 0%,
+      rgba(0, 212, 170, 0.03) 50%,
       rgba(255, 255, 255, 0.02) 100%
     );
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(232, 93, 4, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.12);
     border-radius: 16px;
     padding: 24px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -487,13 +452,13 @@
   .aerogel-card {
     background: linear-gradient(
       135deg,
-      rgba(232, 93, 4, 0.05) 0%,
-      rgba(0, 168, 181, 0.03) 50%,
+      rgba(168, 85, 247, 0.05) 0%,
+      rgba(0, 212, 170, 0.03) 50%,
       rgba(255, 255, 255, 0.02) 100%
     );
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(232, 93, 4, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.12);
     border-radius: 16px;
     padding: 24px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -506,17 +471,17 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(26, 28, 35, 0.3);
+    background: rgba(26, 10, 46, 0.3);
     border-radius: 3px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #E85D04, #FF8A30);
+    background: linear-gradient(180deg, #6B21A8, #A855F7);
     border-radius: 3px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #FF8A30;
+    background: #A855F7;
   }
 
   /* ─── SA FLAG BORDER DECORATION ──────────────────────────────────── */
@@ -544,20 +509,8 @@
     filter: blur(80px);
     background: radial-gradient(
       circle,
-      rgba(232, 93, 4, 0.3) 0%,
-      rgba(232, 93, 4, 0.1) 40%,
-      transparent 70%
-    );
-  }
-
-  .glow-orb-orange {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    background: radial-gradient(
-      circle,
-      rgba(232, 93, 4, 0.3) 0%,
-      rgba(232, 93, 4, 0.1) 40%,
+      rgba(107, 33, 168, 0.3) 0%,
+      rgba(107, 33, 168, 0.1) 40%,
       transparent 70%
     );
   }
@@ -568,8 +521,8 @@
     filter: blur(80px);
     background: radial-gradient(
       circle,
-      rgba(0, 168, 181, 0.2) 0%,
-      rgba(0, 168, 181, 0.07) 40%,
+      rgba(0, 212, 170, 0.2) 0%,
+      rgba(0, 212, 170, 0.07) 40%,
       transparent 70%
     );
   }
@@ -649,13 +602,13 @@
   @keyframes pulse-glow {
     0%, 100% {
       box-shadow:
-        0 0 20px rgba(232, 93, 4, 0.15),
-        0 0 40px rgba(232, 93, 4, 0.06);
+        0 0 20px rgba(107, 33, 168, 0.15),
+        0 0 40px rgba(107, 33, 168, 0.06);
     }
     50% {
       box-shadow:
-        0 0 30px rgba(232, 93, 4, 0.3),
-        0 0 60px rgba(232, 93, 4, 0.12);
+        0 0 30px rgba(107, 33, 168, 0.3),
+        0 0 60px rgba(107, 33, 168, 0.12);
     }
   }
 
@@ -666,13 +619,13 @@
   @keyframes pulse-glow-teal {
     0%, 100% {
       box-shadow:
-        0 0 20px rgba(0, 168, 181, 0.12),
-        0 0 40px rgba(0, 168, 181, 0.05);
+        0 0 20px rgba(0, 212, 170, 0.12),
+        0 0 40px rgba(0, 212, 170, 0.05);
     }
     50% {
       box-shadow:
-        0 0 30px rgba(0, 168, 181, 0.25),
-        0 0 60px rgba(0, 168, 181, 0.1);
+        0 0 30px rgba(0, 212, 170, 0.25),
+        0 0 60px rgba(0, 212, 170, 0.1);
     }
   }
 
@@ -736,14 +689,7 @@
   /* ─── TEXT GRADIENTS ─────────────────────────────────────────────── */
 
   .text-gradient-purple {
-    background: linear-gradient(135deg, #E85D04, #FF8A30, #C04E02);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-orange {
-    background: linear-gradient(135deg, #E85D04, #FF8A30, #C04E02);
+    background: linear-gradient(135deg, #C084FC, #A855F7, #7C3AED);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -764,7 +710,7 @@
   }
 
   .text-gradient-teal {
-    background: linear-gradient(135deg, #00A8B5, #00E5FF);
+    background: linear-gradient(135deg, #00D4AA, #00E5FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -783,11 +729,7 @@
   }
 
   .bg-gradient-purple-teal {
-    background: linear-gradient(135deg, #E85D04, #00A8B5);
-  }
-
-  .bg-gradient-orange-teal {
-    background: linear-gradient(135deg, #E85D04, #00A8B5);
+    background: linear-gradient(135deg, #6B21A8, #00D4AA);
   }
 }
 

@@ -26,19 +26,19 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Purple Glow Social | AI Writes Your Posts, You Just Approve",
-  description: "South Africa's social media assistant. AI writes posts in all 11 languages. Manage Instagram, Facebook, Twitter & LinkedIn from one dashboard. Start free — no credit card needed.",
+  title: "Posta | Just Posta. AI Writes Your Posts.",
+  description: "South Africa's social media assistant. AI writes posts in all 11 languages. Just Posta and approve.",
   openGraph: {
-    title: "Purple Glow Social | AI Writes Your Posts, You Just Approve",
-    description: "South Africa's social media assistant. AI writes posts in all 11 languages. Manage Instagram, Facebook, Twitter & LinkedIn from one dashboard. Start free — no credit card needed.",
-    siteName: "Purple Glow Social",
+    title: "Posta | Just Posta. AI Writes Your Posts.",
+    description: "South Africa's social media assistant. AI writes posts in all 11 languages. Just Posta and approve.",
+    siteName: "Posta",
     locale: "en_ZA",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Purple Glow Social | AI Writes Your Posts, You Just Approve",
-    description: "South Africa's social media assistant. AI writes posts in all 11 languages. Manage Instagram, Facebook, Twitter & LinkedIn from one dashboard. Start free.",
+    title: "Posta | Just Posta. AI Writes Your Posts.",
+    description: "South Africa's social media assistant. AI writes posts in all 11 languages. Just Posta and approve.",
   },
   robots: {
     index: true,
@@ -57,13 +57,13 @@ export default function RootLayout({
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
         <script src="https://js.puter.com/v2/" defer></script>
       </head>
-      <body className="bg-void text-white antialiased font-body min-h-screen selection:bg-neon-grape selection:text-white">
+      <body className="bg-deep-charcoal text-white antialiased font-body min-h-screen selection:bg-posta-orange selection:text-white">
         <QueryProvider>
           <LanguageProvider>
             {/* Global Ambient Effects */}
             <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
-                <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-neon-grape opacity-[0.08] blur-[150px] rounded-full"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-joburg-teal opacity-[0.08] blur-[150px] rounded-full"></div>
+                <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-posta-orange opacity-[0.08] blur-[150px] rounded-full"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-surge-teal opacity-[0.08] blur-[150px] rounded-full"></div>
             </div>
             {children}
             <CookieConsentBanner />

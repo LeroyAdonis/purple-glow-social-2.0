@@ -33,7 +33,7 @@ export default async function HomePage() {
   const translate = createTranslator(language);
 
   return (
-    <div className="min-h-screen bg-void text-white font-body overflow-x-hidden relative selection:bg-neon-grape selection:text-white">
+    <div className="min-h-screen bg-deep-charcoal text-white font-body overflow-x-hidden relative selection:bg-posta-orange selection:text-white">
       {/* Ambient Background - Server Component */}
       <AmbientBackground />
 

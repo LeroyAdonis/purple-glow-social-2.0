@@ -7,14 +7,21 @@
   },
   "hero": {
     "badge": "Made in SA for SA",
-    "title": "Social Media That Runs Itself",
-    "subtitle": "Purple Glow writes your posts in all 11 languages. You just look things over and say yes. Connect Instagram, Facebook, Twitter & LinkedIn — all from one dashboard.",
+    "flag": "Proudly SA",
+    "prefix": "AI Writes Your",
+    "gradientWord": "SOCIAL",
+    "mainWord": "POSTS",
+    "subtitle": "Posta writes your posts in all 11 languages. You just look things over and say yes. Connect Instagram, Facebook, Twitter & LinkedIn — all from one dashboard.",
     "cta": "Start Free — No Card Needed",
-    "demo": "See How It Works"
+    "demo": "See How It Works",
+    "stat1": "SA Businesses",
+    "stat2": "Languages",
+    "stat3": "Powered"
   },
   "features": {
+    "badge": "What We Offer",
     "title": "Built for South Africa",
-    "subtitle": "From township businesses to Joburg startups — Purple Glow gets the way we do things here. No overseas nonsense, just tools that work for you.",
+    "subtitle": "From township businesses to Joburg startups — Posta gets the way we do things here. No overseas nonsense, just tools that work for you.",
     "aiEngine": {
       "title": "AI That Writes Your Posts",
       "description": "Just tell us what you're selling or sharing. Our AI writes posts that sound like you — in English, isiZulu, Afrikaans, or any of our 11 languages."
@@ -25,11 +32,13 @@
     },
     "scheduling": {
       "title": "Post on Autopilot",
-      "description": "Schedule a whole month of posts in 10 minutes. Purple Glow picks the best times to post so you get the most eyes on your content."
+      "description": "Schedule a whole month of posts in 10 minutes. Posta picks the best times to post so you get the most eyes on your content."
     }
   },
   "howItWorks": {
+    "badge": "Simple Process",
     "title": "How It Works",
+    "subtitle": "Three simple steps to start posting like a pro in minutes.",
     "step1": {
       "title": "Tell Us About Your Business",
       "description": "What are you selling? Who are your customers? What vibe fits your brand? Set it up once and you're good to go."
@@ -40,29 +49,31 @@
     },
     "step3": {
       "title": "Approve & Post",
-      "description": "Check the posts, make small changes if you want, then schedule them. Purple Glow handles the rest. You focus on running your business."
+      "description": "Check the posts, make small changes if you want, then schedule them. Posta handles the rest. You focus on running your business."
     }
   },
   "testimonials": {
+    "badge": "Real Stories",
     "title": "Loved by SA Business Owners",
-    "subtitle": "Real people running real businesses — here's what they say about Purple Glow.",
+    "subtitle": "Real people running real businesses — here's what they say about Posta.",
     "thabo": {
-      "quote": "Purple Glow took me from 500 to 5 000 followers in 3 months. My customers love getting posts in isiZulu — it hits different.",
+      "quote": "Posta took me from 500 to 5 000 followers in 3 months. My customers love getting posts in isiZulu — it hits different.",
       "name": "Thabo M.",
       "role": "Streetwear Brand, Joburg"
     },
     "zanele": {
-      "quote": "I don't have time to post in all 11 languages. Now I don't have to — Purple Glow does it for me. Game changer for my township customers.",
+      "quote": "I don't have time to post in all 11 languages. Now I don't have to — Posta does it for me. Game changer for my township customers.",
       "name": "Zanele K.",
       "role": "Food Truck, Durban"
     },
     "pieter": {
-      "quote": "The AI gets Afrikaans idioms better than my old marketing team. Ons is impressed. Saved me hours every week.",
+      "quote": "Posta gets Afrikaans idioms better than my old marketing team. Ons is impressed. Saved me hours every week.",
       "name": "Pieter v.d.M.",
       "role": "Tech Startup, Cape Town"
     }
   },
   "pricing": {
+    "badge": "Simple Pricing",
     "title": "Simple Pricing. No Surprises.",
     "subtitle": "Start for free. Upgrade when you need more. Cancel whenever you like.",
     "monthly": "Pay Monthly",
@@ -107,6 +118,7 @@
   "credits": {
     "title": "Need extra credits?",
     "subtitle": "Running low on image or video credits? Top up anytime without changing your plan.",
+    "description": "Running low on image or video credits? Top up anytime without changing your plan. Secure payments via Polar.",
     "packages": {
       "100": "100 Credits",
       "500": "500 Credits",
@@ -116,10 +128,12 @@
     "payWith": "Pay with"
   },
   "contact": {
+    "badge": "Get In Touch",
     "title": "Have a Question?",
     "subtitle": "We'd love to hear from you. Drop us a message and we'll get back to you.",
     "name": "Your Name",
     "email": "Your Email",
+    "company": "Company (Optional)",
     "message": "Your Message",
     "send": "Send Message"
   },
@@ -141,7 +155,7 @@
   },
   "login": {
     "title": "Welcome Back",
-    "subtitle": "Sign in to your Purple Glow account",
+    "subtitle": "Sign in to your Posta account",
     "social": "Or sign in with",
     "email": "Email",
     "password": "Password",
@@ -197,7 +211,7 @@
     "title": "Schedule Post",
     "platform": "Platform",
     "aiBestTimes": "Best Times (AI Says)",
-    "aiDescription": "Purple Glow checked when your audience is most active. These times get the most views:",
+    "aiDescription": "Posta checked when your audience is most active. These times get the most views:",
     "orChooseTime": "Or Pick Your Own Time",
     "date": "Date",
     "time": "Time",
@@ -256,7 +270,7 @@
   },
   "smartSuggestions": {
     "title": "AI Suggestions",
-    "subtitle": "Ideas from Purple Glow based on your audience",
+    "subtitle": "Ideas from Posta based on your audience",
     "bestTimes": "Best Times",
     "bestPractices": "Tips",
     "trending": "Trending",
