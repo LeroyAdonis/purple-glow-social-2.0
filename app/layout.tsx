@@ -26,8 +26,24 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Purple Glow | AI Social Manager",
-  description: "Liquid Intelligence for Mzansi Creators",
+  title: "Purple Glow Social | AI Writes Your Posts, You Just Approve",
+  description: "South Africa's social media assistant. AI writes posts in all 11 languages. Manage Instagram, Facebook, Twitter & LinkedIn from one dashboard. Start free — no credit card needed.",
+  openGraph: {
+    title: "Purple Glow Social | AI Writes Your Posts, You Just Approve",
+    description: "South Africa's social media assistant. AI writes posts in all 11 languages. Manage Instagram, Facebook, Twitter & LinkedIn from one dashboard. Start free — no credit card needed.",
+    siteName: "Purple Glow Social",
+    locale: "en_ZA",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Purple Glow Social | AI Writes Your Posts, You Just Approve",
+    description: "South Africa's social media assistant. AI writes posts in all 11 languages. Manage Instagram, Facebook, Twitter & LinkedIn from one dashboard. Start free.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import type { GenerationResult } from '@/lib/types';
+import { logger } from '@/lib/logger';
 
 interface AIContentStudioProps {
   userId: string;

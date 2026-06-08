@@ -9,8 +9,8 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '404 - Page Not Found | Purple Glow',
-  description: 'The page you are looking for does not exist.',
+  title: 'Page Not Found | Purple Glow Social',
+  description: 'Oops — this page doesn\'t exist. Head back home or check your link.',
 };
 
 export default function NotFound() {
@@ -35,11 +35,11 @@ export default function NotFound() {
 
         {/* Message */}
         <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-          Page Not Found
+          Oops, page not found
         </h2>
         
         <p className="text-lg text-gray-400 mb-8 max-w-md mx-auto">
-          The page you&apos;re looking for doesn&apos;t exist or has been moved.
+          That link doesn't go anywhere. Maybe it moved or got deleted.
         </p>
 
         {/* Navigation Links */}
@@ -64,16 +64,16 @@ export default function NotFound() {
           {/* Login Button */}
           <Link
             href="/login"
-            className="px-8 py-3 bg-obsidian-800 border border-joburg-teal/30 rounded-lg font-semibold hover:border-joburg-teal hover:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all duration-300"
+            className="px-8 py-3 bg-obsidian-800 border border-joburg-teal/30 rounded-lg font-semibold hover:border-joburg-teal hover:shadow-[0_0_20px rgba(56,189,248,0.3)] transition-all duration-300"
           >
-            Login
+            Sign In
           </Link>
           
         </div>
 
         {/* Additional Help */}
         <p className="mt-12 text-sm text-gray-500">
-          Need help? Contact our support team.
+          Need help? <a href="mailto:hello@purpleglow.co.za" className="text-neon-grape hover:underline">hello@purpleglow.co.za</a>
         </p>
         
       </div>

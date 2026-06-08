@@ -93,7 +93,7 @@ export default function LoginPage() {
           <h1 className="font-display font-bold text-5xl mb-2 glow-text">
             Purple Glow Social
           </h1>
-          <p className="text-gray-400">Sign in to your account</p>
+          <p className="text-gray-400">Welcome back — let's keep posting</p>
         </div>
 
         {/* Login Card */}
@@ -112,14 +112,14 @@ export default function LoginPage() {
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-bold mb-2">
-                Email Address
+                Email
               </label>
               <input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="thabo@example.com"
+                placeholder="thabo@business.co.za"
                 autoComplete="email"
                 required
                 disabled={isLoading}
@@ -175,7 +175,7 @@ export default function LoginPage() {
               <div className="w-full border-t border-glass-border"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-pretoria-blue text-gray-400">Or continue with</span>
+              <span className="px-4 bg-pretoria-blue text-gray-400">Or sign in with</span>
             </div>
           </div>
 
@@ -189,16 +189,16 @@ export default function LoginPage() {
           >
             <span className="flex items-center justify-center gap-3">
               <i className="fa-brands fa-google text-xl"></i>
-              Sign in with Google
+              Google
             </span>
           </button>
 
           {/* Sign Up Link */}
           <div className="mt-6 text-center">
             <p className="text-gray-400">
-              Don't have an account?{' '}
+              New here?{' '}
               <Link href="/signup" className="text-neon-grape hover:underline font-bold">
-                Sign up
+                Create free account
               </Link>
             </p>
           </div>
@@ -207,7 +207,7 @@ export default function LoginPage() {
         {/* South African Context */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-500">
-            🇿🇦 Made in South Africa, for South African Entrepreneurs
+            🇿🇦 Made in South Africa, for South Africa
           </p>
         </div>
       </div>

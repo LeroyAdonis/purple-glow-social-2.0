@@ -1,7 +1,6 @@
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import * as Sentry from '@sentry/nextjs';
 import ErrorFallback from './ErrorFallback';
 
 interface Props {
@@ -25,18 +24,6 @@ export class PaymentErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Payment Error:', error, errorInfo);
-    
-    // Report to Sentry with high priority
-    Sentry.captureException(error, {
-      level: 'error',
-      tags: {
-        component: 'Payment',
-        critical: 'true',
-      },
-      extra: {
-        componentStack: errorInfo.componentStack,
-      },
-    });
   }
 
   handleReset = () => {
@@ -50,9 +37,9 @@ export class PaymentErrorBoundary extends Component<Props, State> {
           error={this.state.error}
           resetError={this.handleReset}
           title="Payment Error"
-          description="We couldn't process your payment. Please try again or contact support if the issue persists."
+          description="Something went wrong with the payment process. Please try again."
           icon="fa-solid fa-credit-card"
-          showDetails={false}
+          variant="card"
         />
       );
     }

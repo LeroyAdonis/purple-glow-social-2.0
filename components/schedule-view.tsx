@@ -1,5 +1,6 @@
 'use client';
 
+import { logger } from '@/lib/logger';
 import React, { useState, useEffect } from 'react';
 import CalendarView from './calendar-view';
 import SmartSuggestions from './smart-suggestions';

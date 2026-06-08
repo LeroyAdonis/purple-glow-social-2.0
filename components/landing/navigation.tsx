@@ -80,7 +80,7 @@ export default function Navigation({ session }: NavigationProps) {
           <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center shadow-[0_0_15px_rgba(157,78,221,0.5)]">
             <i className="fa-solid fa-bolt text-white text-sm"></i>
           </div>
-          <span className="font-display font-bold text-xl tracking-tight">PURPLE GLOW</span>
+          <span className="font-display font-bold text-xl tracking-tight">PURPLE GLOW SOCIAL</span>
         </div>
 
         {/* Desktop Navigation */}

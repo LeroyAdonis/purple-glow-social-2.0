@@ -81,7 +81,7 @@ export default function SignUpPage() {
           <h1 className="font-display font-bold text-5xl mb-2 glow-text">
             Purple Glow Social
           </h1>
-          <p className="text-gray-400">Create your account</p>
+          <p className="text-gray-400">Get posting in minutes — free</p>
         </div>
 
         {/* Sign Up Card */}
@@ -100,7 +100,7 @@ export default function SignUpPage() {
             {/* Name Field */}
             <div>
               <label htmlFor="name" className="block text-sm font-bold mb-2">
-                Full Name
+                Your Name
               </label>
               <input
                 id="name"
@@ -120,14 +120,14 @@ export default function SignUpPage() {
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-bold mb-2">
-                Email Address
+                Email
               </label>
               <input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="thabo@example.com"
+                placeholder="thabo@business.co.za"
                 autoComplete="email"
                 required
                 disabled={isLoading}
@@ -156,7 +156,7 @@ export default function SignUpPage() {
                          focus:border-neon-grape focus:ring-2 focus:ring-neon-grape/20
                          transition-all outline-none disabled:opacity-50"
               />
-              <p className="text-xs text-gray-500 mt-1">Minimum 8 characters</p>
+              <p className="text-xs text-gray-500 mt-1">At least 8 characters</p>
             </div>
 
             {/* Confirm Password Field */}
@@ -194,7 +194,7 @@ export default function SignUpPage() {
                   Creating account...
                 </span>
               ) : (
-                'Create Account'
+                'Create Free Account'
               )}
             </button>
           </form>
@@ -205,7 +205,7 @@ export default function SignUpPage() {
               <div className="w-full border-t border-glass-border"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-pretoria-blue text-gray-400">Or continue with</span>
+              <span className="px-4 bg-pretoria-blue text-gray-400">Or sign up with</span>
             </div>
           </div>
 
@@ -219,7 +219,7 @@ export default function SignUpPage() {
           >
             <span className="flex items-center justify-center gap-3">
               <i className="fa-brands fa-google text-xl"></i>
-              Sign up with Google
+              Google
             </span>
           </button>
 
@@ -236,7 +236,7 @@ export default function SignUpPage() {
 
         {/* Features List */}
         <div className="mt-8 aerogel-card p-6 rounded-2xl border border-glass-border">
-          <h3 className="font-bold mb-4 text-center">What you'll get (Free Plan):</h3>
+          <h3 className="font-bold mb-4 text-center">What you get free:</h3>
           <ul className="space-y-2 text-sm text-gray-400">
             <li className="flex items-center gap-2">
               <i className="fa-solid fa-check text-emerald-400"></i>
@@ -244,7 +244,7 @@ export default function SignUpPage() {
             </li>
             <li className="flex items-center gap-2">
               <i className="fa-solid fa-check text-emerald-400"></i>
-              <span>AI-powered content generation in 11 SA languages</span>
+              <span>AI posts in all 11 SA languages</span>
             </li>
             <li className="flex items-center gap-2">
               <i className="fa-solid fa-check text-emerald-400"></i>
@@ -252,7 +252,7 @@ export default function SignUpPage() {
             </li>
             <li className="flex items-center gap-2">
               <i className="fa-solid fa-check text-emerald-400"></i>
-              <span>Schedule posts with automation rules</span>
+              <span>Schedule posts ahead of time</span>
             </li>
           </ul>
         </div>
@@ -260,7 +260,7 @@ export default function SignUpPage() {
         {/* South African Context */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-500">
-            🇿🇦 Made in South Africa, for South African Entrepreneurs
+            🇿🇦 Made in South Africa, for South Africa
           </p>
         </div>
       </div>

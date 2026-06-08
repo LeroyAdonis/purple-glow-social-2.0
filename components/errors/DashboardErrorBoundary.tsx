@@ -1,12 +1,10 @@
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import * as Sentry from '@sentry/nextjs';
 import ErrorFallback from './ErrorFallback';
 
 interface Props {
   children: ReactNode;
-  fallback?: ReactNode;
 }
 
 interface State {
@@ -26,16 +24,6 @@ export class DashboardErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Dashboard Error:', error, errorInfo);
-    
-    // Report to Sentry
-    Sentry.captureException(error, {
-      tags: {
-        component: 'Dashboard',
-      },
-      extra: {
-        componentStack: errorInfo.componentStack,
-      },
-    });
   }
 
   handleReset = () => {
@@ -49,8 +37,9 @@ export class DashboardErrorBoundary extends Component<Props, State> {
           error={this.state.error}
           resetError={this.handleReset}
           title="Dashboard Error"
-          description="We couldn't load your dashboard. This might be a temporary issue."
+          description="Something went wrong loading your dashboard. Please try refreshing."
           icon="fa-solid fa-gauge-high"
+          variant="card"
         />
       );
     }

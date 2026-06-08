@@ -4,11 +4,9 @@
  * Error Boundary Component
  * 
  * Client Component - Catches and handles runtime errors in the app.
- * Integrates with Sentry for error tracking and provides recovery UI.
  */
 
 import { useEffect } from 'react';
-import * as Sentry from '@sentry/nextjs';
 import { logger } from '@/lib/logger';
 
 interface ErrorProps {
@@ -23,18 +21,6 @@ export default function Error({ error, reset }: ErrorProps) {
       digest: error.digest,
       component: 'ErrorBoundary',
     });
-
-    // Report to Sentry in production
-    if (process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_SENTRY_DSN) {
-      Sentry.captureException(error, {
-        tags: {
-          errorBoundary: 'root',
-        },
-        extra: {
-          digest: error.digest,
-        },
-      });
-    }
   }, [error]);
 
   return (

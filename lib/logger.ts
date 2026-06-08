@@ -1,14 +1,11 @@
 /**
- * Structured Logger with Sentry Integration
+ * Structured Logger
  * 
  * Features:
  * - Log level filtering based on environment
  * - Sensitive data sanitization
- * - Sentry integration for error-level logs
  * - Consistent log formatting
  */
-
-import * as Sentry from '@sentry/nextjs';
 
 // Log levels in order of severity
 const LOG_LEVELS = {
@@ -148,14 +145,6 @@ function logMessage(
       } else {
         console.error(formattedMessage);
       }
-      // Send errors to Sentry in production
-      if (isProduction && process.env.SENTRY_DSN) {
-        Sentry.captureMessage(message, {
-          level: 'error',
-          tags: { context },
-          extra: sanitizedData as Record<string, unknown>,
-        });
-      }
       break;
   }
 }
@@ -179,7 +168,6 @@ export function createLogger(context: string) {
     
     /**
      * Log an error with full stack trace
-     * Automatically sends to Sentry in production
      */
     exception: (error: unknown, additionalData?: Record<string, unknown>) => {
       const errorMessage = error instanceof Error ? error.message : String(error);
@@ -189,22 +177,6 @@ export function createLogger(context: string) {
         ...additionalData,
         stack: stack ? sanitize(stack) as string : undefined,
       });
-      
-      // Send to Sentry in production
-      if (isProduction && process.env.SENTRY_DSN) {
-        if (error instanceof Error) {
-          Sentry.captureException(error, {
-            tags: { context },
-            extra: additionalData as Record<string, unknown>,
-          });
-        } else {
-          Sentry.captureMessage(errorMessage, {
-            level: 'error',
-            tags: { context },
-            extra: additionalData as Record<string, unknown>,
-          });
-        }
-      }
     },
   };
 }

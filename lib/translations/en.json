@@ -1,112 +1,112 @@
 {
   "nav": {
-    "features": "Features",
+    "features": "What You Get",
     "pricing": "Pricing",
-    "contact": "Contact",
+    "contact": "Talk to Us",
     "login": "Log In"
   },
   "hero": {
-    "badge": "Liquid Intelligence for Mzansi",
-    "title": "Your AI-Powered Social Media Command Center",
-    "subtitle": "Generate stunning content in all 11 official languages. Built by South Africans, for South Africans.",
-    "cta": "Get Started Free",
-    "demo": "Watch Demo"
+    "badge": "Made in SA for SA",
+    "title": "Social Media That Runs Itself",
+    "subtitle": "Purple Glow writes your posts in all 11 languages. You just look things over and say yes. Connect Instagram, Facebook, Twitter & LinkedIn — all from one dashboard.",
+    "cta": "Start Free — No Card Needed",
+    "demo": "See How It Works"
   },
   "features": {
-    "title": "Engineered for Mzansi",
-    "subtitle": "Purple Glow isn't just translated—it's culturally aware. From township slang to corporate Afrikaans.",
+    "title": "Built for South Africa",
+    "subtitle": "From township businesses to Joburg startups — Purple Glow gets the way we do things here. No overseas nonsense, just tools that work for you.",
     "aiEngine": {
-      "title": "AI Content Engine",
-      "description": "Google Gemini Pro AI powering your posts. Generate engaging text content that resonates with SA audiences."
+      "title": "AI That Writes Your Posts",
+      "description": "Just tell us what you're selling or sharing. Our AI writes posts that sound like you — in English, isiZulu, Afrikaans, or any of our 11 languages."
     },
     "multilingual": {
-      "title": "11 Languages, One Platform",
-      "description": "Post in isiZulu in the morning, Afrikaans at lunch, English in the evening. Switch languages mid-sentence."
+      "title": "All 11 SA Languages",
+      "description": "Post in isiZulu this morning, Afrikaans at lunch, English tonight. Your customers will love seeing their language. Switch whenever you want."
     },
     "scheduling": {
-      "title": "Smart Scheduling",
-      "description": "AI learns the best times to post for your audience. Schedule a month's content in 10 minutes."
+      "title": "Post on Autopilot",
+      "description": "Schedule a whole month of posts in 10 minutes. Purple Glow picks the best times to post so you get the most eyes on your content."
     }
   },
   "howItWorks": {
     "title": "How It Works",
     "step1": {
-      "title": "Describe Your Vibe",
-      "description": "Tell Purple Glow what you're selling or promoting. Choose your tone: Mzansi Cool, Corporate, or Cyberpunk."
+      "title": "Tell Us About Your Business",
+      "description": "What are you selling? Who are your customers? What vibe fits your brand? Set it up once and you're good to go."
     },
     "step2": {
-      "title": "AI Generates Content",
-      "description": "Our Gemini-powered engine creates platform-optimized posts in seconds."
+      "title": "AI Writes Your Posts",
+      "description": "Our AI creates posts for Instagram, Facebook, Twitter and LinkedIn — in the language your customers speak."
     },
     "step3": {
-      "title": "Schedule & Post",
-      "description": "Review, edit, or schedule. Purple Glow handles the rest—even suggests the best posting times."
+      "title": "Approve & Post",
+      "description": "Check the posts, make small changes if you want, then schedule them. Purple Glow handles the rest. You focus on running your business."
     }
   },
   "testimonials": {
-    "title": "Trusted by South African Entrepreneurs",
-    "subtitle": "See how Purple Glow is helping South African entrepreneurs save time and grow.",
+    "title": "Loved by SA Business Owners",
+    "subtitle": "Real people running real businesses — here's what they say about Purple Glow.",
     "thabo": {
-      "quote": "Purple Glow helped me scale from 500 to 5,000 followers in 3 months. The isiZulu content hits different.",
+      "quote": "Purple Glow took me from 500 to 5 000 followers in 3 months. My customers love getting posts in isiZulu — it hits different.",
       "name": "Thabo M.",
-      "role": "Joburg Streetwear Brand"
+      "role": "Streetwear Brand, Joburg"
     },
     "zanele": {
-      "quote": "I can finally post in all 11 languages without hiring a translator. Game changer for township businesses.",
+      "quote": "I don't have time to post in all 11 languages. Now I don't have to — Purple Glow does it for me. Game changer for my township customers.",
       "name": "Zanele K.",
-      "role": "Durban Food Truck Owner"
+      "role": "Food Truck, Durban"
     },
     "pieter": {
-      "quote": "The AI understands Afrikaans idioms better than my marketing team. Ons is baie impressed.",
+      "quote": "The AI gets Afrikaans idioms better than my old marketing team. Ons is impressed. Saved me hours every week.",
       "name": "Pieter v.d.M.",
-      "role": "Cape Town Tech Startup"
+      "role": "Tech Startup, Cape Town"
     }
   },
   "pricing": {
-    "title": "Transparent Pricing. No Hidden Fees.",
-    "subtitle": "Start free. Scale as you grow. Cancel anytime.",
-    "monthly": "Monthly",
-    "annual": "Annual",
+    "title": "Simple Pricing. No Surprises.",
+    "subtitle": "Start for free. Upgrade when you need more. Cancel whenever you like.",
+    "monthly": "Pay Monthly",
+    "annual": "Pay Yearly",
     "free": {
-      "name": "The Hustle",
-      "price": "Free",
+      "name": "Free — The Hustle",
+      "price": "R0",
       "features": [
-        "5 AI Posts per month",
-        "1 Social Profile",
-        "Standard Support",
-        "Basic Analytics"
+        "5 AI posts per month",
+        "1 social profile",
+        "Email support",
+        "Basic insights"
       ],
-      "cta": "Get Started"
+      "cta": "Get Started Free"
     },
     "pro": {
-      "name": "The Creator",
+      "name": "R299/m — The Creator",
       "badge": "Most Popular",
       "features": [
-        "Unlimited Text Generation",
-        "500 Content Generation Credits",
-        "5 Social Profiles",
-        "Smart Scheduling",
-        "11 Language Translation",
-        "Priority Support"
+        "Unlimited AI posts",
+        "500 image credits per month",
+        "5 social profiles",
+        "Smart scheduling",
+        "All 11 languages",
+        "Priority support"
       ],
-      "cta": "Get Pro"
+      "cta": "Go Pro"
     },
     "business": {
-      "name": "The Mogul",
+      "name": "R999/m — The Mogul",
       "features": [
         "Everything in Creator",
-        "2000 Content Generation Credits",
-        "Unlimited Profiles",
-        "Team Collaboration (3 Seats)",
-        "AI Automation Rules",
-        "Dedicated Account Manager"
+        "2000 image & video credits",
+        "Unlimited profiles",
+        "Team access (3 people)",
+        "AI automation rules",
+        "Dedicated account manager"
       ],
-      "cta": "Contact Sales"
+      "cta": "Talk to Sales"
     }
   },
   "credits": {
-    "title": "Need extra firepower?",
-    "subtitle": "Running low on content generation credits? Top up instantly without changing your subscription.",
+    "title": "Need extra credits?",
+    "subtitle": "Running low on image or video credits? Top up anytime without changing your plan.",
     "packages": {
       "100": "100 Credits",
       "500": "500 Credits",
@@ -116,58 +116,58 @@
     "payWith": "Pay with"
   },
   "contact": {
-    "title": "Get in Touch",
-    "subtitle": "Have questions? We're here to help.",
+    "title": "Have a Question?",
+    "subtitle": "We'd love to hear from you. Drop us a message and we'll get back to you.",
     "name": "Your Name",
     "email": "Your Email",
     "message": "Your Message",
     "send": "Send Message"
   },
   "footer": {
-    "tagline": "Built in South Africa, for South Africa.",
+    "tagline": "Built in South Africa, for South Africa. 🇿🇦",
     "product": "Product",
-    "integration": "Integration",
-    "changelog": "Changelog",
-    "legal": "Legal",
+    "integration": "Integrations",
+    "changelog": "What's New",
+    "legal": "Legal (ZA)",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy (POPIA)",
     "popia": "POPIA Compliance",
     "paia": "PAIA Manual",
     "cookies": "Cookie Policy",
     "support": "Support",
-    "help": "Help Center",
-    "docs": "Documentation",
+    "help": "Help Centre",
+    "docs": "How-to Guides",
     "status": "System Status"
   },
   "login": {
     "title": "Welcome Back",
-    "subtitle": "Log in to your Purple Glow account",
-    "social": "Or continue with social",
+    "subtitle": "Sign in to your Purple Glow account",
+    "social": "Or sign in with",
     "email": "Email",
     "password": "Password",
-    "loginButton": "Log In with Email",
-    "noAccount": "Don't have an account?",
+    "loginButton": "Sign In",
+    "noAccount": "Don't have an account yet?",
     "signup": "Sign up",
-    "adminTip": "TIP: Use email with \"admin\" to access Admin Dashboard"
+    "adminTip": "TIP: Use \"admin\" in your email to access the Admin Dashboard"
   },
   "dashboard": {
     "welcome": "Welcome back",
     "status": "System status",
-    "optimal": "OPTIMAL",
+    "optimal": "ALL GOOD",
     "sidebar": {
       "dashboard": "Dashboard",
       "schedule": "Schedule",
       "automation": "Automation",
       "settings": "Settings"
     },
-    "credits": "Credits Remaining",
+    "credits": "Credits Left",
     "contentGenerator": "Content Generator",
     "recentDrafts": "Recent Drafts",
-    "createManually": "Create Manually",
+    "createManually": "Write It Yourself",
     "tiers": {
-      "free": "FREE TIER",
-      "pro": "PRO TIER",
-      "business": "BUSINESS TIER"
+      "free": "FREE PLAN",
+      "pro": "PRO PLAN",
+      "business": "BUSINESS PLAN"
     }
   },
   "settings": {
@@ -184,27 +184,27 @@
     "delete": "Delete",
     "edit": "Edit",
     "loading": "Loading...",
-    "success": "Success!",
-    "error": "Error",
-    "confirm": "Confirm",
+    "success": "Done!",
+    "error": "Oops",
+    "confirm": "Yes, I'm Sure",
     "back": "Back",
-    "logout": "Logout",
+    "logout": "Log Out",
     "goToDashboard": "Go to Dashboard",
-    "backToLanding": "Back to Landing",
+    "backToLanding": "Back to Home",
     "language": "Language"
   },
   "scheduleModal": {
     "title": "Schedule Post",
     "platform": "Platform",
-    "aiBestTimes": "AI Pilot Best Times",
-    "aiDescription": "Our AI analyzed your audience engagement patterns. These times get the most traction:",
-    "orChooseTime": "Or Choose Your Own Time",
+    "aiBestTimes": "Best Times (AI Says)",
+    "aiDescription": "Purple Glow checked when your audience is most active. These times get the most views:",
+    "orChooseTime": "Or Pick Your Own Time",
     "date": "Date",
     "time": "Time",
     "timezone": "Timezone",
-    "recurrence": "Recurrence (Optional)",
+    "recurrence": "Repeat (Optional)",
     "repeatOn": "Repeat on:",
-    "noRepeat": "No Repeat",
+    "noRepeat": "Don't Repeat",
     "daily": "Daily",
     "weekly": "Weekly",
     "monthly": "Monthly",
@@ -226,24 +226,24 @@
   },
   "contentGenerator": {
     "title": "Content Generator",
-    "topic": "Topic / Product",
-    "topicPlaceholder": "e.g., New sneaker drop, Local coffee shop, Tech startup",
+    "topic": "What's This About?",
+    "topicPlaceholder": "e.g., New sneaker drop, Coffee shop special, Tech launch",
     "platform": "Platform",
-    "selectPlatform": "Select platform",
-    "language": "Content Language",
-    "tone": "Tone",
-    "customInstructions": "Custom Instructions (Optional)",
-    "customPlaceholder": "Add specific hashtags, mentions, or style preferences...",
-    "generate": "Initialize Generation",
-    "generating": "Generating...",
-    "generatedContent": "Generated Content",
+    "selectPlatform": "Pick a platform",
+    "language": "Post Language",
+    "tone": "Tone of Voice",
+    "customInstructions": "Extra Instructions (Optional)",
+    "customPlaceholder": "Add hashtags, people to tag, or style preferences...",
+    "generate": "Write My Post",
+    "generating": "Writing...",
+    "generatedContent": "Your Post",
     "editText": "Edit Text",
     "done": "Done",
     "discard": "Discard",
     "schedulePost": "Schedule Post",
     "platforms": {
       "instagram": "Instagram",
-      "twitter": "Twitter",
+      "twitter": "Twitter / X",
       "linkedin": "LinkedIn",
       "facebook": "Facebook"
     },
@@ -255,15 +255,15 @@
     }
   },
   "smartSuggestions": {
-    "title": "AI Pilot Smart Suggestions",
-    "subtitle": "Powered by audience analytics and engagement patterns",
+    "title": "AI Suggestions",
+    "subtitle": "Ideas from Purple Glow based on your audience",
     "bestTimes": "Best Times",
-    "bestPractices": "Best Practices",
+    "bestPractices": "Tips",
     "trending": "Trending",
-    "content": "Content",
-    "tone": "Tone",
-    "description": "Based on your audience's activity, here are the best times to post:",
-    "adjustTone": "Adjust your tone based on when you're posting:",
-    "updateNote": "Suggestions update based on your audience engagement data"
+    "content": "Content Ideas",
+    "tone": "Tone Tips",
+    "description": "Based on when your audience is active, here are the best times to post:",
+    "adjustTone": "Try adjusting your tone based on when you post:",
+    "updateNote": "Suggestions update as your audience grows"
   }
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import * as Sentry from '@sentry/nextjs';
 import ErrorFallback from './ErrorFallback';
 
 interface Props {
@@ -25,17 +24,6 @@ export class ContentGenErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Content Generation Error:', error, errorInfo);
-    
-    // Report to Sentry
-    Sentry.captureException(error, {
-      tags: {
-        component: 'ContentGeneration',
-        ai: 'gemini',
-      },
-      extra: {
-        componentStack: errorInfo.componentStack,
-      },
-    });
   }
 
   handleReset = () => {

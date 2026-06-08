@@ -64,7 +64,7 @@ async function ensureOutputDirectory(): Promise<void> {
     await access(OUTPUT_DIR);
   } catch {
     await mkdir(OUTPUT_DIR, { recursive: true });
-    logger.info('Created nanobanana output directory', { path: OUTPUT_DIR });
+    logger.ai.info('Created nanobanana output directory', { path: OUTPUT_DIR });
   }
 }
 
@@ -95,7 +95,7 @@ async function executeGeminiGenerate(prompt: string): Promise<string> {
   // Use /generate command with photorealistic style
   const command = `gemini "/generate '${safePrompt}' --count=1 --styles=photorealistic"`;
   
-  logger.info('Executing Gemini CLI command', { command });
+  logger.ai.info('Executing Gemini CLI command', { command });
   
   try {
     const { stdout, stderr } = await execAsync(command, {
@@ -104,14 +104,14 @@ async function executeGeminiGenerate(prompt: string): Promise<string> {
     });
     
     if (stderr) {
-      logger.warn('Gemini CLI stderr output', { stderr });
+      logger.ai.warn('Gemini CLI stderr output', { stderr });
     }
     
-    logger.info('Gemini CLI stdout', { stdout });
+    logger.ai.info('Gemini CLI stdout', { stdout });
     
     return stdout;
   } catch (error) {
-    logger.error('Gemini CLI execution failed', { 
+    logger.ai.error('Gemini CLI execution failed', { 
       error: error instanceof Error ? error.message : String(error) 
     });
     throw error;
@@ -157,7 +157,7 @@ async function findLatestGeneratedImage(): Promise<string | null> {
     
     return latestFile?.path || null;
   } catch (error) {
-    logger.error('Failed to find generated image', { error });
+    logger.ai.error('Failed to find generated image', { error });
     return null;
   }
 }
@@ -176,7 +176,7 @@ export async function generateImageWithNanoBanana(
     
     // Construct prompt
     const prompt = constructImagePrompt(topic, platform, vibe);
-    logger.info('Generated image prompt', { prompt, platform, topic });
+    logger.ai.info('Generated image prompt', { prompt, platform, topic });
     
     // Execute Gemini CLI command
     const output = await executeGeminiGenerate(prompt);
@@ -185,7 +185,7 @@ export async function generateImageWithNanoBanana(
     const generatedImagePath = await findLatestGeneratedImage();
     
     if (!generatedImagePath) {
-      logger.error('No generated image found after Gemini CLI execution');
+      logger.ai.error('No generated image found after Gemini CLI execution');
       return {
         success: false,
         error: 'Image generation completed but file not found',
@@ -205,7 +205,7 @@ export async function generateImageWithNanoBanana(
     const fs = await import('fs/promises');
     await fs.copyFile(generatedImagePath, targetPath);
     
-    logger.info('Image generated successfully', { 
+    logger.ai.info('Image generated successfully', { 
       path: targetPath,
       platform,
       topic 
@@ -219,7 +219,7 @@ export async function generateImageWithNanoBanana(
     
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    logger.error('Nano Banana image generation failed', { 
+    logger.ai.error('Nano Banana image generation failed', { 
       error: errorMessage,
       topic,
       platform 
@@ -244,14 +244,14 @@ export async function checkNanoBananaAvailability(): Promise<boolean> {
     const hasNanoBanana = stdout.includes('nanobanana');
     
     if (!hasNanoBanana) {
-      logger.warn('Nano Banana extension not installed', {
+      logger.ai.warn('Nano Banana extension not installed', {
         hint: 'Run: gemini extensions install https://github.com/gemini-cli-extensions/nanobanana'
       });
     }
     
     return hasNanoBanana;
   } catch (error) {
-    logger.error('Failed to check Gemini CLI availability', { error });
+    logger.ai.error('Failed to check Gemini CLI availability', { error });
     return false;
   }
 }
@@ -261,7 +261,7 @@ export async function checkNanoBananaAvailability(): Promise<boolean> {
  * Returns null to indicate no image should be included
  */
 export function fallbackToTextOnly(): GenerateImageResult {
-  logger.info('Falling back to text-only post (no image)');
+  logger.ai.info('Falling back to text-only post (no image)');
   return {
     success: false,
     error: 'Image generation unavailable, continuing with text-only post',

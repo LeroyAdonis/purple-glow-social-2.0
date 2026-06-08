@@ -18,14 +18,14 @@ export default function HeroSection({ translate }: HeroSectionProps) {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
             <span className="w-2 h-2 rounded-full bg-mzansi-gold animate-pulse"></span>
             <span className="font-mono text-[10px] uppercase tracking-widest text-gray-300">
-              Powered by Gemini 2.5
+              AI That Speaks Your Language
             </span>
           </div>
 
           <h1 className="font-display font-extrabold text-6xl md:text-7xl leading-[0.9]">
-            LIQUID<br />
+            AI Writes Your<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-grape via-white to-joburg-teal">
-              INTELLIGENCE
+              SOCIAL POSTS
             </span>
           </h1>
 
@@ -48,10 +48,10 @@ export default function HeroSection({ translate }: HeroSectionProps) {
 
           <div className="flex items-center gap-4 text-xs font-mono text-gray-500 pt-4">
             <span>
-              <i className="fa-solid fa-check text-joburg-teal mr-2"></i>POPIA Compliant
+              <i className="fa-solid fa-check text-joburg-teal mr-2"></i>In all 11 languages
             </span>
             <span>
-              <i className="fa-solid fa-check text-joburg-teal mr-2"></i>Cancel Anytime
+              <i className="fa-solid fa-check text-joburg-teal mr-2"></i>No card needed
             </span>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function HeroSection({ translate }: HeroSectionProps) {
             <div className="aspect-square rounded-2xl bg-black/50 mb-6 overflow-hidden relative group">
               <Image
                 src="https://picsum.photos/600/600"
-                alt="Generated Content"
+                alt="Example social media post created by Purple Glow"
                 width={600}
                 height={600}
                 className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700"
@@ -82,7 +82,7 @@ export default function HeroSection({ translate }: HeroSectionProps) {
               />
               <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10 flex items-center gap-2">
                 <i className="fa-solid fa-wand-magic-sparkles text-neon-grape text-xs"></i>
-                <span className="text-[10px] font-mono tracking-wider">AI POWERED</span>
+                <span className="text-[10px] font-mono tracking-wider">WRITTEN FOR YOU</span>
               </div>
             </div>
 
@@ -102,7 +102,7 @@ export default function HeroSection({ translate }: HeroSectionProps) {
               <i className="fa-solid fa-language"></i>
             </div>
             <div>
-              <div className="text-xs font-bold text-white">11 Languages</div>
+              <div className="text-xs font-bold text-white">All 11 Languages</div>
               <div className="text-[10px] text-gray-400 font-mono">ZULU / XHOSA / ENG +</div>
             </div>
           </div>

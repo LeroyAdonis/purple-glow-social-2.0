@@ -1,5 +1,6 @@
 'use client';
 
+import { logger } from '@/lib/logger';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { generateWithPuter, isPuterAvailable, ensurePuterAuth } from '../lib/ai/puter-ai-service';

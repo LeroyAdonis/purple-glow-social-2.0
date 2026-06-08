@@ -44,20 +44,20 @@ export default function PricingSection() {
             {/* TIER 1: FREE */}
             <div className="aerogel-card p-8 rounded-3xl border border-white/5 hover:border-white/20 transition-all">
               <div className="mb-6">
-                <h3 className="font-mono text-sm tracking-widest text-gray-500 uppercase mb-2">THE HUSTLE</h3>
+                <h3 className="font-mono text-sm tracking-widest text-gray-500 uppercase mb-2">FREE</h3>
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl font-display font-bold text-white">R0</span>
-                  <span className="text-gray-500">/pm</span>
+                  <span className="text-gray-500">/month</span>
                 </div>
               </div>
               <ul className="space-y-4 mb-8 text-sm text-gray-300">
-                <li className="flex gap-3"><i className="fa-solid fa-check text-gray-500"></i> 5 AI Posts per month</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-gray-500"></i> 1 Social Profile</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-gray-500"></i> Standard Support</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-gray-500"></i> Basic Analytics</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-gray-500"></i> 5 AI posts per month</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-gray-500"></i> 1 social profile</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-gray-500"></i> Email support</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-gray-500"></i> Basic insights</li>
               </ul>
               <button className="w-full py-3 border border-glass-border text-white rounded-xl hover:bg-white/5 font-bold transition-colors">
-                Start Free
+                Get Started Free
               </button>
             </div>
 
@@ -67,43 +67,43 @@ export default function PricingSection() {
                 MOST POPULAR
               </div>
               <div className="mb-6">
-                <h3 className="font-mono text-sm tracking-widest text-neon-grape uppercase mb-2">THE CREATOR</h3>
+                <h3 className="font-mono text-sm tracking-widest text-neon-grape uppercase mb-2">PRO</h3>
                 <div className="flex items-baseline gap-1">
                   <span className="text-5xl font-display font-bold text-white">R299</span>
-                  <span className="text-gray-500">/pm</span>
+                  <span className="text-gray-500">/month</span>
                 </div>
                 <p className="text-xs text-gray-400 mt-2">Billed R{billingCycle === 'monthly' ? '299' : '3588'} {billingCycle}</p>
               </div>
               <ul className="space-y-4 mb-8 text-sm text-gray-200">
-                <li className="flex gap-3"><i className="fa-solid fa-check text-neon-grape"></i> <strong>Unlimited</strong> Text Generation</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-neon-grape"></i> 50 Image Credits / mo</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-neon-grape"></i> 5 Social Profiles</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-neon-grape"></i> Smart Scheduling</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-neon-grape"></i> 11 Language Translation</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-neon-grape"></i> <strong>Unlimited</strong> AI posts</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-neon-grape"></i> 50 image credits / month</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-neon-grape"></i> 5 social profiles</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-neon-grape"></i> Smart scheduling</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-neon-grape"></i> All 11 languages</li>
               </ul>
               <button className="w-full py-4 bg-white text-black rounded-xl hover:scale-105 font-bold transition-transform shadow-lg">
-                Get Pro
+                Go Pro
               </button>
             </div>
 
             {/* TIER 3: BUSINESS */}
             <div className="aerogel-card p-8 rounded-3xl border border-white/5 hover:border-white/20 transition-all">
               <div className="mb-6">
-                <h3 className="font-mono text-sm tracking-widest text-joburg-teal uppercase mb-2">THE MOGUL</h3>
+                <h3 className="font-mono text-sm tracking-widest text-joburg-teal uppercase mb-2">BUSINESS</h3>
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl font-display font-bold text-white">R999</span>
-                  <span className="text-gray-500">/pm</span>
+                  <span className="text-gray-500">/month</span>
                 </div>
               </div>
               <ul className="space-y-4 mb-8 text-sm text-gray-300">
-                <li className="flex gap-3"><i className="fa-solid fa-check text-joburg-teal"></i> Everything in Creator</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-joburg-teal"></i> 200 Image & Video Credits</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-joburg-teal"></i> Unlimited Profiles</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-joburg-teal"></i> Team Collaboration (3 Seats)</li>
-                <li className="flex gap-3"><i className="fa-solid fa-check text-joburg-teal"></i> Priority Support</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-joburg-teal"></i> Everything in Pro</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-joburg-teal"></i> 200 image & video credits</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-joburg-teal"></i> Unlimited profiles</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-joburg-teal"></i> Team access (3 people)</li>
+                <li className="flex gap-3"><i className="fa-solid fa-check text-joburg-teal"></i> Priority support</li>
               </ul>
               <button className="w-full py-3 border border-glass-border text-white rounded-xl hover:bg-white/5 font-bold transition-colors">
-                Contact Sales
+                Talk to Sales
               </button>
             </div>
           </div>
@@ -119,11 +119,11 @@ export default function PricingSection() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
               <div className="flex-1">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold tracking-widest mb-4">
-                  POWERED BY POLAR.SH
+                  PAY AS YOU GO
                 </div>
-                <h2 className="font-display font-bold text-3xl mb-3">Need extra firepower?</h2>
+                <h2 className="font-display font-bold text-3xl mb-3">Need more credits?</h2>
                 <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                  Running low on image or video credits? Top up instantly without changing your subscription. Secure payments handled via Polar.
+                  Running low on image or video credits? Top up anytime without changing your plan. Secure payments via Polar.
                 </p>
 
                 <div className="flex gap-3 flex-wrap">

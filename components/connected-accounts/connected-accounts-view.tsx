@@ -1,5 +1,6 @@
 'use client';
 
+import { logger } from '@/lib/logger';
 import React, { useState, useEffect } from 'react';
 import ConnectedAccountCard from './connected-account-card';
 
@@ -135,7 +136,11 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
       }
 
       // Refresh data after disconnect
-      await fetchData();
+      const refreshRes = await fetch('/api/oauth/connections');
+      if (refreshRes.ok) {
+        const refreshData = await refreshRes.json();
+        setConnections(refreshData.connections || []);
+      }
     } catch (err) {
       console.error('Error disconnecting:', err);
       alert('Failed to disconnect account. Please try again.');
@@ -208,7 +213,20 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
           </div>
           <p className="text-gray-400 mb-4">{error}</p>
           <button
-            onClick={fetchData}
+            onClick={async () => {
+              try {
+                setIsLoading(true);
+                setError(null);
+                const res = await fetch('/api/oauth/connections');
+                if (res.ok) {
+                  setConnections((await res.json()).connections || []);
+                }
+              } catch {
+                // stay in error state
+              } finally {
+                setIsLoading(false);
+              }
+            }}
             className="px-6 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
           >
             <i className="fa-solid fa-rotate mr-2"></i>

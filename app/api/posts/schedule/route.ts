@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { inngest } from '@/lib/inngest/client';
 import { auth } from '@/lib/auth';
 import { updatePost, getPostById, countScheduledPosts } from '@/lib/db/posts';
 import { db } from '@/drizzle/db';
@@ -10,14 +9,12 @@ import { reserveCredits, getAvailableCredits } from '@/lib/db/credit-reservation
 import { hasEnoughCredits, canSchedule } from '@/lib/tiers/validation';
 import { getTierLimits } from '@/lib/tiers/config';
 import type { TierName } from '@/lib/tiers/types';
-import { rateLimiters } from '@/lib/security/rate-limit';
 import { logger } from '@/lib/logger';
 import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 
 const scheduleSchema = z.object({
   postId: z.string().uuid(),
   scheduledDate: z.string().datetime(),
-  // recurrence: z.enum(['none', 'daily', 'weekly', 'monthly']).optional(), // TODO: Implement recurrence
 });
 
 type ValidationSuccess = {
@@ -49,7 +46,6 @@ async function validateScheduleRequest(
   postId: string,
   scheduledDate: Date
 ): Promise<ValidationResult> {
-  // Verify post belongs to user
   const post = await getPostById(postId);
   if (!post) {
     return { success: false, error: 'Post not found', status: 404 };
@@ -59,7 +55,6 @@ async function validateScheduleRequest(
     return { success: false, error: 'Unauthorized', status: 403 };
   }
 
-  // Get user info
   const userRecord = await db.query.user.findFirst({
     where: eq(user.id, userId),
   });
@@ -71,7 +66,6 @@ async function validateScheduleRequest(
   const userTier = (userRecord.tier || 'free') as TierName;
   const tierLimits = getTierLimits(userTier);
 
-  // Check queue size and advance scheduling limits
   const currentQueueSize = await countScheduledPosts(userId);
   const scheduleCheck = canSchedule(userTier, currentQueueSize, scheduledDate);
 
@@ -87,10 +81,7 @@ async function validateScheduleRequest(
     };
   }
 
-  // Calculate credit cost (1 credit per post/platform)
-  const creditCost = 1; // Single platform post
-
-  // Check if user has enough available credits
+  const creditCost = 1;
   const availableCredits = await getAvailableCredits(userId);
   const creditCheck = hasEnoughCredits(userRecord.credits, userRecord.credits - availableCredits, creditCost);
 
@@ -122,9 +113,6 @@ async function validateScheduleRequest(
 /**
  * POST /api/posts/schedule
  * Schedule a post for publishing
- * 
- * Credits are reserved when scheduling and consumed on successful publish.
- * 1 credit per platform is reserved.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -136,20 +124,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
-      );
-    }
-
-    // Apply rate limiting (10 requests per minute for scheduling)
-    const rateLimitResult = await rateLimiters.contentGen.limit(`post-schedule:${session.user.id}`);
-    if (!rateLimitResult.success) {
-      const resetTime = Math.ceil(((rateLimitResult as any).reset - Date.now()) / 1000);
-      return NextResponse.json(
-        { 
-          error: 'Rate limit exceeded', 
-          message: `Too many schedule requests. Try again in ${resetTime} seconds.`,
-          retryAfter: resetTime,
-        },
-        { status: 429 }
       );
     }
 
@@ -182,16 +156,14 @@ export async function POST(request: NextRequest) {
 
     // 2. Perform DB updates in transaction
     const result = await db.transaction(async (tx) => {
-      // Reserve credits
       const reservation = await reserveCredits(
         session.user.id,
         validated.postId,
         creditCost,
-        scheduledDate, // Reservation expires when post is scheduled
+        scheduledDate,
         tx
       );
 
-      // Update post status
       const updatedPost = await updatePost(
         validated.postId,
         {
@@ -204,23 +176,6 @@ export async function POST(request: NextRequest) {
       return { reservation, updatedPost };
     });
 
-    // 3. Trigger Inngest workflow (after successful DB transaction)
-    // Non-blocking: don't fail the request if Inngest is unavailable (e.g., missing event key in dev)
-    try {
-      await inngest.send({
-        name: 'post/scheduled.process',
-        data: {
-          postId: validated.postId,
-          userId: session.user.id,
-          platform: post.platform,
-          scheduledAt: scheduledDate.toISOString(),
-        },
-      });
-    } catch (inngestError) {
-      logger.cron.warn('Inngest send failed (non-critical)', { error: inngestError });
-    }
-
-    // Get updated available credits (fresh read)
     const updatedAvailable = await getAvailableCredits(session.user.id);
 
     return NextResponse.json({

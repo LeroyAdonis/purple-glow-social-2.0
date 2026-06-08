@@ -97,16 +97,15 @@ const CookieConsentBanner: React.FC = () => {
                     id="cookie-banner-title"
                     className="text-xl md:text-2xl font-display font-bold text-white mb-3"
                   >
-                    🍪 We Value Your Privacy
+                    🍪 Your Privacy Matters
                   </h2>
                   <p 
                     id="cookie-banner-description"
                     className="text-gray-300 text-sm md:text-base leading-relaxed"
                   >
-                    Purple Glow Social uses cookies and similar technologies to provide you with the best experience. 
-                    We use essential cookies for authentication and session management. Optional cookies help us 
-                    improve our service and personalize your experience. Your data is protected in compliance with 
-                    South Africa's <strong className="text-white">Protection of Personal Information Act (POPIA)</strong>.
+                    Purple Glow Social uses cookies to keep you logged in and make the app work properly. 
+                    That's it. We also offer optional cookies that help us improve — but you choose. 
+                    We follow South Africa's <strong className="text-white">POPIA (Protection of Personal Information Act)</strong>.
                   </p>
                 </div>
               </div>
@@ -117,23 +116,23 @@ const CookieConsentBanner: React.FC = () => {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <i className="fas fa-shield-check text-joburg-teal text-sm"></i>
-                      <span className="font-semibold text-white">Essential Cookies</span>
+                      <span className="font-semibold text-white">Essential</span>
                     </div>
-                    <p className="text-gray-400 text-xs">Required for authentication and core functionality. Always enabled.</p>
+                    <p className="text-gray-400 text-xs">Keeps you logged in and the app running. Always on.</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <i className="fas fa-chart-line text-neon-grape text-sm"></i>
-                      <span className="font-semibold text-white">Analytics Cookies</span>
+                      <span className="font-semibold text-white">Analytics</span>
                     </div>
-                    <p className="text-gray-400 text-xs">Help us understand how you use our platform to improve our service.</p>
+                    <p className="text-gray-400 text-xs">Help us see what people use most so we can improve.</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <i className="fas fa-sparkles text-mzansi-gold text-sm"></i>
-                      <span className="font-semibold text-white">Personalization</span>
+                      <span className="font-semibold text-white">Personalisation</span>
                     </div>
-                    <p className="text-gray-400 text-xs">Remember your preferences and provide tailored content suggestions.</p>
+                    <p className="text-gray-400 text-xs">Remembers your language and preferences.</p>
                   </div>
                 </div>
               </div>
@@ -176,28 +175,28 @@ const CookieConsentBanner: React.FC = () => {
                   className="flex-1 px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all duration-300"
                 >
                   <i className="fas fa-check mr-2"></i>
-                  Accept All Cookies
+                  Accept All
                 </button>
                 <button
                   onClick={handleRejectOptional}
                   className="flex-1 px-6 py-3 bg-void/80 text-white font-semibold rounded-lg border border-glass-border hover:bg-void hover:border-white/30 transition-all duration-300"
                 >
                   <i className="fas fa-times mr-2"></i>
-                  Reject Optional
+                  Only Essential
                 </button>
                 <button
                   onClick={() => setShowCustomize(true)}
                   className="flex-1 px-6 py-3 bg-void/80 text-white font-semibold rounded-lg border border-glass-border hover:bg-void hover:border-white/30 transition-all duration-300"
                 >
                   <i className="fas fa-sliders-h mr-2"></i>
-                  Customize
+                  Customise
                 </button>
               </div>
 
               {/* POPIA Compliance Statement */}
               <p className="mt-4 text-xs text-gray-500 text-center">
                 <i className="fas fa-flag mr-1"></i>
-                Purple Glow Social is committed to protecting your privacy under South African law (POPIA Act 4 of 2013)
+                We follow South Africa's privacy law (POPIA Act 4 of 2013)
               </p>
             </div>
           ) : (
@@ -206,7 +205,7 @@ const CookieConsentBanner: React.FC = () => {
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl md:text-2xl font-display font-bold text-white">
                   <i className="fas fa-sliders-h mr-2 text-neon-grape"></i>
-                  Customize Cookie Preferences
+                  Choose Your Cookie Settings
                 </h2>
                 <button
                   onClick={() => setShowCustomize(false)}
@@ -221,22 +220,21 @@ const CookieConsentBanner: React.FC = () => {
                 {/* Essential Cookies */}
                 <div className="p-4 bg-void/50 rounded-lg border border-glass-border">
                   <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <i className="fas fa-shield-check text-joburg-teal"></i>
-                        <h3 className="font-semibold text-white">Essential Cookies</h3>
-                        <span className="px-2 py-0.5 bg-joburg-teal/20 text-joburg-teal text-xs rounded-full">
-                          Always Active
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-400">
-                        Required for authentication, session management, and core platform functionality. 
-                        These cookies cannot be disabled as the platform would not function properly without them.
-                      </p>
-                      <p className="text-xs text-gray-500 mt-2">
-                        Examples: better-auth.session, csrf-token, user-preferences
-                      </p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <i className="fas fa-shield-check text-joburg-teal"></i>
+                      <h3 className="font-semibold text-white">Essential</h3>
+                      <span className="px-2 py-0.5 bg-joburg-teal/20 text-joburg-teal text-xs rounded-full">
+                        Always On
+                      </span>
                     </div>
+                    <p className="text-sm text-gray-400">
+                      Needed for logging in and keeping the app working. These can't be turned off.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-2">
+                      Examples: login session, security tokens
+                    </p>
+                  </div>
                     <div className="ml-4">
                       <div className="w-12 h-6 bg-joburg-teal rounded-full flex items-center justify-end px-1 cursor-not-allowed opacity-50">
                         <div className="w-4 h-4 bg-white rounded-full"></div>
@@ -251,14 +249,13 @@ const CookieConsentBanner: React.FC = () => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <i className="fas fa-chart-line text-neon-grape"></i>
-                        <h3 className="font-semibold text-white">Analytics Cookies</h3>
+                        <h3 className="font-semibold text-white">Analytics</h3>
                       </div>
                       <p className="text-sm text-gray-400">
-                        Help us understand how users interact with our platform, which features are most popular, 
-                        and how we can improve the user experience.
+                        Help us see which features people use so we can make things better. Data is anonymised.
                       </p>
                       <p className="text-xs text-gray-500 mt-2">
-                        Examples: _ga, _gid, analytics-session (anonymized data only)
+                        Examples: page views, feature usage (no personal info)
                       </p>
                     </div>
                     <div className="ml-4">
@@ -283,14 +280,13 @@ const CookieConsentBanner: React.FC = () => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <i className="fas fa-sparkles text-mzansi-gold"></i>
-                        <h3 className="font-semibold text-white">Personalization Cookies</h3>
+                        <h3 className="font-semibold text-white">Personalisation</h3>
                       </div>
                       <p className="text-sm text-gray-400">
-                        Remember your language preference, theme settings, and provide AI-powered content 
-                        suggestions tailored to your business niche and audience.
+                        Remembers your language choice and settings so everything looks right when you come back.
                       </p>
                       <p className="text-xs text-gray-500 mt-2">
-                        Examples: language-pref, content-preferences, ai-learning-data
+                        Examples: language preference, theme
                       </p>
                     </div>
                     <div className="ml-4">
@@ -317,12 +313,12 @@ const CookieConsentBanner: React.FC = () => {
                   className="flex-1 px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all duration-300"
                 >
                   <i className="fas fa-save mr-2"></i>
-                  Save Preferences
+                  Save My Choice
                 </button>
               </div>
 
               <p className="mt-4 text-xs text-gray-500 text-center">
-                You can change your cookie preferences at any time from your account settings.
+                You can change this anytime in your account settings.
               </p>
             </div>
           )}

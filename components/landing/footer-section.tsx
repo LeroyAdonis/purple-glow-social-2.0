@@ -37,7 +37,7 @@ export default function FooterSection() {
               <div className="w-6 h-6 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
                 <span className="font-display font-bold text-xs text-white">P</span>
               </div>
-              <span className="font-display font-bold text-lg">PURPLE GLOW</span>
+              <span className="font-display font-bold text-lg">PURPLE GLOW SOCIAL</span>
             </div>
             <p className="text-gray-500 text-sm max-w-sm">
               {translate('footer.tagline')}
