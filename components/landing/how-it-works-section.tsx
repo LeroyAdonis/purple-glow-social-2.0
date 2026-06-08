@@ -4,9 +4,38 @@
  * SA-themed vertical timeline with staggered cards
  */
 
+import { SectionWrapper, FadeInDiv } from '@/components/ui/section-wrapper';
+
 interface HowItWorksSectionProps {
   translate: (key: string) => string;
 }
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: 'easeOut' as const },
+  },
+};
+
+const fadeInLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, ease: 'easeOut' as const },
+  },
+};
+
+const fadeInRight = {
+  hidden: { opacity: 0, x: 40 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, ease: 'easeOut' as const },
+  },
+};
 
 export default function HowItWorksSection({ translate }: HowItWorksSectionProps) {
   const steps = [
@@ -40,7 +69,14 @@ export default function HowItWorksSection({ translate }: HowItWorksSectionProps)
   ];
 
   return (
-    <section id="how-it-works" className="py-24 relative bg-cosmic-void overflow-hidden">
+    <SectionWrapper
+      id="how-it-works"
+      className="py-16 relative bg-cosmic-void overflow-hidden"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{ duration: 0.5 }}
+    >
       {/* Noise overlay */}
       <div className="noise-overlay !fixed pointer-events-none"></div>
 
@@ -52,7 +88,13 @@ export default function HowItWorksSection({ translate }: HowItWorksSectionProps)
 
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         {/* Section Title */}
-        <div className="text-center mb-20">
+        <FadeInDiv
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sa-green/10 border border-sa-green/20 text-sa-green text-[10px] font-bold tracking-widest mb-4 uppercase">
             <i className="fa-solid fa-arrow-right-arrow-left"></i>
             <span>{translate('howItWorks.badge') || 'Simple Process'}</span>
@@ -61,7 +103,7 @@ export default function HowItWorksSection({ translate }: HowItWorksSectionProps)
             {translate('howItWorks.title')}
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">{translate('howItWorks.subtitle') || 'Three steps to social media mastery, made for South Africa'}</p>
-        </div>
+        </FadeInDiv>
 
         {/* Vertical Timeline */}
         <div className="relative">
@@ -69,19 +111,33 @@ export default function HowItWorksSection({ translate }: HowItWorksSectionProps)
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 bg-gradient-to-b from-posta-orange via-sa-gold to-surge-teal rounded-full opacity-40"></div>
 
           {steps.map((step, index) => (
-            <div key={index} className="relative mb-16 last:mb-0">
+            <FadeInDiv
+              key={index}
+              className="relative mb-12 last:mb-0"
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ delay: index * 0.15 }}
+            >
               {/* Connecting stripe between steps */}
               {index > 0 && (
-                <div className="hidden md:block absolute left-1/2 -translate-x-1/2 -top-8 w-0.5 h-8 bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
+                <div className="hidden md:block absolute left-1/2 -translate-x-1/2 -top-6 w-0.5 h-6 bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
               )}
 
-              <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${index % 2 === 1 ? 'md:direction-rtl' : ''}`}>
+              <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${index % 2 === 1 ? 'md:direction-rtl' : ''}`}>
                 {/* Content Card — alternates left/right */}
-                <div className={`${index % 2 === 1 ? 'md:col-start-2' : 'md:col-start-1'}`}>
-                  <div className={`premium-card p-8 rounded-2xl border-l-4 border-${step.color} hover:shadow-2xl transition-all duration-500 group ${step.glowClass}`}
+                <FadeInDiv
+                  className={`${index % 2 === 1 ? 'md:col-start-2' : 'md:col-start-1'}`}
+                  variants={index % 2 === 1 ? fadeInRight : fadeInLeft}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-30px' }}
+                >
+                  <div className={`premium-card p-6 rounded-2xl border-l-4 border-${step.color} hover:shadow-2xl transition-all duration-500 group ${step.glowClass}`}
                        style={{ borderLeftColor: `var(--color-${step.color})` }}>
                     {/* Step indicator */}
-                    <div className="flex items-center gap-4 mb-5">
+                    <div className="flex items-center gap-4 mb-4">
                       <div className={`w-12 h-12 rounded-xl ${step.accent} flex items-center justify-center text-lg text-${step.colorText} group-hover:scale-110 transition-transform`}>
                         <i className={step.icon}></i>
                       </div>
@@ -96,7 +152,7 @@ export default function HowItWorksSection({ translate }: HowItWorksSectionProps)
                       {step.description}
                     </p>
                   </div>
-                </div>
+                </FadeInDiv>
 
                 {/* Visual Decor — empty side with icon badge */}
                 <div className={`hidden md:flex items-center justify-center ${index % 2 === 1 ? 'md:col-start-1' : 'md:col-start-2'}`}>
@@ -128,7 +184,7 @@ export default function HowItWorksSection({ translate }: HowItWorksSectionProps)
 
               {/* SA flag accent divider between steps (visible on mobile) */}
               {index < steps.length - 1 && (
-                <div className="flex md:hidden items-center gap-3 my-8">
+                <div className="flex md:hidden items-center gap-3 my-6">
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
                   <div className="w-4 h-4 rounded-full border-2 border-posta-orange/40 flex items-center justify-center">
                     <div className="w-1.5 h-1.5 rounded-full bg-posta-orange/60"></div>
@@ -136,15 +192,21 @@ export default function HowItWorksSection({ translate }: HowItWorksSectionProps)
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
                 </div>
               )}
-            </div>
+            </FadeInDiv>
           ))}
         </div>
 
         {/* Bottom flag accent */}
-        <div className="flag-accent mt-16"></div>
+        <div className="flag-accent mt-12"></div>
 
         {/* SA decorative stamp at bottom */}
-        <div className="flex justify-center mt-8">
+        <FadeInDiv
+          className="flex justify-center mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/[0.03] border border-white/5">
             <div className="flex gap-0.5">
               <div className="w-2 h-2 rounded-full bg-sa-green"></div>
@@ -154,8 +216,8 @@ export default function HowItWorksSection({ translate }: HowItWorksSectionProps)
             </div>
             <span className="text-xs text-text-tertiary font-mono tracking-wide">Built for Mzansi business</span>
           </div>
-        </div>
+        </FadeInDiv>
       </div>
-    </section>
+    </SectionWrapper>
   );
 }

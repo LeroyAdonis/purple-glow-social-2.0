@@ -1,7 +1,8 @@
 /**
  * Ambient Background Component
- * Server Component - Layered depth system with nebula blobs, grid patterns,
- * SA flag color whispers, and noise texture for a premium atmospheric feel.
+ * Server Component - Layered depth system with animated aurora blobs,
+ * grid patterns, SA flag color whispers, and noise texture for a
+ * premium atmospheric feel.
  */
 
 export default function AmbientBackground() {
@@ -9,13 +10,13 @@ export default function AmbientBackground() {
     <>
       {/* Base gradient - deep-charcoal melting into orange depths */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden bg-deep-charcoal">
-        {/* Deep backdrop gradient */}
+        {/* Deep backdrop gradient — orange warmth from top, teal cool from bottom */}
         <div
           className="absolute inset-0 opacity-40"
           style={{
             background: `
               radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,93,4,0.12) 0%, transparent 70%),
-              radial-gradient(ellipse 60% 50% at 100% 100%, rgba(0,212,170,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 50% at 100% 100%, rgba(0,168,181,0.06) 0%, transparent 60%),
               radial-gradient(ellipse 50% 60% at 0% 80%, rgba(232,93,4,0.08) 0%, transparent 60%)
             `,
           }}
@@ -38,7 +39,23 @@ export default function AmbientBackground() {
         />
       </div>
 
-      {/* Layer 2: Slow-drift aurora/nebula blobs (depth 1 — far, slowest) */}
+      {/* Layer 2: Animated aurora — slow-shifting gradient waves */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute inset-0 animate-aurora"
+          style={{
+            background: `
+              radial-gradient(ellipse 120% 60% at 0% 20%, rgba(232,93,4,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse 80% 50% at 100% 40%, rgba(0,168,181,0.05) 0%, transparent 50%),
+              radial-gradient(ellipse 90% 60% at 50% 80%, rgba(0,119,73,0.04) 0%, transparent 50%),
+              radial-gradient(ellipse 70% 40% at 30% 60%, rgba(232,93,4,0.06) 0%, transparent 50%)
+            `,
+            backgroundSize: '200% 200%',
+          }}
+        />
+      </div>
+
+      {/* Layer 3: Slow-drift nebula blobs (depth 1 — far, slowest) */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {/* Orange nebula — far background, very slow */}
         <div
@@ -67,7 +84,7 @@ export default function AmbientBackground() {
         />
       </div>
 
-      {/* Layer 3: Mid-depth blobs (depth 2 — medium speed) */}
+      {/* Layer 4: Mid-depth blobs (depth 2 — medium speed) */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {/* SA green-teal whisper — bottom right */}
         <div
@@ -100,7 +117,7 @@ export default function AmbientBackground() {
         />
       </div>
 
-      {/* Layer 4: Foreground accent orbs (depth 3 — faster motion) */}
+      {/* Layer 5: Foreground accent orbs (depth 3 — faster motion) */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {/* Small orange accent — floating mid-right */}
         <div

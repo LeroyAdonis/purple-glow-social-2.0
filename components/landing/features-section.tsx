@@ -1,12 +1,51 @@
 /**
  * Features Section Component
- * Server Component - Static features showcase
+ * Features Section Component
+ * Server Component — converted to client for framer-motion animations
+ * Static features showcase
  * SA-themed alternating layout breaking the 3-column grid
  */
+
+import { SectionWrapper, FadeInDiv } from '@/components/ui/section-wrapper';
 
 interface FeaturesSectionProps {
   translate: (key: string) => string;
 }
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: 'easeOut' as const },
+  },
+};
+
+const fadeInLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: 'easeOut' as const },
+  },
+};
+
+const fadeInRight = {
+  hidden: { opacity: 0, x: 40 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: 'easeOut' as const },
+  },
+};
 
 export default function FeaturesSection({ translate }: FeaturesSectionProps) {
   const titleParts = translate('features.title').split(' ');
@@ -14,9 +53,16 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
   const restOfTitle = titleParts.slice(1).join(' ');
 
   return (
-    <section id="features" className="py-24 relative overflow-hidden">
+    <SectionWrapper
+      id="features"
+      className="py-16 relative overflow-hidden"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{ duration: 0.5 }}
+    >
       {/* Decorative SA flag divider at top */}
-      <div className="divider-flag mb-8"></div>
+      <div className="divider-flag mb-6"></div>
 
       {/* Subtle pattern-dots background */}
       <div className="pattern-dots absolute inset-0 pointer-events-none"></div>
@@ -27,7 +73,13 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Title */}
-        <div className="text-center mb-20">
+        <FadeInDiv
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sa-green/10 border border-sa-green/20 text-sa-green text-[10px] font-bold tracking-widest mb-4 uppercase">
             <i className="fa-solid fa-sparkles"></i>
             <span>{translate('features.badge') || 'What We Offer'}</span>
@@ -36,11 +88,17 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
             {firstWord} <span className="text-gradient-teal">{restOfTitle}</span>
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">{translate('features.subtitle')}</p>
-        </div>
+        </FadeInDiv>
 
         {/* FEATURE 1 — left: text, right: visual concept (icon display) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-          <div className="order-2 lg:order-1 space-y-6">
+        <FadeInDiv
+          className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-16"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+        >
+          <FadeInDiv className="order-2 lg:order-1 space-y-5" variants={fadeInLeft}>
             <div className="inline-flex items-center gap-3">
               <div className="w-12 h-12 rounded-2xl bg-posta-orange/20 text-posta-orange flex items-center justify-center text-xl shadow-[0_0_20px_rgba(232,93,4,0.2)]">
                 <i className="fa-solid fa-comments"></i>
@@ -53,7 +111,7 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
             <p className="text-text-secondary leading-relaxed text-base">
               {translate('features.aiEngine.description')}
             </p>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               <li className="flex items-center gap-3 text-sm text-text-secondary">
                 <div className="w-5 h-5 rounded-full bg-sa-green/20 flex items-center justify-center flex-shrink-0">
                   <i className="fa-solid fa-check text-sa-green text-[10px]"></i>
@@ -73,8 +131,8 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
                 <span>Voice and tone matching your brand</span>
               </li>
             </ul>
-          </div>
-          <div className="order-1 lg:order-2 relative flex items-center justify-center">
+          </FadeInDiv>
+          <FadeInDiv className="order-1 lg:order-2 relative flex items-center justify-center" variants={fadeInRight}>
             <div className="w-64 h-64 md:w-80 md:h-80 relative">
               <div className="absolute inset-0 bg-gradient-to-br from-posta-orange/30 to-transparent rounded-full blur-3xl animate-pulse-glow"></div>
               <div className="relative w-full h-full rounded-3xl bg-gradient-to-br from-posta-orange/20 to-void-surface border border-posta-orange/30 flex items-center justify-center">
@@ -87,12 +145,18 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </FadeInDiv>
+        </FadeInDiv>
 
         {/* FEATURE 2 — right: text, left: visual (reversed) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-          <div className="relative flex items-center justify-center">
+        <FadeInDiv
+          className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-16"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+        >
+          <FadeInDiv className="relative flex items-center justify-center" variants={fadeInLeft}>
             <div className="w-64 h-64 md:w-80 md:h-80 relative">
               <div className="absolute inset-0 bg-gradient-to-br from-surge-teal/20 to-transparent rounded-full blur-3xl"></div>
               <div className="relative w-full h-full rounded-3xl bg-gradient-to-br from-surge-teal/10 to-void-surface border border-surge-teal/30 flex items-center justify-center">
@@ -105,8 +169,8 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="space-y-6">
+          </FadeInDiv>
+          <FadeInDiv className="space-y-5" variants={fadeInRight}>
             <div className="inline-flex items-center gap-3">
               <div className="w-12 h-12 rounded-2xl bg-surge-teal/20 text-surge-teal flex items-center justify-center text-xl shadow-[0_0_20px_rgba(0,212,170,0.2)]">
                 <i className="fa-solid fa-image"></i>
@@ -119,7 +183,7 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
             <p className="text-text-secondary leading-relaxed text-base">
               {translate('features.multilingual.description')}
             </p>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               <li className="flex items-center gap-3 text-sm text-text-secondary">
                 <div className="w-5 h-5 rounded-full bg-surge-teal/20 flex items-center justify-center flex-shrink-0">
                   <i className="fa-solid fa-check text-surge-teal text-[10px]"></i>
@@ -139,12 +203,18 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
                 <span>One click language switching per post</span>
               </li>
             </ul>
-          </div>
-        </div>
+          </FadeInDiv>
+        </FadeInDiv>
 
         {/* FEATURE 3 — left: text, right: visual */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="order-2 lg:order-1 space-y-6">
+        <FadeInDiv
+          className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+        >
+          <FadeInDiv className="order-2 lg:order-1 space-y-5" variants={fadeInLeft}>
             <div className="inline-flex items-center gap-3">
               <div className="w-12 h-12 rounded-2xl bg-sa-gold/20 text-sa-gold flex items-center justify-center text-xl shadow-[0_0_20px_rgba(255,184,28,0.2)]">
                 <i className="fa-solid fa-calendar-days"></i>
@@ -157,7 +227,7 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
             <p className="text-text-secondary leading-relaxed text-base">
               {translate('features.scheduling.description')}
             </p>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               <li className="flex items-center gap-3 text-sm text-text-secondary">
                 <div className="w-5 h-5 rounded-full bg-sa-gold/20 flex items-center justify-center flex-shrink-0">
                   <i className="fa-solid fa-check text-sa-gold text-[10px]"></i>
@@ -177,8 +247,8 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
                 <span>Calendar, list &amp; timeline views</span>
               </li>
             </ul>
-          </div>
-          <div className="order-1 lg:order-2 relative flex items-center justify-center">
+          </FadeInDiv>
+          <FadeInDiv className="order-1 lg:order-2 relative flex items-center justify-center" variants={fadeInRight}>
             <div className="w-64 h-64 md:w-80 md:h-80 relative">
               <div className="absolute inset-0 bg-gradient-to-br from-sa-gold/15 to-transparent rounded-full blur-3xl"></div>
               <div className="relative w-full h-full rounded-3xl bg-gradient-to-br from-sa-gold/10 to-void-surface border border-sa-gold/30 flex items-center justify-center">
@@ -191,12 +261,18 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </FadeInDiv>
+        </FadeInDiv>
 
         {/* Additional Feature Highlight — staggered mini cards */}
-        <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="premium-card group hover:border-posta-orange/40 transition-all">
+        <FadeInDiv
+          className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+        >
+          <FadeInDiv className="premium-card group hover:border-posta-orange/40 transition-all" variants={staggerItem}>
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-xl bg-posta-orange/20 text-posta-orange flex items-center justify-center text-base">
                 <i className="fa-solid fa-robot"></i>
@@ -205,8 +281,8 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
             </div>
             <h4 className="font-display font-bold text-lg text-white mb-2">Auto-Post &amp; Queue</h4>
             <p className="text-xs text-text-tertiary leading-relaxed">Set it and forget it — AI queues your best content for peak engagement times across all platforms.</p>
-          </div>
-          <div className="premium-card group hover:border-surge-teal/40 transition-all">
+          </FadeInDiv>
+          <FadeInDiv className="premium-card group hover:border-surge-teal/40 transition-all" variants={staggerItem}>
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-xl bg-surge-teal/20 text-surge-teal flex items-center justify-center text-base">
                 <i className="fa-solid fa-chart-simple"></i>
@@ -215,8 +291,8 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
             </div>
             <h4 className="font-display font-bold text-lg text-white mb-2">Real-time Insights</h4>
             <p className="text-xs text-text-tertiary leading-relaxed">Track engagement, follower growth, and content performance with SA-market benchmarks.</p>
-          </div>
-          <div className="premium-card group hover:border-sa-gold/40 transition-all">
+          </FadeInDiv>
+          <FadeInDiv className="premium-card group hover:border-sa-gold/40 transition-all" variants={staggerItem}>
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-xl bg-sa-gold/20 text-sa-gold flex items-center justify-center text-base">
                 <i className="fa-solid fa-handshake"></i>
@@ -225,12 +301,12 @@ export default function FeaturesSection({ translate }: FeaturesSectionProps) {
             </div>
             <h4 className="font-display font-bold text-lg text-white mb-2">Team Collaboration</h4>
             <p className="text-xs text-text-tertiary leading-relaxed">Invite team members, manage multiple client accounts, and collaborate in real-time.</p>
-          </div>
-        </div>
+          </FadeInDiv>
+        </FadeInDiv>
 
         {/* Bottom flag accent divider */}
-        <div className="flag-accent mt-20"></div>
+        <div className="flag-accent mt-16"></div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 }

@@ -9,7 +9,25 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/context/LanguageContext';
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: 'easeOut' as const },
+  },
+};
 
 export default function FooterSection() {
   const { t: translate } = useLanguage();
@@ -30,16 +48,29 @@ export default function FooterSection() {
   };
 
   return (
-    <footer id="legal" className="relative border-t border-white/10 bg-black/40 backdrop-blur-lg">
+    <motion.footer
+      id="legal"
+      className="relative border-t border-white/10 bg-black/40 backdrop-blur-lg"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.5 }}
+    >
       {/* SA flag stripe above footer */}
       <div className="flag-stripe absolute top-0 left-0 right-0"></div>
 
       {/* Pattern dots background */}
       <div className="pattern-dots absolute inset-0 pointer-events-none opacity-10"></div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10 pt-16 pb-8">
+      <div className="max-w-7xl mx-auto px-6 relative z-10 pt-12 pb-6">
         {/* SA Tagline — prominent */}
-        <div className="flex flex-col items-center mb-14">
+        <motion.div
+          className="flex flex-col items-center mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-posta-orange/10 via-sa-green/10 to-surge-teal/10 border border-white/5 mb-4">
             <div className="flex gap-0.5">
               <span className="w-2.5 h-2.5 rounded-full bg-sa-green"></span>
@@ -52,12 +83,18 @@ export default function FooterSection() {
             </span>
             <i className="fa-solid fa-heart text-sa-red text-[10px]"></i>
           </div>
-        </div>
+        </motion.div>
 
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+        >
           {/* Brand Column */}
-          <div className="col-span-1 md:col-span-2">
+          <motion.div className="col-span-1 md:col-span-2" variants={staggerItem}>
             <div className="flex items-center gap-3 mb-4">
               {/* Logo with SA flag colors */}
               <div className="relative">
@@ -76,7 +113,7 @@ export default function FooterSection() {
               {translate('footer.tagline')}
             </p>
             {/* Contact mini info */}
-            <div className="flex items-center gap-4 mt-5">
+            <div className="flex items-center gap-4 mt-4">
               <span className="flex items-center gap-1.5 text-xs text-text-quaternary font-mono">
                 <i className="fa-solid fa-envelope text-posta-orange text-[10px]"></i>
                 hello@posta.co.za
@@ -86,12 +123,12 @@ export default function FooterSection() {
                 Johannesburg, SA
               </span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Product Links */}
-          <div>
+          <motion.div variants={staggerItem}>
             <h4 className="font-bold text-white mb-4 text-sm font-display tracking-wide">{translate('footer.product')}</h4>
-            <ul className="space-y-3 text-sm text-text-tertiary">
+            <ul className="space-y-2 text-sm text-text-tertiary">
               <li>
                 <a href="#features" onClick={(e) => scrollToSection(e, 'features')} className="hover:text-posta-orange transition-colors flex items-center gap-2 group">
                   <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-posta-orange transition-colors"></span>
@@ -117,14 +154,14 @@ export default function FooterSection() {
                 </a>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Legal Links */}
-          <div>
+          <motion.div variants={staggerItem}>
             <h4 className="font-bold text-white mb-4 text-sm font-display tracking-wide">
               {translate('footer.legal')} <span className="text-[10px] text-text-tertiary font-mono">(ZA)</span>
             </h4>
-            <ul className="space-y-3 text-sm text-text-tertiary">
+            <ul className="space-y-2 text-sm text-text-tertiary">
               <li>
                 <Link href="/privacy" className="hover:text-posta-orange transition-colors flex items-center gap-2 group">
                   <i className="fa-solid fa-shield-halved text-[10px] text-posta-orange group-hover:text-posta-orange transition-colors"></i>
@@ -150,11 +187,17 @@ export default function FooterSection() {
                 </Link>
               </li>
             </ul>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Divider with SA flag colors */}
-        <div className="relative py-6">
+        <motion.div
+          className="relative py-5"
+          initial={{ opacity: 0, scaleX: 0.5 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="absolute left-0 right-0 top-1/2 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
           <div className="relative flex justify-center">
             <div className="flex gap-1 px-4 bg-black/40">
@@ -164,10 +207,16 @@ export default function FooterSection() {
               <span className="w-6 h-0.5 rounded-full bg-sa-blue"></span>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-text-quaternary font-mono">
+        <motion.div
+          className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-text-quaternary font-mono"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.4 }}
+        >
           <p>&copy; 2025 Posta Technologies (Pty) Ltd. All rights reserved.</p>
           <div className="flex items-center gap-6">
             {/* Social links with SA tooltip */}
@@ -187,8 +236,8 @@ export default function FooterSection() {
               RSA
             </span>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }
