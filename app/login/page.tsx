@@ -15,7 +15,11 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
 
   // Get redirect URL from query params (set by middleware)
-  const redirectTo = searchParams.get('redirect') || '/dashboard';
+  // better-auth's callbackURL is a raw browser redirect and window.location below is too: neither goes
+  // through the Next router, which is the only place that adds the basePath automatically. Unprefixed,
+  // a successful sign-in sends the user to /dashboard from the host root, which is not the app at all.
+  const appBase = process.env.NEXT_PUBLIC_APP_BASE_PATH ?? '';
+  const redirectTo = `${appBase}${searchParams.get('redirect') || '/dashboard'}`;
 
   // Debug environment on mount
   React.useEffect(() => {

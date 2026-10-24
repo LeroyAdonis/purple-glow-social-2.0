@@ -1,0 +1,51 @@
+TASK: Create the two API routes the dashboard calls but which do not exist, so they stop returning 404.
+
+FILES YOU OWN (create these two, edit nothing else):
+  /root/posta-revive/app/api/user/credits/route.ts
+  /root/posta-revive/app/api/user/connected-accounts/route.ts
+
+THE MEASURED BUG:
+The client calls GET /api/user/credits (expects JSON like {"credits":10}) and GET
+/api/user/connected-accounts (expects JSON like {"accounts":[...]}). Neither route exists, so both return
+the HTML catch-all page with status 404 and the dashboard logs a JSON parse error.
+
+HOW TO BUILD THEM - follow the existing pattern exactly:
+1. Read /root/posta-revive/app/api/user/profile/route.ts first and copy its structure: session via
+   auth.api.getSession({ headers: request.headers }), 401 JSON when there is no session, use `db` from
+   '@/drizzle/db', schema from '@/drizzle/schema', and the shared logger from '@/lib/logger'.
+2. For credits: return the signed-in user's credit balance from the `user` table (column `credits`).
+   Response: NextResponse.json({ credits: <number> }).
+3. For connected-accounts: return the rows for the signed-in user from the `connectedAccounts` table
+   (imported as { connectedAccounts } from '@/drizzle/schema'; its table is "connected_account" and it has
+   a user id column - READ THE SCHEMA at /root/posta-revive/drizzle/schema.ts to get the exact column name
+   before writing the query). Response: NextResponse.json({ accounts: [...] }).
+4. SECURITY, non-negotiable: never return access tokens, refresh tokens, encrypted token blobs or any
+   secret field. Select only safe display fields (for example id, platform, account name/username, status,
+   created/connected date). If unsure of a field, leave it out.
+5. Wrap the body in try/catch and return NextResponse.json({ error: '...' }, { status: 500 }) on failure,
+   logging the error through the shared logger.
+6. Keep the code in the same style as the existing routes (TypeScript, no `any`, no new dependencies).
+
+ACCEPTANCE (you must actually run this, not just claim it):
+  cd /root/posta-revive && npx tsc --noEmit -p tsconfig.json     -> must print nothing, exit 0
+  curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:3008/posta/api/user/credits
+  curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:3008/posta/api/user/connected-accounts
+Both curls must print 401 when not signed in (that proves the route exists and is auth-guarded, instead
+of 404 from the catch-all). If they print 404, the route file path is wrong - fix it and re-run.
+Also grep your own files to prove no token field is exposed:
+  grep -n -i "token\|secret" app/api/user/credits/route.ts app/api/user/connected-accounts/route.ts
+and explain each match (a match on the word is fine only if it is genuinely not returning a secret).
+
+HARD RULES:
+- Do NOT run any git command that changes state: no add, commit, push, checkout, stash, restore, reset,
+  clean, switch, branch.
+- Do NOT modify any existing file. Create only the two route files.
+- Do NOT restart or kill the server on port 3008.
+- Do NOT invent column names - read drizzle/schema.ts.
+- If something is genuinely impossible, say so plainly instead of inventing a result.
+
+REPORT (short):
+- the two files created
+- tsc result
+- both curl status codes
+- the token-grep output with your one-line justification for each match

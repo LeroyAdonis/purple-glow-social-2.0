@@ -1,19 +1,11 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { drizzle, NeonHttpDatabase } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
+import { db, isDatabaseConfigured } from "@/lib/db/driver";
 import { posts, user } from "@/drizzle/schema";
 import * as schema from "@/drizzle/schema";
 import { eq, sql } from "drizzle-orm";
 import { logger } from "@/lib/logger";
 import { z } from "zod";
-
-const isDatabaseConfigured = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('mock');
-let db: NeonHttpDatabase<typeof schema> | undefined;
-if (isDatabaseConfigured) {
-  const sqlClient = neon(process.env.DATABASE_URL!);
-  db = drizzle(sqlClient, { schema });
-}
 
 const saveDraftSchema = z.object({
   content: z.string().min(1, "Content is required"),

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 type CookieConsent = {
   essential: boolean;
@@ -12,6 +12,7 @@ type CookieConsent = {
 const CookieConsentBanner: React.FC = () => {
   const [showBanner, setShowBanner] = useState(false);
   const [showCustomize, setShowCustomize] = useState(false);
+  const bannerRef = useRef<HTMLDivElement | null>(null);
   const [preferences, setPreferences] = useState<CookieConsent>({
     essential: true, // Always enabled
     analytics: false,
@@ -28,6 +29,43 @@ const CookieConsentBanner: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, []);
+
+  // Reserve exactly the bar's height on whichever edge it occupies, so page content can always be
+  // scrolled clear of it. The bar is position:fixed and, on a 390x844 phone, it is tall enough to sit
+  // over the signup form's own submit button - measured, with a real click landing on the banner instead
+  // of the button. It now anchors to the TOP on phones (the submit button lives near the bottom of the
+  // screen) and to the BOTTOM from md up, so the reservation has to follow it rather than assume bottom.
+  const syncBodyPadding = useCallback(() => {
+    const el = bannerRef.current;
+    if (!el) return;
+    const isPhone = window.innerWidth < 768;
+    document.body.style.paddingTop = isPhone ? `${el.offsetHeight}px` : '';
+    document.body.style.paddingBottom = isPhone ? '' : `${el.offsetHeight}px`;
+  }, []);
+
+  useEffect(() => {
+    if (!showBanner) return;
+
+    const el = bannerRef.current;
+    if (!el) return;
+
+    const previousPadding = document.body.style.paddingBottom;
+    const previousTopPadding = document.body.style.paddingTop;
+    syncBodyPadding();
+
+    // Keep the reserved space in sync when the banner resizes (orientation
+    // change, font load, switching between main and customize views).
+    const observer = new ResizeObserver(() => syncBodyPadding());
+    observer.observe(el);
+    window.addEventListener('resize', syncBodyPadding);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', syncBodyPadding);
+      document.body.style.paddingBottom = previousPadding;
+      document.body.style.paddingTop = previousTopPadding;
+    };
+  }, [showBanner, syncBodyPadding]);
 
   const saveConsent = (consent: CookieConsent) => {
     localStorage.setItem('pgs-cookie-consent', JSON.stringify(consent));
@@ -71,47 +109,54 @@ const CookieConsentBanner: React.FC = () => {
 
   return (
     <>
-      {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998]"
-        aria-hidden="true"
-      />
-
-      {/* Banner */}
+      {/* Banner — non-modal: no full-screen backdrop, so page content underneath
+          stays clickable. Body padding (see effect above) reserves its space. */}
       <div
+        ref={bannerRef}
         role="dialog"
         aria-labelledby="cookie-banner-title"
         aria-describedby="cookie-banner-description"
-        className="fixed bottom-0 left-0 right-0 z-[9999] p-4 md:p-6 animate-slide-up"
+        className="fixed inset-x-0 top-0 md:top-auto md:bottom-0 z-[9999] p-2 md:p-6 animate-slide-up"
       >
-        <div className="max-w-6xl mx-auto bg-pretoria-blue border border-glass-border rounded-2xl shadow-2xl overflow-hidden">
+        <div className="max-w-6xl mx-auto bg-pretoria-blue border border-glass-border rounded-2xl shadow-2xl max-h-[80vh] overflow-y-auto">
           {!showCustomize ? (
             // Main Banner View
-            <div className="p-6 md:p-8">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="flex-shrink-0 w-12 h-12 bg-neon-grape/20 rounded-full flex items-center justify-center">
-                  <i className="fas fa-cookie-bite text-neon-grape text-xl"></i>
+            <div className="p-4 md:p-8">
+              <div className="flex items-start gap-3 md:gap-4 mb-4 md:mb-6">
+                <div className="flex-shrink-0 w-9 h-9 md:w-12 md:h-12 bg-neon-grape/20 rounded-full flex items-center justify-center">
+                  <i className="fas fa-cookie-bite text-neon-grape text-lg md:text-xl"></i>
                 </div>
                 <div className="flex-1">
                   <h2 
                     id="cookie-banner-title"
-                    className="text-xl md:text-2xl font-display font-bold text-white mb-3"
+                    className="text-sm md:text-2xl font-display font-bold text-white mb-0.5 md:mb-3"
                   >
                     🍪 Your Privacy Matters
                   </h2>
-                  <p 
+                  {/* On a phone this bar is an overlay, and every extra line makes it tall enough to sit
+                      over the form's own submit button - measured at 390x844 on /signup, where a real
+                      click was landing on the banner instead of the button. So mobile gets one short
+                      line; the full explanation and the POPIA detail are desktop-only, and the
+                      Customise view still exposes every choice on every screen size. */}
+                  <p
                     id="cookie-banner-description"
-                    className="text-gray-300 text-sm md:text-base leading-relaxed"
+                    className="text-gray-300 text-[11px] md:text-base leading-snug md:leading-relaxed md:line-clamp-none"
                   >
-                    Purple Glow Social uses cookies to keep you logged in and make the app work properly. 
-                    That's it. We also offer optional cookies that help us improve — but you choose. 
-                    We follow South Africa's <strong className="text-white">POPIA (Protection of Personal Information Act)</strong>.
+                    <span className="md:hidden">
+                      Cookies keep you logged in. You choose the rest.
+                    </span>
+                    <span className="hidden md:inline">
+                      Purple Glow Social uses cookies to keep you logged in and make the app work properly. 
+                      That's it. We also offer optional cookies that help us improve — but you choose. 
+                      We follow South Africa's <strong className="text-white">POPIA (Protection of Personal Information Act)</strong>.
+                    </span>
                   </p>
                 </div>
               </div>
 
-              {/* Cookie Categories Info */}
-              <div className="mb-6 p-4 bg-void/50 rounded-lg border border-glass-border">
+              {/* Cookie Categories Info — desktop only; kept out of the compact
+                  mobile bar so the bar never grows tall enough to blanket the page */}
+              <div className="hidden md:block mb-6 p-4 bg-void/50 rounded-lg border border-glass-border">
                 <div className="grid md:grid-cols-3 gap-4 text-sm">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
@@ -138,7 +183,7 @@ const CookieConsentBanner: React.FC = () => {
               </div>
 
               {/* Links */}
-              <div className="mb-6 flex flex-wrap gap-4 text-sm">
+              <div className="mb-3 md:mb-6 flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 text-xs md:text-sm">
                 <a 
                   href="/legal/privacy-policy" 
                   className="text-joburg-teal hover:text-joburg-teal/80 transition-colors underline"
@@ -168,25 +213,28 @@ const CookieConsentBanner: React.FC = () => {
                 </a>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={handleAcceptAll}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all duration-300"
-                >
-                  <i className="fas fa-check mr-2"></i>
-                  Accept All
-                </button>
-                <button
-                  onClick={handleRejectOptional}
-                  className="flex-1 px-6 py-3 bg-void/80 text-white font-semibold rounded-lg border border-glass-border hover:bg-void hover:border-white/30 transition-all duration-300"
-                >
-                  <i className="fas fa-times mr-2"></i>
-                  Only Essential
-                </button>
+              {/* Action Buttons — side-by-side row on small screens so the bar
+                  stays short; wrapper dissolves at sm and up */}
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <div className="flex gap-2 sm:contents">
+                  <button
+                    onClick={handleAcceptAll}
+                    className="flex-1 px-4 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all duration-300"
+                  >
+                    <i className="fas fa-check mr-2"></i>
+                    Accept All
+                  </button>
+                  <button
+                    onClick={handleRejectOptional}
+                    className="flex-1 px-4 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base bg-void/80 text-white font-semibold rounded-lg border border-glass-border hover:bg-void hover:border-white/30 transition-all duration-300"
+                  >
+                    <i className="fas fa-times mr-2"></i>
+                    Only Essential
+                  </button>
+                </div>
                 <button
                   onClick={() => setShowCustomize(true)}
-                  className="flex-1 px-6 py-3 bg-void/80 text-white font-semibold rounded-lg border border-glass-border hover:bg-void hover:border-white/30 transition-all duration-300"
+                  className="px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base sm:flex-1 bg-void/80 text-white font-semibold rounded-lg border border-glass-border hover:bg-void hover:border-white/30 transition-all duration-300"
                 >
                   <i className="fas fa-sliders-h mr-2"></i>
                   Customise
@@ -201,7 +249,7 @@ const CookieConsentBanner: React.FC = () => {
             </div>
           ) : (
             // Customize View
-            <div className="p-6 md:p-8">
+            <div className="p-4 md:p-8">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl md:text-2xl font-display font-bold text-white">
                   <i className="fas fa-sliders-h mr-2 text-neon-grape"></i>

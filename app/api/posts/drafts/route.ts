@@ -72,6 +72,14 @@ export async function POST(request: NextRequest) {
       })
       .returning();
 
+    // .returning() typed as an array, so the destructured value is possibly undefined. It is not in
+    // practice, but reading draft.id unguarded is the kind of assumption that turns into a 500 with a
+    // stack trace instead of a readable error, so it is checked.
+    if (!draft) {
+      logger.api.error('Draft insert returned no row', { platform, userId: session.user.id });
+      return NextResponse.json({ error: 'Draft was not saved' }, { status: 500 });
+    }
+
     logger.api.info('Draft created', { postId: draft.id, platform, userId: session.user.id });
 
     // Return in the shape post-creation-modal expects: { draft: { id } }

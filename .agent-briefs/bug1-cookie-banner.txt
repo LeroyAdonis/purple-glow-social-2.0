@@ -1,0 +1,46 @@
+TASK: Fix the cookie consent banner so it never covers a primary button on a mobile screen.
+
+FILE YOU OWN (do not edit any other file): /root/posta-revive/components/cookie-consent-banner.tsx
+
+THE MEASURED BUG:
+On a 390x844 phone viewport, the consent banner is a fixed-bottom overlay with a very high z-index. On
+/posta/signup it sits directly over the "Create Free Account" submit button, so a real click is swallowed
+by the banner and the user cannot register. This was reproduced with Playwright: clicking the submit
+button fired the banner instead of the form.
+
+WHAT TO DO:
+1. Read the file and its current styling first.
+2. Change the banner so it cannot obstruct interactive page content on a small viewport. Acceptable
+   solutions, in order of preference:
+   a. Make the page content reserve space for the banner while it is visible (e.g. add bottom padding to
+      the document body or to the banner's wrapper while consent is undecided), so nothing sits under it.
+   b. Make the banner a compact bottom bar that is clearly dismissible and does not span over form buttons.
+   Do NOT simply lower the z-index so buttons float above it - that makes the banner unclickable.
+3. Keep every existing behaviour: the same localStorage key for the stored choice, the accept/reject
+   choices, and the banner not reappearing after a decision is stored.
+
+ACCEPTANCE (you must actually run this, not just claim it):
+Write a throwaway Playwright script at /tmp/verify-cookie.py and run it. It must:
+  - open http://127.0.0.1:3008/posta/signup at viewport 390x844
+  - wait for the banner to be present
+  - find the submit button (button[type="submit"])
+  - evaluate document.elementFromPoint(centreX, centreY) of that button
+  - PASS only if the element returned is the button or a descendant of it, NOT the banner
+  - also confirm that after clicking the banner's accept button, window.localStorage has a consent key
+Run it with: python3 /tmp/verify-cookie.py
+Paste the real output.
+
+ALSO RUN: cd /root/posta-revive && npx tsc --noEmit -p tsconfig.json
+It must print nothing (exit 0).
+
+HARD RULES:
+- Do NOT run any git command that changes state: no add, commit, push, checkout, stash, restore, reset,
+  clean, switch, branch. This tree has uncommitted work belonging to the caller.
+- Do NOT touch any file other than the one named above.
+- Do NOT restart or kill the dev server on port 3008; it is already running and serving this app.
+- If something is genuinely impossible, say so plainly instead of inventing a result.
+
+REPORT (short):
+- what you changed and why
+- the verification output (elementFromPoint result, localStorage check)
+- the tsc result

@@ -15,14 +15,9 @@ import { GeminiService } from "../../lib/ai/gemini-service";
 import { ensureWithinLimit } from "../../lib/ai/content-truncator";
 import { generateImageWithNanoBanana } from "../../lib/ai/nano-banana-service";
 import { eq, sql } from "drizzle-orm";
-
 // Only initialize database if DATABASE_URL is a real connection string
-const isDatabaseConfigured = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('mock');
-let db: NeonHttpDatabase<typeof schema> | undefined;
-if (isDatabaseConfigured) {
-  const sqlClient = neon(process.env.DATABASE_URL!);
-  db = drizzle(sqlClient, { schema });
-}
+// Driver selection lives in lib/db/driver.ts so Neon is a choice, not a requirement.
+import { db, isDatabaseConfigured } from "../../lib/db/driver";
 
 // Initialize Gemini (for image generation)
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.API_KEY || '' });

@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 
+// Serving under a path instead of a subdomain: posta.zahra.digitalwavetech.dev has no DNS record and the
+// Vercel token cannot create one, while zahra.digitalwavetech.dev already resolves to this box with a
+// certificate. basePath makes Next emit /posta/_next/... so the reverse proxy can pass the path straight
+// through without rewriting asset URLs. Off by default so a normal deploy is unaffected.
+const basePath = process.env.POSTA_BASE_PATH || '';
+
 const nextConfig = {
   reactStrictMode: true,
+  ...(basePath ? { basePath, assetPrefix: basePath } : {}),
 
   // Image optimization
   images: {

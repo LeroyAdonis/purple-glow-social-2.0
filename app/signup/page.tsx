@@ -8,6 +8,9 @@ import { logger } from '@/lib/logger';
 
 export default function SignUpPage() {
   const router = useRouter();
+  // Same reason as the login page: this callbackURL is a raw browser redirect, so the app's base path
+  // has to be applied by hand or the user is sent to the host root instead of the dashboard.
+  const appBase = process.env.NEXT_PUBLIC_APP_BASE_PATH ?? '';
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,7 +41,7 @@ export default function SignUpPage() {
         email,
         password,
         name,
-        callbackURL: '/dashboard',
+        callbackURL: `${appBase}/dashboard`,
       });
       
       router.push('/dashboard');
@@ -61,7 +64,7 @@ export default function SignUpPage() {
       // It will automatically create an account if the user doesn't exist
       await signIn.social({
         provider: 'google',
-        callbackURL: '/dashboard',
+        callbackURL: `${appBase}/dashboard`,
       });
     } catch (err: any) {
       logger.auth.exception(err, { 

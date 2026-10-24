@@ -1,7 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { drizzle, NeonHttpDatabase } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
+import { db, isDatabaseConfigured } from "./db/driver";
 import * as schema from "../drizzle/schema";
 import {
   validateAuthEnvVars,
@@ -19,20 +18,9 @@ validateAuthEnvVars();
 logOAuthStatus();
 
 // Only initialize database if DATABASE_URL is a real connection string
-const isDatabaseConfigured = process.env.DATABASE_URL &&
-  !process.env.DATABASE_URL.includes('mock') &&
-  (process.env.DATABASE_URL.startsWith('postgresql://') ||
-    process.env.DATABASE_URL.startsWith('postgres://'));
-
-let db: NeonHttpDatabase<typeof schema> | undefined;
-if (isDatabaseConfigured) {
-  try {
-    const sql = neon(process.env.DATABASE_URL!);
-    db = drizzle(sql, { schema });
-    logger.auth.info('Database connected successfully');
-  } catch (error) {
-    logger.auth.exception(error, { action: 'database-connection' });
-  }
+// Driver selection lives in lib/db/driver.ts so Neon is a choice, not a requirement.
+if (isDatabaseConfigured && db) {
+  logger.auth.info('Database connected successfully');
 }
 
 // Get OAuth configurations (returns undefined if credentials not available)
