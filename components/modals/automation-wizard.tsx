@@ -137,7 +137,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-joburg-teal to-pretoria-blue text-[var(--posta-ink)] p-6 rounded-t-2xl">
+ <div className="bg-[var(--posta-clay-deep)] sticky top-0 text-[var(--posta-ink)] p-6 rounded-t-2xl">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <i className="fa-solid fa-wand-magic-sparkles text-2xl"></i>
@@ -203,7 +203,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
                         : 'border-gray-200 hover:border-joburg-teal/50'
                     }`}
                   >
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${template.color} flex items-center justify-center text-[var(--posta-ink)] text-2xl mb-4`}>
+ <div className={`w-14 h-14 rounded-xl ${template.color} flex items-center justify-center text-[var(--posta-ink)] text-2xl mb-4`}>
                       <i className={template.icon}></i>
                     </div>
                     <h4 className="text-lg font-bold text-pretoria-blue mb-2">{template.name}</h4>
@@ -452,7 +452,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-green-50 to-teal-50 border border-green-200 rounded-lg p-4">
+ <div className="bg-[var(--posta-clay-deep)]  border border-green-200 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <i className="fa-solid fa-check-circle text-green-600 text-2xl mt-1"></i>
                   <div>
@@ -483,7 +483,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
           <button
             onClick={currentStep === 4 ? handleComplete : nextStep}
             disabled={!canProceed()}
-            className="px-6 py-2 rounded-lg bg-gradient-to-r from-joburg-teal to-pretoria-blue text-[var(--posta-ink)] font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+ className="bg-[var(--posta-clay-deep)] px-6 py-2 rounded-lg text-[var(--posta-ink)] font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {currentStep === 4 ? (
               <>

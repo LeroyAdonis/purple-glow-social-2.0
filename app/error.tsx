@@ -90,7 +90,7 @@ export default function Error({ error, reset }: ErrorProps) {
           {/* Try Again Button */}
           <button
             onClick={reset}
-            className="px-8 py-3 bg-gradient-to-r from-neon-grape to-hyper-crimson rounded-lg font-semibold hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] transition-all duration-300 transform hover:scale-105"
+ className="bg-[var(--posta-clay)] px-8 py-3 rounded-lg font-semibold hover:shadow-[var(--shadow-card)] transition-all duration-300 transform hover:scale-105"
           >
             Try Again
           </button>
@@ -98,7 +98,7 @@ export default function Error({ error, reset }: ErrorProps) {
           {/* Go Home Button */}
           <a
             href="/"
-            className="px-8 py-3 bg-obsidian-800 border border-neon-grape/30 rounded-lg font-semibold hover:border-neon-grape hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all duration-300"
+            className="px-8 py-3 bg-obsidian-800 border border-neon-grape/30 rounded-lg font-semibold hover:border-neon-grape hover:shadow-[var(--shadow-card)] transition-all duration-300"
           >
             Go Home
           </a>

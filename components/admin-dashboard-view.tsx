@@ -394,9 +394,9 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
   return (
     <div className="flex min-h-screen bg-void text-[var(--posta-ink)]">
       {/* Sidebar */}
-      <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full backdrop-blur-md z-20">
+ <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full z-20">
         <div className="flex items-center gap-2 mb-4">
-          <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
+ <div className="bg-[var(--posta-clay-deep)] w-8 h-8 rounded flex items-center justify-center">
             <span className="font-display font-bold">A</span>
           </div>
           <div>
@@ -487,7 +487,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           </button>
         </nav>
 
-        <div className="mt-auto p-4 rounded-xl border border-glass-border bg-gradient-to-br from-white/5 to-transparent">
+ <div className="bg-[var(--posta-clay)] mt-auto p-4 rounded-xl border border-glass-border ">
           <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2">SYSTEM STATUS</p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
@@ -722,7 +722,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                       <div key={i} className="flex-1 flex flex-col items-center gap-2">
                         <div className="text-xs text-[var(--posta-ink-soft)] font-mono">R{(amount / 1000).toFixed(1)}k</div>
                         <div
-                          className="w-full bg-gradient-to-t from-neon-grape to-joburg-teal rounded-t-lg transition-all hover:opacity-80 cursor-pointer"
+ className="bg-[var(--posta-clay-deep)] w-full rounded-t-lg transition-all hover:opacity-80 cursor-pointer"
                           style={{ height: `${height}%` }}
                         ></div>
                         <div className="text-xs text-[var(--posta-ink-soft)] font-mono">
@@ -1028,7 +1028,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
       {/* Credit Adjustment Modal */}
       {showCreditModal && selectedUser && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowCreditModal(false)}></div>
+ <div className="absolute inset-0 bg-black/60 " onClick={() => setShowCreditModal(false)}></div>
           <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter">
             <h3 className="font-display font-bold text-2xl mb-4">Adjust Credits</h3>
             <p className="text-[var(--posta-ink-soft)] mb-6">

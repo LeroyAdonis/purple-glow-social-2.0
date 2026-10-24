@@ -157,7 +157,7 @@ export default function ActionFeedbackToast({ toasts, onDismiss }: ActionFeedbac
         return (
           <div
             key={toast.id}
-            className={`${styles.bg} border rounded-xl p-4 shadow-2xl animate-slide-in-right backdrop-blur-md`}
+ className={`${styles.bg} border rounded-xl p-4 shadow-2xl animate-slide-in-right `}
             role="alert"
             aria-live="polite"
           >

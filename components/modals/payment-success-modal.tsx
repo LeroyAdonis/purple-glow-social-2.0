@@ -26,7 +26,7 @@ export default function PaymentSuccessModal({ isOpen, onClose, type, amount, cre
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose}></div>
+ <div className="absolute inset-0 bg-black/60 " onClick={onClose}></div>
       
       {showConfetti && (
         <div className="absolute inset-0 pointer-events-none">
@@ -48,7 +48,7 @@ export default function PaymentSuccessModal({ isOpen, onClose, type, amount, cre
       )}
       
       <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter text-center">
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 mx-auto mb-6 flex items-center justify-center animate-[bounce_0.5s_ease-in-out]">
+ <div className="bg-[var(--posta-clay)] w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center animate-[bounce_0.5s_ease-in-out]">
           <i className="fa-solid fa-check text-4xl text-[var(--posta-ink)]"></i>
         </div>
 

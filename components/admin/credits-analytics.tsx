@@ -109,7 +109,7 @@ export default function CreditsAnalytics({ data, isLoading }: CreditsAnalyticsPr
                   </div>
                   <div className="h-3 bg-[var(--posta-cream)] rounded-full overflow-hidden">
                     <div
-                      className={`h-full bg-gradient-to-r ${platformColors[platform]} rounded-full transition-all duration-500`}
+ className={`h-full ${platformColors[platform]} rounded-full transition-all duration-500`}
                       style={{ width: `${percentage}%` }}
                     ></div>
                   </div>
@@ -147,7 +147,7 @@ export default function CreditsAnalytics({ data, isLoading }: CreditsAnalyticsPr
                 <div key={i} className="flex-1 flex flex-col items-center gap-2">
                   <div className="text-xs text-[var(--posta-ink-soft)] font-mono">{day.credits}</div>
                   <div
-                    className="w-full bg-gradient-to-t from-neon-grape to-joburg-teal rounded-t-lg transition-all hover:opacity-80 cursor-pointer min-h-[4px]"
+ className="bg-[var(--posta-clay-deep)] w-full rounded-t-lg transition-all hover:opacity-80 cursor-pointer min-h-[4px]"
                     style={{ height: `${Math.max(height, 2)}%` }}
                   ></div>
                   <div className="text-xs text-[var(--posta-ink-soft)] font-mono">

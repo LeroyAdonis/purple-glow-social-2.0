@@ -127,7 +127,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose}></div>
+ <div className="absolute inset-0 bg-black/60 " onClick={onClose}></div>
       
       <div className="aerogel-card p-8 rounded-3xl w-full max-w-5xl relative z-10 animate-enter max-h-[90vh] overflow-y-auto">
         <button 
@@ -141,7 +141,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
           // Package Selection View
           <>
             <div className="text-center mb-8">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-mzansi-gold to-joburg-teal mx-auto mb-4 flex items-center justify-center">
+ <div className="bg-[var(--posta-clay-deep)] w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <i className="fa-solid fa-bolt text-2xl text-[var(--posta-ink)]"></i>
               </div>
               <h2 className="font-display font-bold text-3xl mb-2">Top Up Credits</h2>
@@ -364,7 +364,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-4 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] font-bold rounded-xl hover:shadow-[0_0_30px_rgba(157,78,221,0.5)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+ className="bg-[var(--posta-clay-deep)] w-full py-4 text-[var(--posta-ink)] font-bold rounded-xl hover:shadow-[var(--shadow-card)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? (
                       <>

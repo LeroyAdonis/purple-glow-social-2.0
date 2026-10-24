@@ -86,7 +86,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
   return (
     <div className="flex min-h-screen bg-void text-[var(--posta-ink)]">
       {/* Sidebar */}
-      <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full backdrop-blur-md z-20">
+ <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full z-20">
         <div className="flex items-center gap-2 mb-4">
           <button onClick={onBack} className="text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors">
             <i className="fa-solid fa-arrow-left"></i>
@@ -501,7 +501,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
       {
         showCancelModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowCancelModal(false)}></div>
+ <div className="absolute inset-0 bg-black/60 " onClick={() => setShowCancelModal(false)}></div>
             <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter">
               <h3 className="font-display font-bold text-2xl mb-4">Cancel Subscription?</h3>
               <p className="text-[var(--posta-ink-soft)] mb-6">
@@ -544,7 +544,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
       {
         showAddCardModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowAddCardModal(false)}></div>
+ <div className="absolute inset-0 bg-black/60 " onClick={() => setShowAddCardModal(false)}></div>
             <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter">
               <h3 className="font-display font-bold text-2xl mb-4">Add Payment Method</h3>
               <div className="space-y-4 mb-6">

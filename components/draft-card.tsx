@@ -37,7 +37,7 @@ const platformConfig = {
     color: '#1877F2',
     bgGradient: 'from-[#1877F2] to-[#0D5BBE]',
     borderColor: 'border-[#1877F2]',
-    glowColor: 'shadow-[0_0_20px_rgba(24,119,242,0.4)]',
+    glowColor: 'shadow-[var(--shadow-card)]',
   },
   instagram: {
     icon: 'fa-instagram',
@@ -45,7 +45,7 @@ const platformConfig = {
     color: '#E4405F',
     bgGradient: 'from-[#833AB4] via-[#FD1D1D] to-[#F56040]',
     borderColor: 'border-[#E4405F]',
-    glowColor: 'shadow-[0_0_20px_rgba(228,64,95,0.4)]',
+    glowColor: 'shadow-[var(--shadow-card)]',
     isGradientBorder: true,
   },
   twitter: {
@@ -54,7 +54,7 @@ const platformConfig = {
     color: '#1DA1F2',
     bgGradient: 'from-[#1DA1F2] to-[#0C85D0]',
     borderColor: 'border-[#1DA1F2]',
-    glowColor: 'shadow-[0_0_20px_rgba(29,161,242,0.4)]',
+    glowColor: 'shadow-[var(--shadow-card)]',
   },
   linkedin: {
     icon: 'fa-linkedin-in',
@@ -62,7 +62,7 @@ const platformConfig = {
     color: '#0A66C2',
     bgGradient: 'from-[#0A66C2] to-[#004182]',
     borderColor: 'border-[#0A66C2]',
-    glowColor: 'shadow-[0_0_20px_rgba(10,102,194,0.4)]',
+    glowColor: 'shadow-[var(--shadow-card)]',
   },
 };
 
@@ -106,12 +106,11 @@ export default function DraftCard({
     <div
       className={`
         relative group
-        bg-[#1A1F3A]/40 backdrop-blur-md
-        border-3 ${platform.borderColor}
+ bg-[#FFFFFF]/40         border-3 ${platform.borderColor}
         rounded-xl overflow-hidden
         transition-all duration-300 ease-out
         ${isHovered ? '-translate-y-2' : ''}
-        ${isHovered ? platform.glowColor : 'shadow-[8px_8px_0_0_rgba(157,78,221,0.2)]'}
+        ${isHovered ? platform.glowColor : 'shadow-[8px_8px_0_0_rgba(142,59,46,0.2)]'}
         ${isDeleting ? 'opacity-50 scale-95 animate-pulse' : ''}
       `}
       onMouseEnter={() => setIsHovered(true)}
@@ -120,7 +119,6 @@ export default function DraftCard({
         setIsMenuOpen(false);
       }}
       style={draft.platform === 'instagram' ? {
-        borderImage: 'linear-gradient(135deg, #833AB4, #FD1D1D, #F56040) 1',
       } : undefined}
     >
       {/* Header */}
@@ -130,7 +128,7 @@ export default function DraftCard({
           <div
             className={`
               w-10 h-10 rounded-lg
-              bg-gradient-to-br ${platform.bgGradient}
+ ${platform.bgGradient}
               flex items-center justify-center
               shadow-lg
             `}
@@ -160,7 +158,7 @@ export default function DraftCard({
             <div className="">
               <button
                 onClick={() => { onEdit(); setIsMenuOpen(false); }}
-                className="w-full px-4 py-2 text-left text-sm text-[var(--posta-ink-soft)] hover:bg-[#9D4EDD]/20 hover:text-[var(--posta-ink)] flex items-center gap-2"
+                className="w-full px-4 py-2 text-left text-sm text-[var(--posta-ink-soft)] hover:bg-[#8E3B2E]/20 hover:text-[var(--posta-ink)] flex items-center gap-2"
               >
                 <i className="fa-solid fa-pen w-4"></i>
                 Edit
@@ -205,7 +203,7 @@ export default function DraftCard({
                 {hashtags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="text-[#FFCC00] text-xs font-mono"
+                    className="text-[#E9A93C] text-xs font-mono"
                   >
                     {tag}
                   </span>
@@ -283,7 +281,7 @@ export default function DraftCard({
 
       {/* Deleting overlay */}
       {isDeleting && (
-        <div className="absolute inset-0 bg-[#0D0F1C]/80 flex items-center justify-center">
+        <div className="absolute inset-0 bg-[#FBF6EF]/80 flex items-center justify-center">
           <div className="flex items-center gap-2 text-red-400">
             <i className="fa-solid fa-spinner fa-spin"></i>
             <span>Deleting...</span>

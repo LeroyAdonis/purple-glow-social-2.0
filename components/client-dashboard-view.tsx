@@ -29,7 +29,7 @@ import { useLanguage } from '../lib/context/LanguageContext';
  */
 function initialAvatarDataUrl(name: string): string {
     const initial = (name.trim().charAt(0) || '?').toUpperCase();
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" rx="40" fill="#9D4EDD"/><text x="40" y="41" font-family="Arial,sans-serif" font-size="34" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">${initial}</text></svg>`;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" rx="40" fill="#8E3B2E"/><text x="40" y="41" font-family="Arial,sans-serif" font-size="34" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">${initial}</text></svg>`;
     return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
@@ -132,9 +132,9 @@ export default function ClientDashboardView({
             />
 
             {/* Sidebar - Desktop Only */}
-            <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full backdrop-blur-md z-20">
+ <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full z-20">
                 <div className="flex items-center gap-2 mb-4">
-                    <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
+ <div className="bg-[var(--posta-clay-deep)] w-8 h-8 rounded flex items-center justify-center">
                         <span className="font-display font-bold">P</span>
                     </div>
                     <h1 className="font-display font-bold text-lg tracking-tight">Posta</h1>
@@ -177,7 +177,7 @@ export default function ClientDashboardView({
                 </nav>
 
                 <div className="mt-auto">
-                    <div className="p-4 rounded-xl border border-glass-border bg-gradient-to-br from-white/5 to-transparent">
+ <div className="bg-[var(--posta-clay)] p-4 rounded-xl border border-glass-border ">
                         <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2">{translate('dashboard.credits')}</p>
                         <div className="flex justify-between items-end">
                             <span className="text-2xl font-display font-bold text-[var(--posta-ink)]">{profile.credits}</span>
@@ -273,7 +273,7 @@ export default function ClientDashboardView({
             {/* Pricing Modal */}
             {showPricingModal && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-md cursor-pointer" onClick={() => setShowPricingModal(false)}></div>
+ <div className="absolute inset-0 bg-black/60 cursor-pointer" onClick={() => setShowPricingModal(false)}></div>
                     <div className="aerogel-card p-8 rounded-3xl w-full max-w-4xl relative z-10 animate-enter max-h-[90vh] overflow-y-auto">
                         <button
                             onClick={() => setShowPricingModal(false)}

@@ -10,7 +10,7 @@ export default function AdminLoading() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <div className="h-8 w-48 bg-gradient-to-r from-neon-grape/40 to-joburg-teal/40 rounded animate-pulse mb-2" />
+ <div className="bg-[var(--posta-clay-deep)] h-8 w-48 rounded animate-pulse mb-2" />
             <div className="h-4 w-64 bg-[var(--posta-cream)] rounded animate-pulse" />
           </div>
           <div className="flex gap-3">
@@ -27,7 +27,7 @@ export default function AdminLoading() {
                 <div className="h-4 w-20 bg-[var(--posta-cream)] rounded" />
                 <div className="h-8 w-8 bg-neon-grape/30 rounded" />
               </div>
-              <div className="h-7 w-16 bg-gradient-to-r from-neon-grape/40 to-joburg-teal/40 rounded mb-2" />
+ <div className="bg-[var(--posta-clay-deep)] h-7 w-16 rounded mb-2" />
               <div className="h-3 w-24 bg-[var(--posta-paper)] rounded" />
             </div>
           ))}
@@ -72,7 +72,7 @@ export default function AdminLoading() {
         {/* Chart skeleton */}
         <div className="border border-neon-grape/20 bg-[var(--posta-paper)] rounded-lg p-6">
           <div className="h-6 w-40 bg-[var(--posta-cream)] rounded animate-pulse mb-6" />
-          <div className="h-64 bg-gradient-to-t from-neon-grape/10 to-transparent rounded animate-pulse" />
+ <div className="bg-[var(--posta-clay)] h-64 rounded animate-pulse" />
         </div>
       </div>
     </div>

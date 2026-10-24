@@ -76,7 +76,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
   return (
     <div className="bg-void rounded-2xl shadow-2xl border border-glass-border overflow-hidden">
       {/* Header with gradient */}
-      <div className="bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] p-6">
+ <div className="bg-[var(--posta-clay-deep)]  text-[var(--posta-ink)] p-6">
         <h3 className="text-2xl font-bold font-display mb-2">AI Pilot Smart Suggestions</h3>
         <p className="text-sm text-[var(--posta-ink)]/90 font-body">Powered by audience analytics and engagement patterns</p>
       </div>
@@ -95,7 +95,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
             <i className="fa-regular fa-clock mr-2"></i>
             Best Times
             {activeTab === 'times' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-joburg-teal to-transparent"></div>
+ <div className="bg-[var(--posta-clay-deep)] absolute bottom-0 left-0 right-0 h-0.5 "></div>
             )}
           </button>
           <button
@@ -109,7 +109,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
             <i className="fa-solid fa-lightbulb mr-2"></i>
             Best Practices
             {activeTab === 'practices' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-joburg-teal to-transparent"></div>
+ <div className="bg-[var(--posta-clay-deep)] absolute bottom-0 left-0 right-0 h-0.5 "></div>
             )}
           </button>
           <button
@@ -123,7 +123,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
             <i className="fa-solid fa-hashtag mr-2"></i>
             Trending
             {activeTab === 'hashtags' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-joburg-teal to-transparent"></div>
+ <div className="bg-[var(--posta-clay-deep)] absolute bottom-0 left-0 right-0 h-0.5 "></div>
             )}
           </button>
         </div>
@@ -143,7 +143,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
                 className="flex items-center justify-between p-5 bg-[var(--posta-paper)] rounded-xl border border-glass-border hover:border-neon-grape/50 transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-neon-grape/20 to-joburg-teal/20 flex items-center justify-center text-2xl">
+ <div className="bg-[var(--posta-clay-deep)] w-12 h-12 rounded-lg flex items-center justify-center text-2xl">
                     {slot.icon}
                   </div>
                   <div>
@@ -152,7 +152,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-neon-grape to-joburg-teal bg-clip-text text-transparent">
+ <div className="text-4xl font-bold text-[var(--posta-clay)]">
                     {slot.engagement}%
                   </div>
                 </div>

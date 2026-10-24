@@ -7,7 +7,7 @@ export default function RootLoading() {
   return (
     <div className="min-h-screen bg-void text-[var(--posta-ink)] overflow-hidden relative">
       {/* Ambient background shimmer */}
-      <div className="fixed inset-0 bg-gradient-to-br from-electric-indigo/20 via-void to-neon-grape/20 animate-pulse" />
+ <div className="bg-[var(--posta-clay)] fixed inset-0 animate-pulse" />
       
       <div className="relative z-10">
         {/* Navigation skeleton */}
@@ -27,7 +27,7 @@ export default function RootLoading() {
         {/* Hero section skeleton */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center space-y-8">
-            <div className="h-16 w-3/4 mx-auto bg-gradient-to-r from-neon-grape/30 to-joburg-teal/30 rounded animate-pulse" />
+ <div className="bg-[var(--posta-clay-deep)] h-16 w-3/4 mx-auto rounded animate-pulse" />
             <div className="h-8 w-2/3 mx-auto bg-[var(--posta-paper)] rounded animate-pulse" />
             <div className="h-12 w-48 mx-auto bg-neon-grape/40 rounded-lg animate-pulse" />
           </div>

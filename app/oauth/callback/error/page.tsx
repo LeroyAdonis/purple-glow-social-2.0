@@ -48,10 +48,10 @@ function ErrorContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pretoria-blue via-void to-neon-grape p-4">
+ <div className="bg-[var(--posta-clay)] min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Error Card */}
-        <div className="bg-[var(--posta-cream)] backdrop-blur-lg border border-glass-border rounded-xl p-8 shadow-2xl text-center">
+ <div className="bg-[var(--posta-cream)] border border-glass-border rounded-xl p-8 shadow-2xl text-center">
           {/* Error Icon */}
           <div className="mb-6">
             <div className="w-20 h-20 mx-auto bg-red-500/20 rounded-full flex items-center justify-center">
@@ -105,7 +105,7 @@ function ErrorContent() {
                   href="https://help.instagram.com/502981923235522"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full bg-gradient-to-r from-neon-grape to-purple-600 text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
+ className="bg-[var(--posta-clay)] block w-full text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
                 >
                   Learn How to Convert
                 </a>
@@ -120,7 +120,7 @@ function ErrorContent() {
               <>
                 <button
                   onClick={() => router.push('/dashboard?tab=settings')}
-                  className="w-full bg-gradient-to-r from-neon-grape to-purple-600 text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
+ className="bg-[var(--posta-clay)] w-full text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
                 >
                   {errorInfo.action}
                 </button>
@@ -159,7 +159,7 @@ function ErrorContent() {
 export default function OAuthErrorPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pretoria-blue via-void to-neon-grape">
+ <div className="bg-[var(--posta-clay)] min-h-screen flex items-center justify-center ">
         <div className="text-[var(--posta-ink)]">Loading...</div>
       </div>
     }>

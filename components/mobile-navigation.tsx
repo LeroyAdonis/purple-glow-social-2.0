@@ -157,7 +157,7 @@ export default function MobileNavigation({
       {/* Hamburger Menu Button - Only visible on mobile */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-40 w-12 h-12 rounded-xl bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center shadow-lg hover:shadow-xl transition-all active:scale-95"
+ className="bg-[var(--posta-clay-deep)] lg:hidden fixed top-4 left-4 z-40 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all active:scale-95"
         aria-label="Open navigation menu"
         aria-expanded={isOpen}
       >
@@ -169,7 +169,7 @@ export default function MobileNavigation({
         <div
           ref={backdropRef}
           onClick={handleBackdropClick}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 lg:hidden animate-fadeIn"
+ className="fixed inset-0 bg-black/60 z-50 lg:hidden animate-fadeIn"
           aria-hidden="true"
         />
       )}
@@ -188,7 +188,7 @@ export default function MobileNavigation({
           {/* Header with Close Button */}
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
+ <div className="bg-[var(--posta-clay-deep)] w-8 h-8 rounded flex items-center justify-center">
                 <span className="font-display font-bold text-[var(--posta-ink)]">P</span>
               </div>
               <h1 className="font-display font-bold text-lg tracking-tight text-[var(--posta-ink)]">Posta</h1>
@@ -203,7 +203,7 @@ export default function MobileNavigation({
           </div>
 
           {/* User Profile Section */}
-          <div className="p-4 rounded-xl border border-glass-border bg-gradient-to-br from-white/5 to-transparent">
+ <div className="bg-[var(--posta-clay)] p-4 rounded-xl border border-glass-border ">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src={userImage} 
@@ -230,7 +230,7 @@ export default function MobileNavigation({
               </div>
               <div className="w-full h-1 bg-[var(--posta-cream)] rounded-full mt-2 overflow-hidden">
                 <div 
-                  className="h-full bg-gradient-to-r from-neon-grape to-joburg-teal transition-all duration-300"
+ className="bg-[var(--posta-clay-deep)] h-full transition-all duration-300"
                   style={{ 
                     width: `${Math.min((userCredits / (userTier === 'free' ? 10 : userTier === 'pro' ? 500 : 2000)) * 100, 100)}%` 
                   }}
@@ -245,7 +245,7 @@ export default function MobileNavigation({
               onClick={() => handleNavigation('dashboard')}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                 activeTab === 'dashboard'
-                  ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 border border-neon-grape/40 text-[var(--posta-ink)] shadow-lg'
+ ? ' border border-neon-grape/40 text-[var(--posta-ink)] shadow-lg'
                   : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] border border-transparent'
               }`}
               aria-current={activeTab === 'dashboard' ? 'page' : undefined}
@@ -261,7 +261,7 @@ export default function MobileNavigation({
               onClick={() => handleNavigation('schedule')}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                 activeTab === 'schedule'
-                  ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 border border-neon-grape/40 text-[var(--posta-ink)] shadow-lg'
+ ? ' border border-neon-grape/40 text-[var(--posta-ink)] shadow-lg'
                   : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] border border-transparent'
               }`}
               aria-current={activeTab === 'schedule' ? 'page' : undefined}
@@ -277,7 +277,7 @@ export default function MobileNavigation({
               onClick={() => handleNavigation('automation')}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                 activeTab === 'automation'
-                  ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 border border-neon-grape/40 text-[var(--posta-ink)] shadow-lg'
+ ? ' border border-neon-grape/40 text-[var(--posta-ink)] shadow-lg'
                   : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] border border-transparent'
               }`}
               aria-current={activeTab === 'automation' ? 'page' : undefined}

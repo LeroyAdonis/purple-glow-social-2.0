@@ -136,7 +136,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
     if (isAtLimit) return 'bg-red-500';
     if (percentage >= 90) return 'bg-red-500';
     if (percentage >= 70) return 'bg-mzansi-gold';
-    return 'bg-gradient-to-r from-neon-grape to-joburg-teal';
+ return ' ';
   };
 
   // Helper to render a usage bar
@@ -243,7 +243,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
+ <div className="bg-[var(--posta-clay-deep)] w-12 h-12 rounded-xl flex items-center justify-center">
             <i className="fa-solid fa-chart-pie text-2xl text-[var(--posta-ink)]"></i>
           </div>
           <div>
@@ -254,7 +254,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
         {limits.tier !== 'business' && onUpgrade && (
           <button
             onClick={onUpgrade}
-            className="px-4 py-2 bg-gradient-to-r from-mzansi-gold to-neon-grape rounded-lg text-sm font-bold hover:shadow-lg transition-all cursor-pointer"
+ className="bg-[var(--posta-clay)] px-4 py-2 rounded-lg text-sm font-bold hover:shadow-lg transition-all cursor-pointer"
           >
             <i className="fa-solid fa-crown mr-2"></i>
             Upgrade
@@ -286,7 +286,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
           <div className="h-3 bg-[var(--posta-cream)] rounded-full overflow-hidden">
             <div className="h-full flex">
               <div
-                className="bg-gradient-to-r from-neon-grape to-joburg-teal"
+ className="bg-[var(--posta-clay-deep)]  "
                 style={{ width: `${(limits.credits.available / limits.credits.total) * 100}%` }}
               ></div>
               <div

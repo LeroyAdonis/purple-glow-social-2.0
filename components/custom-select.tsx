@@ -135,7 +135,7 @@ export default function CustomSelect({
               w-full flex items-center gap-3 px-4 py-3 rounded-lg
               transition-all text-left cursor-pointer
               ${value === option.value
-                ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-[var(--posta-ink)] border border-neon-grape/40 shadow-lg'
+ ? ' text-[var(--posta-ink)] border border-neon-grape/40 shadow-lg'
                 : 'text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:border-glass-border border border-transparent'
               }
             `}

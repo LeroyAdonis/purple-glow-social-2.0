@@ -161,7 +161,7 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
                     ? 'bg-red-500' 
                     : generationLimits.percentage >= 70 
                       ? 'bg-mzansi-gold' 
-                      : 'bg-gradient-to-r from-neon-grape to-joburg-teal'
+ : ' '
                 }`}
                 style={{ width: `${Math.min(100, generationLimits.percentage)}%` }}
               />
@@ -308,8 +308,7 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
             onClick={handleGenerate}
             disabled={isGenerating || !topic.trim()}
             className="w-full py-4 rounded-xl font-bold text-lg
-                     bg-gradient-to-r from-neon-grape to-joburg-teal
-                     hover:scale-105 transition-transform duration-200
+                      hover:scale-105 transition-transform duration-200
                      disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
           >
             {isGenerating ? (

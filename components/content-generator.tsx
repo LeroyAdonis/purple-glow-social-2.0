@@ -211,7 +211,7 @@ export default function ContentGenerator() {
             {/* Header */}
             <div className="flex items-center justify-between p-3 border-b border-gray-100">
                 <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 p-[2px]">
+ <div className="bg-[var(--posta-clay)] w-8 h-8 rounded-full p-[2px]">
                         <div className="w-full h-full rounded-full bg-white border-2 border-transparent overflow-hidden">
                             <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=9D4EDD&color=fff" alt="User" width={32} height={32} unoptimized />
                         </div>
@@ -222,7 +222,7 @@ export default function ContentGenerator() {
             </div>
 
             {/* Image - show placeholder gradient when no image */}
-            <div className="aspect-square bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center overflow-hidden relative">
+ <div className="bg-[var(--posta-clay)] aspect-square flex items-center justify-center overflow-hidden relative">
                 {state?.data?.imageUrl ? (
                     <Image src={state.data.imageUrl} alt="Generated" width={600} height={600} className="w-full h-full object-cover" unoptimized />
                 ) : (
@@ -357,7 +357,7 @@ export default function ContentGenerator() {
         <div className="bg-white text-black rounded-xl overflow-hidden shadow-2xl max-w-lg mx-auto font-sans border border-gray-200">
             {/* Header */}
             <div className="p-4 flex items-start gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center text-[var(--posta-ink)] font-bold text-lg overflow-hidden">
+ <div className="bg-[var(--posta-clay)] w-12 h-12 rounded-full flex items-center justify-center text-[var(--posta-ink)] font-bold text-lg overflow-hidden">
                     <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=0077B5&color=fff" alt="User" width={48} height={48} unoptimized />
                 </div>
                 <div className="flex-1">
@@ -429,11 +429,11 @@ export default function ContentGenerator() {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* INPUT CARD */}
-            <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden bg-black/40 backdrop-blur-xl border border-[var(--posta-line)] h-fit">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-neon-grape opacity-10 blur-3xl rounded-full pointer-events-none"></div>
+ <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden bg-black/40 border border-[var(--posta-line)] h-fit">
+ <div className="absolute top-0 right-0 w-32 h-32 bg-neon-grape opacity-10 rounded-full pointer-events-none"></div>
 
                 <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--posta-paper)] flex items-center justify-center text-joburg-teal border border-glass-border shadow-[0_0_15px_-5px_#00E0FF]">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--posta-paper)] flex items-center justify-center text-joburg-teal border border-glass-border shadow-[var(--shadow-card)]">
                         <i className="fa-solid fa-pen-nib"></i>
                     </div>
                     <h3 className="font-display font-bold text-2xl">{translate('contentGenerator.title')}</h3>
@@ -522,7 +522,7 @@ export default function ContentGenerator() {
                     <button
                         type="submit"
                         disabled={isGenerating || userLimits?.dailyGenerations.isAtLimit}
-                        className="w-full py-4 bg-gradient-to-r from-neon-grape to-[#5A189A] text-[var(--posta-ink)] font-body font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(157,78,221,0.4)] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+ className="bg-[var(--posta-clay)] w-full py-4 to-[#5A189A] text-[var(--posta-ink)] font-body font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[var(--shadow-card)] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                         {isGenerating ? (
                             <>
@@ -542,10 +542,10 @@ export default function ContentGenerator() {
             </div>
 
             {/* OUTPUT CARD */}
-            <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden flex flex-col min-h-[500px] bg-black/40 backdrop-blur-xl border border-[var(--posta-line)]">
+ <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden flex flex-col min-h-[500px] bg-black/40 border border-[var(--posta-line)]">
 
                 {isGenerating && (
-                    <div className="absolute inset-0 z-20 bg-void/90 backdrop-blur-sm flex flex-col items-center justify-center text-center p-8">
+ <div className="absolute inset-0 z-20 bg-void/90 flex flex-col items-center justify-center text-center p-8">
                         <div className="w-20 h-20 rounded-full border-4 border-[var(--posta-line)] border-t-neon-grape animate-spin mb-6"></div>
                         <h4 className="font-display font-bold text-xl mb-2">Consulting the Neural Net</h4>
                         <p className="font-mono text-joburg-teal text-sm animate-pulse">Generating Text & Rendering Visuals...</p>

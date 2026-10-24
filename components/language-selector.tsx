@@ -54,7 +54,7 @@ export default function LanguageSelector({ variant = 'default' }: LanguageSelect
                   onClick={() => handleLanguageSelect(lang.code)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all cursor-pointer ${
                     currentLanguage === lang.code
-                      ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-[var(--posta-ink)] border border-neon-grape/40 shadow-lg'
+ ? ' text-[var(--posta-ink)] border border-neon-grape/40 shadow-lg'
                       : 'text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:border-glass-border border border-transparent'
                   }`}
                 >
@@ -98,7 +98,7 @@ export default function LanguageSelector({ variant = 'default' }: LanguageSelect
                 onClick={() => handleLanguageSelect(lang.code)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all cursor-pointer ${
                   currentLanguage === lang.code
-                    ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-[var(--posta-ink)] border border-neon-grape/40 shadow-lg'
+ ? ' text-[var(--posta-ink)] border border-neon-grape/40 shadow-lg'
                     : 'text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:border-glass-border border border-transparent'
                 }`}
               >

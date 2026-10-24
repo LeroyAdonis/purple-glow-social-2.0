@@ -165,8 +165,8 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
         </div>
 
         {/* Locked State */}
-        <div className="aerogel-card rounded-2xl p-12 text-center border border-mzansi-gold/20 bg-gradient-to-b from-mzansi-gold/5 to-transparent">
-          <div className="w-24 h-24 bg-gradient-to-r from-mzansi-gold/20 to-neon-grape/20 rounded-full flex items-center justify-center mx-auto mb-6">
+ <div className="bg-[var(--posta-clay)] aerogel-card rounded-2xl p-12 text-center border border-mzansi-gold/20 ">
+ <div className="bg-[var(--posta-clay)] w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
             <i className="fa-solid fa-lock text-mzansi-gold text-4xl"></i>
           </div>
           <h3 className="text-3xl font-display font-bold text-[var(--posta-ink)] mb-3">Unlock Automation</h3>
@@ -195,7 +195,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
 
           <a
             href="/dashboard?view=settings"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-mzansi-gold to-neon-grape rounded-xl font-bold text-lg hover:shadow-xl hover:scale-105 transition-all"
+ className="bg-[var(--posta-clay)] inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:scale-105 transition-all"
           >
             <i className="fa-solid fa-crown"></i>
             Upgrade to Pro
@@ -300,7 +300,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
         className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
           automationLimits?.isAtLimit
             ? 'bg-gray-600 text-[var(--posta-ink-soft)] cursor-not-allowed'
-            : 'bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] hover:shadow-xl hover:scale-105 cursor-pointer'
+ : ' text-[var(--posta-ink)] hover:shadow-xl hover:scale-105 cursor-pointer'
         }`}
       >
         <i className={`text-2xl ${automationLimits?.isAtLimit ? 'fa-solid fa-lock' : 'fa-solid fa-plus-circle'}`}></i>
@@ -325,17 +325,17 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
             
             {/* Template Showcase */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
-              <div className="bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-xl p-6 border border-pink-500/30">
+ <div className="bg-[var(--posta-clay)]  rounded-xl p-6 border border-pink-500/30">
                 <i className="fa-solid fa-box text-pink-400 text-3xl mb-3"></i>
                 <h4 className="font-semibold text-[var(--posta-ink)] mb-2">Weekly Product</h4>
                 <p className="text-sm text-[var(--posta-ink-soft)]">Showcase your products regularly</p>
               </div>
-              <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl p-6 border border-blue-500/30">
+ <div className="bg-[var(--posta-clay)]  rounded-xl p-6 border border-blue-500/30">
                 <i className="fa-solid fa-lightbulb text-blue-400 text-3xl mb-3"></i>
                 <h4 className="font-semibold text-[var(--posta-ink)] mb-2">Daily Tips</h4>
                 <p className="text-sm text-[var(--posta-ink-soft)]">Share valuable insights daily</p>
               </div>
-              <div className="bg-gradient-to-br from-green-500/10 to-teal-500/10 rounded-xl p-6 border border-green-500/30">
+ <div className="bg-[var(--posta-clay-deep)]  rounded-xl p-6 border border-green-500/30">
                 <i className="fa-solid fa-calendar-check text-green-400 text-3xl mb-3"></i>
                 <h4 className="font-semibold text-[var(--posta-ink)] mb-2">Monthly Recap</h4>
                 <p className="text-sm text-[var(--posta-ink-soft)]">Summarize the month's highlights</p>
@@ -413,7 +413,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                 <div className="flex gap-2 flex-wrap">
                   <button
                     onClick={() => runNow(rule.id)}
-                    className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] rounded-lg hover:shadow-lg transition-all font-medium cursor-pointer"
+ className="bg-[var(--posta-clay-deep)] px-4 py-2 text-[var(--posta-ink)] rounded-lg hover:shadow-lg transition-all font-medium cursor-pointer"
                   >
                     <i className="fa-solid fa-play mr-2"></i>
                     Run Now

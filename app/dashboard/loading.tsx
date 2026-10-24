@@ -34,7 +34,7 @@ export default function DashboardLoading() {
       {/* Main Content Area */}
       <div className="flex-1 overflow-auto">
         {/* Header skeleton */}
-        <header className="border-b border-[var(--posta-line)] bg-void/50 backdrop-blur">
+ <header className="border-b border-[var(--posta-line)] bg-void/50 ">
           <div className="px-6 py-4 flex items-center justify-between">
             <div className="h-8 w-48 bg-[var(--posta-cream)] rounded animate-pulse" />
             <div className="flex items-center gap-4">

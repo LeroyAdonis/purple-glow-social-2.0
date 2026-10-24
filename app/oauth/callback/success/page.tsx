@@ -47,10 +47,10 @@ function SuccessContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pretoria-blue via-void to-neon-grape p-4">
+ <div className="bg-[var(--posta-clay)] min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Success Card */}
-        <div className="bg-[var(--posta-cream)] backdrop-blur-lg border border-glass-border rounded-xl p-8 shadow-2xl text-center">
+ <div className="bg-[var(--posta-cream)] border border-glass-border rounded-xl p-8 shadow-2xl text-center">
           {/* Success Icon */}
           <div className="mb-6">
             <div className="w-20 h-20 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
@@ -115,7 +115,7 @@ function SuccessContent() {
           <div className="space-y-2">
             <button
               onClick={() => router.push('/dashboard')}
-              className="w-full bg-gradient-to-r from-neon-grape to-purple-600 text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
+ className="bg-[var(--posta-clay)] w-full text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
             >
               Go to Dashboard
             </button>
@@ -143,7 +143,7 @@ function SuccessContent() {
 export default function OAuthSuccessPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pretoria-blue via-void to-neon-grape">
+ <div className="bg-[var(--posta-clay)] min-h-screen flex items-center justify-center ">
         <div className="text-[var(--posta-ink)]">Loading...</div>
       </div>
     }>

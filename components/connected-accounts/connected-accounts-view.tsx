@@ -273,7 +273,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
               </p>
               <button
                 onClick={() => setShowUpgradeModal(true)}
-                className="px-4 py-2 bg-gradient-to-r from-mzansi-gold to-neon-grape rounded-lg font-bold text-sm hover:shadow-lg transition-all"
+ className="bg-[var(--posta-clay)] px-4 py-2 rounded-lg font-bold text-sm hover:shadow-lg transition-all"
               >
                 <i className="fa-solid fa-arrow-up-right mr-2"></i>
                 Upgrade Plan
@@ -327,7 +327,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
               )}
               {/* Overlay if at limit and not connected */}
               {!isConnected(platform) && !canConnect && (
-                <div className="absolute inset-0 bg-void/50 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+ <div className="absolute inset-0 bg-void/50 rounded-2xl flex items-center justify-center ">
                   <div className="text-center p-4">
                     <i className="fa-solid fa-lock text-2xl text-mzansi-gold mb-2"></i>
                     <p className="text-sm font-bold">Limit Reached</p>
@@ -376,7 +376,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="aerogel-card p-8 rounded-2xl max-w-md w-full border border-mzansi-gold/30">
             <div className="text-center mb-6">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-mzansi-gold to-neon-grape flex items-center justify-center mx-auto mb-4">
+ <div className="bg-[var(--posta-clay)] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i className="fa-solid fa-crown text-2xl text-[var(--posta-ink)]"></i>
               </div>
               <h3 className="font-display font-bold text-2xl mb-2">Upgrade Your Plan</h3>
@@ -413,7 +413,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
               </button>
               <a
                 href="/dashboard?view=settings"
-                className="flex-1 px-4 py-3 bg-gradient-to-r from-mzansi-gold to-neon-grape rounded-xl font-bold text-center hover:shadow-lg transition-all"
+ className="bg-[var(--posta-clay)] flex-1 px-4 py-3 rounded-xl font-bold text-center hover:shadow-lg transition-all"
               >
                 View Plans
               </a>

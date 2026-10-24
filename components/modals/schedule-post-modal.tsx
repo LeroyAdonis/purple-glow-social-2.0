@@ -157,10 +157,10 @@ export default function SchedulePostModal({
   const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+ <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
       <div className="bg-void border border-glass-border rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar">
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] p-6 rounded-t-2xl z-10">
+ <div className="bg-[var(--posta-clay-deep)] sticky top-0 text-[var(--posta-ink)] p-6 rounded-t-2xl z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <i className="fa-regular fa-calendar-check text-2xl"></i>
@@ -180,7 +180,7 @@ export default function SchedulePostModal({
 
         <div className="p-6 space-y-6">
           {/* AI Best Times Section */}
-          <div className="bg-gradient-to-br from-neon-grape/10 to-joburg-teal/10 rounded-xl p-4 border border-neon-grape/30">
+ <div className="bg-[var(--posta-clay-deep)]  rounded-xl p-4 border border-neon-grape/30">
             <div className="flex items-center gap-2 mb-3">
               <i className="fa-solid fa-sparkles text-neon-grape"></i>
               <h3 className="font-semibold text-[var(--posta-ink)] font-body">AI Pilot Best Times</h3>
@@ -205,9 +205,9 @@ export default function SchedulePostModal({
                   <div className="flex items-center gap-1 mt-2">
                     <div className="flex-1 bg-[var(--posta-cream)] rounded-full h-1.5">
                       <div
-                        className={`h-1.5 rounded-full ${slot.engagement === 'Very High' ? 'bg-gradient-to-r from-joburg-teal to-green-400 w-full' :
-                          slot.engagement === 'High' ? 'bg-gradient-to-r from-neon-grape to-joburg-teal w-4/5' :
-                            'bg-gradient-to-r from-mzansi-gold to-yellow-400 w-3/5'
+ className={`h-1.5 rounded-full ${slot.engagement === 'Very High' ? ' w-full' :
+ slot.engagement === 'High' ? ' w-4/5' :
+ ' w-3/5'
                           }`}
                       ></div>
                     </div>
@@ -307,7 +307,7 @@ export default function SchedulePostModal({
                       className={`
                         w-12 h-12 rounded-full font-semibold transition-all font-mono cursor-pointer
                         ${customDays.includes(day)
-                          ? 'bg-gradient-to-br from-neon-grape to-joburg-teal text-[var(--posta-ink)] shadow-lg'
+ ? ' text-[var(--posta-ink)] shadow-lg'
                           : 'bg-[var(--posta-paper)] border-2 border-glass-border text-[var(--posta-ink-soft)] hover:border-joburg-teal hover:bg-[var(--posta-cream)]'
                         }
                       `}
@@ -371,7 +371,7 @@ export default function SchedulePostModal({
         </div>
 
         {/* Footer Actions */}
-        <div className="sticky bottom-0 bg-void/95 backdrop-blur-sm px-6 py-4 rounded-b-2xl border-t border-glass-border z-10">
+ <div className="sticky bottom-0 bg-void/95 px-6 py-4 rounded-b-2xl border-t border-glass-border z-10">
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm flex items-center gap-2">
               <i className="fa-solid fa-exclamation-circle"></i>
@@ -402,7 +402,7 @@ export default function SchedulePostModal({
             <button
               onClick={handleSchedule}
               disabled={!selectedDate || !selectedTime || isSubmitting || success || !hasEnoughCredits}
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] font-medium font-body hover:shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer flex items-center gap-2"
+ className="bg-[var(--posta-clay-deep)] px-6 py-3 rounded-xl text-[var(--posta-ink)] font-medium font-body hover:shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer flex items-center gap-2"
             >
               {isSubmitting ? (
                 <>

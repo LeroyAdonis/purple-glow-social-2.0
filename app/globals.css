@@ -82,7 +82,7 @@
   --color-sa-gold: #E9A93C;                 /* SA flag gold */
   --color-mzansi-gold: #E9A93C;             /* ALIAS */
   --color-sa-red: #A32B22;                  /* SA flag red */
-  --color-mzansi-red: #E03C31;              /* ALIAS */
+  --color-mzansi-red: var(--posta-danger);              /* ALIAS */
   --color-sa-blue: #002C6F;                 /* SA flag blue */
   --color-mzansi-blue: #002C6F;             /* ALIAS */
 
@@ -102,7 +102,7 @@
   --color-border-default: rgba(255, 255, 255, 0.08);  /* Standard borders */
   --color-border-subtle: rgba(255, 255, 255, 0.05);   /* Ultra-thin dividers */
   --color-border-hover: rgba(232, 93, 4, 0.3);        /* Hover — orange tint */
-  --color-border-active: #E85D04;                      /* Active/focus — orange */
+  --color-border-active: var(--posta-clay);                      /* Active/focus — orange */
   --color-glass-border: rgba(255, 255, 255, 0.08);    /* ALIAS for glass */
 
   /* ─── POSTA BRAND TOKENS (canonical — use these in new code) ───────── */
@@ -146,15 +146,15 @@
     width: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: rgba(26, 28, 35, 0.5);
+    background: var(--posta-cream);
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #E85D04, #FF8A30);
+    background: var(--posta-clay);
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #FF8A30;
+    background: var(--posta-clay-deep);
   }
 }
 
@@ -182,119 +182,27 @@
     background-size: 256px 256px;
   }
 
-  /* ─── SA FLAG STRIPE UTILITIES ───────────────────────────────────── */
-
-  .flag-stripe {
-    background: linear-gradient(
-      90deg,
-      #007749 0%,
-      #007749 20%,
-      #FFB81C 20%,
-      #FFB81C 25%,
-      #E03C31 25%,
-      #E03C31 47.5%,
-      #002C6F 47.5%,
-      #002C6F 52.5%,
-      #E03C31 52.5%,
-      #E03C31 75%,
-      #FFB81C 75%,
-      #FFB81C 80%,
-      #007749 80%,
-      #007749 100%
-    );
-    height: 6px;
-    width: 100%;
-  }
-
-  .flag-stripe-vertical {
-    background: linear-gradient(
-      180deg,
-      #007749 0%,
-      #007749 20%,
-      #FFB81C 20%,
-      #FFB81C 25%,
-      #E03C31 25%,
-      #E03C31 47.5%,
-      #002C6F 47.5%,
-      #002C6F 52.5%,
-      #E03C31 52.5%,
-      #E03C31 75%,
-      #FFB81C 75%,
-      #FFB81C 80%,
-      #007749 80%,
-      #007749 100%
-    );
-    width: 6px;
-    height: 100%;
-  }
-
-  .flag-accent {
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      #007749,
-      #FFB81C,
-      #E03C31,
-      #002C6F,
-      transparent
-    );
-    width: 100%;
-    border-radius: 1px;
-  }
-
   /* ─── NDEBELE-INSPIRED GEOMETRIC PATTERNS ────────────────────────── */
   /* Modern interpretation of Ndebele geometric art — subtle enough
      for a tech product, recognizable enough to feel South African. */
 
   .pattern-dots {
-    background-image: radial-gradient(circle, #E85D04 1px, transparent 1px);
+    background-image: none;
     background-size: 24px 24px;
     opacity: 0.15;
   }
 
   .pattern-dots-teal {
-    background-image: radial-gradient(circle, #00A8B5 1px, transparent 1px);
+    background-image: none;
     background-size: 24px 24px;
     opacity: 0.12;
   }
 
   .pattern-dots-gold {
-    background-image: radial-gradient(circle, #FFB81C 1px, transparent 1px);
+    background-image: none;
     background-size: 24px 24px;
     opacity: 0.10;
   }
-
-  .pattern-lines {
-    background: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 12px,
-      rgba(232, 93, 4, 0.08) 12px,
-      rgba(232, 93, 4, 0.08) 13px
-    );
-  }
-
-  .pattern-lines-teal {
-    background: repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 12px,
-      rgba(0, 168, 181, 0.06) 12px,
-      rgba(0, 168, 181, 0.06) 13px
-    );
-  }
-
-  .pattern-lines-gold {
-    background: repeating-linear-gradient(
-      135deg,
-      transparent,
-      transparent 12px,
-      rgba(255, 184, 28, 0.06) 12px,
-      rgba(255, 184, 28, 0.06) 13px
-    );
-  }
-
   /* ─── SECTION DIVIDERS ───────────────────────────────────────────── */
 
   .divider-wave {
@@ -312,64 +220,6 @@
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80'%3E%3Cpath fill='%23E85D04' fill-opacity='0.08' d='M0,40 C360,80 720,0 1080,40 C1260,60 1350,30 1440,40 L1440,80 L0,80 Z'/%3E%3Cpath fill='%2300A8B5' fill-opacity='0.04' d='M0,55 C240,30 480,70 720,45 C960,20 1200,60 1440,55 L1440,80 L0,80 Z'/%3E%3C/svg%3E") no-repeat bottom;
     background-size: 100% 100%;
   }
-
-  .divider-slant {
-    position: relative;
-    height: 60px;
-    overflow: hidden;
-  }
-
-  .divider-slant::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    background: linear-gradient(
-      to right bottom,
-      transparent 49.5%,
-      rgba(232, 93, 4, 0.08) 49.5%,
-      rgba(232, 93, 4, 0.08) 50.5%,
-      transparent 50.5%
-    );
-  }
-
-  .divider-flag {
-    position: relative;
-    height: 40px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .divider-flag::after {
-    content: '';
-    position: absolute;
-    left: 10%;
-    right: 10%;
-    height: 4px;
-    border-radius: 2px;
-    background: linear-gradient(
-      90deg,
-      #007749 0%,
-      #007749 24%,
-      #FFB81C 24%,
-      #FFB81C 26%,
-      #E03C31 26%,
-      #E03C31 47%,
-      #002C6F 47%,
-      #002C6F 53%,
-      #E03C31 53%,
-      #E03C31 74%,
-      #FFB81C 74%,
-      #FFB81C 76%,
-      #007749 76%,
-      #007749 100%
-    );
-  }
-
   /* ─── PREMIUM GLOW SYSTEM ────────────────────────────────────────── */
   /* All glow effects now use POSTA orange. The old .glow-purple class
      name is retained for backward compatibility but produces orange glow. */
@@ -444,22 +294,6 @@
   }
 
   /* ─── CARD STYLES ────────────────────────────────────────────────── */
-
-  .premium-card {
-    background: linear-gradient(
-      145deg,
-      rgba(26, 28, 35, 0.9) 0%,
-      rgba(36, 38, 46, 0.7) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow:
-      0 4px 24px rgba(0, 0, 0, 0.4),
-      0 1px 3px rgba(232, 93, 4, 0.1);
-    transition: all 0.3s ease;
-  }
-
   .premium-card:hover {
     border-color: rgba(232, 93, 4, 0.3);
     box-shadow:
@@ -467,54 +301,8 @@
       0 0 20px rgba(232, 93, 4, 0.15);
     transform: translateY(-2px);
   }
-
-  .inset-card {
-    background: linear-gradient(
-      135deg,
-      rgba(18, 18, 24, 0.8) 0%,
-      rgba(26, 28, 35, 0.5) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow:
-      inset 0 2px 4px rgba(0, 0, 0, 0.3),
-      0 1px 2px rgba(0, 0, 0, 0.2);
-  }
-
-  .glass-card {
-    background: linear-gradient(
-      135deg,
-      rgba(232, 93, 4, 0.05) 0%,
-      rgba(0, 168, 181, 0.03) 50%,
-      rgba(255, 255, 255, 0.02) 100%
-    );
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(232, 93, 4, 0.12);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  }
-
   /* ─── AEROGEL CARD (legacy name, kept for compat) ──────────────── */
   /* Now maps to glass-card internally for consistency */
-
-  .aerogel-card {
-    background: linear-gradient(
-      135deg,
-      rgba(232, 93, 4, 0.05) 0%,
-      rgba(0, 168, 181, 0.03) 50%,
-      rgba(255, 255, 255, 0.02) 100%
-    );
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(232, 93, 4, 0.12);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  }
-
   /* ─── SCROLLBAR (custom-scrollbar class) ─────────────────────────── */
 
   .custom-scrollbar::-webkit-scrollbar {
@@ -527,92 +315,19 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #E85D04, #FF8A30);
+    background: var(--posta-clay);
     border-radius: 3px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #FF8A30;
+    background: var(--posta-clay-deep);
   }
 
   /* ─── SA FLAG BORDER DECORATION ──────────────────────────────────── */
   /* A thin decorative element that wraps around a card or section,
      subtly incorporating SA flag colors into the border. */
-
-  .border-sa-flag {
-    border-image: linear-gradient(
-      135deg,
-      #007749,
-      #FFB81C,
-      #E03C31,
-      #002C6F
-    ) 1;
-    border-width: 1px;
-    border-style: solid;
-  }
-
   /* ─── AMBIENT GLOW ORB ──────────────────────────────────────────── */
   /* Floating glow orbs for decorative hero backgrounds */
-
-  .glow-orb-purple {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    background: radial-gradient(
-      circle,
-      rgba(232, 93, 4, 0.3) 0%,
-      rgba(232, 93, 4, 0.1) 40%,
-      transparent 70%
-    );
-  }
-
-  .glow-orb-orange {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    background: radial-gradient(
-      circle,
-      rgba(232, 93, 4, 0.3) 0%,
-      rgba(232, 93, 4, 0.1) 40%,
-      transparent 70%
-    );
-  }
-
-  .glow-orb-posta-orange {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    background: radial-gradient(
-      circle,
-      rgba(232, 93, 4, 0.3) 0%,
-      rgba(232, 93, 4, 0.1) 40%,
-      transparent 70%
-    );
-  }
-
-  .glow-orb-teal {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    background: radial-gradient(
-      circle,
-      rgba(0, 168, 181, 0.2) 0%,
-      rgba(0, 168, 181, 0.07) 40%,
-      transparent 70%
-    );
-  }
-
-  .glow-orb-gold {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    background: radial-gradient(
-      circle,
-      rgba(255, 184, 28, 0.15) 0%,
-      rgba(255, 184, 28, 0.05) 40%,
-      transparent 70%
-    );
-  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -836,61 +551,7 @@
   }
 
   /* ─── TEXT GRADIENTS ─────────────────────────────────────────────── */
-
-  .text-gradient-purple {
-    background: linear-gradient(135deg, #E85D04, #FF8A30, #C04E02);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-orange {
-    background: linear-gradient(135deg, #E85D04, #FF8A30, #C04E02);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-gold {
-    background: linear-gradient(135deg, #FFB81C, #FFD700, #FFA500);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-sa {
-    background: linear-gradient(135deg, #007749, #FFB81C, #E03C31, #002C6F);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-teal {
-    background: linear-gradient(135deg, #00A8B5, #00E5FF);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
   /* ─── BG GRADIENTS ───────────────────────────────────────────────── */
-
-  .bg-gradient-sa {
-    background: linear-gradient(
-      135deg,
-      #007749,
-      #FFB81C,
-      #E03C31,
-      #002C6F
-    );
-  }
-
-  .bg-gradient-purple-teal {
-    background: linear-gradient(135deg, #E85D04, #00A8B5);
-  }
-
-  .bg-gradient-orange-teal {
-    background: linear-gradient(135deg, #E85D04, #00A8B5);
-  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -929,3 +590,15 @@
     text-decoration: underline !important;
   }
 }
+
+  /* ─── .aerogel-card — REDEFINED ───────────────────────────────────────
+     27 files reference this name. It used to be a translucent glass card with a backdrop blur; the brand
+     allows flat, opaque colour only. Same class, same layout behaviour, no glass. */
+  .aerogel-card {
+    background: var(--posta-white, #FFFFFF);
+    border: 1px solid var(--posta-line, #EADCCB);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card, 0 2px 8px -2px rgba(36, 20, 15, 0.10));
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }

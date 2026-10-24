@@ -116,7 +116,7 @@ export default function PublishingStats({ data, isLoading }: PublishingStatsProp
                   </div>
                   <div className="h-2 bg-[var(--posta-cream)] rounded-full overflow-hidden mt-2">
                     <div
-                      className="h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full"
+ className="bg-[var(--posta-clay)] h-full rounded-full"
                       style={{ width: `${successRate}%` }}
                     ></div>
                   </div>
@@ -222,7 +222,7 @@ export default function PublishingStats({ data, isLoading }: PublishingStatsProp
                       style={{ height: '100%' }}
                     ></div>
                     <div
-                      className="absolute bottom-0 w-full bg-gradient-to-t from-green-500 to-green-400 rounded-t-lg"
+ className="bg-[var(--posta-clay)] absolute bottom-0 w-full rounded-t-lg"
                       style={{ height: `${(successHeight / height) * 100}%` }}
                     ></div>
                   </div>

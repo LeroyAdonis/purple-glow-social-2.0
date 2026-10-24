@@ -74,7 +74,7 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
           return (
             <div key={tier.tier} className={`aerogel-card p-6 rounded-2xl border ${tier.borderColor}`}>
               <div className="flex items-center gap-3 mb-4">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tier.color} flex items-center justify-center`}>
+ <div className={`w-12 h-12 rounded-xl ${tier.color} flex items-center justify-center`}>
                   <i className={`${tier.icon} text-xl text-[var(--posta-ink)]`}></i>
                 </div>
                 <div>
@@ -92,7 +92,7 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
               
               <div className="h-2 bg-[var(--posta-cream)] rounded-full overflow-hidden">
                 <div
-                  className={`h-full bg-gradient-to-r ${tier.color} rounded-full transition-all duration-500`}
+ className={`h-full ${tier.color} rounded-full transition-all duration-500`}
                   style={{ width: `${percentage}%` }}
                 ></div>
               </div>
@@ -147,7 +147,7 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
               </div>
               <div className="h-3 bg-[var(--posta-cream)] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-gray-500 to-neon-grape rounded-full transition-all duration-500"
+ className="bg-[var(--posta-clay)] h-full rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(data.conversionRates.freeToProPercent * 2, 100)}%` }}
                 ></div>
               </div>
@@ -164,7 +164,7 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
               </div>
               <div className="h-3 bg-[var(--posta-cream)] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-neon-grape to-joburg-teal rounded-full transition-all duration-500"
+ className="bg-[var(--posta-clay-deep)] h-full rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(data.conversionRates.proToBusinessPercent * 2, 100)}%` }}
                 ></div>
               </div>
@@ -199,7 +199,7 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
                     cy="50"
                     r="40"
                     fill="transparent"
-                    stroke={index === 0 ? '#6B7280' : index === 1 ? '#9D4EDD' : '#14B8A6'}
+                    stroke={index === 0 ? '#6B7280' : index === 1 ? '#8E3B2E' : '#14B8A6'}
                     strokeWidth="20"
                     strokeDasharray={dashArray}
                     strokeDashoffset={-offset}
@@ -221,7 +221,7 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
           <div className="space-y-4">
             {tierConfigs.map((tier) => (
               <div key={tier.tier} className="flex items-center gap-3">
-                <div className={`w-4 h-4 rounded bg-gradient-to-r ${tier.color}`}></div>
+ <div className={`w-4 h-4 rounded ${tier.color}`}></div>
                 <span className="capitalize font-medium w-20">{tier.tier}</span>
                 <span className="font-mono text-[var(--posta-ink-soft)]">{tier.count.toLocaleString()}</span>
               </div>
@@ -245,7 +245,7 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
                 <div key={i} className="flex-1 flex flex-col items-center gap-2">
                   <div className="text-xs text-[var(--posta-ink-soft)] font-mono">{total}</div>
                   <div
-                    className="w-full bg-gradient-to-t from-neon-grape to-joburg-teal rounded-t-lg transition-all hover:opacity-80 cursor-pointer min-h-[4px]"
+ className="bg-[var(--posta-clay-deep)] w-full rounded-t-lg transition-all hover:opacity-80 cursor-pointer min-h-[4px]"
                     style={{ height: `${Math.max(height, 2)}%` }}
                   ></div>
                   <div className="text-xs text-[var(--posta-ink-soft)] font-mono">

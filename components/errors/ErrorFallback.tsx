@@ -73,7 +73,7 @@ Time: ${new Date().toISOString()}
     <div className="min-h-[400px] flex items-center justify-center p-8">
       <div className="text-center max-w-md">
         {/* Error Icon */}
-        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-red-500/20 to-orange-500/20 border border-red-500/30 flex items-center justify-center">
+ <div className="bg-[var(--posta-clay)] w-20 h-20 mx-auto mb-6 rounded-full border border-red-500/30 flex items-center justify-center">
           <i className={`${icon} text-red-400 text-4xl`}></i>
         </div>
 
@@ -101,7 +101,7 @@ Time: ${new Date().toISOString()}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={resetError}
-            className="px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] rounded-xl font-medium hover:shadow-lg transition-all"
+ className="bg-[var(--posta-clay-deep)] px-6 py-3 text-[var(--posta-ink)] rounded-xl font-medium hover:shadow-lg transition-all"
           >
             <i className="fa-solid fa-rotate-right mr-2"></i>
             Try Again

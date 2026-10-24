@@ -320,7 +320,7 @@ export default function PostCreationModal({
     >
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-[#0D0F1C]/80 backdrop-blur-md"
+ className="absolute inset-0 bg-[#FBF6EF]/80 "
         onClick={onClose}
         aria-hidden="true"
       />
@@ -328,26 +328,25 @@ export default function PostCreationModal({
       {/* Modal Container */}
       <div
         ref={modalRef}
-        className="relative w-full max-w-3xl max-h-[90vh] bg-[#1A1F3A]/90 backdrop-blur-xl border-4 border-[#9D4EDD] rounded-2xl shadow-[0_0_60px_rgba(157,78,221,0.4)] overflow-hidden"
+ className="relative w-full max-w-3xl max-h-[90vh] bg-[#FFFFFF]/90 border-4 border-[#8E3B2E] rounded-2xl shadow-[var(--shadow-card)] overflow-hidden"
       >
         {/* Animated grid background */}
         <div 
           className="absolute inset-0 opacity-5 pointer-events-none"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(157,78,221,0.5) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(157,78,221,0.5) 1px, transparent 1px)
+1px, transparent 1px)
             `,
             backgroundSize: '30px 30px',
           }}
         />
 
         {/* Header */}
-        <div className="p-6 border-b border-[#9D4EDD]/30">
+        <div className="p-6 border-b border-[#8E3B2E]/30">
           <div className="flex items-center justify-between">
             <h2 
               id="modal-title"
-              className="text-2xl font-bold bg-gradient-to-r from-[#9D4EDD] to-[#00E0FF] bg-clip-text text-transparent"
+ className="text-2xl font-bold from-[#8E3B2E] to-[#742F25] text-[var(--posta-clay)]"
             >
               {isEditMode ? 'Edit Draft' : 'Create New Post'}
             </h2>
@@ -386,8 +385,7 @@ export default function PostCreationModal({
                       flex items-center justify-center gap-2
                       font-bold text-sm uppercase tracking-wide
                       ${isSelected 
-                        ? `bg-gradient-to-br ${config.bgGradient} border-transparent text-[var(--posta-ink)] shadow-[0_0_20px_${config.color}66]` 
-                        : 'bg-[var(--posta-paper)] border-gray-600 text-[var(--posta-ink-soft)] hover:border-gray-400'
+ ? ` ${config.bgGradient} border-transparent text-[var(--posta-ink)] shadow-[var(--shadow-card)]`                         : 'bg-[var(--posta-paper)] border-gray-600 text-[var(--posta-ink-soft)] hover:border-gray-400'
                       }
                       disabled:opacity-50
                     `}
@@ -417,7 +415,7 @@ export default function PostCreationModal({
               disabled={isSubmitting}
               placeholder="e.g., Summer Sale, Product Launch"
               maxLength={200}
-              className="w-full px-4 py-3 bg-[#0D0F1C]/50 backdrop-blur-sm border border-[#9D4EDD]/30 rounded-lg text-[var(--posta-ink)] placeholder-gray-500 focus:outline-none focus:border-[#9D4EDD] focus:ring-2 focus:ring-[#9D4EDD]/20 transition-all"
+ className="w-full px-4 py-3 bg-[#FBF6EF]/50 border border-[#8E3B2E]/30 rounded-lg text-[var(--posta-ink)] placeholder-gray-500 focus:outline-none focus:border-[#8E3B2E] focus:ring-2 focus:ring-[#8E3B2E]/20 transition-all"
             />
           </div>
 
@@ -440,10 +438,9 @@ export default function PostCreationModal({
                 rows={6}
                 className={`
                   w-full px-4 py-3 rounded-xl
-                  bg-[#0D0F1C]/50 backdrop-blur-sm
-                  border-2 ${charPercentage >= 100 ? 'border-red-500' : charPercentage >= 90 ? 'border-yellow-500' : 'border-[#9D4EDD]/30'}
+ bg-[#FBF6EF]/50                   border-2 ${charPercentage >= 100 ? 'border-red-500' : charPercentage >= 90 ? 'border-yellow-500' : 'border-[#8E3B2E]/30'}
                   text-[var(--posta-ink)] placeholder-gray-500
-                  focus:border-[#9D4EDD] focus:shadow-[0_0_20px_rgba(157,78,221,0.3)]
+                  focus:border-[#8E3B2E] focus:shadow-[var(--shadow-card)]
                   focus:outline-none
                   transition-all duration-300
                   resize-none
@@ -455,7 +452,7 @@ export default function PostCreationModal({
               <div className={`
                 absolute bottom-3 right-3
                 px-3 py-1 rounded-lg
-                bg-[#0D0F1C]/80 border
+                bg-[#FBF6EF]/80 border
                 text-xs font-mono
                 ${getCharCountColor()}
               `}>
@@ -502,7 +499,7 @@ export default function PostCreationModal({
         </div>
 
         {/* Footer - Action Buttons */}
-        <div className="p-6 border-t border-[#9D4EDD]/30">
+        <div className="p-6 border-t border-[#8E3B2E]/30">
           <div className="flex flex-col sm:flex-row gap-3">
             {/* Save Draft Button */}
             <button
@@ -527,7 +524,7 @@ export default function PostCreationModal({
             <button
               onClick={handleSchedule}
               disabled={isSubmitting || !content.trim() || charPercentage >= 100}
-              className="flex-1 px-6 py-3 bg-[#00E0FF]/20 hover:bg-[#00E0FF]/30 border border-[#00E0FF] rounded-lg font-bold text-[#00E0FF] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 px-6 py-3 bg-[#742F25]/20 hover:bg-[#742F25]/30 border border-[#742F25] rounded-lg font-bold text-[#742F25] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting && submitAction === 'schedule' ? (
                 <>
@@ -546,7 +543,7 @@ export default function PostCreationModal({
             <button
               onClick={handlePublishNow}
               disabled={isSubmitting || !content.trim() || charPercentage >= 100}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-[#9D4EDD] to-[#00E0FF] hover:shadow-[0_0_30px_rgba(157,78,221,0.5)] rounded-lg font-bold text-[var(--posta-ink)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+ className="bg-[var(--posta-clay)] flex-1 px-6 py-3 from-[#8E3B2E] to-[#742F25] hover:shadow-[var(--shadow-card)] rounded-lg font-bold text-[var(--posta-ink)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting && submitAction === 'publish' ? (
                 <>

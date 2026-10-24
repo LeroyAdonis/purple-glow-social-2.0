@@ -16,7 +16,7 @@ interface CalendarViewProps {
 }
 
 const platformColors = {
-  instagram: 'bg-gradient-to-r from-purple-500 to-pink-500',
+ instagram: ' ',
   twitter: 'bg-[#1DA1F2]',
   linkedin: 'bg-[#0A66C2]',
   facebook: 'bg-[#1877F2]',

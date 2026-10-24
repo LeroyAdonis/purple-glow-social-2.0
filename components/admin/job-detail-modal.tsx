@@ -55,7 +55,7 @@ export default function JobDetailModal({ job, onClose, onRetry }: JobDetailModal
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose}></div>
+ <div className="absolute inset-0 bg-black/60 " onClick={onClose}></div>
       <div className="aerogel-card p-8 rounded-3xl w-full max-w-2xl relative z-10 animate-enter max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-start justify-between mb-6">

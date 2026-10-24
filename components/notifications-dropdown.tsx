@@ -103,7 +103,7 @@ export default function NotificationsDropdown() {
       {/* Dropdown Panel */}
       {isOpen && (
         <div 
-          className="absolute right-0 mt-2 w-80 sm:w-96 max-h-[70vh] overflow-hidden rounded-xl border border-glass-border bg-black/90 backdrop-blur-xl shadow-2xl z-50"
+ className="absolute right-0 mt-2 w-80 sm:w-96 max-h-[70vh] overflow-hidden rounded-xl border border-glass-border bg-black/90 shadow-2xl z-50"
           role="menu"
           aria-orientation="vertical"
         >

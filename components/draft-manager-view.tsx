@@ -34,7 +34,7 @@ type SortOrder = 'newest' | 'oldest';
 
 // Platform filter configuration
 const platformFilters: { key: Platform; label: string; icon?: string; color: string }[] = [
-  { key: 'all', label: 'All', color: '#9D4EDD' },
+  { key: 'all', label: 'All', color: '#8E3B2E' },
   { key: 'instagram', label: 'Instagram', icon: 'fa-instagram', color: '#E4405F' },
   { key: 'twitter', label: 'X', icon: 'fa-x-twitter', color: '#1DA1F2' },
   { key: 'linkedin', label: 'LinkedIn', icon: 'fa-linkedin-in', color: '#0A66C2' },
@@ -279,7 +279,7 @@ export default function DraftManagerView({
                     font-bold text-sm uppercase tracking-wide
                     flex items-center gap-2
                     ${isActive 
-                      ? 'border-transparent text-[var(--posta-ink)] shadow-[0_0_15px_rgba(157,78,221,0.4)]' 
+                      ? 'border-transparent text-[var(--posta-ink)] shadow-[var(--shadow-card)]' 
                       : 'border-gray-600 text-[var(--posta-ink-soft)] hover:border-gray-400 bg-transparent'
                     }
                   `}
@@ -307,7 +307,7 @@ export default function DraftManagerView({
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
               </select>
-              <i className="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-[#9D4EDD] pointer-events-none"></i>
+              <i className="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-[#8E3B2E] pointer-events-none"></i>
             </div>
           </div>
         </div>
@@ -343,7 +343,7 @@ export default function DraftManagerView({
         <div className="">
           {/* Icon */}
           <div className="">
-            <i className="fa-solid fa-file-lines text-4xl text-[#9D4EDD]/50"></i>
+            <i className="fa-solid fa-file-lines text-4xl text-[#8E3B2E]/50"></i>
           </div>
 
           <h3 className="text-2xl font-bold text-[var(--posta-ink)] mb-2">
@@ -402,7 +402,7 @@ export default function DraftManagerView({
       {/* Loading More Indicator */}
       {isLoading && drafts.length > 0 && (
         <div className="flex justify-center py-6">
-          <div className="flex items-center gap-3 text-[#9D4EDD]">
+          <div className="flex items-center gap-3 text-[#8E3B2E]">
             <i className="fa-solid fa-spinner fa-spin text-xl"></i>
             <span className="font-bold">Loading more drafts...</span>
           </div>
@@ -470,8 +470,8 @@ function DraftCardSkeleton() {
       {/* Header Skeleton */}
       <div className="flex items-center justify-between p-4 border-b border-[var(--posta-line)]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-[#9D4EDD]/20"></div>
-          <div className="h-4 w-24 rounded bg-[#9D4EDD]/20"></div>
+          <div className="w-10 h-10 rounded-lg bg-[#8E3B2E]/20"></div>
+          <div className="h-4 w-24 rounded bg-[#8E3B2E]/20"></div>
         </div>
         <div className="w-8 h-8 rounded-lg bg-[var(--posta-paper)]"></div>
       </div>
@@ -479,14 +479,14 @@ function DraftCardSkeleton() {
       {/* Body Skeleton */}
       <div className="p-4">
         <div className="flex gap-4">
-          <div className="w-20 h-20 flex-shrink-0 rounded-lg bg-[#9D4EDD]/10"></div>
+          <div className="w-20 h-20 flex-shrink-0 rounded-lg bg-[#8E3B2E]/10"></div>
           <div className="flex-1 space-y-2">
             <div className="h-3 rounded bg-[var(--posta-cream)]"></div>
             <div className="h-3 rounded bg-[var(--posta-cream)] w-5/6"></div>
             <div className="h-3 rounded bg-[var(--posta-cream)] w-4/6"></div>
             <div className="flex gap-2 mt-3">
-              <div className="h-4 w-16 rounded bg-[#FFCC00]/10"></div>
-              <div className="h-4 w-20 rounded bg-[#FFCC00]/10"></div>
+              <div className="h-4 w-16 rounded bg-[#E9A93C]/10"></div>
+              <div className="h-4 w-20 rounded bg-[#E9A93C]/10"></div>
             </div>
           </div>
         </div>
@@ -495,7 +495,7 @@ function DraftCardSkeleton() {
       {/* Footer Skeleton */}
       <div className="px-4 pb-4 space-y-3">
         <div className="flex items-center justify-between">
-          <div className="h-6 w-24 rounded-full bg-[#9D4EDD]/10"></div>
+          <div className="h-6 w-24 rounded-full bg-[#8E3B2E]/10"></div>
           <div className="h-4 w-20 rounded bg-gray-700"></div>
         </div>
         <div className="grid grid-cols-4 gap-2">
@@ -509,7 +509,7 @@ function DraftCardSkeleton() {
       <div 
         className="absolute inset-0 pointer-events-none opacity-30"
         style={{
-          background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(157,78,221,0.03) 2px, rgba(157,78,221,0.03) 4px)',
+          background: 'var(--posta-cream)',
         }}
       />
     </div>

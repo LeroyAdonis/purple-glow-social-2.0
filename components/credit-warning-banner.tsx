@@ -42,7 +42,7 @@ export default function CreditWarningBanner({
 
   return (
     <div 
-      className={`relative overflow-hidden rounded-xl border bg-gradient-to-r ${bgClass} p-4 mb-6`}
+ className={`relative overflow-hidden rounded-xl border ${bgClass} p-4 mb-6`}
       role="alert"
       aria-live="polite"
     >

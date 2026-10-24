@@ -203,47 +203,46 @@ export default function ImageUploader({
     `;
 
     if (disabled) {
-      return `${baseClasses} opacity-50 cursor-not-allowed bg-[#1A1F3A]/30 border-2 border-dashed border-gray-600`;
+      return `${baseClasses} opacity-50 cursor-not-allowed bg-[#FFFFFF]/30 border-2 border-dashed border-gray-600`;
     }
 
     switch (state) {
       case 'dragging':
         return `${baseClasses} 
-          bg-[#00E0FF]/5 
-          border-4 border-solid border-[#00E0FF] 
-          shadow-[0_0_40px_rgba(0,224,255,0.4),inset_0_0_40px_rgba(0,224,255,0.1)]
+          bg-[#742F25]/5 
+          border-4 border-solid border-[#742F25] 
+          shadow-[var(--shadow-card)]
           cursor-copy scale-[1.02]`;
       
       case 'uploading':
         return `${baseClasses} 
-          bg-[#0D0F1C]/80 
-          border-4 border-[#9D4EDD] 
-          shadow-[0_0_30px_rgba(157,78,221,0.5)]
+          bg-[#FBF6EF]/80 
+          border-4 border-[#8E3B2E] 
+          shadow-[var(--shadow-card)]
           animate-pulse`;
       
       case 'preview':
         return `${baseClasses} 
-          bg-[#1A1F3A]/40 
-          border-3 border-[#9D4EDD] 
-          shadow-[0_0_20px_rgba(157,78,221,0.3)]
-          hover:shadow-[0_0_30px_rgba(157,78,221,0.5)]
+          bg-[#FFFFFF]/40 
+          border-3 border-[#8E3B2E] 
+          shadow-[var(--shadow-card)]
+          hover:shadow-[var(--shadow-card)]
           cursor-pointer`;
       
       case 'error':
         return `${baseClasses} 
           bg-red-500/10 
           border-4 border-dashed border-red-500 
-          shadow-[0_0_30px_rgba(239,68,68,0.4)]
+          shadow-[var(--shadow-card)]
           animate-[glitch_0.3s_ease-in-out_infinite]`;
       
       default: // idle
         return `${baseClasses} 
-          bg-[#0D0F1C]/50 
-          border-4 border-dashed border-[#9D4EDD]/50 
-          backdrop-blur-sm
-          hover:border-[#9D4EDD] 
-          hover:shadow-[0_0_30px_rgba(157,78,221,0.4)]
-          hover:bg-[#0D0F1C]/70
+          bg-[#FBF6EF]/50 
+          border-4 border-dashed border-[#8E3B2E]/50 
+           hover:border-[#8E3B2E] 
+          hover:shadow-[var(--shadow-card)]
+          hover:bg-[#FBF6EF]/70
           cursor-pointer
           ${isHovering ? 'scale-[1.01]' : ''}`;
     }
@@ -289,8 +288,7 @@ export default function ImageUploader({
           className="absolute inset-0 opacity-10 pointer-events-none"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(157,78,221,0.3) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(157,78,221,0.3) 1px, transparent 1px)
+1px, transparent 1px)
             `,
             backgroundSize: '20px 20px',
           }}
@@ -301,12 +299,12 @@ export default function ImageUploader({
           <div className="flex flex-col items-center justify-center min-h-[200px] p-6 text-center">
             <div className={`
               w-16 h-16 mb-4 rounded-xl
-              bg-[#9D4EDD]/20 border-2 border-[#9D4EDD]/50
+              bg-[#8E3B2E]/20 border-2 border-[#8E3B2E]/50
               flex items-center justify-center
               transition-all duration-300
-              ${isHovering ? 'scale-110 shadow-[0_0_20px_rgba(157,78,221,0.5)]' : ''}
+              ${isHovering ? 'scale-110 shadow-[var(--shadow-card)]' : ''}
             `}>
-              <i className="fa-solid fa-cloud-arrow-up text-2xl text-[#9D4EDD]"></i>
+              <i className="fa-solid fa-cloud-arrow-up text-2xl text-[#8E3B2E]"></i>
             </div>
             <p className="text-[var(--posta-ink)] font-bold mb-1">
               Drag & drop or click to upload
@@ -319,10 +317,10 @@ export default function ImageUploader({
 
         {state === 'dragging' && (
           <div className="flex flex-col items-center justify-center min-h-[200px] p-6 text-center">
-            <div className="w-20 h-20 mb-4 rounded-xl bg-[#00E0FF]/20 border-2 border-[#00E0FF] flex items-center justify-center animate-bounce">
-              <i className="fa-solid fa-download text-3xl text-[#00E0FF]"></i>
+            <div className="w-20 h-20 mb-4 rounded-xl bg-[#742F25]/20 border-2 border-[#742F25] flex items-center justify-center animate-bounce">
+              <i className="fa-solid fa-download text-3xl text-[#742F25]"></i>
             </div>
-            <p className="text-[#00E0FF] font-bold text-lg">
+            <p className="text-[#742F25] font-bold text-lg">
               Drop to upload!
             </p>
           </div>
@@ -334,14 +332,14 @@ export default function ImageUploader({
             <div 
               className="absolute inset-0 pointer-events-none overflow-hidden"
               style={{
-                background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(157,78,221,0.03) 2px, rgba(157,78,221,0.03) 4px)',
+                background: 'var(--posta-cream)',
                 animation: 'scanlines 8s linear infinite',
               }}
             />
             
             {/* Preview thumbnail during upload */}
             {previewUrl && (
-              <div className="w-24 h-24 mb-4 rounded-lg overflow-hidden border-2 border-[#9D4EDD]/50 opacity-50">
+              <div className="w-24 h-24 mb-4 rounded-lg overflow-hidden border-2 border-[#8E3B2E]/50 opacity-50">
                 <Image
                   src={previewUrl}
                   alt="Uploading preview"
@@ -354,9 +352,9 @@ export default function ImageUploader({
 
             {/* Progress bar */}
             <div className="w-full max-w-xs mb-3">
-              <div className="h-3 bg-[#1A1F3A] rounded-full overflow-hidden border border-[#9D4EDD]/30">
+              <div className="h-3 bg-[#FFFFFF] rounded-full overflow-hidden border border-[#8E3B2E]/30">
                 <div 
-                  className="h-full bg-gradient-to-r from-[#9D4EDD] to-[#00E0FF] transition-all duration-300 ease-out"
+ className="bg-[var(--posta-clay)] h-full from-[#8E3B2E] to-[#742F25] transition-all duration-300 ease-out"
                   style={{ width: `${uploadProgress}%` }}
                 />
               </div>
@@ -374,7 +372,7 @@ export default function ImageUploader({
         {state === 'preview' && previewUrl && (
           <div className="relative min-h-[200px] p-4">
             {/* Image preview */}
-            <div className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-[#9D4EDD]/30 shadow-[4px_4px_0_0_rgba(157,78,221,0.3)]">
+            <div className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-[#8E3B2E]/30 shadow-[4px_4px_0_0_rgba(142,59,46,0.3)]">
               <Image
                 src={previewUrl}
                 alt="Uploaded image"
@@ -384,7 +382,7 @@ export default function ImageUploader({
               
               {/* Hover overlay */}
               <div className={`
-                absolute inset-0 bg-[#0D0F1C]/70 flex items-center justify-center
+                absolute inset-0 bg-[#FBF6EF]/70 flex items-center justify-center
                 transition-opacity duration-300
                 ${isHovering ? 'opacity-100' : 'opacity-0'}
               `}>
@@ -399,7 +397,7 @@ export default function ImageUploader({
             {fileInfo && (
               <div className="mt-3 flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2 text-[var(--posta-ink-soft)]">
-                  <span className="px-2 py-1 rounded bg-[#9D4EDD]/20 text-[#9D4EDD] font-mono text-xs">
+                  <span className="px-2 py-1 rounded bg-[#8E3B2E]/20 text-[#8E3B2E] font-mono text-xs">
                     {fileInfo.type}
                   </span>
                   <span>{fileInfo.size}</span>
@@ -411,7 +409,7 @@ export default function ImageUploader({
             <button
               onClick={handleRemove}
               aria-label="Remove image"
-              className="absolute top-6 right-6 w-8 h-8 bg-red-500/20 border-2 border-red-500 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-[var(--posta-ink)] shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.6)] transition-all duration-200 z-10"
+              className="absolute top-6 right-6 w-8 h-8 bg-red-500/20 border-2 border-red-500 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-[var(--posta-ink)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card)] transition-all duration-200 z-10"
             >
               <i className="fa-solid fa-xmark"></i>
             </button>

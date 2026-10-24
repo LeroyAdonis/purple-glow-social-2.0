@@ -150,7 +150,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
           </div>
           <button
             onClick={onSchedulePost}
-            className="px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+ className="bg-[var(--posta-clay-deep)] px-6 py-3 text-[var(--posta-ink)] rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
           >
             <i className="fa-solid fa-calendar-plus mr-2"></i>
             Schedule New Post
@@ -180,7 +180,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                       ? 'bg-red-500' 
                       : queueLimits.percentage >= 70 
                         ? 'bg-mzansi-gold' 
-                        : 'bg-gradient-to-r from-neon-grape to-joburg-teal'
+ : ' '
                   }`}
                   style={{ width: `${Math.min(100, queueLimits.percentage)}%` }}
                 />
@@ -248,7 +248,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               onClick={() => setViewMode('calendar')}
               className={`px-4 py-2 rounded-lg font-medium transition-all cursor-pointer ${
                 viewMode === 'calendar'
-                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)]'
+ ? ' text-[var(--posta-ink)]'
                   : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:text-[var(--posta-ink)] border border-glass-border'
               }`}
             >
@@ -259,7 +259,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               onClick={() => setViewMode('list')}
               className={`px-4 py-2 rounded-lg font-medium transition-all cursor-pointer ${
                 viewMode === 'list'
-                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)]'
+ ? ' text-[var(--posta-ink)]'
                   : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:text-[var(--posta-ink)] border border-glass-border'
               }`}
             >
@@ -270,7 +270,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               onClick={() => setViewMode('timeline')}
               className={`px-4 py-2 rounded-lg font-medium transition-all cursor-pointer ${
                 viewMode === 'timeline'
-                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)]'
+ ? ' text-[var(--posta-ink)]'
                   : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:text-[var(--posta-ink)] border border-glass-border'
               }`}
             >
@@ -287,7 +287,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                 onClick={() => togglePlatformFilter(platform)}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
                   platformFilters.includes(platform)
-                    ? `bg-gradient-to-r ${platformColors[platform]} text-[var(--posta-ink)] shadow-lg`
+ ? ` ${platformColors[platform]} text-[var(--posta-ink)] shadow-lg`
                     : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:text-[var(--posta-ink)] border border-glass-border'
                 }`}
               >
@@ -302,7 +302,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
             <div className="flex gap-2">
               <button
                 onClick={scheduleSelected}
-                className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] rounded-lg font-bold hover:shadow-xl transition-all cursor-pointer"
+ className="bg-[var(--posta-clay-deep)] px-4 py-2 text-[var(--posta-ink)] rounded-lg font-bold hover:shadow-xl transition-all cursor-pointer"
               >
                 <i className="fa-regular fa-calendar-check mr-2"></i>
                 Schedule ({selectedPosts.length})
@@ -355,7 +355,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                             />
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-2">
-                                <span className={`px-3 py-1 rounded-lg bg-gradient-to-r ${platformColors[post.platform]} text-[var(--posta-ink)] text-sm font-medium flex items-center gap-1`}>
+ <span className={`px-3 py-1 rounded-lg ${platformColors[post.platform]} text-[var(--posta-ink)] text-sm font-medium flex items-center gap-1`}>
                                   <i className={platformIcons[post.platform]}></i>
                                   {post.platform.charAt(0).toUpperCase() + post.platform.slice(1)}
                                 </span>
@@ -401,7 +401,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                   {filteredPosts.map((post, index) => (
                     <div key={post.id} className="relative pl-20">
                       {/* Timeline Dot */}
-                      <div className={`absolute left-6 w-5 h-5 rounded-full bg-gradient-to-r ${platformColors[post.platform]} border-4 border-void`}></div>
+ <div className={`absolute left-6 w-5 h-5 rounded-full ${platformColors[post.platform]} border-4 border-void`}></div>
                       
                       {/* Time Label */}
                       <div className="absolute left-0 top-0 text-sm font-semibold text-[var(--posta-ink-soft)]">

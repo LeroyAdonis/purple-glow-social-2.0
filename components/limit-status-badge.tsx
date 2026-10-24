@@ -43,7 +43,7 @@ export default function LimitStatusBadge({
   const getProgressColor = () => {
     if (isAtLimit) return 'bg-red-500';
     if (isNearLimit) return 'bg-mzansi-gold';
-    return 'bg-gradient-to-r from-neon-grape to-joburg-teal';
+ return ' ';
   };
 
   return (

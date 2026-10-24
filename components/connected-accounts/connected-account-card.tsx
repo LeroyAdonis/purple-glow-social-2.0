@@ -21,7 +21,7 @@ const platformConfig = {
     name: 'Instagram',
     icon: 'fa-brands fa-instagram',
     color: 'from-purple-500 to-pink-500',
-    bgColor: 'bg-gradient-to-br from-purple-500/10 to-pink-500/10',
+ bgColor: ' ',
     borderColor: 'border-purple-500/20',
     description: 'Share your content with Instagram followers',
   },
@@ -106,7 +106,7 @@ export default function ConnectedAccountCard({
       <div className={`aerogel-card p-6 rounded-2xl border ${config.borderColor} ${config.bgColor} transition-all hover:scale-[1.02]`}>
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${config.color} flex items-center justify-center`}>
+ <div className={`w-12 h-12 rounded-xl ${config.color} flex items-center justify-center`}>
               <i className={`${config.icon} text-[var(--posta-ink)] text-xl`}></i>
             </div>
             <div>
@@ -180,7 +180,7 @@ export default function ConnectedAccountCard({
             <button
               onClick={handleConnect}
               disabled={isLoading}
-              className={`w-full px-6 py-3 bg-gradient-to-r ${config.color} rounded-xl hover:opacity-90 transition-all font-bold text-[var(--posta-ink)] disabled:opacity-50`}
+ className={`w-full px-6 py-3 ${config.color} rounded-xl hover:opacity-90 transition-all font-bold text-[var(--posta-ink)] disabled:opacity-50`}
             >
               {isLoading ? (
                 <>
@@ -200,10 +200,10 @@ export default function ConnectedAccountCard({
 
       {/* Disconnect Confirmation Modal */}
       {showDisconnectModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-enter">
+ <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 animate-enter">
           <div className="aerogel-card p-8 rounded-2xl max-w-md w-full space-y-6">
             <div className="text-center">
-              <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${config.color} mx-auto mb-4 flex items-center justify-center`}>
+ <div className={`w-16 h-16 rounded-full ${config.color} mx-auto mb-4 flex items-center justify-center`}>
                 <i className={`${config.icon} text-[var(--posta-ink)] text-2xl`}></i>
               </div>
               <h3 className="font-display font-bold text-2xl mb-2">Disconnect {config.name}?</h3>

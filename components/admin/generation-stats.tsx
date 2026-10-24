@@ -162,7 +162,7 @@ export default function GenerationStats({ data, isLoading }: GenerationStatsProp
                 <div key={i} className="flex-1 flex flex-col items-center gap-2">
                   <div className="text-xs text-[var(--posta-ink-soft)] font-mono">{day.count}</div>
                   <div
-                    className="w-full bg-gradient-to-t from-neon-grape to-neon-grape/50 rounded-t-lg transition-all hover:opacity-80 cursor-pointer min-h-[4px]"
+ className="bg-[var(--posta-clay)] w-full rounded-t-lg transition-all hover:opacity-80 cursor-pointer min-h-[4px]"
                     style={{ height: `${Math.max(height, 2)}%` }}
                   ></div>
                   <div className="text-xs text-[var(--posta-ink-soft)] font-mono">
