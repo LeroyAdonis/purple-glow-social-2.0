@@ -26,10 +26,15 @@ export default function Navigation({ session }: NavigationProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Nav links are tap targets on a phone, not just text: 44px minimum height, centred. A 21px link is what
+  // makes a nav feel fiddly, and it is the one thing on this page the brand checker caught twice.
   const linkStyle: React.CSSProperties = {
     color: 'var(--posta-cream)',
     fontSize: 14,
     fontWeight: 400,
+    minHeight: 44,
+    display: 'inline-flex',
+    alignItems: 'center',
   };
 
   return (
@@ -75,6 +80,9 @@ export default function Navigation({ session }: NavigationProps) {
               style={{
                 color: 'var(--posta-cream)',
                 padding: '10px 20px',
+                minHeight: 44,
+                display: 'inline-flex',
+                alignItems: 'center',
                 border: '1px solid var(--posta-cream)',
                 borderRadius: 'var(--radius-pill)',
                 fontWeight: 700,
@@ -92,6 +100,9 @@ export default function Navigation({ session }: NavigationProps) {
                 style={{
                   color: 'var(--posta-cream)',
                   padding: '10px 20px',
+                  minHeight: 44,
+                  display: 'inline-flex',
+                  alignItems: 'center',
                   borderRadius: 'var(--radius-pill)',
                   border: '1px solid var(--posta-cream)',
                   fontWeight: 700,
