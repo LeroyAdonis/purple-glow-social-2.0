@@ -186,7 +186,7 @@ const CookieConsentBanner: React.FC = () => {
               <div className="mb-3 md:mb-6 flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 text-xs md:text-sm">
                 <a 
                   href="/privacy" 
-                  className="text-[var(--posta-clay)] hover:text-[var(--posta-clay)] transition-colors underline"
+                  className="inline-flex items-center min-h-[44px] text-[var(--posta-clay)] hover:text-[var(--posta-clay)] transition-colors underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -195,7 +195,7 @@ const CookieConsentBanner: React.FC = () => {
                 </a>
                 <a 
                   href="/cookies" 
-                  className="text-[var(--posta-clay)] hover:text-[var(--posta-clay)] transition-colors underline"
+                  className="inline-flex items-center min-h-[44px] text-[var(--posta-clay)] hover:text-[var(--posta-clay)] transition-colors underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -204,7 +204,7 @@ const CookieConsentBanner: React.FC = () => {
                 </a>
                 <a 
                   href="/terms" 
-                  className="text-[var(--posta-clay)] hover:text-[var(--posta-clay)] transition-colors underline"
+                  className="inline-flex items-center min-h-[44px] text-[var(--posta-clay)] hover:text-[var(--posta-clay)] transition-colors underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

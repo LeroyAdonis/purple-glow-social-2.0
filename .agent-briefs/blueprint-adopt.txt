@@ -1,0 +1,32 @@
+Run the 'adopt' skill at .agents/skills/adopt/SKILL.md in this repo (an EXISTING Next.js 16 / React 19 /
+Tailwind v4 codebase, not a fresh scaffold). You are running headless, so the interview is PRE-ANSWERED below —
+do not ask questions, proceed with these answers.
+
+INTENT (pre-answered interview):
+- Product: Posta — a South African social-media posting tool for small businesses. AI writes posts in all 11
+  official SA languages, the owner approves, Posta schedules and publishes to Instagram, Facebook, X and
+  LinkedIn. Live demo at https://posta.digitalwavetech.dev, brand is "Posta", a product of Digital Wave Tech
+  (Pty) Ltd, CIPC 2026/809312/07.
+- Users: one owner-operator on one phone. Spaza shops, salons, shebeens, food sellers, events. No teams, no
+  seats, no approvals chains — deliberately (this is a scoping decision, not an omission).
+- Stack is intentional: Next.js 16 App Router, React 19, Tailwind v4, Drizzle ORM over Postgres, Better Auth,
+  Inngest for scheduled jobs, Paystack for payments (ZAR), an env-switchable AI provider in lib/ai/provider.ts.
+- What is genuinely shipped and working: auth (email/password), 11-language generation wiring, scheduling UI,
+  OAuth connections for 4 platforms, auto-posting services, credit ledger basics, legal pages, a brand-new
+  design system (design-system/posta/), a Paystack webhook with HMAC verification.
+- Roadmap (NOT shipped): the six slices in DIG-46..DIG-51 — prepaid ZAR wallet ledger, two-phase publish
+  pipeline with attempt log and preflight, posting slots with SAST defaults, evergreen "drip" recycling,
+  publish guards, and a shareable weekly recap link. The design for all six is written at
+  docs/specs/2026-10-25-cherry-pick-features-design.md — read it and treat it as the roadmap source of truth.
+- Constraints: no fabricated data, claims or testimonials anywhere; the design system at design-system/posta/
+  is binding and any UI must pass design-system/posta/scripts/check-brand.py; the app must keep building
+  (npx tsc --noEmit and the Next build) at every step.
+
+CONSTRAINTS ON YOUR WRITES:
+- Write ONLY inside blueprint/ (and .agents/ if the skill needs to update itself).
+- Do NOT modify app/, components/, lib/, drizzle/, package.json, tsconfig.json, or any .env file.
+- Do NOT run git commands, do NOT commit, do NOT run the build.
+- Do NOT run the 'overview' skill — adopt only generates its inputs; overview is a separate step.
+
+When you finish, print: which blueprint/ files you wrote, what you found that the plans get wrong about the
+real code (stale claims, wrong pricing, shipped-vs-roadmap errors), and the exact next step.
