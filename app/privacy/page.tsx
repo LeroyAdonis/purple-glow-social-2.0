@@ -139,13 +139,13 @@ function Footer() {
             © 2026 Digital Wave Tech (Pty) Ltd. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
-            <Link href="/privacy" className="text-[color:var(--posta-clay)] font-medium">
+            <Link href="/privacy" className="text-[color:var(--posta-clay)] font-medium inline-flex items-center min-h-[44px]">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition">
+            <Link href="/terms" className="text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition inline-flex items-center min-h-[44px]">
               Terms of Service
             </Link>
-            <a href="mailto:leroy@digitalwavetech.dev" className="text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition">
+            <a href="mailto:leroy@digitalwavetech.dev" className="text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition inline-flex items-center min-h-[44px]">
               Contact
             </a>
           </div>
