@@ -1,0 +1,51 @@
+TASK: Reverse-engineer what competitor social-publishing products ACTUALLY ship, so we stop guessing from
+their marketing pages.
+
+CONTEXT: Posta is a South African AI social publishing product (11 official SA languages, Instagram /
+Facebook / X / LinkedIn, Paystack in rands, pre-launch). A parallel agent is mapping the commercial
+landscape. Your job is the technical product surface: what is really inside these apps.
+
+METHOD - use the reverse-engineering approach, in this order of reliability:
+
+1. OPEN SOURCE FIRST. Postiz (github.com/gitroomhq/postiz-app) is an open-source social scheduling tool and
+   is the single most useful comparison we have, because we can read the actual code instead of a landing
+   page. Clone it or read it from GitHub and produce its real feature inventory:
+   - every supported platform integration
+   - every scheduling/queue concept it implements (recycling, drip, slots, per-channel timing)
+   - its AI features and which model/provider it calls
+   - its billing model and how it gates features
+   - its analytics surface
+   Read the code, not the README, when the two might differ. Say which files you looked at.
+
+2. THEN PUBLIC BUNDLES for the closed-source ones. For two or three of Predis.ai, Ocoya, FeedHive or
+   Publer, inspect what the public web app ships: endpoint paths, feature flags, plan-gating strings.
+   Use site JavaScript and public network calls made by the marketing or login pages only. This tells us
+   which features are real and which are roadmap promises.
+
+3. THEN DOCS/API. For each of the platforms we integrate with (Instagram Graph API, Facebook Pages, X,
+   LinkedIn), confirm the CURRENT real limits as of today: rate limits, post size, media rules, whether
+   deletion is supported, and any recent breaking change. We have already been bitten by Instagram not
+   supporting post deletion (error code 100, subcode 33) - find the other traps before they bite us.
+
+WHAT TO PRODUCE: one markdown file at /root/posta-revive/docs/COMPETITOR-TECH.md containing:
+  A. Postiz real feature inventory, with the files/paths you read as evidence.
+  B. Feature matrix: rows = capabilities, columns = Postiz / Predis.ai / Ocoya / FeedHive / us-would-need.
+     Mark each cell shipped / gated / not present / unknown. Unknown is an acceptable answer; a guess is not.
+  C. Platform API traps: for each of the 4 platforms, what will break a scheduling tool, with a doc URL.
+  D. A short list of capabilities that are CHEAP to build because Postiz has already solved the hard part
+     in a way we can learn from (do not copy code, just learn the design).
+
+EVIDENCE RULES:
+- Every technical claim needs a file path, a URL, or an observed request. "Not verified" is allowed and
+  preferred over a guess.
+- Do not write marketing-sounding summaries. Names of endpoints and files.
+- Today is 24 October 2026. Flag anything that may be stale.
+- Do not sign up, do not log in, do not enter card details, no purchases, no scraping behind a login wall.
+
+HARD RULES:
+- Write only the one markdown file. Do not modify application code, do not touch app/ or components/.
+- No git state changes. Clone Postiz into /tmp, not into the project.
+- Do not restart or kill anything on port 3008.
+
+REPORT BACK: the file path, the number of platforms and features inventoried, the three most valuable
+findings for us, and everything you could not verify.

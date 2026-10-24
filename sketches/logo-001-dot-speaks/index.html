@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Posta logo — Direction 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* LOGO DIRECTION 1 - "THE DOT SPEAKS"
+   Idea: the cheapest, most scalable logo we can own. It is a wordmark, so it never fights the type it sits
+   next to, and its one ownable move is the full stop: it becomes a speech bubble with a gold dot inside.
+   That single device says "this is a thing that talks" without a single icon.
+   Why it survives: it is letters, so at 16px it still reads, and it needs no lockup rules. */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--clay:#8E3B2E;--clay-deep:#742F25;--cream:#F7EDE2;--paper:#FBF6EF;--ink:#24140F;--gold:#E9A93C;--line:#EADCCB;
+      --display:"Space Grotesk",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif}
+body{background:var(--paper);color:var(--ink);font-family:var(--body)}
+.sheet{width:1600px;height:1000px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 250px}
+.panel{padding:64px;display:flex;flex-direction:column;justify-content:center;position:relative}
+.panel.light{background:var(--paper)}
+.panel.field{background:var(--clay);color:var(--cream)}
+.tag{position:absolute;top:36px;left:64px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);font-weight:500}
+.field .tag{color:rgba(247,237,226,.6)}
+/* the lockup */
+.lock{display:flex;align-items:flex-end}
+.word{font-family:var(--display);font-weight:700;font-size:150px;letter-spacing:-.045em;line-height:1}
+.bubble{width:40px;height:40px;position:relative;margin-left:14px;flex:none;margin-bottom:32px}
+.bubble svg{width:100%;height:100%;display:block}
+.field .word{color:var(--cream)}
+.caption{margin-top:26px;font-size:14px;color:var(--ink-soft,#6E5B4E);max-width:420px;line-height:1.6}
+.field .caption{color:rgba(247,237,226,.72)}
+/* small-size reality check: this is where a clever logo dies */
+.sizes{grid-column:1/-1;background:var(--cream);display:flex;align-items:center;gap:88px;padding:0 64px;border-top:1px solid var(--line)}
+.sizes .lab{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6E5B4E;width:170px;line-height:1.7}
+.size{display:flex;flex-direction:column;align-items:center;gap:12px}
+.size b{font-size:10px;letter-spacing:.1em;color:#8A7768;font-weight:500}
+.tile{display:flex;align-items:center;justify-content:center;border-radius:22%;background:var(--clay)}
+.tile .w{font-family:var(--display);font-weight:700;color:var(--cream);letter-spacing:-.04em;line-height:1}
+.t128{width:128px;height:128px;font-size:74px} .t128 .w{font-size:74px}
+.t64{width:64px;height:64px} .t64 .w{font-size:40px}
+.t32{width:32px;height:32px;border-radius:8px} .t32 .w{font-size:20px}
+.mono{display:flex;flex-direction:column;align-items:center;gap:12px}
+.mono .ink .word,.mono .ink .bubble{color:var(--ink)} .mono .ink .word{font-size:56px}
+</style></head>
+<body><div class="sheet">
+
+  <div class="panel light">
+    <div class="tag">Primary lockup · on paper</div>
+    <div class="lock">
+      <div class="word">posta</div>
+      <div class="bubble">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M50 6C25.7 6 6 22.1 6 42c0 12.4 7.5 23.4 19 30.1V92l16.4-9.6c2.8.5 5.7.7 8.6.7 24.3 0 44-16.1 44-36S74.3 6 50 6z" fill="#8E3B2E"/>
+          <circle cx="50" cy="42" r="12" fill="#E9A93C"/>
+        </svg>
+      </div>
+    </div>
+    <p class="caption">The full stop is the one ownable move: it becomes a speech bubble with a gold dot. One idea, no icon to explain, and it still reads at 16px because it is simply letters.</p>
+  </div>
+
+  <div class="panel field">
+    <div class="tag">On the brand field</div>
+    <div class="lock">
+      <div class="word">posta</div>
+      <div class="bubble">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M50 6C25.7 6 6 22.1 6 42c0 12.4 7.5 23.4 19 30.1V92l16.4-9.6c2.8.5 5.7.7 8.6.7 24.3 0 44-16.1 44-36S74.3 6 50 6z" fill="#F7EDE2"/>
+          <circle cx="50" cy="42" r="12" fill="#E9A93C"/>
+        </svg>
+      </div>
+    </div>
+    <p class="caption">Reversed out, the bubble inverts to cream and the gold dot stays gold — the accent never changes meaning, in either context.</p>
+  </div>
+
+  <div class="sizes">
+    <div class="lab">Does it survive small?<br>App icon and favicon</div>
+    <div class="size"><div class="tile t128"><span class="w">p</span></div><b>128px</b></div>
+    <div class="size"><div class="tile t64"><span class="w">p</span></div><b>64px</b></div>
+    <div class="size"><div class="tile t32"><span class="w">p</span></div><b>32px</b></div>
+    <div class="mono"><div class="ink" style="display:flex;align-items:center">
+      <div class="word" style="font-size:56px;color:#24140F">posta</div>
+      <div class="bubble" style="width:17px;height:17px;margin-left:5px">
+        <svg viewBox="0 0 100 100"><path d="M50 6C25.7 6 6 22.1 6 42c0 12.4 7.5 23.4 19 30.1V92l16.4-9.6c2.8.5 5.7.7 8.6.7 24.3 0 44-16.1 44-36S74.3 6 50 6z" fill="#24140F"/><circle cx="50" cy="42" r="12" fill="#24140F"/></svg>
+      </div></div><b>Single ink</b></div>
+  </div>
+
+</div></body></html>

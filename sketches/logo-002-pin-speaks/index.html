@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Posta logo — Direction 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* LOGO DIRECTION 2 - "THE PIN THAT SPEAKS"
+   Idea: a single geometric mark that fuses two things the product actually does: a location pin (local, on
+   the ground, Mzansi) and a speech bubble (it writes things). Drawn on a circle grid so it is built rather
+   than drawn, which is what makes it look expensive.
+   Why it survives: a mark with a strong silhouette holds at 16px, and the tile gives us an app icon that
+   needs no wordmark. This is the most "brandable" of the three and the most work to extend. */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--clay:#8E3B2E;--cream:#F7EDE2;--paper:#FBF6EF;--ink:#24140F;--gold:#E9A93C;--line:#EADCCB;
+      --display:"Space Grotesk",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif}
+body{background:var(--paper);color:var(--ink);font-family:var(--body)}
+.sheet{width:1600px;height:1000px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 250px}
+.panel{padding:64px;display:flex;flex-direction:column;justify-content:center;position:relative;gap:40px}
+.panel.light{background:var(--paper)} .panel.field{background:var(--clay);color:var(--cream)}
+.tag{position:absolute;top:36px;left:64px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);font-weight:500}
+.field .tag{color:rgba(247,237,226,.6)}
+.lock{display:flex;align-items:flex-end;gap:34px}
+.mark{width:148px;height:148px;flex:none;margin-bottom:45px}
+.mark svg{width:100%;height:100%;display:block}
+.wm{display:flex;flex-direction:column;gap:10px}
+.word{font-family:var(--display);font-weight:700;font-size:96px;letter-spacing:-.04em;line-height:.9}
+.sub{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#6E5B4E}
+.field .sub{color:rgba(247,237,226,.65)}
+.caption{font-size:14px;color:#6E5B4E;max-width:440px;line-height:1.6}
+.field .caption{color:rgba(247,237,226,.72)}
+.sizes{grid-column:1/-1;background:var(--cream);display:flex;align-items:center;gap:80px;padding:0 64px;border-top:1px solid var(--line)}
+.sizes .lab{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6E5B4E;width:170px;line-height:1.7}
+.size{display:flex;flex-direction:column;align-items:center;gap:12px}
+.size b{font-size:10px;letter-spacing:.1em;color:#8A7768;font-weight:500}
+.tile{border-radius:24%;overflow:hidden}
+.t128{width:128px;height:128px} .t64{width:64px;height:64px} .t32{width:32px;height:32px;border-radius:8px}
+.t16{width:16px;height:16px;border-radius:4px}
+</style></head>
+<body><div class="sheet">
+
+  <div class="panel light">
+    <div class="tag">Primary lockup · on paper</div>
+    <div class="lock">
+      <div class="mark">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <!-- circle-grid construction: speech bubble body with a pin point, gold counter -->
+          <path d="M100 18c-40 0-70 27-70 63 0 23 14 42 35 54l-8 34 33-19c3.3.4 6.6.6 10 .6 40 0 70-27 70-69 0-36-30-63-70-63z" fill="#8E3B2E"/>
+          <circle cx="100" cy="80" r="27" fill="none" stroke="#F7EDE2" stroke-width="12"/>
+          <path d="M127 80v30" stroke="#F7EDE2" stroke-width="12" stroke-linecap="round"/>
+          <circle cx="100" cy="80" r="7" fill="#E9A93C"/>
+        </svg>
+      </div>
+      <div class="wm"><div class="word">posta</div><div class="sub">Built in South Africa</div></div>
+    </div>
+    <p class="caption">A speech bubble that ends in a pin point — it talks, and it is local. The cream forms a "p" inside the mark, so the letter is present without being spelled out.</p>
+  </div>
+
+  <div class="panel field">
+    <div class="tag">On the brand field</div>
+    <div class="lock">
+      <div class="mark">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <path d="M100 18c-40 0-70 27-70 63 0 23 14 42 35 54l-8 34 33-19c3.3.4 6.6.6 10 .6 40 0 70-27 70-69 0-36-30-63-70-63z" fill="#F7EDE2"/>
+          <circle cx="100" cy="80" r="27" fill="none" stroke="#8E3B2E" stroke-width="12"/>
+          <path d="M127 80v30" stroke="#8E3B2E" stroke-width="12" stroke-linecap="round"/>
+          <circle cx="100" cy="80" r="7" fill="#E9A93C"/>
+        </svg>
+      </div>
+      <div class="wm"><div class="word">posta</div><div class="sub">Built in South Africa</div></div>
+    </div>
+    <p class="caption">Reversed: the bubble goes cream, the "p" knocks out to clay, and the gold dot is the only colour left — so the accent is doing work even here.</p>
+  </div>
+
+  <div class="sizes">
+    <div class="lab">App icon and favicon<br>the real test</div>
+    <div class="size"><div class="tile t128"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#8E3B2E"/><path d="M100 34c-32 0-56 21-56 50 0 18 11 33 28 43l-6 27 26-15c2.6.3 5.3.5 8 .5 32 0 56-21 56-55 0-29-24-50-56-50z" fill="#F7EDE2"/><circle cx="100" cy="84" r="21" fill="none" stroke="#8E3B2E" stroke-width="10"/><path d="M121 84v24" stroke="#8E3B2E" stroke-width="10" stroke-linecap="round"/><circle cx="100" cy="84" r="6" fill="#E9A93C"/></svg></div><b>128px</b></div>
+    <div class="size"><div class="tile t64"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#8E3B2E"/><path d="M100 34c-32 0-56 21-56 50 0 18 11 33 28 43l-6 27 26-15c2.6.3 5.3.5 8 .5 32 0 56-21 56-55 0-29-24-50-56-50z" fill="#F7EDE2"/><circle cx="100" cy="84" r="21" fill="none" stroke="#8E3B2E" stroke-width="10"/><path d="M121 84v24" stroke="#8E3B2E" stroke-width="10" stroke-linecap="round"/><circle cx="100" cy="84" r="6" fill="#E9A93C"/></svg></div><b>64px</b></div>
+    <div class="size"><div class="tile t32"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#8E3B2E"/><path d="M100 34c-32 0-56 21-56 50 0 18 11 33 28 43l-6 27 26-15c2.6.3 5.3.5 8 .5 32 0 56-21 56-55 0-29-24-50-56-50z" fill="#F7EDE2"/><circle cx="100" cy="84" r="21" fill="none" stroke="#8E3B2E" stroke-width="10"/><path d="M121 84v24" stroke="#8E3B2E" stroke-width="10" stroke-linecap="round"/></svg></div><b>32px</b></div>
+    <div class="size"><div class="tile t16"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#8E3B2E"/><path d="M100 34c-32 0-56 21-56 50 0 18 11 33 28 43l-6 27 26-15c2.6.3 5.3.5 8 .5 32 0 56-21 56-55 0-29-24-50-56-50z" fill="#F7EDE2"/></svg></div><b>16px</b></div>
+    <div class="size" style="margin-left:auto;align-items:flex-end"><p class="caption" style="text-align:right;max-width:330px">At 16px the interior "p" and the gold dot drop out and only the bubble survives. That is by design: the silhouette carries the brand, the detail is a reward at larger sizes.</p></div>
+  </div>
+
+</div></body></html>

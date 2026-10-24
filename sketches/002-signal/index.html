@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Posta — Styleframe B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* STYLEFRAME B - "SIGNAL"
+   Stance: instrument. Near-monochrome dark ground with ONE electric accent, oversized condensed type and a
+   strict grid. Simplification rule: if a line or a box is not carrying information, it goes. Two colours total.
+   Everything aligns to a 12-column grid so the page reads as a system rather than a collage. */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#0B0B0C; --ink:#F2F2F0; --dim:#5C5C5F; --line:#1E1E21; --acid:#D6FF3F;
+  --display:"Archivo Black",Anton,sans-serif;
+  --mono:"Space Grotesk",ui-monospace,monospace;
+}
+body{background:var(--void);color:var(--ink);font-family:var(--mono);-webkit-font-smoothing:antialiased}
+.page{width:1600px;height:1000px;padding:56px 80px 0;display:grid;grid-template-rows:auto 1fr auto;position:relative;overflow:hidden}
+/* one structural device instead of decoration: a column guide that stays visible */
+.grid{position:absolute;inset:0 80px;display:grid;grid-template-columns:repeat(12,1fr);pointer-events:none}
+.grid i{border-left:1px solid rgba(255,255,255,.035)}
+header{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
+.mark{font-family:var(--display);font-size:24px;letter-spacing:-.02em}
+.mark s{color:var(--acid);text-decoration:none}
+nav{display:flex;gap:30px;font-size:13px;color:var(--dim)}
+nav b{color:var(--acid);font-weight:400}
+main{position:relative;z-index:2;display:grid;grid-template-columns:1fr 380px;gap:56px;align-items:center;padding:24px 0}
+h1{font-family:var(--display);font-size:112px;line-height:.86;letter-spacing:-.035em;text-transform:uppercase}
+h1 span{color:var(--acid)}
+.rule{width:88px;height:3px;background:var(--acid);margin:38px 0 30px}
+.sub{font-size:18px;line-height:1.6;color:#B9B9BC;max-width:520px}
+.cta{margin-top:40px;display:flex;gap:18px;align-items:center}
+.primary{background:var(--acid);color:#0B0B0C;font-family:var(--display);font-size:15px;padding:18px 28px;text-transform:uppercase;letter-spacing:.02em}
+.secondary{font-size:14px;color:var(--ink);border:1px solid var(--line);padding:17px 24px}
+/* the queue is the product, so show the queue as data, not a glossy mockup */
+.queue{border:1px solid var(--line);align-self:center}
+.queue .head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.queue .head em{color:var(--acid);font-style:normal}
+.queue .item{padding:16px 18px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center}
+.queue .item:last-child{border-bottom:0}
+.queue .t{font-size:12px;color:var(--dim)}
+.queue .c{font-size:14px;line-height:1.35}
+.queue .p{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);padding:3px 6px}
+.queue .item.live .p{color:var(--acid);border-color:var(--acid)}
+footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:20px 0 24px;display:grid;grid-template-columns:repeat(4,1fr);font-size:12px;color:var(--dim);letter-spacing:.04em}
+footer b{display:block;font-family:var(--display);font-size:26px;color:var(--ink);margin-bottom:5px;letter-spacing:0}
+footer .a b{color:var(--acid)}
+</style></head>
+<body><div class="page">
+  <div class="grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <header>
+    <div class="mark">POSTA<s>.</s></div>
+    <nav><span>Product</span><span>Languages</span><span>Pricing</span><b>Start free</b></nav>
+  </header>
+
+  <main>
+    <div>
+      <h1>Eleven<br>languages.<br><span>One queue.</span></h1>
+      <div class="rule"></div>
+      <p class="sub">AI posts for Instagram, Facebook, X and LinkedIn — written in the language your customers think in, scheduled in SAST, billed in rands.</p>
+      <div class="cta">
+        <div class="primary">Start free</div>
+        <div class="secondary">See a live draft</div>
+      </div>
+    </div>
+
+    <div class="queue">
+      <div class="head"><span>Queue · Tue</span><em>3 ready</em></div>
+      <div class="item"><div class="t">07:00</div><div class="c">“Fresh bread out at seven. Come early.”</div><div class="p">IG</div></div>
+      <div class="item live"><div class="t">12:30</div><div class="c">“Lunch special — R55, today only.”</div><div class="p">FB</div></div>
+      <div class="item"><div class="t">17:45</div><div class="c">“Load-shedding? We are open till 19:00.”</div><div class="p">X</div></div>
+    </div>
+  </main>
+
+  <footer>
+    <div><b>11</b>Official languages</div>
+    <div><b>4</b>Platforms</div>
+    <div class="a"><b>R0</b>To start</div>
+    <div><b>SAST</b>Local scheduling</div>
+  </footer>
+</div></body></html>

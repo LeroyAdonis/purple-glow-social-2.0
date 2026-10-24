@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Posta logo — Direction 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* LOGO DIRECTION 3 - "THREE POSTS"
+   Idea: the mark is the product. Three rounded bars are three posts in a queue, rising like a signal — the
+   thing a customer actually buys, reduced to its simplest possible shape. The top bar is gold: one post is
+   always the next one.
+   Why it survives: three shapes and one colour, so it is unmistakable at 16px and costs almost nothing to
+   reproduce. The least sentimental and most scalable of the three. */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--clay:#8E3B2E;--cream:#F7EDE2;--paper:#FBF6EF;--ink:#24140F;--gold:#E9A93C;--line:#EADCCB;
+      --display:"Space Grotesk",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif}
+body{background:var(--paper);color:var(--ink);font-family:var(--body)}
+.sheet{width:1600px;height:1000px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 250px}
+.panel{padding:64px;display:flex;flex-direction:column;justify-content:center;position:relative;gap:38px}
+.panel.light{background:var(--paper)} .panel.field{background:var(--clay);color:var(--cream)}
+.tag{position:absolute;top:36px;left:64px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);font-weight:500}
+.field .tag{color:rgba(247,237,226,.6)}
+.lock{display:flex;align-items:flex-end;gap:36px}
+.mark{width:116px;height:116px;flex:none;margin-bottom:48px}
+.mark svg{width:100%;height:100%;display:block}
+.wm{display:flex;flex-direction:column;gap:12px}
+.word{font-family:var(--display);font-weight:700;font-size:100px;letter-spacing:-.045em;line-height:.88}
+.sub{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#6E5B4E}
+.field .sub{color:rgba(247,237,226,.65)}
+.caption{font-size:14px;color:#6E5B4E;max-width:450px;line-height:1.6}
+.field .caption{color:rgba(247,237,226,.72)}
+.sizes{grid-column:1/-1;background:var(--cream);display:flex;align-items:center;gap:80px;padding:0 64px;border-top:1px solid var(--line)}
+.sizes .lab{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6E5B4E;width:170px;line-height:1.7}
+.size{display:flex;flex-direction:column;align-items:center;gap:12px}
+.size b{font-size:10px;letter-spacing:.1em;color:#8A7768;font-weight:500}
+.tile{border-radius:24%;overflow:hidden}
+.t128{width:128px;height:128px} .t64{width:64px;height:64px} .t32{width:32px;height:32px;border-radius:8px}
+.t16{width:16px;height:16px;border-radius:4px}
+</style></head>
+<body><div class="sheet">
+
+  <div class="panel light">
+    <div class="tag">Primary lockup · on paper</div>
+    <div class="lock">
+      <div class="mark">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <rect x="30" y="118" width="34" height="52" rx="17" fill="#8E3B2E"/>
+          <rect x="83" y="86" width="34" height="84" rx="17" fill="#8E3B2E"/>
+          <rect x="136" y="46" width="34" height="124" rx="17" fill="#E9A93C"/>
+        </svg>
+      </div>
+      <div class="wm"><div class="word">posta</div><div class="sub">Posts, in a queue</div></div>
+    </div>
+    <p class="caption">Three posts, rising. The gold bar is the next one out — which is the only decision a customer makes in the app. It is the product reduced to three shapes.</p>
+  </div>
+
+  <div class="panel field">
+    <div class="tag">On the brand field</div>
+    <div class="lock">
+      <div class="mark">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <rect x="30" y="118" width="34" height="52" rx="17" fill="#F7EDE2"/>
+          <rect x="83" y="86" width="34" height="84" rx="17" fill="#F7EDE2"/>
+          <rect x="136" y="46" width="34" height="124" rx="17" fill="#E9A93C"/>
+        </svg>
+      </div>
+      <div class="wm"><div class="word">posta</div><div class="sub">Posts, in a queue</div></div>
+    </div>
+    <p class="caption">Reversed, the two cream bars lift off the clay and the gold bar stays gold. The accent means the same thing in both contexts: this is the one to act on.</p>
+  </div>
+
+  <div class="sizes">
+    <div class="lab">App icon and favicon<br>the real test</div>
+    <div class="size"><div class="tile t128"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#8E3B2E"/><rect x="42" y="112" width="30" height="48" rx="15" fill="#F7EDE2"/><rect x="86" y="82" width="30" height="78" rx="15" fill="#F7EDE2"/><rect x="130" y="46" width="30" height="114" rx="15" fill="#E9A93C"/></svg></div><b>128px</b></div>
+    <div class="size"><div class="tile t64"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#8E3B2E"/><rect x="42" y="112" width="30" height="48" rx="15" fill="#F7EDE2"/><rect x="86" y="82" width="30" height="78" rx="15" fill="#F7EDE2"/><rect x="130" y="46" width="30" height="114" rx="15" fill="#E9A93C"/></svg></div><b>64px</b></div>
+    <div class="size"><div class="tile t32"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#8E3B2E"/><rect x="42" y="112" width="30" height="48" rx="15" fill="#F7EDE2"/><rect x="86" y="82" width="30" height="78" rx="15" fill="#F7EDE2"/><rect x="130" y="46" width="30" height="114" rx="15" fill="#E9A93C"/></svg></div><b>32px</b></div>
+    <div class="size"><div class="tile t16"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#8E3B2E"/><rect x="42" y="112" width="30" height="48" rx="15" fill="#F7EDE2"/><rect x="86" y="82" width="30" height="78" rx="15" fill="#F7EDE2"/><rect x="130" y="46" width="30" height="114" rx="15" fill="#E9A93C"/></svg></div><b>16px</b></div>
+    <div class="size" style="margin-left:auto;align-items:flex-end"><p class="caption" style="text-align:right;max-width:330px">Nothing has to be dropped at small sizes — the same three bars are legible at 16px, which is the strongest argument for this direction. It also reads in one colour if a printer forces it.</p></div>
+  </div>
+
+</div></body></html>

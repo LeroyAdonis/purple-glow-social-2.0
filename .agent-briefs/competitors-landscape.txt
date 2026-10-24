@@ -1,0 +1,57 @@
+TASK: Map Posta's competitor landscape and find the gaps we can own with a South African ("Mzansi") twist.
+
+CONTEXT: Posta is a South African AI social-media publishing product for small businesses and creators.
+It writes posts in all 11 official SA languages, schedules them, and publishes to Instagram, Facebook, X and
+LinkedIn. Billing is Paystack in rands. It is pre-launch. We need to know precisely what the competitors
+have, what they charge, and where a local product can win rather than copy.
+
+WHAT TO PRODUCE: a single markdown file at /root/posta-revive/docs/COMPETITIVE-LANDSCAPE.md
+
+SECTIONS THE FILE MUST CONTAIN:
+
+1. Coverage table. One row per competitor, columns: product, who it is really for, free-tier limit,
+   entry paid price (state the currency AND the converted rand figure with the rate you used and when),
+   number of platforms supported, whether it does AI generation, whether it supports any African language,
+   whether it supports WhatsApp.
+   Cover at least: Buffer, Hootsuite, Later, Metricool, Publer, SocialBee, Vista Social, FeedHive, Postiz.
+
+2. What each one actually does well - the one or two things they beat us on today. Be specific, not
+   "good UX". Example of the right level: "Publer lets one plan hold 3 brands with per-brand approval
+   workflows" or "Metricool includes competitor tracking and a shareable client report".
+
+3. Pricing reality for a South African buyer. Card-in-rands matters: note which of them bill in USD only
+   and what that means for a Joburg salon paying with a rand card (declined cards, forex fees, no local
+   support). State the rand equivalent using a rate you looked up, and say where you got it.
+
+4. THE GAP LIST - the most important section. 8 to 12 concrete gaps, each with:
+   - the gap in one line
+   - who has it and who does not (evidence, with a URL)
+   - how Posta could take it with a Mzansi angle
+   - a rough effort size (small / medium / large)
+   Rank them by how hard they are for a competitor to copy, easiest-to-copy last.
+   Think about things global tools do not do and will not: 11 official languages actually proofread rather
+   than machine-translated, load-shedding tolerant scheduled posting (the phone is off, the laptop is off,
+   the post still must go), pay-as-you-go prepaid credits in rands with no card required, WhatsApp as a
+   channel and as the notification route, township and spaza-shop sized businesses with one phone and no
+   laptop, public holidays and local calendar moments, POPIA-shaped data handling, offline-first drafts.
+
+5. Five features we should build next, in order, each justified by a numbered gap from section 4.
+
+EVIDENCE RULES - these are not negotiable:
+- Every price, limit and feature claim needs the URL you read it on. No URL, no claim.
+- If you could not verify something, write "not verified" next to it. Never guess a price.
+- Marketing pages overstate. Where a pricing page and a help-centre article disagree, say so.
+- Do not review-bomb: no invented quotes, no invented market size numbers, no "studies show". We are the
+  ones who get hurt by invented data.
+- Today's date is 24 October 2026. Anything older than about 6 months should be flagged as possibly stale.
+
+TOOLS: web search and page reads. Reading a public pricing page is fine. Do not sign up for trials, do not
+enter card details, do not log in to anything. No purchases.
+
+HARD RULES:
+- Write only the one markdown file. Do not modify any code.
+- No git state changes.
+- Do not restart or kill anything on port 3008.
+
+REPORT BACK: the file path, the number of competitors covered, the top 5 gaps in one line each, and
+anything you could not verify.

@@ -1,0 +1,72 @@
+/* Posta design tokens — LOCKED 24 October 2026, direction C "Phone First".
+ *
+ * The rule this file exists to enforce: no colour, size or weight is invented inside a component. If a value
+ * is not here, it does not go in the UI. That is what stops a redesign slipping back into gradients, glows
+ * and glass cards, which is what made the old interface busy in the first place.
+ *
+ * Why C: the customer is one person with one phone, not a marketing team at a desktop. C is the only
+ * direction that shows the product at the size it is actually used. A (editorial) was the best-looking and
+ * its restraint is borrowed here for type; B (dark signal) was the sharpest and is rejected because it reads
+ * cold to a small shop.
+ */
+
+:root {
+  /* ── Colour: one field, one ink, one accent. That is the entire palette. ───────────────────── */
+  --posta-clay: #8E3B2E;        /* the brand field: primary surfaces, the mark on light backgrounds */
+  --posta-clay-deep: #742F25;   /* pressed / hover state of the field */
+  --posta-clay-tint: #F2E2DA;   /* 8% field on light: selected chips, quiet fills */
+  --posta-cream: #F7EDE2;       /* type on the field, and the light surface alternative */
+  --posta-paper: #FBF6EF;       /* the app background: lighter than cream so cream cards still read */
+  --posta-ink: #24140F;         /* all body type on light surfaces */
+  --posta-ink-soft: #6E5B4E;    /* secondary type, meta labels */
+  --posta-gold: #E9A93C;        /* THE single accent. One per screen, never two. */
+  --posta-line: #EADCCB;        /* hairlines and dividers on light surfaces */
+
+  /* State colours exist because a publishing tool must show failure honestly. They are not decorative. */
+  --posta-success: #2F6B4F;
+  --posta-danger: #A32B22;
+  --posta-warning: #B5761A;
+
+  /* ── Type ────────────────────────────────────────────────────────────────────────────────────── */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* A scale with air in it. The old UI used too many sizes, which reads as noise. */
+  --text-display: 96px;   /* marketing hero only */
+  --text-h1: 48px;
+  --text-h2: 32px;
+  --text-h3: 22px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-meta: 12px;      /* labels, uppercase with tracking */
+  --text-micro: 11px;
+
+  --weight-display: 700;
+  --weight-strong: 500;
+  --weight-body: 400;
+
+  --leading-display: 0.95;
+  --leading-heading: 1.15;
+  --leading-body: 1.55;
+  --tracking-meta: 0.16em;
+
+  /* ── Shape and space: 4px grid, two radii, one shadow ──────────────────────────────────────── */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+
+  --radius-sm: 8px;      /* inputs, small buttons */
+  --radius-md: 16px;     /* cards */
+  --radius-lg: 24px;     /* sheets and panels */
+  --radius-pill: 999px;  /* the primary button, per direction C */
+
+  --shadow-sheet: 0 40px 80px -40px rgba(36, 20, 15, 0.45);
+  --shadow-card: 0 2px 8px -2px rgba(36, 20, 15, 0.10);
+
+  /* ── Rules that are not tokens, written down so they survive a handover ─────────────────────── */
+  /* 1. One accent per screen. Gold means "the one thing to do here".
+     2. No gradients, no glow, no backdrop blur, no glass. Surfaces are flat colour.
+     3. Never more than three type sizes in one view.
+     4. Icons are optional; text is not. If a label needs an icon to be understood, rewrite the label.
+     5. Big hit targets: minimum 44px tall on touch, because this is a phone product.
+     6. Contrast minimum 4.5:1 for body text, 3:1 for large text. Check, do not assume. */
+}
