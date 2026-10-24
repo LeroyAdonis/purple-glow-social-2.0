@@ -100,20 +100,29 @@ def scan_url(url: str) -> list[str]:
         data = pg.evaluate("""() => {
           const out = {sizes: {}, pairs: {}, small: [], gold: []};
           const norm = c => {
-            const m = c.match(/rgba?\\((\\d+),\\s*(\\d+),\\s*(\\d+)/);
+            const m = c.match(/rgba?\(\s*(\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/);
             if (!m) return null;
-            return '#' + [m[1],m[2],m[3]].map(v => (+v).toString(16).padStart(2,'0')).join('').toUpperCase();
+            // fully transparent is NOT a colour. Without this, an element sitting on a transparent ancestor
+            // resolves to #000000 and the checker reports "#000000 on #000000 = 1.0:1" — a false positive
+            // that trains you to ignore the tool.
+            if (m[4] !== undefined && parseFloat(m[4]) === 0) return null;
+            return '#' + [m[1], m[2], m[3]].map(v => (+v).toString(16).padStart(2, '0')).join('').toUpperCase();
           };
           const bgOf = el => {
             let n = el;
             while (n && n !== document.documentElement) {
               const c = norm(getComputedStyle(n).backgroundColor);
-              if (c && c !== '#00000000') return c;
+              if (c) return c;
               n = n.parentElement;
             }
-            return '#FFFFFF';
+            const root = norm(getComputedStyle(document.documentElement).backgroundColor);
+            const body = norm(getComputedStyle(document.body).backgroundColor);
+            return body || root || '#FFFFFF';
           };
           for (const el of document.querySelectorAll('*')) {
+            // Only rendered elements. Without this the checker 'measures' <title> in <head> and reports
+            // black-on-black, which is technically true and completely meaningless.
+            if (!el.getClientRects().length) continue;
             const cs = getComputedStyle(el);
             const hasText = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length);
             if (hasText) {
@@ -125,7 +134,8 @@ def scan_url(url: str) -> list[str]:
               }
               if (fg === '#E9A93C') out.gold.push(el.className || el.tagName);
             }
-            if (['A','BUTTON','INPUT','SELECT','TEXTAREA'].includes(el.tagName) || el.onclick) {
+            const isInlineLink = el.tagName === 'A' && getComputedStyle(el).display === 'inline';
+            if (!isInlineLink && (['A','BUTTON','INPUT','SELECT','TEXTAREA'].includes(el.tagName) || el.onclick)) {
               const r = el.getBoundingClientRect();
               if (r.width > 0 && r.height > 0 && (r.height < 44 || r.width < 44)) {
                 out.small.push({tag: el.tagName, w: Math.round(r.width), h: Math.round(r.height)});

@@ -1,3 +1,4 @@
+import '@/design-system/posta/tokens.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -22,20 +23,20 @@ const sections = [
 
 export default function PrivacyPolicy() {
   return (
-    <div className="legal-page min-h-screen bg-void text-white">
+    <div className="legal-page min-h-screen bg-[var(--posta-paper)] text-[var(--posta-ink)]">
       {/* Header */}
-      <header className="border-b border-white/10 bg-pretoria-blue/50 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b border-[var(--posta-line)] bg-[var(--posta-paper)] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition">
-              <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
-                <span className="font-display font-bold text-sm text-white">P</span>
+              <div className="w-8 h-8 rounded bg-[var(--posta-clay)] flex items-center justify-center">
+                <span className="font-display font-bold text-sm text-[var(--posta-ink)]">P</span>
               </div>
               <span className="font-display font-bold text-lg">POSTA</span>
             </Link>
             <Link 
               href="/" 
-              className="text-sm text-gray-400 hover:text-joburg-teal transition flex items-center gap-2"
+              className="text-sm text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition flex items-center gap-2"
             >
               <i className="fa-solid fa-arrow-left"></i>
               Back to Home
@@ -45,20 +46,20 @@ export default function PrivacyPolicy() {
       </header>
 
       {/* Hero Section */}
-      <section className="border-b border-white/10 bg-gradient-to-b from-pretoria-blue/30 to-transparent">
+      <section className="border-b border-[var(--posta-line)] ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-          <h1 className="text-4xl sm:text-5xl font-display font-bold bg-gradient-to-r from-neon-grape to-joburg-teal bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl sm:text-5xl font-display font-bold  mb-4">
             Privacy Policy
           </h1>
-          <p className="text-gray-400 text-lg max-w-2xl">
+          <p className="text-[var(--posta-ink-soft)] text-lg max-w-2xl">
             Your privacy matters to us. This policy explains how Posta collects, uses, and protects your personal information in compliance with the Protection of Personal Information Act (POPIA), Act 4 of 2013.
           </p>
           <div className="flex flex-wrap gap-4 mt-6 text-sm">
-            <span className="px-3 py-1 rounded-full bg-neon-grape/20 text-neon-grape border border-neon-grape/30">
+            <span className="px-3 py-1 rounded-full bg-[var(--posta-clay-tint)] text-[color:var(--posta-clay)] border border-[var(--posta-clay)]">
               <i className="fa-solid fa-shield-halved mr-2"></i>
               POPIA Compliant
             </span>
-            <span className="px-3 py-1 rounded-full bg-white/5 text-gray-400 border border-white/10">
+            <span className="px-3 py-1 rounded-full bg-[var(--posta-white)] text-[var(--posta-ink-soft)] border border-[var(--posta-line)]">
               <i className="fa-solid fa-calendar mr-2"></i>
               Last updated: January 19, 2025
             </span>
@@ -72,13 +73,13 @@ export default function PrivacyPolicy() {
           {/* Sticky Table of Contents - Desktop */}
           <aside className="hidden lg:block lg:w-72 flex-shrink-0">
             <div className="sticky top-28">
-              <h2 className="text-sm font-bold text-white mb-4 uppercase tracking-wider">Table of Contents</h2>
+              <h2 className="text-sm font-bold text-[var(--posta-ink)] mb-4 uppercase tracking-wider">Table of Contents</h2>
               <nav className="space-y-1">
                 {sections.map((section) => (
                   <a
                     key={section.id}
                     href={`#${section.id}`}
-                    className="block py-2 px-3 text-sm text-gray-400 hover:text-neon-grape hover:bg-white/5 rounded-lg transition"
+                    className="block py-2 px-3 text-sm text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] hover:bg-[var(--posta-white)] rounded-lg transition"
                   >
                     {section.title}
                   </a>
@@ -89,7 +90,7 @@ export default function PrivacyPolicy() {
 
           {/* Mobile Table of Contents */}
           <details className="lg:hidden mb-8 aerogel-card rounded-xl p-4">
-            <summary className="text-sm font-bold text-white cursor-pointer flex items-center gap-2">
+            <summary className="text-sm font-bold text-[var(--posta-ink)] cursor-pointer flex items-center gap-2">
               <i className="fa-solid fa-list"></i>
               Table of Contents
             </summary>
@@ -98,7 +99,7 @@ export default function PrivacyPolicy() {
                 <a
                   key={section.id}
                   href={`#${section.id}`}
-                  className="block py-2 px-3 text-sm text-gray-400 hover:text-neon-grape rounded-lg transition"
+                  className="block py-2 px-3 text-sm text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] rounded-lg transition"
                 >
                   {section.title}
                 </a>
@@ -109,13 +110,13 @@ export default function PrivacyPolicy() {
           {/* Main Content */}
           <main className="flex-1 max-w-3xl">
             <div className="prose prose-invert prose-lg max-w-none 
-              prose-headings:font-display prose-headings:text-white
-              prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-white/10
-              prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-neon-grape
-              prose-p:text-gray-300 prose-p:leading-relaxed
-              prose-li:text-gray-300
-              prose-strong:text-white
-              prose-a:text-joburg-teal prose-a:no-underline hover:prose-a:underline
+              prose-headings:font-display prose-headings:text-[var(--posta-ink)]
+              prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-[var(--posta-line)]
+              prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-[color:var(--posta-clay)]
+              prose-p:text-[var(--posta-ink-soft)] prose-p:leading-relaxed
+              prose-li:text-[var(--posta-ink-soft)]
+              prose-strong:text-[var(--posta-ink)]
+              prose-a:text-[color:var(--posta-clay)] prose-a:no-underline hover:prose-a:underline
             ">
               <PrivacyContent />
             </div>
@@ -131,20 +132,20 @@ export default function PrivacyPolicy() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-pretoria-blue/30 mt-auto">
+    <footer className="border-t border-[var(--posta-line)] bg-pretoria-blue/30 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">
+          <p className="text-[var(--posta-ink-soft)] text-sm">
             © 2026 Digital Wave Tech (Pty) Ltd. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
-            <Link href="/privacy" className="text-neon-grape font-medium">
+            <Link href="/privacy" className="text-[color:var(--posta-clay)] font-medium">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-gray-400 hover:text-neon-grape transition">
+            <Link href="/terms" className="text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition">
               Terms of Service
             </Link>
-            <a href="mailto:leroy@digitalwavetech.dev" className="text-gray-400 hover:text-joburg-teal transition">
+            <a href="mailto:leroy@digitalwavetech.dev" className="text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition">
               Contact
             </a>
           </div>
@@ -287,7 +288,7 @@ function PrivacyContent() {
 
         <h3>6.6 Right to Lodge a Complaint</h3>
         <p>If you believe your privacy rights have been violated, you have the right to lodge a complaint with the Information Regulator of South Africa:</p>
-        <address className="not-italic bg-white/5 p-4 rounded-lg mt-4">
+        <address className="not-italic bg-[var(--posta-white)] p-4 rounded-lg mt-4">
           <strong>Information Regulator (South Africa)</strong><br />
           SALU Building, 316 Thabo Sehume Street<br />
           Pretoria, 0002<br />
@@ -359,8 +360,8 @@ function PrivacyContent() {
         <h2>11. Contact Information</h2>
         <p>If you have any questions about this Privacy Policy, your personal information, or wish to exercise your rights under POPIA, please contact us:</p>
         
-        <address className="not-italic bg-white/5 p-6 rounded-xl mt-4">
-          <strong className="text-neon-grape">Digital Wave Tech (Pty) Ltd</strong><br />Registration number: 2026/809312/07<br />Not VAT registered<br /><br />
+        <address className="not-italic bg-[var(--posta-white)] p-6 rounded-xl mt-4">
+          <strong className="text-[color:var(--posta-clay)]">Digital Wave Tech (Pty) Ltd</strong><br />Registration number: 2026/809312/07<br />Not VAT registered<br /><br />
           <strong>Information Officer:</strong><br />
           Email: <a href="mailto:leroy@digitalwavetech.dev">leroy@digitalwavetech.dev</a><br /><br />
           <strong>General Support:</strong><br />

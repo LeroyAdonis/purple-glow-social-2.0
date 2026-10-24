@@ -6,6 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { logger } from '../../lib/logger';
 
+import '@/design-system/posta/tokens.css';
+
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -14,14 +16,9 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Get redirect URL from query params (set by middleware)
-  // better-auth's callbackURL is a raw browser redirect and window.location below is too: neither goes
-  // through the Next router, which is the only place that adds the basePath automatically. Unprefixed,
-  // a successful sign-in sends the user to /dashboard from the host root, which is not the app at all.
   const appBase = process.env.NEXT_PUBLIC_APP_BASE_PATH ?? '';
   const redirectTo = `${appBase}${searchParams.get('redirect') || '/dashboard'}`;
 
-  // Debug environment on mount
   React.useEffect(() => {
     logger.auth.debug('Login page loaded', {
       hasAuthURL: !!process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
@@ -36,10 +33,7 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      logger.auth.info('Login attempt started', { 
-        email,
-        redirectTo
-      });
+      logger.auth.info('Login attempt started', { email, redirectTo });
 
       const result = await signIn.email({
         email,
@@ -47,15 +41,9 @@ export default function LoginPage() {
         callbackURL: redirectTo,
       });
 
-      logger.auth.debug('Sign in API response received', { 
-        hasError: !!result?.error,
-        errorMessage: result?.error?.message
-      });
-      
-      // Check if sign in failed with an error
       if (result?.error) {
         logger.auth.warn('Login failed', { email, error: result.error.message });
-        setError(result.error.message || 'Invalid email or password');
+        setError(result.error.message || 'That email or password is not right. Try again, or reset your password.');
         setIsLoading(false);
         return;
       }
@@ -64,7 +52,7 @@ export default function LoginPage() {
       window.location.href = redirectTo;
     } catch (err: any) {
       logger.auth.exception(err, { action: 'email-login', email });
-      setError(err.message || 'An error occurred during login. Please try again.');
+      setError(err.message || 'Something went wrong signing you in. Try again.');
       setIsLoading(false);
     }
   };
@@ -78,142 +66,137 @@ export default function LoginPage() {
         callbackURL: redirectTo,
       });
     } catch (err: any) {
-      // FedCM AbortError is expected when user closes popup or navigates away
       if (err?.message?.includes('AbortError') || err?.name === 'AbortError') {
         logger.auth.debug('Google sign-in cancelled by user');
       } else {
         logger.auth.exception(err, { action: 'google-oauth-login' });
-        setError('Failed to sign in with Google. Please try again.');
+        setError('Could not sign in with Google. Try again.');
       }
       setIsLoading(false);
     }
   };
 
+  const fieldStyle: React.CSSProperties = {
+    width: '100%',
+    height: 48,
+    padding: '0 16px',
+    borderRadius: 'var(--radius-sm)',
+    border: '1px solid var(--posta-line)',
+    background: 'var(--posta-white)',
+    color: 'var(--posta-ink)',
+    fontSize: 'var(--text-body)',
+    outline: 'none',
+  };
+
+  const labelStyle: React.CSSProperties = {
+    display: 'block',
+    fontSize: 'var(--text-small)',
+    fontWeight: 500,
+    color: 'var(--posta-ink)',
+    marginBottom: 8,
+  };
+
   return (
-    <div className="min-h-screen bg-void flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <h1 className="font-display font-bold text-5xl mb-2 glow-text">
-            Posta
-          </h1>
-          <p className="text-gray-400">Welcome back — let's keep posting</p>
+    <div style={{ minHeight: '100vh', background: 'var(--posta-paper)', color: 'var(--posta-ink)', fontFamily: 'var(--font-body)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+      <div style={{ width: '100%', maxWidth: 400 }}>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 32, letterSpacing: '-0.045em', color: 'var(--posta-ink)' }}>posta</div>
+          <p style={{ color: 'var(--posta-ink-soft)', marginTop: 8 }}>Welcome back.</p>
         </div>
 
-        {/* Login Card */}
-        <div className="aerogel-card p-8 rounded-2xl border border-glass-border">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Error Message */}
-            {error && (
-              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
-                <div className="flex items-center gap-2">
-                  <i className="fa-solid fa-exclamation-circle text-red-400"></i>
-                  <p className="text-sm text-red-400">{error}</p>
-                </div>
-              </div>
-            )}
-
-            {/* Email Field */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-bold mb-2">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@yourbusiness.co.za"
-                autoComplete="email"
-                required
-                disabled={isLoading}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-glass-border
-                         focus:border-neon-grape focus:ring-2 focus:ring-neon-grape/20
-                         transition-all outline-none disabled:opacity-50"
-              />
-            </div>
-
-            {/* Password Field */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-bold mb-2">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                autoComplete="current-password"
-                required
-                disabled={isLoading}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-glass-border
-                         focus:border-neon-grape focus:ring-2 focus:ring-neon-grape/20
-                         transition-all outline-none disabled:opacity-50"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-4 rounded-xl font-bold text-lg
-                       bg-gradient-to-r from-neon-grape to-joburg-teal
-                       hover:scale-105 transition-transform duration-200
-                       disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
-            >
-              {isLoading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <i className="fa-solid fa-spinner fa-spin"></i>
-                  Signing in...
-                </span>
-              ) : (
-                'Sign In'
-              )}
-            </button>
-          </form>
-
-          {/* Divider */}
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-glass-border"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-pretoria-blue text-gray-400">Or sign in with</span>
-            </div>
+        {error && (
+          <div
+            role="alert"
+            style={{
+              background: 'var(--posta-white)',
+              border: '1px solid var(--posta-danger)',
+              borderRadius: 'var(--radius-sm)',
+              padding: 12,
+              marginBottom: 16,
+              color: 'var(--posta-danger)',
+              fontSize: 'var(--text-small)',
+            }}
+          >
+            {error}
           </div>
+        )}
 
-          {/* Google Sign-In */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div>
+            <label htmlFor="email" style={labelStyle}>Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@yourbusiness.co.za"
+              autoComplete="email"
+              required
+              disabled={isLoading}
+              style={fieldStyle}
+            />
+          </div>
+          <div>
+            <label htmlFor="password" style={labelStyle}>Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              autoComplete="current-password"
+              required
+              disabled={isLoading}
+              style={fieldStyle}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            style={{
+              height: 48,
+              width: '100%',
+              borderRadius: 'var(--radius-pill)',
+              background: 'var(--posta-gold)',
+              color: 'var(--posta-ink)',
+              fontWeight: 700,
+              fontSize: 'var(--text-body)',
+              border: 'none',
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              opacity: isLoading ? 0.6 : 1,
+            }}
+          >
+            {isLoading ? 'Signing in…' : 'Sign in'}
+          </button>
+        </form>
+
+        <div style={{ margin: '24px 0', textAlign: 'center' }}>
           <button
             type="button"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full py-4 rounded-xl font-bold border border-glass-border
-                     hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{
+              width: '100%',
+              height: 48,
+              borderRadius: 'var(--radius-sm)',
+              background: 'transparent',
+              color: 'var(--posta-ink)',
+              border: '1px solid var(--posta-line)',
+              fontWeight: 500,
+              fontSize: 'var(--text-body)',
+              cursor: 'pointer',
+            }}
           >
-            <span className="flex items-center justify-center gap-3">
-              <i className="fa-brands fa-google text-xl"></i>
-              Google
-            </span>
+            Continue with Google
           </button>
-
-          {/* Sign Up Link */}
-          <div className="mt-6 text-center">
-            <p className="text-gray-400">
-              New here?{' '}
-              <Link href="/signup" className="text-neon-grape hover:underline font-bold">
-                Create free account
-              </Link>
-            </p>
-          </div>
         </div>
 
-        {/* South African Context */}
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-500">
-            🇿🇦 Made in South Africa, for South Africa
-          </p>
-        </div>
+        <p style={{ textAlign: 'center', fontSize: 'var(--text-small)', color: 'var(--posta-ink-soft)' }}>
+          New here?{' '}
+          <Link href="/signup" style={{ color: 'var(--posta-clay)', fontWeight: 700, textDecoration: 'underline' }}>
+            Create an account
+          </Link>
+        </p>
       </div>
     </div>
   );

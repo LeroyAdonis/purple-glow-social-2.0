@@ -1,3 +1,4 @@
+import '@/design-system/posta/tokens.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -24,20 +25,20 @@ const sections = [
 
 export default function TermsOfService() {
   return (
-    <div className="legal-page min-h-screen bg-void text-white">
+    <div className="legal-page min-h-screen bg-[var(--posta-paper)] text-[var(--posta-ink)]">
       {/* Header */}
-      <header className="border-b border-white/10 bg-pretoria-blue/50 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b border-[var(--posta-line)] bg-[var(--posta-paper)] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition">
-              <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
-                <span className="font-display font-bold text-sm text-white">P</span>
+              <div className="w-8 h-8 rounded bg-[var(--posta-clay)] flex items-center justify-center">
+                <span className="font-display font-bold text-sm text-[var(--posta-ink)]">P</span>
               </div>
               <span className="font-display font-bold text-lg">POSTA</span>
             </Link>
             <Link 
               href="/" 
-              className="text-sm text-gray-400 hover:text-joburg-teal transition flex items-center gap-2"
+              className="text-sm text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition flex items-center gap-2"
             >
               <i className="fa-solid fa-arrow-left"></i>
               Back to Home
@@ -47,20 +48,20 @@ export default function TermsOfService() {
       </header>
 
       {/* Hero Section */}
-      <section className="border-b border-white/10 bg-gradient-to-b from-pretoria-blue/30 to-transparent">
+      <section className="border-b border-[var(--posta-line)] ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-          <h1 className="text-4xl sm:text-5xl font-display font-bold bg-gradient-to-r from-neon-grape to-joburg-teal bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl sm:text-5xl font-display font-bold  mb-4">
             Terms of Service
           </h1>
-          <p className="text-gray-400 text-lg max-w-2xl">
+          <p className="text-[var(--posta-ink-soft)] text-lg max-w-2xl">
             Please read these terms carefully before using Posta. By accessing or using our platform, you agree to be bound by these terms and our Privacy Policy.
           </p>
           <div className="flex flex-wrap gap-4 mt-6 text-sm">
-            <span className="px-3 py-1 rounded-full bg-joburg-teal/20 text-joburg-teal border border-joburg-teal/30">
+            <span className="px-3 py-1 rounded-full bg-joburg-teal/20 text-[color:var(--posta-clay)] border border-joburg-teal/30">
               <i className="fa-solid fa-gavel mr-2"></i>
               South African Law
             </span>
-            <span className="px-3 py-1 rounded-full bg-white/5 text-gray-400 border border-white/10">
+            <span className="px-3 py-1 rounded-full bg-[var(--posta-white)] text-[var(--posta-ink-soft)] border border-[var(--posta-line)]">
               <i className="fa-solid fa-calendar mr-2"></i>
               Last updated: January 19, 2025
             </span>
@@ -74,13 +75,13 @@ export default function TermsOfService() {
           {/* Sticky Table of Contents - Desktop */}
           <aside className="hidden lg:block lg:w-72 flex-shrink-0">
             <div className="sticky top-28">
-              <h2 className="text-sm font-bold text-white mb-4 uppercase tracking-wider">Table of Contents</h2>
+              <h2 className="text-sm font-bold text-[var(--posta-ink)] mb-4 uppercase tracking-wider">Table of Contents</h2>
               <nav className="space-y-1">
                 {sections.map((section) => (
                   <a
                     key={section.id}
                     href={`#${section.id}`}
-                    className="block py-2 px-3 text-sm text-gray-400 hover:text-neon-grape hover:bg-white/5 rounded-lg transition"
+                    className="block py-2 px-3 text-sm text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] hover:bg-[var(--posta-white)] rounded-lg transition"
                   >
                     {section.title}
                   </a>
@@ -91,7 +92,7 @@ export default function TermsOfService() {
 
           {/* Mobile Table of Contents */}
           <details className="lg:hidden mb-8 aerogel-card rounded-xl p-4">
-            <summary className="text-sm font-bold text-white cursor-pointer flex items-center gap-2">
+            <summary className="text-sm font-bold text-[var(--posta-ink)] cursor-pointer flex items-center gap-2">
               <i className="fa-solid fa-list"></i>
               Table of Contents
             </summary>
@@ -100,7 +101,7 @@ export default function TermsOfService() {
                 <a
                   key={section.id}
                   href={`#${section.id}`}
-                  className="block py-2 px-3 text-sm text-gray-400 hover:text-neon-grape rounded-lg transition"
+                  className="block py-2 px-3 text-sm text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] rounded-lg transition"
                 >
                   {section.title}
                 </a>
@@ -111,14 +112,14 @@ export default function TermsOfService() {
           {/* Main Content */}
           <main className="flex-1 max-w-3xl">
             <div className="prose prose-invert prose-lg max-w-none 
-              prose-headings:font-display prose-headings:text-white
-              prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-white/10
-              prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-joburg-teal
-              prose-p:text-gray-300 prose-p:leading-relaxed
-              prose-li:text-gray-300
-              prose-strong:text-white
-              prose-a:text-neon-grape prose-a:no-underline hover:prose-a:underline
-              prose-table:border-collapse prose-th:bg-white/5 prose-th:p-3 prose-td:p-3 prose-td:border-t prose-td:border-white/10
+              prose-headings:font-display prose-headings:text-[var(--posta-ink)]
+              prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-[var(--posta-line)]
+              prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-[color:var(--posta-clay)]
+              prose-p:text-[var(--posta-ink-soft)] prose-p:leading-relaxed
+              prose-li:text-[var(--posta-ink-soft)]
+              prose-strong:text-[var(--posta-ink)]
+              prose-a:text-[color:var(--posta-clay)] prose-a:no-underline hover:prose-a:underline
+              prose-table:border-collapse prose-th:bg-[var(--posta-white)] prose-th:p-3 prose-td:p-3 prose-td:border-t prose-td:border-[var(--posta-line)]
             ">
               <TermsContent />
             </div>
@@ -134,20 +135,20 @@ export default function TermsOfService() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-pretoria-blue/30 mt-auto">
+    <footer className="border-t border-[var(--posta-line)] bg-pretoria-blue/30 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">
+          <p className="text-[var(--posta-ink-soft)] text-sm">
             © 2026 Digital Wave Tech (Pty) Ltd. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
-            <Link href="/privacy" className="text-gray-400 hover:text-neon-grape transition">
+            <Link href="/privacy" className="text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-joburg-teal font-medium">
+            <Link href="/terms" className="text-[color:var(--posta-clay)] font-medium">
               Terms of Service
             </Link>
-            <a href="mailto:leroy@digitalwavetech.dev" className="text-gray-400 hover:text-joburg-teal transition">
+            <a href="mailto:leroy@digitalwavetech.dev" className="text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition">
               Contact
             </a>
           </div>
@@ -497,8 +498,8 @@ function TermsContent() {
         <h2>13. Contact Information</h2>
         <p>If you have any questions about these Terms or the Service, please contact us:</p>
         
-        <address className="not-italic bg-white/5 p-6 rounded-xl mt-4">
-          <strong className="text-joburg-teal">Digital Wave Tech (Pty) Ltd</strong><br /><br />
+        <address className="not-italic bg-[var(--posta-white)] p-6 rounded-xl mt-4">
+          <strong className="text-[color:var(--posta-clay)]">Digital Wave Tech (Pty) Ltd</strong><br /><br />
           <strong>Legal Inquiries:</strong><br />
           Email: <a href="mailto:leroy@digitalwavetech.dev">leroy@digitalwavetech.dev</a><br /><br />
           <strong>General Support:</strong><br />
@@ -513,9 +514,9 @@ function TermsContent() {
         </p>
       </section>
 
-      <section className="mt-12 p-6 bg-white/5 rounded-xl border border-white/10">
-        <p className="text-center text-gray-400">
-          By using Posta, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our <Link href="/privacy" className="text-neon-grape hover:underline">Privacy Policy</Link>.
+      <section className="mt-12 p-6 bg-[var(--posta-white)] rounded-xl border border-[var(--posta-line)]">
+        <p className="text-center text-[var(--posta-ink-soft)]">
+          By using Posta, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our <Link href="/privacy" className="text-[color:var(--posta-clay)] hover:underline">Privacy Policy</Link>.
         </p>
       </section>
     </>

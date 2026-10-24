@@ -1,3 +1,4 @@
+import '@/design-system/posta/tokens.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -15,17 +16,17 @@ export const metadata: Metadata = {
  */
 export default function RefundPolicyPage() {
   return (
-    <div className="legal-page min-h-screen bg-void text-white">
-      <header className="border-b border-white/10 bg-pretoria-blue/50 backdrop-blur-sm sticky top-0 z-50">
+    <div className="legal-page min-h-screen bg-[var(--posta-paper)] text-[var(--posta-ink)]">
+      <header className="border-b border-[var(--posta-line)] bg-[var(--posta-paper)] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition">
-              <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
-                <span className="font-display font-bold text-sm text-white">P</span>
+              <div className="w-8 h-8 rounded bg-[var(--posta-clay)] flex items-center justify-center">
+                <span className="font-display font-bold text-sm text-[var(--posta-ink)]">P</span>
               </div>
               <span className="font-display font-bold text-lg uppercase">{COMPANY.productName}</span>
             </Link>
-            <Link href="/" className="text-sm text-gray-400 hover:text-joburg-teal transition flex items-center gap-2">
+            <Link href="/" className="text-sm text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition flex items-center gap-2">
               <i className="fa-solid fa-arrow-left"></i> Back to home
             </Link>
           </div>
@@ -34,14 +35,14 @@ export default function RefundPolicyPage() {
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <h1 className="font-display font-bold text-3xl sm:text-4xl mb-2">Refunds and cancellations</h1>
-        <p className="text-sm text-gray-400 mb-10">
+        <p className="text-sm text-[var(--posta-ink-soft)] mb-10">
           Last updated 24 October 2026 · applies to {COMPANY.productName} subscriptions billed by{' '}
           {COMPANY.legalName}
         </p>
 
-        <div className="space-y-8 text-gray-300 leading-relaxed">
+        <div className="space-y-8 text-[var(--posta-ink-soft)] leading-relaxed">
           <section>
-            <h2 className="font-display font-bold text-xl text-white mb-3">1. What you are buying</h2>
+            <h2 className="font-display font-bold text-xl text-[var(--posta-ink)] mb-3">1. What you are buying</h2>
             <p>
               {COMPANY.productName} is a monthly software subscription. You are buying access to the service for
               a period of one month at a time, paid in advance by card. It is not a once-off purchase of
@@ -50,7 +51,7 @@ export default function RefundPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-display font-bold text-xl text-white mb-3">2. Cancelling</h2>
+            <h2 className="font-display font-bold text-xl text-[var(--posta-ink)] mb-3">2. Cancelling</h2>
             <ul className="list-disc pl-6 space-y-2">
               <li>You can cancel at any time from the dashboard, or by emailing us.</li>
               <li>
@@ -62,7 +63,7 @@ export default function RefundPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-display font-bold text-xl text-white mb-3">3. Refunds</h2>
+            <h2 className="font-display font-bold text-xl text-[var(--posta-ink)] mb-3">3. Refunds</h2>
             <p className="mb-3">
               Because you can cancel before the next charge, we do not refund part of a month that has already
               started. In these situations we do refund:
@@ -80,7 +81,7 @@ export default function RefundPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-display font-bold text-xl text-white mb-3">4. Credits</h2>
+            <h2 className="font-display font-bold text-xl text-[var(--posta-ink)] mb-3">4. Credits</h2>
             <p>
               Paid plans include a monthly allowance of generation credits. The allowance is granted at the
               start of each billing period and does not roll over to the next month. Credits are consumed when
@@ -90,7 +91,7 @@ export default function RefundPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-display font-bold text-xl text-white mb-3">5. Your statutory rights</h2>
+            <h2 className="font-display font-bold text-xl text-[var(--posta-ink)] mb-3">5. Your statutory rights</h2>
             <p>
               Nothing in this policy limits any right you have under the Consumer Protection Act 68 of 2008 or
               the Electronic Communications and Transactions Act 25 of 2002. If the law gives you a
@@ -100,11 +101,11 @@ export default function RefundPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-display font-bold text-xl text-white mb-3">6. Before you dispute a charge</h2>
+            <h2 className="font-display font-bold text-xl text-[var(--posta-ink)] mb-3">6. Before you dispute a charge</h2>
             <p>
               Please email us first. A chargeback takes weeks and usually resolves in a day if you tell us what
               went wrong. Write to{' '}
-              <a className="text-joburg-teal hover:underline" href={`mailto:${COMPANY.supportEmail}`}>
+              <a className="text-[color:var(--posta-clay)] hover:underline" href={`mailto:${COMPANY.supportEmail}`}>
                 {COMPANY.supportEmail}
               </a>{' '}
               with the email address on the account and the date of the charge.
@@ -112,13 +113,13 @@ export default function RefundPolicyPage() {
           </section>
 
           <section>
-            <h2 className="font-display font-bold text-xl text-white mb-3">7. Who you are dealing with</h2>
-            <address className="not-italic bg-white/5 p-6 rounded-xl">
-              <strong className="text-white">{COMPANY.legalName}</strong><br />
+            <h2 className="font-display font-bold text-xl text-[var(--posta-ink)] mb-3">7. Who you are dealing with</h2>
+            <address className="not-italic bg-[var(--posta-white)] p-6 rounded-xl">
+              <strong className="text-[var(--posta-ink)]">{COMPANY.legalName}</strong><br />
               Registration number: {COMPANY.registrationNumber}<br />
               {COMPANY.vatRegistered ? 'VAT registered' : 'Not VAT registered'}<br />
               Email:{' '}
-              <a className="text-joburg-teal hover:underline" href={`mailto:${COMPANY.supportEmail}`}>
+              <a className="text-[color:var(--posta-clay)] hover:underline" href={`mailto:${COMPANY.supportEmail}`}>
                 {COMPANY.supportEmail}
               </a>
             </address>
