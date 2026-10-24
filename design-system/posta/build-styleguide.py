@@ -53,10 +53,16 @@ def doodle(name: str, size: int = 40) -> str:
     return s
 
 
+# The tail points BACK toward the wordmark, i.e. it sits on the left of the bubble and the tip faces the
+# final "a". The shape is drawn with the tail on the right and mirrored with an SVG transform, because a
+# hand-edited mirror of a bezier path is a place mistakes hide. translate(100,0) scale(-1,1) flips it exactly
+# about the vertical centre of the 100x100 viewBox.
 BUBBLE = ('<svg viewBox="0 0 100 100" width="{s}" height="{s}" aria-hidden="true">'
+          '<g transform="translate(100,0) scale(-1,1)">'
           '<path d="M48 9C25 9 9 24 9 44c0 21 17 35 39 35 4 0 8-.5 11.5-1.4l17 10-4.5-18C80 63 88 54 88 44 88 24 71 9 48 9z" '
           'fill="none" stroke="{c}" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/>'
-          '<circle cx="48" cy="43" r="9" fill="#E9A93C"/></svg>')
+          '<circle cx="48" cy="43" r="9" fill="#E9A93C"/>'
+          '</g></svg>')
 
 SWATCHES = [
     ("clay", "#8E3B2E", "Brand field. Marketing ground, primary fills."),

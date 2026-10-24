@@ -6,6 +6,12 @@ The wordmark is `posta` in **Space Grotesk 700, lowercase, tracking -0.045em**, 
 a **speech bubble**. The bubble is a pronounced shape — roughly 40% of the type size, with a real tail — hung
 on the baseline exactly where a full stop belongs, sitting tight to the last letter.
 
+**The tail points left, back at the wordmark.** The bubble speaks *into* the word — the tip faces the final
+"a". This was corrected on 25 October 2026: the first drafts had the tail on the right, which read as the
+mark talking away from the brand. Mirrored with an SVG transform (`translate(100,0) scale(-1,1)`) rather than
+by re-plotting the bezier by hand, and verified by measuring ink distribution in the bubble's lower third —
+it swapped exactly, 1580/2141 px to 2141/1581 px.
+
 Direction chosen 24 October 2026 from three characters of the same idea:
 
 | Variant | Character | Verdict |

@@ -1,0 +1,31 @@
+I want the Posta app itself rebuilt in the new brand — not restyled sheets, the actual product. Direction C
+"Phone First" is locked and fully specified in design-system/posta/ (read 00-INDEX.md first, then the file the
+task needs). This is a pre-launch product that will be reviewed by a payment provider and shown to real South
+African small-business owners, so the bar is that a stranger screenshots any screen and believes it was made by
+a studio: flat clay and cream, one gold accent, three type sizes, honest empty and error states, and nothing
+that looks generated.
+
+The specification is the source of truth: design-system/posta/tokens.css for every colour, size, radius, shadow
+and duration, and 04-components.md for every component with every state. Where the code and the specification
+disagree, the specification wins — if a value is missing from the tokens, add it there first.
+
+You have design-system/posta/scripts/check-brand.py, which measures rather than opines: it finds gradients,
+glass, glow, the old purple/teal palette and flag colours in source, and on a rendered page finds too many type
+sizes, contrast failures, gold used as text, and touch targets under 44px. It currently reports roughly 57 files
+with gradients, 56 on the old palette, 29 with glass, 13 type sizes on one page including 8px, and a CTA at
+3.5:1. Drive those numbers to zero, and show me the before and after output.
+
+You can accomplish this in many ways and with many workflows. Before you start, take stock of the tools you
+actually have, read the design system rather than guessing at it, and fetch anything you need along the way. I
+give you full creative freedom on execution and I expect your own judgement on every mid-run call — do not stop
+to ask me. Do not invent claims, testimonials or capabilities; if a screen has nothing to show, it gets an
+honest empty state.
+
+Before you call any screen done, do at least three passes: render it at 375px and 1440px, tab through it with a
+keyboard, check focus rings on both light and clay surfaces, and run the brand checker against it. Keep the app
+building and the tests passing at every step — a broken build is not progress.
+
+Deliver it running on the existing local stack (port 3008 behind Caddy at posta.digitalwavetech.dev) with a
+short report of what changed, the checker output before and after, and anything you deliberately left alone.
+A Posta app rebuilt to the written design system, verified at both widths with the brand checker passing, is
+your /goal. Work completely autonomously and do not ask me for anything until you are all done.

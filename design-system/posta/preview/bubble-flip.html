@@ -1,0 +1,20 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#FBF6EF;display:flex;gap:40px;padding:40px;font-family:sans-serif}
+.cell{text-align:center}
+.bubble svg{display:block}
+b{font-size:13px;color:#24140F;display:block;margin-top:10px}
+i{font-size:11px;color:#6E5B4E;font-style:normal}
+</style></head><body>
+<div class="cell"><div class="bubble">
+<svg viewBox="0 0 100 100" width="200" height="200">
+<path d="M48 9C25 9 9 24 9 44c0 21 17 35 39 35 4 0 8-.5 11.5-1.4l17 10-4.5-18C80 63 88 54 88 44 88 24 71 9 48 9z" fill="none" stroke="#8E3B2E" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="48" cy="43" r="9" fill="#E9A93C"/></svg></div>
+<b>BEFORE — tail right</b><i>tip faces away from the word</i></div>
+
+<div class="cell"><div class="bubble">
+<svg viewBox="0 0 100 100" width="200" height="200">
+<g transform="translate(100,0) scale(-1,1)">
+<path d="M48 9C25 9 9 24 9 44c0 21 17 35 39 35 4 0 8-.5 11.5-1.4l17 10-4.5-18C80 63 88 54 88 44 88 24 71 9 48 9z" fill="none" stroke="#8E3B2E" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="48" cy="43" r="9" fill="#E9A93C"/></g></svg></div>
+<b>AFTER — tail left</b><i>tip points at the “a”</i></div>
+</body></html>

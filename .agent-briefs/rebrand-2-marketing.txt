@@ -1,0 +1,65 @@
+GOAL: rebuild Posta's marketing pages and auth screens in the new brand. You own marketing; another agent owns
+the app shell.
+
+READ FIRST, IN THIS ORDER (contract, not background):
+  1. /root/posta-revive/design-system/posta/00-INDEX.md
+  2. /root/posta-revive/design-system/posta/tokens.css
+  3. /root/posta-revive/design-system/posta/01-foundations.md
+  4. /root/posta-revive/design-system/posta/08-content-voice.md   <- the honesty rules are binding
+  5. /root/posta-revive/design-system/posta/07-logo.md
+Where the existing code and the specification disagree, THE SPECIFICATION WINS.
+
+THE BRAND: clay #8E3B2E ground with cream #F7EDE2 type for marketing moments, paper #FBF6EF with ink #24140F
+for readable surfaces, ONE gold #E9A93C accent per screen, Space Grotesk display + Inter body, three type sizes
+per view, no gradients, no glass, no glow, no flag-colour stripes, no icon soup, no stat badges.
+
+FILES YOU OWN (create/modify only these):
+  app/page.tsx
+  app/login/page.tsx
+  app/signup/page.tsx
+  app/privacy/page.tsx, app/terms/page.tsx, app/refund/page.tsx, app/contact/page.tsx, app/cookies/page.tsx
+  app/not-found.tsx
+  components/landing/**  (navigation, footer, hero, features, how-it-works, pricing, contact sections)
+DO NOT TOUCH: app/globals.css, app/layout.tsx, components/mobile-navigation.tsx,
+components/client-dashboard-view.tsx  <- another agent is editing those right now. If you need a shared utility
+class that does not exist yet, use inline style={{ ... }} with var(--token) instead of editing globals.css.
+
+WORK
+ 1. Rebuild the landing page on the locked direction C: the hero is the WORDMARK plus one headline, one sentence,
+    one primary action, and the product shown as a phone. Clay field, cream type, phone in paper/cream with a
+    warm sheet shadow. Nothing else in the hero.
+ 2. Kill the busy: remove every gradient, backdrop blur, glow shadow, flag-colour stripe, emoji-as-icon, and any
+    row of "stat badges". The nav gets at most 4 items plus one action. The footer gets the logo, one line
+    identifying the company (Digital Wave Tech (Pty) Ltd, reg 2026/809312/07, not VAT registered — see
+    lib/company.ts), the legal links, and nothing decorative.
+ 3. Rewrite every marketing string to the voice in 08-content-voice.md. HONESTY RULES ARE BINDING: no user
+    counts, no "trusted by", no testimonials, no ratings, no capability that is not built. The current page
+    already had a fake "5,000+ SA businesses" and three invented testimonials removed — do not reintroduce
+    anything like them.
+ 4. Rebuild login and signup on paper ground: label above field, 48px fields, pill gold primary action, one
+    action per screen, honest error text ("That email is already registered — sign in instead, or reset your
+    password"). Keep all existing auth behaviour and redirects working exactly as they do now.
+ 5. Restyle the five legal pages and the 404 to the new tokens. Do not change the legal wording — restyle only.
+    Keep every existing route, link and mailto intact.
+ 6. Icons: Lucide under 32px, doodles (design/icons/doodle/) at 32px+ for illustration. Font Awesome stays where
+    you have not replaced it; do not remove it globally.
+
+ACCEPTANCE — run and paste real output:
+  a) npx tsc --noEmit -p tsconfig.json      -> clean
+  b) /root/posta-serve.sh build              -> exit 0
+  c) python3 design-system/posta/scripts/check-brand.py --src .  -> zero gradient/glass/glow/flag-colour hits in
+     the files you own (other files will still show hits — list them as remaining scope)
+  d) Render / , /login and /signup at 375px and 1440px. Confirm: no horizontal scroll (compare each element's
+     rect.right to window.innerWidth, not scrollWidth), one gold element per screen, and no more than three type
+     sizes on the landing hero.
+  e) Prove login still works end to end at https://posta.digitalwavetech.dev with demo@posta.co.za /
+     Posta2026! — it must land on /dashboard.
+
+HARD RULES
+ - No git state changes.
+ - Leave the server running on port 3008 at the end.
+ - No new dependencies.
+ - Never invent a claim, a number, a testimonial or a capability. If unsure whether something is true, leave it out.
+
+REPORT (short, real output): what changed per page, the checker counts for your files before/after, the
+two-width render result, the login proof, and anything deliberately left alone.

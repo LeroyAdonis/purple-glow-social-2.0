@@ -1,0 +1,68 @@
+GOAL: rebuild Posta's foundation and app shell in the new brand. You own the shell; another agent owns marketing.
+
+READ FIRST, IN THIS ORDER (they are the contract, not background reading):
+  1. /root/posta-revive/design-system/posta/00-INDEX.md
+  2. /root/posta-revive/design-system/posta/tokens.css        <- every value you are allowed to use
+  3. /root/posta-revive/design-system/posta/01-foundations.md
+  4. /root/posta-revive/design-system/posta/04-components.md
+  5. /root/posta-revive/design-system/posta/10-implementation.md
+Where the existing code and the specification disagree, THE SPECIFICATION WINS.
+
+THE BRAND IN ONE BREATH: flat clay #8E3B2E field, cream #F7EDE2 type on it, paper #FBF6EF app ground with ink
+#24140F text, ONE gold accent #E9A93C per screen, Space Grotesk display + Inter body, three type sizes per view,
+no gradients, no glass, no glow, no backdrop blur. Under 32px uses Lucide icons; the doodles are illustration
+only. This replaces a purple/teal glassmorphic theme entirely.
+
+FILES YOU OWN (create/modify only these):
+  app/globals.css
+  app/layout.tsx
+  components/mobile-navigation.tsx
+  components/client-dashboard-view.tsx
+  components/loading-skeletons.tsx       (if it exists)
+  public/fonts/*                          (you may add self-hosted woff2 here)
+  package.json                            (you may add lucide-react only)
+DO NOT TOUCH: app/page.tsx, app/login/, app/signup/, app/privacy/, app/terms/, app/refund/, app/contact/,
+app/cookies/, components/landing/**  <- another agent is working there right now. Editing them causes a merge
+conflict and loses work.
+
+WORK
+ 1. Import the tokens: `@import "../design-system/posta/tokens.css";` before `@import "tailwindcss";` in
+    app/globals.css (check the real relative path from that file).
+ 2. Self-host Space Grotesk and Inter as woff2 in public/fonts with @font-face + font-display:swap. Do NOT load
+    Google Fonts at runtime — third-party requests leak visitor IPs and this product handles POPIA-scoped data.
+    If you cannot obtain the woff2 files, say so plainly and fall back to the system stack with a TODO note;
+    do not silently load from a CDN.
+ 3. Add the component-layer utilities from 10-implementation.md: .surface-paper, .surface-field, .text-meta,
+    .btn-primary, .btn-primary:hover, .btn-primary:focus-visible, .field, .card.
+ 4. Delete the old theme from globals.css: --neon-grape, --joburg-teal, --pretoria-blue, --mzansi-gold, --void,
+    --glass-border, and every gradient/glow/backdrop-filter rule. Replace with tokens.
+ 5. Rebuild the shell: sidebar 248px (1024px+), bottom navigation on phones (max 5 items, 56px tall, 20px Lucide
+    icons, 11px labels), paper ground, clay-tint active state with a 3px clay bar. Focus rings per surface:
+    clay on light, cream on clay.
+ 6. Rebuild components/client-dashboard-view.tsx to the specification: post card with language chip, platform
+    badge, tabular time, max 4 lines of copy, ONE primary action, status ribbon that always carries a word
+    (Scheduled / Publishing / Published / Failed — and a failed post states the reason and the fix).
+ 7. Add lucide-react and replace Font Awesome icons ONLY in the files you own. Font Awesome stays for the rest
+    until the next phase; do not remove it globally.
+
+ACCEPTANCE — run these and paste the real output:
+  a) npx tsc --noEmit -p tsconfig.json         -> clean
+  b) /root/posta-serve.sh build                 -> exit 0 (the app must still build)
+  c) python3 design-system/posta/scripts/check-brand.py --src .  -> report the counts for YOUR files; they must
+     show zero gradient, zero glass, zero glow, zero old-palette hits in the files you own. Other files will
+     still show hits — that is expected, list them as remaining scope, do not "fix" them.
+  d) Render the shell at 375px and 1440px and describe what you see. Confirm no horizontal scroll
+     (compare each element's getBoundingClientRect().right against window.innerWidth — do NOT trust scrollWidth,
+     a full-bleed overflow:hidden section makes it lie).
+  e) Tab through the shell: every focus ring visible on both surfaces.
+
+HARD RULES
+ - No git state changes at all.
+ - Do not restart or kill the server on port 3008; rebuild and restart however you need via /root/posta-serve.sh
+   but leave it RUNNING at the end.
+ - No new dependency except lucide-react.
+ - Never invent data. If a screen has nothing to show, give it an honest empty state with a doodle.
+ - Do not claim a state you did not render. If you could not check something, write "not verified".
+
+REPORT (short, with real output pasted): what changed per file, the checker counts for your files before/after,
+the two-width render result, and anything you deliberately left for the next phase.

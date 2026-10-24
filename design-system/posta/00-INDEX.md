@@ -14,7 +14,7 @@ including delegated agent work. The brand is also packaged as a skill so agents 
 | **The one accent** | gold `#E9A93C` — once per screen, never as text on light (1.91:1) |
 | **Type** | Space Grotesk 700 display · Inter 400 body · 10 sizes, 11px floor |
 | **Icons** | Lucide under 32px · Doodle illustrations at 32px and up |
-| **Logo** | `posta` + speech-bubble full stop on the baseline · variant 2 large, 1 small |
+| **Logo** | `posta` + speech-bubble full stop on the baseline, **tail pointing left at the word** · variant 2 large, 1 small |
 | **Motion** | 80 / 140 / 220 / 340ms · reduced-motion zeroes all of them |
 
 ## Read in this order
@@ -55,6 +55,7 @@ including delegated agent work. The brand is also packaged as a skill so agents 
 | 25 Oct 2026 | Per-surface focus rings | Gold as a ring is 1.91:1 on paper — invisible to the people who need it |
 | 25 Oct 2026 | Dropped "load-shedding tolerant" copy | Eskom's own 2 Oct 2026 statement: 500+ days without load-shedding |
 | 25 Oct 2026 | Removed the old "5,000+ SA businesses" and fake testimonials | Not true. Zero customers at the time. |
+| 25 Oct 2026 | **Speech-bubble tail flipped to the left** | The tail must point back at the wordmark; on the right it read as talking away from the brand |
 
 ## Changing this system
 
