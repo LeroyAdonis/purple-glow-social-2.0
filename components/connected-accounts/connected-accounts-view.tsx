@@ -292,7 +292,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
           <div>
             <h3 className="font-bold mb-1">🇿🇦 Why Connect Accounts?</h3>
             <p className="text-sm text-gray-400">
-              Connecting your social media accounts allows Purple Glow Social to automatically post your AI-generated content. 
+              Connecting your social media accounts allows Posta to automatically post your AI-generated content. 
               Your credentials are encrypted and stored securely. You can disconnect at any time.
             </p>
           </div>

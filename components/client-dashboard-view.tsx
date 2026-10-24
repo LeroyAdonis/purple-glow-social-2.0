@@ -137,7 +137,7 @@ export default function ClientDashboardView({
                     <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
                         <span className="font-display font-bold">P</span>
                     </div>
-                    <h1 className="font-display font-bold text-lg tracking-tight">Purple Glow</h1>
+                    <h1 className="font-display font-bold text-lg tracking-tight">Posta</h1>
                 </div>
 
                 <nav className="flex flex-col gap-2">

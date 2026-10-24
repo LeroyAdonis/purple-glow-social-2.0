@@ -1,5 +1,5 @@
 /**
- * Draft Types for Purple Glow Social
+ * Draft Types for Posta
  * 
  * Type definitions for draft post management feature (F001)
  */

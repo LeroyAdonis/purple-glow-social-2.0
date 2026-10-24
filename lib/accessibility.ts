@@ -1,4 +1,4 @@
-// Accessibility utilities for Purple Glow Social
+// Accessibility utilities for Posta
 
 // Focus trap for modals
 export const trapFocus = (element: HTMLElement) => {

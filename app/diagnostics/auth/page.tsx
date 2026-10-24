@@ -129,8 +129,8 @@ export default function AuthDiagnosticsPage() {
               <div className="bg-black/50 rounded-lg p-3 font-mono text-sm">
                 <div>DATABASE_URL=postgresql://your-neon-connection-string</div>
                 <div>BETTER_AUTH_SECRET=your-32-char-secret</div>
-                <div>BETTER_AUTH_URL=https://purple-glow-social-2-0.vercel.app</div>
-                <div>NEXT_PUBLIC_BETTER_AUTH_URL=https://purple-glow-social-2-0.vercel.app</div>
+                <div>BETTER_AUTH_URL=https://posta.digitalwavetech.dev</div>
+                <div>NEXT_PUBLIC_BETTER_AUTH_URL=https://posta.digitalwavetech.dev</div>
               </div>
             </div>
 

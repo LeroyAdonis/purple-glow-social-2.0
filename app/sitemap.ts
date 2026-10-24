@@ -7,7 +7,7 @@
 
 import { MetadataRoute } from 'next';
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://purple-glow-social.vercel.app';
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://posta.digitalwavetech.dev';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const currentDate = new Date();

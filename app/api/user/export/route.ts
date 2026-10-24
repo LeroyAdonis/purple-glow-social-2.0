@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
     const exportData = {
       exportedAt: new Date().toISOString(),
       exportVersion: '1.0',
-      dataController: 'Purple Glow Social (Pty) Ltd',
+      dataController: 'Digital Wave Tech (Pty) Ltd',
       user: sanitizedUser,
       posts: userPosts,
       automationRules: userRules,
@@ -119,7 +119,7 @@ export async function GET(request: NextRequest) {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Content-Disposition': `attachment; filename="purple-glow-data-export-${new Date().toISOString().split('T')[0]}.json"`,
+        'Content-Disposition': `attachment; filename="posta-data-export-${new Date().toISOString().split('T')[0]}.json"`,
       },
     });
   } catch (error) {

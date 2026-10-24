@@ -9,7 +9,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Page Not Found | Purple Glow Social',
+  title: 'Page Not Found | Posta',
   description: 'Oops — this page doesn\'t exist. Head back home or check your link.',
 };
 

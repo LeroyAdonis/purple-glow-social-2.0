@@ -146,7 +146,7 @@ const CookieConsentBanner: React.FC = () => {
                       Cookies keep you logged in. You choose the rest.
                     </span>
                     <span className="hidden md:inline">
-                      Purple Glow Social uses cookies to keep you logged in and make the app work properly. 
+                      Posta uses cookies to keep you logged in and make the app work properly. 
                       That's it. We also offer optional cookies that help us improve — but you choose. 
                       We follow South Africa's <strong className="text-white">POPIA (Protection of Personal Information Act)</strong>.
                     </span>

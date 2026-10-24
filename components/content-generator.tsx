@@ -272,7 +272,7 @@ export default function ContentGenerator() {
                 </div>
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1 text-sm mb-1">
-                        <span className="font-bold">Purple Glow</span>
+                        <span className="font-bold">Posta</span>
                         <i className="fa-solid fa-certificate text-blue-400 text-[10px]"></i>
                         <span className="text-gray-500">@purpleglow_sa · 1h</span>
                     </div>
@@ -314,7 +314,7 @@ export default function ContentGenerator() {
                     <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=1877F2&color=fff" alt="User" width={40} height={40} unoptimized />
                 </div>
                 <div>
-                    <div className="text-sm font-bold text-gray-900">Purple Glow SA</div>
+                    <div className="text-sm font-bold text-gray-900">Posta SA</div>
                     <div className="text-xs text-gray-500 flex items-center gap-1">Just now • <i className="fa-solid fa-earth-americas"></i></div>
                 </div>
                 <i className="fa-solid fa-ellipsis ml-auto text-gray-500"></i>
@@ -361,7 +361,7 @@ export default function ContentGenerator() {
                     <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=0077B5&color=fff" alt="User" width={48} height={48} unoptimized />
                 </div>
                 <div className="flex-1">
-                    <div className="font-semibold text-sm">Purple Glow Social</div>
+                    <div className="font-semibold text-sm">Posta</div>
                     <div className="text-xs text-gray-500">Digital Marketing Agency • 500+ followers</div>
                     <div className="text-xs text-gray-400 flex items-center gap-1 mt-1">
                         <span>2h</span>

@@ -2,7 +2,7 @@
  * The legal identity of the business behind Posta, in one place.
  *
  * This exists because the same facts were being retyped into every legal page, and they had already drifted
- * into being wrong: the privacy policy named "Purple Glow Technologies (Pty) Ltd" and support addresses at
+ * into being wrong: the privacy policy named "Posta Technologies (Pty) Ltd" and support addresses at
  * purpleglow.co.za - a company that does not exist and a domain we do not own. A privacy policy naming the
  * wrong responsible party is worse than no policy, because it tells the reader the wrong entity is
  * accountable. Everything that states who we are now reads from here.

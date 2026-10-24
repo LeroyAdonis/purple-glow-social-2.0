@@ -1,5 +1,5 @@
 /**
- * Shared Type Definitions for Purple Glow Social
+ * Shared Type Definitions for Posta
  * 
  * Centralized type interfaces for type safety across the application
  */

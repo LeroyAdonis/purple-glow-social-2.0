@@ -1,4 +1,4 @@
-// Security utilities for Purple Glow Social
+// Security utilities for Posta
 export * from './rate-limit';
 export * from './validation';
 export * from './auth-utils';

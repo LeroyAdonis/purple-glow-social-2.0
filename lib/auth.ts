@@ -49,7 +49,7 @@ const getAuthBaseURL = () => {
   }
   // Fallback for production Vercel deployment
   if (process.env.VERCEL) {
-    return 'https://purple-glow-social-2-0.vercel.app';
+    return 'https://posta.digitalwavetech.dev';
   }
   return 'http://localhost:3000';
 };

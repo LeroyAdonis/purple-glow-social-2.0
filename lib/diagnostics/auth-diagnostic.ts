@@ -56,7 +56,7 @@ export async function diagnoseAuth() {
   );
   console.log(`Base URL: ${process.env.BETTER_AUTH_URL || "Using default"}`);
   console.log(
-    `Trusted Origins: http://localhost:3000, https://purple-glow-social-2-0.vercel.app`
+    `Trusted Origins: http://localhost:3000, https://posta.digitalwavetech.dev`
   );
 
   if (!process.env.BETTER_AUTH_SECRET) {
@@ -90,7 +90,7 @@ export async function diagnoseAuth() {
   if (isProduction) {
     console.log("\n🏭 Production Environment Detected");
 
-    const expectedUrl = "https://purple-glow-social-2-0.vercel.app";
+    const expectedUrl = "https://posta.digitalwavetech.dev";
     if (baseUrl !== expectedUrl) {
       console.log(
         `⚠️  Warning: BETTER_AUTH_URL should be '${expectedUrl}' in production`

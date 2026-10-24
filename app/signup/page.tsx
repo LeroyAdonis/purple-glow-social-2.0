@@ -82,7 +82,7 @@ export default function SignUpPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <h1 className="font-display font-bold text-5xl mb-2 glow-text">
-            Purple Glow Social
+            Posta
           </h1>
           <p className="text-gray-400">Get posting in minutes — free</p>
         </div>

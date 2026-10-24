@@ -1,4 +1,4 @@
-// Responsive utility functions and hooks for Purple Glow Social
+// Responsive utility functions and hooks for Posta
 
 import { useState, useEffect } from 'react';
 

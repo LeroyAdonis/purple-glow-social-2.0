@@ -83,7 +83,7 @@ function SuccessContent() {
           </h1>
           
           <p className="text-gray-300 mb-6">
-            Your {platform ? platformNames[platform] : 'account'} is now connected to Purple Glow Social.
+            Your {platform ? platformNames[platform] : 'account'} is now connected to Posta.
             You can now post content directly to your account.
           </p>
 

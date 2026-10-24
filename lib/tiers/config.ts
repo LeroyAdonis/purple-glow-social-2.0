@@ -1,4 +1,4 @@
-// Centralized tier limits configuration for Purple Glow Social 2.0
+// Centralized tier limits configuration for Posta 2.0
 
 import type { TierInfo, TierLimits, TierName } from './types';
 
