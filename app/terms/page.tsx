@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Purple Glow Social',
-  description: 'Terms and conditions for using Purple Glow Social - AI-powered social media management platform',
+  title: 'Terms of Service | Posta',
+  description: 'Terms and conditions for using Posta - AI-powered social media management platform',
 };
 
 const sections = [
@@ -33,7 +33,7 @@ export default function TermsOfService() {
               <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
                 <span className="font-display font-bold text-sm text-white">P</span>
               </div>
-              <span className="font-display font-bold text-lg">PURPLE GLOW</span>
+              <span className="font-display font-bold text-lg">POSTA</span>
             </Link>
             <Link 
               href="/" 
@@ -53,7 +53,7 @@ export default function TermsOfService() {
             Terms of Service
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl">
-            Please read these terms carefully before using Purple Glow Social. By accessing or using our platform, you agree to be bound by these terms and our Privacy Policy.
+            Please read these terms carefully before using Posta. By accessing or using our platform, you agree to be bound by these terms and our Privacy Policy.
           </p>
           <div className="flex flex-wrap gap-4 mt-6 text-sm">
             <span className="px-3 py-1 rounded-full bg-joburg-teal/20 text-joburg-teal border border-joburg-teal/30">
@@ -138,7 +138,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
-            © 2025 Purple Glow Technologies (Pty) Ltd. All rights reserved.
+            © 2026 Digital Wave Tech (Pty) Ltd. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <Link href="/privacy" className="text-gray-400 hover:text-neon-grape transition">
@@ -147,7 +147,7 @@ function Footer() {
             <Link href="/terms" className="text-joburg-teal font-medium">
               Terms of Service
             </Link>
-            <a href="mailto:support@purpleglow.co.za" className="text-gray-400 hover:text-joburg-teal transition">
+            <a href="mailto:leroy@digitalwavetech.dev" className="text-gray-400 hover:text-joburg-teal transition">
               Contact
             </a>
           </div>
@@ -163,20 +163,20 @@ function TermsContent() {
       <section id="acceptance">
         <h2>1. Acceptance of Terms</h2>
         <p>
-          Welcome to Purple Glow Social, an AI-powered social media management platform operated by Purple Glow Technologies (Pty) Ltd (&quot;Purple Glow,&quot; &quot;we,&quot; &quot;our,&quot; or &quot;us&quot;), a company registered in South Africa.
+          Welcome to Posta, an AI-powered social media management platform operated by Digital Wave Tech (Pty) Ltd, registration number 2026/809312/07, (&quot;Posta,&quot; &quot;we,&quot; &quot;our,&quot; or &quot;us&quot;), a company registered in South Africa.
         </p>
         <p>
-          By accessing or using our website, mobile application, or any services provided by Purple Glow Social (collectively, the &quot;Service&quot;), you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to all of these Terms, you may not access or use the Service.
+          By accessing or using our website, mobile application, or any services provided by Posta (collectively, the &quot;Service&quot;), you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to all of these Terms, you may not access or use the Service.
         </p>
         <p>
-          These Terms constitute a legally binding agreement between you and Purple Glow Technologies (Pty) Ltd. You represent that you are at least 18 years of age and have the legal capacity to enter into this agreement. If you are using the Service on behalf of an organization, you represent that you have the authority to bind that organization to these Terms.
+          These Terms constitute a legally binding agreement between you and Digital Wave Tech (Pty) Ltd. You represent that you are at least 18 years of age and have the legal capacity to enter into this agreement. If you are using the Service on behalf of an organization, you represent that you have the authority to bind that organization to these Terms.
         </p>
       </section>
 
       <section id="service-description">
         <h2>2. Service Description</h2>
         <p>
-          Purple Glow Social is an AI-powered social media management platform designed for South African small businesses, entrepreneurs, and content creators. Our Service includes:
+          Posta is an AI-powered social media management platform designed for South African small businesses, entrepreneurs, and content creators. Our Service includes:
         </p>
         <ul>
           <li><strong>AI Content Generation:</strong> Create social media posts in all 11 official South African languages using advanced AI technology powered by Google Gemini Pro.</li>
@@ -222,7 +222,7 @@ function TermsContent() {
         <h2>4. Subscriptions and Payments</h2>
         
         <h3>4.1 Subscription Plans</h3>
-        <p>Purple Glow Social offers the following subscription tiers (prices in South African Rand, inclusive of 15% VAT):</p>
+        <p>Posta offers the following subscription tiers (prices in South African Rand, inclusive of 15% VAT):</p>
         
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -322,10 +322,10 @@ function TermsContent() {
 
         <h3>6.1 Our Intellectual Property</h3>
         <p>
-          The Service, including its original content, features, functionality, design, and source code, is owned by Purple Glow Technologies (Pty) Ltd and is protected by South African and international copyright, trademark, and other intellectual property laws.
+          The Service, including its original content, features, functionality, design, and source code, is owned by Digital Wave Tech (Pty) Ltd and is protected by South African and international copyright, trademark, and other intellectual property laws.
         </p>
         <p>
-          &quot;Purple Glow,&quot; &quot;Purple Glow Social,&quot; and our logo are trademarks of Purple Glow Technologies (Pty) Ltd. You may not use these trademarks without our prior written consent.
+          &quot;Posta,&quot; &quot;Posta,&quot; and our logo are trademarks of Digital Wave Tech (Pty) Ltd. You may not use these trademarks without our prior written consent.
         </p>
 
         <h3>6.2 License to Use Service</h3>
@@ -405,7 +405,7 @@ function TermsContent() {
 
         <h3>9.2 Limitation of Liability</h3>
         <p>
-          TO THE MAXIMUM EXTENT PERMITTED BY SOUTH AFRICAN LAW, PURPLE GLOW TECHNOLOGIES (PTY) LTD AND ITS DIRECTORS, EMPLOYEES, AGENTS, AND AFFILIATES SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO:
+          TO THE MAXIMUM EXTENT PERMITTED BY SOUTH AFRICAN LAW, POSTA TECHNOLOGIES (PTY) LTD AND ITS DIRECTORS, EMPLOYEES, AGENTS, AND AFFILIATES SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO:
         </p>
         <ul>
           <li>Loss of profits, revenue, or business opportunities</li>
@@ -468,7 +468,7 @@ function TermsContent() {
 
         <h3>11.3 Dispute Resolution</h3>
         <p>
-          Before initiating any legal proceedings, you agree to first attempt to resolve any dispute informally by contacting us at <a href="mailto:legal@purpleglow.co.za">legal@purpleglow.co.za</a>. We will attempt to resolve the dispute within 30 days of receiving your complaint.
+          Before initiating any legal proceedings, you agree to first attempt to resolve any dispute informally by contacting us at <a href="mailto:leroy@digitalwavetech.dev">leroy@digitalwavetech.dev</a>. We will attempt to resolve the dispute within 30 days of receiving your complaint.
         </p>
 
         <h3>11.4 Consumer Rights</h3>
@@ -498,11 +498,11 @@ function TermsContent() {
         <p>If you have any questions about these Terms or the Service, please contact us:</p>
         
         <address className="not-italic bg-white/5 p-6 rounded-xl mt-4">
-          <strong className="text-joburg-teal">Purple Glow Technologies (Pty) Ltd</strong><br /><br />
+          <strong className="text-joburg-teal">Digital Wave Tech (Pty) Ltd</strong><br /><br />
           <strong>Legal Inquiries:</strong><br />
-          Email: <a href="mailto:legal@purpleglow.co.za">legal@purpleglow.co.za</a><br /><br />
+          Email: <a href="mailto:leroy@digitalwavetech.dev">leroy@digitalwavetech.dev</a><br /><br />
           <strong>General Support:</strong><br />
-          Email: <a href="mailto:support@purpleglow.co.za">support@purpleglow.co.za</a><br /><br />
+          Email: <a href="mailto:leroy@digitalwavetech.dev">leroy@digitalwavetech.dev</a><br /><br />
           <strong>Physical Address:</strong><br />
           Johannesburg, Gauteng<br />
           South Africa
@@ -515,7 +515,7 @@ function TermsContent() {
 
       <section className="mt-12 p-6 bg-white/5 rounded-xl border border-white/10">
         <p className="text-center text-gray-400">
-          By using Purple Glow Social, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our <Link href="/privacy" className="text-neon-grape hover:underline">Privacy Policy</Link>.
+          By using Posta, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our <Link href="/privacy" className="text-neon-grape hover:underline">Privacy Policy</Link>.
         </p>
       </section>
     </>

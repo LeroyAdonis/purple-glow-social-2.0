@@ -159,7 +159,7 @@ export default function HomePage() {
             <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center shadow-[0_0_15px_rgba(157,78,221,0.5)]">
               <i className="fa-solid fa-bolt text-white text-sm"></i>
             </div>
-            <span className="font-display font-bold text-xl tracking-tight">PURPLE GLOW</span>
+            <span className="font-display font-bold text-xl tracking-tight">POSTA</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -765,7 +765,7 @@ export default function HomePage() {
                 <div className="w-6 h-6 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
                   <span className="font-display font-bold text-xs text-white">P</span>
                 </div>
-                <span className="font-display font-bold text-lg">PURPLE GLOW</span>
+                <span className="font-display font-bold text-lg">POSTA</span>
               </div>
               <p className="text-gray-500 text-sm max-w-sm">
                 {translate('footer.tagline')}
@@ -794,7 +794,7 @@ export default function HomePage() {
           </div>
 
           <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 font-mono">
-            <p>&copy; 2025 Purple Glow Technologies (Pty) Ltd. All rights reserved.</p>
+            <p>&copy; 2026 Digital Wave Tech (Pty) Ltd. All rights reserved.</p>
             <div className="flex gap-6">
               <a href="#" className="hover:text-white"><i className="fa-brands fa-twitter"></i></a>
               <a href="#" className="hover:text-white"><i className="fa-brands fa-instagram"></i></a>

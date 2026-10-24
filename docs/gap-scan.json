@@ -1,0 +1,294 @@
+{
+  "groups": {
+    "FABRICATED CLAIMS (must be true or removed)": [
+      [
+        "app/page-old-client.tsx",
+        518,
+        "thabo",
+        "\"{translate('testimonials.thabo.quote')}\""
+      ],
+      [
+        "app/page-old-client.tsx",
+        523,
+        "thabo",
+        "<h4 className=\"font-bold text-sm text-white\">{translate('testimonials.thabo.name')}</h4>"
+      ],
+      [
+        "app/page-old-client.tsx",
+        524,
+        "thabo",
+        "<p className=\"text-xs text-gray-500\">{translate('testimonials.thabo.role')}</p>"
+      ],
+      [
+        "app/page-old-client.tsx",
+        533,
+        "zanele",
+        "\"{translate('testimonials.zanele.quote')}\""
+      ],
+      [
+        "app/page-old-client.tsx",
+        538,
+        "zanele",
+        "<h4 className=\"font-bold text-sm text-white\">{translate('testimonials.zanele.name')}</h4>"
+      ],
+      [
+        "app/page-old-client.tsx",
+        539,
+        "zanele",
+        "<p className=\"text-xs text-gray-500\">{translate('testimonials.zanele.role')}</p>"
+      ],
+      [
+        "app/page-old-client.tsx",
+        548,
+        "pieter",
+        "\"{translate('testimonials.pieter.quote')}\""
+      ],
+      [
+        "app/page-old-client.tsx",
+        553,
+        "pieter",
+        "<h4 className=\"font-bold text-sm text-white\">{translate('testimonials.pieter.name')}</h4>"
+      ],
+      [
+        "app/page-old-client.tsx",
+        554,
+        "pieter",
+        "<p className=\"text-xs text-gray-500\">{translate('testimonials.pieter.role')}</p>"
+      ],
+      [
+        "app/page.tsx",
+        52,
+        "Thabo",
+        "The three quotes rendered here were the demo personas from the mock data (Thabo, Zanele,"
+      ],
+      [
+        "app/page.tsx",
+        53,
+        "Pieter",
+        "Pieter). Posta has no customers yet, so those were invented testimonials sitting on the public"
+      ],
+      [
+        "app/privacy/page.tsx",
+        292,
+        "Thabo",
+        "SALU Building, 316 Thabo Sehume Street<br />"
+      ],
+      [
+        "app/login/page.tsx",
+        126,
+        "thabo",
+        "placeholder=\"thabo@business.co.za\""
+      ],
+      [
+        "app/signup/page.tsx",
+        113,
+        "Thabo",
+        "placeholder=\"Thabo Nkosi\""
+      ],
+      [
+        "app/signup/page.tsx",
+        133,
+        "thabo",
+        "placeholder=\"thabo@business.co.za\""
+      ],
+      [
+        "components/schedule-view.tsx",
+        225,
+        "500/5",
+        "<div className=\"aerogel-card p-4 rounded-xl border border-red-500/30 bg-red-500/5\">"
+      ],
+      [
+        "components/usage-summary.tsx",
+        113,
+        "500/5",
+        "<div className=\"aerogel-card rounded-xl p-6 border border-red-500/30 bg-red-500/5\">"
+      ],
+      [
+        "components/connected-accounts/connected-accounts-view.tsx",
+        209,
+        "500/5",
+        "<div className=\"aerogel-card p-8 rounded-2xl border border-red-500/20 bg-red-500/5\">"
+      ],
+      [
+        "components/landing/hero-section.tsx",
+        105,
+        "5,000+ SA",
+        "{/* This used to read \"5,000+ SA Businesses\". We have not launched, so that number was"
+      ],
+      [
+        "components/landing/testimonials-section.tsx",
+        100,
+        "thabo",
+        "&ldquo;{translate('testimonials.thabo.quote')}&rdquo;"
+      ],
+      [
+        "components/landing/testimonials-section.tsx",
+        125,
+        "thabo",
+        "<h4 className=\"font-bold text-white text-lg\">{translate('testimonials.thabo.name')}</h4>"
+      ],
+      [
+        "components/landing/testimonials-section.tsx",
+        126,
+        "thabo",
+        "<p className=\"text-sm text-text-tertiary\">{translate('testimonials.thabo.role')}</p>"
+      ],
+      [
+        "components/landing/testimonials-section.tsx",
+        149,
+        "zanele",
+        "&ldquo;{translate('testimonials.zanele.quote')}&rdquo;"
+      ],
+      [
+        "components/landing/testimonials-section.tsx",
+        157,
+        "zanele",
+        "<h4 className=\"font-bold text-sm text-white\">{translate('testimonials.zanele.name')}</h4>"
+      ],
+      [
+        "components/landing/testimonials-section.tsx",
+        158,
+        "zanele",
+        "<p className=\"text-xs text-text-tertiary\">{translate('testimonials.zanele.role')}</p>"
+      ],
+      [
+        "components/landing/testimonials-section.tsx",
+        171,
+        "pieter",
+        "&ldquo;{translate('testimonials.pieter.quote')}&rdquo;"
+      ],
+      [
+        "components/landing/testimonials-section.tsx",
+        179,
+        "pieter",
+        "<h4 className=\"font-bold text-sm text-white\">{translate('testimonials.pieter.name')}</h4>"
+      ],
+      [
+        "components/landing/testimonials-section.tsx",
+        180,
+        "pieter",
+        "<p className=\"text-xs text-text-tertiary\">{translate('testimonials.pieter.role')}</p>"
+      ],
+      [
+        "components/landing/testimonials-section.tsx",
+        198,
+        "Trusted by",
+        "<span>Trusted by entrepreneurs across South Africa</span>"
+      ],
+      [
+        "components/landing/contact-section.tsx",
+        167,
+        "Thabo",
+        "placeholder=\"Thabo Mokoena\""
+      ],
+      [
+        "components/modals/schedule-post-modal.tsx",
+        209,
+        "4/5",
+        "slot.engagement === 'High' ? 'bg-gradient-to-r from-neon-grape to-joburg-teal w-4/5' :"
+      ],
+      [
+        "components/modals/schedule-post-modal.tsx",
+        210,
+        "3/5",
+        "'bg-gradient-to-r from-mzansi-gold to-yellow-400 w-3/5'"
+      ]
+    ],
+    "PLACEHOLDERS (fill or delete)": [
+      [
+        "components/modals/post-creation-modal.tsx",
+        223,
+        "TODO",
+        "// TODO: Open schedule modal with draft ID"
+      ],
+      [
+        "lib/lazy-load.tsx",
+        96,
+        "TODO",
+        "// Analytics View - TODO: Create this component when analytics feature is implemented"
+      ],
+      [
+        "lib/ai/analytics-service.ts",
+        243,
+        "TODO",
+        "// TODO: Implement platform-specific API calls"
+      ],
+      [
+        "lib/ai/analytics-service.ts",
+        274,
+        "TODO",
+        "// TODO: Fetch actual analytics from platform APIs"
+      ]
+    ],
+    "DEMO DATA ON A PUBLIC SURFACE": [],
+    "DEAD OR FAKE LINKS": [
+      [
+        "app/page-old-client.tsx",
+        780,
+        "href=\"#\"",
+        "<li><a href=\"#\" className=\"hover:text-neon-grape transition-colors\">{translate('footer.integration')"
+      ],
+      [
+        "app/page-old-client.tsx",
+        781,
+        "href=\"#\"",
+        "<li><a href=\"#\" className=\"hover:text-neon-grape transition-colors\">{translate('footer.changelog')}<"
+      ],
+      [
+        "app/page-old-client.tsx",
+        799,
+        "href=\"#\"",
+        "<a href=\"#\" className=\"hover:text-white\"><i className=\"fa-brands fa-twitter\"></i></a>"
+      ],
+      [
+        "app/page-old-client.tsx",
+        800,
+        "href=\"#\"",
+        "<a href=\"#\" className=\"hover:text-white\"><i className=\"fa-brands fa-instagram\"></i></a>"
+      ],
+      [
+        "app/page-old-client.tsx",
+        801,
+        "href=\"#\"",
+        "<a href=\"#\" className=\"hover:text-white\"><i className=\"fa-brands fa-linkedin\"></i></a>"
+      ],
+      [
+        "lib/auth.ts",
+        54,
+        "http://localhost",
+        "return 'http://localhost:3000';"
+      ],
+      [
+        "lib/config/urls.ts",
+        30,
+        "http://localhost",
+        "return 'http://localhost:3000';"
+      ],
+      [
+        "lib/config/urls.ts",
+        60,
+        "http://localhost",
+        "'http://localhost:3000',"
+      ],
+      [
+        "lib/config/env-validation.ts",
+        111,
+        "http://localhost",
+        "const baseUrl = process.env.BETTER_AUTH_URL || 'http://localhost:3000';"
+      ],
+      [
+        "lib/diagnostics/auth-diagnostic.ts",
+        59,
+        "http://localhost",
+        "`Trusted Origins: http://localhost:3000, https://purple-glow-social-2-0.vercel.app`"
+      ],
+      [
+        "lib/diagnostics/auth-diagnostic.ts",
+        73,
+        "http://localhost",
+        "const baseUrl = process.env.BETTER_AUTH_URL || \"http://localhost:3000\";"
+      ]
+    ]
+  },
+  "missing": []
+}

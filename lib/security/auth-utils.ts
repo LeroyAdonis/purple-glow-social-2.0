@@ -44,11 +44,10 @@ export function isAdmin(email: string): boolean {
     return true;
   }
   
-  // Allow all purpleglow.co.za emails
-  if (normalizedEmail.endsWith('@purpleglow.co.za')) {
-    return true;
-  }
-  
+  // REMOVED: a wildcard that granted admin to every address at "purpleglow.co.za". We do not own that
+  // domain, so whoever registered it could have signed up with any address there and been handed admin on
+  // this product. Admin is an explicit allow-list from the environment, nothing else - a domain we do not
+  // control must never be a privilege boundary.
   return false;
 }
 

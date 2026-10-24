@@ -138,8 +138,8 @@ function ErrorContent() {
           <div className="mt-6 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
             <p className="text-sm text-yellow-300">
               💬 Need help? Contact support at{' '}
-              <a href="mailto:support@purpleglowsocial.co.za" className="underline">
-                support@purpleglowsocial.co.za
+              <a href="mailto:leroy@digitalwavetech.dev" className="underline">
+                leroy@digitalwavetech.dev
               </a>
             </p>
           </div>

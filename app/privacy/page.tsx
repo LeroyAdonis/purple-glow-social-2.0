@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Purple Glow Social',
+  title: 'Privacy Policy | Posta',
   description: 'Our commitment to protecting your personal information under POPIA (Protection of Personal Information Act)',
 };
 
@@ -31,7 +31,7 @@ export default function PrivacyPolicy() {
               <div className="w-8 h-8 rounded bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
                 <span className="font-display font-bold text-sm text-white">P</span>
               </div>
-              <span className="font-display font-bold text-lg">PURPLE GLOW</span>
+              <span className="font-display font-bold text-lg">POSTA</span>
             </Link>
             <Link 
               href="/" 
@@ -51,7 +51,7 @@ export default function PrivacyPolicy() {
             Privacy Policy
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl">
-            Your privacy matters to us. This policy explains how Purple Glow Social collects, uses, and protects your personal information in compliance with the Protection of Personal Information Act (POPIA), Act 4 of 2013.
+            Your privacy matters to us. This policy explains how Posta collects, uses, and protects your personal information in compliance with the Protection of Personal Information Act (POPIA), Act 4 of 2013.
           </p>
           <div className="flex flex-wrap gap-4 mt-6 text-sm">
             <span className="px-3 py-1 rounded-full bg-neon-grape/20 text-neon-grape border border-neon-grape/30">
@@ -135,7 +135,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
-            © 2025 Purple Glow Technologies (Pty) Ltd. All rights reserved.
+            © 2026 Digital Wave Tech (Pty) Ltd. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <Link href="/privacy" className="text-neon-grape font-medium">
@@ -144,7 +144,7 @@ function Footer() {
             <Link href="/terms" className="text-gray-400 hover:text-neon-grape transition">
               Terms of Service
             </Link>
-            <a href="mailto:support@purpleglow.co.za" className="text-gray-400 hover:text-joburg-teal transition">
+            <a href="mailto:leroy@digitalwavetech.dev" className="text-gray-400 hover:text-joburg-teal transition">
               Contact
             </a>
           </div>
@@ -160,13 +160,13 @@ function PrivacyContent() {
       <section id="introduction">
         <h2>1. Introduction</h2>
         <p>
-          Welcome to Purple Glow Social (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI-powered social media management platform.
+          Welcome to Posta (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI-powered social media management platform.
         </p>
         <p>
-          Purple Glow Technologies (Pty) Ltd is a South African company, and we comply with the <strong>Protection of Personal Information Act (POPIA), Act 4 of 2013</strong>. As the responsible party under POPIA, we ensure that all personal information is processed lawfully and in a reasonable manner that does not infringe on your privacy.
+          Digital Wave Tech (Pty) Ltd is a South African company, and we comply with the <strong>Protection of Personal Information Act (POPIA), Act 4 of 2013</strong>. As the responsible party under POPIA, we ensure that all personal information is processed lawfully and in a reasonable manner that does not infringe on your privacy.
         </p>
         <p>
-          By using Purple Glow Social, you consent to the collection and use of your information in accordance with this policy. If you do not agree with our policies and practices, please do not use our services.
+          By using Posta, you consent to the collection and use of your information in accordance with this policy. If you do not agree with our policies and practices, please do not use our services.
         </p>
       </section>
 
@@ -271,13 +271,13 @@ function PrivacyContent() {
         <p>Under the Protection of Personal Information Act (POPIA), you have the following rights regarding your personal information:</p>
 
         <h3>6.1 Right to Access</h3>
-        <p>You have the right to request access to the personal information we hold about you. You can request a copy of your data by contacting us at <a href="mailto:privacy@purpleglow.co.za">privacy@purpleglow.co.za</a>.</p>
+        <p>You have the right to request access to the personal information we hold about you. You can request a copy of your data by contacting us at <a href="mailto:leroy@digitalwavetech.dev">leroy@digitalwavetech.dev</a>.</p>
 
         <h3>6.2 Right to Correction</h3>
         <p>You have the right to request that we correct any inaccurate or incomplete personal information. You can update most information directly in your account settings or contact us for assistance.</p>
 
         <h3>6.3 Right to Deletion</h3>
-        <p>You have the right to request deletion of your personal information. Upon receiving a valid request, we will delete your data within 30 days, except where we are legally required to retain it. To request deletion, email <a href="mailto:privacy@purpleglow.co.za">privacy@purpleglow.co.za</a>.</p>
+        <p>You have the right to request deletion of your personal information. Upon receiving a valid request, we will delete your data within 30 days, except where we are legally required to retain it. To request deletion, email <a href="mailto:leroy@digitalwavetech.dev">leroy@digitalwavetech.dev</a>.</p>
 
         <h3>6.4 Right to Object</h3>
         <p>You have the right to object to the processing of your personal information for direct marketing purposes or where processing is based on our legitimate interests. You can opt out of marketing communications at any time.</p>
@@ -360,11 +360,11 @@ function PrivacyContent() {
         <p>If you have any questions about this Privacy Policy, your personal information, or wish to exercise your rights under POPIA, please contact us:</p>
         
         <address className="not-italic bg-white/5 p-6 rounded-xl mt-4">
-          <strong className="text-neon-grape">Purple Glow Technologies (Pty) Ltd</strong><br /><br />
+          <strong className="text-neon-grape">Digital Wave Tech (Pty) Ltd</strong><br />Registration number: 2026/809312/07<br />Not VAT registered<br /><br />
           <strong>Information Officer:</strong><br />
-          Email: <a href="mailto:privacy@purpleglow.co.za">privacy@purpleglow.co.za</a><br /><br />
+          Email: <a href="mailto:leroy@digitalwavetech.dev">leroy@digitalwavetech.dev</a><br /><br />
           <strong>General Support:</strong><br />
-          Email: <a href="mailto:support@purpleglow.co.za">support@purpleglow.co.za</a><br /><br />
+          Email: <a href="mailto:leroy@digitalwavetech.dev">leroy@digitalwavetech.dev</a><br /><br />
           <strong>Physical Address:</strong><br />
           Johannesburg, Gauteng<br />
           South Africa

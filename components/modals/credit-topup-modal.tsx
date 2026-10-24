@@ -350,7 +350,6 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                     <label className="text-xs font-mono text-gray-400 mb-2 block">EMAIL</label>
                     <input
                       type="email"
-                      placeholder="you@example.com"
                       className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
@@ -358,7 +357,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                   <label className="flex items-start gap-3 cursor-pointer group">
                     <input type="checkbox" className="mt-1" required />
                     <span className="text-xs text-gray-400 group-hover:text-gray-300">
-                      I agree to the <a href="#" className="text-joburg-teal hover:underline">Terms of Service</a> and <a href="#" className="text-joburg-teal hover:underline">Privacy Policy</a>
+                      I agree to the <a href="/terms" className="text-joburg-teal hover:underline">Terms of Service</a> and <a href="/privacy" className="text-joburg-teal hover:underline">Privacy Policy</a>
                     </span>
                   </label>
 

@@ -142,16 +142,10 @@ export default function FooterSection() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-posta-orange transition-colors flex items-center gap-2 group">
+                <Link href="/contact" className="hover:text-posta-orange transition-colors flex items-center gap-2 group">
                   <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-posta-orange transition-colors"></span>
-                  {translate('footer.integration')}
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-posta-orange transition-colors flex items-center gap-2 group">
-                  <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-posta-orange transition-colors"></span>
-                  {translate('footer.changelog')}
-                </a>
+                  Contact
+                </Link>
               </li>
             </ul>
           </motion.div>
@@ -181,7 +175,7 @@ export default function FooterSection() {
                 </a>
               </li>
               <li>
-                <Link href="/privacy#cookies" className="hover:text-posta-orange transition-colors flex items-center gap-2 group">
+                <Link href="/cookies" className="hover:text-posta-orange transition-colors flex items-center gap-2 group">
                   <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-posta-orange transition-colors"></span>
                   {translate('footer.cookies')}
                 </Link>
@@ -217,19 +211,18 @@ export default function FooterSection() {
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.4 }}
         >
-          <p>&copy; 2025 Posta Technologies (Pty) Ltd. All rights reserved.</p>
+          <p>
+            &copy; 2026 Digital Wave Tech (Pty) Ltd. All rights reserved.
+            <span className="block mt-1 text-text-quaternary">
+              Posta is a product of Digital Wave Tech (Pty) Ltd, registration 2026/809312/07. Not VAT registered.
+            </span>
+          </p>
           <div className="flex items-center gap-6">
-            {/* Social links with SA tooltip */}
-            <div className="flex gap-4">
-              <a href="#" className="hover:text-white transition-colors" aria-label="Twitter">
-                <i className="fa-brands fa-twitter"></i>
-              </a>
-              <a href="#" className="hover:text-white transition-colors" aria-label="Instagram">
-                <i className="fa-brands fa-instagram"></i>
-              </a>
-              <a href="#" className="hover:text-white transition-colors" aria-label="LinkedIn">
-                <i className="fa-brands fa-linkedin"></i>
-              </a>
+            {/* The social icons were three anchors pointing at "#", which look like links and go nowhere.
+                Rather than fake social presence, the footer now points at the pages that actually exist. */}
+            <div className="flex gap-4 text-[11px] uppercase tracking-wider">
+              <Link href="/refund" className="hover:text-white transition-colors">Refunds</Link>
+              <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
             </div>
             <span className="text-[8px] text-text-quaternary tracking-widest uppercase hidden md:inline">
               <i className="fa-solid fa-flag text-sa-green mr-1"></i>

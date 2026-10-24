@@ -73,7 +73,7 @@ export default function NotFound() {
 
         {/* Additional Help */}
         <p className="mt-12 text-sm text-gray-500">
-          Need help? <a href="mailto:hello@purpleglow.co.za" className="text-neon-grape hover:underline">hello@purpleglow.co.za</a>
+          Need help? <a href="mailto:leroy@digitalwavetech.dev" className="text-neon-grape hover:underline">leroy@digitalwavetech.dev</a>
         </p>
         
       </div>

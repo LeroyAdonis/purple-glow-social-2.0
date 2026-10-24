@@ -2,6 +2,10 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
+import { useUserProfile } from '../lib/api/hooks';
+import { queryKeys } from '../lib/api/query-client';
+import { DashboardSkeleton } from './LoadingSkeletons';
 import SettingsView from './settings-view';
 import ScheduleView from './schedule-view';
 import SchedulePostModal from './modals/schedule-post-modal';
@@ -19,6 +23,16 @@ import UsageSummary from './usage-summary';
 import MobileNavigation from './mobile-navigation';
 import { useLanguage } from '../lib/context/LanguageContext';
 
+/**
+ * A circular avatar containing the user's own initial, used when the signed-in
+ * user has no profile photo. Replaces the old ui-avatars.com stock image.
+ */
+function initialAvatarDataUrl(name: string): string {
+    const initial = (name.trim().charAt(0) || '?').toUpperCase();
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" rx="40" fill="#9D4EDD"/><text x="40" y="41" font-family="Arial,sans-serif" font-size="34" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">${initial}</text></svg>`;
+    return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
 interface ClientDashboardViewProps {
     userName: string;
     userEmail: string;
@@ -33,10 +47,6 @@ interface ClientDashboardViewProps {
 }
 
 export default function ClientDashboardView({
-    userName,
-    userEmail,
-    userTier,
-    userCredits,
     onNavigateBack,
     onCreditPurchase,
     onSubscribe,
@@ -45,6 +55,11 @@ export default function ClientDashboardView({
     setShowSuccessModal
 }: ClientDashboardViewProps) {
     const { t: translate } = useLanguage();
+    const queryClient = useQueryClient();
+    // The signed-in user, straight from /api/user/profile. There is deliberately
+    // no fallback user: while it loads we show a skeleton, and if it cannot be
+    // loaded we show an error - never a made-up name or credit balance.
+    const { data: profile, isLoading } = useUserProfile();
     const [showSettings, setShowSettings] = useState(false);
     const [showPricingModal, setShowPricingModal] = useState(false);
     const [showScheduleModal, setShowScheduleModal] = useState(false);
@@ -53,19 +68,50 @@ export default function ClientDashboardView({
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
     const [activeTab, setActiveTab] = useState<'dashboard' | 'schedule' | 'automation'>('dashboard');
 
-    // Use real user data from props
-    const mockUser = {
-        id: 'user-authenticated',
-        name: userName || userEmail.split('@')[0] || 'User',
-        email: userEmail,
-        tier: userTier,
-        credits: userCredits,
-        image: `https://ui-avatars.com/api/?name=${encodeURIComponent(userEmail)}&background=9D4EDD&color=fff`
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-void text-white p-6 lg:p-12">
+                <DashboardSkeleton />
+            </div>
+        );
+    }
+
+    if (!profile) {
+        return (
+            <div className="min-h-screen bg-void text-white flex items-center justify-center p-6">
+                <div className="aerogel-card p-8 rounded-2xl max-w-md text-center border border-glass-border">
+                    <i className="fa-solid fa-triangle-exclamation text-red-400 text-2xl mb-4"></i>
+                    <h2 className="font-display font-bold text-xl mb-2">We couldn&apos;t load your account</h2>
+                    <p className="text-gray-400 text-sm">Please refresh the page or sign in again.</p>
+                </div>
+            </div>
+        );
+    }
+
+    const tier: 'free' | 'pro' | 'business' =
+        profile.tier === 'pro' || profile.tier === 'business' ? profile.tier : 'free';
+    const displayName = profile.name || profile.email.split('@')[0] || 'Account';
+    // Real profile photo if the user has one, otherwise their own initial in a
+    // circle - never a stock avatar service.
+    const avatarSrc = profile.image || initialAvatarDataUrl(displayName);
+
+    const handleSuccessModalClose = () => {
+        setShowSuccessModal(false);
+        // Credits/tier were optimistically updated in the parent; refetch so the
+        // dashboard shows the values actually stored for this user.
+        queryClient.invalidateQueries({ queryKey: queryKeys.user.all });
     };
 
     if (showSettings) {
         return <SettingsView
-            user={mockUser}
+            user={{
+                id: profile.id,
+                name: displayName,
+                email: profile.email,
+                tier,
+                credits: profile.credits,
+                image: avatarSrc,
+            }}
             onBack={() => setShowSettings(false)}
             onUpgrade={() => { setShowSettings(false); setShowPricingModal(true); }}
         />;
@@ -75,11 +121,11 @@ export default function ClientDashboardView({
         <div className="flex min-h-screen bg-void text-white">
             {/* Mobile Navigation */}
             <MobileNavigation
-                userName={mockUser.name}
-                userEmail={mockUser.email}
-                userTier={mockUser.tier}
-                userCredits={mockUser.credits}
-                userImage={mockUser.image}
+                userName={displayName}
+                userEmail={profile.email}
+                userTier={tier}
+                userCredits={profile.credits}
+                userImage={avatarSrc}
                 activeTab={activeTab}
                 onNavigate={setActiveTab}
                 onSettingsClick={() => setShowSettings(true)}
@@ -134,18 +180,21 @@ export default function ClientDashboardView({
                     <div className="p-4 rounded-xl border border-glass-border bg-gradient-to-br from-white/5 to-transparent">
                         <p className="text-xs font-mono text-gray-400 mb-2">{translate('dashboard.credits')}</p>
                         <div className="flex justify-between items-end">
-                            <span className="text-2xl font-display font-bold text-white">{mockUser.credits}</span>
-                            <span className="text-xs text-mzansi-gold mb-1">{translate(`dashboard.tiers.${mockUser.tier}`)}</span>
-                        </div>
-                        <div className="w-full h-1 bg-white/10 rounded-full mt-3 overflow-hidden">
-                            <div className="h-full w-3/4 bg-joburg-teal"></div>
+                            <span className="text-2xl font-display font-bold text-white">{profile.credits}</span>
+                            <span className="text-xs text-mzansi-gold mb-1">{translate(`dashboard.tiers.${tier}`)}</span>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-3 mt-6">
-                        <Image src={mockUser.image} alt="User" width={40} height={40} className="w-10 h-10 rounded-full border border-glass-border" unoptimized />
+                        {profile.image ? (
+                            <Image src={profile.image} alt={displayName} width={40} height={40} className="w-10 h-10 rounded-full border border-glass-border" unoptimized />
+                        ) : (
+                            <span className="w-10 h-10 shrink-0 rounded-full border border-glass-border bg-neon-grape flex items-center justify-center font-bold text-sm" aria-hidden="true">
+                                {displayName.charAt(0).toUpperCase()}
+                            </span>
+                        )}
                         <div>
-                            <p className="text-sm font-bold truncate w-32">{mockUser.name}</p>
+                            <p className="text-sm font-bold truncate w-32">{displayName}</p>
                             <button onClick={() => setShowSettings(true)} className="text-xs text-gray-400 hover:text-white cursor-pointer">{translate('dashboard.sidebar.settings')}</button>
                         </div>
                     </div>
@@ -161,7 +210,7 @@ export default function ClientDashboardView({
                 <div className="max-w-6xl mx-auto space-y-8 relative">
                     <header className="flex justify-between items-center flex-wrap gap-4">
                         <div>
-                            <h2 className="font-display font-bold text-4xl mb-2">{translate('dashboard.welcome')}, {mockUser.name.split(' ')[0]}</h2>
+                            <h2 className="font-display font-bold text-4xl mb-2">{translate('dashboard.welcome')}, {displayName.split(' ')[0]}</h2>
                             <p className="text-gray-400">{translate('dashboard.status')}: <span className="text-joburg-teal">{translate('dashboard.optimal')}</span></p>
                         </div>
                         <div className="flex items-center gap-4">
@@ -181,8 +230,8 @@ export default function ClientDashboardView({
 
                     {/* Credit Warning Banner */}
                     <CreditWarningBanner
-                        credits={mockUser.credits}
-                        tier={mockUser.tier}
+                        credits={profile.credits}
+                        tier={tier}
                         onUpgrade={() => setShowSubscriptionModal(true)}
                     />
 
@@ -301,7 +350,7 @@ export default function ClientDashboardView({
                 isOpen={showCreditModal}
                 onClose={() => setShowCreditModal(false)}
                 onPurchase={onCreditPurchase}
-                currentCredits={mockUser.credits}
+                currentCredits={profile.credits}
             />
 
             {/* Subscription Modal */}
@@ -309,14 +358,14 @@ export default function ClientDashboardView({
                 isOpen={showSubscriptionModal}
                 onClose={() => setShowSubscriptionModal(false)}
                 onSubscribe={onSubscribe}
-                currentTier={mockUser.tier}
+                currentTier={tier}
             />
 
             {/* Success Modal */}
             {successData && (
                 <PaymentSuccessModal
                     isOpen={showSuccessModal}
-                    onClose={() => setShowSuccessModal(false)}
+                    onClose={handleSuccessModalClose}
                     type={successData.type}
                     amount={successData.amount}
                     credits={successData.credits}

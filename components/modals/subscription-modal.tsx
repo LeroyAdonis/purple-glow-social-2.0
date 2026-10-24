@@ -362,7 +362,7 @@ export default function SubscriptionModal({ isOpen, onClose, onSubscribe, curren
                   <label className="flex items-start gap-3 cursor-pointer">
                     <input type="checkbox" className="mt-1" required />
                     <span className="text-xs text-gray-400">
-                      I agree to the <a href="#" className="text-joburg-teal hover:underline">Terms</a> and authorize recurring charges
+                      I agree to the <a href="/terms" className="text-joburg-teal hover:underline">Terms</a> and authorize recurring charges
                     </span>
                   </label>
 

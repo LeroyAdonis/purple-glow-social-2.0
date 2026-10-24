@@ -13,7 +13,7 @@ function isAdminEmail(email: string | undefined): boolean {
   if (adminEmails.includes(email)) return true;
   
   // Check against admin domains (e.g., @purpleglow.co.za)
-  const adminDomains = ['purpleglow.co.za'];
+  const adminDomains = ['digitalwavetech.dev'];
   return adminDomains.some(domain => email.endsWith(`@${domain}`));
 }
 

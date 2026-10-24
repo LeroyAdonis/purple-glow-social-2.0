@@ -30,7 +30,7 @@ Stack: ${error.stack}
 URL: ${typeof window !== 'undefined' ? window.location.href : 'Unknown'}
 Time: ${new Date().toISOString()}
     `);
-    window.open(`mailto:support@purpleglow.co.za?subject=${subject}&body=${body}`);
+    window.open(`mailto:leroy@digitalwavetech.dev?subject=${subject}&body=${body}`);
   };
 
   if (variant === 'minimal') {

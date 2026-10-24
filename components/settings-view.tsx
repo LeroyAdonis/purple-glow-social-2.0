@@ -93,7 +93,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
           </button>
           <div>
             <h1 className="font-display font-bold text-lg tracking-tight">Settings</h1>
-            <p className="text-xs text-gray-500 font-mono">PURPLE GLOW</p>
+            <p className="text-xs text-gray-500 font-mono">POSTA</p>
           </div>
         </div>
 

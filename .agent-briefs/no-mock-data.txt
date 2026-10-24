@@ -1,0 +1,62 @@
+TASK: Remove the last of the demo/mock data and placeholder text from Posta's live UI.
+
+CONTEXT: Posta is about to be submitted to a payment processor and shown to real buyers. Anything fake on a
+signed-in screen is a liability. The public landing page has already been cleaned; this is the app itself.
+
+FILES YOU OWN (edit these only):
+  /root/posta-revive/components/client-dashboard-view.tsx
+  /root/posta-revive/components/modals/credit-topup-modal.tsx
+  /root/posta-revive/components/test-posting.tsx
+
+WORK ITEM 1 — the dashboard shows a FAKE user.
+components/client-dashboard-view.tsx imports and renders `mockUser` (a hardcoded demo object): the name,
+avatar, credit balance and tier on the dashboard are all invented. It must show the signed-in user.
+
+How to do it properly:
+  a. Read the file and find what real data is already available in the component tree - look at
+     /root/posta-revive/lib/context/AppContext.tsx and at the `useAppContext()` hook, and at
+     /root/posta-revive/lib/api/hooks.ts which already has a hook that fetches /api/user/profile
+     (the endpoint is live and returns the real user: id, name, email, tier, credits).
+  b. Replace every `mockUser.` read with the real value. Prefer the existing app context / existing hook
+     over inventing a new fetch. Do not create a second data source.
+  c. Handle the loading and signed-out states honestly: show a skeleton or nothing while the real user is
+     unknown, and never fall back to a fake name or fake credit number. A fake number is worse than a
+     spinner.
+  d. If the avatar image is missing for the real user, render their initial in a circle rather than a
+     stock image.
+
+WORK ITEM 2 — placeholder text.
+  a. components/modals/credit-topup-modal.tsx contains a hardcoded `example.com` value. Find it and remove
+     it: an email or URL shown to a paying customer must be a real one. If it is a fallback for a missing
+     env value, show nothing and log nothing rather than a fake domain.
+  b. components/test-posting.tsx also contains `example.com`. That component is not rendered anywhere, so
+     delete the file if nothing imports it - verify with a grep first and state the result. If something
+     does import it, remove only the placeholder.
+
+ACCEPTANCE (run these, paste the real output):
+  a) cd /root/posta-revive && npx tsc --noEmit -p tsconfig.json        -> prints nothing, exit 0
+  b) grep -rn "mockUser" components/ app/ lib/ --include="*.tsx" --include="*.ts"   -> no hits in the file
+     you edited (anywhere else is out of scope, just report it)
+  c) grep -rn "example.com" components/ app/ lib/                    -> no hits at all
+  d) Prove the dashboard shows REAL data, not a demo name. The app runs at https://posta.digitalwavetech.dev
+     and a working account exists: demo@posta.co.za / Posta2026!  Write a Playwright script that logs in,
+     waits for the dashboard, and prints the visible name, the credit number and the email. Then run the
+     same script with a SECOND account you register yourself (use any email at a domain you like, no real
+     address needed) and show that the two dashboards display DIFFERENT names - that difference is the
+     proof the data is real rather than hardcoded.
+  e) Report any console errors you see on the dashboard.
+
+HARD RULES:
+- No git commands that change state (no add/commit/push/checkout/stash/reset/clean/branch).
+- Do not touch the landing page, the legal pages, the footer, or anything under app/api.
+- Do not restart or kill the server on port 3008 - it is serving the live site.
+- No new npm packages.
+- If a real user field genuinely does not exist yet, say so plainly and show what you did instead. Do not
+  invent a value to make it look finished.
+
+REPORT (short, real output pasted):
+- how the real user data now reaches the dashboard, naming the exact source you used
+- what you did about loading / signed-out states
+- the grep results for mockUser and example.com
+- the two-account Playwright output proving different names
+- anything left undone
