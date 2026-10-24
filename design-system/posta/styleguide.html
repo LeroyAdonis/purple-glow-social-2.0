@@ -1,0 +1,663 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Posta style guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --clay:#8E3B2E; --clay-deep:#742F25; --clay-tint:#F2E2DA; --cream:#F7EDE2; --paper:#FBF6EF;
+           --ink:#24140F; --ink-soft:#6E5B4E; --gold:#E9A93C; --line:#EADCCB; --success:#2F6B4F;
+           --danger:#A32B22; --warning:#8A5A12;
+           --display:"Space Grotesk",sans-serif; --body:"Inter",sans-serif; }
+  body { font-family: var(--body); color: var(--ink); background: var(--paper); }
+  .page { width: 297mm; height: 210mm; padding: 14mm 16mm; page-break-after: always; position: relative;
+           display: flex; flex-direction: column; overflow: hidden; }
+  .page:last-child { page-break-after: auto; }
+  .pnum { position: absolute; bottom: 8mm; right: 16mm; font-size: 9px; color: var(--ink-soft);
+           letter-spacing: .12em; text-transform: uppercase; }
+  .kicker { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft); }
+  h1 { font-family: var(--display); font-weight: 700; letter-spacing: -.03em; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: 22px; letter-spacing: -.02em;
+        margin-bottom: 4mm; }
+  h3 { font-family: var(--display); font-weight: 500; font-size: 13px; margin-bottom: 2mm; }
+  .row { display: flex; gap: 5mm; }
+  .rule { border-top: 1px solid var(--line); margin: 4mm 0; }
+  /* cover */
+  .cover { background: var(--clay); color: var(--cream); justify-content: space-between; }
+  .cover .mark { display: flex; align-items: flex-end; }
+  .cover .word { font-family: var(--display); font-weight: 700; font-size: 92px; letter-spacing: -.045em;
+                  line-height: 1; }
+  .cover .bub { margin-left: 6px; margin-bottom: 19px; }
+  .cover h1 { font-size: 40px; line-height: 1.02; max-width: 780px; }
+  .cover .sub { font-size: 13px; max-width: 620px; color: rgba(247,237,226,.82); line-height: 1.6; }
+  .cover .foot { display: flex; gap: 14mm; font-size: 11px; color: rgba(247,237,226,.72); }
+  .cover .foot b { display: block; font-family: var(--display); font-size: 20px; color: var(--cream); }
+  /* swatches */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+  .sw { display: flex; gap: 3mm; align-items: flex-start; }
+  .chip { width: 16mm; height: 16mm; border-radius: 3mm; border: 1px solid rgba(36,20,15,.10); flex: none; }
+  .sw .meta { font-size: 9px; line-height: 1.5; }
+  .sw .meta b { display: block; font-size: 10px; }
+  .sw code { display: block; color: var(--ink-soft); }
+  .sw .meta span { display: block; color: var(--ink-soft); max-width: 42mm; }
+  .sw .meta em { display: block; font-style: normal; font-size: 8px; margin-top: 1mm; color: var(--clay); }
+  /* type */
+  .spec { display: flex; gap: 6mm; align-items: baseline; border-bottom: 1px solid var(--line);
+           padding: 2.6mm 0; }
+  .spec-meta { width: 34mm; flex: none; font-size: 8.5px; color: var(--ink-soft); }
+  .spec-meta b { display: block; font-size: 10px; color: var(--ink); }
+  .spec-line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* components */
+  .btn { border-radius: 999px; padding: 0 7mm; height: 12mm; display: inline-flex; align-items: center;
+          font-size: 12px; font-weight: 500; }
+  .btn.primary { background: var(--gold); color: var(--ink); }
+  .btn.primary.hover { background: #D2962B; }
+  .btn.secondary { border: 1px solid var(--clay); color: var(--ink); }
+  .btn.quiet { color: var(--ink-soft); text-decoration: underline; }
+  .btn.disabled { background: var(--gold); color: var(--ink); opacity: .4; }
+  .btn.focus { background: var(--gold); color: var(--ink); outline: 2px solid var(--clay); outline-offset: 2px; }
+  .field { border: 1px solid var(--line); border-radius: 2mm; background: #fff; height: 12mm;
+            display: flex; align-items: center; padding: 0 4mm; font-size: 12px; width: 70mm; color: var(--ink-soft); }
+  .field.err { border-color: var(--danger); }
+  .label { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft);
+            margin-bottom: 1.5mm; }
+  .card { border: 1px solid var(--line); border-radius: 4mm; background: #fff; padding: 4mm; width: 96mm;
+           box-shadow: 0 2px 8px -2px rgba(36,20,15,.10); }
+  .badge { font-size: 8px; letter-spacing: .14em; text-transform: uppercase; padding: 1mm 2.4mm;
+            border-radius: 999px; }
+  /* icons */
+  .ic { text-align: center; }
+  .icbox { width: 11mm; height: 11mm; border: 1px solid var(--line); border-radius: 2mm; display: flex;
+            align-items: center; justify-content: center; background: #fff; margin: 0 auto 1mm; }
+  .icbox.sm { width: 8mm; height: 8mm; }
+  .icbox.lg { width: 15mm; height: 15mm; }
+  .ic b { font-size: 7.5px; color: var(--ink-soft); font-weight: 400; display: block; max-width: 18mm; }
+  ul { font-size: 11px; line-height: 1.65; padding-left: 4mm; }
+  li { margin-bottom: 1mm; }
+  .no li { color: var(--danger); }
+  .yes li { color: var(--success); }
+</style></head><body>
+
+<!-- 1 · COVER -->
+<section class="page cover">
+  <div>
+    <div class="mark"><div class="word">posta</div><div class="bub"><svg viewBox="0 0 100 100" width="38" height="38" aria-hidden="true"><path d="M48 9C25 9 9 24 9 44c0 21 17 35 39 35 4 0 8-.5 11.5-1.4l17 10-4.5-18C80 63 88 54 88 44 88 24 71 9 48 9z" fill="none" stroke="#F7EDE2" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/><circle cx="48" cy="43" r="9" fill="#E9A93C"/></svg></div></div>
+  </div>
+  <div>
+    <div class="kicker" style="color:rgba(247,237,226,.6);margin-bottom:6mm">Brand and design system · v1 · 25 October 2026</div>
+    <h1>Warm, flat, and quiet<br>enough to be trusted.</h1>
+    <p class="sub" style="margin-top:6mm">Direction C &ldquo;Phone First&rdquo;. One colour field, one accent, three type
+    sizes per screen. The whole point of this system is that it is smaller than the one it replaces — the old interface
+    stacked gradients, glass, glow and six accents, which is why it read as busy.</p>
+  </div>
+  <div class="foot">
+    <div><b>11</b>official languages</div>
+    <div><b>4</b>platforms</div>
+    <div><b>3</b>type sizes per view</div>
+    <div><b>1</b>accent, once per screen</div>
+    <div><b>0</b>gradients</div>
+  </div>
+  <div class="pnum" style="color:rgba(247,237,226,.5)">01</div>
+</section>
+
+<!-- 2 · COLOUR -->
+<section class="page">
+  <div class="kicker">Colour</div>
+  <h2>Five colours, and every ratio measured</h2>
+  <div class="grid"><div class="sw"><div class="chip" style="background:#8E3B2E"></div><div class="meta"><b>--posta-clay</b><code>#8E3B2E</code><span>Brand field. Marketing ground, primary fills.</span><em>on paper 6.94:1 · on clay 1.0:1</em></div></div><div class="sw"><div class="chip" style="background:#742F25"></div><div class="meta"><b>--posta-clay-deep</b><code>#742F25</code><span>Pressed field. The only clay safe for gold text.</span><em>on paper 8.98:1 · on clay 1.29:1</em></div></div><div class="sw"><div class="chip" style="background:#F2E2DA"></div><div class="meta"><b>--posta-clay-tint</b><code>#F2E2DA</code><span>Selected chip, quiet fill.</span><em>on paper 1.17:1 · on clay 5.92:1</em></div></div><div class="sw"><div class="chip" style="background:#F7EDE2"></div><div class="meta"><b>--posta-cream</b><code>#F7EDE2</code><span>Type on the field.</span><em>on paper 1.08:1 · on clay 6.45:1</em></div></div><div class="sw"><div class="chip" style="background:#FBF6EF"></div><div class="meta"><b>--posta-paper</b><code>#FBF6EF</code><span>The app background.</span><em>on paper 1.0:1 · on clay 6.94:1</em></div></div><div class="sw"><div class="chip" style="background:#24140F"></div><div class="meta"><b>--posta-ink</b><code>#24140F</code><span>All body type on light.</span><em>on paper 16.52:1 · on clay 2.38:1</em></div></div><div class="sw"><div class="chip" style="background:#6E5B4E"></div><div class="meta"><b>--posta-ink-soft</b><code>#6E5B4E</code><span>Secondary text, meta.</span><em>on paper 5.97:1 · on clay 1.16:1</em></div></div><div class="sw"><div class="chip" style="background:#E9A93C"></div><div class="meta"><b>--posta-gold</b><code>#E9A93C</code><span>The single accent. Once per screen.</span><em>on paper 1.91:1 · on clay 3.63:1</em></div></div><div class="sw"><div class="chip" style="background:#EADCCB"></div><div class="meta"><b>--posta-line</b><code>#EADCCB</code><span>Hairlines only.</span><em>on paper 1.25:1 · on clay 5.54:1</em></div></div></div>
+  <div class="rule"></div>
+  <h3>State colours — functional, never decorative</h3>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr)"><div class="sw"><div class="chip" style="background:#2F6B4F"></div><div class="meta"><b>--posta-success</b><code>#2F6B4F</code><em>on paper 5.85:1</em></div></div><div class="sw"><div class="chip" style="background:#A32B22"></div><div class="meta"><b>--posta-danger</b><code>#A32B22</code><em>on paper 6.67:1</em></div></div><div class="sw"><div class="chip" style="background:#8A5A12"></div><div class="meta"><b>--posta-warning</b><code>#8A5A12</code><em>on paper 5.5:1</em></div></div></div>
+  <div class="rule"></div>
+  <div class="row" style="gap:8mm">
+    <div>
+      <h3>The gold rules</h3>
+      <ul class="no">
+        <li>Ink on gold 8.63:1 — the primary button, that is the job</li>
+        <li>Gold on clay 3.63:1 — large text or graphics only</li>
+        <li>Gold on paper 1.91:1 — <b>never</b> text, hairline or focus ring</li>
+        <li>One gold element per screen. Two means do neither</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Corrected in this version</h3>
+      <ul>
+        <li>Warning was <code>#B5761A</code> at 3.51:1 on paper — failed AA, now <code>#8A5A12</code> at 5.50:1</li>
+        <li>Focus rings are per surface: clay on light (6.94:1), cream on clay (6.45:1)</li>
+        <li>Gold as a focus ring was invisible on paper, which is why it is banned</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pnum">02 · colour</div>
+</section>
+
+<!-- 3 · TYPE -->
+<section class="page">
+  <div class="kicker">Typography</div>
+  <h2>Space Grotesk for display, Inter for reading — ten sizes, 11px floor</h2>
+  <div class="spec"><div class="spec-meta"><b>display</b><span>96px · 700 · lh 0.95 · tracking -0.03em</span></div><div class="spec-line" style="font-family:var(--display);font-size:60px;font-weight:700;line-height:0.95;letter-spacing:-0.03em;">Write it once.</div></div><div class="spec"><div class="spec-meta"><b>h1</b><span>48px · 700 · lh 1.15 · tracking -0.02em</span></div><div class="spec-line" style="font-family:var(--display);font-size:48px;font-weight:700;line-height:1.15;letter-spacing:-0.02em;">Tuesday’s posts</div></div><div class="spec"><div class="spec-meta"><b>h2</b><span>32px · 700 · lh 1.15 · tracking -0.01em</span></div><div class="spec-line" style="font-family:var(--display);font-size:32px;font-weight:700;line-height:1.15;letter-spacing:-0.01em;">Ready to approve</div></div><div class="spec"><div class="spec-meta"><b>h3</b><span>22px · 500 · lh 1.25</span></div><div class="spec-line" style="font-family:var(--display);font-size:22px;font-weight:500;line-height:1.25;letter-spacing:0em;">IsiZulu draft</div></div><div class="spec"><div class="spec-meta"><b>body-lg</b><span>18px · 400 · lh 1.55</span></div><div class="spec-line" style="font-family:var(--body);font-size:18px;font-weight:400;line-height:1.55;letter-spacing:0em;">Posta writes it in the language your customer thinks in.</div></div><div class="spec"><div class="spec-meta"><b>body</b><span>16px · 400 · lh 1.55</span></div><div class="spec-line" style="font-family:var(--body);font-size:16px;font-weight:400;line-height:1.55;letter-spacing:0em;">The default size for everything in the app.</div></div><div class="spec"><div class="spec-meta"><b>small</b><span>14px · 400 · lh 1.5</span></div><div class="spec-line" style="font-family:var(--body);font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0em;">Secondary text and table cells.</div></div><div class="spec"><div class="spec-meta"><b>meta</b><span>12px · 500 · lh 1.4 · tracking 0.16em</span></div><div class="spec-line" style="font-family:var(--body);font-size:12px;font-weight:500;line-height:1.4;letter-spacing:0.16em;text-transform:uppercase;">SCHEDULED · 17:30 SAST</div></div><div class="spec"><div class="spec-meta"><b>micro</b><span>11px · 500 · lh 1.4 · tracking 0.1em</span></div><div class="spec-line" style="font-family:var(--body);font-size:11px;font-weight:500;line-height:1.4;letter-spacing:0.1em;">11px is the floor. Nothing smaller.</div></div>
+  <div class="pnum">03 · typography</div>
+</section>
+
+<!-- 4 · COMPONENTS -->
+<section class="page">
+  <div class="kicker">Components</div>
+  <h2>Every state, because the missing ones are what feel unfinished</h2>
+  <div class="row">
+    <div>
+      <h3>Button</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:3mm;align-items:center;max-width:120mm">
+        <span class="btn primary">Approve and schedule</span>
+        <span class="btn primary hover">Hover</span>
+        <span class="btn primary focus">Focus</span>
+        <span class="btn primary disabled">Disabled</span>
+        <span class="btn secondary">Secondary</span>
+        <span class="btn quiet">Quiet action</span>
+      </div>
+      <div class="rule"></div>
+      <h3>Field</h3>
+      <div class="label">Email address</div>
+      <div class="field">you@yourbusiness.co.za</div>
+      <div class="label" style="margin-top:3mm">Email address</div>
+      <div class="field err">thabo@</div>
+      <div style="font-size:9px;color:var(--danger);margin-top:1.5mm">That address is missing an @domain.</div>
+    </div>
+    <div>
+      <h3>The post card — the component the product exists for</h3>
+      <div class="card">
+        <div style="display:flex;gap:2mm;align-items:center;margin-bottom:3mm">
+          <span class="badge" style="background:var(--clay-tint);color:var(--ink)">isiZulu</span>
+          <span class="badge" style="background:var(--clay-tint);color:var(--ink)">Instagram</span>
+          <span style="font-size:10px;color:var(--ink-soft);margin-left:auto;font-variant-numeric:tabular-nums">07:00 SAST</span>
+        </div>
+        <div style="font-size:13px;line-height:1.55">&ldquo;Isinkwa esisha siphuma ngo-7. Woza masinyane — amavetkoek aphela ngokushesha.&rdquo;</div>
+        <div style="display:flex;gap:3mm;align-items:center;margin-top:4mm">
+          <span class="btn primary" style="height:9mm;font-size:11px;padding:0 5mm">Approve</span>
+          <span style="font-size:11px;color:var(--ink-soft);text-decoration:underline">Edit</span>
+          <span class="badge" style="background:var(--clay-tint);margin-left:auto">Scheduled</span>
+        </div>
+      </div>
+      <div style="font-size:9px;color:var(--ink-soft);margin-top:2mm;max-width:96mm">A failed post always says
+      why and what to do: &ldquo;Instagram rejected the image: 9MB, the limit is 8MB.&rdquo; Never &ldquo;something went wrong&rdquo;.</div>
+    </div>
+  </div>
+  <div class="pnum">04 · components</div>
+</section>
+
+<!-- 5 · ICONS -->
+<section class="page">
+  <div class="kicker">Icons and illustration</div>
+  <h2>The rule is size, not taste</h2>
+  <div class="row" style="gap:10mm">
+    <div style="flex:1">
+      <h3>Lucide — the interface. 16–24px, stroke 2</h3>
+      <div class="row" style="gap:3mm;flex-wrap:wrap"><div class="ic"><div class="icbox"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-message-circle"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
+
+</svg></div><div class="icbox sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-message-circle"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
+
+</svg></div><b>message-circle</b></div><div class="ic"><div class="icbox"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-calendar-clock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 14v2.2l1.6 1" />
+  <path d="M16 2v3" />
+  <path d="M21 7.338V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2.338" />
+  <path d="M3 9h5.859" />
+  <path d="M8 2v3" />
+  <circle cx="16" cy="16" r="6" />
+
+</svg></div><div class="icbox sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-calendar-clock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 14v2.2l1.6 1" />
+  <path d="M16 2v3" />
+  <path d="M21 7.338V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2.338" />
+  <path d="M3 9h5.859" />
+  <path d="M8 2v3" />
+  <circle cx="16" cy="16" r="6" />
+
+</svg></div><b>calendar-clock</b></div><div class="ic"><div class="icbox"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-list-checks"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M13 5h8" />
+  <path d="M13 12h8" />
+  <path d="M13 19h8" />
+  <path d="m3 17 2 2 4-4" />
+  <path d="m3 7 2 2 4-4" />
+
+</svg></div><div class="icbox sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-list-checks"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M13 5h8" />
+  <path d="M13 12h8" />
+  <path d="M13 19h8" />
+  <path d="m3 17 2 2 4-4" />
+  <path d="m3 7 2 2 4-4" />
+
+</svg></div><b>list-checks</b></div><div class="ic"><div class="icbox"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-sparkles"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+  <path d="M20 2v4" />
+  <path d="M22 4h-4" />
+  <circle cx="4" cy="20" r="2" />
+
+</svg></div><div class="icbox sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-sparkles"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+  <path d="M20 2v4" />
+  <path d="M22 4h-4" />
+  <circle cx="4" cy="20" r="2" />
+
+</svg></div><b>sparkles</b></div><div class="ic"><div class="icbox"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-image"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+  <circle cx="9" cy="9" r="2" />
+  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+
+</svg></div><div class="icbox sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-image"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+  <circle cx="9" cy="9" r="2" />
+  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+
+</svg></div><b>image</b></div><div class="ic"><div class="icbox"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-send"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+  <path d="m21.854 2.147-10.94 10.939" />
+
+</svg></div><div class="icbox sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-send"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+  <path d="m21.854 2.147-10.94 10.939" />
+
+</svg></div><b>send</b></div><div class="ic"><div class="icbox"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-chart-no-axes-column"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 21v-6" />
+  <path d="M12 21V3" />
+  <path d="M19 21V9" />
+
+</svg></div><div class="icbox sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-chart-no-axes-column"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 21v-6" />
+  <path d="M12 21V3" />
+  <path d="M19 21V9" />
+
+</svg></div><b>chart-no-axes-column</b></div><div class="ic"><div class="icbox"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-languages"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m5 8 6 6" />
+  <path d="m4 14 6-6 2-3" />
+  <path d="M2 5h12" />
+  <path d="M7 2h1" />
+  <path d="m22 22-5-10-5 10" />
+  <path d="M14 18h6" />
+
+</svg></div><div class="icbox sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-languages"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m5 8 6 6" />
+  <path d="m4 14 6-6 2-3" />
+  <path d="M2 5h12" />
+  <path d="M7 2h1" />
+  <path d="m22 22-5-10-5 10" />
+  <path d="M14 18h6" />
+
+</svg></div><b>languages</b></div><div class="ic"><div class="icbox"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-settings"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+  <circle cx="12" cy="12" r="3" />
+
+</svg></div><div class="icbox sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-settings"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+  <circle cx="12" cy="12" r="3" />
+
+</svg></div><b>settings</b></div><div class="ic"><div class="icbox"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-circle-alert"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <line x1="12" x2="12" y1="8" y2="12" />
+  <line x1="12" x2="12.01" y1="16" y2="16" />
+
+</svg></div><div class="icbox sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-circle-alert"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <line x1="12" x2="12" y1="8" y2="12" />
+  <line x1="12" x2="12.01" y1="16" y2="16" />
+
+</svg></div><b>circle-alert</b></div></div>
+      <div style="font-size:9.5px;color:var(--ink-soft);margin-top:3mm;max-width:120mm">ISC licence, 2,171 icons,
+      installs from npm. One stroke weight so the set stays even as it shrinks. This is what lives in a sidebar,
+      a toolbar and a table.</div>
+    </div>
+    <div style="flex:1">
+      <h3>Doodle Icons — illustration. 32px and up</h3>
+      <div class="row" style="gap:4mm"><div class="ic"><div class="icbox lg"><svg width="44" height="44" viewBox="0 0 158 141" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0)">
+<path d="M25.3444 106.878C27.7828 108.544 28.102 109.755 26.8285 112.511C24.164 118.28 21.0905 125.117 18.4964 132.108C17.8052 133.97 17.7557 137.607 19.2508 139.067C20.4742 140.262 22.5497 140.426 24.5568 140.584C25.1503 140.631 25.7106 140.675 26.2382 140.744C26.3236 140.756 26.4095 140.761 26.4956 140.761C27.2256 140.692 27.9286 140.45 28.5463 140.056L28.8069 139.92C31.0067 138.785 33.2086 137.654 35.4126 136.526C41.7037 133.301 48.2085 129.963 54.5425 126.559L54.6018 126.528C62.2238 122.434 69.4168 118.566 78.2498 120.266C78.6185 120.325 78.9925 120.34 79.3651 120.309C79.483 120.303 79.6022 120.298 79.7188 120.297C100.703 120.106 116.873 115.762 130.606 106.626C151.64 92.6322 161.084 72.6056 156.517 51.6818C152.289 32.3089 143.953 20.2547 129.488 12.5985C114.782 4.81623 98.2103 0.344555 82.8262 0.00732422C82.8204 0.00829458 82.8145 0.00829458 82.8093 0.00732422C63.8205 0.0820479 47.9564 3.20238 32.8857 9.82936C14.6163 17.8612 4.59895 29.4004 2.26219 45.106C1.2549 51.4949 1.13475 57.9916 1.90517 64.4132C4.43476 83.9408 12.1024 97.831 25.3444 106.878ZM31.7762 122.668C33.0466 118.148 34.2452 113.879 35.7403 109.789C38.0855 103.379 34.6244 99.7777 31.3495 97.356C26.3685 93.6744 21.3302 89.436 18.2123 83.4113C10.1604 67.8526 9.06465 53.2775 14.86 38.8533C18.0032 31.0307 24.3842 25.2225 34.941 20.5741C49.512 14.1583 64.0147 10.9506 78.3527 10.9506C92.628 11.014 106.724 14.1301 119.691 20.088C134.661 26.8151 142.963 37.9101 145.818 55.0055C148.164 69.0345 144.266 80.7193 133.559 91.7764C124.025 101.622 111.17 107.416 93.1042 110.01C83.9989 111.317 73.2291 112.4 62.3899 110.52C61.0369 110.291 59.5235 111.136 58.2995 111.82C50.9622 115.933 43.6939 120.058 35.9996 124.425L30.3717 127.618C30.8629 125.919 31.3254 124.273 31.7762 122.668V122.668Z" fill="currentColor"/>
+<path d="M50.4727 69.7116H50.5632C51.5856 69.7084 52.597 69.5011 53.5381 69.1028C54.4792 68.7038 55.3311 68.1223 56.0439 67.3913C56.6562 66.761 57.1341 66.0131 57.4489 65.1938C57.7636 64.3742 57.9086 63.4996 57.8751 62.6226C57.7597 60.8352 56.9862 59.1535 55.7032 57.9004C54.4202 56.6472 52.7181 55.9107 50.9241 55.833C49.971 55.839 49.0285 56.034 48.1513 56.406C47.2742 56.778 46.4798 57.3195 45.8141 58C45.0885 58.6916 44.507 59.5195 44.1032 60.436C43.6994 61.3525 43.4811 62.34 43.4611 63.3409C43.4557 64.1543 43.6132 64.9604 43.9245 65.7123C44.2357 66.4641 44.6943 67.1457 45.2734 67.7188C46.6738 69.043 48.5435 69.7597 50.4727 69.7116Z" fill="currentColor"/>
+<path d="M81.3262 71.5141H81.3913C83.1594 71.4998 84.8499 70.7896 86.0955 69.5382C87.4055 68.2679 88.1606 66.533 88.1964 64.7109C88.2114 62.8915 87.2016 60.7403 85.5613 59.0997C84.4492 57.855 82.8981 57.0869 81.2317 56.9556H81.2109C77.8461 56.9751 74.4957 60.6551 74.4468 64.3848C74.4299 65.3173 74.5993 66.2438 74.9452 67.11C75.2905 67.9768 75.8051 68.7662 76.4598 69.4323C77.0924 70.0833 77.8481 70.6025 78.6832 70.9599C79.519 71.3172 80.4167 71.5057 81.3262 71.5141Z" fill="currentColor"/>
+<path d="M110.697 70.7603H110.74C112.416 70.6959 114.011 70.0228 115.225 68.8681C116.439 67.7128 117.189 66.1554 117.333 64.4883C117.287 62.8406 116.594 61.2767 115.402 60.1347C113.8 58.3543 111.576 57.2516 109.186 57.0521C108.579 57.0402 107.977 57.1519 107.416 57.3796C106.854 57.6072 106.345 57.9462 105.919 58.3764C105.249 59.0638 104.722 59.8774 104.37 60.7699C104.018 61.6623 103.847 62.6157 103.869 63.5745C103.828 65.4283 104.522 67.2223 105.801 68.5679C107.079 69.913 108.839 70.7018 110.697 70.7603Z" fill="currentColor"/>
+</g>
+<defs>
+<clipPath id="clip0">
+<rect width="157" height="141" fill="white" transform="translate(0.777344)"/>
+</clipPath>
+</defs>
+</svg>
+</div><b>message</b></div><div class="ic"><div class="icbox lg"><svg width="44" height="44" viewBox="0 0 157 148" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0)">
+<path d="M38.6174 11.6714C38.6174 9.22676 38.5662 6.98592 38.6303 4.74777C38.7093 1.9877 39.4323 0.780865 40.912 0.682198C42.3918 0.583532 43.2106 1.63988 43.6307 4.4324C43.9544 6.55568 44.1187 8.70155 44.4074 11.3357L111.435 10.7582C111.572 9.35087 111.67 8.0856 111.824 6.8276C111.983 5.54626 112.142 4.26041 112.406 2.99787C112.727 1.46659 113.641 0.46954 115.293 0.45526C117.088 0.439032 118.118 1.51198 118.405 3.16205C118.737 5.07307 118.849 7.02292 119.052 8.95601C119.108 9.4792 119.155 10.0036 119.236 10.8384C122.4 11.0026 125.478 11.2513 128.558 11.3065C142.155 11.5493 149.818 19.9339 152.541 31.7298C153.912 37.6686 154.21 43.9041 154.527 50.0292C155.266 64.2703 155.804 78.5256 156.261 92.7758C156.52 100.76 156.459 108.759 156.526 116.751C156.664 132.909 144.437 141.555 133.689 144.484C129.955 145.535 126.108 146.134 122.232 146.269C99.607 146.824 76.9766 147.444 54.3475 147.459C42.2785 147.468 30.2892 145.546 18.483 142.984C9.42075 141.019 2.43696 132.588 1.35467 122.835C1.02216 119.612 0.884885 116.371 0.943625 113.131C1.06273 102.003 1.40001 90.8771 1.44791 79.7492C1.50422 66.7862 1.37732 53.822 1.25369 40.859C1.22003 37.3038 0.990901 33.8485 2.27774 30.338C5.86768 20.5467 12.9039 15.137 22.9203 13.4298C26.9458 12.743 31.0523 12.5335 35.1213 12.0986C36.1777 11.9857 37.2205 11.8427 38.6174 11.6714ZM146.224 49.0038C123.214 49.7588 100.719 50.5615 78.2195 51.2177C55.6284 51.8792 33.0291 52.3998 10.2654 52.9867C10.2421 53.2612 10.1618 53.7787 10.1612 54.296C10.1396 71.5858 10.1259 88.8759 10.1198 106.166C10.1198 110.809 10.0959 115.457 10.3076 120.093C10.4437 123.359 11.6846 126.48 13.8258 128.945C15.9671 131.409 18.8811 133.069 22.0884 133.651C35.1639 135.873 48.2304 137.935 61.5784 137.574C73.7524 137.244 85.9379 137.36 98.115 137.112C107.807 136.917 117.497 136.538 127.179 136.098C131.402 135.878 135.481 134.485 138.96 132.073C143.656 128.901 146.812 124.747 146.914 118.766C146.994 114.125 147.293 109.484 147.221 104.844C146.948 87.2349 146.561 69.6274 146.222 52.0197C146.206 50.9564 146.226 49.8931 146.226 49.0038H146.224ZM9.40004 44.9297C54.9669 42.489 99.8116 40.8995 144.935 39.8219C144.676 37.5208 144.641 35.3429 144.158 33.2702C142.664 26.8848 139.868 21.4187 132.926 19.522C128.521 18.3185 124.004 18.6662 119.332 18.7733C119.228 19.8029 119.161 20.644 119.052 21.4795C118.962 22.3372 118.824 23.1894 118.64 24.032C117.982 26.7102 116.634 27.9266 114.556 27.7818C112.464 27.6377 111.268 26.2312 111.079 23.4744C110.971 21.9009 111.06 20.3138 111.06 18.8111H44.9162C44.9162 20.3462 44.9453 21.5109 44.9091 22.6728C44.908 24.2893 44.8215 25.9044 44.6502 27.5118C44.5905 28.2807 44.2425 28.9985 43.6763 29.5206C43.1102 30.0427 42.3679 30.3303 41.5988 30.3257C39.7863 30.4348 38.7571 29.2872 38.3558 27.7254C38.1206 26.4554 38.0189 25.1641 38.0522 23.8728C37.9939 22.4181 37.994 20.9608 37.9623 19.0998C33.0628 19.5146 28.5809 19.4471 24.3041 20.3571C17.1909 21.8715 11.3419 25.4107 10.0273 33.3618C9.42204 37.0365 9.59682 40.8415 9.40004 44.9297Z" fill="currentColor"/>
+<path d="M40.5799 123.022C39.6297 123.064 37.8043 123.217 35.9789 123.21C32.0219 123.201 29.6088 121.406 28.8728 117.563C27.9763 113.107 28.1739 108.501 29.4488 104.139C29.6864 103.195 30.1734 102.332 30.8583 101.643C31.5433 100.953 32.4009 100.461 33.3411 100.218C38.5107 98.7093 43.9077 98.1413 49.2771 98.5392C52.1537 98.7391 54.379 100.346 55.038 103.369C56.0361 107.939 56.3042 112.557 55.0633 117.131C54.0218 120.967 51.5582 122.863 47.5805 123.01C45.5428 123.084 43.4992 123.022 40.5799 123.022ZM45.3311 107.561H36.9252L37.2812 113.172H45.3311V107.561Z" fill="currentColor"/>
+<path d="M92.565 108.474C92.565 109.574 92.5799 110.223 92.565 110.871C92.3864 117.589 90.2309 120.202 83.6005 121.36C80.2125 121.952 76.7792 122.343 73.3505 122.633C69.6324 122.948 67.1364 121.288 66.4075 117.791C65.485 113.349 64.9445 108.842 65.9143 104.296C66.5965 101.101 68.4802 98.9735 71.6597 98.4984C75.9119 97.8337 80.1989 97.4156 84.4996 97.2475C89.3013 97.095 91.3889 99.0449 92.1378 103.765C92.4013 105.466 92.4511 107.202 92.565 108.474ZM82.928 106.437H73.6567C73.9674 108.86 74.2457 111.023 74.5331 113.264C76.6187 113.06 78.3237 112.908 80.0255 112.724C83.1066 112.391 83.4393 112.01 83.2931 108.865C83.2568 108.133 83.0762 107.409 82.9254 106.437H82.928Z" fill="currentColor"/>
+<path d="M115.165 121.917C113.124 122.01 111.08 121.998 109.04 121.88C105.343 121.49 103.188 119.533 102.966 115.908C102.703 111.925 102.752 107.928 103.111 103.953C103.5 99.8881 105.338 98.2296 109.408 97.909C113.371 97.5961 117.366 97.5072 121.342 97.5896C125.539 97.6772 129.492 100.381 129.181 105.915C129.029 108.608 128.982 111.317 128.636 113.987C127.974 119.09 125.479 121.329 120.323 121.718C118.605 121.848 116.885 121.938 115.166 122.046L115.165 121.917ZM111.181 105.439C111.31 108.201 111.408 110.296 111.504 112.315H119.039C119.233 110.227 119.392 108.442 119.582 106.364L111.181 105.439Z" fill="currentColor"/>
+<path d="M114.832 86.8755C113.007 86.9787 111.181 87.1813 109.357 87.1637C104.859 87.1209 102.516 84.9905 102.292 80.5304C102.118 77.0842 102.118 73.6321 102.292 70.1866C102.513 65.8732 104.062 64.0263 108.317 63.5803C113.018 63.0819 117.744 62.8762 122.47 62.9648C126.857 63.0538 129.194 65.5259 129.171 70.0133C129.123 73.6711 128.748 77.3172 128.05 80.9075C127.35 84.6458 125.106 86.3835 121.275 86.6535C119.139 86.8048 116.979 86.6808 114.829 86.6808L114.832 86.8755ZM110.3 78.1293H119.521C119.771 75.9002 119.992 73.9216 120.273 71.3998L110.3 70.959V78.1293Z" fill="currentColor"/>
+<path d="M63.3293 75.4114C63.5449 73.2693 63.6808 71.0026 64.0226 68.7644C64.411 66.2328 65.6701 64.2777 68.3597 63.7298C73.1173 62.7607 77.9009 61.938 82.7868 62.5203C87.0531 63.0279 89.3679 64.8488 89.9595 69.1156C90.3544 72.3093 90.3019 75.5432 89.8048 78.7226C89.3064 82.1629 86.8758 84.2297 83.4256 84.6822C79.2622 85.2274 75.0754 85.6611 70.8861 85.9194C66.8366 86.17 64.3851 84.098 63.6854 80.0585C63.4303 78.5791 63.4472 77.0511 63.3293 75.4114ZM80.8138 71.1434L71.156 70.5028C71.3068 72.9116 71.4227 74.7688 71.556 76.8947L80.8125 75.9619L80.8138 71.1434Z" fill="currentColor"/>
+</g>
+<defs>
+<clipPath id="clip0">
+<rect width="156" height="148" fill="white" transform="translate(0.777344)"/>
+</clipPath>
+</defs>
+</svg>
+</div><b>calendar</b></div><div class="ic"><div class="icbox lg"><svg width="44" height="44" viewBox="0 0 157 156" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0)">
+<path d="M52.3816 53.2803C55.1411 55.8328 58.5193 56.971 63.3378 56.971C63.3609 56.9733 63.3841 56.9733 63.4071 56.971C63.5554 56.9573 63.7373 56.9443 63.9431 56.93C64.4894 56.8917 65.2377 56.8377 65.9725 56.7285C68.0872 56.4465 70.1236 55.7401 71.9607 54.6514C73.7984 53.5626 75.3985 52.1137 76.6666 50.391C77.8757 48.6838 78.7308 46.7497 79.18 44.7038C79.6293 42.6579 79.6636 40.5421 79.2817 38.4825C78.4758 33.7759 76.2393 30.7682 72.6442 29.5456C70.1922 28.7181 67.5946 28.4137 65.0189 28.6518C62.4429 28.8901 59.9447 29.6656 57.6843 30.9288C55.5114 32.1174 53.6139 33.7547 52.1166 35.7328C50.6193 37.711 49.5563 39.9853 48.9975 42.4058C48.0136 46.6334 49.1522 50.2935 52.3816 53.2803ZM65.6786 36.7853C65.8081 36.7853 65.9414 36.7853 66.0702 36.7853C68.2458 36.7853 69.9644 37.0531 70.7955 39.2416C71.2163 40.4323 71.2739 41.7219 70.9593 42.9453C70.6453 44.1688 69.9741 45.27 69.0323 46.1076C66.6754 48.2565 61.6374 48.8304 58.8631 47.2671C57.0875 46.2674 56.5464 45.0234 56.995 42.9739C57.9109 38.7892 60.6697 36.8243 65.6786 36.7853Z" fill="currentColor"/>
+<path d="M33.8781 154.127C35.4776 154.062 37.1353 153.997 38.7439 153.997C48.5751 154.046 57.5597 154.144 66.2106 154.297C80.0629 154.541 94.2058 154.841 108.241 155.188C109.387 155.25 110.526 155.41 111.645 155.665C112.195 155.774 112.746 155.882 113.294 155.97C113.329 155.976 113.364 155.979 113.399 155.979H120.022C120.055 155.979 120.087 155.976 120.119 155.971C121.447 155.776 122.779 155.598 124.111 155.422C126.991 155.042 129.97 154.649 132.865 154.034C146.162 151.213 156.827 137.547 156.639 123.568C156.513 114.22 156.538 104.712 156.562 95.5162C156.579 88.9168 156.595 82.0937 156.558 75.3818C156.522 69.2458 156.305 63.0122 156.096 56.9867L155.962 53.1159C155.914 51.6651 155.871 50.2135 155.832 48.761C155.703 43.9841 155.567 39.0447 155.098 34.208C154.602 29.443 153.714 24.7274 152.444 20.1096C148.91 6.97957 136.391 0.810472 125.556 0.525123C122.459 0.443873 119.324 0.663455 116.291 0.875355C114.009 1.03525 111.651 1.20035 109.34 1.23415C103.051 1.32645 96.6533 1.36416 90.4696 1.40316C82.3298 1.45256 73.9129 1.50465 65.6352 1.6769L64.3894 1.70357C52.5224 1.95057 40.2502 2.20529 28.2239 3.14194C15.2578 4.15139 6.66227 10.3836 2.67488 21.667C2.00579 23.383 1.61373 25.1952 1.51358 27.0353L1.44887 32.4667C1.25144 48.3338 1.04689 64.7419 1.09479 80.8815C1.11551 88.129 1.35888 95.4922 1.5945 102.613C1.72396 106.605 1.86313 110.731 1.95829 114.789C2.06315 119.209 2.10007 122.925 1.94019 126.69C1.35762 140.351 13.2278 153.461 26.8393 154.196C29.1897 154.322 31.5737 154.223 33.8781 154.127ZM9.50715 38.6314C9.42682 32.8611 10.7874 27.1627 13.4648 22.0564C15.909 17.5194 19.5086 14.6898 23.876 13.8747C30.7885 12.5845 37.5567 11.4106 44.3728 11.226C61.6953 10.7554 79.314 10.4798 96.351 10.2133C104.941 10.0784 113.531 9.9361 122.121 9.78621C126.717 9.70041 131.27 11.0564 136.473 14.049C142.152 17.3133 143.962 23.2004 144.984 28.5291C147.13 39.7195 148.078 49.1009 147.969 58.0514C147.925 61.5805 147.893 65.1183 147.872 68.666C147.628 68.4405 147.391 68.2065 147.136 67.9939C143.776 65.1918 140.32 62.3947 136.977 59.69C132.948 56.4296 128.782 53.06 124.761 49.6585C119.514 45.2229 116.452 45.3361 111.653 50.1448C100.239 61.5776 88.5646 73.2271 77.2737 84.4929L64.5085 97.2329L64.2826 97.0463C63.8664 96.7025 63.5285 96.4236 63.188 96.1493C61.404 94.7057 59.6228 93.2588 57.8445 91.8092C53.5076 88.2772 49.0166 84.6255 44.5385 81.1103C41.2891 78.5597 38.964 78.5948 35.9624 81.2325C27.163 88.9675 18.269 96.8539 9.62554 104.523C9.53751 84.1692 9.47284 61.6297 9.50715 38.6314ZM10.5163 112.695C12.1993 111.275 13.8788 109.851 15.5549 108.422C18.7228 105.729 21.9982 102.944 25.2547 100.253C28.7418 97.3694 32.3466 94.4723 35.833 91.6728C37.2687 90.5184 38.7105 89.3575 40.1582 88.1907C42.0937 89.7585 44.014 91.3133 45.9192 92.8532C50.8918 96.8734 55.5894 100.669 60.3483 104.586C64.1202 107.691 66.4106 107.576 69.7773 104.122C70.9055 102.963 72.0156 101.786 73.1251 100.612C74.5777 99.0704 76.0794 97.4773 77.5973 95.9595C89.0643 84.4981 100.746 72.8676 112.044 61.6199L116.97 56.7156C117.445 56.2411 117.957 55.7848 118.368 55.4156L118.407 55.3818C120.511 57.0354 122.6 58.6821 124.674 60.3218C130.877 65.2204 136.736 69.8477 142.814 74.4569C144.354 75.5281 146.045 76.3627 147.83 76.9334C147.792 89.1469 147.836 101.358 147.881 113.3C147.896 116.932 147.909 120.564 147.92 124.195C147.948 132.995 140.891 142.63 132.508 145.233C126.235 147.137 119.685 147.952 113.139 147.642C104.227 147.274 95.1651 146.843 86.4052 146.427C82.7583 146.254 79.1107 146.08 75.4625 145.907H75.4321L65.5827 145.903C60.2781 145.9 54.9739 145.898 49.6704 145.898C43.9145 145.898 38.1588 145.902 32.403 145.911H32.3343C25.8043 145.911 20.9075 144.263 16.9285 140.73C12.0485 136.394 9.75571 130.455 9.71234 122.038C9.69745 119.217 9.68321 116.33 9.66897 113.393C9.95443 113.165 10.2399 112.928 10.5163 112.695Z" fill="currentColor"/>
+</g>
+<defs>
+<clipPath id="clip0">
+<rect width="156" height="156" fill="white" transform="translate(0.777344)"/>
+</clipPath>
+</defs>
+</svg>
+</div><b>photo</b></div><div class="ic"><div class="icbox lg"><svg width="44" height="44" viewBox="0 0 158 139" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0)">
+<path d="M8.00737 93.1378C12.232 97.046 17.6554 99.1602 24.5882 99.6013C28.2363 99.8325 31.9457 99.8007 35.5365 99.7727C37.1293 99.7604 38.7221 99.7494 40.3149 99.7565C40.8393 99.7604 41.363 99.7565 41.8497 99.7565H42.0132L42.0341 99.8039C42.0712 99.8871 42.1031 99.9475 42.1142 99.9455C41.9839 102.963 41.8523 105.982 41.7194 109.001C41.466 114.751 41.2035 120.697 40.9794 126.547C40.9408 128.454 41.025 130.362 41.2314 132.259C41.3095 133.105 41.6258 133.913 42.1439 134.588C42.662 135.263 43.3607 135.778 44.1597 136.075C48.2284 137.803 52.6165 138.658 57.0383 138.584C58.6405 138.58 60.2415 138.495 61.835 138.328C64.6545 138.041 65.3131 136.724 65.5945 134.236C66.6762 124.36 66.6879 114.396 65.6309 104.517C65.4954 103.218 65.3984 101.916 65.285 100.411C65.257 100.03 65.2271 99.637 65.1958 99.2304C65.987 99.6636 66.7524 100.083 67.4931 100.489C69.6683 101.679 71.7223 102.803 73.719 103.946C78.7828 106.844 83.8856 109.878 88.8204 112.81C99.3087 119.045 110.155 125.487 121.284 131.044C122.008 131.404 122.725 131.783 123.439 132.16C127.098 134.094 130.88 136.089 135.621 135.738C138.944 135.488 140.393 134.983 140.295 131.197C140.266 130.083 140.206 128.954 140.148 127.863C140.055 126.126 139.961 124.331 139.991 122.578C140.186 111.407 140.462 100.49 140.707 91.2879C140.749 89.729 140.891 88.148 141.028 86.6178C141.076 86.0871 141.124 85.559 141.167 85.0329C145.211 84.525 148.974 82.7043 151.876 79.8516C154.779 76.9988 156.658 73.2731 157.225 69.2486C157.954 64.0734 157.39 60.0255 155.45 56.518C152.247 50.7203 146.513 48.3008 141.287 46.5444V46.008C141.287 45.3072 141.293 44.6342 141.282 43.96C141.224 40.1745 141.161 36.3887 141.096 32.6024C140.942 23.5583 140.784 14.2063 140.709 5.00957C140.688 2.57707 139.709 1.37219 138.89 0.78761C137.661 -0.088612 135.872 -0.230923 133.982 0.397824C133.252 0.667408 132.552 1.012 131.894 1.42604C131.666 1.5592 131.438 1.69241 131.209 1.81582C130.548 2.17761 129.891 2.54846 129.235 2.91999C128.075 3.57537 126.876 4.25286 125.675 4.86082C122.152 6.64008 118.62 8.40343 115.08 10.1511C107.968 13.682 100.614 17.3325 93.4887 21.1329C85.094 25.6114 76.3398 30.681 67.4703 36.2021C67.1094 36.4262 66.7537 36.6567 66.4032 36.8789C63.592 38.6813 61.1646 40.2401 57.781 39.0327C57.3555 38.9102 56.9088 38.8785 56.4702 38.9397C56.3777 38.9469 56.2853 38.9541 56.1941 38.958C54.6957 39.0275 53.1974 39.0801 51.6951 39.1321C48.2359 39.2536 44.6594 39.3789 41.1507 39.7166C33.2987 40.4753 27.4175 41.6944 22.0795 43.6683C14.2054 46.5802 9.10448 50.5612 6.02703 56.1972C2.38701 62.6454 0.766691 70.0326 1.37494 77.4074C1.80294 82.2672 2.93909 88.4455 8.00737 93.1378ZM56.9927 98.1463V130.895H50.1524L49.2405 99.6117L56.9927 98.1463ZM14.0809 57.8275C16.5095 53.9453 20.5303 51.0899 25.7041 49.5693C30.0319 48.2582 34.4525 47.2741 38.9286 46.6256C43.5167 45.9988 48.077 45.6144 52.9049 45.2072C54.7335 45.0532 56.5797 44.8974 58.452 44.7259L57.7882 89.5192L57.1875 89.6056C56.334 89.7492 55.4725 89.8394 54.6078 89.8778C51.4678 89.9479 48.2848 90.1597 45.206 90.3656C38.4726 90.8118 31.5099 91.2743 24.6794 90.2707L24.5296 90.2493C23.1856 90.0544 21.7935 89.8485 20.4749 89.5264C14.9083 88.1714 11.6028 84.8491 10.3676 79.3657C9.49998 75.7115 9.38187 71.9201 10.0204 68.2184C10.659 64.5175 12.041 60.983 14.0835 57.8275H14.0809ZM67.2912 44.5843C74.9066 39.2373 124.308 14.4343 133.374 11.349C133.885 37.3102 133.505 63.7246 133.142 89.2789C132.971 101.161 132.796 113.436 132.709 125.595C124.39 121.25 116.187 116.621 108.245 112.137C94.9479 104.632 81.2029 96.8732 66.9941 90.5338C67.8071 72.6496 67.9016 58.0251 67.2938 44.5843H67.2912ZM141.401 75.5016V53.8135C146.185 55.2256 149.295 59.9716 149.05 65.656C148.841 70.5431 145.673 74.5585 141.404 75.5004L141.401 75.5016Z" fill="currentColor"/>
+</g>
+<defs>
+<clipPath id="clip0">
+<rect width="157" height="139" fill="white" transform="translate(0.777344)"/>
+</clipPath>
+</defs>
+</svg>
+</div><b>megaphone</b></div><div class="ic"><div class="icbox lg"><svg width="44" height="44" viewBox="0 0 136 145" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0)">
+<path d="M118.231 50.9024C117.279 52.5667 116.651 54.117 115.639 55.3521C112.344 59.3745 108.901 63.2733 105.532 67.235C84.7112 91.7167 61.7252 114.113 38.8824 136.645C37.0738 138.43 35.17 140.133 33.198 141.735C32.0826 142.634 30.848 143.374 29.5293 143.933C28.5158 144.408 27.3745 144.536 26.281 144.298C25.1877 144.06 24.2028 143.467 23.4781 142.613C16.7311 135.595 9.99202 128.57 3.26054 121.539C0.951978 119.113 0.707747 117.569 2.73856 114.779C5.85583 110.497 8.95962 106.132 12.6137 102.328C23.2632 91.2376 33.9855 80.2028 45.0497 69.5317C57.0725 57.9362 69.4956 46.7576 81.7819 35.4385C84.3837 33.0434 87.1044 30.7694 89.8561 28.5426C92.2589 26.5961 93.0631 26.7787 95.6921 28.5219C103.336 33.5911 109.427 40.3272 115.606 46.9655C116.611 48.0491 117.278 49.4543 118.231 50.9024ZM27.5423 134.932L90.6641 69.2436L75.6365 52.8243C53.3958 74.1749 30.4374 94.6956 10.0066 118.01L27.5423 134.932ZM97.0763 62.0699L107.684 50.7237C103.186 45.2089 98.0698 40.2313 92.4359 35.8891L81.3666 46.9945C86.8486 52.2553 91.9948 57.1943 97.0763 62.0699Z" fill="currentColor"/>
+<path d="M121.962 14.1689C120.463 13.7844 119.184 13.5034 117.933 13.1221C117.395 12.9745 116.922 12.6477 116.593 12.1954C116.263 11.743 116.097 11.1919 116.122 10.6326C116.082 9.31009 116.533 8.16562 117.861 7.74163C119.313 7.2775 120.832 7.01786 122.653 6.59062C122.892 5.59248 123.166 4.44284 123.443 3.2932C123.955 1.1661 124.745 0.380288 126.402 0.351806C128.03 0.323324 128.921 1.12401 129.476 3.20968C129.626 3.93395 129.739 4.66554 129.812 5.4015C130.636 5.47658 131.482 5.5142 132.315 5.63784C134.361 5.94143 135.462 6.96873 135.667 8.69966C135.875 10.4662 135.135 11.7693 133.294 12.6218C132.411 12.9792 131.508 13.2855 130.589 13.539C130.375 14.8706 130.085 16.189 129.721 17.4876C129.04 19.4943 127.783 20.4654 126.196 20.4602C124.522 20.4602 123.026 19.2302 122.463 17.2488C122.237 16.2327 122.069 15.2044 121.962 14.1689Z" fill="currentColor"/>
+<path d="M68.1921 23.484C67.8226 27.7712 66.8234 29.2328 64.3926 29.2121C62.1053 29.1927 61.0985 27.7413 60.4713 23.4599C59.379 23.1525 58.2196 22.8508 57.0763 22.4987C56.4803 22.3407 55.9625 21.9699 55.6204 21.4559C55.2784 20.9419 55.1357 20.3202 55.2192 19.7081C55.2348 19.1456 55.4469 18.6063 55.8185 18.1843C56.1901 17.7624 56.6976 17.4845 57.2526 17.3991C58.4102 17.0923 59.6217 16.9906 60.9626 16.7744C61.2249 15.9381 61.544 15.129 61.7275 14.2901C62.0504 12.8239 62.8721 11.895 64.3803 11.7597C65.7472 11.6373 66.6767 12.5701 67.1948 14.4706C67.3104 14.9836 67.3995 15.5021 67.4628 16.0242C68.7786 16.3375 70.0576 16.3964 71.0575 16.9563C71.9133 17.4347 72.9849 18.4834 72.9914 19.2867C72.8641 20.4475 72.2989 21.5157 71.4114 22.2721C70.6576 22.9434 69.4103 23.058 68.1921 23.484Z" fill="currentColor"/>
+<path d="M130.412 64.6847C132.397 65.1727 135.104 64.6589 135.564 67.648C135.992 70.427 133.613 70.9623 132.193 71.6387C131.647 73.3723 130.996 75.0702 130.242 76.7235C129.979 77.2277 128.926 77.5087 128.215 77.5507C125.975 77.6802 124.921 76.1551 124.022 71.6239C122.447 70.8743 119.823 71.038 119.86 68.3633C119.897 65.6886 122.241 65.629 124.053 65.3435C124.931 63.5403 124.467 60.9354 127.347 60.8842C128.744 60.859 129.106 61.3387 130.412 64.6847Z" fill="currentColor"/>
+</g>
+<defs>
+<clipPath id="clip0">
+<rect width="135" height="145" fill="white" transform="translate(0.777344)"/>
+</clipPath>
+</defs>
+</svg>
+</div><b>magic-wand</b></div><div class="ic"><div class="icbox lg"><svg width="44" height="44" viewBox="0 0 143 154" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.9723 124.313C37.3464 117.996 37.6765 112.228 38.0336 106.46C38.327 101.728 40.0197 99.7842 44.721 99.1239C47.4186 98.7452 50.1732 98.7786 52.878 98.4373C53.829 98.3172 55.2054 97.8722 55.5434 97.1699C58.1372 91.7735 60.5388 86.2839 62.9488 80.8008C63.1213 80.1175 63.1981 79.4135 63.1772 78.7091C57.093 76.8799 51.1006 74.6326 46.9978 69.8151C42.8445 64.9346 37.7802 62.9576 31.761 61.6509C23.9358 59.9278 16.6383 56.3524 10.4812 51.2249C6.25376 47.7388 3.05731 43.1657 1.23601 37.9978C-2.52612 27.799 5.19504 11.359 19.8924 11.8959C23.4806 12.0271 27.0773 11.9149 30.6892 11.9149C31.4111 9.33224 31.9362 7.11444 32.6674 4.97018C33.3795 2.88893 34.6213 1.49558 37.1659 1.3991C46.7557 1.03812 56.3349 0.289851 65.926 0.111983C78.1627 -0.114453 90.4074 0.0713539 102.649 0.0785736C111.156 0.0844807 112.256 0.931813 114.388 9.2673C116.93 9.2673 119.513 9.2673 122.095 9.2673C124.064 9.2673 126.033 9.18256 127.994 9.27379C136.78 9.68138 142.926 16.3662 142.129 25.1217C140.479 43.2215 126.744 57.6105 111.091 59.9228C107.08 60.5135 104.987 61.9719 102.901 65.228C98.1226 72.6794 91.2009 77.4726 81.9964 79.477C82.4053 80.8068 82.7236 82.0158 83.1476 83.1867C85.1862 88.8246 88.7376 93.5371 92.4912 98.0953C93.0025 98.7169 94.1511 99.0142 95.0365 99.087C96.9918 99.2511 98.9673 99.1527 100.934 99.2079C105.911 99.3463 107.27 100.586 107.704 105.62C108.107 110.3 108.371 114.991 108.71 119.676C108.764 120.422 108.888 121.163 109.005 122.111C110.595 122.189 112.107 122.197 113.604 122.348C117.702 122.762 119.964 124.819 120.436 128.935C121.158 135.215 121.86 141.507 122.215 147.814C122.478 152.449 120.781 153.768 116.105 153.671C95.7854 153.252 75.4658 152.764 55.1437 152.532C46.8456 152.438 38.5383 152.992 30.2376 153.135C24.2781 153.238 22.5335 150.934 23.3093 144.962C23.8429 140.856 24.0359 136.692 24.196 132.552C24.4369 126.317 25.2462 125.507 31.9408 124.348C33.4064 124.096 34.9547 124.313 36.9723 124.313ZM38.8855 6.83945C38.7167 7.0527 38.5768 7.28727 38.4694 7.53713C38.3525 8.06968 38.2666 8.60863 38.2121 9.15113C36.8456 22.4452 38.3126 35.8778 42.5164 48.5635C46.2575 59.8657 53.8953 67.7778 65.9529 70.6565C82.2589 74.5499 93.6746 68.6652 99.9584 53.087C103.115 45.2602 105.455 37.2312 106.052 28.7638C106.561 21.5539 106.037 14.4038 105.042 6.84209L38.8855 6.83945ZM114.452 130.551L30.1044 131.47C30.5947 136.596 31.0534 141.395 31.4617 145.662L113.01 144.719C113.476 140.142 113.947 135.518 114.452 130.551ZM45.1588 105.708C45.8584 112.186 46.4715 117.85 47.0825 123.526L97.7006 122.501C98.2821 117.22 98.8164 112.397 99.3913 107.153L45.1588 105.708ZM30.4568 18.1882C26.4 18.754 22.7521 19.3158 19.0897 19.7595C15.3912 20.2078 12.9569 22.2634 11.1972 25.4237C8.47279 30.3154 8.9657 35.9592 12.7003 40.7229C16.7407 45.8751 22.2113 48.9855 28.1655 51.3431C30.4319 52.2403 32.7849 52.9183 35.5959 53.8634C31.4676 42.0021 30.6662 30.3836 30.4555 18.1882H30.4568ZM109.971 50.1925C119.671 47.2679 126.045 41.6431 129.872 33.3352C131.257 30.1503 132.161 26.777 132.553 23.326C133.001 19.9019 131.341 17.7471 128.228 17.5292C123.823 17.2168 119.379 17.4498 114.693 17.4498C115.284 28.5683 113.68 39.6944 109.97 50.1925H109.971ZM63.7699 98.333H81.638C79.3258 92.2946 77.0575 86.366 74.6907 80.1839L70.1206 79.9411C68.0072 86.0673 65.9667 91.9678 63.7686 98.333H63.7699Z" fill="currentColor"/>
+</svg>
+</div><b>trophy</b></div></div>
+      <div style="font-size:9.5px;color:var(--ink-soft);margin-top:3mm;max-width:120mm">CC0, 451 SVGs. Charming and
+      hand-drawn, which is the brand voice. They are <b>filled paths, not strokes</b>: measured at 24px they go chunky, and at
+      16px the calendar becomes a square and the gear becomes a lump. So they illustrate, they never operate the UI.</div>
+    </div>
+  </div>
+  <div class="rule"></div>
+  <div class="row" style="gap:10mm">
+    <div style="flex:1"><h3>Never</h3>
+      <ul class="no"><li>An emoji used as an icon</li><li>A doodle in a toolbar or a table</li>
+      <li>A stock speech bubble as the logo</li><li>Two stroke weights on one screen</li></ul></div>
+    <div style="flex:1"><h3>Always</h3>
+      <ul class="yes"><li>Lucide under 32px, doodles at 32px and above</li><li>An icon with a label, or an aria-label</li>
+      <li>Official brand marks for Instagram, Facebook, X and LinkedIn</li><li>One icon weight per view</li></ul></div>
+  </div>
+  <div class="pnum">05 · icons</div>
+</section>
+
+<!-- 6 · VOICE -->
+<section class="page">
+  <div class="kicker">Voice, and the rules that override it</div>
+  <h2>Warm, direct, competent. Never performing.</h2>
+  <div class="row" style="gap:8mm">
+    <div style="flex:1">
+      <h3>How it sounds</h3>
+      <ul><li>Speaks to <b>you</b>, not &ldquo;users&rdquo;</li>
+      <li>SA English: organise, colour, centre</li>
+      <li>Rands as <b>R299</b>. Times as <b>17:30 SAST</b>, 24-hour</li>
+      <li>Language names in their own language: isiZulu, Sesotho, Afrikaans</li>
+      <li>&ldquo;No posts scheduled yet. Pick a day and Posta will draft three.&rdquo;</li></ul>
+      <div class="rule"></div>
+      <h3>Banned words</h3>
+      <ul class="no"><li>oops, whoops, simply, just, easily</li><li>revolutionary, game-changing, seamless, effortless, unlock</li></ul>
+    </div>
+    <div style="flex:1">
+      <h3>Honesty rules — these override tone</h3>
+      <ul>
+        <li><b>Never claim a number we cannot show.</b> The old front page said &ldquo;5,000+ SA businesses&rdquo; with zero customers. It is gone.</li>
+        <li><b>Never invent a testimonial.</b> Three were live from demo personas. Gone.</li>
+        <li><b>Never claim a capability that is not built.</b> &ldquo;Coming soon&rdquo; is honest.</li>
+        <li><b>Name the limit:</b> &ldquo;Free plan: 10 credits, 5 scheduled posts.&rdquo;</li>
+        <li><b>Errors state the cause and the fix.</b> Never &ldquo;something went wrong&rdquo;.</li>
+        <li><b>Do not claim load-shedding resilience.</b> Eskom reported 500+ days without load-shedding on 2 Oct 2026.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pnum">06 · voice</div>
+</section>
+
+</body></html>
