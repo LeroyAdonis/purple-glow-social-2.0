@@ -123,7 +123,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="thabo@business.co.za"
+                placeholder="you@yourbusiness.co.za"
                 autoComplete="email"
                 required
                 disabled={isLoading}

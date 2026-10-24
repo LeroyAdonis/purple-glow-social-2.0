@@ -164,7 +164,7 @@ export default function ContactSection({ translate }: ContactSectionProps) {
                     </label>
                     <input
                       type="text"
-                      placeholder="Thabo Mokoena"
+                      placeholder="Your full name"
                       className="w-full bg-void-hover/50 border border-border-default rounded-xl px-5 py-3.5 text-white placeholder:text-text-quaternary focus:outline-none focus:border-posta-orange focus:shadow-[0_0_15px_rgba(232,93,4,0.15)] transition-all text-sm"
                     />
                   </div>

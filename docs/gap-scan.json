@@ -20,22 +20,10 @@
         "SALU Building, 316 Thabo Sehume Street<br />"
       ],
       [
-        "app/login/page.tsx",
-        126,
-        "thabo",
-        "placeholder=\"thabo@business.co.za\""
-      ],
-      [
         "app/signup/page.tsx",
         113,
         "Thabo",
         "placeholder=\"Thabo Nkosi\""
-      ],
-      [
-        "app/signup/page.tsx",
-        133,
-        "thabo",
-        "placeholder=\"thabo@business.co.za\""
       ],
       [
         "components/schedule-view.tsx",
@@ -60,72 +48,6 @@
         105,
         "5,000+ SA",
         "{/* This used to read \"5,000+ SA Businesses\". We have not launched, so that number was"
-      ],
-      [
-        "components/landing/testimonials-section.tsx",
-        100,
-        "thabo",
-        "&ldquo;{translate('testimonials.thabo.quote')}&rdquo;"
-      ],
-      [
-        "components/landing/testimonials-section.tsx",
-        125,
-        "thabo",
-        "<h4 className=\"font-bold text-white text-lg\">{translate('testimonials.thabo.name')}</h4>"
-      ],
-      [
-        "components/landing/testimonials-section.tsx",
-        126,
-        "thabo",
-        "<p className=\"text-sm text-text-tertiary\">{translate('testimonials.thabo.role')}</p>"
-      ],
-      [
-        "components/landing/testimonials-section.tsx",
-        149,
-        "zanele",
-        "&ldquo;{translate('testimonials.zanele.quote')}&rdquo;"
-      ],
-      [
-        "components/landing/testimonials-section.tsx",
-        157,
-        "zanele",
-        "<h4 className=\"font-bold text-sm text-white\">{translate('testimonials.zanele.name')}</h4>"
-      ],
-      [
-        "components/landing/testimonials-section.tsx",
-        158,
-        "zanele",
-        "<p className=\"text-xs text-text-tertiary\">{translate('testimonials.zanele.role')}</p>"
-      ],
-      [
-        "components/landing/testimonials-section.tsx",
-        171,
-        "pieter",
-        "&ldquo;{translate('testimonials.pieter.quote')}&rdquo;"
-      ],
-      [
-        "components/landing/testimonials-section.tsx",
-        179,
-        "pieter",
-        "<h4 className=\"font-bold text-sm text-white\">{translate('testimonials.pieter.name')}</h4>"
-      ],
-      [
-        "components/landing/testimonials-section.tsx",
-        180,
-        "pieter",
-        "<p className=\"text-xs text-text-tertiary\">{translate('testimonials.pieter.role')}</p>"
-      ],
-      [
-        "components/landing/testimonials-section.tsx",
-        198,
-        "Trusted by",
-        "<span>Trusted by entrepreneurs across South Africa</span>"
-      ],
-      [
-        "components/landing/contact-section.tsx",
-        167,
-        "Thabo",
-        "placeholder=\"Thabo Mokoena\""
       ],
       [
         "components/modals/schedule-post-modal.tsx",
@@ -196,7 +118,7 @@
         "lib/diagnostics/auth-diagnostic.ts",
         59,
         "http://localhost",
-        "`Trusted Origins: http://localhost:3000, https://purple-glow-social-2-0.vercel.app`"
+        "`Trusted Origins: http://localhost:3000, https://posta.digitalwavetech.dev`"
       ],
       [
         "lib/diagnostics/auth-diagnostic.ts",
