@@ -20,13 +20,13 @@ export default function RefundPolicyPage() {
       <header className="border-b border-[var(--posta-line)] bg-[var(--posta-paper)] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition">
+            <Link href="/" className="flex items-center gap-2 min-h-[44px] hover:opacity-80 transition">
               <div className="w-8 h-8 rounded bg-[var(--posta-clay)] flex items-center justify-center">
-                <span className="font-display font-bold text-sm text-[var(--posta-ink)]">P</span>
+                <span className="font-display font-bold text-sm text-[var(--posta-cream)]">P</span>
               </div>
               <span className="font-display font-bold text-lg uppercase">{COMPANY.productName}</span>
             </Link>
-            <Link href="/" className="text-sm text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition flex items-center gap-2">
+            <Link href="/" className="text-sm text-[var(--posta-ink-soft)] hover:text-[color:var(--posta-clay)] transition flex items-center gap-2 min-h-[44px]">
               <i className="fa-solid fa-arrow-left"></i> Back to home
             </Link>
           </div>

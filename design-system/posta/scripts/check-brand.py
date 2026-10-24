@@ -142,7 +142,10 @@ def scan_url(url: str) -> list[str]:
             const isInlineLink = el.tagName === 'A' && getComputedStyle(el).display === 'inline';
             if (!isInlineLink && (['A','BUTTON','INPUT','SELECT','TEXTAREA'].includes(el.tagName) || el.onclick)) {
               const r = el.getBoundingClientRect();
-              if (r.width > 0 && r.height > 0 && (r.height < 44 || r.width < 44)) {
+              // Height is the rule for anything carrying a text label: a "Log in" link 41px wide and 44px tall
+              // is easy to hit. Width only matters for icon-only controls, where no label is doing the work.
+              const hasLabel = (el.textContent || '').trim().length > 0 || el.getAttribute('aria-label');
+              if (r.width > 0 && r.height > 0 && (r.height < 44 || (!hasLabel && r.width < 44))) {
                 out.small.push({tag: el.tagName, w: Math.round(r.width), h: Math.round(r.height)});
               }
             }
