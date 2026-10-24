@@ -135,15 +135,15 @@ export default function CustomSelect({
               w-full flex items-center gap-3 px-4 py-3 rounded-lg
               transition-all text-left cursor-pointer
               ${value === option.value
-                ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-white border border-neon-grape/40 shadow-lg'
-                : 'text-gray-300 hover:bg-white/10 hover:border-glass-border border border-transparent'
+                ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-[var(--posta-ink)] border border-neon-grape/40 shadow-lg'
+                : 'text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:border-glass-border border border-transparent'
               }
             `}
             role="option"
             aria-selected={value === option.value}
           >
             {option.icon && (
-              <i className={`${option.icon} ${option.color || 'text-gray-400'}`}></i>
+              <i className={`${option.icon} ${option.color || 'text-[var(--posta-ink-soft)]'}`}></i>
             )}
             <span className="flex-1 font-body">{option.label}</span>
             {value === option.value && (
@@ -163,13 +163,13 @@ export default function CustomSelect({
         disabled={disabled}
         className={`
           w-full flex items-center justify-between gap-3
-          bg-white/5 border border-glass-border rounded-xl
-          text-white text-left
+          bg-[var(--posta-paper)] border border-glass-border rounded-xl
+          text-[var(--posta-ink)] text-left
           transition-all duration-200
           ${variant === 'compact' ? 'px-3 py-2 text-sm' : 'px-4 py-3'}
           ${disabled
             ? 'opacity-50 cursor-not-allowed'
-            : 'hover:bg-white/10 hover:border-neon-grape/50 focus:outline-none focus:border-neon-grape focus:ring-2 focus:ring-neon-grape/20 cursor-pointer'
+            : 'hover:bg-[var(--posta-cream)] hover:border-neon-grape/50 focus:outline-none focus:border-neon-grape focus:ring-2 focus:ring-neon-grape/20 cursor-pointer'
           }
           ${buttonClassName}
         `}
@@ -178,13 +178,13 @@ export default function CustomSelect({
       >
         <span className="flex items-center gap-2 flex-1">
           {selectedOption?.icon && (
-            <i className={`${selectedOption.icon} ${selectedOption.color || 'text-gray-400'}`}></i>
+            <i className={`${selectedOption.icon} ${selectedOption.color || 'text-[var(--posta-ink-soft)]'}`}></i>
           )}
-          <span className={selectedOption ? 'text-white' : 'text-gray-500'}>
+          <span className={selectedOption ? 'text-[var(--posta-ink)]' : 'text-[var(--posta-ink-soft)]'}>
             {selectedOption?.label || placeholder}
           </span>
         </span>
-        <i className={`fa-solid fa-chevron-down text-xs text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
+        <i className={`fa-solid fa-chevron-down text-xs text-[var(--posta-ink-soft)] transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
       </button>
 
       {isOpen && mounted && createPortal(dropdownContent, document.body)}

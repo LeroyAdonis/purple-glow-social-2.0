@@ -169,14 +169,14 @@ export default function ActionFeedbackToast({ toasts, onDismiss }: ActionFeedbac
                   {toast.title}
                 </h4>
                 {toast.message && (
-                  <p className="text-sm text-gray-300 mt-1">
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">
                     {toast.message}
                   </p>
                 )}
                 {toast.action && (
                   <button
                     onClick={toast.action.onClick}
-                    className="mt-2 px-3 py-1 text-xs bg-white/10 border border-white/20 rounded-lg hover:bg-white/20 transition-colors cursor-pointer"
+                    className="mt-2 px-3 py-1 text-xs bg-[var(--posta-cream)] border border-[var(--posta-line)] rounded-lg hover:bg-[var(--posta-clay-tint)] transition-colors cursor-pointer"
                   >
                     {toast.action.label}
                   </button>
@@ -185,7 +185,7 @@ export default function ActionFeedbackToast({ toasts, onDismiss }: ActionFeedbac
               
               <button
                 onClick={() => onDismiss(toast.id)}
-                className="text-gray-400 hover:text-white transition-colors cursor-pointer p-1"
+                className="text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors cursor-pointer p-1"
                 aria-label="Dismiss"
               >
                 <i className="fa-solid fa-xmark"></i>

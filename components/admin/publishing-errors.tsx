@@ -31,10 +31,10 @@ export default function PublishingErrors({ errors, isLoading, onRefresh, onRetry
   if (isLoading) {
     return (
       <div className="aerogel-card p-6 rounded-2xl animate-pulse">
-        <div className="h-8 bg-white/10 rounded w-48 mb-6"></div>
+        <div className="h-8 bg-[var(--posta-cream)] rounded w-48 mb-6"></div>
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-32 bg-white/5 rounded-xl"></div>
+            <div key={i} className="h-32 bg-[var(--posta-paper)] rounded-xl"></div>
           ))}
         </div>
       </div>
@@ -92,14 +92,14 @@ export default function PublishingErrors({ errors, isLoading, onRefresh, onRetry
             {onRefresh && (
               <button 
                 onClick={onRefresh}
-                className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                className="p-2 rounded-lg hover:bg-[var(--posta-cream)] text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors"
               >
                 <i className="fa-solid fa-refresh"></i>
               </button>
             )}
           </div>
           <p className="text-3xl font-display font-bold text-red-400">{errors.length}</p>
-          <p className="text-sm text-gray-400 mt-1">Total Failed</p>
+          <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Total Failed</p>
         </div>
         
         {['instagram', 'facebook', 'twitter', 'linkedin'].map((platform) => (
@@ -108,7 +108,7 @@ export default function PublishingErrors({ errors, isLoading, onRefresh, onRetry
               <i className={`${platformIcons[platform]} text-2xl ${platformColors[platform]}`}></i>
             </div>
             <p className="text-2xl font-display font-bold">{errorsByPlatform[platform] || 0}</p>
-            <p className="text-sm text-gray-400 mt-1 capitalize">{platform}</p>
+            <p className="text-sm text-[var(--posta-ink-soft)] mt-1 capitalize">{platform}</p>
           </div>
         ))}
       </div>
@@ -122,13 +122,13 @@ export default function PublishingErrors({ errors, isLoading, onRefresh, onRetry
               placeholder="Search by content or error..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-neon-grape transition-colors"
+              className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] placeholder-gray-500 focus:outline-none focus:border-neon-grape transition-colors"
             />
           </div>
           <select
             value={platformFilter}
             onChange={(e) => setPlatformFilter(e.target.value as any)}
-            className="bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+            className="bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
           >
             <option value="all">All Platforms</option>
             <option value="instagram">Instagram</option>
@@ -144,23 +144,23 @@ export default function PublishingErrors({ errors, isLoading, onRefresh, onRetry
         {filteredErrors.length === 0 ? (
           <div className="text-center py-12">
             <i className="fa-solid fa-check-circle text-4xl text-green-400 mb-4"></i>
-            <p className="text-gray-400">No publishing errors found</p>
-            <p className="text-gray-500 text-sm mt-1">All posts are being published successfully!</p>
+            <p className="text-[var(--posta-ink-soft)]">No publishing errors found</p>
+            <p className="text-[var(--posta-ink-soft)] text-sm mt-1">All posts are being published successfully!</p>
           </div>
         ) : (
           <div className="divide-y divide-glass-border">
             {filteredErrors.map((error) => (
-              <div key={error.id} className="p-6 hover:bg-white/5 transition-colors">
+              <div key={error.id} className="p-6 hover:bg-[var(--posta-paper)] transition-colors">
                 <div className="flex items-start gap-4">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center bg-white/5`}>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center bg-[var(--posta-paper)]`}>
                     <i className={`${platformIcons[error.platform]} text-xl ${platformColors[error.platform]}`}></i>
                   </div>
                   
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="text-sm font-medium">{error.userEmail || 'Unknown User'}</span>
-                      <span className="text-sm text-gray-500">•</span>
-                      <span className="text-sm text-gray-400">
+                      <span className="text-sm text-[var(--posta-ink-soft)]">•</span>
+                      <span className="text-sm text-[var(--posta-ink-soft)]">
                         {new Date(error.createdAt).toLocaleString('en-ZA', {
                           dateStyle: 'medium',
                           timeStyle: 'short',
@@ -174,8 +174,8 @@ export default function PublishingErrors({ errors, isLoading, onRefresh, onRetry
                     </div>
                     
                     {/* Post Content Preview */}
-                    <div className="bg-white/5 border border-glass-border rounded-xl p-3 mb-3">
-                      <p className="text-sm text-gray-300 line-clamp-2">
+                    <div className="bg-[var(--posta-paper)] border border-glass-border rounded-xl p-3 mb-3">
+                      <p className="text-sm text-[var(--posta-ink-soft)] line-clamp-2">
                         {error.content}
                       </p>
                     </div>
@@ -189,7 +189,7 @@ export default function PublishingErrors({ errors, isLoading, onRefresh, onRetry
                     
                     {/* Scheduled Info */}
                     {error.scheduledDate && (
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-[var(--posta-ink-soft)]">
                         <i className="fa-solid fa-clock mr-1"></i>
                         Was scheduled for: {new Date(error.scheduledDate).toLocaleString('en-ZA')}
                       </p>
@@ -202,7 +202,7 @@ export default function PublishingErrors({ errors, isLoading, onRefresh, onRetry
                       <button
                         onClick={() => handleRetry(error.id)}
                         disabled={retrying === error.id}
-                        className="px-4 py-2 rounded-lg bg-neon-grape/20 text-neon-grape hover:bg-neon-grape hover:text-white transition-colors font-medium text-sm flex items-center gap-2 disabled:opacity-50"
+                        className="px-4 py-2 rounded-lg bg-neon-grape/20 text-neon-grape hover:bg-neon-grape hover:text-[var(--posta-cream)] transition-colors font-medium text-sm flex items-center gap-2 disabled:opacity-50"
                       >
                         {retrying === error.id ? (
                           <>

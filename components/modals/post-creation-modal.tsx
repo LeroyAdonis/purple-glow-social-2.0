@@ -354,7 +354,7 @@ export default function PostCreationModal({
             
             <button
               onClick={onClose}
-              className="w-10 h-10 flex items-center justify-center rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-200"
+              className="w-10 h-10 flex items-center justify-center rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 hover:bg-red-500 hover:text-[var(--posta-ink)] transition-all duration-200"
               aria-label="Close modal"
             >
               <i className="fa-solid fa-xmark text-lg"></i>
@@ -366,7 +366,7 @@ export default function PostCreationModal({
         <div className="relative overflow-y-auto max-h-[calc(90vh-180px)] p-6 space-y-6 custom-scrollbar">
           {/* Platform Selector */}
           <div>
-            <label className="block text-sm font-bold text-gray-300 mb-3 uppercase tracking-wider">
+            <label className="block text-sm font-bold text-[var(--posta-ink-soft)] mb-3 uppercase tracking-wider">
               Platform
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -386,8 +386,8 @@ export default function PostCreationModal({
                       flex items-center justify-center gap-2
                       font-bold text-sm uppercase tracking-wide
                       ${isSelected 
-                        ? `bg-gradient-to-br ${config.bgGradient} border-transparent text-white shadow-[0_0_20px_${config.color}66]` 
-                        : 'bg-white/5 border-gray-600 text-gray-400 hover:border-gray-400'
+                        ? `bg-gradient-to-br ${config.bgGradient} border-transparent text-[var(--posta-ink)] shadow-[0_0_20px_${config.color}66]` 
+                        : 'bg-[var(--posta-paper)] border-gray-600 text-[var(--posta-ink-soft)] hover:border-gray-400'
                       }
                       disabled:opacity-50
                     `}
@@ -405,9 +405,9 @@ export default function PostCreationModal({
           <div>
             <label 
               htmlFor="topic-input"
-              className="block text-sm font-bold text-gray-300 mb-3 uppercase tracking-wider"
+              className="block text-sm font-bold text-[var(--posta-ink-soft)] mb-3 uppercase tracking-wider"
             >
-              Topic <span className="text-gray-500 font-normal">(optional)</span>
+              Topic <span className="text-[var(--posta-ink-soft)] font-normal">(optional)</span>
             </label>
             <input
               id="topic-input"
@@ -417,7 +417,7 @@ export default function PostCreationModal({
               disabled={isSubmitting}
               placeholder="e.g., Summer Sale, Product Launch"
               maxLength={200}
-              className="w-full px-4 py-3 bg-[#0D0F1C]/50 backdrop-blur-sm border border-[#9D4EDD]/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#9D4EDD] focus:ring-2 focus:ring-[#9D4EDD]/20 transition-all"
+              className="w-full px-4 py-3 bg-[#0D0F1C]/50 backdrop-blur-sm border border-[#9D4EDD]/30 rounded-lg text-[var(--posta-ink)] placeholder-gray-500 focus:outline-none focus:border-[#9D4EDD] focus:ring-2 focus:ring-[#9D4EDD]/20 transition-all"
             />
           </div>
 
@@ -425,7 +425,7 @@ export default function PostCreationModal({
           <div>
             <label 
               htmlFor="content-textarea"
-              className="block text-sm font-bold text-gray-300 mb-3 uppercase tracking-wider"
+              className="block text-sm font-bold text-[var(--posta-ink-soft)] mb-3 uppercase tracking-wider"
             >
               Content
             </label>
@@ -442,7 +442,7 @@ export default function PostCreationModal({
                   w-full px-4 py-3 rounded-xl
                   bg-[#0D0F1C]/50 backdrop-blur-sm
                   border-2 ${charPercentage >= 100 ? 'border-red-500' : charPercentage >= 90 ? 'border-yellow-500' : 'border-[#9D4EDD]/30'}
-                  text-white placeholder-gray-500
+                  text-[var(--posta-ink)] placeholder-gray-500
                   focus:border-[#9D4EDD] focus:shadow-[0_0_20px_rgba(157,78,221,0.3)]
                   focus:outline-none
                   transition-all duration-300
@@ -473,8 +473,8 @@ export default function PostCreationModal({
 
           {/* Image Upload */}
           <div>
-            <label className="block text-sm font-bold text-gray-300 mb-3 uppercase tracking-wider">
-              Image <span className="text-gray-500 font-normal">(optional)</span>
+            <label className="block text-sm font-bold text-[var(--posta-ink-soft)] mb-3 uppercase tracking-wider">
+              Image <span className="text-[var(--posta-ink-soft)] font-normal">(optional)</span>
             </label>
             <ImageUploader
               currentImage={imageUrl}
@@ -508,7 +508,7 @@ export default function PostCreationModal({
             <button
               onClick={handleSaveDraft}
               disabled={isSubmitting || !content.trim() || charPercentage >= 100}
-              className="flex-1 px-6 py-3 bg-gray-700/50 hover:bg-gray-700 border border-gray-600 rounded-lg font-bold text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 px-6 py-3 bg-gray-700/50 hover:bg-gray-700 border border-gray-600 rounded-lg font-bold text-[var(--posta-ink)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting && submitAction === 'save' ? (
                 <>
@@ -546,7 +546,7 @@ export default function PostCreationModal({
             <button
               onClick={handlePublishNow}
               disabled={isSubmitting || !content.trim() || charPercentage >= 100}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-[#9D4EDD] to-[#00E0FF] hover:shadow-[0_0_30px_rgba(157,78,221,0.5)] rounded-lg font-bold text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 px-6 py-3 bg-gradient-to-r from-[#9D4EDD] to-[#00E0FF] hover:shadow-[0_0_30px_rgba(157,78,221,0.5)] rounded-lg font-bold text-[var(--posta-ink)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting && submitAction === 'publish' ? (
                 <>

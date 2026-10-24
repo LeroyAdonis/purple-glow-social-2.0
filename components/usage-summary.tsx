@@ -92,14 +92,14 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
     return (
       <div className="aerogel-card rounded-xl p-6 animate-pulse">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-white/10 rounded-lg"></div>
-          <div className="h-6 w-32 bg-white/10 rounded"></div>
+          <div className="w-10 h-10 bg-[var(--posta-cream)] rounded-lg"></div>
+          <div className="h-6 w-32 bg-[var(--posta-cream)] rounded"></div>
         </div>
         <div className="space-y-4">
           {[1, 2, 3, 4].map(i => (
             <div key={i} className="space-y-2">
-              <div className="h-4 w-24 bg-white/10 rounded"></div>
-              <div className="h-2 w-full bg-white/10 rounded-full"></div>
+              <div className="h-4 w-24 bg-[var(--posta-cream)] rounded"></div>
+              <div className="h-2 w-full bg-[var(--posta-cream)] rounded-full"></div>
             </div>
           ))}
         </div>
@@ -115,7 +115,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
           <i className="fa-solid fa-circle-exclamation text-xl"></i>
           <div>
             <h4 className="font-bold">Error Loading Usage</h4>
-            <p className="text-sm text-gray-400">{error}</p>
+            <p className="text-sm text-[var(--posta-ink-soft)]">{error}</p>
           </div>
         </div>
         <button
@@ -161,11 +161,11 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
       <div className="space-y-2">
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center gap-2">
-            <i className={`${icon} ${isAtLimit ? 'text-red-400' : 'text-gray-400'}`}></i>
+            <i className={`${icon} ${isAtLimit ? 'text-red-400' : 'text-[var(--posta-ink-soft)]'}`}></i>
             <span className="font-medium">{label}</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className={`font-mono ${isAtLimit ? 'text-red-400' : 'text-gray-400'}`}>
+            <span className={`font-mono ${isAtLimit ? 'text-red-400' : 'text-[var(--posta-ink-soft)]'}`}>
               {current}/{limit}
             </span>
             {isAtLimit && showUpgrade && onUpgrade && (
@@ -178,14 +178,14 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
             )}
           </div>
         </div>
-        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+        <div className="h-2 bg-[var(--posta-cream)] rounded-full overflow-hidden">
           <div
             className={`h-full transition-all duration-500 ${getProgressColor(percentage, isAtLimit)}`}
             style={{ width: `${Math.min(100, Math.max(2, percentage))}%` }}
           ></div>
         </div>
         {!compact && (
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-[var(--posta-ink-soft)]">
             {isAtLimit 
               ? <span className="text-red-400">Limit reached</span>
               : `${remaining} remaining`
@@ -205,7 +205,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
             <i className="fa-solid fa-chart-pie text-joburg-teal"></i>
             Usage
           </h4>
-          <span className="text-xs text-gray-400 capitalize">{limits.tier} tier</span>
+          <span className="text-xs text-[var(--posta-ink-soft)] capitalize">{limits.tier} tier</span>
         </div>
 
         {/* Credits */}
@@ -244,11 +244,11 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-neon-grape to-joburg-teal flex items-center justify-center">
-            <i className="fa-solid fa-chart-pie text-2xl text-white"></i>
+            <i className="fa-solid fa-chart-pie text-2xl text-[var(--posta-ink)]"></i>
           </div>
           <div>
             <h3 className="font-display font-bold text-xl">Usage Summary</h3>
-            <p className="text-sm text-gray-400 capitalize">{limits.tier} Tier</p>
+            <p className="text-sm text-[var(--posta-ink-soft)] capitalize">{limits.tier} Tier</p>
           </div>
         </div>
         {limits.tier !== 'business' && onUpgrade && (
@@ -264,26 +264,26 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Credits Section */}
-        <div className="space-y-4 p-4 bg-white/5 rounded-xl border border-glass-border">
+        <div className="space-y-4 p-4 bg-[var(--posta-paper)] rounded-xl border border-glass-border">
           <h4 className="font-bold flex items-center gap-2">
             <i className="fa-solid fa-coins text-mzansi-gold"></i>
             Credits
           </h4>
           <div className="grid grid-cols-2 gap-4 text-center">
             <div>
-              <div className="text-3xl font-display font-bold text-white">
+              <div className="text-3xl font-display font-bold text-[var(--posta-ink)]">
                 {limits.credits.available}
               </div>
-              <div className="text-xs text-gray-400">Available</div>
+              <div className="text-xs text-[var(--posta-ink-soft)]">Available</div>
             </div>
             <div>
-              <div className="text-3xl font-display font-bold text-gray-500">
+              <div className="text-3xl font-display font-bold text-[var(--posta-ink-soft)]">
                 {limits.credits.reserved}
               </div>
-              <div className="text-xs text-gray-400">Reserved</div>
+              <div className="text-xs text-[var(--posta-ink-soft)]">Reserved</div>
             </div>
           </div>
-          <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+          <div className="h-3 bg-[var(--posta-cream)] rounded-full overflow-hidden">
             <div className="h-full flex">
               <div
                 className="bg-gradient-to-r from-neon-grape to-joburg-teal"
@@ -295,7 +295,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
               ></div>
             </div>
           </div>
-          <div className="flex justify-between text-xs text-gray-500">
+          <div className="flex justify-between text-xs text-[var(--posta-ink-soft)]">
             <span>Total: {limits.credits.total}</span>
             {limits.credits.isLow && (
               <span className="text-mzansi-gold">
@@ -307,11 +307,11 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
         </div>
 
         {/* Daily Usage Section */}
-        <div className="space-y-4 p-4 bg-white/5 rounded-xl border border-glass-border">
+        <div className="space-y-4 p-4 bg-[var(--posta-paper)] rounded-xl border border-glass-border">
           <h4 className="font-bold flex items-center gap-2">
             <i className="fa-solid fa-clock text-joburg-teal"></i>
             Daily Limits
-            <span className="text-xs text-gray-500 font-normal">(resets at midnight SAST)</span>
+            <span className="text-xs text-[var(--posta-ink-soft)] font-normal">(resets at midnight SAST)</span>
           </h4>
           <UsageBar
             label="AI Generations"
@@ -328,7 +328,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
         </div>
 
         {/* Scheduling Section */}
-        <div className="space-y-4 p-4 bg-white/5 rounded-xl border border-glass-border">
+        <div className="space-y-4 p-4 bg-[var(--posta-paper)] rounded-xl border border-glass-border">
           <h4 className="font-bold flex items-center gap-2">
             <i className="fa-regular fa-calendar text-neon-grape"></i>
             Scheduling
@@ -341,15 +341,15 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
             showUpgrade
           />
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-400">Advance Scheduling</span>
-            <span className="font-mono text-white">
+            <span className="text-[var(--posta-ink-soft)]">Advance Scheduling</span>
+            <span className="font-mono text-[var(--posta-ink)]">
               Up to {limits.scheduling.advanceSchedulingDays} days
             </span>
           </div>
         </div>
 
         {/* Connected Accounts Section */}
-        <div className="space-y-4 p-4 bg-white/5 rounded-xl border border-glass-border">
+        <div className="space-y-4 p-4 bg-[var(--posta-paper)] rounded-xl border border-glass-border">
           <h4 className="font-bold flex items-center gap-2">
             <i className="fa-solid fa-link text-joburg-teal"></i>
             Connected Accounts
@@ -363,9 +363,9 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
           />
           <div className="grid grid-cols-2 gap-2 text-xs">
             {Object.entries(limits.connectedAccounts.byPlatform).map(([platform, status]) => (
-              <div key={platform} className="flex items-center justify-between bg-white/5 rounded-lg p-2">
+              <div key={platform} className="flex items-center justify-between bg-[var(--posta-paper)] rounded-lg p-2">
                 <span className="capitalize">{platform}</span>
-                <span className={`font-mono ${status.isAtLimit ? 'text-red-400' : 'text-gray-400'}`}>
+                <span className={`font-mono ${status.isAtLimit ? 'text-red-400' : 'text-[var(--posta-ink-soft)]'}`}>
                   {status.current}/{status.limit}
                 </span>
               </div>
@@ -374,7 +374,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
         </div>
 
         {/* Automation Section */}
-        <div className="md:col-span-2 space-y-4 p-4 bg-white/5 rounded-xl border border-glass-border">
+        <div className="md:col-span-2 space-y-4 p-4 bg-[var(--posta-paper)] rounded-xl border border-glass-border">
           <h4 className="font-bold flex items-center gap-2">
             <i className="fa-solid fa-robot text-neon-grape"></i>
             Automation
@@ -394,7 +394,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
             />
           ) : (
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-400">
+              <span className="text-[var(--posta-ink-soft)]">
                 <i className="fa-solid fa-lock mr-2"></i>
                 Upgrade to Pro to unlock automation
               </span>

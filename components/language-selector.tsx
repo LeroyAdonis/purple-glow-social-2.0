@@ -37,7 +37,7 @@ export default function LanguageSelector({ variant = 'default' }: LanguageSelect
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-glass-border"
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)] transition-colors cursor-pointer border border-transparent hover:border-glass-border"
           aria-label="Select Language"
         >
           <span className="text-lg">{currentLang.flag}</span>
@@ -54,14 +54,14 @@ export default function LanguageSelector({ variant = 'default' }: LanguageSelect
                   onClick={() => handleLanguageSelect(lang.code)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all cursor-pointer ${
                     currentLanguage === lang.code
-                      ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-white border border-neon-grape/40 shadow-lg'
-                      : 'text-gray-300 hover:bg-white/10 hover:border-glass-border border border-transparent'
+                      ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-[var(--posta-ink)] border border-neon-grape/40 shadow-lg'
+                      : 'text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:border-glass-border border border-transparent'
                   }`}
                 >
                   <span className="text-xl">{lang.flag}</span>
                   <div className="flex-1 text-left">
                     <div className="font-bold font-body">{lang.name}</div>
-                    <div className="text-xs text-gray-400 font-mono">{lang.nativeName}</div>
+                    <div className="text-xs text-[var(--posta-ink-soft)] font-mono">{lang.nativeName}</div>
                   </div>
                   {currentLanguage === lang.code && (
                     <i className="fa-solid fa-check text-joburg-teal text-sm"></i>
@@ -79,12 +79,12 @@ export default function LanguageSelector({ variant = 'default' }: LanguageSelect
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-4 py-3 bg-white/5 border border-glass-border rounded-xl hover:bg-white/10 hover:border-neon-grape/50 transition-all cursor-pointer"
+        className="flex items-center gap-3 px-4 py-3 bg-[var(--posta-paper)] border border-glass-border rounded-xl hover:bg-[var(--posta-cream)] hover:border-neon-grape/50 transition-all cursor-pointer"
       >
         <span className="text-2xl">{currentLang.flag}</span>
         <div className="flex-1 text-left">
           <div className="text-sm font-bold font-body">{currentLang.name}</div>
-          <div className="text-xs text-gray-400 font-mono">{currentLang.nativeName}</div>
+          <div className="text-xs text-[var(--posta-ink-soft)] font-mono">{currentLang.nativeName}</div>
         </div>
         <i className={`fa-solid fa-chevron-down text-xs transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
       </button>
@@ -98,14 +98,14 @@ export default function LanguageSelector({ variant = 'default' }: LanguageSelect
                 onClick={() => handleLanguageSelect(lang.code)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all cursor-pointer ${
                   currentLanguage === lang.code
-                    ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-white border border-neon-grape/40 shadow-lg'
-                    : 'text-gray-300 hover:bg-white/10 hover:border-glass-border border border-transparent'
+                    ? 'bg-gradient-to-r from-neon-grape/20 to-joburg-teal/20 text-[var(--posta-ink)] border border-neon-grape/40 shadow-lg'
+                    : 'text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:border-glass-border border border-transparent'
                 }`}
               >
                 <span className="text-2xl">{lang.flag}</span>
                 <div className="flex-1 text-left">
                   <div className="font-bold font-body">{lang.name}</div>
-                  <div className="text-xs text-gray-400 font-mono">{lang.nativeName}</div>
+                  <div className="text-xs text-[var(--posta-ink-soft)] font-mono">{lang.nativeName}</div>
                 </div>
                 {currentLanguage === lang.code && (
                   <i className="fa-solid fa-check text-joburg-teal"></i>

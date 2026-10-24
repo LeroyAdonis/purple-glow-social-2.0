@@ -27,7 +27,7 @@ export default function LogoutButton({ onClick }: { onClick?: () => void }) {
     <button
       onClick={handleLogout}
       disabled={isLoading}
-      className="flex items-center gap-3 px-4 py-2 hover:bg-white/5 transition-colors text-red-400 cursor-pointer w-full text-left disabled:opacity-50"
+      className="flex items-center gap-3 px-4 py-2 hover:bg-[var(--posta-paper)] transition-colors text-red-400 cursor-pointer w-full text-left disabled:opacity-50"
     >
       <i className={`fa-solid ${isLoading ? 'fa-spinner fa-spin' : 'fa-sign-out'}`}></i>
       <span>{isLoading ? translate('common.loading') : 'Logout'}</span>

@@ -37,7 +37,7 @@ export default function LimitStatusBadge({
   const getStatusColor = () => {
     if (isAtLimit) return 'border-red-500/50 bg-red-500/10 text-red-400';
     if (isNearLimit) return 'border-mzansi-gold/50 bg-mzansi-gold/10 text-mzansi-gold';
-    return 'border-glass-border bg-white/5 text-gray-400';
+    return 'border-glass-border bg-[var(--posta-paper)] text-[var(--posta-ink-soft)]';
   };
 
   const getProgressColor = () => {
@@ -59,7 +59,7 @@ export default function LimitStatusBadge({
             {current}/{limit}
           </span>
           {showProgress && (
-            <div className="w-12 h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div className="w-12 h-1.5 bg-[var(--posta-cream)] rounded-full overflow-hidden">
               <div
                 className={`h-full transition-all duration-300 ${getProgressColor()}`}
                 style={{ width: `${Math.min(100, Math.max(5, percentage))}%` }}

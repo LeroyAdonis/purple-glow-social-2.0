@@ -49,30 +49,30 @@ export default function PaymentSuccessModal({ isOpen, onClose, type, amount, cre
       
       <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter text-center">
         <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 mx-auto mb-6 flex items-center justify-center animate-[bounce_0.5s_ease-in-out]">
-          <i className="fa-solid fa-check text-4xl text-white"></i>
+          <i className="fa-solid fa-check text-4xl text-[var(--posta-ink)]"></i>
         </div>
 
         <h2 className="font-display font-bold text-3xl mb-2">Payment Successful!</h2>
-        <p className="text-gray-400 mb-8">
+        <p className="text-[var(--posta-ink-soft)] mb-8">
           {type === 'credits' 
             ? `${credits} credits have been added to your account` 
             : `You're now subscribed to ${plan}`}
         </p>
 
-        <div className="aerogel-card p-6 rounded-2xl mb-6 bg-white/5">
+        <div className="aerogel-card p-6 rounded-2xl mb-6 bg-[var(--posta-paper)]">
           <div className="flex justify-between items-center mb-3">
-            <span className="text-sm text-gray-400">Amount Paid</span>
+            <span className="text-sm text-[var(--posta-ink-soft)]">Amount Paid</span>
             <span className="font-mono font-bold text-2xl text-green-400">R{amount.toFixed(2)}</span>
           </div>
           {type === 'credits' && credits && (
             <div className="flex justify-between items-center pt-3 border-t border-glass-border">
-              <span className="text-sm text-gray-400">Credits Added</span>
+              <span className="text-sm text-[var(--posta-ink-soft)]">Credits Added</span>
               <span className="font-mono font-bold text-xl text-mzansi-gold">{credits}</span>
             </div>
           )}
         </div>
 
-        <div className="space-y-3 text-sm text-gray-400 mb-6">
+        <div className="space-y-3 text-sm text-[var(--posta-ink-soft)] mb-6">
           <div className="flex items-center gap-2 justify-center">
             <i className="fa-solid fa-envelope text-joburg-teal"></i>
             <span>Receipt sent to your email</span>
@@ -85,7 +85,7 @@ export default function PaymentSuccessModal({ isOpen, onClose, type, amount, cre
 
         <button
           onClick={onClose}
-          className="w-full py-3 bg-neon-grape text-white font-bold rounded-xl hover:bg-opacity-90 transition-all"
+          className="w-full py-3 bg-neon-grape text-[var(--posta-cream)] font-bold rounded-xl hover:bg-opacity-90 transition-all"
         >
           Continue to Dashboard
         </button>

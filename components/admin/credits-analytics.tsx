@@ -20,13 +20,13 @@ export default function CreditsAnalytics({ data, isLoading }: CreditsAnalyticsPr
   if (isLoading) {
     return (
       <div className="aerogel-card p-6 rounded-2xl animate-pulse">
-        <div className="h-8 bg-white/10 rounded w-48 mb-6"></div>
+        <div className="h-8 bg-[var(--posta-cream)] rounded w-48 mb-6"></div>
         <div className="grid grid-cols-4 gap-4 mb-6">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-24 bg-white/5 rounded-xl"></div>
+            <div key={i} className="h-24 bg-[var(--posta-paper)] rounded-xl"></div>
           ))}
         </div>
-        <div className="h-64 bg-white/5 rounded-xl"></div>
+        <div className="h-64 bg-[var(--posta-paper)] rounded-xl"></div>
       </div>
     );
   }
@@ -57,7 +57,7 @@ export default function CreditsAnalytics({ data, isLoading }: CreditsAnalyticsPr
             <i className="fa-solid fa-coins text-2xl text-mzansi-gold"></i>
           </div>
           <p className="text-3xl font-display font-bold">{data.totalCreditsUsed.toLocaleString()}</p>
-          <p className="text-sm text-gray-400 mt-1">Total Credits Used</p>
+          <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Total Credits Used</p>
         </div>
         
         <div className="aerogel-card p-6 rounded-2xl">
@@ -65,7 +65,7 @@ export default function CreditsAnalytics({ data, isLoading }: CreditsAnalyticsPr
             <i className="fa-solid fa-wand-magic-sparkles text-2xl text-neon-grape"></i>
           </div>
           <p className="text-3xl font-display font-bold">{data.generationVsPublishing.generations.toLocaleString()}</p>
-          <p className="text-sm text-gray-400 mt-1">AI Generations</p>
+          <p className="text-sm text-[var(--posta-ink-soft)] mt-1">AI Generations</p>
         </div>
         
         <div className="aerogel-card p-6 rounded-2xl">
@@ -73,7 +73,7 @@ export default function CreditsAnalytics({ data, isLoading }: CreditsAnalyticsPr
             <i className="fa-solid fa-paper-plane text-2xl text-joburg-teal"></i>
           </div>
           <p className="text-3xl font-display font-bold">{data.generationVsPublishing.published.toLocaleString()}</p>
-          <p className="text-sm text-gray-400 mt-1">Published Posts</p>
+          <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Published Posts</p>
         </div>
         
         <div className="aerogel-card p-6 rounded-2xl">
@@ -85,7 +85,7 @@ export default function CreditsAnalytics({ data, isLoading }: CreditsAnalyticsPr
               ? Math.round((data.generationVsPublishing.published / data.generationVsPublishing.generations) * 100) 
               : 0}%
           </p>
-          <p className="text-sm text-gray-400 mt-1">Publish Rate</p>
+          <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Publish Rate</p>
         </div>
       </div>
 
@@ -100,14 +100,14 @@ export default function CreditsAnalytics({ data, isLoading }: CreditsAnalyticsPr
             return (
               <div key={platform} className="flex items-center gap-4">
                 <div className="w-8 flex justify-center">
-                  <i className={`${platformIcons[platform]} text-xl text-gray-400`}></i>
+                  <i className={`${platformIcons[platform]} text-xl text-[var(--posta-ink-soft)]`}></i>
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between mb-1">
                     <span className="font-medium capitalize">{platform}</span>
-                    <span className="text-gray-400 font-mono">{credits.toLocaleString()}</span>
+                    <span className="text-[var(--posta-ink-soft)] font-mono">{credits.toLocaleString()}</span>
                   </div>
-                  <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-3 bg-[var(--posta-cream)] rounded-full overflow-hidden">
                     <div
                       className={`h-full bg-gradient-to-r ${platformColors[platform]} rounded-full transition-all duration-500`}
                       style={{ width: `${percentage}%` }}
@@ -125,9 +125,9 @@ export default function CreditsAnalytics({ data, isLoading }: CreditsAnalyticsPr
         <h3 className="font-display font-bold text-xl mb-6">Credits by Content Type</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {Object.entries(data.byContentType).map(([type, count]) => (
-            <div key={type} className="text-center p-4 rounded-xl bg-white/5 border border-glass-border">
+            <div key={type} className="text-center p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border">
               <p className="text-2xl font-display font-bold text-neon-grape">{count.toLocaleString()}</p>
-              <p className="text-sm text-gray-400 mt-1 capitalize">{type.replace('_', ' ')}</p>
+              <p className="text-sm text-[var(--posta-ink-soft)] mt-1 capitalize">{type.replace('_', ' ')}</p>
             </div>
           ))}
         </div>
@@ -145,12 +145,12 @@ export default function CreditsAnalytics({ data, isLoading }: CreditsAnalyticsPr
               
               return (
                 <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                  <div className="text-xs text-gray-400 font-mono">{day.credits}</div>
+                  <div className="text-xs text-[var(--posta-ink-soft)] font-mono">{day.credits}</div>
                   <div
                     className="w-full bg-gradient-to-t from-neon-grape to-joburg-teal rounded-t-lg transition-all hover:opacity-80 cursor-pointer min-h-[4px]"
                     style={{ height: `${Math.max(height, 2)}%` }}
                   ></div>
-                  <div className="text-xs text-gray-500 font-mono">
+                  <div className="text-xs text-[var(--posta-ink-soft)] font-mono">
                     {date.toLocaleDateString('en-ZA', { weekday: 'short' })}
                   </div>
                 </div>

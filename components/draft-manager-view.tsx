@@ -279,8 +279,8 @@ export default function DraftManagerView({
                     font-bold text-sm uppercase tracking-wide
                     flex items-center gap-2
                     ${isActive 
-                      ? 'border-transparent text-white shadow-[0_0_15px_rgba(157,78,221,0.4)]' 
-                      : 'border-gray-600 text-gray-400 hover:border-gray-400 bg-transparent'
+                      ? 'border-transparent text-[var(--posta-ink)] shadow-[0_0_15px_rgba(157,78,221,0.4)]' 
+                      : 'border-gray-600 text-[var(--posta-ink-soft)] hover:border-gray-400 bg-transparent'
                     }
                   `}
                   style={isActive ? { 
@@ -297,7 +297,7 @@ export default function DraftManagerView({
 
           {/* Sort Dropdown */}
           <div className="flex items-center gap-3">
-            <span className="text-gray-400 text-sm font-bold uppercase">Sort:</span>
+            <span className="text-[var(--posta-ink-soft)] text-sm font-bold uppercase">Sort:</span>
             <div className="relative">
               <select
                 value={sortOrder}
@@ -346,10 +346,10 @@ export default function DraftManagerView({
             <i className="fa-solid fa-file-lines text-4xl text-[#9D4EDD]/50"></i>
           </div>
 
-          <h3 className="text-2xl font-bold text-white mb-2">
+          <h3 className="text-2xl font-bold text-[var(--posta-ink)] mb-2">
             No drafts yet
           </h3>
-          <p className="text-gray-400 mb-8 max-w-md mx-auto">
+          <p className="text-[var(--posta-ink-soft)] mb-8 max-w-md mx-auto">
             Start by generating AI content or creating a new post manually. 
             Your drafts will appear here.
           </p>
@@ -468,12 +468,12 @@ function DraftCardSkeleton() {
   return (
     <div className="">
       {/* Header Skeleton */}
-      <div className="flex items-center justify-between p-4 border-b border-white/10">
+      <div className="flex items-center justify-between p-4 border-b border-[var(--posta-line)]">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-[#9D4EDD]/20"></div>
           <div className="h-4 w-24 rounded bg-[#9D4EDD]/20"></div>
         </div>
-        <div className="w-8 h-8 rounded-lg bg-white/5"></div>
+        <div className="w-8 h-8 rounded-lg bg-[var(--posta-paper)]"></div>
       </div>
 
       {/* Body Skeleton */}
@@ -481,9 +481,9 @@ function DraftCardSkeleton() {
         <div className="flex gap-4">
           <div className="w-20 h-20 flex-shrink-0 rounded-lg bg-[#9D4EDD]/10"></div>
           <div className="flex-1 space-y-2">
-            <div className="h-3 rounded bg-white/10"></div>
-            <div className="h-3 rounded bg-white/10 w-5/6"></div>
-            <div className="h-3 rounded bg-white/10 w-4/6"></div>
+            <div className="h-3 rounded bg-[var(--posta-cream)]"></div>
+            <div className="h-3 rounded bg-[var(--posta-cream)] w-5/6"></div>
+            <div className="h-3 rounded bg-[var(--posta-cream)] w-4/6"></div>
             <div className="flex gap-2 mt-3">
               <div className="h-4 w-16 rounded bg-[#FFCC00]/10"></div>
               <div className="h-4 w-20 rounded bg-[#FFCC00]/10"></div>
@@ -500,7 +500,7 @@ function DraftCardSkeleton() {
         </div>
         <div className="grid grid-cols-4 gap-2">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-9 rounded-lg bg-white/5"></div>
+            <div key={i} className="h-9 rounded-lg bg-[var(--posta-paper)]"></div>
           ))}
         </div>
       </div>

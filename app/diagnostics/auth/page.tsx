@@ -45,7 +45,7 @@ export default function AuthDiagnosticsPage() {
       <div className="min-h-screen bg-void flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block w-16 h-16 border-4 border-neon-grape border-t-transparent rounded-full animate-spin mb-4"></div>
-          <p className="text-gray-400">Running diagnostics...</p>
+          <p className="text-[var(--posta-ink-soft)]">Running diagnostics...</p>
         </div>
       </div>
     );
@@ -58,7 +58,7 @@ export default function AuthDiagnosticsPage() {
           <div className="aerogel-card p-8 rounded-2xl border border-red-500/20 bg-red-500/10">
             <i className="fa-solid fa-exclamation-triangle text-4xl text-red-400 mb-4"></i>
             <h1 className="text-2xl font-bold text-red-400 mb-4">Diagnostic Error</h1>
-            <p className="text-gray-300">{error}</p>
+            <p className="text-[var(--posta-ink-soft)]">{error}</p>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@ export default function AuthDiagnosticsPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2 glow-text">Authentication Diagnostics</h1>
-          <p className="text-gray-400">Debugging authentication issues in production</p>
+          <p className="text-[var(--posta-ink-soft)]">Debugging authentication issues in production</p>
         </div>
 
         {/* Status Overview */}
@@ -112,7 +112,7 @@ export default function AuthDiagnosticsPage() {
               {result.issues.map((issue, index) => (
                 <div key={index} className="border border-red-500/20 rounded-xl p-4">
                   <h3 className="font-bold text-red-300 mb-2">{issue.issue}</h3>
-                  <p className="text-gray-300">{issue.solution}</p>
+                  <p className="text-[var(--posta-ink-soft)]">{issue.solution}</p>
                 </div>
               ))}
             </div>
@@ -125,7 +125,7 @@ export default function AuthDiagnosticsPage() {
           <div className="space-y-4">
             <div className="border border-glass-border rounded-xl p-4">
               <h3 className="font-bold mb-2">1. Set Environment Variables</h3>
-              <p className="text-gray-300 mb-2">Go to Vercel Dashboard → Your Project → Settings → Environment Variables</p>
+              <p className="text-[var(--posta-ink-soft)] mb-2">Go to Vercel Dashboard → Your Project → Settings → Environment Variables</p>
               <div className="bg-black/50 rounded-lg p-3 font-mono text-sm">
                 <div>DATABASE_URL=postgresql://your-neon-connection-string</div>
                 <div>BETTER_AUTH_SECRET=your-32-char-secret</div>
@@ -136,7 +136,7 @@ export default function AuthDiagnosticsPage() {
 
             <div className="border border-glass-border rounded-xl p-4">
               <h3 className="font-bold mb-2">2. Redeploy</h3>
-              <p className="text-gray-300">After setting environment variables, trigger a new deployment:</p>
+              <p className="text-[var(--posta-ink-soft)]">After setting environment variables, trigger a new deployment:</p>
               <div className="bg-black/50 rounded-lg p-3 font-mono text-sm">
                 git push origin main
               </div>
@@ -144,7 +144,7 @@ export default function AuthDiagnosticsPage() {
 
             <div className="border border-glass-border rounded-xl p-4">
               <h3 className="font-bold mb-2">3. Test Authentication</h3>
-              <p className="text-gray-300">Try logging in again after redeployment</p>
+              <p className="text-[var(--posta-ink-soft)]">Try logging in again after redeployment</p>
             </div>
           </div>
         </div>
@@ -161,7 +161,7 @@ export default function AuthDiagnosticsPage() {
         </div>
 
         <div className="text-center mt-8">
-          <p className="text-gray-400">
+          <p className="text-[var(--posta-ink-soft)]">
             Need help? Check the{' '}
             <a href="/docs/troubleshooting" className="text-neon-grape hover:underline">
               troubleshooting guide

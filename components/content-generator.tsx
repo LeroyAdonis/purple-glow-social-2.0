@@ -226,7 +226,7 @@ export default function ContentGenerator() {
                 {state?.data?.imageUrl ? (
                     <Image src={state.data.imageUrl} alt="Generated" width={600} height={600} className="w-full h-full object-cover" unoptimized />
                 ) : (
-                    <div className="text-center text-white/80">
+                    <div className="text-center text-[var(--posta-ink)]/80">
                         <i className="fa-solid fa-image text-4xl mb-2 opacity-50"></i>
                         <p className="text-xs font-medium">Add your own image</p>
                     </div>
@@ -257,13 +257,13 @@ export default function ContentGenerator() {
                         <span className="whitespace-pre-wrap">{localContent}</span>
                     )}
                 </div>
-                <div className="text-[10px] text-gray-400 mt-2 uppercase">2 HOURS AGO</div>
+                <div className="text-[10px] text-[var(--posta-ink-soft)] mt-2 uppercase">2 HOURS AGO</div>
             </div>
         </div>
     );
 
     const renderTwitterPreview = () => (
-        <div className="bg-black text-white rounded-xl overflow-hidden shadow-2xl max-w-md mx-auto font-sans border border-gray-800 p-4">
+        <div className="bg-black text-[var(--posta-ink)] rounded-xl overflow-hidden shadow-2xl max-w-md mx-auto font-sans border border-gray-800 p-4">
             <div className="flex gap-3">
                 <div className="shrink-0">
                     <div className="w-10 h-10 rounded-full bg-gray-700 overflow-hidden">
@@ -274,13 +274,13 @@ export default function ContentGenerator() {
                     <div className="flex items-center gap-1 text-sm mb-1">
                         <span className="font-bold">Posta</span>
                         <i className="fa-solid fa-certificate text-blue-400 text-[10px]"></i>
-                        <span className="text-gray-500">@purpleglow_sa · 1h</span>
+                        <span className="text-[var(--posta-ink-soft)]">@purpleglow_sa · 1h</span>
                     </div>
 
                     <div className="text-sm leading-relaxed mb-3">
                         {isEditing ? (
                             <textarea
-                                className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-white focus:outline-none focus:border-blue-500"
+                                className="w-full p-2 border border-gray-700 rounded bg-gray-900 text-[var(--posta-ink)] focus:outline-none focus:border-blue-500"
                                 rows={4}
                                 value={localContent}
                                 onChange={(e) => setLocalContent(e.target.value)}
@@ -296,7 +296,7 @@ export default function ContentGenerator() {
                         </div>
                     )}
 
-                    <div className="flex justify-between text-gray-500 text-sm max-w-xs">
+                    <div className="flex justify-between text-[var(--posta-ink-soft)] text-sm max-w-xs">
                         <div className="flex items-center gap-2 hover:text-blue-400 cursor-pointer"><i className="fa-regular fa-comment"></i> <span>12</span></div>
                         <div className="flex items-center gap-2 hover:text-green-400 cursor-pointer"><i className="fa-solid fa-retweet"></i> <span>4</span></div>
                         <div className="flex items-center gap-2 hover:text-pink-500 cursor-pointer"><i className="fa-regular fa-heart"></i> <span>32</span></div>
@@ -315,9 +315,9 @@ export default function ContentGenerator() {
                 </div>
                 <div>
                     <div className="text-sm font-bold text-gray-900">Posta SA</div>
-                    <div className="text-xs text-gray-500 flex items-center gap-1">Just now • <i className="fa-solid fa-earth-americas"></i></div>
+                    <div className="text-xs text-[var(--posta-ink-soft)] flex items-center gap-1">Just now • <i className="fa-solid fa-earth-americas"></i></div>
                 </div>
-                <i className="fa-solid fa-ellipsis ml-auto text-gray-500"></i>
+                <i className="fa-solid fa-ellipsis ml-auto text-[var(--posta-ink-soft)]"></i>
             </div>
 
             <div className="px-3 pb-2 text-sm text-gray-900 leading-relaxed">
@@ -340,7 +340,7 @@ export default function ContentGenerator() {
             )}
 
             <div className="px-3 py-2">
-                <div className="flex justify-between items-center text-gray-500 text-xs mb-2">
+                <div className="flex justify-between items-center text-[var(--posta-ink-soft)] text-xs mb-2">
                     <div className="flex items-center gap-1"><i className="fa-solid fa-thumbs-up text-blue-500"></i> 15</div>
                     <div>3 Comments</div>
                 </div>
@@ -357,19 +357,19 @@ export default function ContentGenerator() {
         <div className="bg-white text-black rounded-xl overflow-hidden shadow-2xl max-w-lg mx-auto font-sans border border-gray-200">
             {/* Header */}
             <div className="p-4 flex items-start gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center text-white font-bold text-lg overflow-hidden">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center text-[var(--posta-ink)] font-bold text-lg overflow-hidden">
                     <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=0077B5&color=fff" alt="User" width={48} height={48} unoptimized />
                 </div>
                 <div className="flex-1">
                     <div className="font-semibold text-sm">Posta</div>
-                    <div className="text-xs text-gray-500">Digital Marketing Agency • 500+ followers</div>
-                    <div className="text-xs text-gray-400 flex items-center gap-1 mt-1">
+                    <div className="text-xs text-[var(--posta-ink-soft)]">Digital Marketing Agency • 500+ followers</div>
+                    <div className="text-xs text-[var(--posta-ink-soft)] flex items-center gap-1 mt-1">
                         <span>2h</span>
                         <span>•</span>
                         <i className="fa-solid fa-earth-africa text-[10px]"></i>
                     </div>
                 </div>
-                <i className="fa-solid fa-ellipsis text-gray-400"></i>
+                <i className="fa-solid fa-ellipsis text-[var(--posta-ink-soft)]"></i>
             </div>
 
             {/* Content */}
@@ -395,12 +395,12 @@ export default function ContentGenerator() {
 
             {/* Engagement */}
             <div className="px-4 py-2 border-t border-gray-200">
-                <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+                <div className="flex items-center justify-between text-xs text-[var(--posta-ink-soft)] mb-2">
                     <div className="flex items-center gap-1">
                         <span className="flex -space-x-1">
-                            <span className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-white text-[8px]"><i className="fa-solid fa-thumbs-up"></i></span>
-                            <span className="w-4 h-4 rounded-full bg-red-500 flex items-center justify-center text-white text-[8px]"><i className="fa-solid fa-heart"></i></span>
-                            <span className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center text-white text-[8px]"><i className="fa-solid fa-hands-clapping"></i></span>
+                            <span className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-[var(--posta-ink)] text-[8px]"><i className="fa-solid fa-thumbs-up"></i></span>
+                            <span className="w-4 h-4 rounded-full bg-red-500 flex items-center justify-center text-[var(--posta-ink)] text-[8px]"><i className="fa-solid fa-heart"></i></span>
+                            <span className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center text-[var(--posta-ink)] text-[8px]"><i className="fa-solid fa-hands-clapping"></i></span>
                         </span>
                         <span className="ml-1">42</span>
                     </div>
@@ -429,11 +429,11 @@ export default function ContentGenerator() {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* INPUT CARD */}
-            <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden bg-black/40 backdrop-blur-xl border border-white/10 h-fit">
+            <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden bg-black/40 backdrop-blur-xl border border-[var(--posta-line)] h-fit">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-neon-grape opacity-10 blur-3xl rounded-full pointer-events-none"></div>
 
                 <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-joburg-teal border border-glass-border shadow-[0_0_15px_-5px_#00E0FF]">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--posta-paper)] flex items-center justify-center text-joburg-teal border border-glass-border shadow-[0_0_15px_-5px_#00E0FF]">
                         <i className="fa-solid fa-pen-nib"></i>
                     </div>
                     <h3 className="font-display font-bold text-2xl">{translate('contentGenerator.title')}</h3>
@@ -444,21 +444,21 @@ export default function ContentGenerator() {
                     <input type="hidden" name="language" value={currentLanguage} />
                     
                     <div>
-                        <label className="block font-mono text-xs text-gray-400 mb-2">{translate('contentGenerator.topic').toUpperCase()}</label>
+                        <label className="block font-mono text-xs text-[var(--posta-ink-soft)] mb-2">{translate('contentGenerator.topic').toUpperCase()}</label>
                         <textarea
                             name="topic"
                             rows={4}
                             value={prompt}
                             onChange={(e) => setPrompt(e.target.value)}
                             placeholder={translate('contentGenerator.topicPlaceholder')}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-neon-grape focus:bg-white/10 focus:outline-none transition-all font-body resize-none"
+                            className="w-full bg-[var(--posta-paper)] border border-[var(--posta-line)] rounded-xl px-4 py-3 text-[var(--posta-ink)] placeholder-gray-600 focus:border-neon-grape focus:bg-[var(--posta-cream)] focus:outline-none transition-all font-body resize-none"
                             required
                         />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block font-mono text-xs text-gray-400 mb-2">{translate('contentGenerator.tone').toUpperCase()}</label>
+                            <label className="block font-mono text-xs text-[var(--posta-ink-soft)] mb-2">{translate('contentGenerator.tone').toUpperCase()}</label>
                             <CustomSelect
                                 value={vibe}
                                 onChange={setVibe}
@@ -473,7 +473,7 @@ export default function ContentGenerator() {
                             <input type="hidden" name="vibe" value={vibe} />
                         </div>
                         <div>
-                            <label className="block font-mono text-xs text-gray-400 mb-2">{translate('contentGenerator.platform').toUpperCase()}</label>
+                            <label className="block font-mono text-xs text-[var(--posta-ink-soft)] mb-2">{translate('contentGenerator.platform').toUpperCase()}</label>
                             <CustomSelect
                                 value={platform}
                                 onChange={setPlatform}
@@ -498,7 +498,7 @@ export default function ContentGenerator() {
                                 label="Daily Generations"
                                 icon="fa-solid fa-wand-magic-sparkles"
                             />
-                            <span className="text-xs text-gray-500 capitalize">{userLimits.tier} tier</span>
+                            <span className="text-xs text-[var(--posta-ink-soft)] capitalize">{userLimits.tier} tier</span>
                         </div>
                     )}
 
@@ -522,7 +522,7 @@ export default function ContentGenerator() {
                     <button
                         type="submit"
                         disabled={isGenerating || userLimits?.dailyGenerations.isAtLimit}
-                        className="w-full py-4 bg-gradient-to-r from-neon-grape to-[#5A189A] text-white font-body font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(157,78,221,0.4)] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                        className="w-full py-4 bg-gradient-to-r from-neon-grape to-[#5A189A] text-[var(--posta-ink)] font-body font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(157,78,221,0.4)] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                         {isGenerating ? (
                             <>
@@ -542,14 +542,14 @@ export default function ContentGenerator() {
             </div>
 
             {/* OUTPUT CARD */}
-            <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden flex flex-col min-h-[500px] bg-black/40 backdrop-blur-xl border border-white/10">
+            <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden flex flex-col min-h-[500px] bg-black/40 backdrop-blur-xl border border-[var(--posta-line)]">
 
                 {isGenerating && (
                     <div className="absolute inset-0 z-20 bg-void/90 backdrop-blur-sm flex flex-col items-center justify-center text-center p-8">
-                        <div className="w-20 h-20 rounded-full border-4 border-white/10 border-t-neon-grape animate-spin mb-6"></div>
+                        <div className="w-20 h-20 rounded-full border-4 border-[var(--posta-line)] border-t-neon-grape animate-spin mb-6"></div>
                         <h4 className="font-display font-bold text-xl mb-2">Consulting the Neural Net</h4>
                         <p className="font-mono text-joburg-teal text-sm animate-pulse">Generating Text & Rendering Visuals...</p>
-                        <div className="mt-8 font-mono text-xs text-gray-500">
+                        <div className="mt-8 font-mono text-xs text-[var(--posta-ink-soft)]">
                             <div>AI MODEL: PUTER.AI (GEMINI 2.5 FLASH)</div>
                             <div>VISUAL MODEL: NANO BANANA</div>
                         </div>
@@ -565,30 +565,30 @@ export default function ContentGenerator() {
 
                 {localContent && !isGenerating && (
                     <div className="flex-1 flex flex-col h-full animate-enter">
-                        <div className="flex justify-between items-start mb-6 border-b border-white/10 pb-4">
+                        <div className="flex justify-between items-start mb-6 border-b border-[var(--posta-line)] pb-4">
                             <div className="flex items-center gap-2">
                                 <span className="font-mono text-[10px] tracking-widest text-joburg-teal border border-joburg-teal/30 px-2 py-1 rounded bg-joburg-teal/10">{translate('contentGenerator.generatedContent').toUpperCase()}</span>
-                                <span className="text-xs text-gray-400 capitalize">• {platform}</span>
+                                <span className="text-xs text-[var(--posta-ink-soft)] capitalize">• {platform}</span>
                             </div>
                             <div className="flex gap-2">
                                 {!isEditing ? (
                                     <button
                                         onClick={() => setIsEditing(true)}
-                                        className="text-gray-400 hover:text-white transition-colors text-xs flex gap-2 items-center bg-white/5 px-3 py-1 rounded-lg border border-white/10 hover:border-neon-grape cursor-pointer"
+                                        className="text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors text-xs flex gap-2 items-center bg-[var(--posta-paper)] px-3 py-1 rounded-lg border border-[var(--posta-line)] hover:border-neon-grape cursor-pointer"
                                     >
                                         <i className="fa-solid fa-pen"></i> {translate('contentGenerator.editText')}
                                     </button>
                                 ) : (
                                     <button
                                         onClick={() => setIsEditing(false)}
-                                        className="text-joburg-teal hover:text-white transition-colors text-xs flex gap-2 items-center bg-joburg-teal/10 px-3 py-1 rounded-lg border border-joburg-teal/30 cursor-pointer"
+                                        className="text-joburg-teal hover:text-[var(--posta-ink)] transition-colors text-xs flex gap-2 items-center bg-joburg-teal/10 px-3 py-1 rounded-lg border border-joburg-teal/30 cursor-pointer"
                                     >
                                         <i className="fa-solid fa-check"></i> {translate('contentGenerator.done')}
                                     </button>
                                 )}
                                 <button
                                     onClick={() => { navigator.clipboard.writeText(localContent); alert('Copied!') }}
-                                    className="text-gray-400 hover:text-white transition-colors text-xs flex gap-2 items-center bg-white/5 px-3 py-1 rounded-lg border border-white/10 hover:border-white/50 cursor-pointer"
+                                    className="text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors text-xs flex gap-2 items-center bg-[var(--posta-paper)] px-3 py-1 rounded-lg border border-[var(--posta-line)] hover:border-white/50 cursor-pointer"
                                 >
                                     <i className="fa-regular fa-copy"></i>
                                 </button>
@@ -601,8 +601,8 @@ export default function ContentGenerator() {
                         </div>
 
                         {/* Character Count Indicator */}
-                        <div className={`flex items-center justify-between text-xs font-mono mb-4 px-2 py-2 rounded-lg ${isOverLimit ? 'bg-red-500/10 border border-red-500/30' : 'bg-white/5 border border-white/10'}`}>
-                            <span className={isOverLimit ? 'text-red-400' : 'text-gray-400'}>
+                        <div className={`flex items-center justify-between text-xs font-mono mb-4 px-2 py-2 rounded-lg ${isOverLimit ? 'bg-red-500/10 border border-red-500/30' : 'bg-[var(--posta-paper)] border border-[var(--posta-line)]'}`}>
+                            <span className={isOverLimit ? 'text-red-400' : 'text-[var(--posta-ink-soft)]'}>
                                 <i className={`fa-solid ${isOverLimit ? 'fa-exclamation-triangle' : 'fa-keyboard'} mr-2`}></i>
                                 {charCount.toLocaleString()} / {currentLimit.toLocaleString()} characters
                             </span>
@@ -613,7 +613,7 @@ export default function ContentGenerator() {
                             )}
                         </div>
 
-                        <div className="mt-auto pt-4 border-t border-white/10 flex gap-4">
+                        <div className="mt-auto pt-4 border-t border-[var(--posta-line)] flex gap-4">
                             <button
                                 onClick={handleDiscard}
                                 className="flex-1 py-3 border border-red-500/30 text-red-400 rounded-xl hover:bg-red-500/10 transition-colors text-sm font-bold cursor-pointer"

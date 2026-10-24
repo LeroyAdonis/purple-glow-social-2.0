@@ -30,8 +30,8 @@ export default function JobDetailModal({ job, onClose, onRetry }: JobDetailModal
       case 'running': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
       case 'completed': return 'bg-green-500/20 text-green-400 border-green-500/30';
       case 'failed': return 'bg-red-500/20 text-red-400 border-red-500/30';
-      case 'cancelled': return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
-      default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+      case 'cancelled': return 'bg-gray-500/20 text-[var(--posta-ink-soft)] border-gray-500/30';
+      default: return 'bg-gray-500/20 text-[var(--posta-ink-soft)] border-gray-500/30';
     }
   };
 
@@ -61,11 +61,11 @@ export default function JobDetailModal({ job, onClose, onRetry }: JobDetailModal
         <div className="flex items-start justify-between mb-6">
           <div>
             <h3 className="font-display font-bold text-2xl mb-2">Job Details</h3>
-            <p className="text-gray-400 text-sm font-mono">{job.id}</p>
+            <p className="text-[var(--posta-ink-soft)] text-sm font-mono">{job.id}</p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+            className="p-2 rounded-lg hover:bg-[var(--posta-cream)] text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors"
           >
             <i className="fa-solid fa-times text-xl"></i>
           </button>
@@ -87,22 +87,22 @@ export default function JobDetailModal({ job, onClose, onRetry }: JobDetailModal
 
         {/* Details Grid */}
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="p-4 rounded-xl bg-white/5 border border-glass-border">
-            <p className="text-xs font-mono text-gray-400 mb-1">FUNCTION</p>
+          <div className="p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border">
+            <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-1">FUNCTION</p>
             <p className="font-medium">{job.functionName}</p>
           </div>
-          <div className="p-4 rounded-xl bg-white/5 border border-glass-border">
-            <p className="text-xs font-mono text-gray-400 mb-1">RETRY COUNT</p>
+          <div className="p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border">
+            <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-1">RETRY COUNT</p>
             <p className="font-medium">{job.retryCount}</p>
           </div>
-          <div className="p-4 rounded-xl bg-white/5 border border-glass-border">
-            <p className="text-xs font-mono text-gray-400 mb-1">CREATED</p>
+          <div className="p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border">
+            <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-1">CREATED</p>
             <p className="font-medium text-sm">
               {new Date(job.createdAt).toLocaleString('en-ZA')}
             </p>
           </div>
-          <div className="p-4 rounded-xl bg-white/5 border border-glass-border">
-            <p className="text-xs font-mono text-gray-400 mb-1">UPDATED</p>
+          <div className="p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border">
+            <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-1">UPDATED</p>
             <p className="font-medium text-sm">
               {new Date(job.updatedAt).toLocaleString('en-ZA')}
             </p>
@@ -111,8 +111,8 @@ export default function JobDetailModal({ job, onClose, onRetry }: JobDetailModal
 
         {/* Inngest Event ID */}
         {job.inngestEventId && (
-          <div className="mb-6 p-4 rounded-xl bg-white/5 border border-glass-border">
-            <p className="text-xs font-mono text-gray-400 mb-1">INNGEST EVENT ID</p>
+          <div className="mb-6 p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border">
+            <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-1">INNGEST EVENT ID</p>
             <p className="font-mono text-sm break-all">{job.inngestEventId}</p>
           </div>
         )}
@@ -130,9 +130,9 @@ export default function JobDetailModal({ job, onClose, onRetry }: JobDetailModal
         {/* Payload */}
         {job.payload && Object.keys(job.payload).length > 0 && (
           <div className="mb-6">
-            <p className="text-xs font-mono text-gray-400 mb-2">PAYLOAD</p>
-            <div className="p-4 rounded-xl bg-white/5 border border-glass-border max-h-48 overflow-auto">
-              <pre className="text-sm text-gray-300 font-mono whitespace-pre-wrap">
+            <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2">PAYLOAD</p>
+            <div className="p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border max-h-48 overflow-auto">
+              <pre className="text-sm text-[var(--posta-ink-soft)] font-mono whitespace-pre-wrap">
                 {formatJson(job.payload)}
               </pre>
             </div>
@@ -142,9 +142,9 @@ export default function JobDetailModal({ job, onClose, onRetry }: JobDetailModal
         {/* Result */}
         {job.result && Object.keys(job.result).length > 0 && (
           <div className="mb-6">
-            <p className="text-xs font-mono text-gray-400 mb-2">RESULT</p>
-            <div className="p-4 rounded-xl bg-white/5 border border-glass-border max-h-48 overflow-auto">
-              <pre className="text-sm text-gray-300 font-mono whitespace-pre-wrap">
+            <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2">RESULT</p>
+            <div className="p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border max-h-48 overflow-auto">
+              <pre className="text-sm text-[var(--posta-ink-soft)] font-mono whitespace-pre-wrap">
                 {formatJson(job.result)}
               </pre>
             </div>
@@ -155,7 +155,7 @@ export default function JobDetailModal({ job, onClose, onRetry }: JobDetailModal
         <div className="flex gap-4 pt-4 border-t border-glass-border">
           <button
             onClick={onClose}
-            className="flex-1 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors"
+            className="flex-1 py-3 border border-glass-border rounded-xl hover:bg-[var(--posta-paper)] transition-colors"
           >
             Close
           </button>

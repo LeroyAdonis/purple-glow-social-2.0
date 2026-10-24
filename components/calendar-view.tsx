@@ -108,12 +108,12 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
       {/* Calendar Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <h2 className="text-2xl font-bold text-white">
+          <h2 className="text-2xl font-bold text-[var(--posta-ink)]">
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h2>
           <button
             onClick={goToToday}
-            className="px-3 py-1 text-sm font-medium text-joburg-teal border border-joburg-teal rounded-lg hover:bg-joburg-teal hover:text-white transition-colors"
+            className="px-3 py-1 text-sm font-medium text-joburg-teal border border-joburg-teal rounded-lg hover:bg-joburg-teal hover:text-[var(--posta-ink)] transition-colors"
           >
             Today
           </button>
@@ -122,13 +122,13 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
         <div className="flex items-center gap-2">
           <button
             onClick={previousMonth}
-            className="w-10 h-10 flex items-center justify-center rounded-lg bg-white/5 border border-glass-border hover:bg-white/10 text-white transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-lg bg-[var(--posta-paper)] border border-glass-border hover:bg-[var(--posta-cream)] text-[var(--posta-ink)] transition-colors"
           >
             <i className="fa-solid fa-chevron-left"></i>
           </button>
           <button
             onClick={nextMonth}
-            className="w-10 h-10 flex items-center justify-center rounded-lg bg-white/5 border border-glass-border hover:bg-white/10 text-white transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-lg bg-[var(--posta-paper)] border border-glass-border hover:bg-[var(--posta-cream)] text-[var(--posta-ink)] transition-colors"
           >
             <i className="fa-solid fa-chevron-right"></i>
           </button>
@@ -140,7 +140,7 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
         {dayNames.map(day => (
           <div
             key={day}
-            className="text-center text-sm font-semibold text-gray-400 py-2"
+            className="text-center text-sm font-semibold text-[var(--posta-ink-soft)] py-2"
           >
             {day}
           </div>
@@ -162,13 +162,13 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
               key={day}
               className={`
                 aspect-square border rounded-lg p-2 transition-all hover:shadow-md
-                ${isTodayCell ? 'bg-joburg-teal/10 border-joburg-teal border-2' : 'bg-white/5 border-glass-border'}
+                ${isTodayCell ? 'bg-joburg-teal/10 border-joburg-teal border-2' : 'bg-[var(--posta-paper)] border-glass-border'}
               `}
             >
               {/* Day Number */}
               <div className={`
                 text-sm font-semibold mb-1
-                ${isTodayCell ? 'text-joburg-teal' : 'text-gray-300'}
+                ${isTodayCell ? 'text-joburg-teal' : 'text-[var(--posta-ink-soft)]'}
               `}>
                 {day}
               </div>
@@ -176,7 +176,7 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
               {/* Posts for this day */}
               <div className="space-y-1">
                 {postsForDay.length === 0 ? (
-                  <div className="text-xs text-gray-400 text-center mt-2">
+                  <div className="text-xs text-[var(--posta-ink-soft)] text-center mt-2">
                     No posts
                   </div>
                 ) : (
@@ -190,7 +190,7 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
                       <div
                         className={`
                           ${platformColors[post.platform]}
-                          text-white text-xs px-2 py-1 rounded flex items-center gap-1
+                          text-[var(--posta-ink)] text-xs px-2 py-1 rounded flex items-center gap-1
                           cursor-pointer hover:scale-105 transition-transform
                         `}
                       >
@@ -209,15 +209,15 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
                         <div className="absolute z-50 left-0 top-full mt-1 w-64 bg-white border border-glass-border rounded-lg shadow-xl p-3">
                           <div className="flex items-center gap-2 mb-2">
                             <i className={`${platformIcons[post.platform]} text-lg`}></i>
-                            <span className="font-semibold text-sm text-white">
+                            <span className="font-semibold text-sm text-[var(--posta-ink)]">
                               {post.platform.charAt(0).toUpperCase() + post.platform.slice(1)}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-400 mb-2 line-clamp-3">
+                          <p className="text-xs text-[var(--posta-ink-soft)] mb-2 line-clamp-3">
                             {post.content}
                           </p>
                           <div className="flex items-center justify-between text-xs">
-                            <span className="text-gray-500">
+                            <span className="text-[var(--posta-ink-soft)]">
                               {new Date(post.scheduledTime).toLocaleTimeString('en-US', {
                                 hour: 'numeric',
                                 minute: '2-digit',
@@ -241,7 +241,7 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
                 
                 {/* Show "+N more" if there are more than 3 posts */}
                 {postsForDay.length > 3 && (
-                  <div className="text-xs text-gray-500 text-center font-medium">
+                  <div className="text-xs text-[var(--posta-ink-soft)] text-center font-medium">
                     +{postsForDay.length - 3} more
                   </div>
                 )}
@@ -255,19 +255,19 @@ export default function CalendarView({ scheduledPosts = [] }: CalendarViewProps)
       <div className="mt-6 flex items-center justify-center gap-6 text-sm">
         <div className="flex items-center gap-2">
           <div className={`${platformColors.instagram} w-4 h-4 rounded`}></div>
-          <span className="text-gray-400">Instagram</span>
+          <span className="text-[var(--posta-ink-soft)]">Instagram</span>
         </div>
         <div className="flex items-center gap-2">
           <div className={`${platformColors.twitter} w-4 h-4 rounded`}></div>
-          <span className="text-gray-400">Twitter</span>
+          <span className="text-[var(--posta-ink-soft)]">Twitter</span>
         </div>
         <div className="flex items-center gap-2">
           <div className={`${platformColors.linkedin} w-4 h-4 rounded`}></div>
-          <span className="text-gray-400">LinkedIn</span>
+          <span className="text-[var(--posta-ink-soft)]">LinkedIn</span>
         </div>
         <div className="flex items-center gap-2">
           <div className={`${platformColors.facebook} w-4 h-4 rounded`}></div>
-          <span className="text-gray-400">Facebook</span>
+          <span className="text-[var(--posta-ink-soft)]">Facebook</span>
         </div>
       </div>
     </div>

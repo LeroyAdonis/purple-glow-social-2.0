@@ -56,7 +56,7 @@ export default function Navigation({ session }: NavigationProps) {
           justifyContent: 'space-between',
         }}
       >
-        <Link href="/" style={{ textDecoration: 'none' }}>
+        <Link href="/" style={{ textDecoration: 'none', minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>
           <PostaLogo size={22} color="var(--posta-cream)" bubbleColor="var(--posta-cream)" />
         </Link>
 

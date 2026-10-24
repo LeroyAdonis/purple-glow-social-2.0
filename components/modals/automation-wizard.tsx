@@ -137,7 +137,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-joburg-teal to-pretoria-blue text-white p-6 rounded-t-2xl">
+        <div className="sticky top-0 bg-gradient-to-r from-joburg-teal to-pretoria-blue text-[var(--posta-ink)] p-6 rounded-t-2xl">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <i className="fa-solid fa-wand-magic-sparkles text-2xl"></i>
@@ -145,7 +145,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-[var(--posta-clay-tint)] transition-colors"
             >
               <i className="fa-solid fa-xmark text-xl"></i>
             </button>
@@ -159,7 +159,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${
                     currentStep >= step
                       ? 'bg-white text-joburg-teal'
-                      : 'bg-white/30 text-white'
+                      : 'bg-white/30 text-[var(--posta-ink)]'
                   }`}
                 >
                   {currentStep > step ? <i className="fa-solid fa-check"></i> : step}
@@ -203,7 +203,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
                         : 'border-gray-200 hover:border-joburg-teal/50'
                     }`}
                   >
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${template.color} flex items-center justify-center text-white text-2xl mb-4`}>
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${template.color} flex items-center justify-center text-[var(--posta-ink)] text-2xl mb-4`}>
                       <i className={template.icon}></i>
                     </div>
                     <h4 className="text-lg font-bold text-pretoria-blue mb-2">{template.name}</h4>
@@ -483,7 +483,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
           <button
             onClick={currentStep === 4 ? handleComplete : nextStep}
             disabled={!canProceed()}
-            className="px-6 py-2 rounded-lg bg-gradient-to-r from-joburg-teal to-pretoria-blue text-white font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 rounded-lg bg-gradient-to-r from-joburg-teal to-pretoria-blue text-[var(--posta-ink)] font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {currentStep === 4 ? (
               <>

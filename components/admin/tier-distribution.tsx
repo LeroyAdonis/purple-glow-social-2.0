@@ -25,10 +25,10 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
   if (isLoading) {
     return (
       <div className="aerogel-card p-6 rounded-2xl animate-pulse">
-        <div className="h-8 bg-white/10 rounded w-48 mb-6"></div>
+        <div className="h-8 bg-[var(--posta-cream)] rounded w-48 mb-6"></div>
         <div className="grid grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-40 bg-white/5 rounded-xl"></div>
+            <div key={i} className="h-40 bg-[var(--posta-paper)] rounded-xl"></div>
           ))}
         </div>
       </div>
@@ -75,11 +75,11 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
             <div key={tier.tier} className={`aerogel-card p-6 rounded-2xl border ${tier.borderColor}`}>
               <div className="flex items-center gap-3 mb-4">
                 <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tier.color} flex items-center justify-center`}>
-                  <i className={`${tier.icon} text-xl text-white`}></i>
+                  <i className={`${tier.icon} text-xl text-[var(--posta-ink)]`}></i>
                 </div>
                 <div>
                   <h4 className="font-display font-bold capitalize text-lg">{tier.tier}</h4>
-                  <p className="text-xs text-gray-400 font-mono">
+                  <p className="text-xs text-[var(--posta-ink-soft)] font-mono">
                     R{tier.price}/month
                   </p>
                 </div>
@@ -87,10 +87,10 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
               
               <div className="text-center py-4">
                 <p className="text-4xl font-display font-bold">{tier.count.toLocaleString()}</p>
-                <p className="text-sm text-gray-400 mt-1">users ({percentage}%)</p>
+                <p className="text-sm text-[var(--posta-ink-soft)] mt-1">users ({percentage}%)</p>
               </div>
               
-              <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-2 bg-[var(--posta-cream)] rounded-full overflow-hidden">
                 <div
                   className={`h-full bg-gradient-to-r ${tier.color} rounded-full transition-all duration-500`}
                   style={{ width: `${percentage}%` }}
@@ -107,22 +107,22 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
         <div className="aerogel-card p-6 rounded-2xl">
           <h3 className="font-display font-bold text-xl mb-6">Revenue Estimate</h3>
           <div className="space-y-4">
-            <div className="p-4 rounded-xl bg-white/5 border border-glass-border">
+            <div className="p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-gray-400">Monthly Recurring Revenue</span>
+                <span className="text-[var(--posta-ink-soft)]">Monthly Recurring Revenue</span>
                 <i className="fa-solid fa-coins text-mzansi-gold"></i>
               </div>
               <p className="text-3xl font-display font-bold text-mzansi-gold">
                 R{data.revenueEstimate.monthly.toLocaleString()}
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-[var(--posta-ink-soft)] mt-1">
                 ({data.pro} Pro × R299) + ({data.business} Business × R999)
               </p>
             </div>
             
-            <div className="p-4 rounded-xl bg-white/5 border border-glass-border">
+            <div className="p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-gray-400">Projected Annual Revenue</span>
+                <span className="text-[var(--posta-ink-soft)]">Projected Annual Revenue</span>
                 <i className="fa-solid fa-chart-line text-green-400"></i>
               </div>
               <p className="text-2xl font-display font-bold text-green-400">
@@ -139,13 +139,13 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="flex items-center gap-2">
-                  <span className="text-gray-400">Free</span>
+                  <span className="text-[var(--posta-ink-soft)]">Free</span>
                   <i className="fa-solid fa-arrow-right text-gray-600"></i>
                   <span className="text-neon-grape">Pro</span>
                 </span>
                 <span className="font-mono font-bold">{data.conversionRates.freeToProPercent.toFixed(1)}%</span>
               </div>
-              <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-3 bg-[var(--posta-cream)] rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-gray-500 to-neon-grape rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(data.conversionRates.freeToProPercent * 2, 100)}%` }}
@@ -162,7 +162,7 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
                 </span>
                 <span className="font-mono font-bold">{data.conversionRates.proToBusinessPercent.toFixed(1)}%</span>
               </div>
-              <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-3 bg-[var(--posta-cream)] rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-neon-grape to-joburg-teal rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(data.conversionRates.proToBusinessPercent * 2, 100)}%` }}
@@ -213,7 +213,7 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-2xl font-display font-bold">{data.totalUsers}</span>
-              <span className="text-xs text-gray-400">Total Users</span>
+              <span className="text-xs text-[var(--posta-ink-soft)]">Total Users</span>
             </div>
           </div>
           
@@ -223,7 +223,7 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
               <div key={tier.tier} className="flex items-center gap-3">
                 <div className={`w-4 h-4 rounded bg-gradient-to-r ${tier.color}`}></div>
                 <span className="capitalize font-medium w-20">{tier.tier}</span>
-                <span className="font-mono text-gray-400">{tier.count.toLocaleString()}</span>
+                <span className="font-mono text-[var(--posta-ink-soft)]">{tier.count.toLocaleString()}</span>
               </div>
             ))}
           </div>
@@ -243,12 +243,12 @@ export default function TierDistribution({ data, isLoading }: TierDistributionPr
               
               return (
                 <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                  <div className="text-xs text-gray-400 font-mono">{total}</div>
+                  <div className="text-xs text-[var(--posta-ink-soft)] font-mono">{total}</div>
                   <div
                     className="w-full bg-gradient-to-t from-neon-grape to-joburg-teal rounded-t-lg transition-all hover:opacity-80 cursor-pointer min-h-[4px]"
                     style={{ height: `${Math.max(height, 2)}%` }}
                   ></div>
-                  <div className="text-xs text-gray-500 font-mono">
+                  <div className="text-xs text-[var(--posta-ink-soft)] font-mono">
                     {date.toLocaleDateString('en-ZA', { weekday: 'short' })}
                   </div>
                 </div>

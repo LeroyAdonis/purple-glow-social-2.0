@@ -48,11 +48,11 @@ export default function CreditCostPreview({
         <div className="flex-1 min-w-0">
           {/* Credit Cost */}
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-white">
+            <span className="text-sm font-medium text-[var(--posta-ink)]">
               Credit Cost
             </span>
             <span className={`text-lg font-bold font-mono ${
-              hasEnoughCredits ? 'text-white' : 'text-red-400'
+              hasEnoughCredits ? 'text-[var(--posta-ink)]' : 'text-red-400'
             }`}>
               {creditCost} credit{creditCost !== 1 ? 's' : ''}
             </span>
@@ -63,7 +63,7 @@ export default function CreditCostPreview({
             {platforms.map((platform) => (
               <span
                 key={platform}
-                className="px-2 py-0.5 text-xs rounded-full bg-white/10 text-gray-300 capitalize"
+                className="px-2 py-0.5 text-xs rounded-full bg-[var(--posta-cream)] text-[var(--posta-ink-soft)] capitalize"
               >
                 <i className={`fa-brands fa-${platform} mr-1`}></i>
                 {platform}
@@ -73,11 +73,11 @@ export default function CreditCostPreview({
 
           {/* Available Credits */}
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-400">Available Credits</span>
-            <span className={`font-mono ${hasEnoughCredits ? 'text-gray-400' : 'text-red-400'}`}>
+            <span className="text-[var(--posta-ink-soft)]">Available Credits</span>
+            <span className={`font-mono ${hasEnoughCredits ? 'text-[var(--posta-ink-soft)]' : 'text-red-400'}`}>
               {availableCredits}
               {reservedCredits > 0 && (
-                <span className="text-gray-500 ml-1">
+                <span className="text-[var(--posta-ink-soft)] ml-1">
                   ({reservedCredits} reserved)
                 </span>
               )}
@@ -87,8 +87,8 @@ export default function CreditCostPreview({
           {/* After action */}
           {hasEnoughCredits && (
             <div className="flex items-center justify-between text-sm mt-1">
-              <span className="text-gray-500">After {action}</span>
-              <span className="font-mono text-gray-500">
+              <span className="text-[var(--posta-ink-soft)]">After {action}</span>
+              <span className="font-mono text-[var(--posta-ink-soft)]">
                 {availableCredits - creditCost} remaining
               </span>
             </div>

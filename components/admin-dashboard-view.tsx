@@ -354,20 +354,20 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
 
   const getTierBadgeColor = (tier: string | null) => {
     switch (tier) {
-      case 'free': return 'bg-gray-500/20 text-gray-300 border-gray-500/30';
+      case 'free': return 'bg-gray-500/20 text-[var(--posta-ink-soft)] border-gray-500/30';
       case 'pro': return 'bg-neon-grape/20 text-neon-grape border-neon-grape/30';
       case 'business': return 'bg-joburg-teal/20 text-joburg-teal border-joburg-teal/30';
-      default: return 'bg-gray-500/20 text-gray-300 border-gray-500/30';
+      default: return 'bg-gray-500/20 text-[var(--posta-ink-soft)] border-gray-500/30';
     }
   };
 
   // Loading state
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-void text-white items-center justify-center">
+      <div className="flex min-h-screen bg-void text-[var(--posta-ink)] items-center justify-center">
         <div className="text-center">
           <i className="fa-solid fa-spinner fa-spin text-4xl text-neon-grape mb-4"></i>
-          <p className="text-gray-400">Loading admin dashboard...</p>
+          <p className="text-[var(--posta-ink-soft)]">Loading admin dashboard...</p>
         </div>
       </div>
     );
@@ -376,10 +376,10 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
   // Error state
   if (error) {
     return (
-      <div className="flex min-h-screen bg-void text-white items-center justify-center">
+      <div className="flex min-h-screen bg-void text-[var(--posta-ink)] items-center justify-center">
         <div className="text-center">
           <i className="fa-solid fa-exclamation-triangle text-4xl text-red-400 mb-4"></i>
-          <p className="text-gray-400 mb-4">{error}</p>
+          <p className="text-[var(--posta-ink-soft)] mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
             className="px-4 py-2 bg-neon-grape rounded-lg hover:bg-opacity-90"
@@ -392,7 +392,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
   }
 
   return (
-    <div className="flex min-h-screen bg-void text-white">
+    <div className="flex min-h-screen bg-void text-[var(--posta-ink)]">
       {/* Sidebar */}
       <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full backdrop-blur-md z-20">
         <div className="flex items-center gap-2 mb-4">
@@ -401,7 +401,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           </div>
           <div>
             <h1 className="font-display font-bold text-lg tracking-tight">Admin Panel</h1>
-            <p className="text-xs text-gray-500 font-mono">POSTA</p>
+            <p className="text-xs text-[var(--posta-ink-soft)] font-mono">POSTA</p>
           </div>
         </div>
 
@@ -409,7 +409,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           {onBackToLanding && (
             <button
               onClick={onBackToLanding}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all border border-transparent hover:border-glass-border"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)] transition-all border border-transparent hover:border-glass-border"
             >
               <i className="fa-solid fa-arrow-left"></i> Back to Landing
             </button>
@@ -417,8 +417,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('users')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'users'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-users"></i> User Management
@@ -426,8 +426,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('revenue')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'revenue'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-chart-line"></i> Revenue
@@ -435,8 +435,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('transactions')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'transactions'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-receipt"></i> Transactions
@@ -447,8 +447,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('analytics')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'analytics'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-chart-pie"></i> Analytics
@@ -456,13 +456,13 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('jobs')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'jobs'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-gears"></i> Job Monitor
             {jobStats.failed > 0 && (
-              <span className="ml-auto px-1.5 py-0.5 rounded-full bg-red-500 text-white text-xs">
+              <span className="ml-auto px-1.5 py-0.5 rounded-full bg-red-500 text-[var(--posta-ink)] text-xs">
                 {jobStats.failed}
               </span>
             )}
@@ -470,8 +470,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('errors')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'errors'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-triangle-exclamation"></i> Errors
@@ -479,8 +479,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <button
             onClick={() => setActiveTab('automation')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'automation'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-robot"></i> Automation
@@ -488,7 +488,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
         </nav>
 
         <div className="mt-auto p-4 rounded-xl border border-glass-border bg-gradient-to-br from-white/5 to-transparent">
-          <p className="text-xs font-mono text-gray-400 mb-2">SYSTEM STATUS</p>
+          <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2">SYSTEM STATUS</p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
             <span className="text-sm font-bold">OPERATIONAL</span>
@@ -503,7 +503,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           {/* Header */}
           <header className="animate-enter">
             <h2 className="font-display font-bold text-4xl mb-2">Admin Dashboard</h2>
-            <p className="text-gray-400">Manage users, monitor revenue, and oversee platform operations</p>
+            <p className="text-[var(--posta-ink-soft)]">Manage users, monitor revenue, and oversee platform operations</p>
           </header>
 
           {/* Users Tab */}
@@ -513,31 +513,31 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="aerogel-card p-6 rounded-2xl">
                   <div className="flex items-center justify-between mb-3">
-                    <i className="fa-solid fa-users text-2xl text-gray-500"></i>
+                    <i className="fa-solid fa-users text-2xl text-[var(--posta-ink-soft)]"></i>
                   </div>
                   <p className="text-3xl font-display font-bold">{metrics.totalUsers}</p>
-                  <p className="text-sm text-gray-400 mt-1">Total Users</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Total Users</p>
                 </div>
                 <div className="aerogel-card p-6 rounded-2xl">
                   <div className="flex items-center justify-between mb-3">
                     <i className="fa-solid fa-user-check text-2xl text-green-500"></i>
                   </div>
                   <p className="text-3xl font-display font-bold">{metrics.activeUsers}</p>
-                  <p className="text-sm text-gray-400 mt-1">Active Users</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Active Users</p>
                 </div>
                 <div className="aerogel-card p-6 rounded-2xl">
                   <div className="flex items-center justify-between mb-3">
                     <i className="fa-solid fa-crown text-2xl text-neon-grape"></i>
                   </div>
                   <p className="text-3xl font-display font-bold">{tierDist.pro}</p>
-                  <p className="text-sm text-gray-400 mt-1">Pro Users</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Pro Users</p>
                 </div>
                 <div className="aerogel-card p-6 rounded-2xl">
                   <div className="flex items-center justify-between mb-3">
                     <i className="fa-solid fa-building text-2xl text-joburg-teal"></i>
                   </div>
                   <p className="text-3xl font-display font-bold">{tierDist.business}</p>
-                  <p className="text-sm text-gray-400 mt-1">Business Users</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Business Users</p>
                 </div>
               </div>
 
@@ -550,7 +550,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                       placeholder="Search by name or email..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-neon-grape transition-colors"
+                      className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] placeholder-gray-500 focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
                   <CustomSelect
@@ -558,7 +558,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                     onChange={(value) => setTierFilter(value as any)}
                     options={[
                       { value: 'all', label: 'All Tiers', icon: 'fa-solid fa-users' },
-                      { value: 'free', label: 'Free', icon: 'fa-solid fa-user', color: 'text-gray-400' },
+                      { value: 'free', label: 'Free', icon: 'fa-solid fa-user', color: 'text-[var(--posta-ink-soft)]' },
                       { value: 'pro', label: 'Pro', icon: 'fa-solid fa-crown', color: 'text-neon-grape' },
                       { value: 'business', label: 'Business', icon: 'fa-solid fa-building', color: 'text-joburg-teal' }
                     ]}
@@ -571,14 +571,14 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
               <div className="aerogel-card rounded-2xl overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-white/5 border-b border-glass-border">
+                    <thead className="bg-[var(--posta-paper)] border-b border-glass-border">
                       <tr>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">User</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Tier</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Credits</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Posts</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Status</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Actions</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">User</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Tier</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Credits</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Posts</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Status</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-glass-border">
@@ -586,13 +586,13 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                         const userName = user.name || user.email?.split('@')[0] || 'User';
                         const userImage = user.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=9D4EDD&color=fff`;
                         return (
-                          <tr key={user.id} className="hover:bg-white/5 transition-colors">
+                          <tr key={user.id} className="hover:bg-[var(--posta-paper)] transition-colors">
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-3">
                                 <Image src={userImage} alt={userName} width={40} height={40} className="w-10 h-10 rounded-full border border-glass-border" unoptimized />
                                 <div>
                                   <p className="font-bold text-sm">{userName}</p>
-                                  <p className="text-xs text-gray-400">{user.email}</p>
+                                  <p className="text-xs text-[var(--posta-ink-soft)]">{user.email}</p>
                                 </div>
                               </div>
                             </td>
@@ -619,19 +619,19 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                             <td className="px-6 py-4">
                               <button
                                 onClick={() => { setSelectedUser(user); setShowCreditModal(true); }}
-                                className="text-mzansi-gold hover:text-white font-mono font-bold transition-colors"
+                                className="text-mzansi-gold hover:text-[var(--posta-ink)] font-mono font-bold transition-colors"
                               >
                                 {user.credits}
                               </button>
                             </td>
-                            <td className="px-6 py-4 text-gray-300">{user.postsCreated}</td>
+                            <td className="px-6 py-4 text-[var(--posta-ink-soft)]">{user.postsCreated}</td>
                             <td className="px-6 py-4">
                               <span className="px-2 py-1 rounded-full text-xs font-bold bg-green-500/20 text-green-400">
                                 ACTIVE
                               </span>
                             </td>
                             <td className="px-6 py-4">
-                              <button className="text-gray-400 hover:text-white transition-colors">
+                              <button className="text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors">
                                 <i className="fa-solid fa-ellipsis-vertical"></i>
                               </button>
                             </td>
@@ -655,10 +655,10 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                     <i className="fa-solid fa-coins text-2xl text-mzansi-gold"></i>
                   </div>
                   <p className="text-3xl font-display font-bold">R{metrics.mrr.toLocaleString()}</p>
-                  <p className="text-sm text-gray-400 mt-1">Monthly Recurring Revenue</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Monthly Recurring Revenue</p>
                   <div className="mt-4 flex items-center gap-2 text-xs">
                     <span className="text-green-400"><i className="fa-solid fa-arrow-up"></i> 12.5%</span>
-                    <span className="text-gray-500">vs last month</span>
+                    <span className="text-[var(--posta-ink-soft)]">vs last month</span>
                   </div>
                 </div>
                 <div className="aerogel-card p-6 rounded-2xl">
@@ -666,10 +666,10 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                     <i className="fa-solid fa-chart-line text-2xl text-neon-grape"></i>
                   </div>
                   <p className="text-3xl font-display font-bold">R{metrics.monthlyRevenue.toLocaleString()}</p>
-                  <p className="text-sm text-gray-400 mt-1">This Month Revenue</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">This Month Revenue</p>
                   <div className="mt-4 flex items-center gap-2 text-xs">
                     <span className="text-green-400"><i className="fa-solid fa-arrow-up"></i> 8.2%</span>
-                    <span className="text-gray-500">vs last month</span>
+                    <span className="text-[var(--posta-ink-soft)]">vs last month</span>
                   </div>
                 </div>
                 <div className="aerogel-card p-6 rounded-2xl">
@@ -677,9 +677,9 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                     <i className="fa-solid fa-sack-dollar text-2xl text-joburg-teal"></i>
                   </div>
                   <p className="text-3xl font-display font-bold">R{metrics.totalRevenue.toLocaleString()}</p>
-                  <p className="text-sm text-gray-400 mt-1">Total Revenue (All Time)</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Total Revenue (All Time)</p>
                   <div className="mt-4 flex items-center gap-2 text-xs">
-                    <span className="text-gray-400">{transactions.length} transactions</span>
+                    <span className="text-[var(--posta-ink-soft)]">{transactions.length} transactions</span>
                   </div>
                 </div>
               </div>
@@ -692,22 +692,22 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                     <div className="w-24 h-24 mx-auto mb-4 rounded-full border-8 border-gray-500/30 flex items-center justify-center">
                       <span className="text-2xl font-bold">{tierDist.free}</span>
                     </div>
-                    <p className="font-bold text-gray-300">Free Tier</p>
-                    <p className="text-xs text-gray-500 mt-1">R0/month</p>
+                    <p className="font-bold text-[var(--posta-ink-soft)]">Free Tier</p>
+                    <p className="text-xs text-[var(--posta-ink-soft)] mt-1">R0/month</p>
                   </div>
                   <div className="text-center">
                     <div className="w-24 h-24 mx-auto mb-4 rounded-full border-8 border-neon-grape/50 flex items-center justify-center">
                       <span className="text-2xl font-bold text-neon-grape">{tierDist.pro}</span>
                     </div>
                     <p className="font-bold text-neon-grape">Pro Tier</p>
-                    <p className="text-xs text-gray-500 mt-1">R299/month</p>
+                    <p className="text-xs text-[var(--posta-ink-soft)] mt-1">R299/month</p>
                   </div>
                   <div className="text-center">
                     <div className="w-24 h-24 mx-auto mb-4 rounded-full border-8 border-joburg-teal/50 flex items-center justify-center">
                       <span className="text-2xl font-bold text-joburg-teal">{tierDist.business}</span>
                     </div>
                     <p className="font-bold text-joburg-teal">Business Tier</p>
-                    <p className="text-xs text-gray-500 mt-1">R999/month</p>
+                    <p className="text-xs text-[var(--posta-ink-soft)] mt-1">R999/month</p>
                   </div>
                 </div>
               </div>
@@ -720,12 +720,12 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                     const height = (amount / 8000) * 100;
                     return (
                       <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                        <div className="text-xs text-gray-400 font-mono">R{(amount / 1000).toFixed(1)}k</div>
+                        <div className="text-xs text-[var(--posta-ink-soft)] font-mono">R{(amount / 1000).toFixed(1)}k</div>
                         <div
                           className="w-full bg-gradient-to-t from-neon-grape to-joburg-teal rounded-t-lg transition-all hover:opacity-80 cursor-pointer"
                           style={{ height: `${height}%` }}
                         ></div>
-                        <div className="text-xs text-gray-500 font-mono">
+                        <div className="text-xs text-[var(--posta-ink-soft)] font-mono">
                           {['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'][i]}
                         </div>
                       </div>
@@ -743,10 +743,10 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="aerogel-card p-6 rounded-2xl">
                   <div className="flex items-center justify-between mb-3">
-                    <i className="fa-solid fa-filter text-2xl text-gray-500"></i>
+                    <i className="fa-solid fa-filter text-2xl text-[var(--posta-ink-soft)]"></i>
                   </div>
                   <p className="text-3xl font-display font-bold">{filteredTransactions.length}</p>
-                  <p className="text-sm text-gray-400 mt-1">Filtered Results</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Filtered Results</p>
                 </div>
                 <div className="aerogel-card p-6 rounded-2xl">
                   <div className="flex items-center justify-between mb-3">
@@ -755,7 +755,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                   <p className="text-3xl font-display font-bold">
                     R{filteredTransactions.reduce((sum, t) => sum + t.amount, 0).toLocaleString()}
                   </p>
-                  <p className="text-sm text-gray-400 mt-1">Total Amount</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Total Amount</p>
                 </div>
                 <div className="aerogel-card p-6 rounded-2xl">
                   <div className="flex items-center justify-between mb-3">
@@ -764,7 +764,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                   <p className="text-3xl font-display font-bold">
                     {filteredTransactions.filter(t => t.status === 'completed').length}
                   </p>
-                  <p className="text-sm text-gray-400 mt-1">Completed</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Completed</p>
                 </div>
               </div>
 
@@ -800,7 +800,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                       // Export functionality (UI only for now)
                       alert(`Exporting ${filteredTransactions.length} transactions to CSV...`);
                     }}
-                    className="px-6 py-3 border border-glass-border rounded-xl hover:bg-white/5 hover:border-joburg-teal/50 transition-colors flex items-center gap-2 text-gray-300 hover:text-white font-medium"
+                    className="px-6 py-3 border border-glass-border rounded-xl hover:bg-[var(--posta-paper)] hover:border-joburg-teal/50 transition-colors flex items-center gap-2 text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] font-medium"
                   >
                     <i className="fa-solid fa-download"></i> Export CSV
                   </button>
@@ -811,14 +811,14 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
               <div className="aerogel-card rounded-2xl overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-white/5 border-b border-glass-border">
+                    <thead className="bg-[var(--posta-paper)] border-b border-glass-border">
                       <tr>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Date</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">User</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Type</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Description</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Amount</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Status</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Date</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">User</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Type</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Description</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Amount</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Status</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-glass-border">
@@ -827,13 +827,13 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                           <td colSpan={6} className="px-6 py-12 text-center">
                             <div className="flex flex-col items-center gap-3">
                               <i className="fa-solid fa-inbox text-4xl text-gray-600"></i>
-                              <p className="text-gray-400">No transactions match your filters</p>
+                              <p className="text-[var(--posta-ink-soft)]">No transactions match your filters</p>
                               <button
                                 onClick={() => {
                                   setTransactionTypeFilter('all');
                                   setTransactionStatusFilter('all');
                                 }}
-                                className="mt-2 px-4 py-2 text-sm text-neon-grape hover:text-white transition-colors"
+                                className="mt-2 px-4 py-2 text-sm text-neon-grape hover:text-[var(--posta-ink)] transition-colors"
                               >
                                 Clear Filters
                               </button>
@@ -848,8 +848,8 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                             txn.type === 'credit_purchase' ? 'bg-mzansi-gold/20 text-mzansi-gold' :
                               'bg-red-500/20 text-red-400';
                           return (
-                            <tr key={txn.id} className="hover:bg-white/5 transition-colors">
-                              <td className="px-6 py-4 text-sm text-gray-300">
+                            <tr key={txn.id} className="hover:bg-[var(--posta-paper)] transition-colors">
+                              <td className="px-6 py-4 text-sm text-[var(--posta-ink-soft)]">
                                 {txnDate.toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: 'numeric' })}
                               </td>
                               <td className="px-6 py-4">
@@ -860,7 +860,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                                   {displayType}
                                 </span>
                               </td>
-                              <td className="px-6 py-4 text-sm text-gray-300">{txn.description}</td>
+                              <td className="px-6 py-4 text-sm text-[var(--posta-ink-soft)]">{txn.description}</td>
                               <td className="px-6 py-4">
                                 <span className="font-mono font-bold text-green-400">R{(txn.amount / 100).toFixed(2)}</span>
                               </td>
@@ -890,7 +890,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                 <h3 className="font-display font-bold text-2xl">Platform Analytics</h3>
                 <button
                   onClick={fetchAnalytics}
-                  className="px-4 py-2 rounded-xl bg-white/5 border border-glass-border hover:bg-white/10 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 rounded-xl bg-[var(--posta-paper)] border border-glass-border hover:bg-[var(--posta-cream)] transition-colors flex items-center gap-2"
                 >
                   <i className="fa-solid fa-refresh"></i> Refresh
                 </button>
@@ -900,25 +900,25 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
               <div className="flex gap-2 border-b border-glass-border pb-4">
                 <button
                   onClick={() => setAnalyticsSubTab('credits')}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'credits' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'credits' ? 'bg-neon-grape text-[var(--posta-cream)]' : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:text-[var(--posta-cream)]'}`}
                 >
                   Credits
                 </button>
                 <button
                   onClick={() => setAnalyticsSubTab('generation')}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'generation' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'generation' ? 'bg-neon-grape text-[var(--posta-cream)]' : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:text-[var(--posta-cream)]'}`}
                 >
                   Generation
                 </button>
                 <button
                   onClick={() => setAnalyticsSubTab('publishing')}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'publishing' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'publishing' ? 'bg-neon-grape text-[var(--posta-cream)]' : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:text-[var(--posta-cream)]'}`}
                 >
                   Publishing
                 </button>
                 <button
                   onClick={() => setAnalyticsSubTab('tiers')}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'tiers' ? 'bg-neon-grape text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${analyticsSubTab === 'tiers' ? 'bg-neon-grape text-[var(--posta-cream)]' : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:text-[var(--posta-cream)]'}`}
                 >
                   Tiers
                 </button>
@@ -952,7 +952,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                 <h3 className="font-display font-bold text-2xl">Job Monitor</h3>
                 <button
                   onClick={fetchJobs}
-                  className="px-4 py-2 rounded-xl bg-white/5 border border-glass-border hover:bg-white/10 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 rounded-xl bg-[var(--posta-paper)] border border-glass-border hover:bg-[var(--posta-cream)] transition-colors flex items-center gap-2"
                 >
                   <i className="fa-solid fa-refresh"></i> Refresh
                 </button>
@@ -975,7 +975,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
                 <h3 className="font-display font-bold text-2xl">Error Tracking</h3>
                 <button
                   onClick={fetchErrors}
-                  className="px-4 py-2 rounded-xl bg-white/5 border border-glass-border hover:bg-white/10 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 rounded-xl bg-[var(--posta-paper)] border border-glass-border hover:bg-[var(--posta-cream)] transition-colors flex items-center gap-2"
                 >
                   <i className="fa-solid fa-refresh"></i> Refresh
                 </button>
@@ -1031,29 +1031,29 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowCreditModal(false)}></div>
           <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter">
             <h3 className="font-display font-bold text-2xl mb-4">Adjust Credits</h3>
-            <p className="text-gray-400 mb-6">
-              Adjusting credits for <span className="text-white font-bold">{selectedUser.name || selectedUser.email}</span>
+            <p className="text-[var(--posta-ink-soft)] mb-6">
+              Adjusting credits for <span className="text-[var(--posta-ink)] font-bold">{selectedUser.name || selectedUser.email}</span>
             </p>
             <div className="space-y-4 mb-6">
               <div>
-                <label className="text-xs font-mono text-gray-400 mb-2 block">CURRENT BALANCE</label>
+                <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">CURRENT BALANCE</label>
                 <div className="text-3xl font-display font-bold text-mzansi-gold">{selectedUser.credits}</div>
               </div>
               <div>
-                <label className="text-xs font-mono text-gray-400 mb-2 block">ADJUSTMENT AMOUNT</label>
+                <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">ADJUSTMENT AMOUNT</label>
                 <input
                   type="number"
                   placeholder="Enter amount (use negative to deduct)"
                   value={creditAmount}
                   onChange={(e) => setCreditAmount(e.target.value)}
-                  className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                  className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                 />
               </div>
             </div>
             <div className="flex gap-4">
               <button
                 onClick={() => { setShowCreditModal(false); setCreditAmount(''); setSelectedUser(null); }}
-                className="flex-1 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors"
+                className="flex-1 py-3 border border-glass-border rounded-xl hover:bg-[var(--posta-paper)] transition-colors"
               >
                 Cancel
               </button>

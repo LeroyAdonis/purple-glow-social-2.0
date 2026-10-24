@@ -62,15 +62,15 @@ export default async function AdminPage() {
             <h1 className="text-4xl font-bold text-neon-grape mb-4">
               403 Forbidden
             </h1>
-            <p className="text-gray-400 mb-6">
+            <p className="text-[var(--posta-ink-soft)] mb-6">
               You do not have permission to access the admin dashboard.
             </p>
-            <p className="text-gray-500 text-sm mb-8">
+            <p className="text-[var(--posta-ink-soft)] text-sm mb-8">
               This incident has been logged for security purposes.
             </p>
             <a 
               href="/dashboard" 
-              className="inline-block px-6 py-3 bg-neon-grape hover:bg-opacity-80 text-white font-semibold rounded-lg transition-colors"
+              className="inline-block px-6 py-3 bg-neon-grape hover:bg-opacity-80 text-[var(--posta-cream)] font-semibold rounded-lg transition-colors"
             >
               Return to Dashboard
             </a>

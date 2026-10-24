@@ -51,7 +51,7 @@ function ErrorContent() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pretoria-blue via-void to-neon-grape p-4">
       <div className="w-full max-w-md">
         {/* Error Card */}
-        <div className="bg-white/10 backdrop-blur-lg border border-glass-border rounded-xl p-8 shadow-2xl text-center">
+        <div className="bg-[var(--posta-cream)] backdrop-blur-lg border border-glass-border rounded-xl p-8 shadow-2xl text-center">
           {/* Error Icon */}
           <div className="mb-6">
             <div className="w-20 h-20 mx-auto bg-red-500/20 rounded-full flex items-center justify-center">
@@ -72,21 +72,21 @@ function ErrorContent() {
           </div>
 
           {/* Error Message */}
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-[var(--posta-ink)] mb-2">
             {errorInfo.title}
           </h1>
           
-          <p className="text-gray-300 mb-6">
+          <p className="text-[var(--posta-ink-soft)] mb-6">
             {errorInfo.description}
           </p>
 
           {/* Special Instructions for Instagram Business */}
           {error === 'no_instagram_business_account' && (
-            <div className="bg-white/5 rounded-lg p-4 mb-6 text-left">
-              <p className="text-sm font-semibold text-white mb-2">
+            <div className="bg-[var(--posta-paper)] rounded-lg p-4 mb-6 text-left">
+              <p className="text-sm font-semibold text-[var(--posta-ink)] mb-2">
                 How to convert to Business Account:
               </p>
-              <ol className="space-y-2 text-sm text-gray-300 list-decimal list-inside">
+              <ol className="space-y-2 text-sm text-[var(--posta-ink-soft)] list-decimal list-inside">
                 <li>Open Instagram app</li>
                 <li>Go to Settings → Account</li>
                 <li>Tap "Switch to Professional Account"</li>
@@ -105,13 +105,13 @@ function ErrorContent() {
                   href="https://help.instagram.com/502981923235522"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full bg-gradient-to-r from-neon-grape to-purple-600 text-white font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
+                  className="block w-full bg-gradient-to-r from-neon-grape to-purple-600 text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
                 >
                   Learn How to Convert
                 </a>
                 <button
                   onClick={() => router.push('/dashboard?tab=settings')}
-                  className="w-full bg-white/5 text-white font-semibold py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
+                  className="w-full bg-[var(--posta-paper)] text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:bg-[var(--posta-cream)] transition-colors"
                 >
                   Back to Settings
                 </button>
@@ -120,13 +120,13 @@ function ErrorContent() {
               <>
                 <button
                   onClick={() => router.push('/dashboard?tab=settings')}
-                  className="w-full bg-gradient-to-r from-neon-grape to-purple-600 text-white font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
+                  className="w-full bg-gradient-to-r from-neon-grape to-purple-600 text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
                 >
                   {errorInfo.action}
                 </button>
                 <button
                   onClick={() => router.push('/dashboard')}
-                  className="w-full bg-white/5 text-white font-semibold py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
+                  className="w-full bg-[var(--posta-paper)] text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:bg-[var(--posta-cream)] transition-colors"
                 >
                   Back to Dashboard
                 </button>
@@ -146,7 +146,7 @@ function ErrorContent() {
 
           {/* Error Code */}
           {error && (
-            <p className="text-xs text-gray-500 mt-4">
+            <p className="text-xs text-[var(--posta-ink-soft)] mt-4">
               Error code: {error}
             </p>
           )}
@@ -160,7 +160,7 @@ export default function OAuthErrorPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pretoria-blue via-void to-neon-grape">
-        <div className="text-white">Loading...</div>
+        <div className="text-[var(--posta-ink)]">Loading...</div>
       </div>
     }>
       <ErrorContent />

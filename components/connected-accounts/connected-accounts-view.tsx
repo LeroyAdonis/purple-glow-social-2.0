@@ -177,20 +177,20 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
       <div className="space-y-6 animate-enter">
         <header>
           <h2 className="font-display font-bold text-4xl mb-2">Connected Accounts</h2>
-          <p className="text-gray-400">Connect your social media accounts to publish content</p>
+          <p className="text-[var(--posta-ink-soft)]">Connect your social media accounts to publish content</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {[1, 2, 3, 4].map(i => (
             <div key={i} className="aerogel-card p-6 rounded-2xl animate-pulse">
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-white/5 rounded-xl"></div>
+                <div className="w-12 h-12 bg-[var(--posta-paper)] rounded-xl"></div>
                 <div className="flex-1">
-                  <div className="h-4 bg-white/5 rounded w-32 mb-2"></div>
-                  <div className="h-3 bg-white/5 rounded w-48"></div>
+                  <div className="h-4 bg-[var(--posta-paper)] rounded w-32 mb-2"></div>
+                  <div className="h-3 bg-[var(--posta-paper)] rounded w-48"></div>
                 </div>
               </div>
-              <div className="h-20 bg-white/5 rounded-xl"></div>
+              <div className="h-20 bg-[var(--posta-paper)] rounded-xl"></div>
             </div>
           ))}
         </div>
@@ -203,7 +203,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
       <div className="space-y-6 animate-enter">
         <header>
           <h2 className="font-display font-bold text-4xl mb-2">Connected Accounts</h2>
-          <p className="text-gray-400">Connect your social media accounts to publish content</p>
+          <p className="text-[var(--posta-ink-soft)]">Connect your social media accounts to publish content</p>
         </header>
 
         <div className="aerogel-card p-8 rounded-2xl border border-red-500/20 bg-red-500/5">
@@ -211,7 +211,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
             <i className="fa-solid fa-exclamation-triangle text-red-400 text-2xl"></i>
             <h3 className="font-bold text-lg text-red-400">Error Loading Connections</h3>
           </div>
-          <p className="text-gray-400 mb-4">{error}</p>
+          <p className="text-[var(--posta-ink-soft)] mb-4">{error}</p>
           <button
             onClick={async () => {
               try {
@@ -245,15 +245,15 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
       <header className="flex items-start justify-between">
         <div>
           <h2 className="font-display font-bold text-4xl mb-2">Connected Accounts</h2>
-          <p className="text-gray-400">Connect your social media accounts to publish content</p>
+          <p className="text-[var(--posta-ink-soft)]">Connect your social media accounts to publish content</p>
         </div>
         <div className="aerogel-card px-4 py-2 rounded-xl border border-glass-border">
-          <p className="text-xs text-gray-400 font-mono mb-1">CONNECTED</p>
+          <p className="text-xs text-[var(--posta-ink-soft)] font-mono mb-1">CONNECTED</p>
           <p className="font-display font-bold text-2xl text-neon-grape">
             {connectedCount}/{totalLimit}
           </p>
           {tierLimits && (
-            <p className="text-xs text-gray-500 capitalize">{tierLimits.tier} tier</p>
+            <p className="text-xs text-[var(--posta-ink-soft)] capitalize">{tierLimits.tier} tier</p>
           )}
         </div>
       </header>
@@ -267,7 +267,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
             </div>
             <div className="flex-1">
               <h3 className="font-bold mb-1 text-mzansi-gold">Account Limit Reached</h3>
-              <p className="text-sm text-gray-400 mb-3">
+              <p className="text-sm text-[var(--posta-ink-soft)] mb-3">
                 You've connected the maximum number of accounts for your {tierLimits.tier} tier. 
                 Upgrade to connect more accounts and unlock additional features.
               </p>
@@ -291,7 +291,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
           </div>
           <div>
             <h3 className="font-bold mb-1">🇿🇦 Why Connect Accounts?</h3>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-[var(--posta-ink-soft)]">
               Connecting your social media accounts allows Posta to automatically post your AI-generated content. 
               Your credentials are encrypted and stored securely. You can disconnect at any time.
             </p>
@@ -321,7 +321,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
               />
               {/* Show limit indicator */}
               {platformLimit && (
-                <div className="absolute top-3 right-3 text-xs text-gray-500">
+                <div className="absolute top-3 right-3 text-xs text-[var(--posta-ink-soft)]">
                   {platformLimit.current}/{platformLimit.limit}
                 </div>
               )}
@@ -351,7 +351,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
           <i className="fa-solid fa-circle-question text-mzansi-gold"></i>
           Need Help?
         </h3>
-        <ul className="space-y-2 text-sm text-gray-400">
+        <ul className="space-y-2 text-sm text-[var(--posta-ink-soft)]">
           <li className="flex items-start gap-2">
             <i className="fa-solid fa-check text-emerald-400 mt-1"></i>
             <span><strong>Instagram & Facebook:</strong> Uses Meta Business Suite. Long-lived tokens (60 days).</span>
@@ -377,10 +377,10 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
           <div className="aerogel-card p-8 rounded-2xl max-w-md w-full border border-mzansi-gold/30">
             <div className="text-center mb-6">
               <div className="w-16 h-16 rounded-full bg-gradient-to-r from-mzansi-gold to-neon-grape flex items-center justify-center mx-auto mb-4">
-                <i className="fa-solid fa-crown text-2xl text-white"></i>
+                <i className="fa-solid fa-crown text-2xl text-[var(--posta-ink)]"></i>
               </div>
               <h3 className="font-display font-bold text-2xl mb-2">Upgrade Your Plan</h3>
-              <p className="text-gray-400 text-sm">
+              <p className="text-[var(--posta-ink-soft)] text-sm">
                 {limitMessage || 'Unlock more features with a higher tier'}
               </p>
             </div>
@@ -407,7 +407,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
             <div className="flex gap-3">
               <button
                 onClick={() => setShowUpgradeModal(false)}
-                className="flex-1 px-4 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors"
+                className="flex-1 px-4 py-3 border border-glass-border rounded-xl hover:bg-[var(--posta-paper)] transition-colors"
               >
                 Maybe Later
               </button>

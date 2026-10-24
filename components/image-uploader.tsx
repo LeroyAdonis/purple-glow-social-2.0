@@ -308,10 +308,10 @@ export default function ImageUploader({
             `}>
               <i className="fa-solid fa-cloud-arrow-up text-2xl text-[#9D4EDD]"></i>
             </div>
-            <p className="text-white font-bold mb-1">
+            <p className="text-[var(--posta-ink)] font-bold mb-1">
               Drag & drop or click to upload
             </p>
-            <p className="text-gray-400 text-sm">
+            <p className="text-[var(--posta-ink-soft)] text-sm">
               {acceptedTypes.map(t => t.split('/')[1]?.toUpperCase() ?? 'FILE').join(', ')} • Max {maxSizeMB}MB
             </p>
           </div>
@@ -362,10 +362,10 @@ export default function ImageUploader({
               </div>
             </div>
             
-            <p className="text-white font-mono text-lg">
+            <p className="text-[var(--posta-ink)] font-mono text-lg">
               {uploadProgress}%
             </p>
-            <p className="text-gray-400 text-sm mt-1">
+            <p className="text-[var(--posta-ink-soft)] text-sm mt-1">
               Uploading...
             </p>
           </div>
@@ -388,7 +388,7 @@ export default function ImageUploader({
                 transition-opacity duration-300
                 ${isHovering ? 'opacity-100' : 'opacity-0'}
               `}>
-                <span className="text-white font-bold flex items-center gap-2">
+                <span className="text-[var(--posta-ink)] font-bold flex items-center gap-2">
                   <i className="fa-solid fa-pen"></i>
                   Change Image
                 </span>
@@ -398,7 +398,7 @@ export default function ImageUploader({
             {/* File info */}
             {fileInfo && (
               <div className="mt-3 flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2 text-gray-400">
+                <div className="flex items-center gap-2 text-[var(--posta-ink-soft)]">
                   <span className="px-2 py-1 rounded bg-[#9D4EDD]/20 text-[#9D4EDD] font-mono text-xs">
                     {fileInfo.type}
                   </span>
@@ -411,7 +411,7 @@ export default function ImageUploader({
             <button
               onClick={handleRemove}
               aria-label="Remove image"
-              className="absolute top-6 right-6 w-8 h-8 bg-red-500/20 border-2 border-red-500 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.6)] transition-all duration-200 z-10"
+              className="absolute top-6 right-6 w-8 h-8 bg-red-500/20 border-2 border-red-500 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-[var(--posta-ink)] shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.6)] transition-all duration-200 z-10"
             >
               <i className="fa-solid fa-xmark"></i>
             </button>

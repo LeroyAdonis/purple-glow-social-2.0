@@ -142,15 +142,15 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
       <div className="aerogel-card rounded-2xl p-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-4xl font-display font-bold text-white mb-2">
+            <h1 className="text-4xl font-display font-bold text-[var(--posta-ink)] mb-2">
               <i className="fa-regular fa-calendar mr-3 text-joburg-teal"></i>
               Content Schedule
             </h1>
-            <p className="text-gray-400">Plan, schedule, and manage your social media posts across all platforms</p>
+            <p className="text-[var(--posta-ink-soft)]">Plan, schedule, and manage your social media posts across all platforms</p>
           </div>
           <button
             onClick={onSchedulePost}
-            className="px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+            className="px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
           >
             <i className="fa-solid fa-calendar-plus mr-2"></i>
             Schedule New Post
@@ -163,17 +163,17 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
         {/* Queue Status with Progress */}
         <div className="aerogel-card rounded-xl p-6 border-l-4 border-neon-grape md:col-span-2">
           <div className="flex items-center justify-between mb-2">
-            <div className="text-3xl font-display font-bold text-white">
+            <div className="text-3xl font-display font-bold text-[var(--posta-ink)]">
               {queueLimits ? `${queueLimits.current}/${queueLimits.limit}` : `${filteredPosts.length}`}
             </div>
             {queueLimits && (
-              <span className="text-xs text-gray-400 capitalize">{queueLimits.tier} tier</span>
+              <span className="text-xs text-[var(--posta-ink-soft)] capitalize">{queueLimits.tier} tier</span>
             )}
           </div>
-          <div className="text-sm text-gray-400 mb-2">Queue Capacity</div>
+          <div className="text-sm text-[var(--posta-ink-soft)] mb-2">Queue Capacity</div>
           {queueLimits && (
             <>
-              <div className="w-full bg-white/10 rounded-full h-2 mb-2">
+              <div className="w-full bg-[var(--posta-cream)] rounded-full h-2 mb-2">
                 <div 
                   className={`h-2 rounded-full transition-all ${
                     queueLimits.percentage >= 90 
@@ -185,24 +185,24 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                   style={{ width: `${Math.min(100, queueLimits.percentage)}%` }}
                 />
               </div>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-[var(--posta-ink-soft)]">
                 {queueLimits.remaining} slots remaining • Up to {queueLimits.advanceSchedulingDays} days in advance
               </div>
             </>
           )}
         </div>
         <div className="aerogel-card rounded-xl p-6 border-l-4 border-green-500">
-          <div className="text-3xl font-display font-bold text-white mb-1">
+          <div className="text-3xl font-display font-bold text-[var(--posta-ink)] mb-1">
             {filteredPosts.filter(p => {
               const today = new Date();
               const postDate = new Date(p.scheduledTime);
               return postDate.toDateString() === today.toDateString();
             }).length}
           </div>
-          <div className="text-sm text-gray-400">Today's Posts</div>
+          <div className="text-sm text-[var(--posta-ink-soft)]">Today's Posts</div>
         </div>
         <div className="aerogel-card rounded-xl p-6 border-l-4 border-blue-500">
-          <div className="text-3xl font-display font-bold text-white mb-1">
+          <div className="text-3xl font-display font-bold text-[var(--posta-ink)] mb-1">
             {filteredPosts.filter(p => {
               const today = new Date();
               const postDate = new Date(p.scheduledTime);
@@ -210,13 +210,13 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               return postDate > today && postDate <= weekFromNow;
             }).length}
           </div>
-          <div className="text-sm text-gray-400">This Week</div>
+          <div className="text-sm text-[var(--posta-ink-soft)]">This Week</div>
         </div>
         <div className="aerogel-card rounded-xl p-6 border-l-4 border-purple-500">
-          <div className="text-3xl font-display font-bold text-white mb-1">
+          <div className="text-3xl font-display font-bold text-[var(--posta-ink)] mb-1">
             {new Set(filteredPosts.map(p => p.platform)).size}
           </div>
-          <div className="text-sm text-gray-400">Active Platforms</div>
+          <div className="text-sm text-[var(--posta-ink-soft)]">Active Platforms</div>
         </div>
       </div>
 
@@ -227,7 +227,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
             <i className="fa-solid fa-exclamation-circle text-red-400"></i>
             <div className="flex-1">
               <span className="font-bold text-red-400">Queue Full!</span>
-              <span className="text-gray-400 ml-2">Delete or publish some posts to schedule more.</span>
+              <span className="text-[var(--posta-ink-soft)] ml-2">Delete or publish some posts to schedule more.</span>
             </div>
             <a
               href="/dashboard?view=settings"
@@ -248,8 +248,8 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               onClick={() => setViewMode('calendar')}
               className={`px-4 py-2 rounded-lg font-medium transition-all cursor-pointer ${
                 viewMode === 'calendar'
-                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white'
-                  : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
+                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)]'
+                  : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:text-[var(--posta-ink)] border border-glass-border'
               }`}
             >
               <i className="fa-regular fa-calendar mr-2"></i>
@@ -259,8 +259,8 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               onClick={() => setViewMode('list')}
               className={`px-4 py-2 rounded-lg font-medium transition-all cursor-pointer ${
                 viewMode === 'list'
-                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white'
-                  : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
+                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)]'
+                  : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:text-[var(--posta-ink)] border border-glass-border'
               }`}
             >
               <i className="fa-solid fa-list mr-2"></i>
@@ -270,8 +270,8 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
               onClick={() => setViewMode('timeline')}
               className={`px-4 py-2 rounded-lg font-medium transition-all cursor-pointer ${
                 viewMode === 'timeline'
-                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white'
-                  : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
+                  ? 'bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)]'
+                  : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:text-[var(--posta-ink)] border border-glass-border'
               }`}
             >
               <i className="fa-solid fa-timeline mr-2"></i>
@@ -287,8 +287,8 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                 onClick={() => togglePlatformFilter(platform)}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
                   platformFilters.includes(platform)
-                    ? `bg-gradient-to-r ${platformColors[platform]} text-white shadow-lg`
-                    : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-glass-border'
+                    ? `bg-gradient-to-r ${platformColors[platform]} text-[var(--posta-ink)] shadow-lg`
+                    : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:text-[var(--posta-ink)] border border-glass-border'
                 }`}
               >
                 <i className={`${platformIcons[platform]} mr-1`}></i>
@@ -302,14 +302,14 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
             <div className="flex gap-2">
               <button
                 onClick={scheduleSelected}
-                className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-lg font-bold hover:shadow-xl transition-all cursor-pointer"
+                className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] rounded-lg font-bold hover:shadow-xl transition-all cursor-pointer"
               >
                 <i className="fa-regular fa-calendar-check mr-2"></i>
                 Schedule ({selectedPosts.length})
               </button>
               <button
                 onClick={deleteSelected}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition-all cursor-pointer"
+                className="px-4 py-2 bg-red-600 text-[var(--posta-ink)] rounded-lg font-bold hover:bg-red-700 transition-all cursor-pointer"
               >
                 <i className="fa-solid fa-trash mr-2"></i>
                 Delete ({selectedPosts.length})
@@ -328,7 +328,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
 
           {viewMode === 'list' && (
             <div className="aerogel-card rounded-2xl p-8">
-              <h2 className="text-3xl font-display font-bold text-white mb-6">Scheduled Posts</h2>
+              <h2 className="text-3xl font-display font-bold text-[var(--posta-ink)] mb-6">Scheduled Posts</h2>
               {Object.entries(
                 filteredPosts.reduce((acc, post) => {
                   const date = new Date(post.scheduledTime).toLocaleDateString();
@@ -338,13 +338,13 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                 }, {} as Record<string, ScheduledPost[]>)
               ).map(([date, posts]) => (
                 <div key={date} className="mb-8">
-                  <h3 className="text-lg font-semibold text-gray-300 mb-4 flex items-center gap-2">
+                  <h3 className="text-lg font-semibold text-[var(--posta-ink-soft)] mb-4 flex items-center gap-2">
                     <i className="fa-regular fa-calendar text-joburg-teal"></i>
                     {date}
                   </h3>
                   <div className="space-y-4">
                     {posts.map(post => (
-                      <div key={post.id} className="bg-white/5 border border-glass-border rounded-xl p-6 hover:bg-white/10 transition-all">
+                      <div key={post.id} className="bg-[var(--posta-paper)] border border-glass-border rounded-xl p-6 hover:bg-[var(--posta-cream)] transition-all">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex items-start gap-3 flex-1">
                             <input
@@ -355,11 +355,11 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                             />
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-2">
-                                <span className={`px-3 py-1 rounded-lg bg-gradient-to-r ${platformColors[post.platform]} text-white text-sm font-medium flex items-center gap-1`}>
+                                <span className={`px-3 py-1 rounded-lg bg-gradient-to-r ${platformColors[post.platform]} text-[var(--posta-ink)] text-sm font-medium flex items-center gap-1`}>
                                   <i className={platformIcons[post.platform]}></i>
                                   {post.platform.charAt(0).toUpperCase() + post.platform.slice(1)}
                                 </span>
-                                <span className="text-sm font-semibold text-white">
+                                <span className="text-sm font-semibold text-[var(--posta-ink)]">
                                   {new Date(post.scheduledTime).toLocaleTimeString('en-US', {
                                     hour: 'numeric',
                                     minute: '2-digit',
@@ -370,7 +370,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                                   {post.status}
                                 </span>
                               </div>
-                              <p className="text-gray-300 mb-3">{post.content}</p>
+                              <p className="text-[var(--posta-ink-soft)] mb-3">{post.content}</p>
                               <div className="flex gap-3">
                                 <button className="text-sm text-joburg-teal hover:underline font-medium cursor-pointer">
                                   <i className="fa-solid fa-edit mr-1"></i> Edit
@@ -392,7 +392,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
 
           {viewMode === 'timeline' && (
             <div className="aerogel-card rounded-2xl p-8">
-              <h2 className="text-3xl font-display font-bold text-white mb-8">Timeline View</h2>
+              <h2 className="text-3xl font-display font-bold text-[var(--posta-ink)] mb-8">Timeline View</h2>
               <div className="relative">
                 {/* Timeline Line */}
                 <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-glass-border"></div>
@@ -404,7 +404,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                       <div className={`absolute left-6 w-5 h-5 rounded-full bg-gradient-to-r ${platformColors[post.platform]} border-4 border-void`}></div>
                       
                       {/* Time Label */}
-                      <div className="absolute left-0 top-0 text-sm font-semibold text-gray-400">
+                      <div className="absolute left-0 top-0 text-sm font-semibold text-[var(--posta-ink-soft)]">
                         {new Date(post.scheduledTime).toLocaleTimeString('en-US', {
                           hour: 'numeric',
                           minute: '2-digit',
@@ -413,16 +413,16 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
                       </div>
                       
                       {/* Post Card */}
-                      <div className="bg-white/5 border border-glass-border rounded-xl p-6 hover:bg-white/10 transition-all">
+                      <div className="bg-[var(--posta-paper)] border border-glass-border rounded-xl p-6 hover:bg-[var(--posta-cream)] transition-all">
                         <div className="flex items-center gap-2 mb-3">
                           <i className={`${platformIcons[post.platform]} text-xl`}></i>
-                          <span className="font-semibold text-white">
+                          <span className="font-semibold text-[var(--posta-ink)]">
                             {post.platform.charAt(0).toUpperCase() + post.platform.slice(1)}
                           </span>
-                          <span className="text-xs text-gray-400">•</span>
-                          <span className="text-xs text-gray-400">{post.status}</span>
+                          <span className="text-xs text-[var(--posta-ink-soft)]">•</span>
+                          <span className="text-xs text-[var(--posta-ink-soft)]">{post.status}</span>
                         </div>
-                        <p className="text-gray-300">{post.content}</p>
+                        <p className="text-[var(--posta-ink-soft)]">{post.content}</p>
                       </div>
                     </div>
                   ))}

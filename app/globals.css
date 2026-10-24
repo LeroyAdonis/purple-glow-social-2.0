@@ -11,9 +11,9 @@
   /* Font families use CSS variables set by next/font in layout.tsx:
      --font-syne, --font-outfit, --font-space */
 
-  --font-display: var(--font-syne), 'Syne', sans-serif;
-  --font-body: var(--font-outfit), 'Outfit', sans-serif;
-  --font-mono: var(--font-space), 'Space Grotesk', monospace;
+  --font-display: var(--font-space), 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'DejaVu Sans Mono', monospace;
   --font-family-display: var(--font-display);  /* ALIAS */
   --font-family-body: var(--font-body);         /* ALIAS */
   --font-family-mono: var(--font-mono);         /* ALIAS */
@@ -22,66 +22,66 @@
   /* Deep charcoal backgrounds replacing the old purple void.
      Warm, sophisticated, premium — think obsidian, not flat black. */
 
-  --color-deep-charcoal: #121218;          /* ★ NEW — deepest background */
-  --color-charcoal-elevated: #1A1C23;      /* ★ NEW — cards, panels */
-  --color-charcoal-surface: #24262E;        /* ★ NEW — modals, dropdowns */
-  --color-charcoal-hover: #2E3039;          /* ★ NEW — hover states */
+  --color-deep-charcoal: #FBF6EF;          /* ★ NEW — deepest background */
+  --color-charcoal-elevated: #FFFFFF;      /* ★ NEW — cards, panels */
+  --color-charcoal-surface: #F7EDE2;        /* ★ NEW — modals, dropdowns */
+  --color-charcoal-hover: #F2E2DA;          /* ★ NEW — hover states */
 
   /* ─── LEGACY ALIASES — Deep Charcoal ─────────────────────────────── */
   /* Old component class names remapped to new charcoal colors so
      bg-void, bg-void-elevated, etc. still resolve correctly. */
 
-  --color-void: #121218;                    /* ALIAS — now deep-charcoal */
-  --color-cosmic-void: #121218;             /* ALIAS — now deep-charcoal */
-  --color-void-elevated: #1A1C23;           /* ALIAS — now charcoal-elevated */
-  --color-void-surface: #24262E;            /* ALIAS — now charcoal-surface */
-  --color-void-hover: #2E3039;              /* ALIAS — now charcoal-hover */
-  --color-pretoria-blue: #1A1C23;           /* ALIAS — now charcoal-elevated */
+  --color-void: #FBF6EF;                    /* ALIAS — now deep-charcoal */
+  --color-cosmic-void: #FBF6EF;             /* ALIAS — now deep-charcoal */
+  --color-void-elevated: #FFFFFF;           /* ALIAS — now charcoal-elevated */
+  --color-void-surface: #F7EDE2;            /* ALIAS — now charcoal-surface */
+  --color-void-hover: #F2E2DA;              /* ALIAS — now charcoal-hover */
+  --color-pretoria-blue: #FFFFFF;           /* ALIAS — now charcoal-elevated */
 
   /* ─── POSTA ORANGE — Brand Core ──────────────────────────────────── */
   /* Burnt orange is the soul of POSTA. Bold, warm, energetic.
      Replaces the old purple system entirely. Zero purple. */
 
-  --color-posta-orange: #E85D04;            /* ★ NEW — primary brand color */
-  --color-orange-light: #FF8A30;            /* ★ NEW — hover states */
-  --color-orange-dim: #C04E02;              /* ★ NEW — active/pressed */
-  --color-orange-subtle: rgba(232, 93, 4, 0.15);  /* ★ NEW — soft orange bg */
-  --color-orange-glow: rgba(232, 93, 4, 0.4);     /* ★ NEW — glow aura */
-  --color-ember: #9A3B02;                   /* ★ NEW — dark gradients */
+  --color-posta-orange: #8E3B2E;            /* ★ NEW — primary brand color */
+  --color-orange-light: #742F25;            /* ★ NEW — hover states */
+  --color-orange-dim: #5F2419;              /* ★ NEW — active/pressed */
+  --color-orange-subtle: rgba(142, 59, 46, 0.12);  /* ★ NEW — soft orange bg */
+  --color-orange-glow: rgba(142, 59, 46, 0.20);     /* ★ NEW — glow aura */
+  --color-ember: #742F25;                   /* ★ NEW — dark gradients */
 
   /* ─── LEGACY ALIASES — Purple → Orange ───────────────────────────── */
   /* Old purple token names now map to POSTA orange. Components still
      using bg-neon-grape, text-neon-grape, etc. will resolve to orange. */
 
-  --color-neon-grape: #E85D04;              /* ALIAS — now posta-orange */
-  --color-neon-glow: #E85D04;               /* ALIAS — now posta-orange */
-  --color-purple-core: #E85D04;             /* ALIAS — now posta-orange */
-  --color-grape-light: #FF8A30;             /* ALIAS — now orange-light */
-  --color-grape-dim: #C04E02;               /* ALIAS — now orange-dim */
-  --color-grape-subtle: rgba(232, 93, 4, 0.15);  /* ALIAS — now orange-subtle */
-  --color-grape-glow: rgba(232, 93, 4, 0.4);     /* ALIAS — now orange-glow */
-  --color-electric-indigo: #9A3B02;         /* ALIAS — now ember */
-  --color-hyper-crimson: #FF2A6D;           /* KEPT — accent pop */
+  --color-neon-grape: #8E3B2E;              /* ALIAS — now posta-orange */
+  --color-neon-glow: #8E3B2E;               /* ALIAS — now posta-orange */
+  --color-purple-core: #8E3B2E;             /* ALIAS — now posta-orange */
+  --color-grape-light: #742F25;             /* ALIAS — now orange-light */
+  --color-grape-dim: #5F2419;               /* ALIAS — now orange-dim */
+  --color-grape-subtle: rgba(142, 59, 46, 0.12);  /* ALIAS — now orange-subtle */
+  --color-grape-glow: rgba(142, 59, 46, 0.20);     /* ALIAS — now orange-glow */
+  --color-electric-indigo: #742F25;         /* ALIAS — now ember */
+  --color-hyper-crimson: #A32B22;           /* KEPT — accent pop */
 
   /* ─── SURGE TEAL — Secondary Accent ──────────────────────────────── */
   /* A complementary cool teal that balances the warm orange.
      Crisp, energetic, tech-forward. */
 
-  --color-surge-teal: #00A8B5;              /* ★ NEW — secondary accent */
-  --color-teal-dim: #008A94;                /* Pressed/active states */
-  --color-teal-subtle: rgba(0, 168, 181, 0.15);  /* Teal backgrounds */
+  --color-surge-teal: #742F25;              /* ★ NEW — secondary accent */
+  --color-teal-dim: #5F2419;                /* Pressed/active states */
+  --color-teal-subtle: rgba(116, 47, 37, 0.12);  /* Teal backgrounds */
 
   /* ─── LEGACY ALIASES — Teal ──────────────────────────────────────── */
-  --color-joburg-teal: #00A8B5;             /* ALIAS — now surge-teal */
+  --color-joburg-teal: #742F25;             /* ALIAS — now surge-teal */
 
   /* ─── MZANSI ACCENTS — SA Flag ───────────────────────────────────── */
   /* Keep these unchanged — they're part of the SA design DNA. */
 
-  --color-sa-green: #007749;                /* SA flag green */
-  --color-mzansi-green: #007749;            /* ALIAS */
-  --color-sa-gold: #FFB81C;                 /* SA flag gold */
-  --color-mzansi-gold: #FFB81C;             /* ALIAS */
-  --color-sa-red: #E03C31;                  /* SA flag red */
+  --color-sa-green: #2F6B4F;                /* SA flag green */
+  --color-mzansi-green: #2F6B4F;            /* ALIAS */
+  --color-sa-gold: #E9A93C;                 /* SA flag gold */
+  --color-mzansi-gold: #E9A93C;             /* ALIAS */
+  --color-sa-red: #A32B22;                  /* SA flag red */
   --color-mzansi-red: #E03C31;              /* ALIAS */
   --color-sa-blue: #002C6F;                 /* SA flag blue */
   --color-mzansi-blue: #002C6F;             /* ALIAS */
@@ -104,6 +104,22 @@
   --color-border-hover: rgba(232, 93, 4, 0.3);        /* Hover — orange tint */
   --color-border-active: #E85D04;                      /* Active/focus — orange */
   --color-glass-border: rgba(255, 255, 255, 0.08);    /* ALIAS for glass */
+
+  /* ─── POSTA BRAND TOKENS (canonical — use these in new code) ───────── */
+  /* The legacy names above are kept working by remapping, not by deletion: deleting them would break 46
+     files at once. New code must use these. See design-system/posta/tokens.css. */
+  --color-paper: #FBF6EF;
+  --color-clay: #8E3B2E;
+  --color-clay-deep: #742F25;
+  --color-clay-tint: #F2E2DA;
+  --color-cream: #F7EDE2;
+  --color-ink: #24140F;
+  --color-ink-soft: #6E5B4E;
+  --color-line: #EADCCB;
+  --color-gold: #E9A93C;
+  --color-success: #2F6B4F;
+  --color-danger: #A32B22;
+  --color-warning: #8A5A12;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

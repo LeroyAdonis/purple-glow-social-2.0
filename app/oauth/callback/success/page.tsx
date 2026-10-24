@@ -50,7 +50,7 @@ function SuccessContent() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pretoria-blue via-void to-neon-grape p-4">
       <div className="w-full max-w-md">
         {/* Success Card */}
-        <div className="bg-white/10 backdrop-blur-lg border border-glass-border rounded-xl p-8 shadow-2xl text-center">
+        <div className="bg-[var(--posta-cream)] backdrop-blur-lg border border-glass-border rounded-xl p-8 shadow-2xl text-center">
           {/* Success Icon */}
           <div className="mb-6">
             <div className="w-20 h-20 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
@@ -78,19 +78,19 @@ function SuccessContent() {
           )}
 
           {/* Success Message */}
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-[var(--posta-ink)] mb-2">
             Successfully Connected!
           </h1>
           
-          <p className="text-gray-300 mb-6">
+          <p className="text-[var(--posta-ink-soft)] mb-6">
             Your {platform ? platformNames[platform] : 'account'} is now connected to Posta.
             You can now post content directly to your account.
           </p>
 
           {/* Features List */}
-          <div className="bg-white/5 rounded-lg p-4 mb-6 text-left">
-            <p className="text-sm text-gray-400 mb-2">What you can do now:</p>
-            <ul className="space-y-2 text-sm text-white">
+          <div className="bg-[var(--posta-paper)] rounded-lg p-4 mb-6 text-left">
+            <p className="text-sm text-[var(--posta-ink-soft)] mb-2">What you can do now:</p>
+            <ul className="space-y-2 text-sm text-[var(--posta-ink)]">
               <li className="flex items-start gap-2">
                 <span className="text-green-400">✓</span>
                 <span>Auto-post to {platform ? platformNames[platform] : 'your account'}</span>
@@ -115,14 +115,14 @@ function SuccessContent() {
           <div className="space-y-2">
             <button
               onClick={() => router.push('/dashboard')}
-              className="w-full bg-gradient-to-r from-neon-grape to-purple-600 text-white font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
+              className="w-full bg-gradient-to-r from-neon-grape to-purple-600 text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
             >
               Go to Dashboard
             </button>
             
             <button
               onClick={() => router.push('/dashboard?tab=settings')}
-              className="w-full bg-white/5 text-white font-semibold py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
+              className="w-full bg-[var(--posta-paper)] text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:bg-[var(--posta-cream)] transition-colors"
             >
               Manage Connections
             </button>
@@ -144,7 +144,7 @@ export default function OAuthSuccessPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pretoria-blue via-void to-neon-grape">
-        <div className="text-white">Loading...</div>
+        <div className="text-[var(--posta-ink)]">Loading...</div>
       </div>
     }>
       <SuccessContent />

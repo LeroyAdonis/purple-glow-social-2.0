@@ -22,7 +22,7 @@ interface Notification {
 const NOTIFICATION_ICONS: Record<Notification['type'], { icon: string; color: string }> = {
   low_credits: { icon: 'fa-coins', color: 'text-mzansi-gold' },
   credits_expiring: { icon: 'fa-clock', color: 'text-amber-400' },
-  post_skipped: { icon: 'fa-forward', color: 'text-gray-400' },
+  post_skipped: { icon: 'fa-forward', color: 'text-[var(--posta-ink-soft)]' },
   post_failed: { icon: 'fa-circle-exclamation', color: 'text-red-400' },
   tier_limit_reached: { icon: 'fa-lock', color: 'text-neon-grape' },
 };
@@ -85,16 +85,16 @@ export default function NotificationsDropdown() {
       {/* Bell Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+        className="relative p-2 rounded-lg hover:bg-[var(--posta-cream)] transition-colors cursor-pointer"
         aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <i className="fa-regular fa-bell text-xl text-gray-300 hover:text-white transition-colors"></i>
+        <i className="fa-regular fa-bell text-xl text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors"></i>
         
         {/* Unread Badge */}
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center px-1 bg-neon-grape rounded-full text-[10px] font-bold text-white">
+          <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center px-1 bg-neon-grape rounded-full text-[10px] font-bold text-[var(--posta-cream)]">
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
         )}
@@ -109,11 +109,11 @@ export default function NotificationsDropdown() {
         >
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-glass-border">
-            <h3 className="font-bold text-white">Notifications</h3>
+            <h3 className="font-bold text-[var(--posta-ink)]">Notifications</h3>
             {unreadCount > 0 && (
               <button
                 onClick={handleMarkAllRead}
-                className="text-xs text-joburg-teal hover:text-white transition-colors cursor-pointer"
+                className="text-xs text-joburg-teal hover:text-[var(--posta-ink)] transition-colors cursor-pointer"
                 disabled={markAllRead.isPending}
               >
                 Mark all as read
@@ -125,45 +125,45 @@ export default function NotificationsDropdown() {
           <div className="max-h-[400px] overflow-y-auto">
             {isLoading ? (
               <div className="p-8 text-center">
-                <i className="fa-solid fa-spinner fa-spin text-2xl text-gray-500"></i>
+                <i className="fa-solid fa-spinner fa-spin text-2xl text-[var(--posta-ink-soft)]"></i>
               </div>
             ) : notifications.length === 0 ? (
               <div className="p-8 text-center">
                 <i className="fa-regular fa-bell-slash text-3xl text-gray-600 mb-3"></i>
-                <p className="text-gray-400 text-sm">No notifications</p>
-                <p className="text-gray-500 text-xs mt-1">You're all caught up, sharp sharp!</p>
+                <p className="text-[var(--posta-ink-soft)] text-sm">No notifications</p>
+                <p className="text-[var(--posta-ink-soft)] text-xs mt-1">You're all caught up, sharp sharp!</p>
               </div>
             ) : (
               notifications.map((notification: Notification) => {
-                const { icon, color } = NOTIFICATION_ICONS[notification.type] || { icon: 'fa-bell', color: 'text-gray-400' };
+                const { icon, color } = NOTIFICATION_ICONS[notification.type] || { icon: 'fa-bell', color: 'text-[var(--posta-ink-soft)]' };
                 
                 return (
                   <div
                     key={notification.id}
-                    className={`flex gap-3 px-4 py-3 border-b border-glass-border/50 hover:bg-white/5 transition-colors ${!notification.read ? 'bg-white/5' : ''}`}
+                    className={`flex gap-3 px-4 py-3 border-b border-glass-border/50 hover:bg-[var(--posta-paper)] transition-colors ${!notification.read ? 'bg-[var(--posta-paper)]' : ''}`}
                     role="menuitem"
                   >
                     {/* Icon */}
-                    <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center ${color}`}>
+                    <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-[var(--posta-cream)] flex items-center justify-center ${color}`}>
                       <i className={`fa-solid ${icon} text-sm`}></i>
                     </div>
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
-                        <h4 className={`text-sm font-medium ${notification.read ? 'text-gray-300' : 'text-white'}`}>
+                        <h4 className={`text-sm font-medium ${notification.read ? 'text-[var(--posta-ink-soft)]' : 'text-[var(--posta-ink)]'}`}>
                           {notification.title}
                         </h4>
                         <button
                           onClick={(e) => handleDismiss(notification.id, e)}
-                          className="flex-shrink-0 text-gray-500 hover:text-white transition-colors cursor-pointer p-1"
+                          className="flex-shrink-0 text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors cursor-pointer p-1"
                           aria-label="Dismiss notification"
                         >
                           <i className="fa-solid fa-xmark text-xs"></i>
                         </button>
                       </div>
-                      <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">{notification.message}</p>
-                      <span className="text-[10px] text-gray-500 mt-1 block">
+                      <p className="text-xs text-[var(--posta-ink-soft)] mt-0.5 line-clamp-2">{notification.message}</p>
+                      <span className="text-[10px] text-[var(--posta-ink-soft)] mt-1 block">
                         {formatTimeAgo(notification.createdAt)}
                       </span>
                     </div>
@@ -183,7 +183,7 @@ export default function NotificationsDropdown() {
             <div className="px-4 py-2 border-t border-glass-border text-center">
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-xs text-gray-400 hover:text-white transition-colors cursor-pointer"
+                className="text-xs text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors cursor-pointer"
               >
                 Close
               </button>

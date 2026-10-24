@@ -42,7 +42,7 @@ Time: ${new Date().toISOString()}
         </p>
         <button
           onClick={resetError}
-          className="text-sm text-neon-grape hover:text-white transition-colors"
+          className="text-sm text-neon-grape hover:text-[var(--posta-ink)] transition-colors"
         >
           Try Again
         </button>
@@ -56,11 +56,11 @@ Time: ${new Date().toISOString()}
         <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
           <i className={`${icon} text-red-400 text-xl`}></i>
         </div>
-        <h3 className="font-bold text-white mb-2">{title}</h3>
-        <p className="text-sm text-gray-400 mb-4">{description}</p>
+        <h3 className="font-bold text-[var(--posta-ink)] mb-2">{title}</h3>
+        <p className="text-sm text-[var(--posta-ink-soft)] mb-4">{description}</p>
         <button
           onClick={resetError}
-          className="px-4 py-2 bg-neon-grape rounded-lg text-white text-sm hover:bg-opacity-90 transition-colors"
+          className="px-4 py-2 bg-neon-grape rounded-lg text-[var(--posta-cream)] text-sm hover:bg-opacity-90 transition-colors"
         >
           <i className="fa-solid fa-rotate-right mr-2"></i>
           Try Again
@@ -78,19 +78,19 @@ Time: ${new Date().toISOString()}
         </div>
 
         {/* Title */}
-        <h2 className="font-display font-bold text-2xl text-white mb-3">
+        <h2 className="font-display font-bold text-2xl text-[var(--posta-ink)] mb-3">
           {title}
         </h2>
 
         {/* Description */}
-        <p className="text-gray-400 mb-6">
+        <p className="text-[var(--posta-ink-soft)] mb-6">
           {description}
         </p>
 
         {/* Error Details (optional) */}
         {showDetails && error.message && (
-          <div className="mb-6 p-4 bg-white/5 border border-glass-border rounded-lg text-left">
-            <p className="text-xs font-mono text-gray-400 mb-1">ERROR DETAILS</p>
+          <div className="mb-6 p-4 bg-[var(--posta-paper)] border border-glass-border rounded-lg text-left">
+            <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-1">ERROR DETAILS</p>
             <p className="text-sm text-red-400 font-mono break-all">
               {error.message}
             </p>
@@ -101,14 +101,14 @@ Time: ${new Date().toISOString()}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={resetError}
-            className="px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-xl font-medium hover:shadow-lg transition-all"
+            className="px-6 py-3 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] rounded-xl font-medium hover:shadow-lg transition-all"
           >
             <i className="fa-solid fa-rotate-right mr-2"></i>
             Try Again
           </button>
           <button
             onClick={() => window.location.href = '/dashboard'}
-            className="px-6 py-3 border border-glass-border text-gray-300 rounded-xl font-medium hover:bg-white/5 transition-colors"
+            className="px-6 py-3 border border-glass-border text-[var(--posta-ink-soft)] rounded-xl font-medium hover:bg-[var(--posta-paper)] transition-colors"
           >
             <i className="fa-solid fa-home mr-2"></i>
             Go to Dashboard
@@ -118,7 +118,7 @@ Time: ${new Date().toISOString()}
         {/* Report Link */}
         <button
           onClick={handleReportIssue}
-          className="mt-4 text-sm text-gray-500 hover:text-gray-300 transition-colors"
+          className="mt-4 text-sm text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink-soft)] transition-colors"
         >
           <i className="fa-solid fa-bug mr-1"></i>
           Report this issue

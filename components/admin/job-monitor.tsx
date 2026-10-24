@@ -38,13 +38,13 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
   if (isLoading) {
     return (
       <div className="aerogel-card p-6 rounded-2xl animate-pulse">
-        <div className="h-8 bg-white/10 rounded w-48 mb-6"></div>
+        <div className="h-8 bg-[var(--posta-cream)] rounded w-48 mb-6"></div>
         <div className="grid grid-cols-5 gap-4 mb-6">
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="h-20 bg-white/5 rounded-xl"></div>
+            <div key={i} className="h-20 bg-[var(--posta-paper)] rounded-xl"></div>
           ))}
         </div>
-        <div className="h-64 bg-white/5 rounded-xl"></div>
+        <div className="h-64 bg-[var(--posta-paper)] rounded-xl"></div>
       </div>
     );
   }
@@ -69,8 +69,8 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
       case 'running': return 'bg-blue-500/20 text-blue-400';
       case 'completed': return 'bg-green-500/20 text-green-400';
       case 'failed': return 'bg-red-500/20 text-red-400';
-      case 'cancelled': return 'bg-gray-500/20 text-gray-400';
-      default: return 'bg-gray-500/20 text-gray-400';
+      case 'cancelled': return 'bg-gray-500/20 text-[var(--posta-ink-soft)]';
+      default: return 'bg-gray-500/20 text-[var(--posta-ink-soft)]';
     }
   };
 
@@ -100,10 +100,10 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
       <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
         <div className="aerogel-card p-4 rounded-xl">
           <div className="flex items-center justify-between mb-2">
-            <i className="fa-solid fa-list text-lg text-gray-400"></i>
+            <i className="fa-solid fa-list text-lg text-[var(--posta-ink-soft)]"></i>
           </div>
           <p className="text-2xl font-display font-bold">{stats.total}</p>
-          <p className="text-xs text-gray-400">Total Jobs</p>
+          <p className="text-xs text-[var(--posta-ink-soft)]">Total Jobs</p>
         </div>
         
         <div className="aerogel-card p-4 rounded-xl">
@@ -111,7 +111,7 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
             <i className="fa-solid fa-clock text-lg text-yellow-400"></i>
           </div>
           <p className="text-2xl font-display font-bold text-yellow-400">{stats.pending}</p>
-          <p className="text-xs text-gray-400">Pending</p>
+          <p className="text-xs text-[var(--posta-ink-soft)]">Pending</p>
         </div>
         
         <div className="aerogel-card p-4 rounded-xl">
@@ -119,7 +119,7 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
             <i className="fa-solid fa-spinner text-lg text-blue-400"></i>
           </div>
           <p className="text-2xl font-display font-bold text-blue-400">{stats.running}</p>
-          <p className="text-xs text-gray-400">Running</p>
+          <p className="text-xs text-[var(--posta-ink-soft)]">Running</p>
         </div>
         
         <div className="aerogel-card p-4 rounded-xl">
@@ -127,7 +127,7 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
             <i className="fa-solid fa-check-circle text-lg text-green-400"></i>
           </div>
           <p className="text-2xl font-display font-bold text-green-400">{stats.completed}</p>
-          <p className="text-xs text-gray-400">Completed</p>
+          <p className="text-xs text-[var(--posta-ink-soft)]">Completed</p>
         </div>
         
         <div className="aerogel-card p-4 rounded-xl">
@@ -135,7 +135,7 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
             <i className="fa-solid fa-times-circle text-lg text-red-400"></i>
           </div>
           <p className="text-2xl font-display font-bold text-red-400">{stats.failed}</p>
-          <p className="text-xs text-gray-400">Failed</p>
+          <p className="text-xs text-[var(--posta-ink-soft)]">Failed</p>
         </div>
         
         <div className="aerogel-card p-4 rounded-xl">
@@ -143,7 +143,7 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
             <i className="fa-solid fa-rotate-right text-lg text-mzansi-gold"></i>
           </div>
           <p className="text-2xl font-display font-bold">{stats.averageRetries.toFixed(1)}</p>
-          <p className="text-xs text-gray-400">Avg Retries</p>
+          <p className="text-xs text-[var(--posta-ink-soft)]">Avg Retries</p>
         </div>
       </div>
 
@@ -155,13 +155,13 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
             onClick={() => setFilter(f)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               filter === f
-                ? 'bg-neon-grape text-white'
-                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                ? 'bg-neon-grape text-[var(--posta-cream)]'
+                : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)] hover:text-[var(--posta-ink)]'
             }`}
           >
             {f.charAt(0).toUpperCase() + f.slice(1)}
             {f === 'failed' && stats.failed > 0 && (
-              <span className="ml-2 px-1.5 py-0.5 rounded-full bg-red-500 text-white text-xs">
+              <span className="ml-2 px-1.5 py-0.5 rounded-full bg-red-500 text-[var(--posta-ink)] text-xs">
                 {stats.failed}
               </span>
             )}
@@ -174,24 +174,24 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
         {filteredJobs.length === 0 ? (
           <div className="text-center py-12">
             <i className="fa-solid fa-check-circle text-4xl text-green-400 mb-4"></i>
-            <p className="text-gray-400">No {filter === 'all' ? '' : filter} jobs</p>
+            <p className="text-[var(--posta-ink-soft)]">No {filter === 'all' ? '' : filter} jobs</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-white/5 border-b border-glass-border">
+              <thead className="bg-[var(--posta-paper)] border-b border-glass-border">
                 <tr>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Status</th>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Function</th>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Created</th>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Retries</th>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Error</th>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Actions</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Status</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Function</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Created</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Retries</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Error</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-glass-border">
                 {filteredJobs.slice(0, 20).map((job) => (
-                  <tr key={job.id} className="hover:bg-white/5 transition-colors">
+                  <tr key={job.id} className="hover:bg-[var(--posta-paper)] transition-colors">
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold ${getStatusColor(job.status)}`}>
                         <i className={getStatusIcon(job.status)}></i>
@@ -201,14 +201,14 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
                     <td className="px-6 py-4">
                       <span className="text-sm font-medium">{formatFunctionName(job.functionName)}</span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-400">
+                    <td className="px-6 py-4 text-sm text-[var(--posta-ink-soft)]">
                       {new Date(job.createdAt).toLocaleString('en-ZA', {
                         dateStyle: 'short',
                         timeStyle: 'short',
                       })}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`font-mono ${job.retryCount > 0 ? 'text-mzansi-gold' : 'text-gray-500'}`}>
+                      <span className={`font-mono ${job.retryCount > 0 ? 'text-mzansi-gold' : 'text-[var(--posta-ink-soft)]'}`}>
                         {job.retryCount}
                       </span>
                     </td>
@@ -225,7 +225,7 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => onViewDetails(job)}
-                          className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                          className="p-2 rounded-lg hover:bg-[var(--posta-cream)] text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors"
                           title="View Details"
                         >
                           <i className="fa-solid fa-eye"></i>
@@ -234,7 +234,7 @@ export default function JobMonitor({ jobs, stats, onRetry, onViewDetails, isLoad
                           <button
                             onClick={() => handleRetry(job.id)}
                             disabled={retrying === job.id}
-                            className="p-2 rounded-lg hover:bg-neon-grape/20 text-neon-grape hover:text-white transition-colors disabled:opacity-50"
+                            className="p-2 rounded-lg hover:bg-neon-grape/20 text-neon-grape hover:text-[var(--posta-cream)] transition-colors disabled:opacity-50"
                             title="Retry Job"
                           >
                             {retrying === job.id ? (

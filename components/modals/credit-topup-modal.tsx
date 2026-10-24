@@ -132,7 +132,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
       <div className="aerogel-card p-8 rounded-3xl w-full max-w-5xl relative z-10 animate-enter max-h-[90vh] overflow-y-auto">
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-10"
+          className="absolute top-4 right-4 text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors z-10"
         >
           <i className="fa-solid fa-xmark text-xl"></i>
         </button>
@@ -142,11 +142,11 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
           <>
             <div className="text-center mb-8">
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-mzansi-gold to-joburg-teal mx-auto mb-4 flex items-center justify-center">
-                <i className="fa-solid fa-bolt text-2xl text-white"></i>
+                <i className="fa-solid fa-bolt text-2xl text-[var(--posta-ink)]"></i>
               </div>
               <h2 className="font-display font-bold text-3xl mb-2">Top Up Credits</h2>
-              <p className="text-gray-400">Choose a package to power your content creation</p>
-              <div className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-white/5 rounded-full">
+              <p className="text-[var(--posta-ink-soft)]">Choose a package to power your content creation</p>
+              <div className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-[var(--posta-paper)] rounded-full">
                 <i className="fa-solid fa-wallet text-mzansi-gold"></i>
                 <span className="text-sm font-mono">Current Balance: <span className="font-bold text-mzansi-gold">{currentCredits} credits</span></span>
               </div>
@@ -168,14 +168,14 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                   )}
                   
                   <div className="text-center mb-4">
-                    <div className="text-4xl font-display font-bold text-white mb-1">{pkg.credits}</div>
-                    <div className="text-sm text-gray-400">{pkg.name}</div>
+                    <div className="text-4xl font-display font-bold text-[var(--posta-ink)] mb-1">{pkg.credits}</div>
+                    <div className="text-sm text-[var(--posta-ink-soft)]">{pkg.name}</div>
                   </div>
 
                   <div className="border-t border-glass-border pt-4 mb-4">
                     <div className="text-center">
                       <span className="text-2xl font-bold text-green-400">R{pkg.price}</span>
-                      <span className="text-sm text-gray-500">.00</span>
+                      <span className="text-sm text-[var(--posta-ink-soft)]">.00</span>
                     </div>
                     {pkg.savings && (
                       <div className="text-center mt-2">
@@ -184,7 +184,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                     )}
                   </div>
 
-                  <div className="space-y-2 text-xs text-gray-400 mb-4">
+                  <div className="space-y-2 text-xs text-[var(--posta-ink-soft)] mb-4">
                     <div className="flex items-center gap-2">
                       <i className="fa-solid fa-check text-green-400"></i>
                       <span>Instant delivery</span>
@@ -201,7 +201,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                     )}
                   </div>
 
-                  <div className="w-full py-3 bg-white/5 rounded-xl group-hover:bg-neon-grape group-hover:text-white transition-all text-center font-bold">
+                  <div className="w-full py-3 bg-[var(--posta-paper)] rounded-xl group-hover:bg-neon-grape group-hover:text-[var(--posta-cream)] transition-all text-center font-bold">
                     Select Package
                   </div>
                 </button>
@@ -212,8 +212,8 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
               <i className="fa-solid fa-info-circle text-joburg-teal text-xl mt-1"></i>
               <div className="flex-1">
                 <p className="font-bold mb-2">How Credits Work</p>
-                <ul className="text-sm text-gray-400 space-y-1">
-                  <li>• Text generation is <span className="text-white font-bold">free and unlimited</span></li>
+                <ul className="text-sm text-[var(--posta-ink-soft)] space-y-1">
+                  <li>• Text generation is <span className="text-[var(--posta-ink)] font-bold">free and unlimited</span></li>
                   <li>• 1 credit = 1 AI image generation (Imagen 3)</li>
                   <li>• Video credits for Veo 2 video generation</li>
                   <li>• Credits never expire and roll over monthly</li>
@@ -228,7 +228,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
             <div>
               <button 
                 onClick={handleBack}
-                className="text-gray-400 hover:text-white transition-colors mb-6 flex items-center gap-2"
+                className="text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors mb-6 flex items-center gap-2"
               >
                 <i className="fa-solid fa-arrow-left"></i> Back to packages
               </button>
@@ -240,7 +240,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <div className="font-bold text-lg">{selectedPackage.name}</div>
-                      <div className="text-sm text-gray-400">{selectedPackage.credits} credits</div>
+                      <div className="text-sm text-[var(--posta-ink-soft)]">{selectedPackage.credits} credits</div>
                     </div>
                     <div className="text-right">
                       <div className="font-mono font-bold">R{selectedPackage.price}.00</div>
@@ -259,11 +259,11 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
               <div className="aerogel-card p-6 rounded-2xl">
                 <div className="space-y-3 mb-4 pb-4 border-b border-glass-border">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-400">Subtotal</span>
+                    <span className="text-[var(--posta-ink-soft)]">Subtotal</span>
                     <span className="font-mono">R{totals.subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-400">VAT (15%)</span>
+                    <span className="text-[var(--posta-ink-soft)]">VAT (15%)</span>
                     <span className="font-mono">R{totals.vat.toFixed(2)}</span>
                   </div>
                 </div>
@@ -273,7 +273,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center gap-3 text-sm text-gray-400">
+              <div className="mt-6 flex items-center gap-3 text-sm text-[var(--posta-ink-soft)]">
                 <i className="fa-solid fa-shield-halved text-green-400"></i>
                 <span>Secure payment powered by Polar.sh</span>
               </div>
@@ -295,68 +295,68 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                   <h3 className="font-bold text-xl">Payment Details</h3>
                   <div className="flex items-center gap-2">
                     <i className="fa-solid fa-lock text-green-400 text-sm"></i>
-                    <span className="text-xs text-gray-400">Secure</span>
+                    <span className="text-xs text-[var(--posta-ink-soft)]">Secure</span>
                   </div>
                 </div>
 
                 <form className="space-y-4" onSubmit={handleCompletePurchase}>
                   <div>
-                    <label className="text-xs font-mono text-gray-400 mb-2 block">CARD NUMBER</label>
+                    <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">CARD NUMBER</label>
                     <div className="relative">
                       <input
                         type="text"
                         placeholder="1234 5678 9012 3456"
-                        className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors pr-12"
+                        className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors pr-12"
                         maxLength={19}
                       />
                       <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-1">
-                        <i className="fa-brands fa-cc-visa text-xl text-gray-500"></i>
-                        <i className="fa-brands fa-cc-mastercard text-xl text-gray-500"></i>
+                        <i className="fa-brands fa-cc-visa text-xl text-[var(--posta-ink-soft)]"></i>
+                        <i className="fa-brands fa-cc-mastercard text-xl text-[var(--posta-ink-soft)]"></i>
                       </div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs font-mono text-gray-400 mb-2 block">EXPIRY DATE</label>
+                      <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">EXPIRY DATE</label>
                       <input
                         type="text"
                         placeholder="MM/YY"
-                        className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                        className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                         maxLength={5}
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-mono text-gray-400 mb-2 block">CVC</label>
+                      <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">CVC</label>
                       <input
                         type="text"
                         placeholder="123"
-                        className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                        className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                         maxLength={4}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-xs font-mono text-gray-400 mb-2 block">CARDHOLDER NAME</label>
+                    <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">CARDHOLDER NAME</label>
                     <input
                       type="text"
                       placeholder="Name on card"
-                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                      className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="text-xs font-mono text-gray-400 mb-2 block">EMAIL</label>
+                    <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">EMAIL</label>
                     <input
                       type="email"
-                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                      className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
 
                   <label className="flex items-start gap-3 cursor-pointer group">
                     <input type="checkbox" className="mt-1" required />
-                    <span className="text-xs text-gray-400 group-hover:text-gray-300">
+                    <span className="text-xs text-[var(--posta-ink-soft)] group-hover:text-[var(--posta-ink-soft)]">
                       I agree to the <a href="/terms" className="text-joburg-teal hover:underline">Terms of Service</a> and <a href="/privacy" className="text-joburg-teal hover:underline">Privacy Policy</a>
                     </span>
                   </label>
@@ -364,7 +364,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-4 bg-gradient-to-r from-neon-grape to-joburg-teal text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(157,78,221,0.5)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-4 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] font-bold rounded-xl hover:shadow-[0_0_30px_rgba(157,78,221,0.5)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? (
                       <>
@@ -381,7 +381,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                 </form>
 
                 <div className="mt-6 pt-6 border-t border-glass-border">
-                  <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
+                  <div className="flex items-center justify-center gap-4 text-xs text-[var(--posta-ink-soft)]">
                     <span className="flex items-center gap-1">
                       <i className="fa-solid fa-shield-halved text-green-400"></i> SSL Encrypted
                     </span>
@@ -389,7 +389,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                       <i className="fa-solid fa-check-circle text-green-400"></i> PCI DSS Compliant
                     </span>
                   </div>
-                  <p className="text-center text-xs text-gray-500 mt-3">
+                  <p className="text-center text-xs text-[var(--posta-ink-soft)] mt-3">
                     Powered by <span className="text-blue-400 font-bold">Polar.sh</span>
                   </p>
                 </div>

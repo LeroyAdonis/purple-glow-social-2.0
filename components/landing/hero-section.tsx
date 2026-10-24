@@ -109,6 +109,7 @@ export default function HeroSection({}: HeroSectionProps) {
                 border: 'none',
                 borderRadius: 999,
                 padding: '8px 0',
+                minHeight: 44,
                 fontWeight: 700,
                 fontSize: 'var(--text-small)',
                 cursor: 'pointer',
@@ -124,6 +125,7 @@ export default function HeroSection({}: HeroSectionProps) {
                 border: '1px solid var(--posta-line)',
                 borderRadius: 999,
                 padding: '8px 0',
+                minHeight: 44,
                 fontSize: 'var(--text-small)',
                 cursor: 'pointer',
               }}

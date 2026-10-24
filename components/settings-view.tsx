@@ -84,16 +84,16 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
   nextBillingDate.setMonth(nextBillingDate.getMonth() + 1);
 
   return (
-    <div className="flex min-h-screen bg-void text-white">
+    <div className="flex min-h-screen bg-void text-[var(--posta-ink)]">
       {/* Sidebar */}
       <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full backdrop-blur-md z-20">
         <div className="flex items-center gap-2 mb-4">
-          <button onClick={onBack} className="text-gray-400 hover:text-white transition-colors">
+          <button onClick={onBack} className="text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors">
             <i className="fa-solid fa-arrow-left"></i>
           </button>
           <div>
             <h1 className="font-display font-bold text-lg tracking-tight">Settings</h1>
-            <p className="text-xs text-gray-500 font-mono">POSTA</p>
+            <p className="text-xs text-[var(--posta-ink-soft)] font-mono">POSTA</p>
           </div>
         </div>
 
@@ -101,8 +101,8 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
           <button
             onClick={() => setActiveTab('account')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'account'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-user"></i> Account
@@ -110,8 +110,8 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
           <button
             onClick={() => setActiveTab('subscription')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'subscription'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-crown"></i> Subscription
@@ -119,8 +119,8 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
           <button
             onClick={() => setActiveTab('payment')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'payment'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-credit-card"></i> Payment Methods
@@ -128,8 +128,8 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
           <button
             onClick={() => setActiveTab('billing')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'billing'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-file-invoice"></i> Billing History
@@ -137,8 +137,8 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
           <button
             onClick={() => setActiveTab('preferences')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'preferences'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-sliders"></i> Preferences
@@ -146,8 +146,8 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
           <button
             onClick={() => setActiveTab('connections')}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'connections'
-              ? 'bg-white/5 border border-glass-border text-white'
-              : 'text-gray-400 hover:text-white hover:bg-white/5'
+              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
               }`}
           >
             <i className="fa-solid fa-link"></i> Connected Accounts
@@ -164,63 +164,63 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
             <div className="space-y-6 animate-enter">
               <header>
                 <h2 className="font-display font-bold text-4xl mb-2">Account Settings</h2>
-                <p className="text-gray-400">Manage your profile information</p>
+                <p className="text-[var(--posta-ink-soft)]">Manage your profile information</p>
               </header>
 
               <div className="aerogel-card p-8 rounded-2xl space-y-6">
                 <div className="flex items-center gap-6">
                   <Image src={user.image} alt={user.name} width={96} height={96} className="w-24 h-24 rounded-full border-2 border-glass-border" unoptimized />
                   <div>
-                    <button className="px-4 py-2 bg-white/5 border border-glass-border rounded-xl hover:bg-white/10 transition-colors text-sm">
+                    <button className="px-4 py-2 bg-[var(--posta-paper)] border border-glass-border rounded-xl hover:bg-[var(--posta-cream)] transition-colors text-sm">
                       Change Photo
                     </button>
-                    <p className="text-xs text-gray-500 mt-2">JPG, PNG or GIF. Max 2MB.</p>
+                    <p className="text-xs text-[var(--posta-ink-soft)] mt-2">JPG, PNG or GIF. Max 2MB.</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-xs font-mono text-gray-400 mb-2 block">FULL NAME</label>
+                    <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">FULL NAME</label>
                     <input
                       type="text"
                       defaultValue={user.name}
-                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                      className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-mono text-gray-400 mb-2 block">EMAIL</label>
+                    <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">EMAIL</label>
                     <input
                       type="email"
                       defaultValue={user.email}
-                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                      className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-mono text-gray-400 mb-2 block">CURRENT PASSWORD</label>
+                  <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">CURRENT PASSWORD</label>
                   <input
                     type="password"
                     placeholder="••••••••"
-                    className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                    className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-xs font-mono text-gray-400 mb-2 block">NEW PASSWORD</label>
+                    <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">NEW PASSWORD</label>
                     <input
                       type="password"
                       placeholder="••••••••"
-                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                      className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-mono text-gray-400 mb-2 block">CONFIRM PASSWORD</label>
+                    <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">CONFIRM PASSWORD</label>
                     <input
                       type="password"
                       placeholder="••••••••"
-                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                      className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
                 </div>
@@ -237,7 +237,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
             <div className="space-y-6 animate-enter">
               <header>
                 <h2 className="font-display font-bold text-4xl mb-2">Subscription</h2>
-                <p className="text-gray-400">Manage your plan and billing</p>
+                <p className="text-[var(--posta-ink-soft)]">Manage your plan and billing</p>
               </header>
 
               {/* Current Plan */}
@@ -245,11 +245,11 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                 <div className="flex items-start justify-between mb-6">
                   <div>
                     <h3 className="font-display font-bold text-2xl mb-2">{tierDetails.name}</h3>
-                    <p className="text-gray-400">
+                    <p className="text-[var(--posta-ink-soft)]">
                       {user.tier === 'free' ? 'Free forever' : `R${tierDetails.price}/month`}
                     </p>
                   </div>
-                  <span className={`px-4 py-2 rounded-full text-xs font-bold border ${user.tier === 'free' ? 'bg-gray-500/20 text-gray-300 border-gray-500/30' :
+                  <span className={`px-4 py-2 rounded-full text-xs font-bold border ${user.tier === 'free' ? 'bg-gray-500/20 text-[var(--posta-ink-soft)] border-gray-500/30' :
                     user.tier === 'pro' ? 'bg-neon-grape/20 text-neon-grape border-neon-grape/30' :
                       'bg-joburg-teal/20 text-joburg-teal border-joburg-teal/30'
                     }`}>
@@ -259,7 +259,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
 
                 <ul className="space-y-3 mb-6">
                   {tierDetails.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2 text-gray-300">
+                    <li key={i} className="flex items-center gap-2 text-[var(--posta-ink-soft)]">
                       <i className="fa-solid fa-check text-green-400"></i> {feature}
                     </li>
                   ))}
@@ -268,14 +268,14 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                 {user.tier !== 'free' && (
                   <div className="border-t border-glass-border pt-6">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-gray-400">Next billing date</span>
+                      <span className="text-sm text-[var(--posta-ink-soft)]">Next billing date</span>
                       <span className="font-mono font-bold">{nextBillingDate.toLocaleDateString('en-ZA')}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-400">Amount</span>
+                      <span className="text-sm text-[var(--posta-ink-soft)]">Amount</span>
                       <span className="font-mono font-bold text-green-400">R{(tierDetails.price * 1.15).toFixed(2)}</span>
                     </div>
-                    <p className="text-xs text-gray-500 mt-2">Includes 15% VAT</p>
+                    <p className="text-xs text-[var(--posta-ink-soft)] mt-2">Includes 15% VAT</p>
                   </div>
                 )}
               </div>
@@ -290,7 +290,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                   <h4 className="font-bold text-lg mb-1">
                     {user.tier === 'business' ? 'View All Plans' : user.tier === 'pro' ? 'Upgrade to Business' : 'Upgrade Plan'}
                   </h4>
-                  <p className="text-sm text-gray-400">Get more features and credits</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)]">Get more features and credits</p>
                 </button>
 
                 {user.tier !== 'free' && (
@@ -300,7 +300,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                   >
                     <i className="fa-solid fa-times-circle text-3xl text-red-400 mb-3"></i>
                     <h4 className="font-bold text-lg mb-1">Cancel Subscription</h4>
-                    <p className="text-sm text-gray-400">Downgrade to Free tier</p>
+                    <p className="text-sm text-[var(--posta-ink-soft)]">Downgrade to Free tier</p>
                   </button>
                 )}
               </div>
@@ -313,7 +313,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
               <header className="flex justify-between items-end">
                 <div>
                   <h2 className="font-display font-bold text-4xl mb-2">Payment Methods</h2>
-                  <p className="text-gray-400">Manage your payment cards</p>
+                  <p className="text-[var(--posta-ink-soft)]">Manage your payment cards</p>
                 </div>
                 <button
                   onClick={() => setShowAddCardModal(true)}
@@ -332,18 +332,18 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                       </span>
                     )}
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center">
+                      <div className="w-12 h-12 bg-[var(--posta-cream)] rounded-lg flex items-center justify-center">
                         <i className={`fa-brands fa-cc-${card.brand.toLowerCase()} text-2xl`}></i>
                       </div>
                       <div>
                         <p className="font-bold">{card.brand}</p>
-                        <p className="text-sm text-gray-400">•••• •••• •••• {card.last4}</p>
+                        <p className="text-sm text-[var(--posta-ink-soft)]">•••• •••• •••• {card.last4}</p>
                       </div>
                     </div>
-                    <p className="text-xs text-gray-500 mb-4">Expires {card.expiry}</p>
+                    <p className="text-xs text-[var(--posta-ink-soft)] mb-4">Expires {card.expiry}</p>
                     <div className="flex gap-2">
                       {!card.isDefault && (
-                        <button className="flex-1 py-2 border border-glass-border rounded-lg hover:bg-white/5 transition-colors text-sm">
+                        <button className="flex-1 py-2 border border-glass-border rounded-lg hover:bg-[var(--posta-paper)] transition-colors text-sm">
                           Set Default
                         </button>
                       )}
@@ -359,7 +359,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                 <i className="fa-solid fa-lock text-2xl text-green-400"></i>
                 <div>
                   <p className="font-bold mb-1">Secure Payment Processing</p>
-                  <p className="text-sm text-gray-400">All transactions are encrypted and PCI DSS compliant via Polar.sh</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)]">All transactions are encrypted and PCI DSS compliant via Polar.sh</p>
                 </div>
               </div>
             </div>
@@ -370,40 +370,40 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
             <div className="space-y-6 animate-enter">
               <header>
                 <h2 className="font-display font-bold text-4xl mb-2">Billing History</h2>
-                <p className="text-gray-400">View and download past invoices</p>
+                <p className="text-[var(--posta-ink-soft)]">View and download past invoices</p>
               </header>
 
               {loadingInvoices ? (
                 <div className="aerogel-card p-12 rounded-2xl text-center">
                   <i className="fa-solid fa-spinner fa-spin text-4xl text-neon-grape mb-4"></i>
-                  <p className="text-gray-400">Loading billing history...</p>
+                  <p className="text-[var(--posta-ink-soft)]">Loading billing history...</p>
                 </div>
               ) : invoices.length === 0 ? (
                 <div className="aerogel-card p-12 rounded-2xl text-center">
                   <i className="fa-solid fa-file-invoice text-6xl text-gray-600 mb-4"></i>
-                  <p className="text-gray-400">No billing history available</p>
-                  <p className="text-sm text-gray-500 mt-2">Upgrade to a paid plan to see invoices</p>
+                  <p className="text-[var(--posta-ink-soft)]">No billing history available</p>
+                  <p className="text-sm text-[var(--posta-ink-soft)] mt-2">Upgrade to a paid plan to see invoices</p>
                 </div>
               ) : (
                 <div className="aerogel-card rounded-2xl overflow-hidden">
                   <table className="w-full">
-                    <thead className="bg-white/5 border-b border-glass-border">
+                    <thead className="bg-[var(--posta-paper)] border-b border-glass-border">
                       <tr>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase">Date</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase">Plan</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase">Amount</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase">Status</th>
-                        <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase">Actions</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase">Date</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase">Plan</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase">Amount</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase">Status</th>
+                        <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-glass-border">
                       {invoices.map((invoice) => (
-                        <tr key={invoice.id} className="hover:bg-white/5 transition-colors">
+                        <tr key={invoice.id} className="hover:bg-[var(--posta-paper)] transition-colors">
                           <td className="px-6 py-4 text-sm">{new Date(invoice.date).toLocaleDateString('en-ZA')}</td>
                           <td className="px-6 py-4 text-sm">{invoice.plan}</td>
                           <td className="px-6 py-4">
                             <div className="font-mono font-bold text-green-400">R{invoice.total.toFixed(2)}</div>
-                            <div className="text-xs text-gray-500">incl. VAT</div>
+                            <div className="text-xs text-[var(--posta-ink-soft)]">incl. VAT</div>
                           </td>
                           <td className="px-6 py-4">
                             <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full">
@@ -411,7 +411,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                             </span>
                           </td>
                           <td className="px-6 py-4">
-                            <button className="text-joburg-teal hover:text-white transition-colors text-sm flex items-center gap-2">
+                            <button className="text-joburg-teal hover:text-[var(--posta-ink)] transition-colors text-sm flex items-center gap-2">
                               <i className="fa-solid fa-download"></i> Download
                             </button>
                           </td>
@@ -429,22 +429,22 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
             <div className="space-y-6 animate-enter">
               <header>
                 <h2 className="font-display font-bold text-4xl mb-2">Preferences</h2>
-                <p className="text-gray-400">Customize your experience</p>
+                <p className="text-[var(--posta-ink-soft)]">Customize your experience</p>
               </header>
 
               <div className="aerogel-card p-8 rounded-2xl space-y-6">
                 <div>
                   <h3 className="font-bold text-lg mb-4">Notifications</h3>
                   <div className="space-y-3">
-                    <label className="flex items-center justify-between p-4 bg-white/5 rounded-xl cursor-pointer hover:bg-white/10 transition-colors">
+                    <label className="flex items-center justify-between p-4 bg-[var(--posta-paper)] rounded-xl cursor-pointer hover:bg-[var(--posta-cream)] transition-colors">
                       <span>Email notifications for scheduled posts</span>
                       <input type="checkbox" defaultChecked className="w-5 h-5" />
                     </label>
-                    <label className="flex items-center justify-between p-4 bg-white/5 rounded-xl cursor-pointer hover:bg-white/10 transition-colors">
+                    <label className="flex items-center justify-between p-4 bg-[var(--posta-paper)] rounded-xl cursor-pointer hover:bg-[var(--posta-cream)] transition-colors">
                       <span>Weekly performance reports</span>
                       <input type="checkbox" defaultChecked className="w-5 h-5" />
                     </label>
-                    <label className="flex items-center justify-between p-4 bg-white/5 rounded-xl cursor-pointer hover:bg-white/10 transition-colors">
+                    <label className="flex items-center justify-between p-4 bg-[var(--posta-paper)] rounded-xl cursor-pointer hover:bg-[var(--posta-cream)] transition-colors">
                       <span>Marketing and product updates</span>
                       <input type="checkbox" className="w-5 h-5" />
                     </label>
@@ -455,7 +455,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                   <h3 className="font-bold text-lg mb-4">Regional Settings</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs font-mono text-gray-400 mb-2 block">TIMEZONE</label>
+                      <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">TIMEZONE</label>
                       <CustomSelect
                         value={timezone}
                         onChange={setTimezone}
@@ -467,7 +467,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-mono text-gray-400 mb-2 block">LANGUAGE</label>
+                      <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">LANGUAGE</label>
                       <CustomSelect
                         value={language}
                         onChange={setLanguage}
@@ -504,7 +504,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
             <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setShowCancelModal(false)}></div>
             <div className="aerogel-card p-8 rounded-3xl w-full max-w-md relative z-10 animate-enter">
               <h3 className="font-display font-bold text-2xl mb-4">Cancel Subscription?</h3>
-              <p className="text-gray-400 mb-6">
+              <p className="text-[var(--posta-ink-soft)] mb-6">
                 We're sorry to see you go! You'll lose access to:
               </p>
               <ul className="space-y-2 mb-6 text-sm">
@@ -518,7 +518,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                   <i className="fa-solid fa-times"></i> Smart scheduling features
                 </li>
               </ul>
-              <p className="text-sm text-gray-500 mb-6">
+              <p className="text-sm text-[var(--posta-ink-soft)] mb-6">
                 Your subscription will remain active until {nextBillingDate.toLocaleDateString('en-ZA')}
               </p>
               <div className="flex gap-4">
@@ -549,44 +549,44 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
               <h3 className="font-display font-bold text-2xl mb-4">Add Payment Method</h3>
               <div className="space-y-4 mb-6">
                 <div>
-                  <label className="text-xs font-mono text-gray-400 mb-2 block">CARD NUMBER</label>
+                  <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">CARD NUMBER</label>
                   <input
                     type="text"
                     placeholder="1234 5678 9012 3456"
-                    className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                    className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-mono text-gray-400 mb-2 block">EXPIRY</label>
+                    <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">EXPIRY</label>
                     <input
                       type="text"
                       placeholder="MM/YY"
-                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                      className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-mono text-gray-400 mb-2 block">CVC</label>
+                    <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">CVC</label>
                     <input
                       type="text"
                       placeholder="123"
-                      className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                      className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs font-mono text-gray-400 mb-2 block">CARDHOLDER NAME</label>
+                  <label className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2 block">CARDHOLDER NAME</label>
                   <input
                     type="text"
                     placeholder="Name on card"
-                    className="w-full bg-white/5 border border-glass-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-grape transition-colors"
+                    className="w-full bg-[var(--posta-paper)] border border-glass-border rounded-xl px-4 py-3 text-[var(--posta-ink)] focus:outline-none focus:border-neon-grape transition-colors"
                   />
                 </div>
               </div>
               <div className="flex gap-4">
                 <button
                   onClick={() => setShowAddCardModal(false)}
-                  className="flex-1 py-3 border border-glass-border rounded-xl hover:bg-white/5 transition-colors"
+                  className="flex-1 py-3 border border-glass-border rounded-xl hover:bg-[var(--posta-paper)] transition-colors"
                 >
                   Cancel
                 </button>

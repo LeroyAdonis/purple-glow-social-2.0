@@ -151,10 +151,10 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
               <i className="fa-solid fa-wand-magic-sparkles text-neon-grape"></i>
               <span className="font-bold text-sm">Daily AI Generations</span>
             </div>
-            <span className="text-sm text-gray-400 capitalize">{generationLimits.tier} tier</span>
+            <span className="text-sm text-[var(--posta-ink-soft)] capitalize">{generationLimits.tier} tier</span>
           </div>
           <div className="flex items-center gap-3">
-            <div className="flex-1 bg-white/10 rounded-full h-2">
+            <div className="flex-1 bg-[var(--posta-cream)] rounded-full h-2">
               <div 
                 className={`h-2 rounded-full transition-all ${
                   generationLimits.percentage >= 90 
@@ -166,7 +166,7 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
                 style={{ width: `${Math.min(100, generationLimits.percentage)}%` }}
               />
             </div>
-            <span className={`text-sm font-bold ${generationLimits.isAtLimit ? 'text-red-400' : 'text-white'}`}>
+            <span className={`text-sm font-bold ${generationLimits.isAtLimit ? 'text-red-400' : 'text-[var(--posta-ink)]'}`}>
               {generationLimits.remaining} left
             </span>
           </div>
@@ -189,7 +189,7 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
         <button
           onClick={handleGetTopicSuggestions}
           disabled={isLoadingSuggestions}
-          className="text-sm text-joburg-teal hover:text-white transition-colors flex items-center gap-2"
+          className="text-sm text-joburg-teal hover:text-[var(--posta-ink)] transition-colors flex items-center gap-2"
         >
           {isLoadingSuggestions ? (
             <>
@@ -217,7 +217,7 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
               <button
                 key={idx}
                 onClick={() => setTopic(suggestion)}
-                className="px-3 py-1 text-xs rounded-lg bg-white/5 border border-glass-border
+                className="px-3 py-1 text-xs rounded-lg bg-[var(--posta-paper)] border border-glass-border
                          hover:border-neon-grape hover:bg-neon-grape/10 transition-all"
               >
                 {suggestion}
@@ -244,7 +244,7 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
               onChange={(e) => setTopic(e.target.value)}
               placeholder="e.g., Summer sale on sneakers"
               disabled={isGenerating}
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-glass-border
+              className="w-full px-4 py-3 rounded-xl bg-[var(--posta-paper)] border border-glass-border
                        focus:border-neon-grape focus:ring-2 focus:ring-neon-grape/20
                        transition-all outline-none disabled:opacity-50"
             />
@@ -261,8 +261,8 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
                   disabled={isGenerating}
                   className={`px-4 py-2 rounded-xl border transition-all ${
                     platform === p
-                      ? 'border-neon-grape bg-neon-grape/20 text-white'
-                      : 'border-glass-border text-gray-400 hover:border-white/30'
+                      ? 'border-neon-grape bg-neon-grape/20 text-[var(--posta-cream)]'
+                      : 'border-glass-border text-[var(--posta-ink-soft)] hover:border-[var(--posta-clay)]'
                   } disabled:opacity-50`}
                 >
                   <i className={`fa-brands fa-${p} mr-2`}></i>
@@ -283,8 +283,8 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
                   disabled={isGenerating}
                   className={`px-4 py-2 rounded-xl border transition-all ${
                     tone === t
-                      ? 'border-neon-grape bg-neon-grape/20 text-white'
-                      : 'border-glass-border text-gray-400 hover:border-white/30'
+                      ? 'border-neon-grape bg-neon-grape/20 text-[var(--posta-cream)]'
+                      : 'border-glass-border text-[var(--posta-ink-soft)] hover:border-[var(--posta-clay)]'
                   } disabled:opacity-50`}
                 >
                   {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -339,8 +339,8 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
                   onClick={() => setSelectedVariation(idx)}
                   className={`px-3 py-1 rounded-lg text-sm transition-all ${
                     selectedVariation === idx
-                      ? 'bg-neon-grape text-white'
-                      : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                      ? 'bg-neon-grape text-[var(--posta-cream)]'
+                      : 'bg-[var(--posta-paper)] text-[var(--posta-ink-soft)] hover:bg-[var(--posta-cream)]'
                   }`}
                 >
                   Variation {idx + 1}
@@ -352,7 +352,7 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
           {currentResult && (
             <div className="space-y-4">
               {/* Content */}
-              <div className="p-4 rounded-xl bg-white/5 border border-glass-border">
+              <div className="p-4 rounded-xl bg-[var(--posta-paper)] border border-glass-border">
                 <p className="whitespace-pre-wrap text-sm leading-relaxed">
                   {currentResult.content}
                 </p>
@@ -361,7 +361,7 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
               {/* Hashtags */}
               {currentResult.hashtags && currentResult.hashtags.length > 0 && (
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 mb-2">
+                  <label className="block text-xs font-bold text-[var(--posta-ink-soft)] mb-2">
                     HASHTAGS
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -380,10 +380,10 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
               {/* Image Prompt */}
               {currentResult.suggestedImagePrompt && (
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 mb-2">
+                  <label className="block text-xs font-bold text-[var(--posta-ink-soft)] mb-2">
                     SUGGESTED IMAGE
                   </label>
-                  <p className="text-xs text-gray-500 italic">
+                  <p className="text-xs text-[var(--posta-ink-soft)] italic">
                     {currentResult.suggestedImagePrompt}
                   </p>
                 </div>
@@ -393,14 +393,14 @@ export default function AIContentStudio({ userId, currentLanguage = 'en' }: AICo
               <div className="flex gap-3">
                 <button
                   onClick={() => navigator.clipboard.writeText(currentResult.content)}
-                  className="flex-1 py-3 border border-glass-border text-gray-400
-                           hover:border-white hover:text-white rounded-xl transition-colors"
+                  className="flex-1 py-3 border border-glass-border text-[var(--posta-ink-soft)]
+                           hover:border-white hover:text-[var(--posta-ink)] rounded-xl transition-colors"
                 >
                   <i className="fa-regular fa-copy mr-2"></i>
                   Copy Content
                 </button>
                 <button
-                  className="flex-1 py-3 bg-neon-grape text-white rounded-xl
+                  className="flex-1 py-3 bg-neon-grape text-[var(--posta-cream)] rounded-xl
                            hover:bg-neon-grape/80 transition-colors"
                 >
                   <i className="fa-regular fa-calendar-check mr-2"></i>

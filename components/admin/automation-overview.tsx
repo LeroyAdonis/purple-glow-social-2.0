@@ -31,10 +31,10 @@ export default function AutomationOverview({ rules, stats, isLoading }: Automati
   if (isLoading) {
     return (
       <div className="aerogel-card p-6 rounded-2xl animate-pulse">
-        <div className="h-8 bg-white/10 rounded w-48 mb-6"></div>
+        <div className="h-8 bg-[var(--posta-cream)] rounded w-48 mb-6"></div>
         <div className="grid grid-cols-4 gap-4 mb-6">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-24 bg-white/5 rounded-xl"></div>
+            <div key={i} className="h-24 bg-[var(--posta-paper)] rounded-xl"></div>
           ))}
         </div>
       </div>
@@ -64,7 +64,7 @@ export default function AutomationOverview({ rules, stats, isLoading }: Automati
             <i className="fa-solid fa-robot text-2xl text-neon-grape"></i>
           </div>
           <p className="text-3xl font-display font-bold">{stats.totalRules}</p>
-          <p className="text-sm text-gray-400 mt-1">Total Rules</p>
+          <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Total Rules</p>
         </div>
         
         <div className="aerogel-card p-6 rounded-2xl">
@@ -72,7 +72,7 @@ export default function AutomationOverview({ rules, stats, isLoading }: Automati
             <i className="fa-solid fa-play-circle text-2xl text-green-400"></i>
           </div>
           <p className="text-3xl font-display font-bold text-green-400">{stats.activeRules}</p>
-          <p className="text-sm text-gray-400 mt-1">Active Rules</p>
+          <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Active Rules</p>
         </div>
         
         <div className="aerogel-card p-6 rounded-2xl">
@@ -80,7 +80,7 @@ export default function AutomationOverview({ rules, stats, isLoading }: Automati
             <i className="fa-solid fa-coins text-2xl text-mzansi-gold"></i>
           </div>
           <p className="text-3xl font-display font-bold">{stats.totalCreditsConsumed.toLocaleString()}</p>
-          <p className="text-sm text-gray-400 mt-1">Credits Consumed</p>
+          <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Credits Consumed</p>
         </div>
         
         <div className="aerogel-card p-6 rounded-2xl">
@@ -88,7 +88,7 @@ export default function AutomationOverview({ rules, stats, isLoading }: Automati
             <i className="fa-solid fa-paper-plane text-2xl text-joburg-teal"></i>
           </div>
           <p className="text-3xl font-display font-bold">{stats.totalPostsGenerated.toLocaleString()}</p>
-          <p className="text-sm text-gray-400 mt-1">Posts Generated</p>
+          <p className="text-sm text-[var(--posta-ink-soft)] mt-1">Posts Generated</p>
         </div>
       </div>
 
@@ -99,22 +99,22 @@ export default function AutomationOverview({ rules, stats, isLoading }: Automati
           {topUsers.length > 0 ? (
             <div className="space-y-4">
               {topUsers.map(([userKey, userRules], i) => (
-                <div key={userKey} className="flex items-center gap-4 p-3 rounded-xl bg-white/5">
+                <div key={userKey} className="flex items-center gap-4 p-3 rounded-xl bg-[var(--posta-paper)]">
                   <span className="w-6 h-6 rounded-full bg-neon-grape/20 text-neon-grape text-xs flex items-center justify-center font-bold">
                     {i + 1}
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{userKey}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-[var(--posta-ink-soft)]">
                       {userRules.filter(r => r.isActive).length} active of {userRules.length} rules
                     </p>
                   </div>
-                  <span className="font-mono text-sm text-gray-400">{userRules.length}</span>
+                  <span className="font-mono text-sm text-[var(--posta-ink-soft)]">{userRules.length}</span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-400">
+            <div className="text-center py-8 text-[var(--posta-ink-soft)]">
               <i className="fa-solid fa-robot text-3xl mb-3 opacity-50"></i>
               <p>No automation rules created yet</p>
             </div>
@@ -135,7 +135,7 @@ export default function AutomationOverview({ rules, stats, isLoading }: Automati
                   stroke="currentColor"
                   strokeWidth="16"
                   fill="transparent"
-                  className="text-white/10"
+                  className="text-[var(--posta-ink)]/10"
                 />
                 <circle
                   cx="80"
@@ -154,18 +154,18 @@ export default function AutomationOverview({ rules, stats, isLoading }: Automati
                 <span className="text-2xl font-display font-bold">
                   {stats.totalRules > 0 ? Math.round((stats.activeRules / stats.totalRules) * 100) : 0}%
                 </span>
-                <span className="text-xs text-gray-400">Active</span>
+                <span className="text-xs text-[var(--posta-ink-soft)]">Active</span>
               </div>
             </div>
           </div>
           <div className="flex items-center justify-center gap-6 mt-4">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded bg-green-400"></div>
-              <span className="text-sm text-gray-400">Active ({stats.activeRules})</span>
+              <span className="text-sm text-[var(--posta-ink-soft)]">Active ({stats.activeRules})</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded bg-white/10"></div>
-              <span className="text-sm text-gray-400">Paused ({stats.totalRules - stats.activeRules})</span>
+              <div className="w-3 h-3 rounded bg-[var(--posta-cream)]"></div>
+              <span className="text-sm text-[var(--posta-ink-soft)]">Paused ({stats.totalRules - stats.activeRules})</span>
             </div>
           </div>
         </div>
@@ -179,36 +179,36 @@ export default function AutomationOverview({ rules, stats, isLoading }: Automati
         {rules.filter(r => r.isActive).length === 0 ? (
           <div className="text-center py-12">
             <i className="fa-solid fa-pause-circle text-4xl text-gray-600 mb-4"></i>
-            <p className="text-gray-400">No active automation rules</p>
+            <p className="text-[var(--posta-ink-soft)]">No active automation rules</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-white/5 border-b border-glass-border">
+              <thead className="bg-[var(--posta-paper)] border-b border-glass-border">
                 <tr>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">User</th>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Topic</th>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Frequency</th>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Next Run</th>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Credits Used</th>
-                  <th className="text-left px-6 py-4 text-xs font-mono text-gray-400 uppercase tracking-wider">Status</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">User</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Topic</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Frequency</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Next Run</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Credits Used</th>
+                  <th className="text-left px-6 py-4 text-xs font-mono text-[var(--posta-ink-soft)] uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-glass-border">
                 {rules.filter(r => r.isActive).slice(0, 10).map((rule) => (
-                  <tr key={rule.id} className="hover:bg-white/5 transition-colors">
+                  <tr key={rule.id} className="hover:bg-[var(--posta-paper)] transition-colors">
                     <td className="px-6 py-4">
                       <p className="text-sm font-medium">{rule.userEmail || rule.userName || 'Unknown'}</p>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-sm text-gray-300">{rule.coreTopic || 'No topic'}</span>
+                      <span className="text-sm text-[var(--posta-ink-soft)]">{rule.coreTopic || 'No topic'}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="px-2 py-1 rounded-full bg-white/10 text-xs font-medium capitalize">
+                      <span className="px-2 py-1 rounded-full bg-[var(--posta-cream)] text-xs font-medium capitalize">
                         {rule.frequency}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-400">
+                    <td className="px-6 py-4 text-sm text-[var(--posta-ink-soft)]">
                       {rule.nextRun ? new Date(rule.nextRun).toLocaleString('en-ZA', { dateStyle: 'short', timeStyle: 'short' }) : '—'}
                     </td>
                     <td className="px-6 py-4">

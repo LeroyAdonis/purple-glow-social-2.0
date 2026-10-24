@@ -54,10 +54,10 @@ export default function CreditWarningBanner({
         
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-bold text-white mb-1">
+          <h3 className="text-sm font-bold text-[var(--posta-ink)] mb-1">
             {isZero ? 'No Credits Remaining!' : 'Low Credits Warning'}
           </h3>
-          <p className="text-sm text-gray-300 mb-3">
+          <p className="text-sm text-[var(--posta-ink-soft)] mb-3">
             {isZero 
               ? 'Eish! You\'ve run out of credits. Your scheduled posts will be skipped until you top up or upgrade.'
               : `Haibo! You only have ${credits} credits left (${percentage.toFixed(0)}% of your monthly allocation). Consider topping up soon.`
@@ -66,13 +66,13 @@ export default function CreditWarningBanner({
           
           {/* Credit Progress Bar */}
           <div className="flex items-center gap-3 mb-3">
-            <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+            <div className="flex-1 h-2 bg-[var(--posta-cream)] rounded-full overflow-hidden">
               <div 
                 className={`h-full ${progressColor} transition-all duration-500`}
                 style={{ width: `${Math.max(percentage, 2)}%` }}
               ></div>
             </div>
-            <span className="text-xs font-mono text-gray-400">
+            <span className="text-xs font-mono text-[var(--posta-ink-soft)]">
               {credits}/{monthlyCredits}
             </span>
           </div>
@@ -89,7 +89,7 @@ export default function CreditWarningBanner({
             )}
             <button
               onClick={onUpgrade}
-              className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-sm font-medium hover:bg-white/20 transition-colors cursor-pointer"
+              className="px-4 py-2 bg-[var(--posta-cream)] border border-[var(--posta-line)] rounded-lg text-sm font-medium hover:bg-[var(--posta-clay-tint)] transition-colors cursor-pointer"
             >
               Buy Credits
             </button>
@@ -100,7 +100,7 @@ export default function CreditWarningBanner({
         {onDismiss && (
           <button
             onClick={onDismiss}
-            className="flex-shrink-0 text-gray-400 hover:text-white transition-colors cursor-pointer p-1"
+            className="flex-shrink-0 text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors cursor-pointer p-1"
             aria-label="Dismiss warning"
           >
             <i className="fa-solid fa-xmark"></i>

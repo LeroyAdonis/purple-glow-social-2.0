@@ -107,11 +107,11 @@ export default function ConnectedAccountCard({
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-4">
             <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${config.color} flex items-center justify-center`}>
-              <i className={`${config.icon} text-white text-xl`}></i>
+              <i className={`${config.icon} text-[var(--posta-ink)] text-xl`}></i>
             </div>
             <div>
               <h3 className="font-display font-bold text-lg">{config.name}</h3>
-              <p className="text-xs text-gray-400">{config.description}</p>
+              <p className="text-xs text-[var(--posta-ink-soft)]">{config.description}</p>
             </div>
           </div>
           <ConnectionStatusBadge isActive={isConnected} tokenExpiresAt={tokenExpiresAt} />
@@ -120,7 +120,7 @@ export default function ConnectedAccountCard({
         {isConnected ? (
           <div className="space-y-4">
             {/* Profile Info */}
-            <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-glass-border">
+            <div className="flex items-center gap-3 p-3 bg-[var(--posta-paper)] rounded-xl border border-glass-border">
               {profileImageUrl && (
                 <Image 
                   src={profileImageUrl} 
@@ -132,19 +132,19 @@ export default function ConnectedAccountCard({
               )}
               <div className="flex-1">
                 <p className="font-bold text-sm">{platformDisplayName || platformUsername}</p>
-                <p className="text-xs text-gray-400">@{platformUsername}</p>
+                <p className="text-xs text-[var(--posta-ink-soft)]">@{platformUsername}</p>
               </div>
             </div>
 
             {/* Connection Details */}
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <p className="text-gray-500 font-mono mb-1">LAST SYNCED</p>
-                <p className="text-white">{formatDate(lastSyncedAt)}</p>
+                <p className="text-[var(--posta-ink-soft)] font-mono mb-1">LAST SYNCED</p>
+                <p className="text-[var(--posta-ink)]">{formatDate(lastSyncedAt)}</p>
               </div>
               <div>
-                <p className="text-gray-500 font-mono mb-1">TOKEN EXPIRES</p>
-                <p className="text-white">{formatDate(tokenExpiresAt)}</p>
+                <p className="text-[var(--posta-ink-soft)] font-mono mb-1">TOKEN EXPIRES</p>
+                <p className="text-[var(--posta-ink)]">{formatDate(tokenExpiresAt)}</p>
               </div>
             </div>
 
@@ -153,7 +153,7 @@ export default function ConnectedAccountCard({
               <button
                 onClick={handleConnect}
                 disabled={isLoading}
-                className="flex-1 px-4 py-2 bg-white/5 border border-glass-border rounded-xl hover:bg-white/10 transition-colors text-sm font-medium disabled:opacity-50"
+                className="flex-1 px-4 py-2 bg-[var(--posta-paper)] border border-glass-border rounded-xl hover:bg-[var(--posta-cream)] transition-colors text-sm font-medium disabled:opacity-50"
               >
                 {isLoading ? (
                   <i className="fa-solid fa-spinner fa-spin mr-2"></i>
@@ -174,13 +174,13 @@ export default function ConnectedAccountCard({
           </div>
         ) : (
           <div className="space-y-4">
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-[var(--posta-ink-soft)]">
               Connect your {config.name} account to schedule and publish content automatically.
             </p>
             <button
               onClick={handleConnect}
               disabled={isLoading}
-              className={`w-full px-6 py-3 bg-gradient-to-r ${config.color} rounded-xl hover:opacity-90 transition-all font-bold text-white disabled:opacity-50`}
+              className={`w-full px-6 py-3 bg-gradient-to-r ${config.color} rounded-xl hover:opacity-90 transition-all font-bold text-[var(--posta-ink)] disabled:opacity-50`}
             >
               {isLoading ? (
                 <>
@@ -204,10 +204,10 @@ export default function ConnectedAccountCard({
           <div className="aerogel-card p-8 rounded-2xl max-w-md w-full space-y-6">
             <div className="text-center">
               <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${config.color} mx-auto mb-4 flex items-center justify-center`}>
-                <i className={`${config.icon} text-white text-2xl`}></i>
+                <i className={`${config.icon} text-[var(--posta-ink)] text-2xl`}></i>
               </div>
               <h3 className="font-display font-bold text-2xl mb-2">Disconnect {config.name}?</h3>
-              <p className="text-gray-400">
+              <p className="text-[var(--posta-ink-soft)]">
                 Are you sure you want to disconnect your {config.name} account? You won't be able to post to this platform until you reconnect.
               </p>
             </div>
@@ -216,14 +216,14 @@ export default function ConnectedAccountCard({
               <button
                 onClick={() => setShowDisconnectModal(false)}
                 disabled={isLoading}
-                className="flex-1 px-4 py-3 bg-white/5 border border-glass-border rounded-xl hover:bg-white/10 transition-colors font-medium"
+                className="flex-1 px-4 py-3 bg-[var(--posta-paper)] border border-glass-border rounded-xl hover:bg-[var(--posta-cream)] transition-colors font-medium"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDisconnect}
                 disabled={isLoading}
-                className="flex-1 px-4 py-3 bg-red-500 rounded-xl hover:bg-red-600 transition-colors font-bold text-white disabled:opacity-50"
+                className="flex-1 px-4 py-3 bg-red-500 rounded-xl hover:bg-red-600 transition-colors font-bold text-[var(--posta-ink)] disabled:opacity-50"
               >
                 {isLoading ? (
                   <>

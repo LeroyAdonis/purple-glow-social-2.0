@@ -124,7 +124,7 @@ export default function DraftCard({
       } : undefined}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-white/10">
+      <div className="flex items-center justify-between p-4 border-b border-[var(--posta-line)]">
         <div className="flex items-center gap-3">
           {/* Platform Icon */}
           <div
@@ -135,11 +135,11 @@ export default function DraftCard({
               shadow-lg
             `}
           >
-            <i className={`fa-brands ${platform.icon} text-white text-lg`}></i>
+            <i className={`fa-brands ${platform.icon} text-[var(--posta-ink)] text-lg`}></i>
           </div>
           
           {/* Platform Name */}
-          <span className="text-white font-bold uppercase tracking-wider text-sm">
+          <span className="text-[var(--posta-ink)] font-bold uppercase tracking-wider text-sm">
             {platform.name}
           </span>
         </div>
@@ -160,7 +160,7 @@ export default function DraftCard({
             <div className="">
               <button
                 onClick={() => { onEdit(); setIsMenuOpen(false); }}
-                className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-[#9D4EDD]/20 hover:text-white flex items-center gap-2"
+                className="w-full px-4 py-2 text-left text-sm text-[var(--posta-ink-soft)] hover:bg-[#9D4EDD]/20 hover:text-[var(--posta-ink)] flex items-center gap-2"
               >
                 <i className="fa-solid fa-pen w-4"></i>
                 Edit
@@ -228,7 +228,7 @@ export default function DraftCard({
           )}
           
           {/* Timestamp */}
-          <span className="text-gray-500 font-mono">
+          <span className="text-[var(--posta-ink-soft)] font-mono">
             Created: {formatRelativeTime(draft.createdAt)}
           </span>
         </div>

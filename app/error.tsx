@@ -24,7 +24,7 @@ export default function Error({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-void text-white font-body flex items-center justify-center relative overflow-hidden selection:bg-neon-grape selection:text-white">
+    <div className="min-h-screen bg-void text-[var(--posta-cream)] font-body flex items-center justify-center relative overflow-hidden selection:bg-neon-grape selection:text-[var(--posta-cream)]">
       
       {/* Ambient Background Effects */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -59,7 +59,7 @@ export default function Error({ error, reset }: ErrorProps) {
           Something Went Wrong
         </h2>
         
-        <p className="text-lg text-gray-400 mb-2">
+        <p className="text-lg text-[var(--posta-ink-soft)] mb-2">
           We encountered an unexpected error while processing your request.
         </p>
 
@@ -70,7 +70,7 @@ export default function Error({ error, reset }: ErrorProps) {
               {error.message}
             </p>
             {error.digest && (
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-[var(--posta-ink-soft)] mt-2">
                 Error ID: {error.digest}
               </p>
             )}
@@ -79,8 +79,8 @@ export default function Error({ error, reset }: ErrorProps) {
 
         {/* Production Error ID */}
         {process.env.NODE_ENV === 'production' && error.digest && (
-          <p className="text-sm text-gray-500 mt-4">
-            Error ID: <code className="text-gray-400">{error.digest}</code>
+          <p className="text-sm text-[var(--posta-ink-soft)] mt-4">
+            Error ID: <code className="text-[var(--posta-ink-soft)]">{error.digest}</code>
           </p>
         )}
 
@@ -106,7 +106,7 @@ export default function Error({ error, reset }: ErrorProps) {
         </div>
 
         {/* Support Message */}
-        <p className="mt-12 text-sm text-gray-500">
+        <p className="mt-12 text-sm text-[var(--posta-ink-soft)]">
           If this problem persists, please contact our support team with the error ID above.
         </p>
         

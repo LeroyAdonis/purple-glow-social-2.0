@@ -26,7 +26,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen bg-void flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block w-16 h-16 border-4 border-neon-grape border-t-transparent rounded-full animate-spin mb-4"></div>
-          <p className="text-gray-400">Loading...</p>
+          <p className="text-[var(--posta-ink-soft)]">Loading...</p>
         </div>
       </div>
     );

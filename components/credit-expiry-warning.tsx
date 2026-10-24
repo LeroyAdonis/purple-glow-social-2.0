@@ -53,10 +53,10 @@ export default function CreditExpiryWarning({
         
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-bold text-white mb-1">
+          <h3 className="text-sm font-bold text-[var(--posta-ink)] mb-1">
             Credits Expiring {daysRemaining === 0 ? 'Today!' : daysRemaining === 1 ? 'Tomorrow!' : `in ${daysRemaining} Days`}
           </h3>
-          <p className="text-sm text-gray-300">
+          <p className="text-sm text-[var(--posta-ink-soft)]">
             {isUrgent
               ? `Ayeye! You have ${credits} credits that will reset on ${formattedDate}. Use them now or lose them!`
               : `Heads up! Your ${credits} credits will reset to your monthly allocation on ${formattedDate}. Unused credits don't roll over.`
@@ -64,7 +64,7 @@ export default function CreditExpiryWarning({
           </p>
           
           {/* Tips */}
-          <div className="mt-3 flex items-center gap-2 text-xs text-gray-400">
+          <div className="mt-3 flex items-center gap-2 text-xs text-[var(--posta-ink-soft)]">
             <i className="fa-solid fa-lightbulb text-mzansi-gold"></i>
             <span>Tip: Schedule some posts to use your remaining credits!</span>
           </div>
@@ -74,7 +74,7 @@ export default function CreditExpiryWarning({
         {onDismiss && (
           <button
             onClick={onDismiss}
-            className="flex-shrink-0 text-gray-400 hover:text-white transition-colors cursor-pointer p-1"
+            className="flex-shrink-0 text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors cursor-pointer p-1"
             aria-label="Dismiss warning"
           >
             <i className="fa-solid fa-xmark"></i>

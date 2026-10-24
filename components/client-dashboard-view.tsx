@@ -70,7 +70,7 @@ export default function ClientDashboardView({
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-void text-white p-6 lg:p-12">
+            <div className="min-h-screen bg-void text-[var(--posta-ink)] p-6 lg:p-12">
                 <DashboardSkeleton />
             </div>
         );
@@ -78,11 +78,11 @@ export default function ClientDashboardView({
 
     if (!profile) {
         return (
-            <div className="min-h-screen bg-void text-white flex items-center justify-center p-6">
+            <div className="min-h-screen bg-void text-[var(--posta-ink)] flex items-center justify-center p-6">
                 <div className="aerogel-card p-8 rounded-2xl max-w-md text-center border border-glass-border">
                     <i className="fa-solid fa-triangle-exclamation text-red-400 text-2xl mb-4"></i>
                     <h2 className="font-display font-bold text-xl mb-2">We couldn&apos;t load your account</h2>
-                    <p className="text-gray-400 text-sm">Please refresh the page or sign in again.</p>
+                    <p className="text-[var(--posta-ink-soft)] text-sm">Please refresh the page or sign in again.</p>
                 </div>
             </div>
         );
@@ -118,7 +118,7 @@ export default function ClientDashboardView({
     }
 
     return (
-        <div className="flex min-h-screen bg-void text-white">
+        <div className="flex min-h-screen bg-void text-[var(--posta-ink)]">
             {/* Mobile Navigation */}
             <MobileNavigation
                 userName={displayName}
@@ -144,8 +144,8 @@ export default function ClientDashboardView({
                     <button
                         onClick={() => setActiveTab('dashboard')}
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'dashboard'
-                                ? 'bg-white/5 border border-glass-border text-white'
-                                : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
+                                ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+                                : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)] transition-colors'
                             }`}
                     >
                         <i className="fa-solid fa-layer-group text-neon-grape"></i> {translate('dashboard.sidebar.dashboard')}
@@ -153,8 +153,8 @@ export default function ClientDashboardView({
                     <button
                         onClick={() => setActiveTab('schedule')}
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'schedule'
-                                ? 'bg-white/5 border border-glass-border text-white'
-                                : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
+                                ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+                                : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)] transition-colors'
                             }`}
                     >
                         <i className="fa-regular fa-calendar"></i> {translate('dashboard.sidebar.schedule')}
@@ -162,15 +162,15 @@ export default function ClientDashboardView({
                     <button
                         onClick={() => setActiveTab('automation')}
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'automation'
-                                ? 'bg-white/5 border border-glass-border text-white'
-                                : 'text-gray-400 hover:text-white hover:bg-white/5 transition-colors'
+                                ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
+                                : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)] transition-colors'
                             }`}
                     >
                         <i className="fa-solid fa-bolt"></i> {translate('dashboard.sidebar.automation')}
                     </button>
                     <button
                         onClick={() => setShowSettings(true)}
-                        className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl text-gray-400 hover:text-white transition-colors text-sm font-medium text-left cursor-pointer"
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-[var(--posta-paper)] rounded-xl text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors text-sm font-medium text-left cursor-pointer"
                     >
                         <i className="fa-solid fa-cog"></i> {translate('dashboard.sidebar.settings')}
                     </button>
@@ -178,9 +178,9 @@ export default function ClientDashboardView({
 
                 <div className="mt-auto">
                     <div className="p-4 rounded-xl border border-glass-border bg-gradient-to-br from-white/5 to-transparent">
-                        <p className="text-xs font-mono text-gray-400 mb-2">{translate('dashboard.credits')}</p>
+                        <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2">{translate('dashboard.credits')}</p>
                         <div className="flex justify-between items-end">
-                            <span className="text-2xl font-display font-bold text-white">{profile.credits}</span>
+                            <span className="text-2xl font-display font-bold text-[var(--posta-ink)]">{profile.credits}</span>
                             <span className="text-xs text-mzansi-gold mb-1">{translate(`dashboard.tiers.${tier}`)}</span>
                         </div>
                     </div>
@@ -195,7 +195,7 @@ export default function ClientDashboardView({
                         )}
                         <div>
                             <p className="text-sm font-bold truncate w-32">{displayName}</p>
-                            <button onClick={() => setShowSettings(true)} className="text-xs text-gray-400 hover:text-white cursor-pointer">{translate('dashboard.sidebar.settings')}</button>
+                            <button onClick={() => setShowSettings(true)} className="text-xs text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] cursor-pointer">{translate('dashboard.sidebar.settings')}</button>
                         </div>
                     </div>
 
@@ -211,7 +211,7 @@ export default function ClientDashboardView({
                     <header className="flex justify-between items-center flex-wrap gap-4">
                         <div>
                             <h2 className="font-display font-bold text-4xl mb-2">{translate('dashboard.welcome')}, {displayName.split(' ')[0]}</h2>
-                            <p className="text-gray-400">{translate('dashboard.status')}: <span className="text-joburg-teal">{translate('dashboard.optimal')}</span></p>
+                            <p className="text-[var(--posta-ink-soft)]">{translate('dashboard.status')}: <span className="text-joburg-teal">{translate('dashboard.optimal')}</span></p>
                         </div>
                         <div className="flex items-center gap-4">
                             <NotificationsDropdown />
@@ -220,7 +220,7 @@ export default function ClientDashboardView({
                             />
                             <button
                                 onClick={onNavigateBack}
-                                className="px-6 py-3 border border-white/20 rounded-full text-sm hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2"
+                                className="px-6 py-3 border border-[var(--posta-line)] rounded-full text-sm hover:bg-[var(--posta-paper)] transition-colors cursor-pointer flex items-center gap-2"
                             >
                                 <i className="fa-solid fa-arrow-left"></i> 
                                 <span>{translate('common.backToLanding')}</span>
@@ -277,7 +277,7 @@ export default function ClientDashboardView({
                     <div className="aerogel-card p-8 rounded-3xl w-full max-w-4xl relative z-10 animate-enter max-h-[90vh] overflow-y-auto">
                         <button
                             onClick={() => setShowPricingModal(false)}
-                            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer"
+                            className="absolute top-4 right-4 text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors cursor-pointer"
                         >
                             <i className="fa-solid fa-xmark text-xl"></i>
                         </button>
@@ -286,17 +286,17 @@ export default function ClientDashboardView({
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {/* Free */}
-                            <div className="border border-glass-border rounded-2xl p-6 hover:border-white/30 transition-all">
-                                <h3 className="font-mono text-sm text-gray-500 uppercase mb-2">The Hustle</h3>
+                            <div className="border border-glass-border rounded-2xl p-6 hover:border-[var(--posta-clay)] transition-all">
+                                <h3 className="font-mono text-sm text-[var(--posta-ink-soft)] uppercase mb-2">The Hustle</h3>
                                 <p className="text-4xl font-display font-bold mb-4">R0</p>
-                                <ul className="space-y-2 text-sm text-gray-300 mb-6">
-                                    <li className="flex gap-2"><i className="fa-solid fa-check text-gray-500"></i> 5 AI Posts/month</li>
-                                    <li className="flex gap-2"><i className="fa-solid fa-check text-gray-500"></i> 1 Profile</li>
-                                    <li className="flex gap-2"><i className="fa-solid fa-check text-gray-500"></i> Basic Analytics</li>
+                                <ul className="space-y-2 text-sm text-[var(--posta-ink-soft)] mb-6">
+                                    <li className="flex gap-2"><i className="fa-solid fa-check text-[var(--posta-ink-soft)]"></i> 5 AI Posts/month</li>
+                                    <li className="flex gap-2"><i className="fa-solid fa-check text-[var(--posta-ink-soft)]"></i> 1 Profile</li>
+                                    <li className="flex gap-2"><i className="fa-solid fa-check text-[var(--posta-ink-soft)]"></i> Basic Analytics</li>
                                 </ul>
                                 <button
                                     onClick={() => setShowPricingModal(false)}
-                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-white/5 cursor-pointer"
+                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-[var(--posta-paper)] cursor-pointer"
                                 >
                                     Current Plan
                                 </button>
@@ -309,7 +309,7 @@ export default function ClientDashboardView({
                                 </div>
                                 <h3 className="font-mono text-sm text-neon-grape uppercase mb-2">The Creator</h3>
                                 <p className="text-4xl font-display font-bold mb-4">R299</p>
-                                <ul className="space-y-2 text-sm text-gray-300 mb-6">
+                                <ul className="space-y-2 text-sm text-[var(--posta-ink-soft)] mb-6">
                                     <li className="flex gap-2"><i className="fa-solid fa-check text-neon-grape"></i> Unlimited Text</li>
                                     <li className="flex gap-2"><i className="fa-solid fa-check text-neon-grape"></i> 50 Image Credits</li>
                                     <li className="flex gap-2"><i className="fa-solid fa-check text-neon-grape"></i> 5 Profiles</li>
@@ -327,7 +327,7 @@ export default function ClientDashboardView({
                             <div className="border border-glass-border rounded-2xl p-6 hover:border-joburg-teal/50 transition-all">
                                 <h3 className="font-mono text-sm text-joburg-teal uppercase mb-2">The Mogul</h3>
                                 <p className="text-4xl font-display font-bold mb-4">R999</p>
-                                <ul className="space-y-2 text-sm text-gray-300 mb-6">
+                                <ul className="space-y-2 text-sm text-[var(--posta-ink-soft)] mb-6">
                                     <li className="flex gap-2"><i className="fa-solid fa-check text-joburg-teal"></i> Everything in Pro</li>
                                     <li className="flex gap-2"><i className="fa-solid fa-check text-joburg-teal"></i> 200 Credits</li>
                                     <li className="flex gap-2"><i className="fa-solid fa-check text-joburg-teal"></i> Unlimited Profiles</li>
@@ -335,7 +335,7 @@ export default function ClientDashboardView({
                                 </ul>
                                 <button
                                     onClick={() => { setShowPricingModal(false); setShowSubscriptionModal(true); }}
-                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-white/5 cursor-pointer"
+                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-[var(--posta-paper)] cursor-pointer"
                                 >
                                     Contact Sales
                                 </button>

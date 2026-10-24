@@ -138,7 +138,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
       <div className="flex items-center justify-center p-12">
         <div className="text-center">
           <i className="fa-solid fa-spinner fa-spin text-4xl text-neon-grape mb-4"></i>
-          <p className="text-gray-400">Loading automation rules...</p>
+          <p className="text-[var(--posta-ink-soft)]">Loading automation rules...</p>
         </div>
       </div>
     );
@@ -152,14 +152,14 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
         <div className="aerogel-card rounded-2xl p-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h1 className="text-4xl font-display font-bold text-white mb-2 flex items-center gap-3">
+              <h1 className="text-4xl font-display font-bold text-[var(--posta-ink)] mb-2 flex items-center gap-3">
                 <i className="fa-solid fa-bolt text-neon-grape"></i>
                 Automation Rules
                 <span className="px-3 py-1 text-xs bg-mzansi-gold/20 border border-mzansi-gold/30 rounded-full text-mzansi-gold">
                   PRO+
                 </span>
               </h1>
-              <p className="text-gray-400">Set it and forget it! Let AI Pilot handle your content schedule automatically.</p>
+              <p className="text-[var(--posta-ink-soft)]">Set it and forget it! Let AI Pilot handle your content schedule automatically.</p>
             </div>
           </div>
         </div>
@@ -169,27 +169,27 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
           <div className="w-24 h-24 bg-gradient-to-r from-mzansi-gold/20 to-neon-grape/20 rounded-full flex items-center justify-center mx-auto mb-6">
             <i className="fa-solid fa-lock text-mzansi-gold text-4xl"></i>
           </div>
-          <h3 className="text-3xl font-display font-bold text-white mb-3">Unlock Automation</h3>
-          <p className="text-gray-400 mb-6 max-w-md mx-auto">
+          <h3 className="text-3xl font-display font-bold text-[var(--posta-ink)] mb-3">Unlock Automation</h3>
+          <p className="text-[var(--posta-ink-soft)] mb-6 max-w-md mx-auto">
             Automation rules are available on Pro and Business tiers. Upgrade to let AI automatically 
             generate and schedule content for you - saving hours every week!
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-8">
-            <div className="bg-white/5 rounded-xl p-4 border border-glass-border">
+            <div className="bg-[var(--posta-paper)] rounded-xl p-4 border border-glass-border">
               <i className="fa-solid fa-robot text-2xl text-joburg-teal mb-2"></i>
               <h4 className="font-bold mb-1">Auto-Generate</h4>
-              <p className="text-xs text-gray-400">AI creates content on your schedule</p>
+              <p className="text-xs text-[var(--posta-ink-soft)]">AI creates content on your schedule</p>
             </div>
-            <div className="bg-white/5 rounded-xl p-4 border border-glass-border">
+            <div className="bg-[var(--posta-paper)] rounded-xl p-4 border border-glass-border">
               <i className="fa-solid fa-calendar-check text-2xl text-neon-grape mb-2"></i>
               <h4 className="font-bold mb-1">Auto-Schedule</h4>
-              <p className="text-xs text-gray-400">Posts automatically queue up</p>
+              <p className="text-xs text-[var(--posta-ink-soft)]">Posts automatically queue up</p>
             </div>
-            <div className="bg-white/5 rounded-xl p-4 border border-glass-border">
+            <div className="bg-[var(--posta-paper)] rounded-xl p-4 border border-glass-border">
               <i className="fa-solid fa-clock text-2xl text-mzansi-gold mb-2"></i>
               <h4 className="font-bold mb-1">Save Time</h4>
-              <p className="text-xs text-gray-400">Focus on your business, not posting</p>
+              <p className="text-xs text-[var(--posta-ink-soft)]">Focus on your business, not posting</p>
             </div>
           </div>
 
@@ -211,17 +211,17 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
       <div className="aerogel-card rounded-2xl p-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-4xl font-display font-bold text-white mb-2 flex items-center gap-3">
+            <h1 className="text-4xl font-display font-bold text-[var(--posta-ink)] mb-2 flex items-center gap-3">
               <i className="fa-solid fa-bolt text-neon-grape"></i>
               Automation Rules
             </h1>
-            <p className="text-gray-400">Set it and forget it! Let AI Pilot handle your content schedule automatically.</p>
+            <p className="text-[var(--posta-ink-soft)]">Set it and forget it! Let AI Pilot handle your content schedule automatically.</p>
           </div>
           <div className="text-right">
-            <div className="text-5xl font-display font-bold text-white">{rules.filter(r => r.isActive).length}</div>
-            <div className="text-sm text-gray-400">Active Rules</div>
+            <div className="text-5xl font-display font-bold text-[var(--posta-ink)]">{rules.filter(r => r.isActive).length}</div>
+            <div className="text-sm text-[var(--posta-ink-soft)]">Active Rules</div>
             {automationLimits && (
-              <div className="text-xs text-gray-500 mt-1">
+              <div className="text-xs text-[var(--posta-ink-soft)] mt-1">
                 {automationLimits.current}/{automationLimits.limit} rules used
               </div>
             )}
@@ -236,7 +236,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
             <i className="fa-solid fa-crown text-mzansi-gold"></i>
             <div className="flex-1">
               <span className="font-bold text-mzansi-gold">Rule Limit Reached!</span>
-              <span className="text-gray-400 ml-2">
+              <span className="text-[var(--posta-ink-soft)] ml-2">
                 You've reached the maximum of {automationLimits.limit} automation rules for your {automationLimits.tier} tier.
               </span>
             </div>
@@ -258,10 +258,10 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
               <i className="fa-solid fa-robot text-green-400 text-xl"></i>
             </div>
             <div>
-              <div className="text-3xl font-display font-bold text-white">
+              <div className="text-3xl font-display font-bold text-[var(--posta-ink)]">
                 {stats.total}
               </div>
-              <div className="text-sm text-gray-400">Total Rules</div>
+              <div className="text-sm text-[var(--posta-ink-soft)]">Total Rules</div>
             </div>
           </div>
         </div>
@@ -272,8 +272,8 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
               <i className="fa-solid fa-clock text-blue-400 text-xl"></i>
             </div>
             <div>
-              <div className="text-3xl font-display font-bold text-white">24/7</div>
-              <div className="text-sm text-gray-400">Working for You</div>
+              <div className="text-3xl font-display font-bold text-[var(--posta-ink)]">24/7</div>
+              <div className="text-sm text-[var(--posta-ink-soft)]">Working for You</div>
             </div>
           </div>
         </div>
@@ -284,10 +284,10 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
               <i className="fa-solid fa-sparkles text-purple-400 text-xl"></i>
             </div>
             <div>
-              <div className="text-3xl font-display font-bold text-white">
+              <div className="text-3xl font-display font-bold text-[var(--posta-ink)]">
                 {stats.active}
               </div>
-              <div className="text-sm text-gray-400">Active Automations</div>
+              <div className="text-sm text-[var(--posta-ink-soft)]">Active Automations</div>
             </div>
           </div>
         </div>
@@ -299,8 +299,8 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
         disabled={automationLimits?.isAtLimit}
         className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
           automationLimits?.isAtLimit
-            ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-            : 'bg-gradient-to-r from-neon-grape to-joburg-teal text-white hover:shadow-xl hover:scale-105 cursor-pointer'
+            ? 'bg-gray-600 text-[var(--posta-ink-soft)] cursor-not-allowed'
+            : 'bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] hover:shadow-xl hover:scale-105 cursor-pointer'
         }`}
       >
         <i className={`text-2xl ${automationLimits?.isAtLimit ? 'fa-solid fa-lock' : 'fa-solid fa-plus-circle'}`}></i>
@@ -315,11 +315,11 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
         {rules.length === 0 ? (
           /* Empty State */
           <div className="aerogel-card rounded-2xl p-12 text-center">
-            <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
-              <i className="fa-solid fa-robot text-gray-400 text-4xl"></i>
+            <div className="w-24 h-24 bg-[var(--posta-paper)] rounded-full flex items-center justify-center mx-auto mb-6">
+              <i className="fa-solid fa-robot text-[var(--posta-ink-soft)] text-4xl"></i>
             </div>
-            <h3 className="text-3xl font-display font-bold text-white mb-3">No Automation Rules Yet</h3>
-            <p className="text-gray-400 mb-6 max-w-md mx-auto">
+            <h3 className="text-3xl font-display font-bold text-[var(--posta-ink)] mb-3">No Automation Rules Yet</h3>
+            <p className="text-[var(--posta-ink-soft)] mb-6 max-w-md mx-auto">
               Get started by creating your first automation rule. Choose from our templates or build your own!
             </p>
             
@@ -327,18 +327,18 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
               <div className="bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-xl p-6 border border-pink-500/30">
                 <i className="fa-solid fa-box text-pink-400 text-3xl mb-3"></i>
-                <h4 className="font-semibold text-white mb-2">Weekly Product</h4>
-                <p className="text-sm text-gray-400">Showcase your products regularly</p>
+                <h4 className="font-semibold text-[var(--posta-ink)] mb-2">Weekly Product</h4>
+                <p className="text-sm text-[var(--posta-ink-soft)]">Showcase your products regularly</p>
               </div>
               <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl p-6 border border-blue-500/30">
                 <i className="fa-solid fa-lightbulb text-blue-400 text-3xl mb-3"></i>
-                <h4 className="font-semibold text-white mb-2">Daily Tips</h4>
-                <p className="text-sm text-gray-400">Share valuable insights daily</p>
+                <h4 className="font-semibold text-[var(--posta-ink)] mb-2">Daily Tips</h4>
+                <p className="text-sm text-[var(--posta-ink-soft)]">Share valuable insights daily</p>
               </div>
               <div className="bg-gradient-to-br from-green-500/10 to-teal-500/10 rounded-xl p-6 border border-green-500/30">
                 <i className="fa-solid fa-calendar-check text-green-400 text-3xl mb-3"></i>
-                <h4 className="font-semibold text-white mb-2">Monthly Recap</h4>
-                <p className="text-sm text-gray-400">Summarize the month's highlights</p>
+                <h4 className="font-semibold text-[var(--posta-ink)] mb-2">Monthly Recap</h4>
+                <p className="text-sm text-[var(--posta-ink-soft)]">Summarize the month's highlights</p>
               </div>
             </div>
           </div>
@@ -352,25 +352,25 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2 flex-wrap">
-                      <h3 className="text-2xl font-display font-bold text-white">{rule.coreTopic || 'Untitled Rule'}</h3>
+                      <h3 className="text-2xl font-display font-bold text-[var(--posta-ink)]">{rule.coreTopic || 'Untitled Rule'}</h3>
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${
                           rule.isActive
                             ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                            : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
+                            : 'bg-gray-500/20 text-[var(--posta-ink-soft)] border border-gray-500/30'
                         }`}
                       >
                         {rule.isActive ? '● Active' : '○ Inactive'}
                       </span>
                     </div>
-                    <p className="text-gray-400 mb-4">
+                    <p className="text-[var(--posta-ink-soft)] mb-4">
                       Runs {rule.frequency || 'weekly'}
                     </p>
                     
                     {/* Schedule Info */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                       {rule.createdAt && (
-                        <div className="text-gray-400">
+                        <div className="text-[var(--posta-ink-soft)]">
                           <i className="fa-solid fa-calendar-day mr-2 text-joburg-teal"></i>
                           Created: {new Date(rule.createdAt).toLocaleDateString()}
                         </div>
@@ -394,18 +394,18 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                 </div>
 
                 {/* Stats Row */}
-                <div className="grid grid-cols-3 gap-4 p-4 bg-white/5 rounded-xl border border-glass-border mb-4">
+                <div className="grid grid-cols-3 gap-4 p-4 bg-[var(--posta-paper)] rounded-xl border border-glass-border mb-4">
                   <div className="text-center">
-                    <div className="text-2xl font-display font-bold text-white">-</div>
-                    <div className="text-xs text-gray-400">Posts Generated</div>
+                    <div className="text-2xl font-display font-bold text-[var(--posta-ink)]">-</div>
+                    <div className="text-xs text-[var(--posta-ink-soft)]">Posts Generated</div>
                   </div>
                   <div className="text-center border-l border-glass-border">
                     <div className="text-2xl font-display font-bold text-green-400">-</div>
-                    <div className="text-xs text-gray-400">Successful</div>
+                    <div className="text-xs text-[var(--posta-ink-soft)]">Successful</div>
                   </div>
                   <div className="text-center border-l border-glass-border">
                     <div className="text-2xl font-display font-bold text-joburg-teal">{rule.frequency || 'weekly'}</div>
-                    <div className="text-xs text-gray-400">Frequency</div>
+                    <div className="text-xs text-[var(--posta-ink-soft)]">Frequency</div>
                   </div>
                 </div>
 
@@ -413,14 +413,14 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                 <div className="flex gap-2 flex-wrap">
                   <button
                     onClick={() => runNow(rule.id)}
-                    className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-white rounded-lg hover:shadow-lg transition-all font-medium cursor-pointer"
+                    className="px-4 py-2 bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] rounded-lg hover:shadow-lg transition-all font-medium cursor-pointer"
                   >
                     <i className="fa-solid fa-play mr-2"></i>
                     Run Now
                   </button>
                   <button
                     onClick={() => setSelectedRule(selectedRule === rule.id ? null : rule.id)}
-                    className="px-4 py-2 bg-white/5 border border-glass-border text-gray-300 rounded-lg hover:bg-white/10 transition-colors font-medium cursor-pointer"
+                    className="px-4 py-2 bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink-soft)] rounded-lg hover:bg-[var(--posta-cream)] transition-colors font-medium cursor-pointer"
                   >
                     <i className="fa-solid fa-history mr-2"></i>
                     {selectedRule === rule.id ? 'Hide History' : 'View History'}
@@ -436,7 +436,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                 {/* Execution History (expandable) */}
                 {selectedRule === rule.id && (
                   <div className="mt-4 pt-4 border-t border-glass-border">
-                    <h4 className="font-semibold text-white mb-3 flex items-center gap-2">
+                    <h4 className="font-semibold text-[var(--posta-ink)] mb-3 flex items-center gap-2">
                       <i className="fa-solid fa-history text-joburg-teal"></i>
                       Recent Executions
                     </h4>
@@ -445,8 +445,8 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                         const date = new Date();
                         date.setDate(date.getDate() - i * 7);
                         return (
-                          <div key={i} className="flex items-center justify-between text-sm bg-white/5 border border-glass-border p-3 rounded-lg">
-                            <span className="text-gray-300">{date.toLocaleDateString()}</span>
+                          <div key={i} className="flex items-center justify-between text-sm bg-[var(--posta-paper)] border border-glass-border p-3 rounded-lg">
+                            <span className="text-[var(--posta-ink-soft)]">{date.toLocaleDateString()}</span>
                             <span className="flex items-center gap-2">
                               <i className="fa-solid fa-check-circle text-green-400"></i>
                               <span className="text-green-400 font-medium">Success</span>

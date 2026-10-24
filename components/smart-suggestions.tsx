@@ -76,9 +76,9 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
   return (
     <div className="bg-void rounded-2xl shadow-2xl border border-glass-border overflow-hidden">
       {/* Header with gradient */}
-      <div className="bg-gradient-to-r from-neon-grape to-joburg-teal text-white p-6">
+      <div className="bg-gradient-to-r from-neon-grape to-joburg-teal text-[var(--posta-ink)] p-6">
         <h3 className="text-2xl font-bold font-display mb-2">AI Pilot Smart Suggestions</h3>
-        <p className="text-sm text-white/90 font-body">Powered by audience analytics and engagement patterns</p>
+        <p className="text-sm text-[var(--posta-ink)]/90 font-body">Powered by audience analytics and engagement patterns</p>
       </div>
 
       {/* Tab Navigation - Dark Theme */}
@@ -89,7 +89,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
             className={`flex-1 px-4 py-4 text-sm font-medium whitespace-nowrap transition-all relative cursor-pointer ${
               activeTab === 'times'
                 ? 'text-joburg-teal'
-                : 'text-gray-400 hover:text-white'
+                : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)]'
             }`}
           >
             <i className="fa-regular fa-clock mr-2"></i>
@@ -103,7 +103,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
             className={`flex-1 px-4 py-4 text-sm font-medium whitespace-nowrap transition-all relative cursor-pointer ${
               activeTab === 'practices'
                 ? 'text-joburg-teal'
-                : 'text-gray-400 hover:text-white'
+                : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)]'
             }`}
           >
             <i className="fa-solid fa-lightbulb mr-2"></i>
@@ -117,7 +117,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
             className={`flex-1 px-4 py-4 text-sm font-medium whitespace-nowrap transition-all relative cursor-pointer ${
               activeTab === 'hashtags'
                 ? 'text-joburg-teal'
-                : 'text-gray-400 hover:text-white'
+                : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)]'
             }`}
           >
             <i className="fa-solid fa-hashtag mr-2"></i>
@@ -134,21 +134,21 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
         {/* Optimal Times */}
         {activeTab === 'times' && (
           <div className="space-y-4">
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-[var(--posta-ink-soft)] mb-4">
               Based on your audience's activity, here are the best times to post:
             </p>
             {optimalTimes.map((slot, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-5 bg-white/5 rounded-xl border border-glass-border hover:border-neon-grape/50 transition-all cursor-pointer"
+                className="flex items-center justify-between p-5 bg-[var(--posta-paper)] rounded-xl border border-glass-border hover:border-neon-grape/50 transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-neon-grape/20 to-joburg-teal/20 flex items-center justify-center text-2xl">
                     {slot.icon}
                   </div>
                   <div>
-                    <div className="font-medium text-white font-body">{slot.day}</div>
-                    <div className="text-sm text-gray-400">Engagement</div>
+                    <div className="font-medium text-[var(--posta-ink)] font-body">{slot.day}</div>
+                    <div className="text-sm text-[var(--posta-ink-soft)]">Engagement</div>
                   </div>
                 </div>
                 <div className="text-right">
@@ -164,7 +164,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
         {/* Best Practices */}
         {activeTab === 'practices' && (
           <div className="space-y-4">
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-[var(--posta-ink-soft)] mb-4">
               Platform-specific tips to maximize your reach and engagement:
             </p>
             {getPlatformPractices().map((practice, index) => (
@@ -173,7 +173,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
                 className="flex items-start gap-4 p-5 bg-[#1a1a2e] rounded-xl border border-gray-800 hover:border-purple-500/50 transition-all"
               >
                 <i className="fa-solid fa-check-circle text-purple-400 text-lg mt-0.5"></i>
-                <p className="text-sm text-gray-300 flex-1">{practice}</p>
+                <p className="text-sm text-[var(--posta-ink-soft)] flex-1">{practice}</p>
               </div>
             ))}
           </div>
@@ -182,7 +182,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
         {/* Trending Hashtags */}
         {activeTab === 'hashtags' && (
           <div className="space-y-4">
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-[var(--posta-ink-soft)] mb-4">
               Trending hashtags related to "{topic}":
             </p>
             {trendingHashtags.map((hashtag, index) => (
@@ -192,12 +192,12 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
               >
                 <div className="flex items-center gap-3">
                   <span className="font-bold text-purple-400">{hashtag.tag}</span>
-                  <span className="text-sm text-gray-500">{hashtag.posts} posts</span>
+                  <span className="text-sm text-[var(--posta-ink-soft)]">{hashtag.posts} posts</span>
                 </div>
                 <div className="flex items-center gap-2">
                   {hashtag.trend === 'up' && <i className="fa-solid fa-arrow-trend-up text-green-400"></i>}
                   {hashtag.trend === 'down' && <i className="fa-solid fa-arrow-trend-down text-red-400"></i>}
-                  {hashtag.trend === 'stable' && <i className="fa-solid fa-minus text-gray-500"></i>}
+                  {hashtag.trend === 'stable' && <i className="fa-solid fa-minus text-[var(--posta-ink-soft)]"></i>}
                 </div>
               </div>
             ))}
@@ -207,7 +207,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
         {/* Content Type Recommendations */}
         {activeTab === 'content' && (
           <div className="space-y-4">
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-[var(--posta-ink-soft)] mb-4">
               Recommended content formats for maximum engagement:
             </p>
             {contentTypes.map((content, index) => (
@@ -218,11 +218,11 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{content.icon}</span>
-                    <span className="font-semibold text-white">{content.type}</span>
+                    <span className="font-semibold text-[var(--posta-ink)]">{content.type}</span>
                   </div>
                   <div className="text-right">
                     <div className="text-2xl font-bold text-purple-400">{content.score}</div>
-                    <div className="text-xs text-gray-500">Score</div>
+                    <div className="text-xs text-[var(--posta-ink-soft)]">Score</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 mb-2">
@@ -237,7 +237,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
                     ></div>
                   </div>
                 </div>
-                <p className="text-sm text-gray-400 mt-2">{content.reason}</p>
+                <p className="text-sm text-[var(--posta-ink-soft)] mt-2">{content.reason}</p>
               </div>
             ))}
           </div>
@@ -246,18 +246,18 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
         {/* Tone Recommendations */}
         {activeTab === 'tone' && (
           <div className="space-y-4">
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-[var(--posta-ink-soft)] mb-4">
               Adjust your tone based on when you're posting:
             </p>
             {toneRecommendations.map((rec, index) => (
               <div
                 key={index}
-                className="flex items-center gap-4 p-5 bg-white/5 rounded-xl border border-glass-border hover:border-neon-grape/50 transition-all cursor-pointer"
+                className="flex items-center gap-4 p-5 bg-[var(--posta-paper)] rounded-xl border border-glass-border hover:border-neon-grape/50 transition-all cursor-pointer"
               >
                 <span className="text-3xl">{rec.emoji}</span>
                 <div className="flex-1">
-                  <div className="font-semibold text-white font-body">{rec.time}</div>
-                  <div className="text-sm text-gray-400">{rec.tone}</div>
+                  <div className="font-semibold text-[var(--posta-ink)] font-body">{rec.time}</div>
+                  <div className="text-sm text-[var(--posta-ink-soft)]">{rec.tone}</div>
                 </div>
               </div>
             ))}
@@ -267,7 +267,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
 
       {/* Footer */}
       <div className="bg-void/80 px-6 py-4 border-t border-glass-border">
-        <p className="text-xs text-gray-400 text-center flex items-center justify-center font-mono">
+        <p className="text-xs text-[var(--posta-ink-soft)] text-center flex items-center justify-center font-mono">
           <span className="mr-2">ℹ️</span>
           Suggestions update based on your audience engagement data
         </p>
