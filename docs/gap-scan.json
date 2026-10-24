@@ -2,60 +2,6 @@
   "groups": {
     "FABRICATED CLAIMS (must be true or removed)": [
       [
-        "app/page-old-client.tsx",
-        518,
-        "thabo",
-        "\"{translate('testimonials.thabo.quote')}\""
-      ],
-      [
-        "app/page-old-client.tsx",
-        523,
-        "thabo",
-        "<h4 className=\"font-bold text-sm text-white\">{translate('testimonials.thabo.name')}</h4>"
-      ],
-      [
-        "app/page-old-client.tsx",
-        524,
-        "thabo",
-        "<p className=\"text-xs text-gray-500\">{translate('testimonials.thabo.role')}</p>"
-      ],
-      [
-        "app/page-old-client.tsx",
-        533,
-        "zanele",
-        "\"{translate('testimonials.zanele.quote')}\""
-      ],
-      [
-        "app/page-old-client.tsx",
-        538,
-        "zanele",
-        "<h4 className=\"font-bold text-sm text-white\">{translate('testimonials.zanele.name')}</h4>"
-      ],
-      [
-        "app/page-old-client.tsx",
-        539,
-        "zanele",
-        "<p className=\"text-xs text-gray-500\">{translate('testimonials.zanele.role')}</p>"
-      ],
-      [
-        "app/page-old-client.tsx",
-        548,
-        "pieter",
-        "\"{translate('testimonials.pieter.quote')}\""
-      ],
-      [
-        "app/page-old-client.tsx",
-        553,
-        "pieter",
-        "<h4 className=\"font-bold text-sm text-white\">{translate('testimonials.pieter.name')}</h4>"
-      ],
-      [
-        "app/page-old-client.tsx",
-        554,
-        "pieter",
-        "<p className=\"text-xs text-gray-500\">{translate('testimonials.pieter.role')}</p>"
-      ],
-      [
         "app/page.tsx",
         52,
         "Thabo",
@@ -222,36 +168,6 @@
     ],
     "DEMO DATA ON A PUBLIC SURFACE": [],
     "DEAD OR FAKE LINKS": [
-      [
-        "app/page-old-client.tsx",
-        780,
-        "href=\"#\"",
-        "<li><a href=\"#\" className=\"hover:text-neon-grape transition-colors\">{translate('footer.integration')"
-      ],
-      [
-        "app/page-old-client.tsx",
-        781,
-        "href=\"#\"",
-        "<li><a href=\"#\" className=\"hover:text-neon-grape transition-colors\">{translate('footer.changelog')}<"
-      ],
-      [
-        "app/page-old-client.tsx",
-        799,
-        "href=\"#\"",
-        "<a href=\"#\" className=\"hover:text-white\"><i className=\"fa-brands fa-twitter\"></i></a>"
-      ],
-      [
-        "app/page-old-client.tsx",
-        800,
-        "href=\"#\"",
-        "<a href=\"#\" className=\"hover:text-white\"><i className=\"fa-brands fa-instagram\"></i></a>"
-      ],
-      [
-        "app/page-old-client.tsx",
-        801,
-        "href=\"#\"",
-        "<a href=\"#\" className=\"hover:text-white\"><i className=\"fa-brands fa-linkedin\"></i></a>"
-      ],
       [
         "lib/auth.ts",
         54,
