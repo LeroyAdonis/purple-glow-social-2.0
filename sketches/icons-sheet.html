@@ -1,0 +1,541 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--clay:#8E3B2E;--cream:#F7EDE2;--paper:#FBF6EF;--ink:#24140F;--gold:#E9A93C;--line:#EADCCB}
+body{background:var(--paper);color:var(--ink);font-family:"Inter",sans-serif}
+.sheet{width:1600px;height:1000px;padding:48px 60px;display:flex;flex-direction:column;gap:26px}
+h1{font-family:"Space Grotesk";font-size:22px;font-weight:700}
+.sub{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8A7768}
+.section{border-top:1px solid var(--line);padding-top:20px}
+.section h2{font-family:"Space Grotesk";font-size:14px;font-weight:500;margin-bottom:14px}
+.row{display:flex;gap:18px;flex-wrap:wrap}
+.cell{width:96px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 0;border:1px solid var(--line);border-radius:10px;background:#fff}
+.cell b{font-size:9px;font-weight:500;color:#8A7768;letter-spacing:.02em}
+.cell.sm{width:52px;height:52px;justify-content:center;padding:0}
+.creambar{display:flex;gap:14px;background:var(--clay);padding:16px;border-radius:10px;width:fit-content}
+.creamcell{width:60px;height:60px;border:0;background:rgba(247,237,226,.10);justify-content:center;padding:0}
+.note{font-size:12px;color:#6E5B4E;line-height:1.6;max-width:900px}
+.gold{background:var(--gold);border-color:var(--gold)}
+</style></head><body><div class="sheet">
+<h1>Posta — icon system</h1>
+<div class="sub">Lucide (ISC licence) for the interface · official brand marks for the platforms · 24px and 16px as actually used</div>
+
+<div class="section"><h2>Interface icons at 24px</h2><div class="row"><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-message-circle"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg><b>message-circle</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-calendar-clock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 14v2.2l1.6 1" />
+  <path d="M16 2v3" />
+  <path d="M21 7.338V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2.338" />
+  <path d="M3 9h5.859" />
+  <path d="M8 2v3" />
+  <circle cx="16" cy="16" r="6" /></svg><b>calendar-clock</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-sparkles"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+  <path d="M20 2v4" />
+  <path d="M22 4h-4" />
+  <circle cx="4" cy="20" r="2" /></svg><b>sparkles</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-image"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+  <circle cx="9" cy="9" r="2" />
+  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg><b>image</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-clock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 6v6l4 2" /></svg><b>clock</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" /></svg><b>check</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-send"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+  <path d="m21.854 2.147-10.94 10.939" /></svg><b>send</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-languages"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m5 8 6 6" />
+  <path d="m4 14 6-6 2-3" />
+  <path d="M2 5h12" />
+  <path d="M7 2h1" />
+  <path d="m22 22-5-10-5 10" />
+  <path d="M14 18h6" /></svg><b>languages</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-circle-alert"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <line x1="12" x2="12" y1="8" y2="12" />
+  <line x1="12" x2="12.01" y1="16" y2="16" /></svg><b>circle-alert</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-plus"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 12h14" />
+  <path d="M12 5v14" /></svg><b>plus</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-upload"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 3v12" />
+  <path d="m17 8-5-5-5 5" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /></svg><b>upload</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-chart-no-axes-column"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 21v-6" />
+  <path d="M12 21V3" />
+  <path d="M19 21V9" /></svg><b>chart-no-axes-column</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-settings"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+  <circle cx="12" cy="12" r="3" /></svg><b>settings</b></div></div></div>
+<div class="section"><h2>The same icons at 16px — where most icon sets fall apart</h2><div class="row"><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-message-circle"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-calendar-clock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 14v2.2l1.6 1" />
+  <path d="M16 2v3" />
+  <path d="M21 7.338V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2.338" />
+  <path d="M3 9h5.859" />
+  <path d="M8 2v3" />
+  <circle cx="16" cy="16" r="6" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-sparkles"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+  <path d="M20 2v4" />
+  <path d="M22 4h-4" />
+  <circle cx="4" cy="20" r="2" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-image"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+  <circle cx="9" cy="9" r="2" />
+  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-clock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 6v6l4 2" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-send"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+  <path d="m21.854 2.147-10.94 10.939" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-languages"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m5 8 6 6" />
+  <path d="m4 14 6-6 2-3" />
+  <path d="M2 5h12" />
+  <path d="M7 2h1" />
+  <path d="m22 22-5-10-5 10" />
+  <path d="M14 18h6" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-circle-alert"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <line x1="12" x2="12" y1="8" y2="12" />
+  <line x1="12" x2="12.01" y1="16" y2="16" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-plus"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 12h14" />
+  <path d="M12 5v14" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-upload"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 3v12" />
+  <path d="m17 8-5-5-5 5" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-chart-no-axes-column"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 21v-6" />
+  <path d="M12 21V3" />
+  <path d="M19 21V9" /></svg></div><div class="cell sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-settings"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+  <circle cx="12" cy="12" r="3" /></svg></div></div></div>
+<div class="section"><h2>Reversed on the brand field</h2><div class="creambar"><div class="cell creamcell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F7EDE2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-message-circle"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg></div><div class="cell creamcell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F7EDE2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-calendar-clock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 14v2.2l1.6 1" />
+  <path d="M16 2v3" />
+  <path d="M21 7.338V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2.338" />
+  <path d="M3 9h5.859" />
+  <path d="M8 2v3" />
+  <circle cx="16" cy="16" r="6" /></svg></div><div class="cell creamcell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F7EDE2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-sparkles"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+  <path d="M20 2v4" />
+  <path d="M22 4h-4" />
+  <circle cx="4" cy="20" r="2" /></svg></div><div class="cell creamcell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F7EDE2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-image"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+  <circle cx="9" cy="9" r="2" />
+  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg></div><div class="cell creamcell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F7EDE2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-clock"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 6v6l4 2" /></svg></div><div class="cell creamcell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F7EDE2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" /></svg></div><div class="cell creamcell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F7EDE2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-send"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+  <path d="m21.854 2.147-10.94 10.939" /></svg></div><div class="cell creamcell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F7EDE2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><!-- @license lucide-static v1.61.0 - ISC -->
+<svg
+  class="lucide lucide-languages"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m5 8 6 6" />
+  <path d="m4 14 6-6 2-3" />
+  <path d="M2 5h12" />
+  <path d="M7 2h1" />
+  <path d="m22 22-5-10-5 10" />
+  <path d="M14 18h6" /></svg></div></div></div>
+<div class="section"><h2>Platform marks — these must be official assets, never redrawn</h2><div class="row"><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="#24140F"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg><b>instagram</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="#24140F"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg><b>facebook</b></div><div class="cell"><svg width="24" height="24" viewBox="0 0 24 24" fill="#24140F"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></svg><b>x</b></div>
+<div class="cell gold"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#24140F" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><b>linkedin — get<br>official</b></div>
+</div></div>
+
+<p class="note">Interface icons: Lucide, 2,171 icons, ISC licence, free for commercial use, instal­lable from npm so they live in the codebase rather than a CDN. Stroke weight is consistent at 2px and the shapes hold at 16px. Brand marks come from Simple Icons (CC0), but the trademarks belong to Meta, X and LinkedIn — they must never be redrawn by hand, and LinkedIn's mark is not in the pack, so it comes from LinkedIn's own brand guidelines.</p>
+</div></body></html>

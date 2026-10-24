@@ -77,6 +77,15 @@ export default function ContactPage() {
               for exactly what happens to your billing period.
             </p>
           </section>
+
+          <section className="bg-white/5 border border-white/10 rounded-xl p-6">
+            <h2 className="font-display font-bold text-xl mb-3">Credits</h2>
+            <p className="text-gray-300">
+              Icons by <a className="text-joburg-teal hover:underline" href="https://fontawesome.com" target="_blank" rel="noopener noreferrer">Font Awesome Free</a>{' '}
+              by Fonticons, Inc., used under CC BY 4.0. Typefaces Space Grotesk and Inter, both under the SIL
+              Open Font License. Full licence details are in the LICENSES file in our source repository.
+            </p>
+          </section>
         </div>
       </main>
     </div>
