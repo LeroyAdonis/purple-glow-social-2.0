@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, uuid, integer, pgEnum, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, uuid, integer, pgEnum, jsonb, index } from "drizzle-orm/pg-core";
 
 export const tierEnum = pgEnum("tier", ["free", "pro", "business"]);
 export const platformEnum = pgEnum("platform", ["facebook", "instagram", "twitter", "linkedin"]);
@@ -231,6 +231,19 @@ export const jobLogs = pgTable("job_logs", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+
+// Credit entries for the prepaid ZAR credit wallet (append-only ledger)
+// id, userId (FK to user, cascade), delta (cents), reason, ref (Paystack ref / post id), createdAt
+export const credit_entries = pgTable("credit_entries", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  delta: integer("delta").notNull(),
+  reason: text("reason").notNull(),
+  ref: text("ref"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+}, (table) => ({
+  userIdCreatedAtIdx: index("idx_credit_entries_user_created_at").on(table.userId, table.createdAt),
+}));
 // TypeScript types for better type safety
 export type User = typeof user.$inferSelect;
 export type Session = typeof session.$inferSelect;

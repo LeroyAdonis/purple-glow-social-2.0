@@ -21,16 +21,17 @@ A wallet whose balance is SUM(delta) of an append-only `credit_entries` table �
 - Drip / slots / recap (later slices)
 - New payment provider; existing Paystack only
 
-## Assumptions
-- The existing `user.credits` mutable column is the thing being replaced; the append-only ledger is the source of truth and the mutable column either gets removed or derived solely from SUM(delta). Assumed reversible: can keep `user.credits` as a derived cache with recompute, not as source of truth.
-- Paystack webhook event `charge.success` carries `metadata.credits`; if not present, the entry is skipped (same as current behavior) — we append only when positive delta confirmed.
+## Verified against live code
+- `users.credits` is mutable and the webhook does a read-modify-write (`(u.credits ?? 0) + credits`) — a lost-update race. The ledger fixes it, but only if the read-modify-write is **deleted**, not left beside the ledger. Two sources of truth for a balance is the failure this slice exists to prevent.
+- A `transactions` table already exists. Do **not** reuse or extend it as the ledger — it is a payment record with an order lifecycle. Add the dedicated `credit_entries` table.
+- No `credit_entries` table exists; the schema is clean.
 
 ## Build loop
 - feature → implement → check → audit per AI Blueprint
 - Verify: `npx tsc --noEmit`, build passes, webhook duplicate test passes, balance-reads-non-negative asserts
 
 ## Build steps
-- [ ] 1. Schema: add `credit_entries` (Drizzle), no destructive migration of `user`, no updates/deletes allowed. Done when `npx drizzle-kit generate` produces it and `SELECT` on it shows append-only shape.
+- [x] 1. Schema: add `credit_entries` (Drizzle), no destructive migration of `user`, no updates/deletes allowed. Done when `npx drizzle-kit generate` produces it and `SELECT` on it shows append-only shape.
 - [ ] 2. Balance query: `SELECT SUM(delta) ...` per user; assert never negative (query + assertion). Done when a test reads balance after a -500 delta and asserts `>=0`; negative delta refused.
 - [ ] 3. Paystack reuse: webhook `charge.success` appends `credit_entries` row with `delta = metadata.credits * 100` (cents) and `reason = 'paystack_charge'`. Idempotency key from webhook event prevents double append. Done when same signed payload posted twice yields exactly one entry.
 - [ ] 4. Deduction gate: on publish success only, append `delta = -cost` with `reason = 'publish'`; refuse if SUM(delta) < cost. Done when attempt with insufficient balance is blocked and balance never dips below zero.
@@ -56,26 +57,3 @@ A wallet whose balance is SUM(delta) of an append-only `credit_entries` table �
 
 ## Open questions
 - Whether to drop `user.credits` column entirely or keep as derived cache with periodic recompute (reversible; spec allows either, recommends compute-only first).
-
-## Verified against live code (Ricky, 2026-10-25) — read before implementing
-
-Three facts were checked in the repo, not assumed:
-
-1. **`users.credits` is a mutable integer** (`drizzle/schema.ts:25`) and the Paystack webhook updates it with a
-   read-modify-write: `.set({ credits: (u.credits ?? 0) + credits })`
-   (`app/api/webhooks/paystack/route.ts:136`). That is a lost-update race: two webhooks landing together can each
-   read the same old value and one credit is silently lost, or a retry double-credits. The append-only ledger
-   removes the race because nothing is read-then-written.
-2. **A `transactions` table already exists** (`drizzle/schema.ts:116`) with an `amount` (cents), `currency`,
-   `credits`, `status` and `polar_order_id`. It is a **payment record with an order lifecycle**, not a credit
-   ledger — it has no concept of a publish deduction. Do **not** reuse it as the ledger and do not extend it with
-   negative rows: a mixed table cannot answer "what is my balance" without also reasoning about refunds and
-   pending orders. Add the dedicated append-only `credit_entries` as specified, and leave `transactions` for
-   payment records only.
-3. **No `credit_entries` table exists yet** — the schema is clean to add it. There are two other credit-shaped
-   columns (`videoCredits` on `users`, and `credits` on `transactions`); neither is a ledger.
-
-### One more requirement that follows from fact 1
-After the ledger is the source of truth, the webhook's read-modify-write must be deleted, not left beside it.
-Two sources of truth for a balance is the failure this slice exists to prevent. `users.credits` may remain only
-as a derived cache with a documented recompute, or be dropped — decide in step 1 and say which in the diff.
