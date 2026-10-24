@@ -1,0 +1,12 @@
+{
+  "posta-ai": {
+    "pane": "w2H:p1",
+    "workspace": null,
+    "brief": "ai-provider-switch"
+  },
+  "posta-paystack": {
+    "pane": "w2J:p1",
+    "workspace": null,
+    "brief": "paystack-adapter"
+  }
+}

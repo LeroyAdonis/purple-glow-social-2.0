@@ -205,14 +205,6 @@ export default function Navigation({ session }: NavigationProps) {
             <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-sa-green via-sa-gold to-sa-red scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full" />
           </a>
           <a
-            href="#testimonials"
-            onClick={(e) => scrollToSection(e, 'testimonials')}
-            className="relative px-4 py-2 rounded-lg hover:text-white hover:bg-white/[0.03] transition-all duration-300 group"
-          >
-            {translate('testimonials.title').split(' ')[0]}
-            <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-sa-green via-sa-gold to-sa-red scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full" />
-          </a>
-          <a
             href="#pricing"
             onClick={(e) => scrollToSection(e, 'pricing')}
             className="relative px-4 py-2 rounded-lg hover:text-white hover:bg-white/[0.03] transition-all duration-300 group"
@@ -397,16 +389,6 @@ export default function Navigation({ session }: NavigationProps) {
                 transition={{ delay: 0.1 }}
               >
                 {translate('howItWorks.title')}
-              </motion.a>
-              <motion.a
-                href="#testimonials"
-                className="text-xl font-display font-bold text-text-secondary hover:text-white transition-colors"
-                onClick={(e) => scrollToSection(e, 'testimonials')}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.15 }}
-              >
-                {translate('testimonials.title').split(' ')[0]}
               </motion.a>
               <motion.a
                 href="#pricing"

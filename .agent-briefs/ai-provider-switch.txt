@@ -1,0 +1,74 @@
+TASK: Make post generation model-agnostic so it can run on a free provider now and a paid one later by
+changing environment variables only.
+
+WHY: today every generation path is welded to Google Gemini. The service builds a Gemini URL with the API
+key in the query string in five separate places. We are launching on a free self-hosted OpenAI-compatible
+router, so the model choice has to become configuration, not code.
+
+FILES YOU OWN:
+  /root/posta-revive/lib/ai/provider.ts            (CREATE)
+  /root/posta-revive/lib/ai/gemini-service.ts      (EDIT - only the fetch call sites and constructor)
+
+DO NOT edit anything else. In particular do not touch app/actions/generate.ts, do not touch the
+translation files, and do not change any public method signature on GeminiService.
+
+WHAT TO BUILD:
+
+1. lib/ai/provider.ts exports a single async function that performs one chat completion and returns the
+   text, shaped like:
+
+     export type ChatMessage = { role: 'system' | 'user' | 'assistant'; content: string };
+     export async function chatComplete(messages: ChatMessage[], opts?: { temperature?: number;
+       maxTokens?: number; json?: boolean }): Promise<string>
+
+   It selects a provider from environment variables, IN THIS ORDER:
+     - AI_PROVIDER  (values: 'freellmapi' | 'openrouter' | 'nim' | 'gemini'; default 'freellmapi')
+     - AI_BASE_URL  (OpenAI-compatible root, e.g. http://127.0.0.1:3901/v1)
+     - AI_API_KEY
+     - AI_MODEL
+
+   For every provider EXCEPT 'gemini' it must POST to `${AI_BASE_URL}/chat/completions` with the standard
+   OpenAI body `{ model, messages, temperature, max_tokens }` plus `response_format: {type:'json_object'}`
+   when opts.json is true, and read `choices[0].message.content`. Use `fetch`; add NO new dependencies.
+
+   For provider 'gemini' it must keep using the existing Google endpoint
+   (generativelanguage.googleapis.com) so nothing breaks if we switch back.
+
+   Requirements:
+   - If AI_BASE_URL or AI_API_KEY is missing for a non-gemini provider, throw an Error whose message names
+     exactly which variable is missing. Never silently fall back to a different provider: a wrong-provider
+     success is worse than a clear failure.
+   - Retry a transient failure (network error, HTTP 429 or 5xx) up to 2 times with a short backoff, then
+     throw. Never retry a 4xx that is not 429.
+   - Never include the API key in an error message, a log line or a thrown error.
+   - Non-2xx responses must throw with the status and the first 200 characters of the body.
+
+2. lib/ai/gemini-service.ts: replace the five places that build `${this.baseUrl}?key=${this.apiKey}` and
+   call fetch with a call to `chatComplete(...)` from the new provider module. Keep the surrounding logic
+   intact: the JSON parsing, the quality checks, the retry wrapper, the emergency short-content fallback
+   and the return shapes must all still behave the same. The prompts currently sent to Gemini must be sent
+   unchanged as a single user message (they are text prompts, so `[{role:'user',content:prompt}]`).
+   The class name stays `GeminiService` so no other file has to change - only its internals move.
+
+ACCEPTANCE (actually run these, do not just claim them):
+  a) cd /root/posta-revive && npx tsc --noEmit -p tsconfig.json   -> prints nothing, exit 0.
+  b) Write /tmp/prove-provider.mjs that starts a tiny local HTTP server on 127.0.0.1:4599 implementing
+     POST /v1/chat/completions which returns a canned OpenAI-shaped response, sets
+     AI_PROVIDER=freellmapi, AI_BASE_URL=http://127.0.0.1:4599/v1, AI_API_KEY=test, AI_MODEL=test-model,
+     then calls your chatComplete and asserts it returned the canned text. Print the returned string.
+     Run it with `node /tmp/prove-provider.mjs` and paste the output. This proves the plumbing without
+     needing any real key.
+  c) Prove the failure path: run the same script with AI_BASE_URL unset and show that the thrown error
+     names AI_BASE_URL.
+
+HARD RULES:
+- No git commands that change state (no add/commit/push/checkout/stash/reset/clean/branch).
+- No new npm packages.
+- Do not create a .env file and do not read any secret file. Configuration arrives via process env.
+- Do not restart or kill anything on port 3008.
+
+REPORT (short, with the real command output pasted):
+- what provider.ts exposes
+- the five call sites you replaced and confirmation each now goes through chatComplete
+- output of (a), (b) and (c)
+- anything you chose not to change, and why

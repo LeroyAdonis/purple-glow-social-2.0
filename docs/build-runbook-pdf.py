@@ -131,11 +131,14 @@ def main() -> int:
     critical = [
         "instagram_business_content_publish",
         "pages_manage_posts",
-        "POLAR_WEBHOOK_SECRET",
+        "PAYSTACK_PLAN_BUSINESS",
+        "PAYSTACK_SECRET_KEY",
+        "AI_BASE_URL",
         "TWITTER_CLIENT_SECRET",
         "LINKEDIN_CLIENT_SECRET",
         "2026/809312/07",
         "w_member_social",
+        "4084 0840 8408 4081",
     ]
     missing = [c for c in critical if c not in text]
     print(f"copy-critical strings: {len(critical) - len(missing)}/{len(critical)} intact")

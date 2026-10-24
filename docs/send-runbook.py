@@ -20,7 +20,7 @@ TOKEN_CANDIDATES = [
 ]
 PDF = Path("/root/posta-revive/docs/CREDENTIALS-RUNBOOK.pdf")
 TO = "leroyadonis3@gmail.com"
-SUBJECT = "Posta credentials runbook - Meta, X, LinkedIn and Polar"
+SUBJECT = "Posta credentials runbook (v2) - Paystack, free AI, Meta, X, LinkedIn"
 
 
 def get_service():
@@ -54,7 +54,8 @@ def main() -> int:
     msg["Subject"] = SUBJECT
     msg.set_content(
         "Leroy,\n\n"
-        "The Posta credentials runbook is attached. It covers Polar, Meta, X and LinkedIn in the order\n"
+        "The Posta credentials runbook is attached (version 2). Paystack replaces Polar, and there is a new\n"
+        "section on running generation on free AI capacity. The order is Paystack, Meta, X, LinkedIn.\n"
         "that unblocks the most work first.\n\n"
         "The single most important thing in it: posting to your OWN accounts is fast and free, but\n"
         "posting to OTHER people's accounts needs app review, and Meta also wants business verification\n"

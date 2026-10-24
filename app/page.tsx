@@ -13,7 +13,6 @@ import AmbientBackground from '@/components/landing/ambient-background';
 import HeroSection from '@/components/landing/hero-section';
 import FeaturesSection from '@/components/landing/features-section';
 import HowItWorksSection from '@/components/landing/how-it-works-section';
-import TestimonialsSection from '@/components/landing/testimonials-section';
 import ContactSection from '@/components/landing/contact-section';
 
 // Client Components (Interactive)
@@ -49,8 +48,11 @@ export default async function HomePage() {
       {/* How It Works Section - Server Component */}
       <HowItWorksSection translate={translate} />
 
-      {/* Testimonials Section - Server Component */}
-      <TestimonialsSection translate={translate} />
+      {/* Testimonials Section - REMOVED on purpose.
+          The three quotes rendered here were the demo personas from the mock data (Thabo, Zanele,
+          Pieter). Posta has no customers yet, so those were invented testimonials sitting on the public
+          front page - a false claim, and the first thing a payment processor or a real buyer would ask us
+          to back up. Put the section back only when there are real, attributable quotes to show. */}
 
       {/* Pricing Section - Client Component (billing toggle) */}
       <PricingSection />

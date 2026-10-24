@@ -1,9 +1,16 @@
 /**
- * Google Gemini AI Service
+ * AI content generation service
  * Generates culturally relevant South African content
- * 
+ *
+ * The network transport now lives in ./provider (chatComplete), so the same
+ * prompts can run against any OpenAI-compatible backend or Gemini purely by
+ * changing environment variables (AI_PROVIDER / AI_BASE_URL / AI_API_KEY /
+ * AI_MODEL). The class name stays GeminiService so no caller changes.
+ *
  * Reference: https://ai.google.dev/docs/prompt_best_practices
  */
+
+import { chatComplete } from './provider';
 
 import { logger } from '@/lib/logger';
 
@@ -49,13 +56,17 @@ interface GeneratedContent {
 }
 
 export class GeminiService {
-  private apiKey: string;
-  private baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent';
-
   constructor() {
-    this.apiKey = process.env.GEMINI_API_KEY || '';
-    if (!this.apiKey) {
-      logger.ai.warn('GEMINI_API_KEY not found in environment variables');
+    // Warn early about missing config, but never log values.
+    const provider = (process.env.AI_PROVIDER || 'freellmapi').toLowerCase();
+    if (provider === 'gemini') {
+      if (!process.env.AI_API_KEY && !process.env.GEMINI_API_KEY) {
+        logger.ai.warn('GEMINI_API_KEY not found in environment variables');
+      }
+    } else if (!process.env.AI_BASE_URL || !process.env.AI_API_KEY) {
+      logger.ai.warn(
+        `AI provider "${provider}" is missing AI_BASE_URL and/or AI_API_KEY in environment variables`
+      );
     }
   }
 
@@ -90,31 +101,13 @@ export class GeminiService {
       // Get optimized generation config
       const genConfig = getGenerationConfig(platform as Platform, tone as Tone);
       
-      const response = await withTimeout(
-        fetch(`${this.baseUrl}?key=${this.apiKey}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: prompt,
-              }],
-            }],
-            generationConfig: genConfig,
-          }),
+      const generatedText = await withTimeout(
+        chatComplete([{ role: 'user', content: prompt }], {
+          temperature: genConfig.temperature,
+          maxTokens: genConfig.maxOutputTokens,
         }),
         30000 // 30 second timeout
       );
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error?.message || 'Failed to generate content');
-      }
-
-      const data = await response.json();
-      const generatedText = data.candidates[0]?.content?.parts[0]?.text || '';
 
       const result = this.parseGeneratedContent(generatedText, params);
       
@@ -455,39 +448,13 @@ Generate ONLY the post text, nothing else:`;
   }
 
   /**
-   * Raw API call to Gemini (extracted for reuse)
+   * Raw model call (extracted for reuse)
    */
   private async callGeminiAPI(prompt: string): Promise<string> {
-    const response = await withTimeout(
-      fetch(`${this.baseUrl}?key=${this.apiKey}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt,
-            }],
-          }],
-          generationConfig: {
-            temperature: 0.7,
-            topP: 0.9,
-            topK: 40,
-            maxOutputTokens: 1024,
-          },
-        }),
-      }),
-      30000 // 30 second timeout
-    );
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error?.message || 'Failed to generate content');
-    }
-
-    const data = await response.json();
-    return data.candidates[0]?.content?.parts[0]?.text || '';
+    return chatComplete([{ role: 'user', content: prompt }], {
+      temperature: 0.7,
+      maxTokens: 1024,
+    });
   }
 
   /**
@@ -524,34 +491,14 @@ Generate ONLY the post text, nothing else:`;
       // Get language-specific hashtags to mix in
       const langHashtags = getLanguageHashtags(language);
 
-      const response = await withTimeout(
-        fetch(`${this.baseUrl}?key=${this.apiKey}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: prompt,
-              }],
-            }],
-            generationConfig: {
-              temperature: 0.8,
-              maxOutputTokens: 256,
-            },
-          }),
+      const text = await withTimeout(
+        chatComplete([{ role: 'user', content: prompt }], {
+          temperature: 0.8,
+          maxTokens: 256,
         }),
         30000 // 30 second timeout
       );
 
-      if (!response.ok) {
-        throw new Error('Failed to generate hashtags');
-      }
-
-      const data = await response.json();
-      const text = data.candidates[0]?.content?.parts[0]?.text || '';
-      
       // Extract hashtags
       const generatedHashtags: string[] = text.match(/#\w+/g) || [];
       
@@ -572,34 +519,14 @@ Generate ONLY the post text, nothing else:`;
       // Use the new topic suggestion prompt builder
       const prompt = buildTopicSuggestionPrompt(industry, language);
 
-      const response = await withTimeout(
-        fetch(`${this.baseUrl}?key=${this.apiKey}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: prompt,
-              }],
-            }],
-            generationConfig: {
-              temperature: 0.9,
-              maxOutputTokens: 512,
-            },
-          }),
+      const text = await withTimeout(
+        chatComplete([{ role: 'user', content: prompt }], {
+          temperature: 0.9,
+          maxTokens: 512,
         }),
         30000 // 30 second timeout
       );
 
-      if (!response.ok) {
-        throw new Error('Failed to generate topic suggestions');
-      }
-
-      const data = await response.json();
-      const text = data.candidates[0]?.content?.parts[0]?.text || '';
-      
       // Extract topics from numbered list
       const topics = text
         .split('\n')

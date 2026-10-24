@@ -1,0 +1,84 @@
+TASK: Add Paystack payments to Posta: a checkout endpoint and a webhook that credits the buyer.
+
+FACT YOU MUST KNOW: this app has NO payment code at all. The project notes claim a Polar integration is
+live, but there is no lib/polar, no webhook route, and no plan codes anywhere in the tree. So you are
+building the first real payment path, not adapting an existing one.
+
+FILES YOU OWN (create all three, edit nothing else):
+  /root/posta-revive/lib/paystack/client.ts
+  /root/posta-revive/app/api/paystack/checkout/route.ts
+  /root/posta-revive/app/api/webhooks/paystack/route.ts
+
+CONTEXT YOU MUST READ FIRST (do not guess at these):
+  /root/posta-revive/app/api/user/profile/route.ts   - the house style for auth + errors
+  /root/posta-revive/app/api/user/credits/route.ts    - same, and the credits field lives here
+  /root/posta-revive/drizzle/schema.ts                 - the `user` table (tier, credits, email) and any
+                                                         webhook/event table that already exists
+
+WHAT TO BUILD:
+
+1. lib/paystack/client.ts — a small typed client using `fetch` only, no new dependencies:
+   - PAYSTACK_BASE = 'https://api.paystack.co'
+   - reads PAYSTACK_SECRET_KEY from process.env; if absent, every function throws a clear
+     "PAYSTACK_SECRET_KEY is not set" error (do not fall back to a mock and do not invent a success)
+   - initializeTransaction({ email, amountKobo, planCode?, reference, callbackUrl, metadata })
+     -> POST /transaction/initialize, returns { authorizationUrl, reference, accessCode }
+   - verifyTransaction(reference) -> GET /transaction/verify/:reference
+   - verifyWebhookSignature(rawBody: string, signatureHeader: string | null): boolean
+     -> HMAC-SHA512 of the raw request body using PAYSTACK_SECRET_KEY, compared to the header with a
+        timing-safe compare (crypto.timingSafeEqual). This is the security boundary of the whole feature.
+   - Amounts are in the smallest unit (cents/kobo): R299 -> 29900. Export one helper toKobo(rand).
+
+2. app/api/paystack/checkout/route.ts — POST
+   - Require a session via auth.api.getSession({ headers: request.headers }); 401 if absent.
+   - Body { tier: 'pro' | 'business' }; validate and reject anything else with 400.
+   - Plan codes from env: PAYSTACK_PLAN_PRO, PAYSTACK_PLAN_BUSINESS. If the requested plan's code is
+     missing, return 503 with a message naming the missing variable.
+   - Build a unique reference, pass the user id and tier in metadata, and return the authorization URL.
+   - Never return the secret key or any part of it.
+
+3. app/api/webhooks/paystack/route.ts — POST
+   - Read the RAW body text BEFORE parsing JSON, verify the x-paystack-signature header with the function
+     above, and return 401 immediately if it does not verify. No database write may happen before this.
+   - Handle events idempotently. Paystack retries webhooks, so the same event must never credit twice.
+     Use an existing events/webhook table if the schema has one; if it does not, make idempotency work
+     with what exists (for example a unique reference recorded on the user or a dedicated table you
+     create via the drizzle schema) and explain your choice in the report.
+   - Handle `charge.success` (one-off credit purchase): credit the user's `credits` from metadata.
+   - Handle `subscription.create` (and `invoice.payment_succeeded` if present): set the user's `tier`
+     from the plan code and top up the tier's credits. Tier sizes already used by this app: pro = 500
+     credits, business = 2000 credits.
+   - Handle `subscription.disable` / `subscription.not_renew`: drop the user back to tier 'free'.
+   - Always return 200 quickly for events you accept; return 200 for events you deliberately ignore
+     (unknown event types) so Paystack does not retry them forever, and log what you ignored.
+   - Log through the shared logger (lib/logger), never with console.log, and never log the secret key or
+     a full signature.
+
+ACCEPTANCE (actually run these, do not just claim them):
+  a) cd /root/posta-revive && npx tsc --noEmit -p tsconfig.json   -> prints nothing, exit 0
+  b) Signature proof: write /tmp/prove-signature.mjs that imports nothing from the app but reimplements
+     nothing either - instead shell out to the compiled logic is not possible, so write the test as a
+     small node script that (i) computes a valid HMAC-SHA512 of a sample body using the same algorithm,
+     (ii) asserts a matching signature verifies true, (iii) asserts a wrong signature verifies false and
+     (iv) asserts a null header verifies false. Paste the output. State clearly in your report if you
+     tested a copy of the algorithm rather than the function itself, so the difference is not hidden.
+  c) Without a session, POST /api/paystack/checkout must return 401:
+     curl -s -o /dev/null -w "%{http_code}\n" -X POST http://127.0.0.1:3008/posta/api/paystack/checkout
+  d) With no PAYSTACK_SECRET_KEY in the environment the webhook must not 500 in a way that leaks an
+     internal path: paste the status and the response body you get from
+     curl -s -i -X POST http://127.0.0.1:3008/posta/api/webhooks/paystack -d '{}'
+     (401 or a clean 503 are both acceptable; a stack trace is not).
+
+HARD RULES:
+- No git commands that change state (no add/commit/push/checkout/stash/reset/clean/branch).
+- No new npm packages. `fetch` and node's `crypto` only.
+- Do not create or modify any .env file. Read configuration from process.env only.
+- Do not restart or kill anything on port 3008.
+- Do not invent Paystack endpoints or field names: the ones named above are the real API surface.
+- If you cannot verify something, say so explicitly in the report instead of asserting it works.
+
+REPORT (short, with real command output pasted):
+- the three files and what each exposes
+- how you made the webhook idempotent, and why that mechanism was the right one for this schema
+- output of (a), (b), (c) and (d)
+- anything left undone

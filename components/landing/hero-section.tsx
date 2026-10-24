@@ -102,11 +102,15 @@ export default function HeroSection({ translate }: HeroSectionProps) {
                 <i className="fa-solid fa-building text-sa-green text-sm" />
               </div>
               <div>
+                {/* This used to read "5,000+ SA Businesses". We have not launched, so that number was
+                    invented - exactly the kind of false claim this product must never ship with, and the
+                    first thing a payment processor's reviewer would ask us to prove. Replaced with a
+                    claim that is true today. */}
                 <div className="text-white font-bold font-display text-base leading-tight">
-                  5,000+
+                  R0
                 </div>
                 <div className="text-text-tertiary font-mono text-[10px] uppercase tracking-wider">
-                  {translate('hero.stat1') || 'SA Businesses'}
+                  {translate('hero.stat1') || 'To start'}
                 </div>
               </div>
             </div>
