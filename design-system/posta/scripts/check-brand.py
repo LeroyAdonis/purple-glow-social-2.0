@@ -129,9 +129,13 @@ def scan_url(url: str) -> list[str]:
             // black-on-black, which is technically true and completely meaningless.
             if (!el.getClientRects().length) continue;
             const cs = getComputedStyle(el);
+            // A device mockup draws ANOTHER interface inside the page: its own micro type scale (10px labels,
+            // 11px status bar) is that product's UI, not this page's typography. Skip the page-level scale and
+            // 11px floor for its interior — but still measure its CONTRAST, because that text is still text.
+            const inMock = !!el.closest('[data-pf=screen], .pf-screen, [data-mockup-screen]');
             const hasText = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length);
             if (hasText) {
-              out.sizes[cs.fontSize] = (out.sizes[cs.fontSize] || 0) + 1;
+              if (!inMock) out.sizes[cs.fontSize] = (out.sizes[cs.fontSize] || 0) + 1;
               const fg = norm(cs.color), bg = bgOf(el);
               if (fg) {
                 const key = fg + ' on ' + bg;

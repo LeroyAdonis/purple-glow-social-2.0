@@ -1,137 +1,100 @@
-import '@/design-system/posta/tokens.css';
-import React from 'react';
+'use client';
+
 import Link from 'next/link';
 import PostaLogo from './logo';
 
-interface HeroSectionProps {
-  translate?: (key: string) => string;
-}
-
-export default function HeroSection({}: HeroSectionProps) {
+/**
+ * Phone-First hero — a direct port of the approved styleframe at
+ * `sketches/003-phone-first/index.html`, not a redesign of it.
+ *
+ * Rules for anyone editing this file:
+ * - Every number here exists in that styleframe. If you change one, change the styleframe too or you have
+ *   broken the contract the direction was approved against.
+ * - Copy is identical to the styleframe, including the isiZulu draft. Do not "improve" the words: the words
+ *   are the design.
+ * - The only deliberate deviations are accessibility fixes, each marked DEVIATION below. The styleframe's own
+ *   muted grey (#9A8578) fails AA on paper at 12px, so the muted text uses --posta-ink-soft instead.
+ * - Parity is measured, not eyeballed: `python3 scripts/parity-phone-first.py` prints the diff table and writes
+ *   sketches/parity-phone-first/compare.png. It must report 0 differences on layout, type and material.
+ */
+export default function HeroSection() {
   return (
-    <section
-      id="hero"
-      style={{
-        background: 'var(--posta-clay)',
-        color: 'var(--posta-cream)',
-        padding: '96px 16px 64px',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 32,
-        textAlign: 'center',
-      }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24, maxWidth: 720 }}>
-        <PostaLogo size={18} color="var(--posta-cream)" bubbleColor="var(--posta-cream)" />
-        <h1
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 700,
-            fontSize: 'var(--text-display)',
-            lineHeight: 'var(--leading-display)',
-            letterSpacing: 'var(--tracking-tight)',
-            color: 'var(--posta-cream)',
-            margin: 0,
-          }}
-        >
-          Just Posta.
-        </h1>
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: 'var(--text-body-lg)',
-            lineHeight: 'var(--leading-body)',
-            color: 'var(--posta-cream)',
-            margin: 0,
-            maxWidth: '40ch',
-          }}
-        >
-          Posta writes your social posts in all 11 South African languages. You read them, then approve.
-        </p>
-        <Link
-          href="/signup"
-          style={{
-            background: 'var(--posta-gold)',
-            color: 'var(--posta-ink)',
-            padding: '14px 32px',
-            borderRadius: 'var(--radius-pill)',
-            fontWeight: 700,
-            fontSize: 'var(--text-body-lg)',
-            textDecoration: 'none',
-            display: 'inline-block',
-          }}
-        >
-          Get started
-        </Link>
-      </div>
+    <section data-pf="hero" style={{ background: 'var(--posta-clay)', color: 'var(--posta-cream)' }}>
+      <div className="pf-page" data-pf="page">
+        <div className="pf-copy" data-pf="copy">
+          {/* The styleframe's `.mark`: a 26px lockup with a 64px drop to the eyebrow. That pair of numbers is
+              the 98px that made every line of copy sit 49px high when it was missing. Only the position and the
+              size are the styleframe's — the mark itself is our locked drawn bubble, not the styleframe's gold
+              full stop, because a stock or re-invented mark is not our brand. */}
+          <div className="pf-mark" data-pf="mark">
+            <PostaLogo size={26} color="var(--posta-cream)" bubbleColor="var(--posta-gold)" />
+          </div>
 
-      {/* Phone showing the product */}
-      <div
-        style={{
-          width: 260,
-          height: 520,
-          background: 'var(--posta-paper)',
-          borderRadius: 32,
-          boxShadow: 'var(--shadow-sheet)',
-          padding: 16,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 12,
-          color: 'var(--posta-ink)',
-        }}
-      >
-        <div style={{ fontSize: 'var(--text-small)', color: 'var(--posta-ink-soft)', textAlign: 'center' }}>9:41</div>
-        <div
-          style={{
-            background: 'var(--posta-white)',
-            borderRadius: 16,
-            padding: 12,
-            boxShadow: 'var(--shadow-card)',
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 8,
-          }}
-        >
-          <div style={{ fontSize: 'var(--text-small)', fontWeight: 500, color: 'var(--posta-ink-soft)' }}>Posta draft</div>
-          <p style={{ fontSize: 'var(--text-small)', lineHeight: 1.5, margin: 0 }}>
-            Sharp sharp Joburg — new stock in store today. Come through.
+          <div className="pf-eyebrow" data-pf="eyebrow">
+            Made for one phone and a busy day
+          </div>
+
+          <h1 className="pf-h1" data-pf="h1">
+            Sharp sharp.
+            <br />
+            Your posts
+            <br />
+            are <u>ready</u>.
+          </h1>
+
+          <p className="pf-sub" data-pf="sub">
+            Posta drafts in isiZulu, Afrikaans, Sesotho and eight more. You read it, you say yes, it posts. No
+            laptop needed.
           </p>
-          <div style={{ marginTop: 'auto', display: 'flex', gap: 8 }}>
-            <button
-              style={{
-                flex: 1,
-                background: 'var(--posta-clay)',
-                color: 'var(--posta-cream)',
-                border: 'none',
-                borderRadius: 999,
-                padding: '8px 0',
-                minHeight: 44,
-                fontWeight: 700,
-                fontSize: 'var(--text-small)',
-                cursor: 'pointer',
-              }}
-            >
-              Approve
-            </button>
-            <button
-              style={{
-                flex: 1,
-                background: 'transparent',
-                color: 'var(--posta-ink)',
-                border: '1px solid var(--posta-line)',
-                borderRadius: 999,
-                padding: '8px 0',
-                minHeight: 44,
-                fontSize: 'var(--text-small)',
-                cursor: 'pointer',
-              }}
-            >
-              Edit
-            </button>
+
+          <div className="pf-cta">
+            <Link href="/signup" className="pf-primary" data-pf="primary">
+              Start free
+            </Link>
+            <a href="#how-it-works" className="pf-link" data-pf="link">
+              See a real draft
+            </a>
+          </div>
+        </div>
+
+        <div className="pf-phone" data-pf="phone">
+          <div className="pf-screen" data-pf="screen">
+            <div className="pf-sbar">
+              <span>09:12</span>
+              <span>SAST</span>
+            </div>
+
+            <div className="pf-stitle">Tuesday&rsquo;s three posts</div>
+            <div className="pf-stime">Ready to approve</div>
+
+            <div className="pf-draft" data-pf="draft">
+              <div className="pf-lab">Draft &middot; isiZulu</div>
+              <p>
+                &ldquo;Isinkwa esisha siphuma ngo-7. Woza masinyane &mdash; amavetkoek aphela
+                ngokushesha.&rdquo;
+              </p>
+              <div className="pf-chips">
+                <span className="on">isiZulu</span>
+                <span>English</span>
+                <span>Afrikaans</span>
+              </div>
+            </div>
+
+            <div className="pf-slots">
+              <div className="pf-slot" data-pf="slot">
+                <span>07:00 &middot; Instagram</span>
+                <em>Ready</em>
+              </div>
+              <div className="pf-slot" data-pf="slot">
+                <span>12:30 &middot; Facebook</span>
+                <em>Ready</em>
+              </div>
+              {/* A link, not a fake button: the styleframe's gold row is a call to action, and rendering it as
+                  a button that says "approved" would claim a capability the marketing page does not have. */}
+              <Link href="/signup" className="pf-slot pf-slot-go" data-pf="slot">
+                Approve all three
+              </Link>
+            </div>
           </div>
         </div>
       </div>

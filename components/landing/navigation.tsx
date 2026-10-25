@@ -61,7 +61,23 @@ export default function Navigation({ session }: NavigationProps) {
           justifyContent: 'space-between',
         }}
       >
-        <Link href="/" style={{ textDecoration: 'none', minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>
+        {/* At the top the hero owns the mark (it sits exactly where the approved styleframe puts it); once
+            the page scrolls, the nav picks it back up. Two marks on screen at once was the alternative, and it
+            looked like a mistake. */}
+        <Link
+          href="/"
+          style={{
+            textDecoration: 'none',
+            minHeight: 44,
+            display: 'inline-flex',
+            alignItems: 'center',
+            opacity: scrolled ? 1 : 0,
+            pointerEvents: scrolled ? 'auto' : 'none',
+            transition: 'opacity 140ms',
+          }}
+          aria-hidden={!scrolled}
+          tabIndex={scrolled ? 0 : -1}
+        >
           <PostaLogo size={22} color="var(--posta-cream)" bubbleColor="var(--posta-cream)" />
         </Link>
 

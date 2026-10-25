@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/context/LanguageContext";
 import { QueryProvider } from "@/lib/api/query-provider";
@@ -14,12 +14,6 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
   weight: ["400", "500", "700"],
-});
-
-const spaceGrotesk = Space_Grotesk({ 
-  subsets: ["latin"], 
-  variable: "--font-space", 
-  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -49,8 +43,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
+    <html lang="en" className={`${inter.variable}`}>
       <head>
+        {/* Space Grotesk comes from the SAME stylesheet the approved styleframe uses. next/font's variable
+            instance renders bold about 12% wider than Google's static 700 file, which made "Start free" 147px
+            against the styleframe's 138px. Parity needs the same files, not just the same family name. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
         <script src="https://js.puter.com/v2/" defer></script>
       </head>
