@@ -40,7 +40,17 @@
   letter-spacing: -.03em;
   margin: 0;
 }
-.pf-h1 u { text-decoration: none; position: relative; white-space: nowrap; }
+.pf-h1 u {
+  text-decoration: none;
+  position: relative;
+  white-space: nowrap;
+  /* `isolation: isolate` is the whole fix. The approved styleframe drew this bar as an ::after with z-index:-1,
+     which only painted because its clay field came from <body>. Inside a section that paints its own clay, the
+     negative-index child is painted behind that background and silently disappears — measured: 0 gold pixels.
+     Isolating the word gives the negative-index child its own stacking context, so it paints behind the GLYPHS
+     and in front of the section, exactly as approved, with the original geometry untouched. */
+  isolation: isolate;
+}
 .pf-h1 u::after {
   content: "";
   position: absolute;

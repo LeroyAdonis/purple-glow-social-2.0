@@ -88,7 +88,6 @@ fix the defect and record the deviation — do not silently copy the fault.
 | height | `612.562px` |
 
 ### `div` .pf-mark
-**Text:** posta.
 **Box:** 760x34 at (88, 194)
 
 | property | value |
@@ -106,6 +105,117 @@ fix the defect and record the deviation — do not silently copy the fault.
 | alignItems | `center` |
 | width | `760px` |
 | height | `34px` |
+
+### `span`
+**Box:** 79x26 at (88, 198)
+
+| property | value |
+|---|---|
+| color | `#F7EDE2` |
+| borderColor | `#F7EDE2` |
+| fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
+| fontSize | `16px` |
+| fontWeight | `400` |
+| lineHeight | `16px` |
+| display | `flex` |
+| flexDirection | `row` |
+| justifyContent | `normal` |
+| alignItems | `baseline` |
+| width | `78.9062px` |
+| height | `26px` |
+
+### `span`
+**Text:** posta
+**Box:** 67x26 at (88, 198)
+
+| property | value |
+|---|---|
+| color | `#F7EDE2` |
+| borderColor | `#F7EDE2` |
+| fontFamily | `"Space Grotesk", ui-sans-serif, system-ui, sans-serif` |
+| fontSize | `26px` |
+| fontWeight | `700` |
+| lineHeight | `26px` |
+| letterSpacing | `-1.17px` |
+| display | `block` |
+| flexDirection | `row` |
+| justifyContent | `normal` |
+| alignItems | `normal` |
+| width | `66.9062px` |
+| height | `26px` |
+
+### `svg` .[object
+**Box:** 10x10 at (157, 212)
+
+| property | value |
+|---|---|
+| color | `#F7EDE2` |
+| borderColor | `#F7EDE2` |
+| margin | `0px 0px 0px 2px` |
+| fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
+| fontSize | `16px` |
+| fontWeight | `400` |
+| lineHeight | `16px` |
+| display | `block` |
+| flexDirection | `row` |
+| justifyContent | `normal` |
+| alignItems | `normal` |
+| width | `10px` |
+| height | `10px` |
+
+### `g` .[object
+**Box:** 8x8 at (158, 213)
+
+| property | value |
+|---|---|
+| color | `#F7EDE2` |
+| borderColor | `#F7EDE2` |
+| fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
+| fontSize | `16px` |
+| fontWeight | `400` |
+| lineHeight | `16px` |
+| display | `inline` |
+| flexDirection | `row` |
+| justifyContent | `normal` |
+| alignItems | `normal` |
+| width | `auto` |
+| height | `auto` |
+
+### `path` .[object
+**Box:** 8x8 at (158, 213)
+
+| property | value |
+|---|---|
+| color | `#F7EDE2` |
+| borderColor | `#F7EDE2` |
+| fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
+| fontSize | `16px` |
+| fontWeight | `400` |
+| lineHeight | `16px` |
+| display | `inline` |
+| flexDirection | `row` |
+| justifyContent | `normal` |
+| alignItems | `normal` |
+| width | `auto` |
+| height | `auto` |
+
+### `circle` .[object
+**Box:** 2x2 at (161, 215)
+
+| property | value |
+|---|---|
+| color | `#F7EDE2` |
+| borderColor | `#F7EDE2` |
+| fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
+| fontSize | `16px` |
+| fontWeight | `400` |
+| lineHeight | `16px` |
+| display | `inline` |
+| flexDirection | `row` |
+| justifyContent | `normal` |
+| alignItems | `normal` |
+| width | `auto` |
+| height | `auto` |
 
 ### `div` .pf-eyebrow
 **Text:** Made for one phone and a busy day

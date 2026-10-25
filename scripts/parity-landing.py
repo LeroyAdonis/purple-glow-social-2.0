@@ -110,6 +110,9 @@ def main() -> int:
     ap.add_argument("--mockup", default=str(STYLEFRAME))
     ap.add_argument("--json", default="")
     ap.add_argument("--shots", action="store_true", help="also write mockup.png, live.png and compare.png")
+    ap.add_argument("--pixels", action="store_true",
+                    help="also screenshot every role on both sides and report differing pixels. "
+                         "Computed styles cannot see a decoration that failed to paint.")
     args = ap.parse_args()
 
     mock_url = pathlib.Path(args.mockup).resolve().as_uri()
@@ -174,6 +177,61 @@ def main() -> int:
     print("-" * 88)
     print(f"{diffs} measured differences across {len([r for r in ROLES if mock.get(r)])} roles"
           + (f" ({missing} role(s) missing from the live page)" if missing else ""))
+
+    pixel_rows = []
+    if args.pixels:
+        try:
+            from PIL import Image, ImageChops
+        except ImportError:
+            print("Pillow missing: pip install pillow", file=sys.stderr)
+            return 2
+        outdir = ROOT / "design-system/posta/styleframe/parity/pixels"
+        outdir.mkdir(parents=True, exist_ok=True)
+        with sync_playwright() as p2:
+            browser = p2.chromium.launch(**launch_args())
+            page = browser.new_page(viewport={"width": W, "height": H}, device_scale_factor=1)
+            shots: dict[str, dict[str, str]] = {}
+            for side, url in (("mock", mock_url), ("live", args.live)):
+                page.goto(url, wait_until="networkidle", timeout=60000)
+                page.wait_for_timeout(1200)
+                page.evaluate("""() => {
+                  for (const el of document.querySelectorAll('[role=dialog], [aria-label*=cookie i], [class*=cookie i]'))
+                    el.remove();
+                }""")
+                page.wait_for_timeout(150)
+                for role in ROLES:
+                    loc = page.locator(f'[data-sf="{role}"]')
+                    if not loc.count():
+                        continue
+                    f = outdir / f"{role}-{side}.png"
+                    try:
+                        loc.first.screenshot(path=str(f))
+                        shots.setdefault(role, {})[side] = str(f)
+                    except Exception:
+                        pass
+            browser.close()
+        print("\nPIXEL DIFF (a role whose pixels differ is drawing something the computed styles did not reveal)")
+        print("-" * 88)
+        for role, both in shots.items():
+            if "mock" not in both or "live" not in both:
+                continue
+            a, b = Image.open(both["mock"]).convert("RGB"), Image.open(both["live"]).convert("RGB")
+            if a.size != b.size:
+                pixel_rows.append((role, f"size {a.size[0]}x{a.size[1]}", f"{b.size[0]}x{b.size[1]}"))
+                continue
+            diff = ImageChops.difference(a, b)
+            changed = sum(1 for px in list(diff.getdata()) if sum(px) > 30)
+            total = a.size[0] * a.size[1]
+            pct = changed / total * 100 if total else 0
+            if pct > 0.5:
+                pixel_rows.append((role, f"{pct:.1f}% of {total}", f"{changed} px"))
+        if pixel_rows:
+            for r in pixel_rows:
+                print(f"{r[0]:14} {'differs':18} {r[1]:26} {r[2]:26}")
+            diffs += len(pixel_rows)
+        else:
+            print("every compared role paints identically")
+        print("-" * 88)
 
     if args.json:
         pathlib.Path(args.json).write_text(json.dumps({"mockup": mock, "live": live, "diffs": rows}, indent=2))
