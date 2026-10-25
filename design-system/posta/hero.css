@@ -153,21 +153,40 @@
   min-height: 44px;
   cursor: pointer;
 }
-/* Scaling, not redesign: below the styleframe's canvas the type and phone step down and the columns stack. */
+/* ── responsive ────────────────────────────────────────────────────────────────────────────────────────────────
+   Scaling, not redesign: below the styleframe's canvas the type and phone step down and the columns stack.
+
+   Two faults measured on real tablets, both fixed here:
+   1. NO BOTTOM-OF-NAV CLEARANCE. The styleframe is a 1600x1000 composition with NO nav. The app puts a 65px
+      fixed nav on top of it, but every breakpoint used 40-60px of top padding, so hero content slid under the
+      bar — the mockup phone sat at y48 against a nav ending at y65 at every width below 1400.
+   2. THE STACKING POINT WAS 1024, WHICH IS AN IPAD PRO PORTRAIT. Two columns still fit at that width (copy +
+      40 gap + 300 phone inside 928), so a 392x800 phone was being left-aligned under the copy on a tablet that
+      had room for the real layout. Stacking now starts at 860, and when it does the phone is CENTRED.
+   The default rules above are untouched, so the 1600x1000 parity contract is unaffected. */
 @media (max-width: 1400px) {
-  .pf-page { gap: 64px; padding: 48px 48px; min-height: auto; }
+  .pf-page { gap: 64px; padding: calc(65px + 44px) 48px 48px; min-height: auto; }
   .pf-h1 { font-size: clamp(56px, 7.2vw, 96px); }
   .pf-phone { width: 340px; height: 694px; }
 }
-@media (max-width: 1024px) {
-  .pf-page { flex-direction: column; align-items: flex-start; gap: 56px; padding: 40px 24px 64px; }
+/* tablet: keep two columns and shrink the phone instead of stacking it */
+@media (max-width: 1100px) {
+  .pf-page { gap: 40px; padding: calc(65px + 40px) 32px 48px; align-items: center; }
   .pf-copy { max-width: none; }
-  .pf-h1 { font-size: clamp(44px, 9vw, 72px); }
-  .pf-sub { margin-top: 24px; font-size: 18px; }
-  .pf-phone { width: 100%; max-width: 392px; height: auto; aspect-ratio: 392 / 800; }
+  .pf-h1 { font-size: clamp(44px, 6.6vw, 76px); }
+  .pf-sub { margin-top: 22px; font-size: 18px; }
+  .pf-phone { width: 300px; height: 612px; flex: none; }
+}
+/* phone, and narrow portrait tablets: stack, and centre the phone */
+@media (max-width: 860px) {
+  .pf-page { flex-direction: column; align-items: stretch; gap: 44px; padding: calc(65px + 28px) 24px 56px; }
+  .pf-copy { max-width: none; }
+  .pf-h1 { font-size: clamp(40px, 9.4vw, 68px); }
+  .pf-sub { margin-top: 20px; font-size: 17px; }
+  .pf-phone { width: min(340px, 88vw); height: auto; aspect-ratio: 392 / 800; margin: 0 auto; }
 }
 @media (max-width: 520px) {
-  .pf-h1 { font-size: clamp(38px, 11.5vw, 52px); letter-spacing: -.025em; }
+  .pf-h1 { font-size: clamp(36px, 11.5vw, 52px); letter-spacing: -.025em; }
   .pf-cta { gap: 18px; flex-wrap: wrap; }
   .pf-primary { padding: 16px 26px; }
 }
