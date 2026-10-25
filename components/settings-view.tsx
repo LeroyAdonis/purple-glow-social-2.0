@@ -474,10 +474,10 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                         options={[
                           { value: "en", label: "English" },
                           { value: "af", label: "Afrikaans" },
-                          { value: "zu", label: "isiZulu" },
-                          { value: "xh", label: "isiXhosa" },
-                          { value: "nso", label: "Sesotho sa Leboa" },
-                          { value: "tn", label: "Setswana" }
+                          { value: "zu", label: "Zulu" },
+                          { value: "xh", label: "Xhosa" },
+                          { value: "nso", label: "Pedi" },
+                          { value: "tn", label: "Tswana" }
                         ]}
                         placeholder="Select language"
                       />

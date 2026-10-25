@@ -79,9 +79,15 @@
 .pf-link {
   font-size: 15px;
   color: rgba(247, 237, 226, .85);
-  border-bottom: 1px solid rgba(247, 237, 226, .35);
-  padding-bottom: 3px;
-  text-decoration: none;
+  /* The line must sit under the WORDS, not at the bottom of the 44px tap target. Using border-bottom with a
+     44px box put it 13px low — visible, wrong, and it survived a 0-difference parity run because both sides
+     shared the bug. text-decoration draws in the text's own space. */
+  border-bottom: none;
+  padding-bottom: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(247, 237, 226, .35);
+  text-underline-offset: 3px;
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -127,6 +133,7 @@
 }
 .pf-slot em { font-style: normal; color: var(--posta-ink-soft); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
 .pf-slot-go {
+  text-decoration: none;
   background: var(--posta-gold);
   border-color: var(--posta-gold);
   color: var(--posta-ink);

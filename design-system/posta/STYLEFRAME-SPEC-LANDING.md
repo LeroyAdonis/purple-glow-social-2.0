@@ -69,7 +69,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 | height | `1000px` |
 
 ### `div` .pf-copy
-**Box:** 760x645 at (88, 178)
+**Box:** 760x613 at (88, 194)
 
 | property | value |
 |---|---|
@@ -85,11 +85,11 @@ fix the defect and record the deviation — do not silently copy the fault.
 | alignItems | `normal` |
 | maxWidth | `760px` |
 | width | `760px` |
-| height | `644.562px` |
+| height | `612.562px` |
 
 ### `div` .pf-mark
 **Text:** posta.
-**Box:** 760x34 at (88, 178)
+**Box:** 760x34 at (88, 194)
 
 | property | value |
 |---|---|
@@ -109,7 +109,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 
 ### `div` .pf-eyebrow
 **Text:** Made for one phone and a busy day
-**Box:** 760x16 at (88, 276)
+**Box:** 760x16 at (88, 292)
 
 | property | value |
 |---|---|
@@ -131,7 +131,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 
 ### `h1` .pf-h1
 **Text:** Sharp sharp. Your posts are .
-**Box:** 760x274 at (88, 318)
+**Box:** 760x274 at (88, 334)
 
 | property | value |
 |---|---|
@@ -150,7 +150,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 | height | `273.562px` |
 
 ### `br`
-**Box:** 0x122 at (642, 302)
+**Box:** 0x122 at (642, 318)
 
 | property | value |
 |---|---|
@@ -169,7 +169,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 | height | `auto` |
 
 ### `br`
-**Box:** 0x122 at (554, 393)
+**Box:** 0x122 at (554, 409)
 
 | property | value |
 |---|---|
@@ -189,7 +189,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 
 ### `u`
 **Text:** ready
-**Box:** 252x122 at (248, 484)
+**Box:** 252x122 at (248, 500)
 
 | property | value |
 |---|---|
@@ -209,8 +209,8 @@ fix the defect and record the deviation — do not silently copy the fault.
 | position | `relative` |
 
 ### `p` .pf-sub
-**Text:** Posta drafts in isiZulu, Afrikaans, Sesotho and eight more. You read it, you say yes, it posts. No laptop needed.
-**Box:** 520x96 at (88, 625)
+**Text:** Posta drafts in Zulu, Afrikaans, Sotho and eight more. You read it, you say yes, it posts. No laptop needed.
+**Box:** 520x64 at (88, 641)
 
 | property | value |
 |---|---|
@@ -227,10 +227,10 @@ fix the defect and record the deviation — do not silently copy the fault.
 | alignItems | `normal` |
 | maxWidth | `520px` |
 | width | `520px` |
-| height | `96px` |
+| height | `64px` |
 
 ### `div` .pf-cta
-**Box:** 760x57 at (88, 765)
+**Box:** 760x57 at (88, 749)
 
 | property | value |
 |---|---|
@@ -251,7 +251,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 
 ### `a` .pf-primary
 **Text:** Start free
-**Box:** 139x57 at (88, 765)
+**Box:** 139x57 at (88, 749)
 
 | property | value |
 |---|---|
@@ -273,14 +273,12 @@ fix the defect and record the deviation — do not silently copy the fault.
 
 ### `a` .pf-link
 **Text:** See a real draft
-**Box:** 108x44 at (253, 772)
+**Box:** 108x44 at (253, 756)
 
 | property | value |
 |---|---|
 | color | `rgba(247, 237, 226, 0.85)` |
-| borderWidth | `0px 0px 1px` |
-| borderColor | `rgba(247, 237, 226, 0.85) rgba(247, 237, 226, 0.85) rgba(247, 237, 226, 0.35)` |
-| padding | `0px 0px 3px` |
+| borderColor | `rgba(247, 237, 226, 0.85)` |
 | fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
 | fontSize | `15px` |
 | fontWeight | `400` |
@@ -456,7 +454,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 | height | `165.5px` |
 
 ### `div` .pf-lab
-**Text:** Draft · isiZulu
+**Text:** Draft · Zulu
 **Box:** 282x12 at (1013, 260)
 
 | property | value |
@@ -517,8 +515,8 @@ fix the defect and record the deviation — do not silently copy the fault.
 | height | `22px` |
 
 ### `span` .on
-**Text:** isiZulu
-**Box:** 49x22 at (1013, 366)
+**Text:** Zulu
+**Box:** 39x22 at (1013, 366)
 
 | property | value |
 |---|---|
@@ -535,12 +533,12 @@ fix the defect and record the deviation — do not silently copy the fault.
 | flexDirection | `row` |
 | justifyContent | `normal` |
 | alignItems | `normal` |
-| width | `48.6719px` |
+| width | `38.5469px` |
 | height | `22px` |
 
 ### `span`
 **Text:** English
-**Box:** 52x22 at (1069, 366)
+**Box:** 52x22 at (1059, 366)
 
 | property | value |
 |---|---|
@@ -562,7 +560,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 
 ### `span`
 **Text:** Afrikaans
-**Box:** 63x22 at (1128, 366)
+**Box:** 63x22 at (1118, 366)
 
 | property | value |
 |---|---|
@@ -911,7 +909,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 | height | `26.3906px` |
 
 ### `p` .ps-body
-**Text:** isiZulu, isiXhosa, Afrikaans and eight more. You read every word before it goes out.
+**Text:** Zulu, Xhosa, Afrikaans and eight more. You read every word before it goes out.
 **Box:** 288x77 at (113, 1239)
 
 | property | value |
@@ -2264,9 +2262,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 | property | value |
 |---|---|
 | color | `#F7EDE2` |
-| borderWidth | `0px 0px 1px` |
-| borderColor | `#F7EDE2 rgb(247, 237, 226) rgba(247, 237, 226, 0.35)` |
-| padding | `0px 0px 2px` |
+| borderColor | `#F7EDE2` |
 | fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
 | fontSize | `14px` |
 | fontWeight | `400` |
@@ -2285,9 +2281,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 | property | value |
 |---|---|
 | color | `#F7EDE2` |
-| borderWidth | `0px 0px 1px` |
-| borderColor | `#F7EDE2 rgb(247, 237, 226) rgba(247, 237, 226, 0.35)` |
-| padding | `0px 0px 2px` |
+| borderColor | `#F7EDE2` |
 | fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
 | fontSize | `14px` |
 | fontWeight | `400` |
@@ -2306,9 +2300,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 | property | value |
 |---|---|
 | color | `#F7EDE2` |
-| borderWidth | `0px 0px 1px` |
-| borderColor | `#F7EDE2 rgb(247, 237, 226) rgba(247, 237, 226, 0.35)` |
-| padding | `0px 0px 2px` |
+| borderColor | `#F7EDE2` |
 | fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
 | fontSize | `14px` |
 | fontWeight | `400` |
@@ -2327,9 +2319,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 | property | value |
 |---|---|
 | color | `#F7EDE2` |
-| borderWidth | `0px 0px 1px` |
-| borderColor | `#F7EDE2 rgb(247, 237, 226) rgba(247, 237, 226, 0.35)` |
-| padding | `0px 0px 2px` |
+| borderColor | `#F7EDE2` |
 | fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
 | fontSize | `14px` |
 | fontWeight | `400` |
@@ -2348,9 +2338,7 @@ fix the defect and record the deviation — do not silently copy the fault.
 | property | value |
 |---|---|
 | color | `#F7EDE2` |
-| borderWidth | `0px 0px 1px` |
-| borderColor | `#F7EDE2 rgb(247, 237, 226) rgba(247, 237, 226, 0.35)` |
-| padding | `0px 0px 2px` |
+| borderColor | `#F7EDE2` |
 | fontFamily | `Inter, ui-sans-serif, system-ui, sans-serif` |
 | fontSize | `14px` |
 | fontWeight | `400` |

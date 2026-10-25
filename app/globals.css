@@ -9,11 +9,12 @@
 
 @theme {
   /* ─── FONTS ──────────────────────────────────────────────────────── */
-  /* Font families use CSS variables set by next/font in layout.tsx:
-     --font-syne, --font-outfit, --font-space */
+  /* BOTH families load from the Google stylesheet in app/layout.tsx — the same one the styleframe links.
+     next/font's variable instances set bold measurably wider than the static files the design was approved
+     against (12% on Space Grotesk bold, 4px on a 15px Inter link), which is enough to fail parity. */
 
   --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;  /* the styleframe's own stylesheet */
-  --font-body: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;  /* the styleframe's own stylesheet */
   --font-mono: ui-monospace, 'DejaVu Sans Mono', monospace;
   --font-family-display: var(--font-display);  /* ALIAS */
   --font-family-body: var(--font-body);         /* ALIAS */

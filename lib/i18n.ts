@@ -15,15 +15,15 @@ export interface LanguageInfo {
 export const LANGUAGES: LanguageInfo[] = [
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧' },
   { code: 'af', name: 'Afrikaans', nativeName: 'Afrikaans', flag: '🇿🇦' },
-  { code: 'zu', name: 'isiZulu', nativeName: 'isiZulu', flag: '🇿🇦' },
-  { code: 'xh', name: 'isiXhosa', nativeName: 'isiXhosa', flag: '🇿🇦' },
+  { code: 'zu', name: 'Zulu', nativeName: 'Zulu', flag: '🇿🇦' },
+  { code: 'xh', name: 'Xhosa', nativeName: 'Xhosa', flag: '🇿🇦' },
   { code: 'nso', name: 'Sepedi', nativeName: 'Sepedi', flag: '🇿🇦' },
-  { code: 'tn', name: 'Setswana', nativeName: 'Setswana', flag: '🇿🇦' },
-  { code: 'st', name: 'Sesotho', nativeName: 'Sesotho', flag: '🇿🇦' },
-  { code: 'ts', name: 'Xitsonga', nativeName: 'Xitsonga', flag: '🇿🇦' },
-  { code: 'ss', name: 'siSwati', nativeName: 'siSwati', flag: '🇿🇦' },
-  { code: 've', name: 'Tshivenda', nativeName: 'Tshivenda', flag: '🇿🇦' },
-  { code: 'nr', name: 'isiNdebele', nativeName: 'isiNdebele', flag: '🇿🇦' }
+  { code: 'tn', name: 'Tswana', nativeName: 'Tswana', flag: '🇿🇦' },
+  { code: 'st', name: 'Sotho', nativeName: 'Sotho', flag: '🇿🇦' },
+  { code: 'ts', name: 'Tsonga', nativeName: 'Tsonga', flag: '🇿🇦' },
+  { code: 'ss', name: 'Swati', nativeName: 'Swati', flag: '🇿🇦' },
+  { code: 've', name: 'Venda', nativeName: 'Venda', flag: '🇿🇦' },
+  { code: 'nr', name: 'Ndebele', nativeName: 'Ndebele', flag: '🇿🇦' }
 ];
 
 // Translation storage

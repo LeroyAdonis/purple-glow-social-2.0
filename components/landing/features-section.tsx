@@ -8,7 +8,7 @@ import React from 'react';
  * Parity is measured by scripts/parity-landing.py — it must report 0 for this section.
  */
 const features = [
-  { title: 'Writes in 11 languages', body: 'isiZulu, isiXhosa, Afrikaans and eight more. You read every word before it goes out.' },
+  { title: 'Writes in 11 languages', body: 'Zulu, Xhosa, Afrikaans and eight more. You read every word before it goes out.' },
   { title: 'Four platforms', body: 'Instagram, Facebook, X and LinkedIn from one screen.' },
   { title: 'You approve every post', body: 'Nothing is published without your yes.' },
   { title: 'Schedule ahead', body: 'Pick a day and time in SAST. Posta handles the rest.' },

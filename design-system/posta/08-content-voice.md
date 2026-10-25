@@ -22,7 +22,7 @@ its front page.
 1. **Never claim a number we cannot show.** No user counts, no "trusted by", no ratings, no testimonials from
    people who do not exist. If a customer count is zero, the site says nothing about customers.
 2. **Never claim a capability that is not built and working.** "Coming soon" is honest; a fake feature is not.
-3. **Never use "AI-powered" as the description.** Say what it does: "writes your post in isiZulu so you can read
+3. **Never use "AI-powered" as the description.** Say what it does: "writes your post in Zulu so you can read
    it before it goes out".
 4. **Name the limit.** "Free plan: 10 credits, 5 scheduled posts" beats "generous free tier".
 5. **Errors state the cause and the fix.** "Instagram rejected the image because it is 9MB and the limit is
@@ -38,14 +38,14 @@ its front page.
 | Confirmation | "Published to Instagram at 17:30." | "Success!" |
 | Failure | "Facebook rejected the post: the caption is 640 characters and the limit is 632." | "Error occurred" |
 | Credit running out | "3 credits left — enough for one more post." | "Low balance" |
-| Language choice | "isiZulu" (its own name), "Afrikaans", "Setswana" | "Zulu (South Africa)" |
+| Language choice | "Zulu" (its own name), "Afrikaans", "Tswana" | "Zulu (South Africa)" |
 | Destructive | "Delete this post?" + what is lost + "Delete post" button | "Are you sure?" |
-| Loading | "Writing your post in isiZulu…" | "Loading…" |
+| Loading | "Writing your post in Zulu…" | "Loading…" |
 
 ## Language names — use the language's own name
 
-English · Afrikaans · isiZulu · isiXhosa · Sesotho · Setswana · Sepedi · Xitsonga · siSwati · Tshivenda ·
-isiNdebele
+English · Afrikaans · Zulu · Xhosa · Sotho · Tswana · Sepedi · Tsonga · Swati · Venda ·
+Ndebele
 
 Never "Zulu" alone in a language picker — the picker is for the person who speaks it. (English and Afrikaans
 are already the native names; the other nine use their own.)
@@ -58,7 +58,7 @@ Posta generates copy in 11 languages, so our own strings must be translation-saf
 - No text baked into images.
 - No idioms that will not survive translation in the UI chrome — save the personality for marketing, keep the
   app copy literal and clear.
-- Every label must be tested with its **longest** translation, not English. IsiZulu and Sesotho are routinely
+- Every label must be tested with its **longest** translation, not English. IsiZulu and Sotho are routinely
   30–50% longer.
 - Do not uppercase localised strings programmatically (`text-transform`); uppercase is for our own English meta
   labels only.
@@ -82,3 +82,13 @@ Posta generates copy in 11 languages, so our own strings must be translation-saf
 | Errors | Calm, specific, and always with a next step. |
 | Billing and legal | Plain, exact, no personality. Money is not a place for wit. |
 | Email | Same as the app, plus a single clear action. |
+
+## Language names — say them the way South Africans say them
+
+No noun-class prefix in customer-facing copy. The language is **Zulu**, not isiZulu; **Sotho**, not Sesotho;
+**Xhosa**, **Tswana**, **Ndebele**, **Swati**, **Tsonga**, **Venda**, **Pedi**. English and Afrikaans are
+unchanged.
+
+This applies to page copy, the phone mockup, chips, the language picker and every document a customer reads. It
+does **not** apply to AI prompts or the language codes: a model asked to write "isiZulu" produces isiZulu, so the
+generation prompts keep the full name. Display short, generate full.

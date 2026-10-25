@@ -33,7 +33,7 @@ W, H = 1600, 1000
 
 # Every compared element, by the shared data-sf role. order does not matter.
 ROLES = [
-    "hero", "page", "copy", "mark", "eyebrow", "h1", "sub", "cta", "primary", "phone", "screen", "draft",
+    "hero", "page", "copy", "mark", "eyebrow", "h1", "sub", "cta", "primary", "link", "phone", "screen", "draft",
     "slot", "slot-go",
     "features", "features-head", "features-grid", "feature-card",
     "how", "how-head", "steps", "step",
@@ -51,6 +51,9 @@ PROPS = [
     "backgroundColor", "color", "borderRadius", "borderColor", "borderWidth", "boxShadow",
     "padding", "margin", "gap", "fontSize", "fontWeight", "letterSpacing", "lineHeight",
     "fontFamily", "textTransform", "opacity", "display", "gridTemplateColumns",
+    # underline geometry: a 44px tap target with a border-bottom put the line 13px below the words and
+    # a 0-difference run did not notice, because nothing compared these.
+    "textDecorationLine", "textDecorationThickness", "textUnderlineOffset", "textDecorationColor",
 ]
 
 # Values that mean "not specified", so comparing them produces noise rather than a defect.

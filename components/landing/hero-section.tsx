@@ -10,7 +10,7 @@ import PostaLogo from './logo';
  * Rules for anyone editing this file:
  * - Every number here exists in that styleframe. If you change one, change the styleframe too or you have
  *   broken the contract the direction was approved against.
- * - Copy is identical to the styleframe, including the isiZulu draft. Do not "improve" the words: the words
+ * - Copy is identical to the styleframe, including the Zulu draft. Do not "improve" the words: the words
  *   are the design.
  * - The only deliberate deviations are accessibility fixes, each marked DEVIATION below. The styleframe's own
  *   muted grey (#9A8578) fails AA on paper at 12px, so the muted text uses --posta-ink-soft instead.
@@ -43,7 +43,7 @@ export default function HeroSection() {
           </h1>
 
           <p className="pf-sub" data-pf="sub" data-sf="sub">
-            Posta drafts in isiZulu, Afrikaans, Sesotho and eight more. You read it, you say yes, it posts. No
+            Posta drafts in Zulu, Afrikaans, Sotho and eight more. You read it, you say yes, it posts. No
             laptop needed.
           </p>
 
@@ -68,13 +68,13 @@ export default function HeroSection() {
             <div className="pf-stime">Ready to approve</div>
 
             <div className="pf-draft" data-pf="draft" data-sf="draft">
-              <div className="pf-lab">Draft &middot; isiZulu</div>
+              <div className="pf-lab">Draft &middot; Zulu</div>
               <p>
                 &ldquo;Isinkwa esisha siphuma ngo-7. Woza masinyane &mdash; amavetkoek aphela
                 ngokushesha.&rdquo;
               </p>
               <div className="pf-chips">
-                <span className="on">isiZulu</span>
+                <span className="on">Zulu</span>
                 <span>English</span>
                 <span>Afrikaans</span>
               </div>

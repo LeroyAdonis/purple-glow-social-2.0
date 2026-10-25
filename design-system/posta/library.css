@@ -134,9 +134,11 @@
 .ps-link {
   font-size: 15px;
   color: inherit;
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 3px;
-  text-decoration: none;
+  /* same rule as .pf-link: underline under the words, tap target still 44px */
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
   min-height: 44px;
   line-height: 1.2;
   display: inline-flex;
@@ -174,6 +176,7 @@
   text-transform: uppercase;
 }
 .ps-row-item--go {
+  text-decoration: none;
   background: var(--posta-gold);
   border-color: var(--posta-gold);
   color: var(--posta-ink);
@@ -211,9 +214,10 @@
   min-height: 44px;
   display: inline-flex;
   align-items: center;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(247, 237, 226, .35);
-  padding-bottom: 2px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(247, 237, 226, .35);
 }
 
 /* ── FORM PARTS (auth + contact) ───────────────────────────────────────── */
