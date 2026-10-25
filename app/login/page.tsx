@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { signIn } from '../../lib/auth-client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { logger } from '../../lib/logger';
 
@@ -10,22 +10,26 @@ import '@/design-system/posta/tokens.css';
 
 export default function LoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const appBase = process.env.NEXT_PUBLIC_APP_BASE_PATH ?? '';
-  const redirectTo = `${appBase}${searchParams.get('redirect') || '/dashboard'}`;
+  // Read at call time, not render time: keeps the route server-renderable.
+  const resolveRedirectTo = () => {
+    const appBase = process.env.NEXT_PUBLIC_APP_BASE_PATH ?? '';
+    if (typeof window === 'undefined') return `${appBase}/dashboard`;
+    const target = new URLSearchParams(window.location.search).get('redirect') || '/dashboard';
+    return `${appBase}${target}`;
+  };
 
   React.useEffect(() => {
     logger.auth.debug('Login page loaded', {
       hasAuthURL: !!process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
       isProduction: typeof window !== 'undefined' && window.location.hostname.includes('vercel.app'),
-      redirectTo
+      redirectTo: resolveRedirectTo()
     });
-  }, [redirectTo]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +37,7 @@ export default function LoginPage() {
     setError(null);
 
     try {
+      const redirectTo = resolveRedirectTo();
       logger.auth.info('Login attempt started', { email, redirectTo });
 
       const result = await signIn.email({
@@ -58,6 +63,7 @@ export default function LoginPage() {
   };
 
   const handleGoogleSignIn = async () => {
+    const redirectTo = resolveRedirectTo();
     setIsLoading(true);
     setError(null);
     try {
@@ -101,7 +107,7 @@ export default function LoginPage() {
       <div style={{ width: '100%', maxWidth: 400 }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 32, letterSpacing: '-0.045em', color: 'var(--posta-ink)' }}>posta</div>
-          <p style={{ color: 'var(--posta-ink-soft)', marginTop: 8 }}>Welcome back.</p>
+          <h1 style={{ color: 'var(--posta-ink-soft)', marginTop: 8 }}>Welcome back.</h1>
         </div>
 
         {error && (
@@ -193,7 +199,7 @@ export default function LoginPage() {
 
         <p style={{ textAlign: 'center', fontSize: 'var(--text-small)', color: 'var(--posta-ink-soft)' }}>
           New here?{' '}
-          <Link href="/signup" style={{ color: 'var(--posta-clay)', fontWeight: 700, textDecoration: 'underline' }}>
+          <Link href="/signup" style={{ color: 'var(--posta-clay)', fontWeight: 700, textDecoration: 'underline', padding: '14px 6px' }}>
             Create an account
           </Link>
         </p>

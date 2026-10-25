@@ -95,7 +95,7 @@ export default function SignUpPage() {
       <div style={{ width: '100%', maxWidth: 400 }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 32, letterSpacing: '-0.045em', color: 'var(--posta-ink)' }}>posta</div>
-          <p style={{ color: 'var(--posta-ink-soft)', marginTop: 8 }}>Create your account.</p>
+          <h1 style={{ color: 'var(--posta-ink-soft)', marginTop: 8 }}>Create your account.</h1>
         </div>
 
         {error && (
@@ -165,7 +165,7 @@ export default function SignUpPage() {
 
         <p style={{ textAlign: 'center', fontSize: 'var(--text-small)', color: 'var(--posta-ink-soft)' }}>
           Already have an account?{' '}
-          <Link href="/login" style={{ color: 'var(--posta-clay)', fontWeight: 700, textDecoration: 'underline' }}>
+          <Link href="/login" style={{ color: 'var(--posta-clay)', fontWeight: 700, textDecoration: 'underline', padding: '14px 6px' }}>
             Sign in
           </Link>
         </p>
