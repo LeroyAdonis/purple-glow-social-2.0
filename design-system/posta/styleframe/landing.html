@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Posta — landing styleframe</title>
+<!--
+  THE LANDING STYLEFRAME. The whole page, section by section, in one file.
+
+  The hero below is the APPROVED hero (sketches/003-phone-first/index.html) transcribed with the shared
+  .pf-* classes and unchanged values — 96px/0.95/-.03em, 110px gap, 392x800 phone, 44/32 radii, 64px mark drop.
+  Do not "improve" it here; it is the part that was signed off.
+
+  Every other section is composed from ../library.css, so a component built for features is the same component
+  used in pricing, in the app and in the phone mockup. If a section needs something the library lacks, the
+  library gets it FIRST — one component, one place.
+
+  Workflow:
+    1. edit this file;
+    2. python3 ~/.hermes/skills/creative/design-parity/scripts/styleframe_spec.py \
+         --mockup design-system/posta/styleframe/landing.html \
+         --out design-system/posta/STYLEFRAME-SPEC-LANDING.md --width 1600 --height 1000
+    3. implement, then `python3 scripts/parity-landing.py` must report 0 differences per section.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../library.css">
+<link rel="stylesheet" href="../hero.css">
+<style>
+  /* Styleframe scaffolding only: mirrors the classes the app puts on <body> in app/layout.tsx, so the
+     styleframe renders in the same font on the same ground. Nothing here is a design decision. */
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--posta-paper);color:var(--posta-ink);font-family:var(--font-body);
+       -webkit-font-smoothing:antialiased}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO — approved, unchanged ═══════════════════════════════════════ -->
+<section class="ps-clay" data-sf="hero">
+  <div class="pf-page" data-sf="page">
+    <div class="pf-copy" data-sf="copy">
+      <div class="pf-mark" data-sf="mark">posta.</div>
+      <div class="pf-eyebrow" data-sf="eyebrow">Made for one phone and a busy day</div>
+      <h1 class="pf-h1" data-sf="h1">Sharp sharp.<br>Your posts<br>are <u>ready</u>.</h1>
+      <p class="pf-sub" data-sf="sub">Posta drafts in isiZulu, Afrikaans, Sesotho and eight more. You read it, you say yes, it posts. No laptop needed.</p>
+      <div class="pf-cta" data-sf="cta">
+        <a href="#" class="pf-primary" data-sf="primary">Start free</a>
+        <a href="#how" class="pf-link" data-sf="link">See a real draft</a>
+      </div>
+    </div>
+    <div class="pf-phone" data-sf="phone">
+      <div class="pf-screen" data-sf="screen">
+        <div class="pf-sbar"><span>09:12</span><span>SAST</span></div>
+        <div class="pf-stitle">Tuesday’s three posts</div>
+        <div class="pf-stime">Ready to approve</div>
+        <div class="pf-draft" data-sf="draft">
+          <div class="pf-lab">Draft · isiZulu</div>
+          <p>“Isinkwa esisha siphuma ngo-7. Woza masinyane — amavetkoek aphela ngokushesha.”</p>
+          <div class="pf-chips"><span class="on">isiZulu</span><span>English</span><span>Afrikaans</span></div>
+        </div>
+        <div class="pf-slots">
+          <div class="pf-slot" data-sf="slot"><span>07:00 · Instagram</span><em>Ready</em></div>
+          <div class="pf-slot" data-sf="slot"><span>12:30 · Facebook</span><em>Ready</em></div>
+          <a href="#" class="pf-slot pf-slot-go" data-sf="slot-go">Approve all three</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES — paper ═════════════════════════════════════════════════ -->
+<section class="ps-section ps-paper" id="features" data-sf="features">
+  <div class="ps-wrap">
+    <div class="ps-head" data-sf="features-head">
+      <p class="ps-eyebrow">What you get</p>
+      <h2 class="ps-h2">What Posta does</h2>
+    </div>
+    <div class="ps-grid" data-sf="features-grid">
+      <article class="ps-card" data-sf="feature-card">
+        <h3 class="ps-h3">Writes in 11 languages</h3>
+        <p class="ps-body ps-muted" style="margin-top:8px">isiZulu, isiXhosa, Afrikaans and eight more. You read every word before it goes out.</p>
+      </article>
+      <article class="ps-card" data-sf="feature-card">
+        <h3 class="ps-h3">Four platforms</h3>
+        <p class="ps-body ps-muted" style="margin-top:8px">Instagram, Facebook, X and LinkedIn from one screen.</p>
+      </article>
+      <article class="ps-card" data-sf="feature-card">
+        <h3 class="ps-h3">You approve every post</h3>
+        <p class="ps-body ps-muted" style="margin-top:8px">Nothing is published without your yes.</p>
+      </article>
+      <article class="ps-card" data-sf="feature-card">
+        <h3 class="ps-h3">Schedule ahead</h3>
+        <p class="ps-body ps-muted" style="margin-top:8px">Pick a day and time in SAST. Posta handles the rest.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS — clay band ═════════════════════════════════════════ -->
+<section class="ps-section ps-clay" id="how-it-works" data-sf="how">
+  <div class="ps-wrap">
+    <div class="ps-head" data-sf="how-head">
+      <p class="ps-eyebrow">Three steps</p>
+      <h2 class="ps-h2">How it works</h2>
+    </div>
+    <div class="ps-stack ps-gap-32" data-sf="steps">
+      <div class="ps-row ps-gap-16" data-sf="step">
+        <div class="ps-step">1</div>
+        <div>
+          <h3 class="ps-h3">Tell Posta the topic</h3>
+          <p class="ps-body ps-muted" style="margin-top:4px">One line is enough. “New stock in store this weekend.”</p>
+        </div>
+      </div>
+      <div class="ps-row ps-gap-16" data-sf="step">
+        <div class="ps-step">2</div>
+        <div>
+          <h3 class="ps-h3">Read the drafts</h3>
+          <p class="ps-body ps-muted" style="margin-top:4px">Posta writes a post in each language you pick. You read them.</p>
+        </div>
+      </div>
+      <div class="ps-row ps-gap-16" data-sf="step">
+        <div class="ps-step">3</div>
+        <div>
+          <h3 class="ps-h3">Approve and schedule</h3>
+          <p class="ps-body ps-muted" style="margin-top:4px">Approve the ones you want. Posta publishes at the time you set.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING — paper ══════════════════════════════════════════════════ -->
+<section class="ps-section ps-paper" id="pricing" data-sf="pricing">
+  <div class="ps-wrap">
+    <div class="ps-head" data-sf="pricing-head">
+      <p class="ps-eyebrow">Pricing</p>
+      <h2 class="ps-h2">Pay in rands, cancel any time</h2>
+      <p class="ps-lead ps-muted">No VAT — R299 is R299. Credits are spent only when a post actually publishes.</p>
+    </div>
+    <div class="ps-grid-3" data-sf="pricing-grid">
+      <article class="ps-card ps-card--full" data-sf="price-card">
+        <h3 class="ps-h3">Free</h3>
+        <p class="ps-price">R0<span> /month</span></p>
+        <p class="ps-small ps-muted">10 credits, 5 scheduled posts</p>
+        <a href="#" class="ps-pill ps-pill--quiet ps-pill--sm" style="margin-top:auto">Start free</a>
+      </article>
+      <article class="ps-card ps-card--full" data-sf="price-card">
+        <h3 class="ps-h3">Pro</h3>
+        <p class="ps-price">R299<span> /month</span></p>
+        <p class="ps-small ps-muted">500 credits, 50 scheduled posts, 5 automation rules</p>
+        <a href="#" class="ps-pill ps-pill--ink ps-pill--sm" style="margin-top:auto">Choose Pro</a>
+      </article>
+      <article class="ps-card ps-card--full" data-sf="price-card">
+        <h3 class="ps-h3">Business</h3>
+        <p class="ps-price">R999<span> /month</span></p>
+        <p class="ps-small ps-muted">2000 credits, 200 scheduled posts, 20 automation rules</p>
+        <a href="#" class="ps-pill ps-pill--quiet ps-pill--sm" style="margin-top:auto">Choose Business</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT — clay ═══════════════════════════════════════════════════ -->
+<section class="ps-section ps-clay" id="contact" data-sf="contact">
+  <div class="ps-wrap">
+    <div class="ps-head" data-sf="contact-head">
+      <p class="ps-eyebrow">Contact</p>
+      <h2 class="ps-h2">Talk to a person</h2>
+    </div>
+    <p class="ps-body" data-sf="contact-email">leroy@digitalwavetech.dev</p>
+    <p class="ps-body ps-muted" style="margin-top:8px" data-sf="contact-hours">Monday to Friday, 08:00 to 17:00 (SAST)</p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER — deep ════════════════════════════════════════════════════ -->
+<footer class="ps-footer ps-deep" data-sf="footer">
+  <div class="ps-wrap ps-stack ps-gap-24">
+    <p class="ps-small">Posta is a product of Digital Wave Tech (Pty) Ltd, registration 2026/809312/07. Not VAT registered. 10 Tiemie Road, Bryanston, Sandton, Gauteng, 2191, South Africa.</p>
+    <nav class="ps-footer-nav" data-sf="footer-nav">
+      <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Refund</a><a href="#">Contact</a><a href="#">Cookies</a>
+    </nav>
+    <hr class="ps-rule">
+    <p class="ps-caption" style="opacity:.8">© 2026 Digital Wave Tech (Pty) Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>

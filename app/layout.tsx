@@ -1,6 +1,10 @@
 import React from 'react';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
+// The component library. One stylesheet for every page that is not the hero; the hero has its own file so the
+// approved styleframe and the build share a single copy of those rules.
+import "@/design-system/posta/library.css";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/context/LanguageContext";
 import { QueryProvider } from "@/lib/api/query-provider";

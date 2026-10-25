@@ -1,43 +1,30 @@
-import '@/design-system/posta/tokens.css';
 import React from 'react';
 
+/**
+ * How it works — mirrors `[data-sf=how]` in design-system/posta/styleframe/landing.html.
+ * A clay band between two paper sections: the page breathes, and the eye knows a new idea started.
+ */
 const steps = [
-  { n: '1', title: 'Tell Posta the topic', body: 'One line is enough. "New stock in store this weekend."' },
+  { n: '1', title: 'Tell Posta the topic', body: 'One line is enough. “New stock in store this weekend.”' },
   { n: '2', title: 'Read the drafts', body: 'Posta writes a post in each language you pick. You read them.' },
   { n: '3', title: 'Approve and schedule', body: 'Approve the ones you want. Posta publishes at the time you set.' },
 ];
 
 export default function HowItWorksSection() {
   return (
-    <section id="how-it-works" style={{ background: 'var(--posta-clay)', color: 'var(--posta-cream)', padding: '64px 16px' }}>
-      <div style={{ maxWidth: 'var(--page-max)', margin: '0 auto' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-h2)', marginBottom: 32 }}>
-          How it works
-        </h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <section id="how-it-works" className="ps-section ps-clay" data-sf="how">
+      <div className="ps-wrap">
+        <div className="ps-head" data-sf="how-head">
+          <p className="ps-eyebrow">Three steps</p>
+          <h2 className="ps-h2">How it works</h2>
+        </div>
+        <div className="ps-stack ps-gap-32" data-sf="steps">
           {steps.map((s) => (
-            <div key={s.n} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-              <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: '50%',
-                  background: 'var(--posta-cream)',
-                  color: 'var(--posta-clay)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 700,
-                  flexShrink: 0,
-                }}
-              >
-                {s.n}
-              </div>
+            <div className="ps-row ps-gap-16" data-sf="step" key={s.n}>
+              <div className="ps-step">{s.n}</div>
               <div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-h3)', marginBottom: 4 }}>
-                  {s.title}
-                </h3>
-                <p style={{ fontSize: 'var(--text-body)', lineHeight: 'var(--leading-body)', color: 'var(--posta-cream)', opacity: 0.9 }}>
+                <h3 className="ps-h3">{s.title}</h3>
+                <p className="ps-body ps-muted" style={{ marginTop: 4 }}>
                   {s.body}
                 </p>
               </div>

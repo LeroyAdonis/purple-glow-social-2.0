@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Posta — component library</title>
+<!--
+  THE COMPONENT STYLEFRAME.
+
+  This file is the design contract for every page that is not the hero. The hero was approved as
+  sketches/003-phone-first/index.html and is not touched here; these components continue its language:
+  clay fields, cream type, hairline borders on paper, one shadow in the whole system (the phone's), and a
+  bounded type scale of 96/56/48/22/20/16/14/12.
+
+  Workflow, and it is not optional:
+    1. change THIS file (or landing.html) first;
+    2. re-extract the spec: python3 ~/.hermes/skills/creative/design-parity/scripts/styleframe_spec.py
+         --mockup <this file> --out design-system/posta/STYLEFRAME-SPEC-LIBRARY.md --width 1600 --height 1000;
+    3. implement against the spec, then measure: scripts/parity-landing.py must report 0.
+
+  Every component below is defined once, with every state it can be in. A component whose empty, loading or
+  error state is not drawn here will be invented by whoever builds it, differently each time.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../library.css">
+<style>
+  /* Styleframe-only scaffolding. NOT part of the system: it exists so the page can present components side by
+     side. Anything a builder needs is in ../library.css. */
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--posta-paper);color:var(--posta-ink);font-family:var(--font-body)}
+  .sf-block{border-bottom:1px solid var(--posta-line)}
+  .sf-head{padding:20px 88px;background:#fff;border-bottom:1px solid var(--posta-line);
+           display:flex;align-items:baseline;gap:14px}
+  .sf-head b{font-family:var(--font-display);font-size:16px}
+  .sf-head span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--posta-ink-soft)}
+  .sf-states{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+  .sf-tag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--posta-ink-soft);margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<!-- ══ GROUNDS ══════════════════════════════════════════════════════════ -->
+<div class="sf-block">
+  <div class="sf-head"><b>Grounds</b><span>three, and no others</span></div>
+  <div class="ps-section ps-clay"><div class="ps-wrap"><p class="ps-body">.ps-clay — clay field, cream type. Hero and how-it-works band.</p></div></div>
+  <div class="ps-section ps-paper"><div class="ps-wrap"><p class="ps-body">.ps-paper — the default ground for content. Features, pricing, contact.</p></div></div>
+  <div class="ps-section ps-deep"><div class="ps-wrap"><p class="ps-body">.ps-deep — footer only. Darker than clay so the page ends.</p></div></div>
+</div>
+
+<!-- ══ SECTION HEADER ═══════════════════════════════════════════════════ -->
+<div class="sf-block">
+  <div class="sf-head"><b>Section header</b><span>eyebrow + h2 + lead</span></div>
+  <section class="ps-section ps-paper">
+    <div class="ps-wrap">
+      <div class="ps-head" data-sf="head">
+        <p class="ps-eyebrow">What you get</p>
+        <h2 class="ps-h2">What Posta does</h2>
+        <p class="ps-lead ps-muted">One screen, four platforms, eleven languages. You approve every word before it goes out.</p>
+      </div>
+    </div>
+  </section>
+  <section class="ps-section ps-clay">
+    <div class="ps-wrap">
+      <div class="ps-head" data-sf="head-clay">
+        <p class="ps-eyebrow">Three steps</p>
+        <h2 class="ps-h2">How it works</h2>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ CARDS ════════════════════════════════════════════════════════════ -->
+<div class="sf-block">
+  <div class="sf-head"><b>Cards</b><span>flat on paper · hairline · radius 16</span></div>
+  <section class="ps-section ps-paper">
+    <div class="ps-wrap">
+      <div class="ps-grid" data-sf="cards">
+        <article class="ps-card" data-sf="card">
+          <h3 class="ps-h3">Writes in 11 languages</h3>
+          <p class="ps-body ps-muted" style="margin-top:8px">isiZulu, isiXhosa, Afrikaans and eight more. You read every word before it goes out.</p>
+        </article>
+        <article class="ps-card" data-sf="card">
+          <h3 class="ps-h3">Four platforms</h3>
+          <p class="ps-body ps-muted" style="margin-top:8px">Instagram, Facebook, X and LinkedIn from one screen.</p>
+        </article>
+        <article class="ps-card" data-sf="card">
+          <h3 class="ps-h3">You approve every post</h3>
+          <p class="ps-body ps-muted" style="margin-top:8px">Nothing is published without your yes.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="ps-section ps-clay">
+    <div class="ps-wrap">
+      <div class="ps-grid" data-sf="cards-clay">
+        <article class="ps-card ps-card--clay" data-sf="card-clay">
+          <h3 class="ps-h3">On a clay field</h3>
+          <p class="ps-body ps-muted" style="margin-top:8px">Transparent fill, cream hairline. Never a white card on clay — it shouts.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ BUTTONS ══════════════════════════════════════════════════════════ -->
+<div class="sf-block">
+  <div class="sf-head"><b>Buttons</b><span>pill · every state</span></div>
+  <section class="ps-section ps-paper">
+    <div class="ps-wrap">
+      <p class="sf-tag">on paper</p>
+      <div class="sf-states" data-sf="pills-paper">
+        <a href="#" class="ps-pill ps-pill--ink" data-sf="pill">Start free</a>
+        <a href="#" class="ps-pill ps-pill--quiet" data-sf="pill-quiet">See pricing</a>
+        <a href="#" class="ps-pill ps-pill--ink ps-pill--sm" data-sf="pill-sm">Choose Pro</a>
+        <a href="#" class="ps-link" data-sf="link">See a real draft</a>
+      </div>
+      <p class="sf-tag" style="margin-top:28px">on clay · disabled · loading</p>
+      <div class="sf-states ps-clay" style="padding:24px;border-radius:16px" data-sf="pills-clay">
+        <a href="#" class="ps-pill ps-pill--cream" data-sf="pill-cream">Start free</a>
+        <a href="#" class="ps-pill ps-pill--quiet" data-sf="pill-quiet-clay">See a real draft</a>
+        <button class="ps-pill ps-pill--cream" disabled style="opacity:.55;cursor:not-allowed" data-sf="pill-disabled">Start free</button>
+        <button class="ps-pill ps-pill--cream" style="cursor:progress" data-sf="pill-loading">Sending…</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ PRICE CARDS ══════════════════════════════════════════════════════ -->
+<div class="sf-block">
+  <div class="sf-head"><b>Price card</b><span>name · price · what you get · one action</span></div>
+  <section class="ps-section ps-paper">
+    <div class="ps-wrap">
+      <div class="ps-grid-3" data-sf="prices">
+        <article class="ps-card ps-card--full" data-sf="price">
+          <h3 class="ps-h3">Free</h3>
+          <p class="ps-price">R0<span> /month</span></p>
+          <p class="ps-small ps-muted">10 credits, 5 scheduled posts</p>
+          <a href="#" class="ps-pill ps-pill--quiet ps-pill--sm" style="margin-top:auto">Start free</a>
+        </article>
+        <article class="ps-card ps-card--full" data-sf="price">
+          <h3 class="ps-h3">Pro</h3>
+          <p class="ps-price">R299<span> /month</span></p>
+          <p class="ps-small ps-muted">500 credits, 50 scheduled posts, 5 automation rules</p>
+          <a href="#" class="ps-pill ps-pill--ink ps-pill--sm" style="margin-top:auto">Choose Pro</a>
+        </article>
+        <article class="ps-card ps-card--full" data-sf="price">
+          <h3 class="ps-h3">Business</h3>
+          <p class="ps-price">R999<span> /month</span></p>
+          <p class="ps-small ps-muted">2000 credits, 200 scheduled posts, 20 automation rules</p>
+          <a href="#" class="ps-pill ps-pill--quiet ps-pill--sm" style="margin-top:auto">Choose Business</a>
+        </article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ STEPS ════════════════════════════════════════════════════════════ -->
+<div class="sf-block">
+  <div class="sf-head"><b>Steps</b><span>numbered, on clay</span></div>
+  <section class="ps-section ps-clay">
+    <div class="ps-wrap">
+      <div class="ps-stack ps-gap-32" data-sf="steps">
+        <div class="ps-row ps-gap-16" data-sf="step">
+          <div class="ps-step">1</div>
+          <div>
+            <h3 class="ps-h3">Tell Posta the topic</h3>
+            <p class="ps-body ps-muted" style="margin-top:4px">One line is enough. “New stock in store this weekend.”</p>
+          </div>
+        </div>
+        <div class="ps-row ps-gap-16" data-sf="step">
+          <div class="ps-step">2</div>
+          <div>
+            <h3 class="ps-h3">Read the drafts</h3>
+            <p class="ps-body ps-muted" style="margin-top:4px">Posta writes a post in each language you pick. You read them.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ QUEUE ROWS + CHIPS ═══════════════════════════════════════════════ -->
+<div class="sf-block">
+  <div class="sf-head"><b>Queue row · chip</b><span>used in the app and in the phone mockup</span></div>
+  <section class="ps-section ps-paper">
+    <div class="ps-wrap" style="max-width:520px">
+      <div class="ps-stack ps-gap-12" data-sf="rows">
+        <div class="ps-row-item" data-sf="row"><span>07:00 · Instagram</span><em>Ready</em></div>
+        <div class="ps-row-item" data-sf="row"><span>12:30 · Facebook</span><em>Ready</em></div>
+        <div class="ps-row-item" data-sf="row"><span>18:00 · LinkedIn</span><em>Draft</em></div>
+        <div class="ps-row-item" data-sf="row"><span>06:00 · X</span><em>Failed — tap to retry</em></div>
+        <a href="#" class="ps-row-item ps-row-item--go" data-sf="row-go">Approve all three</a>
+      </div>
+      <div class="sf-states" style="margin-top:24px" data-sf="chips">
+        <span class="ps-chip ps-chip--on">isiZulu</span>
+        <span class="ps-chip">English</span>
+        <span class="ps-chip">Afrikaans</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ FORM ═════════════════════════════════════════════════════════════ -->
+<div class="sf-block">
+  <div class="sf-head"><b>Form</b><span>label · input · note · error</span></div>
+  <section class="ps-section ps-paper">
+    <div class="ps-wrap" style="max-width:440px">
+      <div class="ps-stack ps-gap-24" data-sf="form">
+        <div class="ps-field" data-sf="field">
+          <label class="ps-label" for="sf-email">Email</label>
+          <input class="ps-input" id="sf-email" type="email" placeholder="you@example.co.za">
+        </div>
+        <div class="ps-field" data-sf="field">
+          <label class="ps-label" for="sf-pass">Password</label>
+          <input class="ps-input" id="sf-pass" type="password" value="hunter2hunter2">
+          <p class="ps-note">At least 8 characters.</p>
+        </div>
+        <div class="ps-field" data-sf="field-error">
+          <label class="ps-label" for="sf-bad">Email</label>
+          <input class="ps-input" id="sf-bad" type="email" value="not-an-email" aria-invalid="true">
+          <p class="ps-note ps-note--warn">That email address is missing an @.</p>
+        </div>
+        <button class="ps-pill ps-pill--ink" style="width:100%">Create account</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ EMPTY STATE ══════════════════════════════════════════════════════ -->
+<div class="sf-block">
+  <div class="sf-head"><b>Empty state</b><span>honest, never fake data</span></div>
+  <section class="ps-section ps-paper">
+    <div class="ps-wrap" style="max-width:520px">
+      <div class="ps-card" data-sf="empty" style="text-align:center;padding:40px 24px">
+        <h3 class="ps-h3">No posts yet</h3>
+        <p class="ps-body ps-muted" style="margin-top:8px">Write your first post and it will appear here.</p>
+        <a href="#" class="ps-pill ps-pill--ink ps-pill--sm" style="margin-top:20px">Write a post</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════════════ -->
+<div class="sf-block">
+  <div class="sf-head"><b>Footer</b><span>deep ground · 44px links</span></div>
+  <footer class="ps-footer ps-deep" data-sf="footer">
+    <div class="ps-wrap ps-stack ps-gap-24">
+      <p class="ps-small">Posta is a product of Digital Wave Tech (Pty) Ltd, reg 2026/809312/07, not VAT registered.
+        10 Tiemie Road, Bryanston, Sandton, Gauteng, 2191.</p>
+      <nav class="ps-footer-nav" data-sf="footer-nav">
+        <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Refund</a><a href="#">Contact</a><a href="#">Cookies</a>
+      </nav>
+      <hr class="ps-rule">
+      <p class="ps-caption" style="opacity:.8">© 2026 Digital Wave Tech (Pty) Ltd. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

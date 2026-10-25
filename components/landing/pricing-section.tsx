@@ -1,57 +1,49 @@
 'use client';
 
-import '@/design-system/posta/tokens.css';
-
 import React from 'react';
 import Link from 'next/link';
 
+/**
+ * Pricing — mirrors `[data-sf=pricing]` in design-system/posta/styleframe/landing.html.
+ *
+ * Honesty rules baked into the copy: the prices are the real plan prices, "No VAT" is true because Digital Wave
+ * Tech is not VAT registered, and credits are described as spent on publish because that is when they are.
+ * A price card that promises a capability we do not have is a refund waiting to happen.
+ */
 const plans = [
-  { name: 'Free', price: 'R0', note: '10 credits, 5 scheduled posts', cta: 'Start free' },
-  { name: 'Pro', price: 'R299', note: '500 credits, 50 scheduled posts, 5 automation rules', cta: 'Choose Pro' },
-  { name: 'Business', price: 'R999', note: '2000 credits, 200 scheduled posts, 20 automation rules', cta: 'Choose Business' },
+  { name: 'Free', price: 'R0', note: '10 credits, 5 scheduled posts', cta: 'Start free', variant: 'quiet' },
+  { name: 'Pro', price: 'R299', note: '500 credits, 50 scheduled posts, 5 automation rules', cta: 'Choose Pro', variant: 'ink' },
+  { name: 'Business', price: 'R999', note: '2000 credits, 200 scheduled posts, 20 automation rules', cta: 'Choose Business', variant: 'quiet' },
 ];
 
 export default function PricingSection() {
   return (
-    <section id="pricing" style={{ background: 'var(--posta-paper)', color: 'var(--posta-ink)', padding: '64px 16px' }}>
-      <div style={{ maxWidth: 'var(--page-max)', margin: '0 auto' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-h2)', marginBottom: 32 }}>
-          Pricing
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24 }}>
+    <section id="pricing" className="ps-section ps-paper" data-sf="pricing">
+      <div className="ps-wrap">
+        <div className="ps-head" data-sf="pricing-head">
+          <p className="ps-eyebrow">Pricing</p>
+          <h2 className="ps-h2">Pay in rands, cancel any time</h2>
+          <p className="ps-lead ps-muted">
+            No VAT — R299 is R299. Credits are spent only when a post actually publishes.
+          </p>
+        </div>
+        <div className="ps-grid-3" data-sf="pricing-grid">
           {plans.map((p) => (
-            <div
-              key={p.name}
-              style={{
-                background: 'var(--posta-white)',
-                borderRadius: 'var(--radius-md)',
-                padding: 24,
-                boxShadow: 'var(--shadow-card)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 12,
-              }}
-            >
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-h3)', margin: 0 }}>{p.name}</h3>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-h1)' }}>{p.price}<span style={{ fontSize: 'var(--text-small)', fontWeight: 400, color: 'var(--posta-ink-soft)' }}>/month</span></div>
-              <p style={{ fontSize: 'var(--text-body)', color: 'var(--posta-ink-soft)', margin: 0 }}>{p.note}</p>
+            <article className="ps-card ps-card--full" data-sf="price-card" key={p.name}>
+              <h3 className="ps-h3">{p.name}</h3>
+              <p className="ps-price">
+                {p.price}
+                <span> /month</span>
+              </p>
+              <p className="ps-small ps-muted">{p.note}</p>
               <Link
                 href="/signup"
-                style={{
-                  marginTop: 8,
-                  background: 'var(--posta-clay)',
-                  color: 'var(--posta-cream)',
-                  padding: '10px 20px',
-                  borderRadius: 'var(--radius-pill)',
-                  fontWeight: 700,
-                  fontSize: 'var(--text-body)',
-                  textDecoration: 'none',
-                  textAlign: 'center',
-                }}
+                className={`ps-pill ps-pill--${p.variant} ps-pill--sm`}
+                style={{ marginTop: 'auto' }}
               >
                 {p.cta}
               </Link>
-            </div>
+            </article>
           ))}
         </div>
       </div>

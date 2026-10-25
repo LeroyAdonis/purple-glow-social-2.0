@@ -1,18 +1,22 @@
-import '@/design-system/posta/tokens.css';
 import React from 'react';
 import { COMPANY } from '@/lib/company';
 
+/**
+ * Contact — mirrors `[data-sf=contact]` in design-system/posta/styleframe/landing.html.
+ * One real address and one real promise. No form that quietly drops the message.
+ */
 export default function ContactSection() {
   return (
-    <section id="contact" style={{ background: 'var(--posta-clay)', color: 'var(--posta-cream)', padding: '64px 16px' }}>
-      <div style={{ maxWidth: 'var(--page-max)', margin: '0 auto' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-h2)', marginBottom: 16 }}>
-          Contact
-        </h2>
-        <p style={{ fontSize: 'var(--text-body)', marginBottom: 8 }}>
+    <section id="contact" className="ps-section ps-clay" data-sf="contact">
+      <div className="ps-wrap">
+        <div className="ps-head" data-sf="contact-head">
+          <p className="ps-eyebrow">Contact</p>
+          <h2 className="ps-h2">Talk to a person</h2>
+        </div>
+        <p className="ps-body" data-sf="contact-email">
           {COMPANY.supportEmail}
         </p>
-        <p style={{ fontSize: 'var(--text-body)', opacity: 0.85 }}>
+        <p className="ps-body ps-muted" style={{ marginTop: 8 }} data-sf="contact-hours">
           {COMPANY.supportHours}
         </p>
       </div>

@@ -1,37 +1,40 @@
-import '@/design-system/posta/tokens.css';
 import React from 'react';
 import Link from 'next/link';
-import { COMPANY, legalFooterLine } from '@/lib/company';
+import { COMPANY, companyAddressLine, legalFooterLine } from '@/lib/company';
+
+/**
+ * Footer — mirrors `[data-sf=footer]` in design-system/posta/styleframe/landing.html.
+ *
+ * The legal identity comes from lib/company.ts, never typed here: one source of truth for the entity name,
+ * registration number and VAT status, so a stale detail cannot survive in one place and not another.
+ */
+const links = [
+  { href: '/privacy', label: 'Privacy' },
+  { href: '/terms', label: 'Terms' },
+  { href: '/refund', label: 'Refund' },
+  { href: '/contact', label: 'Contact' },
+  { href: '/cookies', label: 'Cookies' },
+];
 
 export default function FooterSection() {
   return (
-    <footer
-      style={{
-        background: 'var(--posta-clay-deep)',
-        color: 'var(--posta-cream)',
-        padding: '48px 16px',
-      }}
-    >
-      <div style={{ maxWidth: 'var(--page-max)', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 24 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 22, letterSpacing: '-0.045em' }}>posta</span>
-        </div>
-        <p style={{ fontSize: 14, color: 'var(--posta-cream)', opacity: 0.85, maxWidth: '68ch' }}>
-          {legalFooterLine()} {COMPANY.legalName}, reg {COMPANY.registrationNumber}, not VAT registered.
+    <footer className="ps-footer ps-deep" data-sf="footer">
+      <div className="ps-wrap ps-stack ps-gap-24">
+        <p className="ps-small">
+          {/* legalFooterLine() already names the entity AND its registration number. The old footer appended
+              both again, so the page said "Digital Wave Tech (Pty) Ltd, registration 2026/809312/07" twice in
+              one sentence. One entity, stated once. */}
+          {legalFooterLine()} Not VAT registered. {companyAddressLine()}.
         </p>
-        <nav style={{ display: 'flex', flexWrap: 'wrap', gap: 16, fontSize: 14 }}>
-          <Link href="/privacy" style={{ color: 'var(--posta-cream)', textDecoration: 'underline',
-            minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>Privacy</Link>
-          <Link href="/terms" style={{ color: 'var(--posta-cream)', textDecoration: 'underline',
-            minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>Terms</Link>
-          <Link href="/refund" style={{ color: 'var(--posta-cream)', textDecoration: 'underline',
-            minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>Refund</Link>
-          <Link href="/contact" style={{ color: 'var(--posta-cream)', textDecoration: 'underline',
-            minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>Contact</Link>
-          <Link href="/cookies" style={{ color: 'var(--posta-cream)', textDecoration: 'underline',
-            minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>Cookies</Link>
+        <nav className="ps-footer-nav" data-sf="footer-nav">
+          {links.map((l) => (
+            <Link href={l.href} key={l.href}>
+              {l.label}
+            </Link>
+          ))}
         </nav>
-        <p style={{ fontSize: 12, color: 'var(--posta-cream)', opacity: 0.7 }}>
+        <hr className="ps-rule" />
+        <p className="ps-caption" style={{ opacity: 0.8 }}>
           © {new Date().getFullYear()} {COMPANY.legalName}. All rights reserved.
         </p>
       </div>

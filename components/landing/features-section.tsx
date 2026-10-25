@@ -1,6 +1,12 @@
-import '@/design-system/posta/tokens.css';
 import React from 'react';
 
+/**
+ * Features — mirrors `design-system/posta/styleframe/landing.html` section `[data-sf=features]` exactly.
+ *
+ * The class names are the system's (`ps-*`), not one-off inline styles: the same .ps-card is used here, in
+ * pricing, and in the phone mockup. Values live in design-system/posta/library.css, never in this file.
+ * Parity is measured by scripts/parity-landing.py — it must report 0 for this section.
+ */
 const features = [
   { title: 'Writes in 11 languages', body: 'isiZulu, isiXhosa, Afrikaans and eight more. You read every word before it goes out.' },
   { title: 'Four platforms', body: 'Instagram, Facebook, X and LinkedIn from one screen.' },
@@ -10,29 +16,20 @@ const features = [
 
 export default function FeaturesSection() {
   return (
-    <section id="features" style={{ background: 'var(--posta-paper)', color: 'var(--posta-ink)', padding: '64px 16px' }}>
-      <div style={{ maxWidth: 'var(--page-max)', margin: '0 auto' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-h2)', marginBottom: 32 }}>
-          What Posta does
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24 }}>
+    <section id="features" className="ps-section ps-paper" data-sf="features">
+      <div className="ps-wrap">
+        <div className="ps-head" data-sf="features-head">
+          <p className="ps-eyebrow">What you get</p>
+          <h2 className="ps-h2">What Posta does</h2>
+        </div>
+        <div className="ps-grid" data-sf="features-grid">
           {features.map((f) => (
-            <div
-              key={f.title}
-              style={{
-                background: 'var(--posta-white)',
-                borderRadius: 'var(--radius-md)',
-                padding: 24,
-                boxShadow: 'var(--shadow-card)',
-              }}
-            >
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-h3)', marginBottom: 8 }}>
-                {f.title}
-              </h3>
-              <p style={{ fontSize: 'var(--text-body)', lineHeight: 'var(--leading-body)', color: 'var(--posta-ink-soft)' }}>
+            <article className="ps-card" data-sf="feature-card" key={f.title}>
+              <h3 className="ps-h3">{f.title}</h3>
+              <p className="ps-body ps-muted" style={{ marginTop: 8 }}>
                 {f.body}
               </p>
-            </div>
+            </article>
           ))}
         </div>
       </div>
