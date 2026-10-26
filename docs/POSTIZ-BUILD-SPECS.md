@@ -177,7 +177,6 @@ agency multiples of a solo plan.
 ---
 
 ## 7. New channel specs (concrete, from their implementations)
-
 ### Threads — build this one first 【obs】
 - Scopes: `threads_basic`, `threads_content_publish`, `threads_manage_replies`, `threads_manage_insights`.
 - Auth: `https://www.threads.net/oauth/authorize`; token refresh `graph.threads.net/refresh_access_token`
@@ -225,5 +224,51 @@ Threads and Telegram first, then these once we want video.
 | 6 | Engagement-reply plugs | The standout feature | 1 day (needs 3 + 5) |
 | 7 | Telegram channel | Cheap reach | half a day |
 | 8 | Approval flow | Unlocks the agency tier | 3 days |
+| 9 | `/api/v1` + `posta` CLI + skill | Agent-driven posting; no SA competitor has it | 3 days |
+| 10 | Serve generated images from an absolute URL | Blocks TikTok/video; their docs say local paths are rejected | half a day |
 
 Items 1–3 are one working week and change the product from "scheduler" to "scheduler with a reason to pay".
+
+---
+
+## 8. The agent CLI + public API pattern (from `gitroomhq/postiz-agent`)
+
+**Source:** their official agent CLI, repo `gitroomhq/postiz-agent`, npm package `postiz`, v2.0.26, AGPL-3.0.
+Same organisation and author as postiz-app, so it is authoritative — and **still AGPL**, so behaviour only,
+never code. It is a *client* of their public API, which makes it the cleanest description of the contract.
+
+**【obs】** One tool, three front doors: a `postiz` CLI binary (`yargs`), an MCP config (`mcp.json`), and a
+**893-line `SKILL.md`** that teaches any agent to drive it (`allowed-tools: Bash(postiz:*)`). Base URL is
+`POSTIZ_API_URL`, default `https://api.postiz.com` — the same binary works against a self-hosted instance.
+
+**【obs】** The entire public surface is ten endpoints, and it is small enough to copy as a *shape*:
+```
+POST /public/v1/posts          schedule / list        GET /public/v1/integrations   connected channels
+POST /public/v1/upload         upload media           GET /public/v1/analytics/     account metrics
+GET  /public/v1/media          list uploads           GET /public/v1/analytics/post/{id}
+GET  /public/v1/integration-settings/                 per-provider settings schema
+POST /public/v1/integration-trigger/                  provider-specific action (e.g. Reddit flair)
+GET  /public/v1/groups                                customer groups
+POST /public/v1/clipping
+```
+
+**Two constraints in there that we have not solved and will hit 【obs】**:
+1. **Media must be uploaded through the platform first.** Their skill states it as a hard rule: raw
+   filesystem paths and third-party URLs are rejected by the publishing pipeline, so every file goes through
+   `postiz upload` and the returned URL is what gets posted. Our image feature writes to `public/generated/`
+   and passes a local path — that is exactly the pattern their docs say fails on TikTok, Instagram and
+   YouTube. **We must serve images from our own public, absolute URL** before wiring video or TikTok.
+2. **Per-post settings need a platform discriminator.** Their payload uses `settings.__type: "<platform>"`
+   plus platform fields (e.g. Reddit `subreddit[]` with `title`, `type`, `is_flair_required`). One
+   discriminated-union column, not a bag of nullable columns per platform.
+
+**【obs】** Documented per-provider settings exist for reddit, youtube, x, linkedin, instagram, tiktok,
+facebook, pinterest, discord, slack, medium, devto, hashnode, wordpress.
+
+**Our design 【inf】**
+- Expose `/api/v1/*` with the same *shape* (posts, integrations, media, analytics) and a bearer API key per
+  user, so an agent can act as them. This is a differentiator no SA competitor has: Leroy's own agents, and a
+  customer's Claude, can schedule posts for a business.
+- Ship `posta` CLI + a `SKILL.md`, same three front doors. Our skill is written by us.
+- **Fix the media rule before channels five and six land** — store the image and publish an absolute
+  `https://posta.digitalwavetech.dev/...` URL, never a filesystem path.
