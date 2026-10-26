@@ -39,9 +39,23 @@ everything behind the login.
 - Deploy: `/root/posta-serve.sh` (`db`, `seed`, `build`, `start`); Caddy maps the domain to `127.0.0.1:3008`;
   server log `/root/posta-server.log`.
 - **The app runs as the systemd unit `posta.service`** (`Restart=always`, enabled at boot). Before 2026-10-26 it
-  was a bare background process with nothing supervising it, so when it died the site answered **502** from Caddy
-  and stayed down until someone noticed. Never start it with `nohup` again — use
+  was a bare background process with nothing supervising it, so when it died the site answered **502** from
+  Caddy and stayed down until someone noticed. Never start it with `nohup` again — use
   `systemctl restart posta` and check with `systemctl status posta && curl -s -o /dev/null -w '%{http_code}' https://posta.digitalwavetech.dev/`.
+- **AI generation runs on the self-hosted freellm router, not Puter.** `posta-serve.sh` exports
+  `AI_PROVIDER=freellmapi`, `AI_BASE_URL=http://127.0.0.1:3901/v1`, `AI_MODEL=auto`, and reads the bearer key
+  from `/root/.hermes/.env` (`FREELLMAPI_API_KEY`) at start — the key is never copied into this repo.
+  `lib/ai/provider.ts` requires all three and has no built-in model default on purpose, so a missing variable is
+  a loud 500 instead of a silent call to the wrong backend. Puter.js was removed 2026-10-26: it needed an
+  interactive pop-up sign-in, so generation could never run unattended. Generation is **text only** on this path;
+  the preview shows "Add your own image" rather than pretending a picture exists.
+- **Credits are charged on PUBLISH, never on generation or draft-save.** `/api/posts/save-draft` used to deduct
+  one credit per draft with no reservation and no release, and the generator calls it automatically after every
+  generation — so users paid for unpublished text and paid again on publish. Removed 2026-10-26. The charge
+  belongs to `/api/posts/publish`, which deducts per successful platform and refunds failures.
+- **`design-system/posta/tokens.css` is imported once, in `app/layout.tsx`.** It used to be imported per page by
+  the marketing and auth routes only, so every `var(--posta-*)` on `/dashboard` resolved to nothing. Never
+  re-introduce a per-page import of it.
 
 ## Queued work
 
