@@ -42,13 +42,23 @@ everything behind the login.
   was a bare background process with nothing supervising it, so when it died the site answered **502** from
   Caddy and stayed down until someone noticed. Never start it with `nohup` again — use
   `systemctl restart posta` and check with `systemctl status posta && curl -s -o /dev/null -w '%{http_code}' https://posta.digitalwavetech.dev/`.
+- **Images are generated free on NVIDIA NIM FLUX.1-dev** — `POST /api/ai/generate-image`, 1024×1024, ~9s,
+  no per-image cost. Output is written to `public/generated/` (gitignored) and served through
+  `app/generated/[file]`, **cached by `sha256(prompt|seed)`** so a repeated topic never makes a second call.
+  The endpoint needs only `prompt|width|height|seed` — adding `mode`/`cfg_scale`/`steps` makes NIM return
+  500. `NVIDIA_API_KEY` is read at start from `kitfix-2.0/.env.local` because the key in `~/.hermes/.env`
+  403s; **Posta should get its own NIM key** (open call for Leroy). Pollinations was rejected: 1 image per
+  45s per IP.
+- **`.aerogel-card` hard-sets a white background and border in plain CSS, so it silently beats any Tailwind
+  `bg-*`/`border-*` utility on the same element.** Combining the two put cream text on white at 1.16:1 on
+  the Automation page — invisible to a reader and to TypeScript. Never combine them; a coloured card uses
+  `rounded-2xl` plus the colour utility.
 - **AI generation runs on the self-hosted freellm router, not Puter.** `posta-serve.sh` exports
   `AI_PROVIDER=freellmapi`, `AI_BASE_URL=http://127.0.0.1:3901/v1`, `AI_MODEL=auto`, and reads the bearer key
   from `/root/.hermes/.env` (`FREELLMAPI_API_KEY`) at start — the key is never copied into this repo.
   `lib/ai/provider.ts` requires all three and has no built-in model default on purpose, so a missing variable is
   a loud 500 instead of a silent call to the wrong backend. Puter.js was removed 2026-10-26: it needed an
-  interactive pop-up sign-in, so generation could never run unattended. Generation is **text only** on this path;
-  the preview shows "Add your own image" rather than pretending a picture exists.
+  interactive pop-up sign-in, so generation could never run unattended.
 - **Credits are charged on PUBLISH, never on generation or draft-save.** `/api/posts/save-draft` used to deduct
   one credit per draft with no reservation and no release, and the generator calls it automatically after every
   generation — so users paid for unpublished text and paid again on publish. Removed 2026-10-26. The charge
