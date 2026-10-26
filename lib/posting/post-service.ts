@@ -4,12 +4,8 @@
  * Supports: Facebook, Instagram, Twitter, LinkedIn
  */
 
-import { FacebookPoster } from './facebook-poster';
-import { InstagramPoster } from './instagram-poster';
-import { TwitterPoster } from './twitter-poster';
-import { LinkedInPoster } from './linkedin-poster';
-import { LinkedInProvider } from '@/lib/oauth/linkedin-provider';
 import { getConnectedAccount, getDecryptedToken } from '@/lib/db/connected-accounts';
+import { getProvider } from '@/lib/providers/registry';
 import { db } from '@/drizzle/db';
 import { posts } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
@@ -34,20 +30,6 @@ interface PostResult {
 }
 
 export class PostService {
-  private facebookPoster: FacebookPoster;
-  private instagramPoster: InstagramPoster;
-  private twitterPoster: TwitterPoster;
-  private linkedinPoster: LinkedInPoster;
-  private linkedinProvider: LinkedInProvider;
-
-  constructor() {
-    this.facebookPoster = new FacebookPoster();
-    this.instagramPoster = new InstagramPoster();
-    this.twitterPoster = new TwitterPoster();
-    this.linkedinPoster = new LinkedInPoster();
-    this.linkedinProvider = new LinkedInProvider();
-  }
-
   /**
    * Resolve the media URL once, before any platform is called.
    *
@@ -101,38 +83,45 @@ export class PostService {
         });
       }
 
-      // Post to platform
-      let result;
-      switch (platform) {
-        case 'facebook':
-          result = await this.postToFacebook(
-            accessToken,
-            connection.platformUserId,
-            content
-          );
-          break;
-        case 'instagram':
-          result = await this.postToInstagram(
-            accessToken,
-            connection.platformUserId,
-            content
-          );
-          break;
-        case 'twitter':
-          result = await this.postToTwitter(accessToken, content);
-          break;
-        case 'linkedin':
-          result = await this.postToLinkedIn(accessToken, content);
-          break;
-        default:
-          throw new Error(`Unsupported platform: ${platform}`);
+      // Resolve the channel from the registry: no platform is named in this class.
+      const provider = getProvider(platform);
+
+      // The media guard stays the single decision point, so a provider only ever sees a postable URL.
+      const media = this.resolveMedia(platform, content);
+      if (provider.requiresMedia && !media.url) {
+        throw new Error(media.warning || `${provider.displayName} requires an image`);
+      }
+
+      const outcome = await provider.publish({
+        accessToken,
+        accountId: connection.platformUserId,
+        content: {
+          text: content.content,
+          mediaUrl: media.url,
+          link: content.link,
+        },
+      });
+
+      if (outcome.status === 'failed') {
+        return withWarnings({ success: false, platform, error: outcome.message });
+      }
+
+      if (outcome.status === 'pending') {
+        // No provider returns this yet and PostResult has no pending state.
+        // shortcut: an unfinished publish is recorded as a failure; add a pending status when a
+        // channel actually needs polling.
+        return withWarnings({
+          success: false,
+          platform,
+          error: `Publish pending: ${outcome.pendingData}`,
+        });
       }
 
       return withWarnings({
         success: true,
         platform,
-        postId: result.id,
-        postUrl: result.postUrl,
+        postId: outcome.platformPostId,
+        postUrl: outcome.url,
       });
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -141,92 +130,6 @@ export class PostService {
         success: false,
         platform,
         error: errorMessage,
-      });
-    }
-  }
-
-  /**
-   * Post to Facebook
-   */
-  private async postToFacebook(
-    accessToken: string,
-    pageId: string,
-    content: PostContent
-  ) {
-    const media = this.resolveMedia('facebook', content);
-    if (media.url) {
-      return await this.facebookPoster.postImage(accessToken, pageId, {
-        message: content.content,
-        imageUrl: media.url,
-      });
-    } else if (content.link) {
-      return await this.facebookPoster.postLink(accessToken, pageId, {
-        message: content.content,
-        link: content.link,
-      });
-    } else {
-      return await this.facebookPoster.postText(accessToken, pageId, content.content);
-    }
-  }
-
-  /**
-   * Post to Instagram
-   */
-  private async postToInstagram(
-    accessToken: string,
-    igAccountId: string,
-    content: PostContent
-  ) {
-    const media = this.resolveMedia('instagram', content);
-    if (!media.url) {
-      // Instagram genuinely cannot post text-only, so this is the one platform where a bad media URL
-      // must fail loudly — but it names the reason instead of blaming the platform.
-      throw new Error(media.warning || 'Instagram requires an image');
-    }
-
-    return await this.instagramPoster.postImage(accessToken, igAccountId, {
-      caption: content.content,
-      imageUrl: media.url,
-    });
-  }
-
-  /**
-   * Post to Twitter
-   */
-  private async postToTwitter(accessToken: string, content: PostContent) {
-    const media = this.resolveMedia('twitter', content);
-    if (media.url) {
-      return await this.twitterPoster.postWithImage(
-        accessToken,
-        content.content,
-        media.url
-      );
-    } else {
-      return await this.twitterPoster.postText(accessToken, content.content);
-    }
-  }
-
-  /**
-   * Post to LinkedIn
-   */
-  private async postToLinkedIn(accessToken: string, content: PostContent) {
-    // Get the author URN for the user
-    const authorUrn = await this.linkedinProvider.getMemberUrn(accessToken);
-    
-    const media = this.resolveMedia('linkedin', content);
-    if (media.url) {
-      return await this.linkedinPoster.postImage(accessToken, authorUrn, {
-        text: content.content,
-        imageUrl: media.url,
-      });
-    } else if (content.link) {
-      return await this.linkedinPoster.postArticle(accessToken, authorUrn, {
-        text: content.content,
-        articleUrl: content.link,
-      });
-    } else {
-      return await this.linkedinPoster.postText(accessToken, authorUrn, {
-        text: content.content,
       });
     }
   }
