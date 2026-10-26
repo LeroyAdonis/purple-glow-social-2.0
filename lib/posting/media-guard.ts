@@ -1,11 +1,15 @@
-// Relative on purpose: this repo has no vitest config, so the `@/` alias does not resolve under
-// `npx vitest`. A test that cannot run is not a test.
-import { absoluteMediaUrl } from '../media/url';
+// Relative on purpose: keep this module loadable under plain `npx vitest` regardless of alias config.
+import { isAbsoluteMediaUrl } from '../media/url';
 
 /**
  * The decision a poster makes before it calls a platform: post the image, or post text only and say
  * why. A platform rejecting a bad URL produces an error that reads like a platform problem; naming the
  * rejected value here means the log points at us instead.
+ *
+ * Deliberately strict (spec: blueprint/specs/01-absolute-media-url.md, criterion 3): anything that is
+ * not ALREADY an absolute http(s) URL is refused, not repaired. lib/posting cannot know what a
+ * relative path is relative to — the image API owns that conversion (lib/media/url.ts) — so a
+ * relative path arriving here is a caller bug, and honest text-only degradation beats guessing.
  */
 export interface MediaResolution {
   url: string | null;
@@ -14,8 +18,7 @@ export interface MediaResolution {
 }
 
 export function resolvePostableMediaUrl(
-  imageUrl: string | null | undefined,
-  base?: string
+  imageUrl: string | null | undefined
 ): MediaResolution {
   const value = (imageUrl || '').trim();
 
@@ -24,9 +27,8 @@ export function resolvePostableMediaUrl(
     return { url: null, textOnly: true };
   }
 
-  const url = absoluteMediaUrl(value, base);
-  if (url) {
-    return { url, textOnly: false };
+  if (isAbsoluteMediaUrl(value)) {
+    return { url: value, textOnly: false };
   }
 
   return {

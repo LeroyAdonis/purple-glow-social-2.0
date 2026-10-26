@@ -29,6 +29,8 @@ interface PostResult {
   postId?: string;
   postUrl?: string;
   error?: string;
+  /** Non-fatal degradations, e.g. an image URL the platform could never fetch. */
+  warnings?: string[];
 }
 
 export class PostService {
@@ -72,25 +74,31 @@ export class PostService {
     platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin',
     content: PostContent
   ): Promise<PostResult> {
+    // Surface a rejected media URL on the result itself: the per-platform guard below degrades to
+    // text-only (or fails loudly on Instagram), but the caller must also SEE what was dropped.
+    const mediaWarning = resolvePostableMediaUrl(content.imageUrl).warning;
+    const withWarnings = <T extends PostResult>(result: T): T =>
+      mediaWarning ? { ...result, warnings: [mediaWarning] } : result;
+
     try {
       // Get connected account
       const connection = await getConnectedAccount(userId, platform);
       if (!connection || !connection.isActive) {
-        return {
+        return withWarnings({
           success: false,
           platform,
           error: `${platform} account not connected`,
-        };
+        });
       }
 
       // Get decrypted access token
       const accessToken = await getDecryptedToken(userId, platform);
       if (!accessToken) {
-        return {
+        return withWarnings({
           success: false,
           platform,
           error: 'Failed to decrypt access token',
-        };
+        });
       }
 
       // Post to platform
@@ -120,20 +128,20 @@ export class PostService {
           throw new Error(`Unsupported platform: ${platform}`);
       }
 
-      return {
+      return withWarnings({
         success: true,
         platform,
         postId: result.id,
         postUrl: result.postUrl,
-      };
+      });
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.posting.exception(error, { platform, userId });
-      return {
+      return withWarnings({
         success: false,
         platform,
         error: errorMessage,
-      };
+      });
     }
   }
 

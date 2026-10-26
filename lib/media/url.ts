@@ -10,6 +10,12 @@
 /** Production host. A relative path is only useful if we know what it is relative TO. */
 export const DEFAULT_MEDIA_BASE = 'https://posta.digitalwavetech.dev';
 
+/**
+ * Spec-mandated name (blueprint/specs/01-absolute-media-url.md, criterion 2):
+ * `absoluteMediaUrl` and `GENERATED_MEDIA_BASE` are the public surface of this module.
+ */
+export const GENERATED_MEDIA_BASE = DEFAULT_MEDIA_BASE;
+
 /** Filesystem roots that must never be treated as a servable path. */
 const FILESYSTEM_ROOTS = ['/root/', '/home/', '/tmp/', '/var/', '/opt/', '/usr/', '/mnt/', '/srv/'];
 
@@ -21,6 +27,15 @@ export function mediaBaseUrl(envValue: string | undefined = process.env.NEXT_PUB
 
 function isAbsoluteUrl(value: string): boolean {
   return /^https?:\/\//i.test(value);
+}
+
+/**
+ * True only for a URL a platform can fetch as-is. lib/posting uses this to REFUSE anything else
+ * (relative paths, filesystem paths) instead of guessing what it is relative to — see
+ * lib/posting/media-guard.ts.
+ */
+export function isAbsoluteMediaUrl(value: string | null | undefined): boolean {
+  return isAbsoluteUrl((value || '').trim());
 }
 
 function isFilesystemPath(value: string): boolean {
