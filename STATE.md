@@ -30,6 +30,10 @@ styleframe parity (0 computed, 0 pixel) · responsive at 9 device widths.
   the whole schema because the journal drifted (finding **F-01**, unresolved by decision, not by code).
 - Deploy: `/root/posta-serve.sh` (`db`, `seed`, `build`, `start`); Caddy maps the domain to `127.0.0.1:3008`;
   server log `/root/posta-server.log`.
+- **The app runs as the systemd unit `posta.service`** (`Restart=always`, enabled at boot). Before 2026-10-26 it
+  was a bare background process with nothing supervising it, so when it died the site answered **502** from Caddy
+  and stayed down until someone noticed. Never start it with `nohup` again — use
+  `systemctl restart posta` and check with `systemctl status posta && curl -s -o /dev/null -w '%{http_code}' https://posta.digitalwavetech.dev/`.
 
 ## Queued work
 
