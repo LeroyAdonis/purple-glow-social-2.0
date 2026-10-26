@@ -446,3 +446,19 @@ export type PromptPattern = typeof promptPatterns.$inferSelect;
 export type NewPromptPattern = typeof promptPatterns.$inferInsert;
 export type HighPerformingExample = typeof highPerformingExamples.$inferSelect;
 export type NewHighPerformingExample = typeof highPerformingExamples.$inferInsert;
+
+// API keys for the public /api/v1 surface.
+// Only a SHA-256 hash of the key is stored; keyPrefix is the first 8 chars so a human can tell keys apart.
+export const apiKeys = pgTable("api_keys", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  keyHash: text("key_hash").notNull().unique(),
+  keyPrefix: text("key_prefix").notNull(),
+  lastUsedAt: timestamp("last_used_at"),
+  revokedAt: timestamp("revoked_at"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export type ApiKey = typeof apiKeys.$inferSelect;
+export type NewApiKey = typeof apiKeys.$inferInsert;
