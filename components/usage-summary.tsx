@@ -52,6 +52,82 @@ interface UsageSummaryProps {
   onUpgrade?: () => void;
 }
 
+/**
+ * Reshape whatever `/api/limits/check` returned into the tree this component renders.
+ *
+ * This exists because the route and this component disagreed about the response shape, and the mismatch
+ * did not surface as a wrong number - it threw "Cannot read properties of undefined (reading 'total')"
+ * while rendering, which sent the entire `/dashboard` route to the error boundary for every signed-in
+ * user, including the demo account. A missing block must now degrade to zeroes and a visible "—", never
+ * to a blank error page. If the route ever drops a block again, this page still draws.
+ */
+function normaliseUsage(payload: unknown): UsageLimits | null {
+  if (!payload || typeof payload !== 'object') return null;
+  const root = payload as Record<string, any>;
+  const source = (root.usage && typeof root.usage === 'object' ? root.usage : root) as Record<string, any>;
+
+  const pair = (block: any, fallbackLimit = 0) => {
+    const current = Number(block?.current);
+    const limit = Number(block?.limit);
+    const safeCurrent = Number.isFinite(current) ? current : 0;
+    const safeLimit = Number.isFinite(limit) && limit > 0 ? limit : fallbackLimit;
+    return {
+      current: safeCurrent,
+      limit: safeLimit,
+      remaining: Math.max(0, safeLimit - safeCurrent),
+      percentage: safeLimit > 0 ? Math.min(100, Math.round((safeCurrent / safeLimit) * 100)) : 0,
+      isAtLimit: safeLimit > 0 ? safeCurrent >= safeLimit : false,
+    };
+  };
+
+  const flatCredits = Number(root.credits);
+  const creditsBlock = source.credits ?? {};
+  const available = Number(
+    Number.isFinite(Number(creditsBlock.available)) ? creditsBlock.available : flatCredits
+  );
+  const reserved = Number.isFinite(Number(creditsBlock.reserved)) ? Number(creditsBlock.reserved) : 0;
+  const total = Number.isFinite(Number(creditsBlock.total)) && Number(creditsBlock.total) > 0
+    ? Number(creditsBlock.total)
+    : available + reserved;
+
+  const byPlatformRaw = source.connectedAccounts?.byPlatform;
+  const byPlatform: Record<string, ReturnType<typeof pair>> = {};
+  if (byPlatformRaw && typeof byPlatformRaw === 'object') {
+    for (const [platform, value] of Object.entries(byPlatformRaw)) {
+      byPlatform[platform] = pair(value);
+    }
+  }
+
+  return {
+    tier: (source.tier ?? root.tier ?? 'free') as TierName,
+    credits: {
+      total,
+      reserved,
+      available: Number.isFinite(available) ? available : 0,
+      percentage: total > 0 ? Math.round((available / total) * 100) : 0,
+      isLow: typeof creditsBlock.isLow === 'boolean' ? creditsBlock.isLow : total > 0 && available / total <= 0.2,
+    },
+    connectedAccounts: {
+      total: pair(source.connectedAccounts?.total),
+      byPlatform,
+    },
+    scheduling: {
+      queueSize: pair(source.scheduling?.queueSize),
+      advanceSchedulingDays: Number(source.scheduling?.advanceSchedulingDays) || 0,
+    },
+    dailyGenerations: pair(source.dailyGenerations),
+    dailyPosts: {
+      total: pair(source.dailyPosts?.total),
+      byPlatform: {},
+    },
+    automation: {
+      enabled: source.automation?.enabled === true,
+      rules: pair(source.automation?.rules),
+    },
+  };
+}
+
+
 export default function UsageSummary({ compact = false, onUpgrade }: UsageSummaryProps) {
   const [limits, setLimits] = useState<UsageLimits | null>(null);
   const [loading, setLoading] = useState(true);
@@ -69,7 +145,7 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
         }
         const data = await response.json();
         if (controller.signal.aborted) return;
-        setLimits(data);
+        setLimits(normaliseUsage(data));
       } catch (error: unknown) {
         if (error instanceof Error && error.name === 'AbortError') return;
         if (error instanceof Error) {
@@ -287,11 +363,11 @@ export default function UsageSummary({ compact = false, onUpgrade }: UsageSummar
             <div className="h-full flex">
               <div
  className="bg-[var(--posta-clay-deep)]  "
-                style={{ width: `${(limits.credits.available / limits.credits.total) * 100}%` }}
+                style={{ width: `${limits.credits.total > 0 ? (limits.credits.available / limits.credits.total) * 100 : 0}%` }}
               ></div>
               <div
                 className="bg-mzansi-gold/50"
-                style={{ width: `${(limits.credits.reserved / limits.credits.total) * 100}%` }}
+                style={{ width: `${limits.credits.total > 0 ? (limits.credits.reserved / limits.credits.total) * 100 : 0}%` }}
               ></div>
             </div>
           </div>

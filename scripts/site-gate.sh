@@ -26,7 +26,7 @@ declare -a FAILURES=()
 fail() { FAILED=1; FAILURES+=("$1"); printf '  FAIL  %s\n' "$1"; }
 pass() { printf '  ok    %s\n' "$1"; }
 
-echo "== 1/5 brand checker (rendered) =="
+echo "== 1/6 brand checker (rendered) =="
 for p in "${PAGES[@]}"; do
   out=$(timeout 120 python3 design-system/posta/scripts/check-brand.py --url "${BASE}${p}" 2>&1)
   if printf '%s' "$out" | head -2 | grep -q PASS; then pass "$p"; else
@@ -34,7 +34,7 @@ for p in "${PAGES[@]}"; do
   fi
 done
 
-echo "== 2/5 served HTML: an <h1> must exist, and the route must not bail out of SSR =="
+echo "== 2/6 served HTML: an <h1> must exist, and the route must not bail out of SSR =="
 # Both of these shipped broken for months. `curl` sees what a crawler and a screen reader get on first paint;
 # the browser-based checkers above only ever saw the hydrated DOM, which is why they missed it.
 #
@@ -60,7 +60,7 @@ for p in "${PUBLIC_PAGES[@]}"; do
   if [ ${#problems[@]} -eq 0 ]; then pass "$p"; else fail "$p — $(IFS='; '; echo "${problems[*]}")"; fi
 done
 
-echo "== 3/5 CRO audit: no CRITICAL conversion or honesty finding =="
+echo "== 3/6 CRO audit: no CRITICAL conversion or honesty finding =="
 CRO="$HOME/.hermes/skills/creative/landing-page-cro-audit/scripts/cro-audit.py"
 if [ -f "$CRO" ]; then
   for p in "${CRO_PAGES[@]}"; do
@@ -73,7 +73,7 @@ else
   fail "cro-audit.py not found at $CRO (skill missing — cannot verify conversion checks)"
 fi
 
-echo "== 4/5 styleframe parity: 0 computed AND 0 painted differences =="
+echo "== 4/6 styleframe parity: 0 computed AND 0 painted differences =="
 if [ -f scripts/parity-landing.py ]; then
   out=$(timeout 420 python3 scripts/parity-landing.py --pixels 2>&1)
   measured=$(printf '%s' "$out" | grep -oE '^[0-9]+ measured differences' | head -1)
@@ -87,7 +87,7 @@ else
   fail "scripts/parity-landing.py missing"
 fi
 
-echo "== 5/5 responsive: no content under the fixed nav, no sideways scroll, no overlap =="
+echo "== 5/6 responsive: no content under the fixed nav, no sideways scroll, no overlap =="
 # The gate has to look at the devices Leroy actually holds. 1024 is iPad Pro portrait — the breakpoint that
 # was wrong was exactly the width of his tablet.
 if [ -f scripts/responsive-check.py ]; then
@@ -99,9 +99,29 @@ else
   fail "scripts/responsive-check.py missing"
 fi
 
+echo "== 6/6 authenticated contract: a real login, and the limits payload every screen reads =="
+# Why this stage exists, in one line: `/dashboard` said "Something Went Wrong" for every signed-in user
+# because /api/limits/check returned bare numbers where six components expected objects. Every earlier
+# stage here is either a public page or unauthenticated, so none of them could ever have seen it —
+# `/dashboard` is auth-gated and its served HTML is a shell by design. This is the first stage that logs in.
+if [ -f scripts/auth-smoke.py ]; then
+  out=$(timeout 180 python3 scripts/auth-smoke.py "$BASE" 2>&1)
+  printf '%s\n' "$out" | grep -E '^  ' || true
+  # Judge on the script's own FAIL lines, never on $? through a pipeline: `| grep -q` exits at the first
+  # match, the writer takes SIGPIPE, and pipefail turns a passing run into a failure. That exact mistake
+  # already cost this gate one false failure on /terms.
+  if printf '%s' "$out" | grep -q "FAIL"; then
+    fail "authenticated contract: $(printf '%s' "$out" | grep FAIL | head -3 | tr '\n' ' ')"
+  else
+    pass "authenticated contract holds (demo login + /api/limits/check shape)"
+  fi
+else
+  fail "scripts/auth-smoke.py missing — the signed-in screens are unverified"
+fi
+
 echo
 if [ "$FAILED" -eq 0 ]; then
-  echo "SITE GATE: PASS (all 5 stages)"
+  echo "SITE GATE: PASS (all 6 stages)"
   exit 0
 fi
 echo "SITE GATE: FAIL (${#FAILURES[@]} problem(s))"
