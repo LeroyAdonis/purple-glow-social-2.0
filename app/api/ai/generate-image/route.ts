@@ -6,6 +6,7 @@ import { auth } from '@/lib/auth';
 import { rateLimiters } from '@/lib/security/rate-limit';
 import { logger } from '@/lib/logger';
 import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
+import { generatedMediaUrl } from '@/lib/media/url';
 
 /**
  * POST /api/ai/generate-image
@@ -96,7 +97,7 @@ export async function POST(request: NextRequest) {
     const key = cacheKey(prompt, seed);
     const fileName = `${key}.jpg`;
     const filePath = path.join(GENERATED_DIR, fileName);
-    const imageUrl = `/generated/${fileName}`;
+    const imageUrl = generatedMediaUrl(fileName);
 
     await mkdir(GENERATED_DIR, { recursive: true });
 

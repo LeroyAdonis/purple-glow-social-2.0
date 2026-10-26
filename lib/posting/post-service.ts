@@ -14,6 +14,7 @@ import { db } from '@/drizzle/db';
 import { posts } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { logger } from '@/lib/logger';
+import { resolvePostableMediaUrl, type MediaResolution } from './media-guard';
 
 interface PostContent {
   content: string;
@@ -43,6 +44,24 @@ export class PostService {
     this.twitterPoster = new TwitterPoster();
     this.linkedinPoster = new LinkedInPoster();
     this.linkedinProvider = new LinkedInProvider();
+  }
+
+  /**
+   * Resolve the media URL once, before any platform is called.
+   *
+   * Platforms fetch media server-side, so only an absolute http(s) URL can work. A relative path or a
+   * filesystem path is refused here, with the offending value named, so the failure points at us
+   * instead of showing up as a generic platform error.
+   */
+  private resolveMedia(platform: string, content: PostContent): MediaResolution {
+    const media = resolvePostableMediaUrl(content.imageUrl);
+    if (media.warning) {
+      logger.posting.warn('Skipping media: not an absolute URL', {
+        platform,
+        rejectedImageUrl: content.imageUrl,
+      });
+    }
+    return media;
   }
 
   /**
@@ -126,10 +145,11 @@ export class PostService {
     pageId: string,
     content: PostContent
   ) {
-    if (content.imageUrl) {
+    const media = this.resolveMedia('facebook', content);
+    if (media.url) {
       return await this.facebookPoster.postImage(accessToken, pageId, {
         message: content.content,
-        imageUrl: content.imageUrl,
+        imageUrl: media.url,
       });
     } else if (content.link) {
       return await this.facebookPoster.postLink(accessToken, pageId, {
@@ -149,13 +169,16 @@ export class PostService {
     igAccountId: string,
     content: PostContent
   ) {
-    if (!content.imageUrl) {
-      throw new Error('Instagram requires an image');
+    const media = this.resolveMedia('instagram', content);
+    if (!media.url) {
+      // Instagram genuinely cannot post text-only, so this is the one platform where a bad media URL
+      // must fail loudly — but it names the reason instead of blaming the platform.
+      throw new Error(media.warning || 'Instagram requires an image');
     }
 
     return await this.instagramPoster.postImage(accessToken, igAccountId, {
       caption: content.content,
-      imageUrl: content.imageUrl,
+      imageUrl: media.url,
     });
   }
 
@@ -163,11 +186,12 @@ export class PostService {
    * Post to Twitter
    */
   private async postToTwitter(accessToken: string, content: PostContent) {
-    if (content.imageUrl) {
+    const media = this.resolveMedia('twitter', content);
+    if (media.url) {
       return await this.twitterPoster.postWithImage(
         accessToken,
         content.content,
-        content.imageUrl
+        media.url
       );
     } else {
       return await this.twitterPoster.postText(accessToken, content.content);
@@ -181,10 +205,11 @@ export class PostService {
     // Get the author URN for the user
     const authorUrn = await this.linkedinProvider.getMemberUrn(accessToken);
     
-    if (content.imageUrl) {
+    const media = this.resolveMedia('linkedin', content);
+    if (media.url) {
       return await this.linkedinPoster.postImage(accessToken, authorUrn, {
         text: content.content,
-        imageUrl: content.imageUrl,
+        imageUrl: media.url,
       });
     } else if (content.link) {
       return await this.linkedinPoster.postArticle(accessToken, authorUrn, {
