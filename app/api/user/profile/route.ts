@@ -5,6 +5,8 @@ import { user } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { logger } from '@/lib/logger';
 import { auditLog } from '@/lib/db/audit';
+import { getCreditBalance } from '@/lib/db/credit-ledger';
+import { centsToCredits } from '@/lib/credits/ledger';
 import { parseRequestBody, invalidJsonResponse } from '@/lib/api/parse-request-body';
 import { userProfileSchema } from '@/lib/security/validation';
 
@@ -49,7 +51,8 @@ export async function GET(request: NextRequest) {
       name: userRecord.name,
       email: userRecord.email,
       tier: userRecord.tier || 'free',
-      credits: userRecord.credits || 10,
+      // Ledger SUM in cents, shown as whole credits because that is what every screen labels it.
+      credits: centsToCredits(await getCreditBalance(userRecord.id)),
       image: userRecord.image,
       emailVerified: userRecord.emailVerified,
     });

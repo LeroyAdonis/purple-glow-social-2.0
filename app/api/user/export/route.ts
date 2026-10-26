@@ -23,6 +23,8 @@ import {
 } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { logger } from '@/lib/logger';
+import { getCreditBalance } from '@/lib/db/credit-ledger';
+import { centsToCredits } from '@/lib/credits/ledger';
 
 export async function GET(request: NextRequest) {
   try {
@@ -34,6 +36,9 @@ export async function GET(request: NextRequest) {
 
     const userId = session.user.id;
     logger.security.info('Data export requested', { userId });
+
+    // The wallet balance is the ledger SUM, not the legacy `user.credits` column.
+    const balanceCents = await getCreditBalance(userId);
 
     // Fetch all user data (parallel queries)
     const [
@@ -80,7 +85,8 @@ export async function GET(request: NextRequest) {
       emailVerified: userData.emailVerified,
       image: userData.image,
       tier: userData.tier,
-      credits: userData.credits,
+      credits: centsToCredits(balanceCents),
+      creditBalanceCents: balanceCents,
       videoCredits: userData.videoCredits,
       lastCreditReset: userData.lastCreditReset,
       createdAt: userData.createdAt,

@@ -5,7 +5,7 @@
  */
 
 import { db } from '../../drizzle/db';
-import { user, posts } from '../../drizzle/schema';
+import { user, posts, credit_entries } from '../../drizzle/schema';
 import { eq, desc, count, sql, and } from 'drizzle-orm';
 
 type User = typeof user.$inferSelect;
@@ -79,7 +79,6 @@ export async function updateUser(
     email: string;
     image: string | null;
     tier: 'free' | 'pro' | 'business';
-    credits: number;
     polarCustomerId: string;
   }>
 ): Promise<User> {
@@ -95,93 +94,12 @@ export async function updateUser(
   return updated!;
 }
 
-/**
- * Add credits to a user
- */
-export async function addCredits(userId: string, amount: number): Promise<User> {
-  const [updated] = await db
-    .update(user)
-    .set({
-      credits: sql`${user.credits} + ${amount}`,
-      updatedAt: new Date(),
-    })
-    .where(eq(user.id, userId))
-    .returning();
-  
-  return updated!;
-}
-
-/**
- * Atomically deduct credits with check-and-deduct in a single SQL operation.
- * This prevents race conditions by performing the check and update atomically.
- * 
- * @param userId - User ID
- * @param amount - Number of credits to deduct
- * @returns { success: true, newBalance } if deduction succeeded, { success: false } if insufficient
- */
-export async function deductCreditsAtomic(userId: string, amount: number): Promise<{
-  success: boolean;
-  newBalance?: number;
-  error?: string;
-}> {
-  try {
-    // Atomic check-and-deduct using SQL WHERE clause
-    // This ensures the credit check and deduction happen in one operation
-    const [result] = await db
-      .update(user)
-      .set({ 
-        credits: sql`${user.credits} - ${amount}`,
-        updatedAt: new Date(),
-      })
-      .where(
-        and(
-          eq(user.id, userId),
-          sql`${user.credits} >= ${amount}` // Only update if enough credits
-        )
-      )
-      .returning({ credits: user.credits });
-    
-    if (!result) {
-      // No rows updated = insufficient credits
-      // Fetch current balance for error message
-      const [currentUser] = await db
-        .select({ credits: user.credits })
-        .from(user)
-        .where(eq(user.id, userId))
-        .limit(1);
-      
-      return {
-        success: false,
-        newBalance: currentUser?.credits || 0,
-        error: 'Insufficient credits',
-      };
-    }
-    
-    return {
-      success: true,
-      newBalance: result.credits,
-    };
-  } catch (error) {
-    throw error;
-  }
-}
-
-/**
- * Deduct credits from a user
- * @deprecated Use deductCreditsAtomic instead to prevent race conditions
- */
-export async function deductCredits(userId: string, amount: number): Promise<User> {
-  const [updated] = await db
-    .update(user)
-    .set({
-      credits: sql`GREATEST(${user.credits} - ${amount}, 0)`,
-      updatedAt: new Date(),
-    })
-    .where(eq(user.id, userId))
-    .returning();
-  
-  return updated!;
-}
+// Credits are NOT written here.
+//
+// `addCredits`, `deductCredits` and `deductCreditsAtomic` used to mutate `user.credits` with SQL arithmetic
+// or a read-modify-write. That column is no longer a balance: the balance is SUM(delta) over the append-only
+// credit_entries ledger (lib/db/credit-ledger.ts). A second writer beside the ledger is exactly the drift
+// this feature exists to remove, so the functions are deleted rather than deprecated.
 
 /**
  * Count all users
@@ -291,9 +209,25 @@ export async function getAllUsersWithStats(
     countMap.set(row.userId, Number(row.count));
   }
 
+  // Ledger balances, in one grouped query. `user.credits` is a leftover column that nothing writes any
+  // more, so returning it would show the admin a balance that is not the user's balance.
+  const balances = await db
+    .select({
+      userId: credit_entries.userId,
+      balance: sql<string>`COALESCE(SUM(${credit_entries.delta}), 0)`,
+    })
+    .from(credit_entries)
+    .groupBy(credit_entries.userId);
+
+  const balanceMap = new Map<string, number>();
+  for (const row of balances) {
+    balanceMap.set(row.userId, Number(row.balance));
+  }
+
   // Combine users with their post counts
   return users.map(u => ({
     ...u,
+    credits: balanceMap.get(u.id) ?? 0,
     postsCreated: countMap.get(u.id) || 0,
   }));
 }

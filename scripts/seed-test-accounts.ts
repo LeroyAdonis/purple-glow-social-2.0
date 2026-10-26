@@ -17,7 +17,8 @@ import {
   automationRules, 
   connectedAccounts,
   notifications,
-  dailyUsage 
+  dailyUsage,
+  credit_entries,
 } from '../drizzle/schema';
 import { eq, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
@@ -224,7 +225,7 @@ async function createTestUser(config: TestAccountConfig): Promise<string> {
     name: config.name,
     emailVerified: true,
     tier: config.tier,
-    credits: config.credits,
+    // No `credits` write: the balance is the credit_entries ledger, seeded a few lines below.
     videoCredits: config.videoCredits || 0,
     lastCreditReset: now,
     createdAt: now,
@@ -243,6 +244,27 @@ async function createTestUser(config: TestAccountConfig): Promise<string> {
     updatedAt: now,
   }).onConflictDoNothing();
   
+  // Seed the wallet as a ledger entry, not a column. The ref makes a re-run replace its own seed row
+  // instead of stacking more credits on top.
+  const [seededUser] = await db
+    .select({ id: user.id })
+    .from(user)
+    .where(eq(user.email, config.email))
+    .limit(1);
+
+  if (seededUser) {
+    const seedRef = `seed:${config.email}`;
+    await db
+      .delete(credit_entries)
+      .where(and(eq(credit_entries.userId, seededUser.id), eq(credit_entries.ref, seedRef)));
+    await db.insert(credit_entries).values({
+      userId: seededUser.id,
+      delta: config.credits * 100,
+      reason: 'admin_adjustment',
+      ref: seedRef,
+    });
+  }
+
   console.log(`  ✅ User created (${config.tier} tier, ${config.credits} credits)`);
   
   // Create connected accounts

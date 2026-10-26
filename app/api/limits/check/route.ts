@@ -12,6 +12,8 @@ import {
   user,
 } from '@/drizzle/schema';
 import { logger } from '@/lib/logger';
+import { getCreditBalance } from '@/lib/db/credit-ledger';
+import { centsToCredits } from '@/lib/credits/ledger';
 import { TIER_LIMITS } from '@/lib/tiers/config';
 import type { TierName } from '@/lib/tiers/types';
 
@@ -74,7 +76,7 @@ export async function GET(request: NextRequest) {
 
     const userRecord = await db.query.user.findFirst({
       where: eq(user.id, userId),
-      columns: { id: true, tier: true, credits: true },
+      columns: { id: true, tier: true },
     });
 
     if (!userRecord) {
@@ -113,7 +115,8 @@ export async function GET(request: NextRequest) {
     ]);
 
     const reserved = num(reservedRow[0]?.reserved);
-    const available = num(userRecord.credits);
+    // Balance comes from the credit_entries ledger, in cents; this endpoint reports whole credits.
+    const available = centsToCredits(await getCreditBalance(userId));
     const creditTotal = available + reserved;
 
     const accountsTotal = accountsByPlatform.reduce((sum, row) => sum + num(row.n), 0);

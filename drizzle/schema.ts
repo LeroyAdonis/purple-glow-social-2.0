@@ -1,4 +1,5 @@
-import { pgTable, text, timestamp, boolean, uuid, integer, pgEnum, jsonb, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, uuid, integer, pgEnum, jsonb, index, uniqueIndex } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 
 export const tierEnum = pgEnum("tier", ["free", "pro", "business"]);
 export const platformEnum = pgEnum("platform", ["facebook", "instagram", "twitter", "linkedin"]);
@@ -243,6 +244,14 @@ export const credit_entries = pgTable("credit_entries", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 }, (table) => ({
   userIdCreatedAtIdx: index("idx_credit_entries_user_created_at").on(table.userId, table.createdAt),
+  // A publish is charged once per post, and a Paystack charge is credited once per reference.
+  // Mirrored from the hand-written migrations 0010/0011 so `drizzle-kit push` cannot drop the guards.
+  publishOnceIdx: uniqueIndex("idx_credit_entries_publish_once")
+    .on(table.ref)
+    .where(sql`${table.reason} = 'publish'`),
+  chargeOnceIdx: uniqueIndex("idx_credit_entries_charge_once")
+    .on(table.ref)
+    .where(sql`${table.reason} = 'paystack_charge'`),
 }));
 // TypeScript types for better type safety
 export type CreditEntry = typeof credit_entries.$inferSelect;

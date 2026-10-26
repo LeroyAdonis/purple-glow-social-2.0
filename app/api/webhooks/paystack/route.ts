@@ -4,6 +4,8 @@ import { db } from '@/drizzle/db';
 import { user, webhookEvents } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { createLogger } from '@/lib/logger';
+import { recordCredit } from '@/lib/db/credit-ledger';
+import { CENTS_PER_CREDIT } from '@/lib/credits/ledger';
 import {
   verifyWebhookSignature,
 } from '@/lib/paystack/client';
@@ -14,8 +16,6 @@ import {
 } from '@/lib/db/webhook-events';
 
 const paystackLogger = createLogger('Paystack');
-
-const TIER_CREDITS: Record<string, number> = { pro: 500, business: 2000 };
 
 function planCodeToTier(planCode: string | undefined): 'pro' | 'business' | null {
   if (!planCode) return null;
@@ -48,6 +48,25 @@ async function resolveUserId(data: any): Promise<string | null> {
     const [record] = await db.select().from(user).where(eq(user.email, String(email))).limit(1);
     return record?.id ?? null;
   }
+  return null;
+}
+
+function isSubscriptionCharge(data: any): boolean {
+  return Boolean(extractPlanCode(data) || data?.plan || data?.subscription);
+}
+
+/**
+ * Cents actually paid, as reported by Paystack. metadata.credits * 100 is only a fallback: the credit
+ * packs are not priced at R1/credit (100 credits sell for R150), so multiplying the credit count would
+ * record less money than the customer paid. R299 is R299 because Paystack says 29900.
+ */
+function chargeAmountCents(data: any): number | null {
+  const amount = Number(data?.amount);
+  if (Number.isInteger(amount) && amount > 0) return amount;
+
+  const credits = Number(data?.metadata?.credits ?? data?.metadata?.credit);
+  if (Number.isInteger(credits) && credits > 0) return credits * CENTS_PER_CREDIT;
+
   return null;
 }
 
@@ -126,30 +145,42 @@ export async function POST(request: NextRequest) {
   // 5. Process event.
   try {
     if (event === 'charge.success') {
+      // A top-up appends ONE positive ledger entry. There is no balance column to read-modify-write, which
+      // is what used to lose credits when two deliveries arrived together. Idempotency is the (reason, ref)
+      // unique index on credit_entries: a redelivery inserts nothing and the balance does not move.
       const userId = await resolveUserId(data);
-      const credits = Number(data?.metadata?.credits ?? data?.metadata?.credit ?? 0);
-      if (userId && credits > 0) {
-        const [u] = await db.select().from(user).where(eq(user.id, userId)).limit(1);
-        if (u) {
-          await db
-            .update(user)
-            .set({ credits: (u.credits ?? 0) + credits, updatedAt: new Date() })
-            .where(eq(user.id, userId));
-          paystackLogger.info('Credited user (charge.success)', { userId, credits });
-        } else {
-          paystackLogger.warn('charge.success user not found', { userId });
-        }
+      const cents = chargeAmountCents(data);
+
+      if (!userId) {
+        paystackLogger.warn('charge.success user not found', {});
+      } else if (isSubscriptionCharge(data)) {
+        // S1 is prepaid only: a plan charge is not a wallet top-up. Subscription tiering stays below.
+        paystackLogger.info('charge.success is a subscription charge, not wallet credit', { userId });
+      } else if (cents === null) {
+        paystackLogger.warn('charge.success has no payable amount', { userId });
       } else {
-        paystackLogger.info('charge.success missing userId/credits', { userId, credits });
+        const entry = await recordCredit({
+          userId,
+          cents,
+          reason: 'paystack_charge',
+          ref: data?.reference ? String(data.reference) : key,
+        });
+        if (entry) {
+          paystackLogger.info('Wallet credited (charge.success)', { userId, cents, ref: entry.ref });
+        } else {
+          paystackLogger.info('Duplicate charge already credited', { userId, ref: key });
+        }
       }
     } else if (event === 'subscription.create' || event === 'invoice.payment_succeeded') {
+      // Tier only. A subscription grant does NOT write a credit balance: the balance is the ledger, and
+      // turning a plan into wallet credit is subscription logic that this slice deliberately excludes.
       const userId = await resolveUserId(data);
       const planCode = extractPlanCode(data);
       const tier = planCodeToTier(planCode);
       if (userId && tier) {
         await db
           .update(user)
-          .set({ tier: tier as any, credits: TIER_CREDITS[tier], updatedAt: new Date() })
+          .set({ tier: tier as any, updatedAt: new Date() })
           .where(eq(user.id, userId));
         paystackLogger.info('Subscription activated', { userId, tier });
       } else {

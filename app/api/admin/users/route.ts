@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllUsersWithStats, updateUser, countUsers, getTierDistribution } from '@/lib/db/users';
-import { addCredits, deductCredits } from '@/lib/db/users';
+import { recordCredit, spendCredits } from '@/lib/db/credit-ledger';
+import { creditsToCents } from '@/lib/credits/ledger';
 import type { UserUpdateData, UserTier } from '@/lib/types';
 import { requireAdmin, handleAuthError } from '@/lib/security/auth-utils';
 import { logger } from '@/lib/logger';
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     // Centralized auth check with audit logging
-    await requireAdmin(request);
+    const session = await requireAdmin(request);
 
     const body = await parseRequestBody<{
       userId: string;
@@ -78,12 +79,29 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    // Handle credit adjustment
+    // Handle credit adjustment — an append into the ledger, never a column write.
     if (creditAdjustment !== undefined && creditAdjustment !== 0) {
+      const ref = `admin:${session.id}:${Date.now()}`;
       if (creditAdjustment > 0) {
-        await addCredits(userId, creditAdjustment);
+        await recordCredit({
+          userId,
+          cents: creditsToCents(creditAdjustment),
+          reason: 'admin_adjustment',
+          ref,
+        });
       } else {
-        await deductCredits(userId, Math.abs(creditAdjustment));
+        const spend = await spendCredits({
+          userId,
+          cents: creditsToCents(Math.abs(creditAdjustment)),
+          reason: 'admin_adjustment',
+          ref,
+        });
+        if (!spend.success) {
+          return NextResponse.json(
+            { error: 'Insufficient credits', message: 'The user cannot be reduced below a zero balance.', balanceCents: spend.balance },
+            { status: 409 }
+          );
+        }
       }
     }
 

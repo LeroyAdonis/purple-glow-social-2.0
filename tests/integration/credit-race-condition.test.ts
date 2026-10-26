@@ -1,190 +1,116 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { deductCreditsAtomic } from '@/lib/db/users';
-import { db } from '@/drizzle/db';
-import { user } from '@/drizzle/schema';
+/**
+ * S1 / DIG-46 — concurrent deductions.
+ *
+ * This file used to hammer `deductCreditsAtomic`, which did `UPDATE user SET credits = credits - n WHERE
+ * credits >= n`: a mutable balance with a lost-update window around it. That function is gone. The test now
+ * exercises the contract that replaced it — concurrent spends against the append-only `credit_entries`
+ * ledger — and asserts the same three things: no negative balance, no double spend of the same credits, and
+ * the refused attempts leave the balance alone.
+ */
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { eq } from 'drizzle-orm';
+import { db } from '@/drizzle/db';
+import { credit_entries, user } from '@/drizzle/schema';
+import { getCreditBalance, recordCredit, spendCredits } from '@/lib/db/credit-ledger';
 
-describe('Credit Race Condition Prevention', () => {
+describe('Credit race condition prevention (ledger)', () => {
   const testUserId = 'test-race-condition-user';
-  
-  // Helper to reset credits and wait a bit to avoid connection issues
-  const resetCredits = async (amount: number) => {
-    try {
-      await db.update(user)
-        .set({ credits: amount })
-        .where(eq(user.id, testUserId));
-      // Small delay to let connection pool recover
-      await new Promise(resolve => setTimeout(resolve, 200));
-    } catch (error) {
-      console.error('Failed to reset credits:', error);
-      throw error;
-    }
+
+  const resetTo = async (cents: number) => {
+    await db.delete(credit_entries).where(eq(credit_entries.userId, testUserId));
+    await recordCredit({
+      userId: testUserId,
+      cents,
+      reason: 'admin_adjustment',
+      ref: `reset-${Date.now()}-${Math.random()}`,
+    });
   };
-  
+
   beforeAll(async () => {
-    // Create test user with 10 credits
     try {
-      // Delete if exists first
       await db.delete(user).where(eq(user.id, testUserId));
-    } catch (error) {
-      // Ignore errors - user might not exist
+    } catch {
+      // user might not exist
     }
-    
-    try {
-      await db.insert(user).values({
-        id: testUserId,
-        email: 'race-test@test.com',
-        name: 'Race Test User',
-        credits: 10,
-        tier: 'free',
-      });
-    } catch (error) {
-      console.warn('Test user creation failed:', error);
-    }
+    await db.insert(user).values({
+      id: testUserId,
+      email: 'race-test@test.purpleglow.co.za',
+      name: 'Race Test User',
+      tier: 'free',
+    });
   });
-  
+
   afterAll(async () => {
-    // Cleanup
     try {
       await db.delete(user).where(eq(user.id, testUserId));
     } catch (error) {
       console.warn('Cleanup failed:', error);
     }
   });
-  
-  it('should prevent race condition with concurrent deductions', async () => {
-    await resetCredits(10);
-    
-    // Launch 5 concurrent requests, each trying to deduct 3 credits
-    // Only 3 should succeed (10 / 3 = 3 with 1 remaining)
-    const promises = Array(5).fill(null).map((_, i) => 
-      // Stagger slightly to reduce connection pressure
-      new Promise(resolve => setTimeout(resolve, i * 10)).then(() =>
-        deductCreditsAtomic(testUserId, 3)
+
+  beforeEach(async () => {
+    await resetTo(1000);
+  });
+
+  it('lets exactly the affordable number of concurrent spends through', async () => {
+    await resetTo(1000); // 10 credits
+
+    const results = await Promise.all(
+      Array.from({ length: 5 }, (_, i) =>
+        spendCredits({ userId: testUserId, cents: 300, reason: 'publish', ref: `race-a-${i}` })
       )
     );
-    
-    const results = await Promise.all(promises);
-    
-    // Count successes and failures
-    const successes = results.filter(r => r.success).length;
-    const failures = results.filter(r => !r.success).length;
-    
-    // Should have exactly 3 successes (10 credits / 3 per request)
-    expect(successes).toBe(3);
-    expect(failures).toBe(2);
-    
-    // Final balance should be 1 (10 - 3*3 = 1)
-    const [finalUser] = await db
-      .select({ credits: user.credits })
-      .from(user)
-      .where(eq(user.id, testUserId));
-    
-    expect(finalUser.credits).toBe(1);
-    
-    // Balance should NEVER be negative
-    expect(finalUser.credits).toBeGreaterThanOrEqual(0);
-  }, 15000);
-  
-  it('should handle rapid concurrent requests without negative balance', async () => {
-    await resetCredits(6);
-    
-    // Launch 10 concurrent requests, each needing 5 credits
-    // Only 1 should succeed (6 / 5 = 1)
-    const promises = Array(10).fill(null).map((_, i) => 
-      new Promise(resolve => setTimeout(resolve, i * 10)).then(() =>
-        deductCreditsAtomic(testUserId, 5)
+
+    expect(results.filter((r) => r.success)).toHaveLength(3);
+    expect(results.filter((r) => !r.success)).toHaveLength(2);
+    expect(await getCreditBalance(testUserId)).toBe(100);
+  });
+
+  it('keeps the balance non-negative when every attempt wants more than half', async () => {
+    await resetTo(600);
+
+    const results = await Promise.all(
+      Array.from({ length: 10 }, (_, i) =>
+        spendCredits({ userId: testUserId, cents: 500, reason: 'publish', ref: `race-b-${i}` })
       )
     );
-    
-    const results = await Promise.all(promises);
-    
-    const successes = results.filter(r => r.success).length;
-    
-    expect(successes).toBe(1);
-    
-    // Final balance should be 1 (6 - 5 = 1)
-    const [finalUser] = await db
-      .select({ credits: user.credits })
-      .from(user)
-      .where(eq(user.id, testUserId));
-    
-    expect(finalUser.credits).toBe(1);
-    expect(finalUser.credits).toBeGreaterThanOrEqual(0);
-  }, 15000);
-  
-  it('should fail all requests when insufficient credits', async () => {
-    await resetCredits(2);
-    
-    // Try to deduct 5 credits 3 times
-    const promises = Array(3).fill(null).map((_, i) => 
-      new Promise(resolve => setTimeout(resolve, i * 10)).then(() =>
-        deductCreditsAtomic(testUserId, 5)
+
+    expect(results.filter((r) => r.success)).toHaveLength(1);
+    expect(await getCreditBalance(testUserId)).toBe(100);
+  });
+
+  it('refuses every attempt when the balance is short, and changes nothing', async () => {
+    await resetTo(200);
+
+    const results = await Promise.all(
+      Array.from({ length: 3 }, (_, i) =>
+        spendCredits({ userId: testUserId, cents: 500, reason: 'publish', ref: `race-c-${i}` })
       )
     );
-    
-    const results = await Promise.all(promises);
-    
-    // All should fail
-    const failures = results.filter(r => !r.success).length;
-    expect(failures).toBe(3);
-    
-    // Balance should remain 2
-    const [finalUser] = await db
-      .select({ credits: user.credits })
-      .from(user)
-      .where(eq(user.id, testUserId));
-    
-    expect(finalUser.credits).toBe(2);
-  }, 15000);
-  
-  it('should handle exact balance scenario', async () => {
-    await resetCredits(15);
-    
-    // Launch 5 concurrent requests, each needing 3 credits
-    // All 5 should succeed (15 / 3 = 5)
-    const promises = Array(5).fill(null).map((_, i) => 
-      new Promise(resolve => setTimeout(resolve, i * 10)).then(() =>
-        deductCreditsAtomic(testUserId, 3)
+
+    expect(results.every((r) => !r.success)).toBe(true);
+    expect(await getCreditBalance(testUserId)).toBe(200);
+  });
+
+  it('spends to exactly zero when the balance divides evenly', async () => {
+    await resetTo(1500);
+
+    const results = await Promise.all(
+      Array.from({ length: 5 }, (_, i) =>
+        spendCredits({ userId: testUserId, cents: 300, reason: 'publish', ref: `race-d-${i}` })
       )
     );
-    
-    const results = await Promise.all(promises);
-    
-    const successes = results.filter(r => r.success).length;
-    const failures = results.filter(r => !r.success).length;
-    
-    expect(successes).toBe(5);
-    expect(failures).toBe(0);
-    
-    // Final balance should be 0
-    const [finalUser] = await db
-      .select({ credits: user.credits })
-      .from(user)
-      .where(eq(user.id, testUserId));
-    
-    expect(finalUser.credits).toBe(0);
-  }, 15000);
-  
-  it('should return correct error information on failure', async () => {
-    await resetCredits(5);
-    
-    // Try to deduct 10 credits
-    const result = await deductCreditsAtomic(testUserId, 10);
-    
+
+    expect(results.every((r) => r.success)).toBe(true);
+    expect(await getCreditBalance(testUserId)).toBe(0);
+  });
+
+  it('reports the unchanged balance when a spend is refused', async () => {
+    await resetTo(500);
+
+    const result = await spendCredits({ userId: testUserId, cents: 1000, reason: 'publish', ref: 'race-e' });
+
     expect(result.success).toBe(false);
-    expect(result.error).toBe('Insufficient credits');
-    expect(result.newBalance).toBe(5);
-  }, 15000);
-  
-  it('should return correct balance on success', async () => {
-    await resetCredits(10);
-    
-    // Deduct 3 credits
-    const result = await deductCreditsAtomic(testUserId, 3);
-    
-    expect(result.success).toBe(true);
-    expect(result.newBalance).toBe(7);
-    expect(result.error).toBeUndefined();
-  }, 15000);
+    expect(result.balance).toBe(500);
+  });
 });

@@ -10,6 +10,8 @@ import {
 } from "./config/env-validation";
 import { getTrustedOrigins } from "./config/urls";
 import { logger } from "./logger";
+import { creditsToCents } from "./credits/ledger";
+import { TIER_LIMITS } from "./tiers/config";
 
 // Validate environment variables at startup
 validateAuthEnvVars();
@@ -97,11 +99,35 @@ export const auth = betterAuth({
         type: "string",
         defaultValue: "free",
       },
-      credits: {
-        type: "number",
-        defaultValue: 10,
-      }
+      // No `credits` field: better-auth would write it straight into the user row, and that column is no
+      // longer a balance. The free-tier grant is a ledger entry appended on create, below.
     }
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (createdUser: { id: string }) => {
+          if (!isDatabaseConfigured) return;
+          // Imported lazily so a build/test without DATABASE_URL never loads the database module.
+          const { recordCredit } = await import("./db/credit-ledger");
+          try {
+            await recordCredit({
+              userId: createdUser.id,
+              cents: creditsToCents(TIER_LIMITS.free.monthlyCredits),
+              reason: "signup_grant",
+              ref: `signup:${createdUser.id}`,
+            });
+          } catch (error) {
+            // The account exists. Failing the signup because the grant failed would lock the user out of a
+            // wallet they can top up; log it and let them in.
+            logger.auth.exception(error instanceof Error ? error : new Error(String(error)), {
+              action: "signup-credit-grant",
+              userId: createdUser.id,
+            });
+          }
+        },
+      },
+    },
   },
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days

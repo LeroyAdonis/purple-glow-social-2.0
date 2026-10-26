@@ -7,6 +7,8 @@ import { eq } from 'drizzle-orm';
 import { canGenerate } from '@/lib/tiers/validation';
 import { getTierLimits } from '@/lib/tiers/config';
 import { logGeneration, getDailyGenerations } from '@/lib/db/generation-logs';
+import { getCreditBalance } from '@/lib/db/credit-ledger';
+import { centsToCredits } from '@/lib/credits/ledger';
 import { incrementGenerations, checkGenerationLimit } from '@/lib/db/daily-usage';
 import type { TierName } from '@/lib/tiers/types';
 import { rateLimiters } from '@/lib/security/rate-limit';
@@ -172,7 +174,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       results,
-      credits: userRecord.credits, // Credits unchanged (not deducted for generation)
+      // Generation is free: the ledger is read, never written. Showing a stale column here is how the UI
+      // drifted from the wallet in the first place.
+      credits: centsToCredits(await getCreditBalance(session.user.id)),
       dailyGenerations: {
         used: updatedGenerations,
         limit: tierLimits.dailyGenerations,

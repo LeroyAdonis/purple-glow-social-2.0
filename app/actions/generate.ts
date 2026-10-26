@@ -14,10 +14,12 @@ import * as schema from "../../drizzle/schema";
 import { GeminiService } from "../../lib/ai/gemini-service";
 import { ensureWithinLimit } from "../../lib/ai/content-truncator";
 import { generateImageWithNanoBanana } from "../../lib/ai/nano-banana-service";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 // Only initialize database if DATABASE_URL is a real connection string
 // Driver selection lives in lib/db/driver.ts so Neon is a choice, not a requirement.
 import { db, isDatabaseConfigured } from "../../lib/db/driver";
+import { getCreditBalance } from "../../lib/db/credit-ledger";
+import { centsToCredits } from "../../lib/credits/ledger";
 
 // Initialize Gemini (for image generation)
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.API_KEY || '' });
@@ -62,7 +64,9 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
         return { error: "User not found." };
       }
 
-      if (userRecord.credits <= 0) {
+      // Balance is the ledger SUM, read only. Generating copy costs nothing — the charge belongs to
+      // /api/posts/publish, which deducts per platform that actually published.
+      if (centsToCredits(await getCreditBalance(session.user.id)) <= 0) {
         return { error: "Insufficient credits. Please top up to continue." };
       }
     }
@@ -113,7 +117,7 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
       console.warn("Image generation error:", imgError);
     }
 
-    // 4. Save Draft to Database and Deduct Credits
+    // 4. Save Draft to Database — no credit is taken for generating a draft
     let postId = "mock-post-id-" + Date.now();
     
     if (isDatabaseConfigured && db) {
@@ -131,15 +135,6 @@ export async function generatePostAction(prevState: any, formData: FormData): Pr
         if (newPost) {
           postId = newPost.id;
         }
-
-        // Deduct 1 credit
-        await db
-          .update(user)
-          .set({
-            credits: sql`${user.credits} - 1`,
-            updatedAt: new Date(),
-          })
-          .where(eq(user.id, session.user.id));
 
       } catch (dbError) {
         console.error("Database operation failed:", dbError);

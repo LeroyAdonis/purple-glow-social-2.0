@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
-import { db } from '@/drizzle/db';
-import { user } from '@/drizzle/schema';
-import { eq } from 'drizzle-orm';
+import { getCreditBalance } from '@/lib/db/credit-ledger';
+import { centsToCredits, formatZar } from '@/lib/credits/ledger';
 import { logger } from '@/lib/logger';
 
 /**
@@ -22,19 +21,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const userRecord = await db.query.user.findFirst({
-      where: eq(user.id, session.user.id),
-    });
-
-    if (!userRecord) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
-    }
+    // The balance is the ledger SUM in cents. `credits` stays as the derived whole-credit count because
+    // every existing screen reads it; the money value is `balanceCents` / `display`.
+    const balanceCents = await getCreditBalance(session.user.id);
 
     return NextResponse.json({
-      credits: userRecord.credits,
+      credits: centsToCredits(balanceCents),
+      balanceCents,
+      display: formatZar(balanceCents),
     });
   } catch (error) {
     logger.api.exception(error instanceof Error ? error : new Error(String(error)), {

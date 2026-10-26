@@ -4,10 +4,11 @@
  * One module so the routes stay pure logic: every query the v1 API makes lives here, which keeps the
  * security-sensitive parts (never selecting tokens, all-or-nothing post inserts) in one reviewable place.
  */
-import { and, count, desc, eq, isNull } from "drizzle-orm";
+import { and, count, desc, eq, isNull, sql } from "drizzle-orm";
 
 import { db } from "../../../drizzle/db";
-import { apiKeys, connectedAccounts, posts, user } from "../../../drizzle/schema";
+import { apiKeys, connectedAccounts, credit_entries, posts, user } from "../../../drizzle/schema";
+import { centsToCredits } from "../../credits/ledger";
 
 export type ApiPlatform = "facebook" | "instagram" | "twitter" | "linkedin";
 
@@ -106,12 +107,20 @@ export async function revokeApiKey(
 }
 
 export async function getUser(userId: string): Promise<ApiUser | null> {
+  // `credits` is the ledger SUM (cents) converted to whole credits, the unit this API speaks. There is no
+  // readable balance column any more: `user.credits` is a leftover that nothing writes.
   const [row] = await db
-    .select({ id: user.id, tier: user.tier, credits: user.credits })
+    .select({
+      id: user.id,
+      tier: user.tier,
+      balanceCents: sql<string>`COALESCE((SELECT SUM(${credit_entries.delta}) FROM ${credit_entries} WHERE ${credit_entries.userId} = ${user.id}), 0)`,
+    })
     .from(user)
     .where(eq(user.id, userId))
     .limit(1);
-  return row ?? null;
+
+  if (!row) return null;
+  return { id: row.id, tier: row.tier, credits: centsToCredits(Number(row.balanceCents)) };
 }
 
 export async function countQueuedPosts(userId: string): Promise<number> {

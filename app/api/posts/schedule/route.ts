@@ -82,8 +82,9 @@ async function validateScheduleRequest(
   }
 
   const creditCost = 1;
+  // `availableCredits` already is ledger balance (cents → credits) minus pending reservations.
   const availableCredits = await getAvailableCredits(userId);
-  const creditCheck = hasEnoughCredits(userRecord.credits, userRecord.credits - availableCredits, creditCost);
+  const creditCheck = hasEnoughCredits(availableCredits, 0, creditCost);
 
   if (!creditCheck.allowed) {
     return {

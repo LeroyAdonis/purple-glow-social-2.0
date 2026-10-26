@@ -3,11 +3,12 @@ import { auth } from '@/lib/auth';
 import { PostService } from '@/lib/posting/post-service';
 import { db } from '@/drizzle/db';
 import { posts, user } from '@/drizzle/schema';
-import { eq, sql } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { getAvailableCredits } from '@/lib/db/credit-reservations';
-import { hasEnoughCredits, calculatePostCredits, canPost } from '@/lib/tiers/validation';
+import { calculatePostCredits, canPost } from '@/lib/tiers/validation';
 import { getTierLimits } from '@/lib/tiers/config';
-import { deductCredits, deductCreditsAtomic } from '@/lib/db/users';
+import { spendCredits } from '@/lib/db/credit-ledger';
+import { centsToCredits, creditsToCents } from '@/lib/credits/ledger';
 import { incrementPosts, getDailyUsage } from '@/lib/db/daily-usage';
 import type { TierName } from '@/lib/tiers/types';
 import type { PlatformBreakdown } from '@/lib/tiers/types';
@@ -118,47 +119,54 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Credits check
+    // Credits check — the balance is the ledger SUM, read before publishing. Nothing is charged here:
+    // generating copy is free and a failed publish costs nothing. The charge happens after a platform
+    // confirms it accepted the post, so there is no refund path that can drift out of sync.
     const creditCost = calculatePostCredits(platforms);
     const availableCredits = await getAvailableCredits(session.user.id);
-    const creditCheck = hasEnoughCredits(userRecord.credits, userRecord.credits - availableCredits, creditCost);
 
-    if (!creditCheck.allowed) {
+    if (availableCredits < creditCost) {
       return NextResponse.json(
-        { error: creditCheck.message || 'Insufficient credits', required: creditCost, available: availableCredits },
-        { status: 402 }
-      );
-    }
-
-    const deductionResult = await deductCreditsAtomic(session.user.id, creditCost);
-    if (!deductionResult.success) {
-      return NextResponse.json(
-        { error: 'Insufficient credits', message: `You need ${creditCost} credits but only have ${deductionResult.newBalance}`, creditsNeeded: creditCost, currentBalance: deductionResult.newBalance },
+        {
+          error: 'Insufficient credits',
+          message: `This post needs ${creditCost} credits but only ${availableCredits} are available.`,
+          required: creditCost,
+          available: availableCredits,
+        },
         { status: 402 }
       );
     }
 
     // Post to platforms
     const postService = new PostService();
-    let results;
-    try {
-      results = await postService.postToMultiplePlatforms(
-        session.user.id,
-        platforms as Array<'facebook' | 'instagram' | 'twitter' | 'linkedin'>,
-        { content, imageUrl, link }
-      );
-    } catch (postError: any) {
-      // Refund credits on total failure
-      await db.update(user).set({ credits: sql`${user.credits} + ${creditCost}`, updatedAt: new Date() }).where(eq(user.id, session.user.id));
-      throw postError;
-    }
+    const results = await postService.postToMultiplePlatforms(
+      session.user.id,
+      platforms as Array<'facebook' | 'instagram' | 'twitter' | 'linkedin'>,
+      { content, imageUrl, link }
+    );
 
     const successfulPosts = results.filter(r => r.success);
     const failedPosts = results.filter(r => !r.success);
 
-    // Partial refund for failed platforms
-    if (failedPosts.length > 0) {
-      await db.update(user).set({ credits: sql`${user.credits} + ${failedPosts.length}`, updatedAt: new Date() }).where(eq(user.id, session.user.id));
+    // Charge only for the platforms that actually published. `ref` is the post id where we have one, so a
+    // retried request for the same post cannot be charged twice (partial unique index on credit_entries).
+    let balanceCents = creditsToCents(availableCredits);
+    if (successfulPosts.length > 0) {
+      const charge = await spendCredits({
+        userId: session.user.id,
+        cents: creditsToCents(successfulPosts.length),
+        reason: 'publish',
+        ref: existingPostId ?? `publish:${session.user.id}:${crypto.randomUUID()}`,
+      });
+      if (!charge.success) {
+        // The post is already live; the balance was spent by a concurrent request between the check and
+        // the charge. Refuse to go negative and make the gap visible instead of inventing a refund.
+        logger.posting.error('Published without charge: balance spent concurrently', {
+          userId: session.user.id,
+          platforms: successfulPosts.map(p => p.platform),
+        });
+      }
+      balanceCents = charge.balance;
     }
 
     // Update existing post record if we came from postId flow
@@ -187,14 +195,14 @@ export async function POST(request: NextRequest) {
       await incrementPosts(session.user.id, result.platform as 'facebook' | 'instagram' | 'twitter' | 'linkedin');
     }
 
-    const updatedUser = await db.query.user.findFirst({ where: eq(user.id, session.user.id) });
+    const creditsRemaining = centsToCredits(balanceCents);
 
     if (failedPosts.length === 0) {
-      return NextResponse.json({ success: true, results, creditsDeducted: successfulPosts.length, creditsRemaining: updatedUser?.credits || 0 });
+      return NextResponse.json({ success: true, results, creditsDeducted: successfulPosts.length, creditsRemaining, balanceCents });
     } else if (successfulPosts.length === 0) {
-      return NextResponse.json({ error: 'Failed to publish to all platforms', results, creditsDeducted: 0, creditsRemaining: updatedUser?.credits || 0 }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to publish to all platforms', results, creditsDeducted: 0, creditsRemaining, balanceCents }, { status: 500 });
     } else {
-      return NextResponse.json({ success: true, partial: true, message: `Published to ${successfulPosts.length} of ${platforms.length} platforms`, results, creditsDeducted: successfulPosts.length, creditsRemaining: updatedUser?.credits || 0 });
+      return NextResponse.json({ success: true, partial: true, message: `Published to ${successfulPosts.length} of ${platforms.length} platforms`, results, creditsDeducted: successfulPosts.length, creditsRemaining, balanceCents });
     }
   } catch (error: any) {
     logger.posting.error('Publish post failed', { error });

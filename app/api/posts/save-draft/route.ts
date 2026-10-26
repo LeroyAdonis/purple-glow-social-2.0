@@ -5,6 +5,8 @@ import { posts, user } from "@/drizzle/schema";
 import * as schema from "@/drizzle/schema";
 import { eq, sql } from "drizzle-orm";
 import { logger } from "@/lib/logger";
+import { getCreditBalance } from "@/lib/db/credit-ledger";
+import { centsToCredits } from "@/lib/credits/ledger";
 import { z } from "zod";
 
 const saveDraftSchema = z.object({
@@ -54,7 +56,7 @@ export async function POST(request: Request) {
         );
       }
 
-      if (userRecord.credits <= 0) {
+      if (centsToCredits(await getCreditBalance(session.user.id)) <= 0) {
         return Response.json(
           { success: false, error: "Insufficient credits. Please top up to continue." },
           { status: 402 }

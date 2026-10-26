@@ -107,11 +107,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             name: data.name || data.email?.split('@')[0] || 'User',
             email: data.email,
             tier: data.tier || 'free',
-            credits: data.credits || 10,
+            credits: data.credits ?? 10,
             image: data.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(data.name || 'User')}&background=9D4EDD&color=fff`,
           });
           setTier(data.tier || 'free');
-          setCredits(data.credits || 10);
+          setCredits(data.credits ?? 10);
         }
       } catch (error: unknown) {
         if (error instanceof Error && error.name === 'AbortError') return;

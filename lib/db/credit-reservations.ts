@@ -5,8 +5,10 @@
  */
 
 import { db } from '../../drizzle/db';
-import { creditReservations, user } from '../../drizzle/schema';
+import { creditReservations } from '../../drizzle/schema';
 import { eq, and, sql, lt } from 'drizzle-orm';
+import { getCreditBalance } from './credit-ledger';
+import { centsToCredits } from '../credits/ledger';
 import type { CreditReservation, NewCreditReservation } from '../../drizzle/schema';
 
 /**
@@ -173,13 +175,9 @@ export async function getReservationByPostId(postId: string): Promise<CreditRese
  * Get available credits (total - reserved)
  */
 export async function getAvailableCredits(userId: string): Promise<number> {
-  const [userData] = await db
-    .select({ credits: user.credits })
-    .from(user)
-    .where(eq(user.id, userId))
-    .limit(1);
-
-  const totalCredits = userData?.credits || 0;
+  // Total is the ledger balance, not `user.credits`. Reservations still live in their own table because a
+  // reservation is a promise, not a payment: nothing is deducted from the ledger until the post publishes.
+  const totalCredits = centsToCredits(await getCreditBalance(userId));
   const reserved = await getReservedCredits(userId);
 
   return Math.max(0, totalCredits - reserved);
