@@ -14,7 +14,20 @@ import { defineConfig } from 'vitest/config';
  *
  * Without this, `npx vitest run` could never be green, and a real regression would hide among the
  * noise. A test suite that cannot be trusted is worse than no suite.
+ *
+ * 3. `tests/integration/*.test.ts` open a real Postgres connection at module load. With no
+ *    DATABASE_URL they throw during COLLECTION, so the file reports as a failure and makes the whole
+ *    suite red for a reason that has nothing to do with the code. They are excluded unless a database
+ *    is configured, and the exclusion is announced loudly rather than passing silently — a skip that
+ *    nobody sees is how integration coverage quietly disappears.
  */
+const hasDatabase = Boolean(process.env.DATABASE_URL);
+if (!hasDatabase) {
+  console.warn(
+    '[vitest] SKIPPING tests/integration/** — no DATABASE_URL. Those assertions need a real database; ' +
+      'they are NOT passing, they are not run. Set DATABASE_URL to include them.',
+  );
+}
 export default defineConfig({
   resolve: {
     // The source uses the `@/` alias (tsconfig `paths`); vitest does not read tsconfig paths itself.
@@ -34,6 +47,8 @@ export default defineConfig({
       '**/dist/**',
       // Playwright owns these; see the note above.
       'e2e-tests/**',
+      // A real database is required at import time; see note 3.
+      ...(hasDatabase ? [] : ['tests/integration/**']),
     ],
     setupFiles: ['./vitest.setup.ts'],
   },
