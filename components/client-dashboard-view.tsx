@@ -302,7 +302,7 @@ export default function ClientDashboardView({
 
                             {/* Pro */}
                             <div className="border-2 border-neon-grape rounded-2xl p-6 relative bg-neon-grape/5">
-                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-neon-grape px-4 py-1 rounded-full text-xs font-bold">
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-neon-grape px-4 py-1 rounded-full text-xs font-bold text-[var(--posta-cream)]">
                                     MOST POPULAR
                                 </div>
                                 <h3 className="font-mono text-sm text-neon-grape uppercase mb-2">The Creator</h3>

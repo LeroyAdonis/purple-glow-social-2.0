@@ -76,9 +76,9 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
   return (
     <div className="bg-void rounded-2xl shadow-2xl border border-glass-border overflow-hidden">
       {/* Header with gradient */}
- <div className="bg-[var(--posta-clay-deep)]  text-[var(--posta-ink)] p-6">
+ <div className="bg-[var(--posta-clay-deep)]  text-[var(--posta-cream)] p-6">
         <h3 className="text-2xl font-bold font-display mb-2">AI Pilot Smart Suggestions</h3>
-        <p className="text-sm text-[var(--posta-ink)]/90 font-body">Powered by audience analytics and engagement patterns</p>
+        <p className="text-sm text-[var(--posta-cream)]/90 font-body">Powered by audience analytics and engagement patterns</p>
       </div>
 
       {/* Tab Navigation - Dark Theme */}
@@ -143,7 +143,7 @@ export default function SmartSuggestions({ topic = 'General', platform = 'all' }
                 className="flex items-center justify-between p-5 bg-[var(--posta-paper)] rounded-xl border border-glass-border hover:border-neon-grape/50 transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-4">
- <div className="bg-[var(--posta-clay-deep)] w-12 h-12 rounded-lg flex items-center justify-center text-2xl">
+ <div className="bg-[var(--posta-clay-deep)] w-12 h-12 rounded-lg flex items-center justify-center text-2xl text-[var(--posta-cream)]">
                     {slot.icon}
                   </div>
                   <div>

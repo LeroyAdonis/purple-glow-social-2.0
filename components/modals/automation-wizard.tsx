@@ -137,7 +137,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
- <div className="bg-[var(--posta-clay-deep)] sticky top-0 text-[var(--posta-ink)] p-6 rounded-t-2xl">
+ <div className="bg-[var(--posta-clay-deep)] sticky top-0 text-[var(--posta-cream)] p-6 rounded-t-2xl">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <i className="fa-solid fa-wand-magic-sparkles text-2xl"></i>
@@ -483,7 +483,7 @@ export default function AutomationWizard({ isOpen, onClose, onComplete }: Automa
           <button
             onClick={currentStep === 4 ? handleComplete : nextStep}
             disabled={!canProceed()}
- className="bg-[var(--posta-clay-deep)] px-6 py-2 rounded-lg text-[var(--posta-ink)] font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+ className="bg-[var(--posta-clay-deep)] px-6 py-2 rounded-lg text-[var(--posta-cream)] font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {currentStep === 4 ? (
               <>

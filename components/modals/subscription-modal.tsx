@@ -186,7 +186,7 @@ export default function SubscriptionModal({ isOpen, onClose, onSubscribe, curren
                   } ${currentTier === plan.id ? 'opacity-60' : ''}`}
                 >
                   {plan.badge && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-neon-grape px-4 py-1 rounded-full text-xs font-bold">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-neon-grape px-4 py-1 rounded-full text-xs font-bold text-[var(--posta-cream)]">
                       {plan.badge}
                     </div>
                   )}
@@ -369,7 +369,7 @@ export default function SubscriptionModal({ isOpen, onClose, onSubscribe, curren
                   <button
                     type="submit"
                     disabled={isLoading}
- className="bg-[var(--posta-clay-deep)] w-full py-4 text-[var(--posta-ink)] font-bold rounded-xl hover:shadow-[var(--shadow-card)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+ className="bg-[var(--posta-clay-deep)] w-full py-4 text-[var(--posta-cream)] font-bold rounded-xl hover:shadow-[var(--shadow-card)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {isLoading ? (
                       <>

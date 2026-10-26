@@ -115,7 +115,7 @@ function SuccessContent() {
           <div className="space-y-2">
             <button
               onClick={() => router.push('/dashboard')}
- className="bg-[var(--posta-clay)] w-full text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
+ className="bg-[var(--posta-clay)] w-full text-[var(--posta-cream)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
             >
               Go to Dashboard
             </button>
@@ -144,7 +144,7 @@ export default function OAuthSuccessPage() {
   return (
     <Suspense fallback={
  <div className="bg-[var(--posta-clay)] min-h-screen flex items-center justify-center ">
-        <div className="text-[var(--posta-ink)]">Loading...</div>
+        <div className="text-[var(--posta-cream)]">Loading...</div>
       </div>
     }>
       <SuccessContent />

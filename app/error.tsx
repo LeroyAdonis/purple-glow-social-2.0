@@ -90,7 +90,7 @@ export default function Error({ error, reset }: ErrorProps) {
           {/* Try Again Button */}
           <button
             onClick={reset}
- className="bg-[var(--posta-clay)] px-8 py-3 rounded-lg font-semibold hover:shadow-[var(--shadow-card)] transition-all duration-300 transform hover:scale-105"
+ className="bg-[var(--posta-clay)] px-8 py-3 rounded-lg font-semibold text-[var(--posta-cream)] hover:shadow-[var(--shadow-card)] transition-all duration-300 transform hover:scale-105"
           >
             Try Again
           </button>

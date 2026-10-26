@@ -53,3 +53,6 @@ mcp.json
 *.sln
 *.sw?
 .vercel
+
+# Runtime-generated images (NVIDIA NIM output). The folder is created at runtime; never commit it.
+/public/generated/

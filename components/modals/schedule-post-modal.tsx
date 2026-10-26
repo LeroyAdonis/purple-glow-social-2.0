@@ -160,7 +160,7 @@ export default function SchedulePostModal({
  <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
       <div className="bg-void border border-glass-border rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar">
         {/* Header */}
- <div className="bg-[var(--posta-clay-deep)] sticky top-0 text-[var(--posta-ink)] p-6 rounded-t-2xl z-10">
+ <div className="bg-[var(--posta-clay-deep)] sticky top-0 text-[var(--posta-cream)] p-6 rounded-t-2xl z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <i className="fa-regular fa-calendar-check text-2xl"></i>
@@ -174,7 +174,7 @@ export default function SchedulePostModal({
             </button>
           </div>
           {platform && (
-            <p className="text-sm text-[var(--posta-ink)]/80 mt-2 font-body">Platform: {platform}</p>
+            <p className="text-sm text-[var(--posta-cream)]/80 mt-2 font-body">Platform: {platform}</p>
           )}
         </div>
 
@@ -183,9 +183,9 @@ export default function SchedulePostModal({
  <div className="bg-[var(--posta-clay-deep)]  rounded-xl p-4 border border-neon-grape/30">
             <div className="flex items-center gap-2 mb-3">
               <i className="fa-solid fa-sparkles text-neon-grape"></i>
-              <h3 className="font-semibold text-[var(--posta-ink)] font-body">AI Pilot Best Times</h3>
+              <h3 className="font-semibold text-[var(--posta-cream)] font-body">AI Pilot Best Times</h3>
             </div>
-            <p className="text-sm text-[var(--posta-ink-soft)] mb-4 font-body">
+            <p className="text-sm text-[var(--posta-cream)] mb-4 font-body">
               Our AI analyzed your audience engagement patterns. These times get the most traction:
             </p>
             <div className="grid grid-cols-2 gap-3">
@@ -402,7 +402,7 @@ export default function SchedulePostModal({
             <button
               onClick={handleSchedule}
               disabled={!selectedDate || !selectedTime || isSubmitting || success || !hasEnoughCredits}
- className="bg-[var(--posta-clay-deep)] px-6 py-3 rounded-xl text-[var(--posta-ink)] font-medium font-body hover:shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer flex items-center gap-2"
+ className="bg-[var(--posta-clay-deep)] px-6 py-3 rounded-xl text-[var(--posta-cream)] font-medium font-body hover:shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer flex items-center gap-2"
             >
               {isSubmitting ? (
                 <>

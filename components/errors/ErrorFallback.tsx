@@ -101,7 +101,7 @@ Time: ${new Date().toISOString()}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={resetError}
- className="bg-[var(--posta-clay-deep)] px-6 py-3 text-[var(--posta-ink)] rounded-xl font-medium hover:shadow-lg transition-all"
+ className="bg-[var(--posta-clay-deep)] px-6 py-3 text-[var(--posta-cream)] rounded-xl font-medium hover:shadow-lg transition-all"
           >
             <i className="fa-solid fa-rotate-right mr-2"></i>
             Try Again

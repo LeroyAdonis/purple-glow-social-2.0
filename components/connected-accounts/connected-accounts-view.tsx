@@ -227,7 +227,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
                 setIsLoading(false);
               }
             }}
-            className="px-6 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
+            className="px-6 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold text-[var(--posta-cream)]"
           >
             <i className="fa-solid fa-rotate mr-2"></i>
             Try Again
@@ -273,7 +273,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
               </p>
               <button
                 onClick={() => setShowUpgradeModal(true)}
- className="bg-[var(--posta-clay)] px-4 py-2 rounded-lg font-bold text-sm hover:shadow-lg transition-all"
+ className="bg-[var(--posta-clay)] px-4 py-2 rounded-lg font-bold text-sm text-[var(--posta-cream)] hover:shadow-lg transition-all"
               >
                 <i className="fa-solid fa-arrow-up-right mr-2"></i>
                 Upgrade Plan
@@ -413,7 +413,7 @@ export default function ConnectedAccountsView({ userId }: ConnectedAccountsViewP
               </button>
               <a
                 href="/dashboard?view=settings"
- className="bg-[var(--posta-clay)] flex-1 px-4 py-3 rounded-xl font-bold text-center hover:shadow-lg transition-all"
+ className="bg-[var(--posta-clay)] flex-1 px-4 py-3 rounded-xl font-bold text-center text-[var(--posta-cream)] hover:shadow-lg transition-all"
               >
                 View Plans
               </a>

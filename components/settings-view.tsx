@@ -225,7 +225,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                   </div>
                 </div>
 
-                <button className="px-6 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold">
+                <button className="px-6 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold text-[var(--posta-cream)]">
                   Save Changes
                 </button>
               </div>
@@ -317,7 +317,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                 </div>
                 <button
                   onClick={() => setShowAddCardModal(true)}
-                  className="px-4 py-2 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold flex items-center gap-2"
+                  className="px-4 py-2 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold text-[var(--posta-cream)] flex items-center gap-2"
                 >
                   <i className="fa-solid fa-plus"></i> Add Card
                 </button>
@@ -524,7 +524,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
               <div className="flex gap-4">
                 <button
                   onClick={() => setShowCancelModal(false)}
-                  className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
+                  className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold text-[var(--posta-cream)]"
                 >
                   Keep Subscription
                 </button>
@@ -592,7 +592,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
                 </button>
                 <button
                   onClick={() => { setShowAddCardModal(false); alert('Card added successfully (simulated)'); }}
-                  className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
+                  className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold text-[var(--posta-cream)]"
                 >
                   Add Card
                 </button>

@@ -382,7 +382,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
           <p className="text-[var(--posta-ink-soft)] mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-neon-grape rounded-lg hover:bg-opacity-90"
+            className="px-4 py-2 bg-neon-grape rounded-lg hover:bg-opacity-90 text-[var(--posta-cream)]"
           >
             Retry
           </button>
@@ -396,7 +396,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
       {/* Sidebar */}
  <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full z-20">
         <div className="flex items-center gap-2 mb-4">
- <div className="bg-[var(--posta-clay-deep)] w-8 h-8 rounded flex items-center justify-center">
+ <div className="bg-[var(--posta-clay-deep)] w-8 h-8 rounded flex items-center justify-center text-[var(--posta-cream)]">
             <span className="font-display font-bold">A</span>
           </div>
           <div>
@@ -488,10 +488,10 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
         </nav>
 
  <div className="bg-[var(--posta-clay)] mt-auto p-4 rounded-xl border border-glass-border ">
-          <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2">SYSTEM STATUS</p>
+          <p className="text-xs font-mono text-[var(--posta-cream)] mb-2">SYSTEM STATUS</p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            <span className="text-sm font-bold">OPERATIONAL</span>
+            <span className="text-sm font-bold text-[var(--posta-cream)]">OPERATIONAL</span>
           </div>
         </div>
       </aside>
@@ -1059,7 +1059,7 @@ export default function AdminDashboardView({ onBackToLanding }: AdminDashboardVi
               </button>
               <button
                 onClick={handleCreditAdjustment}
-                className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold"
+                className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold text-[var(--posta-cream)]"
               >
                 Apply
               </button>

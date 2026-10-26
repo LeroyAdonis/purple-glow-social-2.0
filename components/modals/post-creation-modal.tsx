@@ -543,7 +543,7 @@ export default function PostCreationModal({
             <button
               onClick={handlePublishNow}
               disabled={isSubmitting || !content.trim() || charPercentage >= 100}
- className="bg-[var(--posta-clay)] flex-1 px-6 py-3 from-[#8E3B2E] to-[#742F25] hover:shadow-[var(--shadow-card)] rounded-lg font-bold text-[var(--posta-ink)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+ className="bg-[var(--posta-clay)] flex-1 px-6 py-3 from-[#8E3B2E] to-[#742F25] hover:shadow-[var(--shadow-card)] rounded-lg font-bold text-[var(--posta-cream)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting && submitAction === 'publish' ? (
                 <>

@@ -11,7 +11,7 @@ import { useLanguage } from '../lib/context/LanguageContext';
 interface GenerationState {
     success?: boolean;
     error?: string;
-    data?: { content: string; imageUrl?: string; postId?: string };
+    data?: { content: string; imageUrl?: string | null; postId?: string };
 }
 
 const initialState: GenerationState = {
@@ -42,6 +42,8 @@ export default function ContentGenerator() {
     const { language: currentLanguage, t: translate } = useLanguage();
     const [state, setState] = useState<GenerationState>(initialState);
     const [isGenerating, setIsGenerating] = useState(false);
+    // Image generation runs after the text so it can never hold the text result hostage.
+    const [isAddingImage, setIsAddingImage] = useState(false);
 
     // Controlled inputs to drive preview logic
     const [platform, setPlatform] = useState("instagram");
@@ -163,6 +165,33 @@ export default function ContentGenerator() {
                 return;
             }
 
+            // Show the text immediately; the image is an optional extra, never a gate on this result.
+            setState({ success: true, data: { content } });
+            setIsGenerating(false);
+
+            // Image generation is best effort: a failure here leaves imageUrl null and the previews fall
+            // back to their honest "Add your own image" state. It must never fail the generation.
+            setIsAddingImage(true);
+            let imageUrl: string | null = null;
+            try {
+                const imageResponse = await fetch('/api/ai/generate-image', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt, platform }),
+                });
+                const imageData = imageResponse.ok ? await imageResponse.json().catch(() => null) : null;
+                if (typeof imageData?.imageUrl === 'string') {
+                    imageUrl = imageData.imageUrl;
+                    setState(prev => prev.data ? { ...prev, data: { ...prev.data, imageUrl } } : prev);
+                } else {
+                    logger.ai.warn('Image generation returned no image', { status: imageResponse.status });
+                }
+            } catch (error: unknown) {
+                logger.ai.warn('Image generation request failed', { error });
+            } finally {
+                setIsAddingImage(false);
+            }
+
             // Save draft to server (auth check + DB + credit deduction)
             let postId = "local-" + Date.now();
             try {
@@ -173,6 +202,7 @@ export default function ContentGenerator() {
                         content,
                         platform,
                         topic: prompt,
+                        imageUrl: imageUrl ?? undefined,
                     }),
                 });
                 if (saveResponse.ok) {
@@ -184,10 +214,7 @@ export default function ContentGenerator() {
                 console.warn('Failed to save draft to server');
             }
 
-            setState({
-                success: true,
-                data: { content, postId },
-            });
+            setState(prev => prev.data ? { ...prev, data: { ...prev.data, postId } } : { success: true, data: { content, postId } });
 
             // The route returns the authoritative counter for today; mirror it instead of guessing.
             const daily = payload?.dailyGenerations;
@@ -222,7 +249,7 @@ export default function ContentGenerator() {
             {/* Header */}
             <div className="flex items-center justify-between p-3 border-b border-gray-100">
                 <div className="flex items-center gap-2">
- <div className="bg-[var(--posta-clay)] w-8 h-8 rounded-full p-[2px]">
+ <div className="bg-[var(--posta-clay)] w-8 h-8 rounded-full p-[2px] text-[var(--posta-cream)]">
                         <div className="w-full h-full rounded-full bg-white border-2 border-transparent overflow-hidden">
                             <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=9D4EDD&color=fff" alt="User" width={32} height={32} unoptimized />
                         </div>
@@ -237,9 +264,9 @@ export default function ContentGenerator() {
                 {state?.data?.imageUrl ? (
                     <Image src={state.data.imageUrl} alt="Generated" width={600} height={600} className="w-full h-full object-cover" unoptimized />
                 ) : (
-                    <div className="text-center text-[var(--posta-ink)]/80">
+                    <div className="text-center text-[var(--posta-cream)]">
                         <i className="fa-solid fa-image text-4xl mb-2 opacity-50"></i>
-                        <p className="text-xs font-medium">Add your own image</p>
+                        <p className="text-xs font-medium">{isAddingImage ? 'Adding an image…' : 'Add your own image'}</p>
                     </div>
                 )}
             </div>
@@ -368,7 +395,7 @@ export default function ContentGenerator() {
         <div className="bg-white text-black rounded-xl overflow-hidden shadow-2xl max-w-lg mx-auto font-sans border border-gray-200">
             {/* Header */}
             <div className="p-4 flex items-start gap-3">
- <div className="bg-[var(--posta-clay)] w-12 h-12 rounded-full flex items-center justify-center text-[var(--posta-ink)] font-bold text-lg overflow-hidden">
+ <div className="bg-[var(--posta-clay)] w-12 h-12 rounded-full flex items-center justify-center text-[var(--posta-cream)] font-bold text-lg overflow-hidden">
                     <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=0077B5&color=fff" alt="User" width={48} height={48} unoptimized />
                 </div>
                 <div className="flex-1">
@@ -578,6 +605,11 @@ export default function ContentGenerator() {
                             <div className="flex items-center gap-2">
                                 <span className="font-mono text-[10px] tracking-widest text-joburg-teal border border-joburg-teal/30 px-2 py-1 rounded bg-joburg-teal/10">{translate('contentGenerator.generatedContent').toUpperCase()}</span>
                                 <span className="text-xs text-[var(--posta-ink-soft)] capitalize">• {platform}</span>
+                                {isAddingImage && (
+                                    <span className="text-xs text-[var(--posta-ink-soft)]">
+                                        <i className="fa-solid fa-circle-notch animate-spin mr-2"></i>Adding an image…
+                                    </span>
+                                )}
                             </div>
                             <div className="flex gap-2">
                                 {!isEditing ? (
@@ -631,7 +663,8 @@ export default function ContentGenerator() {
                             </button>
                             <button
                                 onClick={handleSchedule}
-                                disabled={isOverLimit}
+                                disabled={isOverLimit || isAddingImage}
+                                title={isAddingImage ? 'Waiting for the image and the saved draft' : undefined}
                                 className="flex-1 py-3 bg-white text-black rounded-xl hover:scale-105 transition-transform text-sm font-bold shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
                             >
                                 <i className="fa-regular fa-calendar-check"></i> {translate('contentGenerator.schedulePost')}

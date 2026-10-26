@@ -162,7 +162,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                   }`}
                 >
                   {pkg.badge && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-neon-grape px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-neon-grape px-3 py-1 rounded-full text-xs font-bold text-[var(--posta-cream)] whitespace-nowrap">
                       {pkg.badge}
                     </div>
                   )}
@@ -364,7 +364,7 @@ export default function CreditTopupModal({ isOpen, onClose, onPurchase, currentC
                   <button
                     type="submit"
                     disabled={isLoading}
- className="bg-[var(--posta-clay-deep)] w-full py-4 text-[var(--posta-ink)] font-bold rounded-xl hover:shadow-[var(--shadow-card)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+ className="bg-[var(--posta-clay-deep)] w-full py-4 text-[var(--posta-cream)] font-bold rounded-xl hover:shadow-[var(--shadow-card)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? (
                       <>

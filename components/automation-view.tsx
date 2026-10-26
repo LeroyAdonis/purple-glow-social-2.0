@@ -165,12 +165,15 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
         </div>
 
         {/* Locked State */}
- <div className="bg-[var(--posta-clay)] aerogel-card rounded-2xl p-12 text-center border border-mzansi-gold/20 ">
+        {/* No `.aerogel-card` here on purpose: that class hard-sets `background: posta-white` in globals.css, so
+            combining it with `bg-[var(--posta-clay)]` silently loses the clay and leaves cream text on white —
+            measured 1.16:1, i.e. invisible. Radius and padding are kept locally instead. */}
+        <div className="bg-[var(--posta-clay)] rounded-2xl p-12 text-center border border-mzansi-gold/20">
  <div className="bg-[var(--posta-clay)] w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
-            <i className="fa-solid fa-lock text-mzansi-gold text-4xl"></i>
+            <i className="fa-solid fa-lock text-[var(--posta-cream)] text-4xl"></i>
           </div>
-          <h3 className="text-3xl font-display font-bold text-[var(--posta-ink)] mb-3">Unlock Automation</h3>
-          <p className="text-[var(--posta-ink-soft)] mb-6 max-w-md mx-auto">
+          <h3 className="text-3xl font-display font-bold text-[var(--posta-cream)] mb-3">Unlock Automation</h3>
+          <p className="text-[var(--posta-cream)] mb-6 max-w-md mx-auto">
             Automation rules are available on Pro and Business tiers. Upgrade to let AI automatically 
             generate and schedule content for you - saving hours every week!
           </p>
@@ -195,7 +198,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
 
           <a
             href="/dashboard?view=settings"
- className="bg-[var(--posta-clay)] inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:scale-105 transition-all"
+ className="bg-[var(--posta-clay)] inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-lg text-[var(--posta-cream)] hover:shadow-xl hover:scale-105 transition-all"
           >
             <i className="fa-solid fa-crown"></i>
             Upgrade to Pro
@@ -327,18 +330,18 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
  <div className="bg-[var(--posta-clay)]  rounded-xl p-6 border border-pink-500/30">
                 <i className="fa-solid fa-box text-pink-400 text-3xl mb-3"></i>
-                <h4 className="font-semibold text-[var(--posta-ink)] mb-2">Weekly Product</h4>
-                <p className="text-sm text-[var(--posta-ink-soft)]">Showcase your products regularly</p>
+                <h4 className="font-semibold text-[var(--posta-cream)] mb-2">Weekly Product</h4>
+                <p className="text-sm text-[var(--posta-cream)]">Showcase your products regularly</p>
               </div>
  <div className="bg-[var(--posta-clay)]  rounded-xl p-6 border border-blue-500/30">
                 <i className="fa-solid fa-lightbulb text-blue-400 text-3xl mb-3"></i>
-                <h4 className="font-semibold text-[var(--posta-ink)] mb-2">Daily Tips</h4>
-                <p className="text-sm text-[var(--posta-ink-soft)]">Share valuable insights daily</p>
+                <h4 className="font-semibold text-[var(--posta-cream)] mb-2">Daily Tips</h4>
+                <p className="text-sm text-[var(--posta-cream)]">Share valuable insights daily</p>
               </div>
  <div className="bg-[var(--posta-clay-deep)]  rounded-xl p-6 border border-green-500/30">
                 <i className="fa-solid fa-calendar-check text-green-400 text-3xl mb-3"></i>
-                <h4 className="font-semibold text-[var(--posta-ink)] mb-2">Monthly Recap</h4>
-                <p className="text-sm text-[var(--posta-ink-soft)]">Summarize the month's highlights</p>
+                <h4 className="font-semibold text-[var(--posta-cream)] mb-2">Monthly Recap</h4>
+                <p className="text-sm text-[var(--posta-cream)]">Summarize the month's highlights</p>
               </div>
             </div>
           </div>
@@ -413,7 +416,7 @@ export default function AutomationView({ onCreateRule }: AutomationViewProps) {
                 <div className="flex gap-2 flex-wrap">
                   <button
                     onClick={() => runNow(rule.id)}
- className="bg-[var(--posta-clay-deep)] px-4 py-2 text-[var(--posta-ink)] rounded-lg hover:shadow-lg transition-all font-medium cursor-pointer"
+ className="bg-[var(--posta-clay-deep)] px-4 py-2 text-[var(--posta-cream)] rounded-lg hover:shadow-lg transition-all font-medium cursor-pointer"
                   >
                     <i className="fa-solid fa-play mr-2"></i>
                     Run Now

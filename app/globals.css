@@ -602,7 +602,13 @@
 
   /* ─── .aerogel-card — REDEFINED ───────────────────────────────────────
      27 files reference this name. It used to be a translucent glass card with a backdrop blur; the brand
-     allows flat, opaque colour only. Same class, same layout behaviour, no glass. */
+     allows flat, opaque colour only. Same class, same layout behaviour, no glass.
+
+     ⛔ DO NOT combine this class with a Tailwind `bg-*` or `border-*` utility. It hard-sets `background` and
+     `border` in plain CSS, which beats the utility regardless of class order, so the utility is silently
+     discarded. That combination put cream text on a white card at 1.16:1 on the Automation page — invisible
+     to a reader and invisible to TypeScript. If a card needs a coloured ground, do not use this class: use
+     `rounded-2xl` plus the colour utility, as `components/automation-view.tsx` now does. */
   .aerogel-card {
     background: var(--posta-white, #FFFFFF);
     border: 1px solid var(--posta-line, #EADCCB);

@@ -163,7 +163,7 @@ export default function JobDetailModal({ job, onClose, onRetry }: JobDetailModal
             <button
               onClick={handleRetry}
               disabled={isRetrying}
-              className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold flex items-center justify-center gap-2 disabled:opacity-50"
+              className="flex-1 py-3 bg-neon-grape rounded-xl hover:bg-opacity-90 transition-colors font-bold text-[var(--posta-cream)] flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {isRetrying ? (
                 <>

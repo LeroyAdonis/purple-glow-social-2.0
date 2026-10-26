@@ -150,7 +150,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
           </div>
           <button
             onClick={onSchedulePost}
- className="bg-[var(--posta-clay-deep)] px-6 py-3 text-[var(--posta-ink)] rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+ className="bg-[var(--posta-clay-deep)] px-6 py-3 text-[var(--posta-cream)] rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
           >
             <i className="fa-solid fa-calendar-plus mr-2"></i>
             Schedule New Post
@@ -302,7 +302,7 @@ export default function ScheduleView({ onSchedulePost }: ScheduleViewProps) {
             <div className="flex gap-2">
               <button
                 onClick={scheduleSelected}
- className="bg-[var(--posta-clay-deep)] px-4 py-2 text-[var(--posta-ink)] rounded-lg font-bold hover:shadow-xl transition-all cursor-pointer"
+ className="bg-[var(--posta-clay-deep)] px-4 py-2 text-[var(--posta-cream)] rounded-lg font-bold hover:shadow-xl transition-all cursor-pointer"
               >
                 <i className="fa-regular fa-calendar-check mr-2"></i>
                 Schedule ({selectedPosts.length})

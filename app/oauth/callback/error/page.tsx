@@ -105,7 +105,7 @@ function ErrorContent() {
                   href="https://help.instagram.com/502981923235522"
                   target="_blank"
                   rel="noopener noreferrer"
- className="bg-[var(--posta-clay)] block w-full text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
+ className="bg-[var(--posta-clay)] block w-full text-[var(--posta-cream)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
                 >
                   Learn How to Convert
                 </a>
@@ -120,7 +120,7 @@ function ErrorContent() {
               <>
                 <button
                   onClick={() => router.push('/dashboard?tab=settings')}
- className="bg-[var(--posta-clay)] w-full text-[var(--posta-ink)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
+ className="bg-[var(--posta-clay)] w-full text-[var(--posta-cream)] font-semibold py-3 px-4 rounded-lg hover:shadow-lg hover:shadow-neon-grape/50 transition-all"
                 >
                   {errorInfo.action}
                 </button>
@@ -160,7 +160,7 @@ export default function OAuthErrorPage() {
   return (
     <Suspense fallback={
  <div className="bg-[var(--posta-clay)] min-h-screen flex items-center justify-center ">
-        <div className="text-[var(--posta-ink)]">Loading...</div>
+        <div className="text-[var(--posta-cream)]">Loading...</div>
       </div>
     }>
       <ErrorContent />
