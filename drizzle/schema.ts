@@ -245,6 +245,8 @@ export const credit_entries = pgTable("credit_entries", {
   userIdCreatedAtIdx: index("idx_credit_entries_user_created_at").on(table.userId, table.createdAt),
 }));
 // TypeScript types for better type safety
+export type CreditEntry = typeof credit_entries.$inferSelect;
+export type NewCreditEntry = typeof credit_entries.$inferInsert;
 export type User = typeof user.$inferSelect;
 export type Session = typeof session.$inferSelect;
 export type Account = typeof account.$inferSelect;
