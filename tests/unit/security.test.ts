@@ -14,14 +14,30 @@ import {
 } from '@/lib/security/auth-utils';
 
 describe('isAdmin', () => {
-  it('should return true for purpleglow.co.za emails', () => {
-    expect(isAdmin('admin@purpleglow.co.za')).toBe(true);
-    expect(isAdmin('support@purpleglow.co.za')).toBe(true);
+  it('does NOT grant admin to the old brand domain', () => {
+    // This test used to assert the opposite. A wildcard granted admin to every address at
+    // purpleglow.co.za, and we do not own that domain, so whoever registered it could have signed up
+    // with any address there and been handed admin on this product. The wildcard is gone; this test
+    // is what stops it coming back.
+    expect(isAdmin('admin@purpleglow.co.za')).toBe(false);
+    expect(isAdmin('support@purpleglow.co.za')).toBe(false);
   });
 
   it('should return false for non-admin emails', () => {
     expect(isAdmin('user@gmail.com')).toBe(false);
     expect(isAdmin('random@company.com')).toBe(false);
+  });
+
+  it('grants admin only to an explicitly allow-listed address', () => {
+    // ADMIN_EMAILS comes from the environment; when it is empty nothing is admin, which is the safe
+    // default rather than a closed door.
+    const listed = process.env.ADMIN_EMAILS?.split(',')[0]?.trim();
+    if (listed) {
+      expect(isAdmin(listed)).toBe(true);
+      expect(isAdmin(listed.toUpperCase())).toBe(true);
+    } else {
+      expect(listed).toBeUndefined();
+    }
   });
 });
 
