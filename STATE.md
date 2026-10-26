@@ -12,7 +12,15 @@ npx tsc --noEmit                # types
 ```
 
 The gate covers: brand checker (9 pages) · served-HTML `<h1>` + no SSR bailout · CRO audit with no CRITICAL ·
-styleframe parity (0 computed, 0 pixel) · responsive at 9 device widths.
+styleframe parity (0 computed, 0 pixel) · responsive at 9 device widths · **authenticated contract
+(`scripts/auth-smoke.py`: logs in as the demo account and asserts `/api/limits/check` returns objects with
+numeric `current`/`limit`, not bare numbers)**.
+
+Stage 6 exists because on 2026-10-26 `/dashboard` showed "Something Went Wrong" for **every** signed-in user.
+`/api/limits/check` returned `credits` and `dailyGenerations` as bare numbers while all six calling components
+read them as objects, so three of them threw and the error boundary replaced the page. Stages 1–5 are public or
+unauthenticated requests and could never have seen it. Any check of this app that does not log in is blind to
+everything behind the login.
 
 ## Architecture facts that surprise people
 
