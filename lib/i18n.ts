@@ -13,20 +13,21 @@ export interface LanguageInfo {
 }
 
 export const LANGUAGES: LanguageInfo[] = [
-  // `name` is the English name a non-speaker searches for; `nativeName` is what the language calls
-  // itself and is what the switcher displays. Those were identical for nine of the eleven languages,
-  // which meant a South African product advertised "Zulu" where the people it is for say isiZulu.
+  // Both fields carry the same name on purpose: in South Africa the languages are spoken of as Zulu,
+  // Xhosa, Sotho — that IS the local convention, not an English approximation of something better.
+  // Leroy, 2026-10-26: "we do just say Zulu or Sotho, that's proper South African way." The isiZulu /
+  // Sesotho forms belong inside those languages' own copy, not as labels in a switcher for everyone.
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧' },
   { code: 'af', name: 'Afrikaans', nativeName: 'Afrikaans', flag: '🇿🇦' },
-  { code: 'zu', name: 'Zulu', nativeName: 'isiZulu', flag: '🇿🇦' },
-  { code: 'xh', name: 'Xhosa', nativeName: 'isiXhosa', flag: '🇿🇦' },
-  { code: 'nso', name: 'Sepedi', nativeName: 'Sesotho sa Leboa', flag: '🇿🇦' },
-  { code: 'tn', name: 'Tswana', nativeName: 'Setswana', flag: '🇿🇦' },
-  { code: 'st', name: 'Sotho', nativeName: 'Sesotho', flag: '🇿🇦' },
-  { code: 'ts', name: 'Tsonga', nativeName: 'Xitsonga', flag: '🇿🇦' },
-  { code: 'ss', name: 'Swati', nativeName: 'siSwati', flag: '🇿🇦' },
-  { code: 've', name: 'Venda', nativeName: 'Tshivenda', flag: '🇿🇦' },
-  { code: 'nr', name: 'Ndebele', nativeName: 'isiNdebele', flag: '🇿🇦' }
+  { code: 'zu', name: 'Zulu', nativeName: 'Zulu', flag: '🇿🇦' },
+  { code: 'xh', name: 'Xhosa', nativeName: 'Xhosa', flag: '🇿🇦' },
+  { code: 'nso', name: 'Sepedi', nativeName: 'Sepedi', flag: '🇿🇦' },
+  { code: 'tn', name: 'Tswana', nativeName: 'Tswana', flag: '🇿🇦' },
+  { code: 'st', name: 'Sotho', nativeName: 'Sotho', flag: '🇿🇦' },
+  { code: 'ts', name: 'Tsonga', nativeName: 'Tsonga', flag: '🇿🇦' },
+  { code: 'ss', name: 'Swati', nativeName: 'Swati', flag: '🇿🇦' },
+  { code: 've', name: 'Venda', nativeName: 'Venda', flag: '🇿🇦' },
+  { code: 'nr', name: 'Ndebele', nativeName: 'Ndebele', flag: '🇿🇦' }
 ];
 
 // Translation storage

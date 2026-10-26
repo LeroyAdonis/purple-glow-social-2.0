@@ -114,15 +114,17 @@ describe('LanguageSelector', () => {
         const allEnglish = screen.getAllByText('English');
         expect(allEnglish.length).toBeGreaterThan(0);
         expect(screen.getAllByText('Afrikaans').length).toBeGreaterThan(0);
-        expect(screen.getAllByText('isiZulu').length).toBeGreaterThan(0);
-        expect(screen.getAllByText('isiXhosa').length).toBeGreaterThan(0);
+        // South Africans say "Zulu", not "isiZulu" — the isiZulu form belongs inside isiZulu copy, not
+        // as a label in a switcher everyone reads (Leroy, 2026-10-26).
+        expect(screen.getAllByText('Zulu').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Xhosa').length).toBeGreaterThan(0);
         expect(screen.getAllByText('Sepedi').length).toBeGreaterThan(0);
-        expect(screen.getAllByText('Setswana').length).toBeGreaterThan(0);
-        expect(screen.getAllByText('Sesotho').length).toBeGreaterThan(0);
-        expect(screen.getAllByText('Xitsonga').length).toBeGreaterThan(0);
-        expect(screen.getAllByText('siSwati').length).toBeGreaterThan(0);
-        expect(screen.getAllByText('Tshivenda').length).toBeGreaterThan(0);
-        expect(screen.getAllByText('isiNdebele').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Tswana').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Sotho').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Tsonga').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Swati').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Venda').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Ndebele').length).toBeGreaterThan(0);
       });
     });
 
@@ -135,7 +137,9 @@ describe('LanguageSelector', () => {
       await waitFor(() => {
         // Native names match English names for these languages
         expect(screen.getAllByText('Afrikaans').length).toBeGreaterThan(0);
-        expect(screen.getAllByText('isiZulu').length).toBeGreaterThan(0);
+        // South Africans say "Zulu", not "isiZulu" — the isiZulu form belongs inside isiZulu copy, not
+        // as a label in a switcher everyone reads (Leroy, 2026-10-26).
+        expect(screen.getAllByText('Zulu').length).toBeGreaterThan(0);
       });
     });
 
