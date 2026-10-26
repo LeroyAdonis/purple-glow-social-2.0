@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useLanguage } from '../lib/context/LanguageContext';
 import LogoutButton from './LogoutButton';
 import LanguageSelector from './language-selector';
+import PostaLogo from './landing/logo';
 
 interface MobileNavigationProps {
   userName: string;
@@ -157,11 +158,11 @@ export default function MobileNavigation({
       {/* Hamburger Menu Button - Only visible on mobile */}
       <button
         onClick={() => setIsOpen(true)}
- className="bg-[var(--posta-clay-deep)] lg:hidden fixed top-4 left-4 z-40 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all active:scale-95"
+ className="bg-[var(--posta-clay-deep)] lg:hidden fixed top-4 left-4 z-40 w-12 h-12 rounded-xl flex items-center justify-center shadow-[var(--shadow-card)] hover:opacity-90 transition-colors active:scale-95"
         aria-label="Open navigation menu"
         aria-expanded={isOpen}
       >
-        <i className="fa-solid fa-bars text-[var(--posta-ink)] text-xl"></i>
+        <i className="fa-solid fa-bars text-[var(--posta-cream)] text-xl"></i>
       </button>
 
       {/* Backdrop Overlay */}
@@ -169,7 +170,7 @@ export default function MobileNavigation({
         <div
           ref={backdropRef}
           onClick={handleBackdropClick}
- className="fixed inset-0 bg-black/60 z-50 lg:hidden animate-fadeIn"
+ className="fixed inset-0 bg-[var(--posta-ink)]/60 z-50 lg:hidden animate-fadeIn"
           aria-hidden="true"
         />
       )}
@@ -177,7 +178,7 @@ export default function MobileNavigation({
       {/* Slide-out Navigation Drawer */}
       <aside
         ref={drawerRef}
-        className={`fixed top-0 left-0 h-full w-72 bg-void border-r border-glass-border shadow-2xl z-50 lg:hidden transform transition-transform duration-300 ease-out ${
+        className={`fixed top-0 left-0 h-full w-72 bg-[var(--posta-paper)] border-r border-[var(--posta-line)] shadow-[var(--shadow-sheet)] z-50 lg:hidden transform transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         aria-label="Mobile navigation"
@@ -187,12 +188,9 @@ export default function MobileNavigation({
         <div className="flex flex-col h-full p-6 gap-6">
           {/* Header with Close Button */}
           <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
- <div className="bg-[var(--posta-clay-deep)] w-8 h-8 rounded flex items-center justify-center">
-                <span className="font-display font-bold text-[var(--posta-ink)]">P</span>
-              </div>
-              <h1 className="font-display font-bold text-lg tracking-tight text-[var(--posta-ink)]">Posta</h1>
-            </div>
+            <h1>
+              <PostaLogo size={22} color="var(--posta-ink)" bubbleColor="var(--posta-clay)" />
+            </h1>
             <button
               onClick={() => setIsOpen(false)}
               className="w-10 h-10 rounded-lg flex items-center justify-center text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] transition-colors"
@@ -203,34 +201,34 @@ export default function MobileNavigation({
           </div>
 
           {/* User Profile Section */}
- <div className="bg-[var(--posta-clay)] p-4 rounded-xl border border-glass-border ">
+ <div className="bg-[var(--posta-clay)] p-4 rounded-xl border border-[var(--posta-line)] ">
             <div className="flex items-center gap-3 mb-3">
               <Image 
                 src={userImage} 
                 alt={userName}
                 width={48}
                 height={48}
-                className="w-12 h-12 rounded-full border-2 border-neon-grape/50"
+                className="w-12 h-12 rounded-full border-2 border-[var(--posta-cream)]"
                 unoptimized
               />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-[var(--posta-ink)] truncate">{userName}</p>
-                <p className="text-xs text-[var(--posta-ink-soft)] truncate">{userEmail}</p>
+                <p className="text-sm font-bold text-[var(--posta-cream)] truncate">{userName}</p>
+                <p className="text-xs text-[var(--posta-cream)] truncate">{userEmail}</p>
               </div>
             </div>
             
             {/* Credits Display */}
-            <div className="pt-3 border-t border-glass-border">
-              <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-1">{translate('dashboard.credits')}</p>
+            <div className="pt-3 border-t border-[var(--posta-line)]">
+              <p className="text-xs font-mono text-[var(--posta-cream)] mb-1">{translate('dashboard.credits')}</p>
               <div className="flex justify-between items-center">
-                <span className="text-xl font-display font-bold text-[var(--posta-ink)]">{userCredits}</span>
-                <span className="text-xs px-2 py-1 rounded-full bg-mzansi-gold/20 text-mzansi-gold font-medium">
+                <span className="text-xl font-display font-bold text-[var(--posta-cream)]">{userCredits}</span>
+                <span className="text-xs px-2 py-1 rounded-full bg-[var(--posta-clay-tint)] text-[var(--posta-ink)] font-medium">
                   {translate(`dashboard.tiers.${userTier}`).toUpperCase()}
                 </span>
               </div>
-              <div className="w-full h-1 bg-[var(--posta-cream)] rounded-full mt-2 overflow-hidden">
+              <div className="w-full h-1 bg-[var(--posta-clay-deep)] rounded-full mt-2 overflow-hidden">
                 <div 
- className="bg-[var(--posta-clay-deep)] h-full transition-all duration-300"
+ className="bg-[var(--posta-cream)] h-full transition-all duration-300"
                   style={{ 
                     width: `${Math.min((userCredits / (userTier === 'free' ? 10 : userTier === 'pro' ? 500 : 2000)) * 100, 100)}%` 
                   }}
@@ -243,14 +241,14 @@ export default function MobileNavigation({
           <nav className="flex flex-col gap-2 flex-1" role="navigation">
             <button
               onClick={() => handleNavigation('dashboard')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium border transition-colors min-h-[var(--touch-min)] ${
                 activeTab === 'dashboard'
- ? ' border border-neon-grape/40 text-[var(--posta-ink)] shadow-lg'
-                  : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] border border-transparent'
+ ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+                  : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] border-transparent'
               }`}
               aria-current={activeTab === 'dashboard' ? 'page' : undefined}
             >
-              <i className="fa-solid fa-layer-group text-neon-grape w-5"></i>
+              <i className="fa-solid fa-layer-group text-[var(--posta-clay)] w-5"></i>
               <span>{translate('dashboard.sidebar.dashboard')}</span>
               {activeTab === 'dashboard' && (
                 <i className="fa-solid fa-check text-joburg-teal ml-auto text-xs"></i>
@@ -259,10 +257,10 @@ export default function MobileNavigation({
 
             <button
               onClick={() => handleNavigation('schedule')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium border transition-colors min-h-[var(--touch-min)] ${
                 activeTab === 'schedule'
- ? ' border border-neon-grape/40 text-[var(--posta-ink)] shadow-lg'
-                  : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] border border-transparent'
+ ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+                  : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] border-transparent'
               }`}
               aria-current={activeTab === 'schedule' ? 'page' : undefined}
             >
@@ -275,14 +273,14 @@ export default function MobileNavigation({
 
             <button
               onClick={() => handleNavigation('automation')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium border transition-colors min-h-[var(--touch-min)] ${
                 activeTab === 'automation'
- ? ' border border-neon-grape/40 text-[var(--posta-ink)] shadow-lg'
-                  : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] border border-transparent'
+ ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+                  : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] border-transparent'
               }`}
               aria-current={activeTab === 'automation' ? 'page' : undefined}
             >
-              <i className="fa-solid fa-bolt text-mzansi-gold w-5"></i>
+              <i className="fa-solid fa-bolt text-[var(--posta-clay)] w-5"></i>
               <span>{translate('dashboard.sidebar.automation')}</span>
               {activeTab === 'automation' && (
                 <i className="fa-solid fa-check text-joburg-teal ml-auto text-xs"></i>
@@ -291,7 +289,7 @@ export default function MobileNavigation({
 
             <button
               onClick={handleSettingsClick}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] transition-all border border-transparent"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)] transition-colors border border-transparent min-h-[var(--touch-min)]"
             >
               <i className="fa-solid fa-cog w-5"></i>
               <span>{translate('dashboard.sidebar.settings')}</span>
@@ -299,13 +297,13 @@ export default function MobileNavigation({
           </nav>
 
           {/* Language Selector */}
-          <div className="border-t border-glass-border pt-4">
+          <div className="border-t border-[var(--posta-line)] pt-4">
             <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-3 px-2">{translate('common.language') || 'Language'}</p>
             <LanguageSelector variant="compact" />
           </div>
 
           {/* Logout Button */}
-          <div className="border-t border-glass-border pt-4">
+          <div className="border-t border-[var(--posta-line)] pt-4">
             <LogoutButton onClick={() => setIsOpen(false)} />
           </div>
         </div>

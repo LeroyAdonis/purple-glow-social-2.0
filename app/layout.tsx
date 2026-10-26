@@ -1,5 +1,11 @@
 import React from 'react';
 import type { Metadata } from "next";
+// Tokens FIRST. `--posta-*` lives in tokens.css and is not part of the Tailwind @theme block in
+// globals.css, so for two days every `var(--posta-…)` on a page that did not import this file resolved to
+// nothing: the dashboard's sidebar was a see-through black wash, its active nav pill had no fill, the mobile
+// hamburger had no background at all. The marketing and auth pages each imported tokens.css themselves,
+// which is why the problem was invisible on every page the site gate measured. One import, app-wide.
+import "@/design-system/posta/tokens.css";
 // The component library. One stylesheet for every page that is not the hero; the hero has its own file so the
 // approved styleframe and the build share a single copy of those rules.
 import "@/design-system/posta/library.css";
@@ -47,7 +53,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
-        <script src="https://js.puter.com/v2/" defer></script>
       </head>
       <body className="bg-[var(--posta-paper)] text-[var(--posta-ink)] antialiased font-body min-h-screen selection:bg-[var(--posta-clay)] selection:text-[var(--posta-cream)]">
         <QueryProvider>

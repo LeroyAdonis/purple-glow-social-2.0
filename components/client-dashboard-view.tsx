@@ -21,6 +21,7 @@ import NotificationsDropdown from './notifications-dropdown';
 import CreditWarningBanner from './credit-warning-banner';
 import UsageSummary from './usage-summary';
 import MobileNavigation from './mobile-navigation';
+import PostaLogo from './landing/logo';
 import { useLanguage } from '../lib/context/LanguageContext';
 
 /**
@@ -79,7 +80,7 @@ export default function ClientDashboardView({
     if (!profile) {
         return (
             <div className="min-h-screen bg-void text-[var(--posta-ink)] flex items-center justify-center p-6">
-                <div className="aerogel-card p-8 rounded-2xl max-w-md text-center border border-glass-border">
+                <div className="aerogel-card p-8 rounded-2xl max-w-md text-center border border-[var(--posta-line)]">
                     <i className="fa-solid fa-triangle-exclamation text-red-400 text-2xl mb-4"></i>
                     <h2 className="font-display font-bold text-xl mb-2">We couldn&apos;t load your account</h2>
                     <p className="text-[var(--posta-ink-soft)] text-sm">Please refresh the page or sign in again.</p>
@@ -132,64 +133,61 @@ export default function ClientDashboardView({
             />
 
             {/* Sidebar - Desktop Only */}
- <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full z-20">
-                <div className="flex items-center gap-2 mb-4">
- <div className="bg-[var(--posta-clay-deep)] w-8 h-8 rounded flex items-center justify-center">
-                        <span className="font-display font-bold">P</span>
-                    </div>
-                    <h1 className="font-display font-bold text-lg tracking-tight">Posta</h1>
-                </div>
+ <aside className="w-64 border-r border-[var(--posta-line)] bg-[var(--posta-paper)] hidden lg:flex flex-col p-6 gap-8 fixed h-full z-20">
+                <h1 className="mb-4">
+                    <PostaLogo size={22} color="var(--posta-ink)" bubbleColor="var(--posta-clay)" />
+                </h1>
 
                 <nav className="flex flex-col gap-2">
                     <button
                         onClick={() => setActiveTab('dashboard')}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'dashboard'
-                                ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
-                                : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)] transition-colors'
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer border transition-colors min-h-[var(--touch-min)] ${activeTab === 'dashboard'
+                                ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+                                : 'border-transparent text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)]'
                             }`}
                     >
-                        <i className="fa-solid fa-layer-group text-neon-grape"></i> {translate('dashboard.sidebar.dashboard')}
+                        <i className="fa-solid fa-layer-group text-[var(--posta-clay)]"></i> {translate('dashboard.sidebar.dashboard')}
                     </button>
                     <button
                         onClick={() => setActiveTab('schedule')}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'schedule'
-                                ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
-                                : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)] transition-colors'
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer border transition-colors min-h-[var(--touch-min)] ${activeTab === 'schedule'
+                                ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+                                : 'border-transparent text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)]'
                             }`}
                     >
                         <i className="fa-regular fa-calendar"></i> {translate('dashboard.sidebar.schedule')}
                     </button>
                     <button
                         onClick={() => setActiveTab('automation')}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer ${activeTab === 'automation'
-                                ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
-                                : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)] transition-colors'
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium cursor-pointer border transition-colors min-h-[var(--touch-min)] ${activeTab === 'automation'
+                                ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+                                : 'border-transparent text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)]'
                             }`}
                     >
                         <i className="fa-solid fa-bolt"></i> {translate('dashboard.sidebar.automation')}
                     </button>
                     <button
                         onClick={() => setShowSettings(true)}
-                        className="flex items-center gap-3 px-4 py-3 hover:bg-[var(--posta-paper)] rounded-xl text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors text-sm font-medium text-left cursor-pointer"
+                        className="flex items-center gap-3 px-4 py-3 border border-transparent hover:bg-[var(--posta-cream)] rounded-xl text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors text-sm font-medium text-left cursor-pointer min-h-[var(--touch-min)]"
                     >
                         <i className="fa-solid fa-cog"></i> {translate('dashboard.sidebar.settings')}
                     </button>
                 </nav>
 
                 <div className="mt-auto">
- <div className="bg-[var(--posta-clay)] p-4 rounded-xl border border-glass-border ">
-                        <p className="text-xs font-mono text-[var(--posta-ink-soft)] mb-2">{translate('dashboard.credits')}</p>
+ <div className="bg-[var(--posta-clay)] p-4 rounded-xl border border-[var(--posta-line)] ">
+                        <p className="text-xs font-mono text-[var(--posta-cream)] mb-2">{translate('dashboard.credits')}</p>
                         <div className="flex justify-between items-end">
-                            <span className="text-2xl font-display font-bold text-[var(--posta-ink)]">{profile.credits}</span>
-                            <span className="text-xs text-mzansi-gold mb-1">{translate(`dashboard.tiers.${tier}`)}</span>
+                            <span className="text-2xl font-display font-bold text-[var(--posta-cream)]">{profile.credits}</span>
+                            <span className="text-xs text-[var(--posta-cream)] mb-1">{translate(`dashboard.tiers.${tier}`)}</span>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-3 mt-6">
                         {profile.image ? (
-                            <Image src={profile.image} alt={displayName} width={40} height={40} className="w-10 h-10 rounded-full border border-glass-border" unoptimized />
+                            <Image src={profile.image} alt={displayName} width={40} height={40} className="w-10 h-10 rounded-full border border-[var(--posta-line)]" unoptimized />
                         ) : (
-                            <span className="w-10 h-10 shrink-0 rounded-full border border-glass-border bg-neon-grape flex items-center justify-center font-bold text-sm" aria-hidden="true">
+                            <span className="w-10 h-10 shrink-0 rounded-full border border-[var(--posta-line)] bg-[var(--posta-clay)] text-[var(--posta-cream)] flex items-center justify-center font-bold text-sm" aria-hidden="true">
                                 {displayName.charAt(0).toUpperCase()}
                             </span>
                         )}
@@ -286,7 +284,7 @@ export default function ClientDashboardView({
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {/* Free */}
-                            <div className="border border-glass-border rounded-2xl p-6 hover:border-[var(--posta-clay)] transition-all">
+                            <div className="border border-[var(--posta-line)] rounded-2xl p-6 hover:border-[var(--posta-clay)] transition-all">
                                 <h3 className="font-mono text-sm text-[var(--posta-ink-soft)] uppercase mb-2">The Hustle</h3>
                                 <p className="text-4xl font-display font-bold mb-4">R0</p>
                                 <ul className="space-y-2 text-sm text-[var(--posta-ink-soft)] mb-6">
@@ -296,7 +294,7 @@ export default function ClientDashboardView({
                                 </ul>
                                 <button
                                     onClick={() => setShowPricingModal(false)}
-                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-[var(--posta-paper)] cursor-pointer"
+                                    className="w-full py-3 border border-[var(--posta-line)] rounded-xl hover:bg-[var(--posta-paper)] cursor-pointer"
                                 >
                                     Current Plan
                                 </button>
@@ -324,7 +322,7 @@ export default function ClientDashboardView({
                             </div>
 
                             {/* Business */}
-                            <div className="border border-glass-border rounded-2xl p-6 hover:border-joburg-teal/50 transition-all">
+                            <div className="border border-[var(--posta-line)] rounded-2xl p-6 hover:border-joburg-teal/50 transition-all">
                                 <h3 className="font-mono text-sm text-joburg-teal uppercase mb-2">The Mogul</h3>
                                 <p className="text-4xl font-display font-bold mb-4">R999</p>
                                 <ul className="space-y-2 text-sm text-[var(--posta-ink-soft)] mb-6">
@@ -335,7 +333,7 @@ export default function ClientDashboardView({
                                 </ul>
                                 <button
                                     onClick={() => { setShowPricingModal(false); setShowSubscriptionModal(true); }}
-                                    className="w-full py-3 border border-glass-border rounded-xl hover:bg-[var(--posta-paper)] cursor-pointer"
+                                    className="w-full py-3 border border-[var(--posta-line)] rounded-xl hover:bg-[var(--posta-paper)] cursor-pointer"
                                 >
                                     Contact Sales
                                 </button>

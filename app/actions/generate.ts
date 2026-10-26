@@ -1,6 +1,6 @@
-// LEGACY: Server-side generation fallback
-// Primary generation now uses client-side Puter.js (see lib/ai/puter-ai-service.ts)
-// This server action is kept for environments where Puter.js is unavailable
+// Generation runs through lib/ai/provider.ts (AI_PROVIDER, freellmapi by default). The dashboard's
+// content generator calls /api/ai/generate instead; this action is the form-action variant of the same
+// pipeline.
 'use server';
 
 import { GoogleGenAI } from "@google/genai";

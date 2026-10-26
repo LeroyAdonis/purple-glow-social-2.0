@@ -78,16 +78,20 @@ export async function POST(request: Request) {
         postId = newPost.id;
       }
 
-      // Deduct 1 credit
-      await db
-        .update(user)
-        .set({
-          credits: sql`${user.credits} - 1`,
-          updatedAt: new Date(),
-        })
-        .where(eq(user.id, session.user.id));
+      // NO CREDIT DEDUCTION HERE — deliberately.
+      //
+      // This route used to run `credits - 1` on every saved draft, with no credit_reservations row to record
+      // it and no release path. Because the content generator calls this route automatically straight after a
+      // generation, every user was silently charged one credit for text they had not published, and then
+      // charged AGAIN by /api/posts/publish when they actually posted it. That contradicts the documented
+      // Phase 11 rule ("credits only deducted on successful publish") and it was invisible: nothing on screen
+      // said a credit had gone. Found 2026-10-26 when the demo account dropped from 10 credits to 8 after two
+      // generations that were never published.
+      //
+      // A draft is free. The charge belongs to the publish route, which deducts per successful platform and
+      // refunds failures — see app/api/posts/publish/route.ts.
 
-      logger.api.info("Draft saved via Puter.js generation", {
+      logger.api.info("Draft saved after AI generation", {
         postId,
         platform,
         userId: session.user.id,

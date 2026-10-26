@@ -86,7 +86,7 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
   return (
     <div className="flex min-h-screen bg-void text-[var(--posta-ink)]">
       {/* Sidebar */}
- <aside className="w-64 border-r border-glass-border bg-black/20 hidden lg:flex flex-col p-6 gap-8 fixed h-full z-20">
+ <aside className="w-64 border-r border-[var(--posta-line)] bg-[var(--posta-paper)] hidden lg:flex flex-col p-6 gap-8 fixed h-full z-20">
         <div className="flex items-center gap-2 mb-4">
           <button onClick={onBack} className="text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] transition-colors">
             <i className="fa-solid fa-arrow-left"></i>
@@ -100,54 +100,54 @@ export default function SettingsView({ user, onBack, onUpgrade }: SettingsViewPr
         <nav className="flex flex-col gap-2">
           <button
             onClick={() => setActiveTab('account')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'account'
-              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
-              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left border min-h-[var(--touch-min)] ${activeTab === 'account'
+              ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+              : 'border-transparent text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)]'
               }`}
           >
             <i className="fa-solid fa-user"></i> Account
           </button>
           <button
             onClick={() => setActiveTab('subscription')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'subscription'
-              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
-              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left border min-h-[var(--touch-min)] ${activeTab === 'subscription'
+              ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+              : 'border-transparent text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)]'
               }`}
           >
             <i className="fa-solid fa-crown"></i> Subscription
           </button>
           <button
             onClick={() => setActiveTab('payment')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'payment'
-              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
-              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left border min-h-[var(--touch-min)] ${activeTab === 'payment'
+              ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+              : 'border-transparent text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)]'
               }`}
           >
             <i className="fa-solid fa-credit-card"></i> Payment Methods
           </button>
           <button
             onClick={() => setActiveTab('billing')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'billing'
-              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
-              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left border min-h-[var(--touch-min)] ${activeTab === 'billing'
+              ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+              : 'border-transparent text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)]'
               }`}
           >
             <i className="fa-solid fa-file-invoice"></i> Billing History
           </button>
           <button
             onClick={() => setActiveTab('preferences')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'preferences'
-              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
-              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left border min-h-[var(--touch-min)] ${activeTab === 'preferences'
+              ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+              : 'border-transparent text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)]'
               }`}
           >
             <i className="fa-solid fa-sliders"></i> Preferences
           </button>
           <button
             onClick={() => setActiveTab('connections')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${activeTab === 'connections'
-              ? 'bg-[var(--posta-paper)] border border-glass-border text-[var(--posta-ink)]'
-              : 'text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-paper)]'
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left border min-h-[var(--touch-min)] ${activeTab === 'connections'
+              ? 'bg-[var(--posta-clay-tint)] border-[var(--posta-line)] text-[var(--posta-ink)]'
+              : 'border-transparent text-[var(--posta-ink-soft)] hover:text-[var(--posta-ink)] hover:bg-[var(--posta-cream)]'
               }`}
           >
             <i className="fa-solid fa-link"></i> Connected Accounts

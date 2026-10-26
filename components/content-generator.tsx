@@ -3,7 +3,6 @@
 import { logger } from '@/lib/logger';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { generateWithPuter, isPuterAvailable, ensurePuterAuth } from '../lib/ai/puter-ai-service';
 import SchedulePostModal from './modals/schedule-post-modal';
 import CustomSelect from './custom-select';
 import LimitStatusBadge from './limit-status-badge';
@@ -88,20 +87,8 @@ export default function ContentGenerator() {
         return () => controller.abort();
     }, []);
 
-    // Update limits after successful generation
-    useEffect(() => {
-        if (state?.success && userLimits) {
-            setUserLimits(prev => prev ? {
-                ...prev,
-                dailyGenerations: {
-                    ...prev.dailyGenerations,
-                    current: prev.dailyGenerations.current + 1,
-                    remaining: Math.max(0, prev.dailyGenerations.remaining - 1),
-                    isAtLimit: prev.dailyGenerations.remaining <= 1,
-                }
-            } : null);
-        }
-    }, [state?.success]);
+    // Limits are re-read from the generation response, not incremented locally: /api/ai/generate already
+    // recorded the generation server-side, so a local +1 would double count it.
 
     // Platform character limits
     const platformLimits: Record<string, number> = {
@@ -140,27 +127,41 @@ export default function ContentGenerator() {
         setIsGenerating(true);
         setState({ success: false, error: '', data: undefined });
 
+        // Generation goes through the existing /api/ai/generate route: it routes to lib/ai/provider.ts
+        // (AI_PROVIDER, freellmapi by default), enforces the tier daily limit and does NOT spend credits.
+        // The client never talks to a model provider directly.
+        const controller = new AbortController();
+        // Must outlast the server's worst case: 3 provider attempts x 30s + retry delays (~92s).
+        const timeout = setTimeout(() => controller.abort(), 95_000);
+
         try {
-            if (!isPuterAvailable()) {
-                setState({ error: "AI service is loading. Please try again in a moment." });
-                return;
-            }
+            const tone = vibe.includes('Professional') ? 'professional'
+                : vibe.includes('Cool') || vibe.includes('Slang') ? 'casual'
+                : vibe.includes('Energy') ? 'energetic'
+                : 'friendly';
 
-            // Authenticate with Puter first (user-initiated, so popup is allowed)
-            const authed = await ensurePuterAuth();
-            if (!authed) {
-                setState({ error: "Please sign in to Puter to use AI generation. If the popup didn't appear, check your popup blocker and try again." });
-                return;
-            }
-
-            const result = await generateWithPuter({
-                topic: prompt,
-                platform: platform as 'instagram' | 'twitter' | 'facebook' | 'linkedin',
-                language: currentLanguage,
-                tone: vibe,
-                includeHashtags: true,
-                includeEmojis: true,
+            const response = await fetch('/api/ai/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal,
+                body: JSON.stringify({
+                    topic: prompt,
+                    platform,
+                    language: currentLanguage,
+                    tone,
+                    includeHashtags: true,
+                    includeEmojis: true,
+                }),
             });
+
+            const payload = await response.json().catch(() => null);
+            const content = payload?.results?.[0]?.content;
+
+            if (!response.ok || typeof content !== 'string' || !content.trim()) {
+                const cause = payload?.error || payload?.message || `the model endpoint returned HTTP ${response.status}`;
+                setState({ error: `AI generation failed: ${cause}. Nothing was generated.` });
+                return;
+            }
 
             // Save draft to server (auth check + DB + credit deduction)
             let postId = "local-" + Date.now();
@@ -169,8 +170,7 @@ export default function ContentGenerator() {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        content: result.content,
-                        imageUrl: result.imageUrl,
+                        content,
                         platform,
                         topic: prompt,
                     }),
@@ -186,20 +186,31 @@ export default function ContentGenerator() {
 
             setState({
                 success: true,
-                data: {
-                    content: result.content,
-                    imageUrl: result.imageUrl,
-                    postId,
-                },
+                data: { content, postId },
             });
+
+            // The route returns the authoritative counter for today; mirror it instead of guessing.
+            const daily = payload?.dailyGenerations;
+            if (daily && typeof daily.remaining === 'number') {
+                setUserLimits(prev => prev ? {
+                    ...prev,
+                    dailyGenerations: {
+                        current: daily.used,
+                        limit: daily.limit,
+                        remaining: daily.remaining,
+                        percentage: daily.limit ? Math.round((daily.used / daily.limit) * 100) : 0,
+                        isAtLimit: daily.remaining <= 0,
+                    },
+                } : null);
+            }
         } catch (error: unknown) {
-            const message = error instanceof Error ? error.message : "Failed to generate content.";
-            const isTimeout = message.includes('timed out');
-            setState({ error: isTimeout
-                ? "Generation timed out. This can happen with new Puter accounts. Please reload the page and try again."
-                : message
+            const aborted = error instanceof Error && error.name === 'AbortError';
+            setState({ error: aborted
+                ? "AI generation failed: the model endpoint did not answer within 95 seconds. Nothing was generated. Try again, or check that the AI endpoint is running."
+                : `AI generation failed: the request could not reach the server. Nothing was generated. (${error instanceof Error ? error.message : 'unknown error'})`
             });
         } finally {
+            clearTimeout(timeout);
             setIsGenerating(false);
         }
     };
@@ -216,7 +227,7 @@ export default function ContentGenerator() {
                             <Image src="https://ui-avatars.com/api/?name=Purple+Glow&background=9D4EDD&color=fff" alt="User" width={32} height={32} unoptimized />
                         </div>
                     </div>
-                    <span className="text-xs font-bold">purple_glow_sa</span>
+                    <span className="text-xs font-bold">posta_sa</span>
                 </div>
                 <i className="fa-solid fa-ellipsis text-xs"></i>
             </div>
@@ -245,7 +256,7 @@ export default function ContentGenerator() {
                 </div>
                 <div className="text-xs font-bold mb-2">Liked by mzansi_creator and others</div>
                 <div className="text-xs leading-relaxed">
-                    <span className="font-bold mr-2">purple_glow_sa</span>
+                    <span className="font-bold mr-2">posta_sa</span>
                     {isEditing ? (
                         <textarea
                             className="w-full mt-2 p-2 border border-gray-300 rounded bg-gray-50 text-black focus:outline-none focus:border-blue-500"
@@ -429,8 +440,7 @@ export default function ContentGenerator() {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* INPUT CARD */}
- <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden bg-black/40 border border-[var(--posta-line)] h-fit">
- <div className="absolute top-0 right-0 w-32 h-32 bg-neon-grape opacity-10 rounded-full pointer-events-none"></div>
+ <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden bg-[var(--posta-white)] border border-[var(--posta-line)] h-fit">
 
                 <div className="flex items-center gap-3 mb-8">
                     <div className="w-10 h-10 rounded-xl bg-[var(--posta-paper)] flex items-center justify-center text-joburg-teal border border-glass-border shadow-[var(--shadow-card)]">
@@ -522,7 +532,7 @@ export default function ContentGenerator() {
                     <button
                         type="submit"
                         disabled={isGenerating || userLimits?.dailyGenerations.isAtLimit}
- className="bg-[var(--posta-clay)] w-full py-4 to-[#5A189A] text-[var(--posta-ink)] font-body font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[var(--shadow-card)] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+ className="bg-[var(--posta-clay)] w-full py-4 text-[var(--posta-cream)] font-body font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[var(--shadow-card)] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer min-h-[var(--touch-min)]"
                     >
                         {isGenerating ? (
                             <>
@@ -542,16 +552,15 @@ export default function ContentGenerator() {
             </div>
 
             {/* OUTPUT CARD */}
- <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden flex flex-col min-h-[500px] bg-black/40 border border-[var(--posta-line)]">
+ <div className="aerogel-card p-8 rounded-3xl relative overflow-hidden flex flex-col min-h-[500px] bg-[var(--posta-white)] border border-[var(--posta-line)]">
 
                 {isGenerating && (
  <div className="absolute inset-0 z-20 bg-void/90 flex flex-col items-center justify-center text-center p-8">
                         <div className="w-20 h-20 rounded-full border-4 border-[var(--posta-line)] border-t-neon-grape animate-spin mb-6"></div>
                         <h4 className="font-display font-bold text-xl mb-2">Consulting the Neural Net</h4>
-                        <p className="font-mono text-joburg-teal text-sm animate-pulse">Generating Text & Rendering Visuals...</p>
+                        <p className="font-mono text-joburg-teal text-sm animate-pulse">Writing your post...</p>
                         <div className="mt-8 font-mono text-xs text-[var(--posta-ink-soft)]">
-                            <div>AI MODEL: PUTER.AI (GEMINI 2.5 FLASH)</div>
-                            <div>VISUAL MODEL: NANO BANANA</div>
+                            <div>WRITING YOUR POST — THIS USUALLY TAKES A FEW SECONDS</div>
                         </div>
                     </div>
                 )}
