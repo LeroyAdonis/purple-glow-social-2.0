@@ -30,10 +30,9 @@ const stripColors = ['#f4f4f4', '#111111', '#1a4be0', '#f4f4f4'];
 const stripInk = ['#111111', '#ffffff', '#ffffff', '#111111'];
 
 const labels = [
-  'Kommetjie farmstall','Houw Hoek stall','Bread oven','Market morning',
-  'Cape Town waterfront','Printed receipts','Phone in hand','Street corner',
-  'Morning light','Bread and butter','Shop door','Receipts and stock',
-  'Hands at work','Counter and till','Afternoon trade',
+  'Flower sellers, Adderley St', 'Greenmarket, Cape Town', 'Tuck shop counter',
+  'Spaza shop, Cathedral Peak', 'Bread out of the oven', 'Waiting for fresh bread',
+  'Hair salon, Yeoville', 'Salon and internet cafe', 'Vendor, Joubert St',
 ];
 
 export default function HeroSection() {
@@ -51,7 +50,7 @@ export default function HeroSection() {
               return (
                 <div key={fi} className={`hero-frame ${ci === 0 && fi === 0 ? 'shutter' : ''}`} style={{ aspectRatio: fi % 2 === 0 ? '3/4' : '4/3' }}>
                   <img src={HERO_PHOTOS[f % HERO_PHOTOS.length]} alt="" width={600} height={800} />
-                  {ci !== 2 && ci !== 3 && <div className="hero-strip" style={{ background: sc, color: si }}>{labels[idx % labels.length]}</div>}
+                  {ci !== 2 && ci !== 3 && <div className="hero-strip" style={{ background: sc, color: si }}>{labels[f % labels.length]}</div>}
                 </div>
               );
             })}
@@ -93,7 +92,7 @@ export default function HeroSection() {
           {allFrames.slice(0,8).map((f, i) => (
             <div key={i} className="hero-frame" style={{ aspectRatio: i % 2 === 0 ? '3/4' : '4/3', marginTop: i % 2 === 1 ? 60 : 0 }}>
               <img src={HERO_PHOTOS[f % HERO_PHOTOS.length]} alt=""  width={600} height={800} />
-              <div className="hero-strip" style={{ background: stripColors[i % 4], color: stripInk[i % 4] }}>{labels[i % labels.length]}</div>
+              <div className="hero-strip" style={{ background: stripColors[i % 4], color: stripInk[i % 4] }}>{labels[f % labels.length]}</div>
             </div>
           ))}
         </div>
