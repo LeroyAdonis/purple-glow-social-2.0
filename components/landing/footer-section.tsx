@@ -32,7 +32,6 @@ export default function FooterSection() {
         <div className="tile tile--ink tile-span-12" style={{ background: 'transparent', color: 'var(--bg)', paddingTop: 0 }}>
           <p style={{ fontSize: 'var(--step-small)', margin: 0, opacity: 0.8 }}>{legalFooterLine()} Not VAT registered. {companyAddressLine()}.</p>
           <p style={{ fontSize: 'var(--step-small)', margin: '8px 0 0', opacity: 0.6 }}>© {new Date().getFullYear()} {COMPANY.legalName}. All rights reserved.</p>
-          <p style={{ fontSize: 'var(--step-small)', margin: '4px 0 0', opacity: 0.5 }}>Photographs: picsum.photos (see .taste-skill/CREDITS.md).</p>
         </div>
       </div>
     </footer>
