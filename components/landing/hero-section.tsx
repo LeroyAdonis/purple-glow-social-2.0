@@ -65,7 +65,7 @@ export default function HeroSection() {
               was a 16px logo, which the taste-skill inspector correctly failed (small-title, name-only-title,
               late-title). The sentence below is the h1 now, at the sheet's statement size. */}
           <div style={{ margin: 0 }}><PostaLogo size={28} color="var(--bg)" bubbleColor="var(--bg)" dotColor="var(--accent)" /></div>
-          <h1 style={{ fontSize: 'clamp(1.75rem, 2.2vw, 2.5rem)', lineHeight: 1.05, letterSpacing: '-0.02em', fontWeight: 500, margin: 0 }}>Posta writes your posts.</h1>
+          <h1 style={{ fontSize: 'clamp(1.75rem, 1.1rem + 2.2vw, 2.5rem)', lineHeight: 1.02, letterSpacing: '-0.02em', fontWeight: 500, margin: 0 }}>Posta writes your posts.</h1>
           <Link href="/signup" className="action">Start free</Link>
           <div className="links">
             <a href="#how-it-works">See a real draft</a>
@@ -78,9 +78,10 @@ export default function HeroSection() {
       {/* mobile layout */}
       <div className="hero-mobile">
         <div className="hero-panel" style={{ width: '100%', minHeight: '40vh' }}>
-          <PostaLogo size={24} color="var(--bg)" bubbleColor="var(--bg)" dotColor="var(--accent)" />
-          <div aria-hidden="true" style={{ fontSize: '7vw', fontWeight: 500, lineHeight: 0.9, letterSpacing: '-0.05em', margin: 0 }}>posta</div>
-          <div aria-hidden="true" style={{ fontSize: 'clamp(1.75rem, 6vw, 2rem)', lineHeight: 1.1, letterSpacing: '-0.02em', fontWeight: 500, margin: 0 }}>Posta writes your posts.</div>
+          {/* The mobile panel carries the page's only rendered h1: the desktop panel is display:none
+              below 768px, so this sentence must be the real heading here, not an aria-hidden double. */}
+          <PostaLogo size={28} color="var(--bg)" bubbleColor="var(--bg)" dotColor="var(--accent)" />
+          <h1 style={{ fontSize: 'clamp(1.75rem, 6vw, 2.25rem)', lineHeight: 1.05, letterSpacing: '-0.02em', fontWeight: 500, margin: 0 }}>Posta writes your posts.</h1>
           <Link href="/signup" className="action" style={{ width: '100%', alignSelf: 'stretch' }}>Start free</Link>
           <div className="links">
             <a href="#how-it-works">See a real draft</a>
@@ -101,7 +102,10 @@ export default function HeroSection() {
       <style>{`
         @media (max-width: 767px) {
           .hero-sheet { display: none !important; }
-          .hero-panel-wrap { position: static !important; width: 100% !important; height: auto !important; top: auto !important; left: auto !important; padding: 16px; }
+          /* The desktop text panel must vanish on phones entirely, not fall into the flow: when it
+              became position:static it stacked a SECOND hero panel above the mobile one and the
+              fold showed two wordmarks. hero-mobile already carries the full panel. */
+          .hero-panel-wrap { display: none !important; }
         }
         @media (min-width: 768px) {
           .hero-mobile { display: none !important; }

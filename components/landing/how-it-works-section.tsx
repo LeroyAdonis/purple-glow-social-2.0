@@ -13,7 +13,7 @@ export default function HowItWorksSection() {
   return (
     <section id="how-it-works" data-sf="how" style={{ background: 'var(--bg)', color: 'var(--ink)', padding: '120px 16px 0' }}>
       <Reveal delay={0}>
-        <h2 style={{ fontSize: 'clamp(48px, 6.4vw, 104px)', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.9, margin: '0 0 64px', marginLeft: 12 }}>How it works</h2>
+        <h2 style={{ fontSize: 'var(--step-head)', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.9, margin: '0 0 64px' }}>How it works</h2>
       </Reveal>
       <div className="stages-bar" data-ui data-sf="steps">
         {stages.map((s, i) => (
@@ -23,7 +23,7 @@ export default function HowItWorksSection() {
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 24, paddingLeft: 12, fontSize: 'var(--step-body)', color: 'var(--muted)', maxWidth: '60ch' }}>
+      <div style={{ marginTop: 24, fontSize: 'var(--step-body)', color: 'var(--muted)', maxWidth: '45ch' }}>
         Tell Posta the topic. Read the drafts. Approve and schedule.
       </div>
     </section>

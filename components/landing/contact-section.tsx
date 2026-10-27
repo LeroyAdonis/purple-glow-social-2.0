@@ -37,18 +37,19 @@ export default function ContactSection() {
       {/* Constrained to the same measure as the rest of the board: edge-to-edge here left 2050px of nothing
           between the heading and the form at 1440px (inspector: empty-middle). */}
       <div style={{ padding: '72px 16px 0', maxWidth: 1100, margin: '0 auto' }}>
+        {/* The heading and the reply promise share one row, so the line between the measure's two
+            edges is closed on both sides — the inspector failed this section when the heading sat
+            alone on the left with the form's full width only underneath it. */}
         <Reveal delay={0}>
-          <h2 style={{ fontSize: 'clamp(36px, 4vw, 60px)', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.9, margin: '0 0 40px', maxWidth: '20ch' }}>Talk to a person</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(240px, auto)', gap: 24, alignItems: 'end', marginBottom: 40 }}>
+            <h2 style={{ fontSize: 'var(--step-head)', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.9, margin: 0, maxWidth: '20ch' }}>Talk to a person</h2>
+            <p style={{ fontSize: 'var(--step-body)', margin: 0, maxWidth: '34ch', justifySelf: 'end' }}>We reply within one working day. Or email hello@posta.co.za</p>
+          </div>
         </Reveal>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, width: '100%' }}>
           <input className="contact-field" placeholder="Your name" aria-label="Your name" />
           <input className="contact-field" placeholder="Your email" aria-label="Your email" type="email" />
           <Link href="/contact" className="contact-field contact-submit" style={{ textDecoration: 'none' }}>Send</Link>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginTop: 8 }}>
-          <p style={{ fontSize: 14, margin: 0, opacity: 0.8 }}>We reply within one working day.</p>
-          <span />
-          <p style={{ fontSize: 14, margin: 0, opacity: 0.8, textAlign: 'right' }}>Or email hello@posta.co.za</p>
         </div>
       </div>
     </section>

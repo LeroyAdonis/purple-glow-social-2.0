@@ -19,13 +19,13 @@ export default function FeaturesSection() {
         <Reveal delay={120} className="tile tile-span-3 tile-row-2 tile--photo">
           <img src="/photos/05-local-bakery-awesome-bread-5229115656-jp.jpg" alt="Fresh bread out of a small bakery oven"  width={600} height={800} />
         </Reveal>
-        <Reveal delay={60} className="tile tile-span-4 tile-row-2">
+        <Reveal delay={60} className="tile tile-span-5 tile-row-2">
           <h3 style={{ fontSize: 'var(--step-lead)', fontWeight: 500, margin: 0 }}>Writes in 11 languages</h3>
-          <p style={{ fontSize: 'var(--step-body)', marginTop: 12, color: 'var(--muted)', maxWidth: '60ch' }}>{langs.join(', ')}.</p>
+          <p style={{ fontSize: 'var(--step-body)', marginTop: 12, maxWidth: '45ch' }}>{langs.join(', ')}.</p>
         </Reveal>
-        <Reveal delay={120} className="tile tile-span-4 tile-row-2">
+        <Reveal delay={120} className="tile tile-span-3 tile-row-2">
           <h3 style={{ fontSize: 'var(--step-lead)', fontWeight: 500, margin: 0 }}>Four platforms</h3>
-          <p style={{ fontSize: 'var(--step-body)', marginTop: 12, color: 'var(--muted)' }}>Instagram, Facebook, X and LinkedIn from one screen.</p>
+          <p style={{ fontSize: 'var(--step-body)', marginTop: 12 }}>Instagram, Facebook, X and LinkedIn from one screen.</p>
         </Reveal>
         <Reveal delay={180} className="tile tile-span-4 tile-row-2 tile--accent">
           <h3 style={{ fontSize: 'var(--step-lead)', fontWeight: 500, margin: 0 }}>You approve every post</h3>
@@ -33,7 +33,7 @@ export default function FeaturesSection() {
         </Reveal>
         <Reveal delay={60} className="tile tile-span-6 tile-row-2">
           <h3 style={{ fontSize: 'var(--step-lead)', fontWeight: 500, margin: 0 }}>Schedule ahead</h3>
-          <p style={{ fontSize: 'var(--step-body)', marginTop: 12 }}>Pick a day and time in SAST. Posta handles the rest.</p>
+          <p style={{ fontSize: 'var(--step-body)', marginTop: 12, maxWidth: '45ch' }}>Pick a day and time in SAST. Posta handles the rest.</p>
         </Reveal>
         <Reveal delay={120} className="tile tile-span-6 tile-row-2 tile--photo">
           <img src="/photos/09-street-vendor-joubert-street-johannesbur.jpg" alt="A street vendor on Joubert Street, Johannesburg"  width={1200} height={600} />

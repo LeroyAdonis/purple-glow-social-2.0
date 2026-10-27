@@ -24,6 +24,7 @@
 
 .tile-span-6 { grid-column: span 6; }
 .tile-span-4 { grid-column: span 4; }
+.tile-span-5 { grid-column: span 5; }
 .tile-span-3 { grid-column: span 3; }
 .tile-span-12 { grid-column: span 12; }
 .tile-row-2 { grid-row: span 2; }
@@ -32,7 +33,7 @@
 
 @media (max-width: 767px) {
   .board { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 8px; }
-  .tile-span-6, .tile-span-4, .tile-span-3, .tile-span-12 { grid-column: span 2; }
+  .tile-span-6, .tile-span-5, .tile-span-4, .tile-span-3, .tile-span-12 { grid-column: span 2; }
 }
 
 /* Hero photo sheet */
@@ -71,7 +72,7 @@
   display: flex;
   align-items: center;
   padding: 0 10px;
-  font-size: 14px;
+  font-size: var(--step-small);
   line-height: 1;
   color: var(--ink);
   background: var(--surface);
@@ -165,8 +166,8 @@
 .price-tile {
   padding: 28px; display: flex; flex-direction: column; gap: 8px;
 }
-.price-tile .name { font-size: 28px; font-weight: 500; }
-.price-tile .price { font-size: 56px; font-weight: 500; line-height: 1; letter-spacing: -0.05em; }
+.price-tile .name { font-size: var(--step-lead); font-weight: 500; }
+.price-tile .price { font-size: var(--step-head); font-weight: 500; line-height: 1; letter-spacing: -0.05em; }
 .price-tile .inc { font-size: var(--step-body); line-height: 1.45; }
 .price-tile .btnstrip {
   margin-top: auto; height: 64px; display: flex; align-items: center;
@@ -174,7 +175,6 @@
 }
 @media (max-width: 767px) {
   .pricing-row { grid-template-columns: 1fr; }
-  .price-tile .price { font-size: 44px; }
 }
 
 /* Contact three-cell bar */

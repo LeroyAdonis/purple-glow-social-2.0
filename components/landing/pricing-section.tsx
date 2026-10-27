@@ -14,7 +14,7 @@ export default function PricingSection() {
   return (
     <section id="pricing" data-sf="pricing" style={{ background: 'var(--bg)', color: 'var(--ink)', padding: '120px 16px 0' }}>
       <Reveal delay={0}>
-        <h2 style={{ fontSize: '4vw', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.9, margin: '0 0 24px', maxWidth: '20ch' }}>Pay in rands, cancel any time</h2>
+        <h2 style={{ fontSize: 'var(--step-head)', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.9, margin: '0 0 24px', maxWidth: '20ch' }}>Pay in rands, cancel any time</h2>
       </Reveal>
       <div className="pricing-row" data-sf="pricing-grid">
         {plans.map((p, i) => (
@@ -26,7 +26,7 @@ export default function PricingSection() {
           </Reveal>
         ))}
       </div>
-      <p style={{ marginTop: 16, fontSize: 'var(--step-small)', color: 'var(--muted)' }}>No VAT. Credits are spent only when a post actually publishes.</p>
+      <p style={{ marginTop: 16, fontSize: 'var(--step-small)', color: 'var(--muted)', maxWidth: '60ch' }}>No VAT. Credits are spent only when a post actually publishes.</p>
     </section>
   );
 }
