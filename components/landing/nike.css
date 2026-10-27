@@ -1,0 +1,297 @@
+/* Nike-based restyle for the Posta landing page.
+ *
+ * Everything here is built on the --pds-* tokens recovered from the live nike.com/za bundle with REA
+ * (see design-system/posta/nike-pds.css and design-system/posta/NIKE-BASE-RECON.md). The numbers are
+ * Nike's, the faces are licensed-free stand-ins: Jost for the geometric Futura display, Inter for the
+ * heavy display, Hanken Grotesk for the Helvetica-like text.
+ *
+ * This file only overrides. It does not change any DOM, so the page cannot break structurally.
+ */
+
+:root {
+  /* Map the site's existing knobs onto Nike's palette so every component inherits the change. */
+  --bg: var(--pds-color-white, #ffffff);
+  --ink: var(--pds-color-black, #111111);
+  --surface: var(--pds-color-gray-100, #f5f5f5);
+  --accent: var(--pds-color-blue-500, #1151ff);
+  --accent-ink: var(--pds-color-white, #ffffff);
+  --muted: var(--pds-color-gray-500, #707072);
+
+  --display: 'Jost', 'Hanken Grotesk', Helvetica, Arial, sans-serif;
+  --display-heavy: 'Inter', 'Hanken Grotesk', Helvetica, Arial, sans-serif;
+  --body-face: 'Hanken Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  --ease-expressive: var(--pds-motion-easing-expressive, cubic-bezier(0.6, 0, 0.1, 1));
+  --ease-functional: var(--pds-motion-easing-functional, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+/* ---------- type: Nike's brand-display scale, uppercase, tight ----------
+   The components carry inline font-size/font-weight attributes, so these declarations must be
+   !important or they lose silently. Sizes are Nike's oversize scale, clamped. */
+
+.posta-landing,
+.posta-landing p,
+.posta-landing li,
+.posta-landing .sentence,
+.posta-landing .clause,
+.posta-landing .inc { font-family: var(--body-face) !important; }
+
+.posta-landing h1,
+.posta-landing h2,
+.posta-landing h3,
+.posta-landing h4,
+.posta-landing .wordmark,
+.posta-landing .price,
+.posta-landing .dur,
+.posta-landing .marquee {
+  font-family: var(--display) !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.02 !important;
+}
+
+/* Nike's oversize-2 (4.75rem) on a wide screen, 2.75rem on a phone. */
+.posta-landing h1,
+.posta-landing .hero-panel .wordmark { font-size: clamp(2.75rem, 6.6vw, 4.75rem) !important; }
+.posta-landing h2 { font-size: clamp(1.5rem, 3vw, 2.5rem) !important; }
+.posta-landing h3 { font-size: clamp(1.125rem, 1.6vw, 1.375rem) !important; }
+.posta-landing .price { font-size: clamp(2.75rem, 5vw, 3.75rem) !important; line-height: 1 !important; }
+.posta-landing .dur { font-size: clamp(1.75rem, 3vw, 2.5rem) !important; }
+
+/* ---------- hero: full-bleed, no padding, photography edge to edge ---------- */
+
+.hero-sheet {
+  padding: 0;
+  gap: 2px;
+  background: var(--ink);
+}
+
+.hero-panel {
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 0;
+  padding: clamp(20px, 3vw, 40px);
+  gap: var(--pds-space-16, 16px);
+}
+
+.hero-panel .sentence {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--pds-color-gray-200, #e5e5e5);
+  max-width: 32ch;
+}
+
+.hero-strip {
+  height: 32px;
+  font-family: var(--body-face);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* ---------- controls: pills, exactly as Nike renders them ---------- */
+
+.posta-landing .action,
+.posta-landing .btnstrip,
+.posta-landing .contact-submit,
+.posta-landing button[type='submit'] {
+  border-radius: var(--pds-radius-rounded, 9999px) !important;
+  font-family: var(--body-face) !important;
+  font-weight: 500 !important;
+  font-size: 1rem !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 0 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  border: 0 !important;
+  transition: transform var(--pds-motion-duration-150, 150ms) var(--ease-functional),
+    opacity var(--pds-motion-duration-150, 150ms) var(--ease-functional);
+}
+
+.hero-panel .action {
+  background: var(--bg);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.posta-landing .btnstrip {
+  background: var(--ink);
+  color: var(--bg);
+  width: 100%;
+}
+
+.posta-landing .contact-submit {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.posta-landing .action:hover,
+.posta-landing .btnstrip:hover,
+.posta-landing .contact-submit:hover {
+  opacity: 0.85;
+  transform: none;
+}
+
+/* ---------- the board: photographs carry the colour, no grey boxes ---------- */
+
+.board {
+  gap: 2px;
+  padding: 2px;
+  background: var(--bg);
+}
+
+.tile {
+  border-radius: 0;
+  background: var(--pds-color-gray-100, #f5f5f5);
+  color: var(--ink);
+  padding: clamp(20px, 2.5vw, 32px);
+}
+
+.tile--ink { background: var(--ink); color: var(--bg); }
+.tile--accent { background: var(--accent); color: var(--accent-ink); }
+.tile--photo { background: var(--pds-color-gray-200, #e5e5e5); }
+
+/* Full-bleed pictures inside the grid: let them run to the tile edges and crop like a product shot. */
+.tile--photo img,
+.hero-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tile-text {
+  position: absolute;
+  top: clamp(16px, 2vw, 24px);
+  left: clamp(16px, 2vw, 24px);
+  right: clamp(16px, 2vw, 24px);
+  color: var(--bg);
+  text-shadow: 0 1px 24px rgba(17, 17, 17, 0.45);
+}
+
+.tile--photo .tile-text,
+.tile--ink .tile-text { color: var(--bg); }
+
+/* ---------- marquee: display face, uppercase, bigger than before ---------- */
+
+.marquee {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.1;
+  gap: var(--pds-space-24, 24px);
+  align-items: center;
+}
+
+/* ---------- stages bar ---------- */
+
+.stages-bar { gap: 2px; }
+
+.stages-bar .seg {
+  background: var(--pds-color-gray-100, #f5f5f5);
+  padding: clamp(16px, 2vw, 24px);
+}
+
+.stages-bar .seg .dur {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  letter-spacing: -0.01em;
+}
+
+.stages-bar .seg .clause {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: var(--pds-space-8, 8px);
+}
+
+/* ---------- pricing: the price is the biggest thing in the row ---------- */
+
+.pricing-row { gap: 2px; align-items: stretch; }
+
+.price-tile {
+  background: var(--pds-color-gray-100, #f5f5f5);
+  padding: clamp(20px, 2.5vw, 32px);
+  border-radius: 0;
+}
+
+.price-tile .name {
+  font-family: var(--body-face);
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: none;
+  color: var(--muted);
+}
+
+.price-tile .price {
+  font-size: clamp(2.75rem, 5vw, 3.75rem) !important;
+  line-height: 1 !important;
+  margin: var(--pds-space-8, 8px) 0 !important;
+}
+
+.price-tile .inc {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--pds-color-gray-600, #4b4b4d);
+  text-transform: none;
+}
+
+.price-tile .btnstrip {
+  margin-top: var(--pds-space-24, 24px);
+  height: 48px;
+  border-radius: var(--pds-radius-rounded, 9999px);
+  font-size: 0.9375rem;
+}
+
+/* ---------- contact: pills, one line, no boxes ---------- */
+
+.contact-field {
+  background: var(--pds-color-gray-100, #f5f5f5);
+  border-radius: var(--pds-radius-rounded, 9999px);
+  height: 60px;
+  font-family: var(--body-face);
+  font-size: 1rem;
+}
+
+.contact-field:focus-within {
+  background: var(--bg);
+  outline: 2px solid var(--pds-color-border-focused, #1151ff);
+  outline-offset: 2px;
+}
+
+/* ---------- focus, motion, restraint ---------- */
+
+.posta-landing a:focus-visible,
+.posta-landing button:focus-visible {
+  outline: 2px solid var(--pds-color-border-focused, #1151ff);
+  outline-offset: 2px;
+}
+
+.reveal {
+  transition: opacity var(--pds-motion-duration-400, 400ms) var(--ease-expressive),
+    transform var(--pds-motion-duration-400, 400ms) var(--ease-expressive);
+}
+
+.tile {
+  transition: transform var(--pds-motion-duration-250, 250ms) var(--ease-functional);
+}
+
+.tile:hover { transform: translateY(-2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tile:hover { transform: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* Phones: keep the scale, drop the padding, one column of pictures. */
+@media (max-width: 767px) {
+  .board { gap: 2px; padding: 2px; }
+  .hero-sheet { gap: 2px; }
+  .posta-landing h1,
+  .posta-landing .hero-panel .wordmark { font-size: clamp(2.25rem, 10.5vw, 3rem); }
+  .price-tile .price { font-size: clamp(2.5rem, 12vw, 3.25rem); }
+}

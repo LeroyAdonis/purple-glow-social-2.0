@@ -4,6 +4,8 @@ import { getServerLanguage, createTranslator } from '@/lib/i18n-server';
 
 import '@/design-system/posta/tokens.css';
 import '@/components/landing/board.css';
+import '@/design-system/posta/nike-pds.css';
+import '@/components/landing/nike.css';
 
 import Navigation from '@/components/landing/navigation';
 import HeroSection from '@/components/landing/hero-section';
@@ -17,7 +19,7 @@ export default async function HomePage() {
   const headersList = await headers();
   const session = await auth.api.getSession({ headers: headersList });
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--ink)', fontFamily: 'var(--font-body)' }}>
+    <div className="posta-landing" style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--ink)', fontFamily: 'var(--font-body)' }}>
       <Navigation session={session} />
       <main>
         <HeroSection />
