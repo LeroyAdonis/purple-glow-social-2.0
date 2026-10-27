@@ -120,7 +120,7 @@ const CookieConsentBanner: React.FC = () => {
         role="dialog"
         aria-labelledby="cookie-banner-title"
         aria-describedby="cookie-banner-description"
-        className="fixed inset-x-0 top-0 z-[9999] md:top-auto md:bottom-0"
+        className="cookie-dock fixed inset-x-0 top-0 z-[9999] md:top-auto md:bottom-0"
       >
         <div className="animate-slide-up" style={{ background: 'var(--ink)', color: 'var(--bg)' }}>
           {!showCustomize ? (

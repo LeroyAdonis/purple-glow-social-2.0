@@ -10,6 +10,7 @@ import '@/components/landing/nike.css';
 import Navigation from '@/components/landing/navigation';
 import HeroSection from '@/components/landing/hero-section';
 import FeaturesSection from '@/components/landing/features-section';
+import BandSection from '@/components/landing/band-section';
 import HowItWorksSection from '@/components/landing/how-it-works-section';
 import PricingSection from '@/components/landing/pricing-section';
 import ContactSection from '@/components/landing/contact-section';
@@ -24,6 +25,7 @@ export default async function HomePage() {
       <main>
         <HeroSection />
         <FeaturesSection />
+        <BandSection />
         <HowItWorksSection />
         <PricingSection />
         <ContactSection />
