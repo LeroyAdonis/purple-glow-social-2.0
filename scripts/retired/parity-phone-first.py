@@ -1,3 +1,8 @@
+# RETIRED 2026-10-27
+# The approved styleframe contract ended when Leroy approved the rebrand on 2026-10-27.
+# This parity check measured the old "phone-first" styleframe and is superseded by the taste-skill rebrand.
+# Kept for history; do not run as a gate.
+
 #!/usr/bin/env python3
 """Side-by-side + measured diff: the approved styleframe (003-phone-first) vs the live page.
 

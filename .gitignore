@@ -56,3 +56,10 @@ mcp.json
 
 # Runtime-generated images (NVIDIA NIM output). The folder is created at runtime; never commit it.
 /public/generated/
+
+# graphify knowledge graph (local build artefact)
+graphify-out/
+
+# internal working notes — never published
+.planning/
+.taste-skill/

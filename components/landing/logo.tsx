@@ -37,7 +37,7 @@ export default function PostaLogo({
         <span
           style={{
             fontFamily: 'var(--font-display)',
-            fontWeight: 700,
+            fontWeight: 500,
             fontSize: size,
             letterSpacing: '-0.045em',
             color,

@@ -51,10 +51,10 @@ export default function RootLayout({
             against the styleframe's 138px. Parity needs the same files, not just the same family name. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
       </head>
-      <body className="bg-[var(--posta-paper)] text-[var(--posta-ink)] antialiased font-body min-h-screen selection:bg-[var(--posta-clay)] selection:text-[var(--posta-cream)]">
+      <body className="bg-[var(--posta-paper)] text-[var(--posta-ink)] antialiased font-body min-h-svh selection:bg-[var(--posta-clay)] selection:text-[var(--posta-cream)]">
         <QueryProvider>
           <LanguageProvider>
             {children}

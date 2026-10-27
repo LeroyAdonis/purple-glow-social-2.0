@@ -1,118 +1,101 @@
 /* ============================================================================
-   POSTA DESIGN TOKENS — v2, 25 October 2026
-   Direction C "Phone First". This file is the single source of truth for colour,
-   type, space, radius, shadow and motion. A component may not invent a value:
-   if something is missing, add it here first, then use it.
-
-   v2 changes, all made because they were measured and failed:
-     - warning darkened #B5761A -> #8A5A12 (3.51:1 on paper was under 4.5:1)
-     - gold is now explicitly barred from carrying text on light surfaces (1.91:1)
-     - a per-surface focus ring was added; gold as a ring is 1.91:1 on paper
+   POSTA DESIGN TOKENS — rebrand "The well-kept board" (taste-skill), 2026-10-27
+   Direction: Hanken Grotesk, palette "Sheet and biro".
+   Single source of truth for colour, type, space, radius, motion.
    ========================================================================== */
 
 :root {
-  /* ── Brand surfaces ─────────────────────────────────────────────────────── */
-  --posta-clay: #8E3B2E;         /* the brand field. Marketing ground, primary fills */
-  --posta-clay-deep: #742F25;    /* pressed field; also safe for gold text (4.69:1) */
-  --posta-clay-tint: #F2E2DA;    /* selected chip, quiet fill on light */
-  --posta-cream: #F7EDE2;        /* type on the field; light surface alternative */
-  --posta-paper: #FBF6EF;        /* the app background. Lighter than cream so cream cards read */
-  --posta-white: #FFFFFF;        /* raised cards on paper */
+  /* ── Palette: Sheet and biro ────────────────────────────────────────────── */
+  --bg: #ffffff;
+  --surface: #f4f4f4;
+  --ink: #111111;
+  --muted: #6b6b6b;
+  --accent: #1a4be0;
+  --accent-ink: #ffffff;
+  --field-1: #111111;
+  --field-1-ink: #ffffff;
 
-  /* ── Ink ────────────────────────────────────────────────────────────────── */
-  --posta-ink: #24140F;          /* all body type on light. 16.52:1 on paper */
-  --posta-ink-soft: #6E5B4E;     /* secondary type, meta. 5.97:1 on paper */
-  --posta-line: #EADCCB;         /* hairlines only. Never text, never a control boundary alone */
+  /* Aliases kept for existing components that reference --posta-* */
+  --posta-clay: var(--ink);
+  --posta-clay-deep: var(--ink);
+  --posta-clay-tint: var(--surface);
+  --posta-cream: var(--bg);
+  --posta-paper: var(--bg);
+  --posta-white: var(--bg);
+  --posta-ink: var(--ink);
+  --posta-ink-soft: var(--muted);
+  --posta-line: var(--surface);
+  --posta-gold: var(--accent);
+  --posta-gold-press: var(--accent);
+  --posta-focus-light: var(--accent);
+  --posta-focus-field: var(--bg);
 
-  /* ── The single accent ──────────────────────────────────────────────────── */
-  --posta-gold: #E9A93C;
-  --posta-gold-press: #D2962B;
+  /* ── Type: Hanken Grotesk ───────────────────────────────────────────────── */
+  --font-display: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
 
-  /* GOLD RULES (measured, not stylistic):
-       ink on gold          8.63:1  -> a gold button with ink label is fine
-       gold on clay         3.63:1  -> large text (>=24px bold) or graphics only
-       gold on clay-deep    4.69:1  -> passes body text, still use sparingly
-       gold on paper        1.91:1  -> NEVER text, NEVER a thin border or focus ring
-       One gold element per screen. Gold means "this is the one thing to do here". */
+  /* Five steps from the sheet's type system */
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
 
-  /* ── State ──────────────────────────────────────────────────────────────── */
-  --posta-success: #2F6B4F;      /* 5.85:1 paper, 5.44:1 cream */
-  --posta-danger: #A32B22;       /* 6.67:1 paper, 6.21:1 cream */
-  --posta-warning: #8A5A12;      /* 5.50:1 paper, 5.11:1 cream — corrected in v2 */
-  --posta-focus-light: #8E3B2E;  /* focus ring on paper/cream surfaces. 6.94:1 */
-  --posta-focus-field: #F7EDE2;  /* focus ring on clay surfaces. cream reads on clay */
+  /* Aliases for legacy --text-* / --font-* consumers */
+  --text-display: var(--step-head);
+  --text-h1: var(--step-head);
+  --text-h2: var(--step-lead);
+  --text-h3: var(--step-body);
+  --text-body-lg: var(--step-body);
+  --text-body: var(--step-body);
+  --text-small: var(--step-small);
+  --text-meta: var(--step-small);
+  --text-micro: var(--step-small);
+  --text-display-mobile: var(--step-head);
+  --text-h1-mobile: var(--step-head);
+  --text-h2-mobile: var(--step-lead);
 
-  /* ── Type ───────────────────────────────────────────────────────────────── */
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
-
-  /* A bounded scale. Ten steps, and that is the whole ladder. */
-  --text-display: 96px;   /* marketing hero only, desktop */
-  --text-h1: 48px;
-  --text-h2: 32px;
-  --text-h3: 22px;
-  --text-body-lg: 18px;
-  --text-body: 16px;
-  --text-small: 14px;
-  --text-meta: 12px;      /* uppercase label with tracking */
-  --text-micro: 11px;
-  --text-display-mobile: 44px;
-  --text-h1-mobile: 32px;
-  --text-h2-mobile: 26px;
-
-  --weight-display: 700;
+  --weight-display: 500;
   --weight-strong: 500;
   --weight-body: 400;
 
-  --leading-display: 0.95;
-  --leading-heading: 1.15;
-  --leading-body: 1.55;
-  --tracking-tight: -0.03em;
-  --tracking-meta: 0.16em;
+  --leading-display: 0.9;
+  --leading-heading: 1.0;
+  --leading-body: 1.45;
+  --tracking-tight: -0.05em;
+  --tracking-body: -0.005em;
 
-  /* ── Space: 4px grid ────────────────────────────────────────────────────── */
+  /* ── Space: 4px grid, 8px gaps ──────────────────────────────────────────── */
   --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
   --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
   --space-9: 96px;
 
-  /* ── Shape ──────────────────────────────────────────────────────────────── */
-  --radius-sm: 8px;     /* inputs, small buttons */
-  --radius-md: 16px;    /* cards */
-  --radius-lg: 24px;    /* sheets, panels */
-  --radius-pill: 999px; /* the primary button */
-  --border-hairline: 1px solid var(--posta-line);
+  /* ── Shape: one radius ─────────────────────────────────────────────────── */
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-pill: 0px;
+  --border-hairline: 1px solid var(--surface);
 
-  /* ── Elevation: two shadows, both warm. No glow, no glass, no blur. ─────── */
-  --shadow-card: 0 2px 8px -2px rgba(36, 20, 15, 0.10);
-  --shadow-sheet: 0 40px 80px -40px rgba(36, 20, 15, 0.45);
-
-  /* ── Motion: durations in ms, because "smooth" is not a spec ────────────── */
+  /* ── Motion ─────────────────────────────────────────────────────────────── */
   --dur-instant: 80ms;
   --dur-fast: 140ms;
   --dur-base: 220ms;
-  --dur-slow: 340ms;
+  --dur-slow: 1100ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* ── Layout ─────────────────────────────────────────────────────────────── */
-  --page-max: 1200px;
-  --prose-max: 68ch;         /* reading measure */
-  --touch-min: 44px;         /* phone-first: this is a comfort floor, not a WCAG AA minimum */
-  --sidebar-w: 248px;
+  /* ── Layout: tight margins ──────────────────────────────────────────────── */
+  --page-margin: 16px;
+  --page-max: 1920px;
+  --prose-max: 68ch;
+  --touch-min: 44px;
+  --gutter: 8px;
+  --margin: 16px;
 }
 
-/* Honour the OS setting. A phone-first product is used on phones in the sun; motion is a nicety. */
 @media (prefers-reduced-motion: reduce) {
   :root {
     --dur-instant: 0ms; --dur-fast: 0ms; --dur-base: 0ms; --dur-slow: 0ms;
-  }
-}
-
-/* Type scale collapse for phones. Two steps drop, the rest hold. */
-@media (max-width: 767px) {
-  :root {
-    --text-display: var(--text-display-mobile);
-    --text-h1: var(--text-h1-mobile);
-    --text-h2: var(--text-h2-mobile);
   }
 }

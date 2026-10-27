@@ -24,10 +24,10 @@ from pathlib import Path
 
 # ── The palette this system defines ──────────────────────────────────────────────────────────────────
 TOKENS = {
-    "clay": "#8E3B2E", "clay-deep": "#742F25", "clay-tint": "#F2E2DA",
-    "cream": "#F7EDE2", "paper": "#FBF6EF", "white": "#FFFFFF",
-    "ink": "#24140F", "ink-soft": "#6E5B4E", "line": "#EADCCB",
-    "gold": "#E9A93C", "success": "#2F6B4F", "danger": "#A32B22", "warning": "#8A5A12",
+    "bg": "#FFFFFF", "surface": "#F4F4F4",
+    "ink": "#111111", "muted": "#6B6B6B",
+    "accent": "#1A4BE0", "accent-ink": "#FFFFFF",
+    "field-1": "#111111", "field-1-ink": "#FFFFFF",
 }
 
 # The old palette. Every one of these must be gone before the redesign counts as done.
@@ -102,7 +102,7 @@ def scan_url(url: str) -> list[str]:
         pg = b.new_page(viewport={"width": 1440, "height": 900})
         pg.goto(url, wait_until="networkidle", timeout=60000)
 
-        data = pg.evaluate("""() => {
+        data = pg.evaluate(r"""() => {
           const out = {sizes: {}, pairs: {}, small: [], gold: []};
           const norm = c => {
             const m = c.match(/rgba?\(\s*(\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/);

@@ -1,0 +1,201 @@
+/* Rebrand board styles — taste-skill "The well-kept board" */
+.board {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 8px;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.tile {
+  background: var(--surface);
+  color: var(--ink);
+  padding: 20px 24px;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+  min-height: 0;
+}
+.tile--ink { background: var(--ink); color: var(--bg); }
+.tile--accent { background: var(--accent); color: var(--accent-ink); }
+.tile--photo { padding: 0; background: var(--surface); }
+.tile--photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tile-text { position: absolute; top: 20px; left: 24px; }
+
+.tile-span-6 { grid-column: span 6; }
+.tile-span-4 { grid-column: span 4; }
+.tile-span-3 { grid-column: span 3; }
+.tile-span-12 { grid-column: span 12; }
+.tile-row-2 { grid-row: span 2; }
+.tile-row-3 { grid-row: span 3; }
+.tile-row-4 { grid-row: span 4; }
+
+@media (max-width: 767px) {
+  .board { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 8px; }
+  .tile-span-6, .tile-span-4, .tile-span-3, .tile-span-12 { grid-column: span 2; }
+}
+
+/* Hero photo sheet */
+.hero-sheet {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  padding: 16px;
+  height: 100svh;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: var(--bg);
+}
+.hero-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.hero-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+}
+.hero-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.12);
+  animation: shutterSettle 1.1s var(--ease-out) forwards;
+}
+.hero-strip {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--ink);
+  background: var(--surface);
+}
+.hero-panel {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 410px;
+}
+.hero-panel .wordmark { font-size: 28px; font-weight: 500; letter-spacing: -0.05em; line-height: 0.9; }
+.hero-panel .sentence { font-size: 20px; line-height: 1.45; letter-spacing: -0.005em; max-width: 28ch; }
+.hero-panel .action {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 44px; padding: 0 20px;
+  background: var(--accent); color: var(--accent-ink);
+  text-decoration: none; font-weight: 500; font-size: var(--step-body);
+  align-self: flex-start;
+}
+.hero-panel .links { margin-top: auto; display: flex; gap: 16px; font-size: 14px; }
+.hero-panel .links a { min-height: 44px; display: inline-flex; align-items: center; padding: 10px 0; }
+.hero-panel .links a { color: var(--bg); text-decoration: underline; }
+
+@media (max-width: 767px) {
+  .hero-sheet { grid-template-columns: 1fr; height: auto; }
+  .hero-panel { width: 100%; min-height: 40vh; }
+  .hero-panel .wordmark { font-size: 7vw; }
+  .hero-panel .sentence { font-size: var(--step-body); }
+  .hero-panel .action { width: 100%; align-self: stretch; }
+}
+
+/* Shutter move */
+@keyframes shutterOpen {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0% 0 0); }
+}
+@keyframes shutterSettle {
+  from { transform: scale(1.12); }
+  to { transform: scale(1); }
+}
+.shutter {
+  animation: shutterOpen 1.1s var(--ease-out) both;
+  clip-path: inset(0 100% 0 0);
+}
+.shutter img { animation: shutterSettle 1.1s var(--ease-out) forwards; }
+
+/* Entrances */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* Marquee */
+.marquee {
+  display: flex; gap: 8px; animation: marquee 40s linear infinite;
+  will-change: transform;
+}
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee { animation: none; }
+  .shutter, .shutter img { animation: none; clip-path: none; transform: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* How it works bar */
+.stages-bar {
+  display: flex; gap: 6px; height: 22vh; width: 100%;
+}
+.stages-bar .seg {
+  display: flex; flex-direction: column; justify-content: flex-start;
+  padding: 20px; min-width: 12%; overflow: hidden;
+}
+.stages-bar .seg .dur { font-size: clamp(20px, 2vw, 28px); font-weight: 500; line-height: 1; }
+.stages-bar .seg .clause { font-size: var(--step-body); max-width: 22ch; margin-top: 8px; }
+@media (max-width: 767px) {
+  .stages-bar { flex-direction: column; height: auto; }
+  .stages-bar .seg { min-height: 72px; height: auto; }
+  .stages-bar .seg .dur { font-size: 20px; }
+  .stages-bar .seg .clause { font-size: var(--step-body); }
+}
+
+/* Pricing tiles */
+.pricing-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; align-items: end;
+}
+.price-tile {
+  padding: 28px; display: flex; flex-direction: column; gap: 8px;
+}
+.price-tile .name { font-size: 28px; font-weight: 500; }
+.price-tile .price { font-size: 56px; font-weight: 500; line-height: 1; letter-spacing: -0.05em; }
+.price-tile .inc { font-size: var(--step-body); line-height: 1.45; }
+.price-tile .btnstrip {
+  margin-top: auto; height: 64px; display: flex; align-items: center;
+  padding: 0 28px; font-size: var(--step-body); font-weight: 500; text-decoration: none;
+}
+@media (max-width: 767px) {
+  .pricing-row { grid-template-columns: 1fr; }
+  .price-tile .price { font-size: 44px; }
+}
+
+/* Contact three-cell bar */
+.contact-field {
+  background: var(--surface); color: var(--ink);
+  height: 96px; display: flex; align-items: center; justify-content: center;
+  font-size: var(--step-body); border-radius: 0;
+}
+.contact-field:focus-within { background: var(--bg); }
+.contact-submit { background: var(--ink); color: var(--bg); }
+@media (max-width: 767px) {
+  .contact-field { height: 60px; width: 100%; }
+}
+
+/* Feedback */
+a, button { transition: transform 120ms var(--ease-out), opacity 120ms; }
+a:active, button:active { transform: scale(0.98); }
+.tile { transition: transform 160ms var(--ease-out); }
+.tile:hover { transform: translateY(-2px); }
+
+/* moving picture */
+.movepic { animation: drift 12s ease-in-out infinite alternate; }
+@keyframes drift { from { transform: scale(1); } to { transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) { .movepic { animation: none; } }

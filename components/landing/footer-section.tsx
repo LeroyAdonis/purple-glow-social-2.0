@@ -1,13 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { COMPANY, companyAddressLine, legalFooterLine } from '@/lib/company';
+import '@/components/landing/board.css';
 
-/**
- * Footer — mirrors `[data-sf=footer]` in design-system/posta/styleframe/landing.html.
- *
- * The legal identity comes from lib/company.ts, never typed here: one source of truth for the entity name,
- * registration number and VAT status, so a stale detail cannot survive in one place and not another.
- */
 const links = [
   { href: '/privacy', label: 'Privacy' },
   { href: '/terms', label: 'Terms' },
@@ -18,25 +13,26 @@ const links = [
 
 export default function FooterSection() {
   return (
-    <footer className="ps-footer ps-deep" data-sf="footer">
-      <div className="ps-wrap ps-stack ps-gap-24">
-        <p className="ps-small">
-          {/* legalFooterLine() already names the entity AND its registration number. The old footer appended
-              both again, so the page said "Digital Wave Tech (Pty) Ltd, registration 2026/809312/07" twice in
-              one sentence. One entity, stated once. */}
-          {legalFooterLine()} Not VAT registered. {companyAddressLine()}.
-        </p>
-        <nav className="ps-footer-nav" data-sf="footer-nav">
-          {links.map((l) => (
-            <Link href={l.href} key={l.href}>
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-        <hr className="ps-rule" />
-        <p className="ps-caption" style={{ opacity: 0.8 }}>
-          © {new Date().getFullYear()} {COMPANY.legalName}. All rights reserved.
-        </p>
+    <footer data-sf="footer" style={{ background: 'var(--ink)', color: 'var(--bg)', padding: '16px' }}>
+      <div className="board" style={{ padding: 0 }}>
+        <div className="tile tile--ink tile-span-6" style={{ background: 'transparent', color: 'var(--bg)' }}>
+          <p style={{ fontSize: 'var(--step-head)', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.9, margin: 0 }}>posta</p>
+        </div>
+        <div className="tile tile--ink tile-span-6" style={{ background: 'transparent', color: 'var(--bg)' }}>
+          <nav style={{ display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'flex-end' }} data-sf="footer-nav">
+            {links.map((l) => (
+              <Link key={l.href} href={l.href} style={{ color: 'var(--bg)', fontSize: 'var(--step-small)', textDecoration: 'underline', minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>{l.label}</Link>
+            ))}
+          </nav>
+          <p style={{ fontSize: 'var(--step-small)', margin: '8px 0 0', opacity: 0.75 }}>
+            Photographs: Wikimedia Commons contributors (CC BY / CC BY-SA).{' '}
+            <a href="/photo-credits.txt" style={{ color: 'inherit', textDecoration: 'underline' }}>Credits</a>
+          </p>
+        </div>
+        <div className="tile tile--ink tile-span-12" style={{ background: 'transparent', color: 'var(--bg)', paddingTop: 0 }}>
+          <p style={{ fontSize: 'var(--step-small)', margin: 0, opacity: 0.8 }}>{legalFooterLine()} Not VAT registered. {companyAddressLine()}.</p>
+          <p style={{ fontSize: 'var(--step-small)', margin: '8px 0 0', opacity: 0.6 }}>© {new Date().getFullYear()} {COMPANY.legalName}. All rights reserved.</p>
+        </div>
       </div>
     </footer>
   );

@@ -164,7 +164,7 @@ export default function LoginPage() {
               width: '100%',
               borderRadius: 'var(--radius-pill)',
               background: 'var(--posta-gold)',
-              color: 'var(--posta-ink)',
+              color: 'var(--posta-cream)',
               fontWeight: 700,
               fontSize: 'var(--text-body)',
               border: 'none',

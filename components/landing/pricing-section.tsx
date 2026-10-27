@@ -1,52 +1,32 @@
 'use client';
-
 import React from 'react';
 import Link from 'next/link';
+import '@/components/landing/board.css';
+import Reveal from './reveal';
 
-/**
- * Pricing — mirrors `[data-sf=pricing]` in design-system/posta/styleframe/landing.html.
- *
- * Honesty rules baked into the copy: the prices are the real plan prices, "No VAT" is true because Digital Wave
- * Tech is not VAT registered, and credits are described as spent on publish because that is when they are.
- * A price card that promises a capability we do not have is a refund waiting to happen.
- */
 const plans = [
-  { name: 'Free', price: 'R0', note: '10 credits, 5 scheduled posts', cta: 'Start free', variant: 'quiet' },
-  { name: 'Pro', price: 'R299', note: '500 credits, 50 scheduled posts, 5 automation rules', cta: 'Choose Pro', variant: 'ink' },
-  { name: 'Business', price: 'R999', note: '2000 credits, 200 scheduled posts, 20 automation rules', cta: 'Choose Business', variant: 'quiet' },
+  { name: 'Free', price: 'R0', note: '10 credits. 5 scheduled posts.', cta: 'Start free', bg: '#f4f4f4', ink: '#111111', strip: '#d0d0d0', stripInk: '#111111', h: 360 },
+  { name: 'Pro', price: 'R299', note: '500 credits. 50 scheduled posts. 5 automation rules.', cta: 'Choose Pro', bg: '#1a4be0', ink: '#ffffff', strip: '#153bb8', stripInk: '#ffffff', h: 480 },
+  { name: 'Business', price: 'R999', note: '2000 credits. 200 scheduled posts. 20 automation rules.', cta: 'Choose Business', bg: '#111111', ink: '#ffffff', strip: '#000000', stripInk: '#ffffff', h: 600 },
 ];
 
 export default function PricingSection() {
   return (
-    <section id="pricing" className="ps-section ps-paper" data-sf="pricing">
-      <div className="ps-wrap">
-        <div className="ps-head" data-sf="pricing-head">
-          <p className="ps-eyebrow">Pricing</p>
-          <h2 className="ps-h2">Pay in rands, cancel any time</h2>
-          <p className="ps-lead ps-muted">
-            No VAT — R299 is R299. Credits are spent only when a post actually publishes.
-          </p>
-        </div>
-        <div className="ps-grid-3" data-sf="pricing-grid">
-          {plans.map((p) => (
-            <article className="ps-card ps-card--full" data-sf="price-card" key={p.name}>
-              <h3 className="ps-h3">{p.name}</h3>
-              <p className="ps-price">
-                {p.price}
-                <span> /month</span>
-              </p>
-              <p className="ps-small ps-muted">{p.note}</p>
-              <Link
-                href="/signup"
-                className={`ps-pill ps-pill--${p.variant} ps-pill--sm`}
-                style={{ marginTop: 'auto' }}
-              >
-                {p.cta}
-              </Link>
-            </article>
-          ))}
-        </div>
+    <section id="pricing" data-sf="pricing" style={{ background: 'var(--bg)', color: 'var(--ink)', padding: '120px 16px 0' }}>
+      <Reveal delay={0}>
+        <h2 style={{ fontSize: '4vw', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.9, margin: '0 0 24px', maxWidth: '20ch' }}>Pay in rands, cancel any time</h2>
+      </Reveal>
+      <div className="pricing-row" data-sf="pricing-grid">
+        {plans.map((p, i) => (
+          <Reveal key={p.name} delay={i * 80} className="price-tile" style={{ background: p.bg, color: p.ink, height: p.h }}>
+            <div className="name">{p.name}</div>
+            <div className="price">{p.price}<span style={{ fontSize: 'var(--step-body)', fontWeight: 400, marginLeft: 8 }}>/month</span></div>
+            <div className="inc">{p.note}</div>
+            <Link href="/signup" className="btnstrip" style={{ background: p.strip, color: p.stripInk }}>{p.cta}</Link>
+          </Reveal>
+        ))}
       </div>
+      <p style={{ marginTop: 16, fontSize: 'var(--step-small)', color: 'var(--muted)' }}>No VAT. Credits are spent only when a post actually publishes.</p>
     </section>
   );
 }

@@ -1,36 +1,30 @@
+'use client';
 import React from 'react';
+import '@/components/landing/board.css';
+import Reveal from './reveal';
 
-/**
- * How it works — mirrors `[data-sf=how]` in design-system/posta/styleframe/landing.html.
- * A clay band between two paper sections: the page breathes, and the eye knows a new idea started.
- */
-const steps = [
-  { n: '1', title: 'Tell Posta the topic', body: 'One line is enough. “New stock in store this weekend.”' },
-  { n: '2', title: 'Read the drafts', body: 'Posta writes a post in each language you pick. You read them.' },
-  { n: '3', title: 'Approve and schedule', body: 'Approve the ones you want. Posta publishes at the time you set.' },
+const stages = [
+  { dur: 'Two minutes', clause: 'Tell Posta the topic', grow: 1, color: '#f4f4f4', ink: '#111111' },
+  { dur: 'About a day', clause: 'Posta writes the drafts', grow: 4, color: '#1a4be0', ink: '#ffffff' },
+  { dur: 'You decide', clause: 'Approve and schedule', grow: 2, color: '#111111', ink: '#ffffff' },
 ];
 
 export default function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="ps-section ps-clay" data-sf="how">
-      <div className="ps-wrap">
-        <div className="ps-head" data-sf="how-head">
-          <p className="ps-eyebrow">Three steps</p>
-          <h2 className="ps-h2">How it works</h2>
-        </div>
-        <div className="ps-stack ps-gap-32" data-sf="steps">
-          {steps.map((s) => (
-            <div className="ps-row ps-gap-16" data-sf="step" key={s.n}>
-              <div className="ps-step">{s.n}</div>
-              <div>
-                <h3 className="ps-h3">{s.title}</h3>
-                <p className="ps-body ps-muted" style={{ marginTop: 4 }}>
-                  {s.body}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+    <section id="how-it-works" data-sf="how" style={{ background: 'var(--bg)', color: 'var(--ink)', padding: '120px 16px 0' }}>
+      <Reveal delay={0}>
+        <h2 style={{ fontSize: 'clamp(48px, 6.4vw, 104px)', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.9, margin: '0 0 64px', marginLeft: 12 }}>How it works</h2>
+      </Reveal>
+      <div className="stages-bar" data-ui data-sf="steps">
+        {stages.map((s, i) => (
+          <div key={i} className="seg" style={{ flexGrow: s.grow, background: s.color, color: s.ink }}>
+            <div className="dur">{s.dur}</div>
+            <div className="clause">{s.clause}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: 24, paddingLeft: 12, fontSize: 'var(--step-body)', color: 'var(--muted)', maxWidth: '60ch' }}>
+        Tell Posta the topic. Read the drafts. Approve and schedule.
       </div>
     </section>
   );

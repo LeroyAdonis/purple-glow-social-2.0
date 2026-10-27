@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { getServerLanguage, createTranslator } from '@/lib/i18n-server';
 
 import '@/design-system/posta/tokens.css';
+import '@/components/landing/board.css';
 
 import Navigation from '@/components/landing/navigation';
 import HeroSection from '@/components/landing/hero-section';
@@ -16,10 +17,8 @@ export default async function HomePage() {
   const headersList = await headers();
   const session = await auth.api.getSession({ headers: headersList });
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--posta-clay)', color: 'var(--posta-cream)', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--ink)', fontFamily: 'var(--font-body)' }}>
       <Navigation session={session} />
-      {/* The nav is fixed and transparent over the clay field, so it must NOT reserve height here: a 64px
-          spacer pushed the hero 64px below where the approved styleframe puts it. Measured, not guessed. */}
       <main>
         <HeroSection />
         <FeaturesSection />

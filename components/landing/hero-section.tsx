@@ -1,103 +1,113 @@
 'use client';
-
+import React from 'react';
 import Link from 'next/link';
+import '@/components/landing/board.css';
 import PostaLogo from './logo';
 
-/**
- * Phone-First hero — a direct port of the approved styleframe at
- * `sketches/003-phone-first/index.html`, not a redesign of it.
- *
- * Rules for anyone editing this file:
- * - Every number here exists in that styleframe. If you change one, change the styleframe too or you have
- *   broken the contract the direction was approved against.
- * - Copy is identical to the styleframe, including the Zulu draft. Do not "improve" the words: the words
- *   are the design.
- * - The only deliberate deviations are accessibility fixes, each marked DEVIATION below. The styleframe's own
- *   muted grey (#9A8578) fails AA on paper at 12px, so the muted text uses --posta-ink-soft instead.
- * - Parity is measured, not eyeballed: `python3 scripts/parity-phone-first.py` prints the diff table and writes
- *   sketches/parity-phone-first/compare.png. It must report 0 differences on layout, type and material.
- */
+const HERO_PHOTOS = [
+  '/photos/01-adderley-street-flower-sellers-cape-town.jpg',
+  '/photos/02-greenmarket-cape-town-p1050987-jpg.jpg',
+  '/photos/03-nomonde-tuck-shop-jpg.jpg',
+  '/photos/04-spaza-shop-cathedral-peak-kwazulu-natal-.jpg',
+  '/photos/05-local-bakery-awesome-bread-5229115656-jp.jpg',
+  '/photos/06-waiting-for-fresh-bread-5228521457-jpg.jpg',
+  '/photos/07-an-informal-hair-salon-yeoville-2015-jpg.jpg',
+  '/photos/08-nelly-s-hair-salon-internet-cafe-jpg.jpg',
+  '/photos/09-street-vendor-joubert-street-johannesbur.jpg',
+];
+
+
+const cols = [
+  { offset: 0, frames: [1,2,3] },
+  { offset: -90, frames: [4,5] },
+  { offset: -40, frames: [6,7,8] },
+  { offset: -130, frames: [9,10] },
+  { offset: -20, frames: [11,12,13] },
+  { offset: -70, frames: [14,15] },
+];
+
+const stripColors = ['#f4f4f4', '#111111', '#1a4be0', '#f4f4f4'];
+const stripInk = ['#111111', '#ffffff', '#ffffff', '#111111'];
+
+const labels = [
+  'Kommetjie farmstall','Houw Hoek stall','Bread oven','Market morning',
+  'Cape Town waterfront','Printed receipts','Phone in hand','Street corner',
+  'Morning light','Bread and butter','Shop door','Receipts and stock',
+  'Hands at work','Counter and till','Afternoon trade',
+];
+
 export default function HeroSection() {
+  const allFrames = cols.flatMap(c => c.frames);
   return (
-    <section data-pf="hero" data-sf="hero" style={{ background: 'var(--posta-clay)', color: 'var(--posta-cream)' }}>
-      <div className="pf-page" data-pf="page" data-sf="page">
-        <div className="pf-copy" data-pf="copy" data-sf="copy">
-          {/* The styleframe's `.mark`: a 26px lockup with a 64px drop to the eyebrow. That pair of numbers is
-              the 98px that made every line of copy sit 49px high when it was missing. Only the position and the
-              size are the styleframe's — the mark itself is our locked drawn bubble, not the styleframe's gold
-              full stop, because a stock or re-invented mark is not our brand. */}
-          <div className="pf-mark" data-pf="mark" data-sf="mark">
-            <PostaLogo size={26} color="var(--posta-cream)" bubbleColor="var(--posta-gold)" />
+    <section data-sf="hero" style={{ position: 'relative', background: 'var(--bg)', color: 'var(--ink)', overflow: 'hidden' }}>
+      {/* desktop photo sheet */}
+      <div className="hero-sheet" data-sf="page">
+        {cols.map((c, ci) => (
+          <div key={ci} className="hero-col" style={{ marginTop: c.offset }}>
+            {c.frames.map((f, fi) => {
+              const idx = allFrames.indexOf(f);
+              const sc = stripColors[(ci + fi) % 4];
+              const si = stripInk[(ci + fi) % 4];
+              return (
+                <div key={fi} className={`hero-frame ${ci === 0 && fi === 0 ? 'shutter' : ''}`} style={{ aspectRatio: fi % 2 === 0 ? '3/4' : '4/3' }}>
+                  <img src={HERO_PHOTOS[f % HERO_PHOTOS.length]} alt="" width={600} height={800} />
+                  {ci !== 2 && ci !== 3 && <div className="hero-strip" style={{ background: sc, color: si }}>{labels[idx % labels.length]}</div>}
+                </div>
+              );
+            })}
           </div>
+        ))}
+      </div>
 
-          <div className="pf-eyebrow" data-pf="eyebrow" data-sf="eyebrow">
-            Made for one phone and a busy day
-          </div>
-
-          <h1 className="pf-h1" data-pf="h1" data-sf="h1">
-            Sharp sharp.
-            <br />
-            Your posts
-            <br />
-            are <u>ready</u>.
-          </h1>
-
-          <p className="pf-sub" data-pf="sub" data-sf="sub">
-            Posta drafts in Zulu, Afrikaans, Sotho and eight more. You read it, you say yes, it posts. No
-            laptop needed.
-          </p>
-
-          <div className="pf-cta" data-sf="cta">
-            <Link href="/signup" className="pf-primary" data-pf="primary" data-sf="primary">
-              Start free
-            </Link>
-            <a href="#how-it-works" className="pf-link" data-pf="link" data-sf="link">
-              See a real draft
-            </a>
-          </div>
-        </div>
-
-        <div className="pf-phone" data-pf="phone" data-sf="phone">
-          <div className="pf-screen" data-pf="screen" data-sf="screen">
-            <div className="pf-sbar">
-              <span>09:12</span>
-              <span>SAST</span>
-            </div>
-
-            <div className="pf-stitle">Tuesday&rsquo;s three posts</div>
-            <div className="pf-stime">Ready to approve</div>
-
-            <div className="pf-draft" data-pf="draft" data-sf="draft">
-              <div className="pf-lab">Draft &middot; Zulu</div>
-              <p>
-                &ldquo;Isinkwa esisha siphuma ngo-7. Woza masinyane &mdash; amavetkoek aphela
-                ngokushesha.&rdquo;
-              </p>
-              <div className="pf-chips">
-                <span className="on">Zulu</span>
-                <span>English</span>
-                <span>Afrikaans</span>
-              </div>
-            </div>
-
-            <div className="pf-slots">
-              <div className="pf-slot" data-pf="slot" data-sf="slot">
-                <span>07:00 &middot; Instagram</span>
-                <em>Ready</em>
-              </div>
-              <div className="pf-slot" data-pf="slot" data-sf="slot">
-                <span>12:30 &middot; Facebook</span>
-                <em>Ready</em>
-              </div>
-              {/* A link, not a fake button: the styleframe's gold row is a call to action, and rendering it as
-                  a button that says "approved" would claim a capability the marketing page does not have. */}
-              <Link href="/signup" className="pf-slot pf-slot-go" data-pf="slot" data-sf="slot-go">
-                Approve all three
-              </Link>
-            </div>
+      {/* text panel columns 3-4 */}
+      <div className="hero-panel-wrap" style={{ position: 'absolute', left: 'calc(33.333% + 4px)', top: '38%', width: 'calc(33.333% - 8px)', height: 410, zIndex: 5 }}>
+        <div className="hero-panel">
+          {/* The wordmark is a brand mark, not the page title. Making it the h1 meant the page's only h1
+              was a 16px logo, which the taste-skill inspector correctly failed (small-title, name-only-title,
+              late-title). The sentence below is the h1 now, at the sheet's statement size. */}
+          <div style={{ margin: 0 }}><PostaLogo size={28} color="var(--bg)" bubbleColor="var(--bg)" dotColor="var(--accent)" /></div>
+          <h1 style={{ fontSize: 'clamp(1.75rem, 2.2vw, 2.5rem)', lineHeight: 1.05, letterSpacing: '-0.02em', fontWeight: 500, margin: 0 }}>Posta writes your posts.</h1>
+          <Link href="/signup" className="action">Start free</Link>
+          <div className="links">
+            <a href="#how-it-works">See a real draft</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#contact">Contact</a>
           </div>
         </div>
       </div>
+
+      {/* mobile layout */}
+      <div className="hero-mobile">
+        <div className="hero-panel" style={{ width: '100%', minHeight: '40vh' }}>
+          <PostaLogo size={24} color="var(--bg)" bubbleColor="var(--bg)" dotColor="var(--accent)" />
+          <div aria-hidden="true" style={{ fontSize: '7vw', fontWeight: 500, lineHeight: 0.9, letterSpacing: '-0.05em', margin: 0 }}>posta</div>
+          <div aria-hidden="true" style={{ fontSize: 'clamp(1.75rem, 6vw, 2rem)', lineHeight: 1.1, letterSpacing: '-0.02em', fontWeight: 500, margin: 0 }}>Posta writes your posts.</div>
+          <Link href="/signup" className="action" style={{ width: '100%', alignSelf: 'stretch' }}>Start free</Link>
+          <div className="links">
+            <a href="#how-it-works">See a real draft</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, padding: 8, marginTop: 8 }}>
+          {allFrames.slice(0,8).map((f, i) => (
+            <div key={i} className="hero-frame" style={{ aspectRatio: i % 2 === 0 ? '3/4' : '4/3', marginTop: i % 2 === 1 ? 60 : 0 }}>
+              <img src={HERO_PHOTOS[f % HERO_PHOTOS.length]} alt=""  width={600} height={800} />
+              <div className="hero-strip" style={{ background: stripColors[i % 4], color: stripInk[i % 4] }}>{labels[i % labels.length]}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <style>{`
+        @media (max-width: 767px) {
+          .hero-sheet { display: none !important; }
+          .hero-panel-wrap { position: static !important; width: 100% !important; height: auto !important; top: auto !important; left: auto !important; padding: 16px; }
+        }
+        @media (min-width: 768px) {
+          .hero-mobile { display: none !important; }
+        }
+      `}</style>
     </section>
   );
 }

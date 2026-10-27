@@ -116,9 +116,9 @@ const CookieConsentBanner: React.FC = () => {
         role="dialog"
         aria-labelledby="cookie-banner-title"
         aria-describedby="cookie-banner-description"
-        className="fixed inset-x-0 top-0 md:top-auto md:bottom-0 z-[9999] p-2 md:p-6 animate-slide-up"
+        className="fixed inset-x-0 bottom-0 z-[9999] p-4 md:p-8 animate-slide-up"
       >
-        <div className="max-w-6xl mx-auto bg-[var(--posta-paper)] border border-[var(--posta-line)] rounded-2xl shadow-2xl max-h-[80vh] overflow-y-auto">
+        <div className="max-w-6xl mx-auto bg-[var(--posta-paper)] rounded-2xl shadow-2xl max-h-[80vh] overflow-y-auto">
           {!showCustomize ? (
             // Main Banner View
             <div className="p-4 md:p-8">
@@ -131,7 +131,7 @@ const CookieConsentBanner: React.FC = () => {
                     id="cookie-banner-title"
                     className="text-sm md:text-2xl font-display font-bold text-[var(--posta-ink)] mb-0.5 md:mb-3"
                   >
-                    🍪 Your Privacy Matters
+                    Your Privacy Matters
                   </h2>
                   {/* On a phone this bar is an overlay, and every extra line makes it tall enough to sit
                       over the form's own submit button - measured at 390x844 on /signup, where a real
@@ -140,7 +140,7 @@ const CookieConsentBanner: React.FC = () => {
                       Customise view still exposes every choice on every screen size. */}
                   <p
                     id="cookie-banner-description"
-                    className="text-[var(--posta-ink-soft)] text-[11px] md:text-base leading-snug md:leading-relaxed md:line-clamp-none"
+                    className="text-[var(--posta-ink-soft)] text-[14px] md:text-base leading-snug md:leading-relaxed md:line-clamp-none"
                   >
                     <span className="md:hidden">
                       Cookies keep you logged in. You choose the rest.
@@ -163,27 +163,27 @@ const CookieConsentBanner: React.FC = () => {
                       <i className="fas fa-shield-check text-[var(--posta-clay)] text-sm"></i>
                       <span className="font-semibold text-[var(--posta-ink)]">Essential</span>
                     </div>
-                    <p className="text-[var(--posta-ink-soft)] text-xs">Keeps you logged in and the app running. Always on.</p>
+                    <p className="text-[var(--posta-ink-soft)] text-[14px]">Keeps you logged in and the app running. Always on.</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <i className="fas fa-chart-line text-[var(--posta-clay)] text-sm"></i>
                       <span className="font-semibold text-[var(--posta-ink)]">Analytics</span>
                     </div>
-                    <p className="text-[var(--posta-ink-soft)] text-xs">Help us see what people use most so we can improve.</p>
+                    <p className="text-[var(--posta-ink-soft)] text-[14px]">Help us see what people use most so we can improve.</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <i className="fas fa-sparkles text-[var(--posta-warning)] text-sm"></i>
                       <span className="font-semibold text-[var(--posta-ink)]">Personalisation</span>
                     </div>
-                    <p className="text-[var(--posta-ink-soft)] text-xs">Remembers your language and preferences.</p>
+                    <p className="text-[var(--posta-ink-soft)] text-[14px]">Remembers your language and preferences.</p>
                   </div>
                 </div>
               </div>
 
               {/* Links */}
-              <div className="mb-3 md:mb-6 flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 text-xs md:text-sm">
+              <div className="mb-3 md:mb-6 flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 text-[14px] md:text-sm">
                 <a 
                   href="/privacy" 
                   className="inline-flex items-center min-h-[44px] text-[var(--posta-clay)] hover:text-[var(--posta-clay)] transition-colors underline"
@@ -242,7 +242,7 @@ const CookieConsentBanner: React.FC = () => {
               </div>
 
               {/* POPIA Compliance Statement */}
-              <p className="mt-4 text-xs text-[var(--posta-ink-soft)] text-center">
+              <p className="mt-4 text-[14px] text-[var(--posta-ink-soft)] text-center">
                 <i className="fas fa-flag mr-1"></i>
                 We follow South Africa's privacy law (POPIA Act 4 of 2013)
               </p>
@@ -272,14 +272,14 @@ const CookieConsentBanner: React.FC = () => {
                     <div className="flex items-center gap-2 mb-2">
                       <i className="fas fa-shield-check text-[var(--posta-clay)]"></i>
                       <h3 className="font-semibold text-[var(--posta-ink)]">Essential</h3>
-                      <span className="px-2 py-0.5 bg-[var(--posta-clay-tint)] text-[var(--posta-clay)] text-xs rounded-full">
+                      <span className="px-2 py-0.5 bg-[var(--posta-clay-tint)] text-[var(--posta-clay)] text-[14px] rounded-full">
                         Always On
                       </span>
                     </div>
                     <p className="text-sm text-[var(--posta-ink-soft)]">
                       Needed for logging in and keeping the app working. These can't be turned off.
                     </p>
-                    <p className="text-xs text-[var(--posta-ink-soft)] mt-2">
+                    <p className="text-[14px] text-[var(--posta-ink-soft)] mt-2">
                       Examples: login session, security tokens
                     </p>
                   </div>
@@ -302,7 +302,7 @@ const CookieConsentBanner: React.FC = () => {
                       <p className="text-sm text-[var(--posta-ink-soft)]">
                         Help us see which features people use so we can make things better. Data is anonymised.
                       </p>
-                      <p className="text-xs text-[var(--posta-ink-soft)] mt-2">
+                      <p className="text-[14px] text-[var(--posta-ink-soft)] mt-2">
                         Examples: page views, feature usage (no personal info)
                       </p>
                     </div>
@@ -333,7 +333,7 @@ const CookieConsentBanner: React.FC = () => {
                       <p className="text-sm text-[var(--posta-ink-soft)]">
                         Remembers your language choice and settings so everything looks right when you come back.
                       </p>
-                      <p className="text-xs text-[var(--posta-ink-soft)] mt-2">
+                      <p className="text-[14px] text-[var(--posta-ink-soft)] mt-2">
                         Examples: language preference, theme
                       </p>
                     </div>
@@ -365,7 +365,7 @@ const CookieConsentBanner: React.FC = () => {
                 </button>
               </div>
 
-              <p className="mt-4 text-xs text-[var(--posta-ink-soft)] text-center">
+              <p className="mt-4 text-[14px] text-[var(--posta-ink-soft)] text-center">
                 You can change this anytime in your account settings.
               </p>
             </div>
