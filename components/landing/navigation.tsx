@@ -30,7 +30,7 @@ export default function Navigation({ session }: NavigationProps) {
     <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: scrolled ? 'var(--bg)' : 'transparent', borderBottom: scrolled ? '1px solid var(--surface)' : '1px solid transparent', transition: 'background 140ms, border-color 140ms' }}>
       <div style={{ margin: '0 auto', padding: '0 16px', height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
         <Link href="/" style={{ textDecoration: 'none', minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>
-          <PostaLogo size={22} color="var(--ink)" bubbleColor="var(--ink)" dotColor="var(--accent)" />
+          <PostaLogo size={26} color="var(--ink)" bubbleColor="var(--ink)" dotColor="var(--accent)" />
         </Link>
         <div className="hidden md:flex items-center gap-6">
           <a href="#features" style={linkStyle}>Features</a>

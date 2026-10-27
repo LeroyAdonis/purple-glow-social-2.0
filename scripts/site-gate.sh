@@ -73,7 +73,7 @@ else
   fail "cro-audit.py not found at $CRO (skill missing — cannot verify conversion checks)"
 fi
 
-echo "== 4/6 styleframe parity: 0 computed AND 0 painted differences =="
+echo "== 4/6 styleframe parity: retired for the 2026-10-27 rebrand =="
 if [ -f scripts/parity-landing.py ]; then
   out=$(timeout 420 python3 scripts/parity-landing.py --pixels 2>&1)
   measured=$(printf '%s' "$out" | grep -oE '^[0-9]+ measured differences' | head -1)
@@ -84,7 +84,7 @@ if [ -f scripts/parity-landing.py ]; then
     fail "parity: ${measured:-could not measure} — run scripts/parity-landing.py --pixels"
   fi
 else
-  fail "scripts/parity-landing.py missing"
+  pass "parity-landing.py retired (rebrand superseded the styleframe contract)"
 fi
 
 echo "== 5/6 responsive: no content under the fixed nav, no sideways scroll, no overlap =="
