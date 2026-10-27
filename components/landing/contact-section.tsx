@@ -27,7 +27,7 @@ export default function ContactSection() {
             const w = widths[i % 3];
             return (
               <div key={i} style={{ width: w, height: 150, flex: 'none', overflow: 'hidden' }}>
-                <img src={photos[p % photos.length]} alt=""  width={w} height={150} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={p} alt=""  width={w} height={150} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             );
           })}
