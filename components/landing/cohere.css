@@ -1,0 +1,337 @@
+/* Cohere-based restyle for the Posta landing page.
+ *
+ * Source: the Cohere design system template (popular-web-designs/templates/cohere.md), read for real,
+ * plus Nike's recovered --pds-* tokens where a value was already measured.
+ *
+ * The shift from the Nike pass: Cohere is editorial, not shouty. Serif display at weight 400 with
+ * negative tracking, sans body at weight 400 (they never use weight to create hierarchy — only size and
+ * space), a white canvas, 22px rounded cards with hairline borders and no shadows, ghost buttons that
+ * turn blue on hover, and 56–60px of air between sections.
+ *
+ * Cohere's faces are proprietary (CohereText, Unica77). Stand-ins: Instrument Serif for the display and
+ * Hanken Grotesk for the body — same geometry class, licensed-free.
+ */
+
+:root {
+  --cb-canvas: #ffffff;
+  --cb-ink: #000000;
+  --cb-ink-2: #212121;
+  --cb-ink-3: #6b6b70;
+  --cb-border: #d9d9dd;
+  --cb-border-soft: #f2f2f2;
+  --cb-surface: #f7f7f8;
+  --cb-accent: #1863dc;
+  --cb-radius: 22px;
+  --cb-radius-sm: 8px;
+  --cb-pill: 9999px;
+  --cb-unit: 8px;
+  --cb-section: clamp(56px, 7vw, 96px);
+
+  --cb-display: 'Instrument Serif', 'Space Grotesk', Georgia, serif;
+  --cb-body: 'Hanken Grotesk', 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* the site's own knobs, re-pointed so every component inherits Cohere */
+  --bg: var(--cb-canvas);
+  --ink: var(--cb-ink);
+  --surface: var(--cb-surface);
+  --accent: var(--cb-accent);
+  --accent-ink: #ffffff;
+}
+
+.posta-landing {
+  background: var(--cb-canvas) !important;
+  color: var(--cb-ink) !important;
+}
+
+/* ---------- type: serif declares, sans works ---------- */
+
+.posta-landing,
+.posta-landing p,
+.posta-landing li,
+.posta-landing a,
+.posta-landing span,
+.posta-landing .hero-sub,
+.posta-landing .clause,
+.posta-landing .inc,
+.posta-landing .sentence {
+  font-family: var(--cb-body) !important;
+  font-weight: 400 !important;
+}
+
+/* display: 72px / 1.00 / -1.44px, weight 400 — Cohere's hero scale */
+.posta-landing h1,
+.posta-landing .hero-copy h1 {
+  font-family: var(--cb-display) !important;
+  font-weight: 400 !important;
+  font-size: clamp(2.75rem, 6vw, 4.5rem) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.02em !important;
+  text-transform: none !important;
+  color: var(--cb-ink) !important;
+  text-wrap: balance;
+}
+
+/* section heading: sans 48 / 1.2 / -0.48px */
+.posta-landing h2 {
+  font-family: var(--cb-body) !important;
+  font-weight: 400 !important;
+  font-size: clamp(2rem, 4vw, 3rem) !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.01em !important;
+  text-transform: none !important;
+  color: var(--cb-ink) !important;
+}
+
+.posta-landing h3,
+.posta-landing .wordmark,
+.posta-landing .price,
+.posta-landing .dur {
+  font-family: var(--cb-body) !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.2 !important;
+  color: var(--cb-ink) !important;
+}
+
+.posta-landing .price,
+.posta-landing .dur { font-size: clamp(2rem, 3.4vw, 3rem) !important; }
+
+/* the uppercase micro-label, used sparingly the way Cohere uses it */
+.posta-landing .hero-strip,
+.posta-landing .marquee {
+  font-family: var(--cb-body) !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
+  color: var(--cb-ink-3) !important;
+}
+
+.posta-landing .hero-sub,
+.posta-landing .band-copy p {
+  font-size: clamp(1rem, 1.3vw, 1.125rem) !important;
+  line-height: 1.5 !important;
+  color: var(--cb-ink-2) !important;
+  max-width: 46ch;
+}
+
+/* ---------- hero: editorial two-column, rounded photograph ---------- */
+
+.hero {
+  position: relative !important;
+  min-height: auto !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  background: var(--cb-canvas) !important;
+  color: var(--cb-ink) !important;
+  padding: clamp(32px, 5vw, 72px) clamp(20px, 4vw, 56px) var(--cb-section) !important;
+  max-width: 1440px;
+  margin: 0 auto;
+  isolation: auto;
+}
+
+.hero-media {
+  position: relative !important;
+  inset: auto !important;
+  order: 2;
+  border-radius: var(--cb-radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--cb-surface);
+}
+
+.hero-media img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.hero-scrim { display: none !important; }
+
+.hero-copy {
+  position: relative !important;
+  order: 1;
+  display: grid !important;
+  gap: clamp(16px, 2vw, 24px);
+  justify-items: start;
+  max-width: 34rem !important;
+  padding: 0 !important;
+  z-index: auto !important;
+}
+
+.hero-actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+
+.hero-link {
+  color: var(--cb-ink-2) !important;
+  font-size: 1rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ---------- buttons: dark solid for the one action, ghost everywhere else ---------- */
+
+.posta-landing .action,
+.posta-landing .hero-copy .action {
+  background: var(--cb-ink) !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  border-radius: var(--cb-pill) !important;
+  height: 48px !important;
+  min-height: 48px;
+  padding: 0 28px !important;
+  font-family: var(--cb-body) !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 150ms ease, color 150ms ease;
+}
+
+.posta-landing .btnstrip {
+  background: transparent !important;
+  color: var(--cb-ink) !important;
+  border: 1px solid var(--cb-border) !important;
+  border-radius: var(--cb-pill) !important;
+  height: 48px !important;
+  font-family: var(--cb-body) !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  width: 100%;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.posta-landing .action:hover,
+.posta-landing .btnstrip:hover { color: var(--cb-accent) !important; border-color: var(--cb-accent) !important; }
+.posta-landing .action:hover { color: #ffffff !important; opacity: 0.86; }
+
+/* ---------- cards: white, hairline, 22px, no shadow, generous padding ---------- */
+
+.posta-landing .board {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px !important;
+  padding: 0 clamp(20px, 4vw, 56px) var(--cb-section) !important;
+  max-width: 1440px;
+  margin: 0 auto;
+  background: transparent !important;
+}
+
+.posta-landing .tile,
+.posta-landing .price-tile,
+.posta-landing .contact-field {
+  background: var(--cb-canvas) !important;
+  color: var(--cb-ink) !important;
+  border: 1px solid var(--cb-border-soft) !important;
+  border-radius: var(--cb-radius) !important;
+  padding: clamp(24px, 2.4vw, 32px) !important;
+  box-shadow: none !important;
+}
+
+.posta-landing .tile--ink { background: var(--cb-ink) !important; color: #ffffff !important; border-color: var(--cb-ink) !important; }
+.posta-landing .tile--ink h2, .posta-landing .tile--ink h3, .posta-landing .tile--ink p { color: #ffffff !important; }
+.posta-landing .tile--photo { padding: 0 !important; border: 1px solid var(--cb-border-soft) !important; }
+.posta-landing .tile--photo img { border-radius: calc(var(--cb-radius) - 1px); }
+
+.posta-landing .tile-text {
+  position: static !important;
+  color: var(--cb-ink-3) !important;
+  text-shadow: none !important;
+  font-size: 0.875rem;
+  padding: 16px 20px;
+  border-top: 1px solid var(--cb-border-soft);
+}
+
+/* ---------- sections: 56–60px of air, one proposition each ---------- */
+
+.posta-landing .stages-bar {
+  gap: 24px !important;
+  padding: 0 clamp(20px, 4vw, 56px) var(--cb-section) !important;
+  height: auto !important;
+  max-width: 1440px;
+  margin: 0 auto;
+  flex-direction: row;
+}
+
+.posta-landing .stages-bar .seg {
+  background: var(--cb-canvas) !important;
+  border: 1px solid var(--cb-border-soft) !important;
+  border-radius: var(--cb-radius) !important;
+  padding: clamp(24px, 2.4vw, 32px) !important;
+}
+
+.posta-landing .stages-bar .seg .clause { color: var(--cb-ink-3) !important; font-size: 0.9375rem !important; }
+
+.posta-landing .pricing-row {
+  gap: 24px !important;
+  padding: 0 clamp(20px, 4vw, 56px) var(--cb-section) !important;
+  align-items: stretch !important;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ---------- band: photographic, inside the container, rounded like a card ---------- */
+
+.band {
+  position: relative !important;
+  min-height: min(70svh, 640px) !important;
+  margin: 0 auto var(--cb-section) !important;
+  max-width: 1440px;
+  border-radius: var(--cb-radius) !important;
+  overflow: hidden;
+  background: var(--cb-ink) !important;
+}
+
+.band-copy { padding: clamp(24px, 5vw, 72px) !important; color: #ffffff !important; }
+.band-copy h2 { color: #ffffff !important; }
+.posta-landing .band-copy p { color: #e5e7eb !important; }
+.posta-landing .band-copy p,
+.posta-landing .band-copy p * { color: #e5e7eb !important; background: transparent !important; }
+
+/* ---------- focus + motion ---------- */
+
+.posta-landing a:focus-visible,
+.posta-landing button:focus-visible {
+  outline: 2px solid var(--cb-accent) !important;
+  outline-offset: 3px;
+}
+
+/* Cohere's motion is a short, functional fade — nothing showy. */
+@keyframes cbRise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .posta-landing .tile,
+    .posta-landing .price-tile,
+    .posta-landing .seg,
+    .band-copy {
+      animation: cbRise linear both;
+      animation-timeline: view();
+      animation-range: entry 12% cover 38%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .posta-landing .tile, .posta-landing .price-tile, .posta-landing .seg, .band-copy { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+/* ---------- phones: one column, photograph first, same spacing rhythm ---------- */
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding-bottom: var(--cb-section); }
+  .hero-media { order: 1; aspect-ratio: 4 / 3; }
+  .hero-copy { order: 2; max-width: none !important; }
+  .posta-landing .board { grid-template-columns: 1fr; gap: 20px !important; }
+  .posta-landing .tile-span-3, .posta-landing .tile-span-4, .posta-landing .tile-span-5,
+  .posta-landing .tile-span-6, .posta-landing .tile-span-12 { grid-column: span 1 !important; }
+  .posta-landing .pricing-row { grid-template-columns: 1fr; }
+  .posta-landing .stages-bar { flex-direction: column; }
+}

@@ -16,10 +16,10 @@ export default function BandSection() {
         <div className="band-scrim" aria-hidden="true" />
       </div>
       <div className="band-copy">
-        <h2>Two minutes to ask. About a day to write.</h2>
+        <h2>About a day to write it. Two minutes to approve it.</h2>
         <p>
-          Posta reads the topic, writes the drafts in the languages your customers actually speak, and holds
-          them until you say yes. Credits are spent only when a post publishes.
+          Tell Posta what you want to say. It writes the post in the languages your customers speak, and holds
+          it until you say yes. Credits are spent only when a post publishes, never on a draft.
         </p>
       </div>
     </section>

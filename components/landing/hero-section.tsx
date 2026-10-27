@@ -29,9 +29,10 @@ export default function HeroSection() {
 
       <div className="hero-copy">
         <PostaLogo size={30} color="var(--bg)" bubbleColor="var(--bg)" dotColor="var(--accent)" />
-        <h1>Posta writes. You approve.</h1>
+        <h1>Social posts, written for you.</h1>
         <p className="hero-sub">
-          In all 11 South African languages, for Instagram, Facebook, X and LinkedIn. Pay in rands.
+          Posta writes in all 11 South African languages, for Instagram, Facebook, X and LinkedIn. You read
+          each post, then approve it. Nothing publishes without you.
         </p>
         <div className="hero-actions">
           <Link href="/signup" className="action">Start free</Link>

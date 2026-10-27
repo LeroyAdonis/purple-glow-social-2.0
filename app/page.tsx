@@ -4,8 +4,7 @@ import { getServerLanguage, createTranslator } from '@/lib/i18n-server';
 
 import '@/design-system/posta/tokens.css';
 import '@/components/landing/board.css';
-import '@/design-system/posta/nike-pds.css';
-import '@/components/landing/nike.css';
+import '@/components/landing/cohere.css';
 
 import Navigation from '@/components/landing/navigation';
 import HeroSection from '@/components/landing/hero-section';
